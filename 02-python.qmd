@@ -36,15 +36,15 @@ For example, if I saved `hello.py` inside my Documents folder, the path to this 
 
 ```{verbatim}
 # On Windows:
-> cd "C:\Users\pedro\Documents"
+Terminal$ cd "C:\Users\pedro\Documents"
 # On Linux:
-> cd "/usr/pedro/Documents"
+Terminal$ cd "/usr/pedro/Documents"
 ```
 
 After this `cd` command, you just run the `python hello.py` command in the terminal. As a result, the `hello.py` will be executed, and, the text `Hello World!` should be printed to the terminal.
 
 ```{verbatim}
-> python hello.py
+Terminal$ python hello.py
 ```
 
 ```{verbatim}

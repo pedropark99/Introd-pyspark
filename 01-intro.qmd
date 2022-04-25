@@ -18,18 +18,10 @@ Big part of the knowledge exposed here is extracted from a lot of practical expe
 
 ## Some conventions of this book
 
-This book is about `pyspark`, which is a python package. As a result, we will be exposing a lot of python code across the entire book. Examples of python code, are always shown inside a gray rectangle, like the example below:
 
-```{python}
-#| eval: false
-x = 3
-y = 9 ** x
+This book is about `pyspark`, which is a python package. As a result, we will be exposing a lot of python code across the entire book. Examples of python code, are always shown inside a gray rectangle, like this example below.
 
-print(y)
-```
-
-Every visible result that this python code produce, will be shown inside another gray rectangle, just below the command that produced that visible result. But, to make a better distinction, every line of results will always be prefixed with a double hash-tag and a space (`## `), and they will always be written in plain black. So in the example below, the value `729` is the only visible result of this python code, and, the statement `print(y)` is the command that triggered this result.
-
+Every visible result that this python code produce, will be shown outside of the gray rectangle, just below the command that produced that visible result. Besides that, every line of result will always be written in plain black. So in the example below, the value `729` is the only visible result of this python code, and, the statement `print(y)` is the command that triggered this result.
 
 ```{python}
 x = 3
@@ -38,6 +30,12 @@ y = 9 ** x
 print(y)
 ```
 
+
+Furthermore, all terminal commands that we expose in this book, will always be: pre-fixed by `Terminal$`; written in black; and, not outlined by a gray rectangle. In the example below, we can easily detect that this command `pip install jupyter` should be inserted in the terminal of the OS (whatever is the terminal that your OS uses), and not in the python interpreter, because this command is prefixed with `Terminal$`.
+
+```{verbatim}
+Terminal$ pip install jupyter
+```
 
 
 
@@ -51,9 +49,8 @@ Install and manage `spark` in Windows is a little harder than in a UNIX-like mac
 So, to use `pyspark` you need to install a `spark` distribution, and, the python package called `pyspark`. Installing the `pyspark` python package is pretty straightforward. Just open a terminal, and use the `pip` command to do it:
 
 
-```{sh}
-#| eval = FALSE
-> pip install pyspark
+```{verbatim}
+Terminal$ pip install pyspark
 ```
 
 If you are in Windows, this would mean: open the `cmd.exe` terminal, and, run the above command. But, if a message like `pip: command not found` appears, this means that you do not have the `pip` tool installed on your Windows. Hence, if you face this kind of message, you need to install `pip` before you even install `pyspark`.
@@ -65,17 +62,17 @@ In UNIX-like systems, installing `pip` is even easier, because you can use the b
 ```{verbatim}
 # If you are in a Debian like distro of Linux
 # and need to install `pip`, use this command:
-> apt install python3-pip
+Terminal$ apt install python3-pip
 # If you are in a Arch-Linux like distro of Linux
 # and need to install `pip`, use this command:
-> pacman -S python-pip
+Terminal$ pacman -S python-pip
 ```
 
 But, if you are running in MacOs, is best to use the `get-pip.py` method to do install `pip`^[See the following discussion: https://stackoverflow.com/questions/17271319/how-do-i-install-pip-on-macos-or-os-x]. To use this method, try to run the command below on the terminal. After you installed pip, run the same `pip` command we showed earlier to install `pyspark`.
 
 ```{verbatim}
 # To install `pip` on a MacOs:
-> curl https://bootstrap.pypa.io/get-pip.py | python3
+Terminal$ curl https://bootstrap.pypa.io/get-pip.py | python3
 ```
 
 
