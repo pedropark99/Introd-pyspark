@@ -1,0 +1,16 @@
+{
+  "hash": "e04f87364f802f382c5d7cff7a15b4d4",
+  "result": {
+    "markdown": "\n\n# Welcome!\n\nHello! This is the initial page!\n\n\n",
+    "supporting": [
+      "index_files"
+    ],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": null
+  }
+}

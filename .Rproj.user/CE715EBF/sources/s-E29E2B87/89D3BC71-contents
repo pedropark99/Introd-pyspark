@@ -1,0 +1,75 @@
+
+
+# Preface
+
+In essence, `pyspark` is a python package that provides an API for the Spark SQL module. In other words, with `pyspark` you are able to use the python language to program SQL queries and run them on a Spark cluster in a scalable and elegant way. This book focus on teaching the fundamentals of `pyspark`, and how to use it for big data analysis.
+
+This book, also contains a small introduction to key python concepts that are important to understand how `pyspark` is organized and how it works in practice, and, since we will be using Spark under the hood, is very important to understand a little bit of how Spark works, so, we provide a small introduction to Spark key concepts as well.
+
+Big part of the knowledge exposed here is extracted from a lot of practical experience of the author, working with `pyspark` to analyze big data at platforms such as Databricks^[https://databricks.com/].
+
+
+## Some conventions of this book
+
+This book is about `pyspark`, which is a python package. As a result, we will be exposing a lot of python code across the entire book. Examples of python code, are always shown inside a gray rectangle, like the example below:
+
+```{python}
+#| eval: false
+x = 3
+y = 9 ** x
+
+print(y)
+```
+
+Every visible result that this python code produce, will be shown inside another gray rectangle, just below the command that produced that visible result. But, to make a better distinction, every line of results will always be prefixed with a double hash-tag and a space (`## `), and they will always be written in plain black. So in the example below, the value `729` is the only visible result of this python code, and, the statement `print(y)` is the command that triggered this result.
+
+
+```{python}
+x = 3
+y = 9 ** x
+
+print(y)
+```
+
+
+
+## First step: install the necessary software
+
+Before we start, is really important that you have all the software you need already installed on your machine and ready to go. `Spark` and, as a result, `pyspark`, are both available for Windows and UNIX-like systems (e.g. Linux and MacOs). 
+
+Install and manage `spark` in Windows is a little harder than in a UNIX-like machine. But it's perfectly ok if do not have a UNIX machine. A Windows machine will do it just fine. Just for referencing, the examples showed throughout this book were executed in a Linux machine (more specifically, in Ubuntu).
+
+So, to use `pyspark` you need to install a `spark` distribution, and, the python package called `pyspark`. Installing the `pyspark` python package is pretty straightforward. Just open a terminal, and use the `pip` command to do it:
+
+
+```{sh}
+#| eval = FALSE
+pip install pyspark
+```
+
+If you are in Windows, this would mean: open the `cmd.exe` terminal, and, run the above command. But, if a message like `pip: command not found` appears, this means that you do not have the `pip` tool installed on your Windows. Hence, if you face this kind of message, you need to install `pip` before you even install `pyspark`.
+
+In contrast, if you are running on a Linux or MacOs machine, you need to open a `bash` terminal (most distros of Linux can open a terminal by pressing the `Ctrl+Alt+T` shortcut on the keyboard), and, run the exact same command above. Again, if a message like `pip: command not found` appears, it means that `pip` is not installed on your system. 
+
+In UNIX-like systems, installing `pip` is even easier, because you can use the built-in package manager to do this for you. In Debian like distros (e.g. Ubuntu), you use the `apt` tool, and, in Arch-Linux like distros (e.g. Arch Linux, Manjaro) you would use the `pacman` tool. Both possibilities are exposed below:
+
+```{verbatim}
+# If you are in a Debian like distro of Linux
+# and need to install `pip`, use this command:
+apt install python3-pip
+# If you are in a Arch-Linux like distro of Linux
+# and need to install `pip`, use this command:
+pacman -S python-pip
+```
+
+But, if you are running in MacOs, is best to use the `get-pip.py` method to do install `pip`^[See the following discussion: https://stackoverflow.com/questions/17271319/how-do-i-install-pip-on-macos-or-os-x]. To use this method, try to run the command below on the terminal. After you installed pip, run the same `pip` command we showed earlier to install `pyspark`.
+
+```{verbatim}
+# To install `pip` on a MacOs:
+curl https://bootstrap.pypa.io/get-pip.py | python3
+```
+
+
+
+
+
