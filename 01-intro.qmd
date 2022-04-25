@@ -37,6 +37,12 @@ Furthermore, all terminal commands that we expose in this book, will always be: 
 Terminal$ pip install jupyter
 ```
 
+Some terminal commands may produce visible results as well. In that case, these results will be right below the respective command, and will not be pre-fixed with `Terminal$`. For example, we can see below that the command `echo "Hello!"` produces the result `"Hello!"`.
+
+```{verbatim}
+Terminal$ echo "Hello!"
+"Hello!"
+```
 
 
 

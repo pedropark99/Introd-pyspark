@@ -225,11 +225,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>But, if for some reason you could not open the terminal inside the folder. Then, you can just open terminal (in any way you can), then, use the <code>cd</code> command (stands for “change directory”) with the path to the folder where you saved <code>hello.py</code>. This way, your terminal will be rooted on this folder.</p>
 <p>For example, if I saved <code>hello.py</code> inside my Documents folder, the path to this folder in Windows would be something like this: <code>"C:\Users\pedro\Documents"</code>. On the other hand, this path on Linux would be something like <code>"/usr/pedro/Documents"</code>. So the command to change to this directory would be:</p>
 <pre class="{verbatim}"><code># On Windows:
-&gt; cd "C:\Users\pedro\Documents"
+Terminal$ cd "C:\Users\pedro\Documents"
 # On Linux:
-&gt; cd "/usr/pedro/Documents"</code></pre>
+Terminal$ cd "/usr/pedro/Documents"</code></pre>
 <p>After this <code>cd</code> command, you just run the <code>python hello.py</code> command in the terminal. As a result, the <code>hello.py</code> will be executed, and, the text <code>Hello World!</code> should be printed to the terminal.</p>
-<pre class="{verbatim}"><code>&gt; python hello.py</code></pre>
+<pre class="{verbatim}"><code>Terminal$ python hello.py</code></pre>
 <pre class="{verbatim}"><code>Hello World!</code></pre>
 <p>There you have it! So every time you need to run your python program, just open a terminal and run the command <code>python &lt;path to your script&gt;</code>. If the terminal is rooted on the folder where you saved your script, you can just use the <code>python &lt;name of the file&gt;</code> command.</p>
 </section>
@@ -359,7 +359,7 @@ NameError: name 'x' is not defined</code></pre>
 <section id="packages" class="level2" data-number="3.5">
 <h2 data-number="3.5" class="anchored" data-anchor-id="packages"><span class="header-section-number">3.5</span> Packages</h2>
 <p>A python package (or a python “library”) is basically a set of functions and classes that provides important functionality to solve a specific problem. And pyspark is one of these many available python packages.</p>
-<p>Python packages are usually published (that is, made available to the public) through the PyPI library<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>. If a python package is published in PyPI, then, you can easily install this package through the <code>pip</code> tool.</p>
+<p>Python packages are usually published (that is, made available to the public) through the PyPI archive<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>. If a python package is published in PyPI, then, you can easily install this package through the <code>pip</code> tool.</p>
 <p>To use any of the tools provided in a python package, you always need to import this python package to your session. To do this, you must include an <code>import</code> statement at the start of your python file.</p>
 <p>The many functions and classes that are available in a python package, are usually organized in “modules”. For example, the famous <code>flask</code> package contains many modules, such as <code>cli</code>, <code>globals</code>, <code>views</code> and <code>sessions</code>. To access the functions available in each one of these modules, you use the dot operator.</p>
 
