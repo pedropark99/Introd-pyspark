@@ -46,7 +46,7 @@ Terminal$ echo "Hello!"
 
 
 
-## First step: install the necessary software
+## First step: install the necessary software {#sec-install-software}
 
 Before we start, is really important that you have all the software you need already installed on your machine and ready to go. `Spark` and, as a result, `pyspark`, are both available for Windows and UNIX-like systems (e.g. Linux and MacOs). 
 

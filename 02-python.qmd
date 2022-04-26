@@ -1,4 +1,3 @@
-
 # A small introduction to the python language
 
 If you have experience with python, and understands how objects and classes works, you might want to skip this entire chapter. But, if you are new to the language and do not have much experience with it, you might want to stick a little bit, and learn a few key concepts that will help you to understand how the `pyspark` package is organized, and how to work with it.
@@ -19,9 +18,9 @@ There are many IDEs or programs that help you to write, manage and organize this
 
 ## How to run a python program
 
-There are many ways to run a python program, but I will show you the more "standard" way. That is to use the `python` command inside the terminal of your OS.
+There are many ways to run a python program, but I will show you the more "standard" way. That is to use the `python` command inside the terminal of your OS (you need to have python already installed).
 
-As an example, lets create a simple "Hello world" program. Create a text file called `hello.py`, then copy and paste the following command into this file, then save it somewhere in your machine:
+As an example, lets create a simple "Hello world" program. Create a text file called `hello.py`, then copy and paste the following command into this file, then save it (as a `.py` file) somewhere in your machine:
 
 ```{python}
 #| eval: false
@@ -177,9 +176,9 @@ This error occurs, because inside the print statement, we call the name `x`. But
 
 ## Packages
 
-A python package (or a python "library") is basically a set of functions and classes that provides important functionality to solve a specific problem. And pyspark is one of these many available python packages.
+A python package (or a python "library") is basically a set of functions and classes that provides important functionality to solve a specific problem. And pyspark is one of these many python packages available.
 
-Python packages are usually published (that is, made available to the public) through the PyPI archive[^python-5]. If a python package is published in PyPI, then, you can easily install this package through the `pip` tool.
+Python packages are usually published (that is, made available to the public) through the PyPI archive[^python-5]. If a python package is published in PyPI, then, you can easily install it through the `pip` tool, that we just used in @sec-install-software.
 
 [^python-5]: https://pypi.org/
 
@@ -198,7 +197,6 @@ ModuleNotFoundError: No module named 'a_package'
 
 But, if this package is already installed in your machine, then, you can just import it to your session. To do this, you just include an `import` statement at the start of your python file. For example, if I wanted to use the `DataFrame` function from the `pandas` package:
 
-
 ```{python}
 import pandas
 
@@ -212,8 +210,7 @@ print(df)
 
 Therefore, with `import pandas` I can access any of the functions available in the `pandas` package, by using the dot operator after the name of the package (`pandas.<name of the function>`). However, it can become very annoying to write `pandas.` every time you want to access a function from `pandas`, specially if you use it constantly in your code.
 
-To make life a little easier, python offers some alternative ways to define this `import` statement. First, you can give an alias to this package that is shorter/easier to write. As an example, nowadays, is 
-virtually a industry standard to import the `pandas` package as `pd`. To do this, you use the `as` keyword in your `import` statement. This way, you can access the `pandas` functionality with `pd.<name of the function>`.
+To make life a little easier, python offers some alternative ways to define this `import` statement. First, you can give an alias to this package that is shorter/easier to write. As an example, nowadays, is virtually a industry standard to import the `pandas` package as `pd`. To do this, you use the `as` keyword in your `import` statement. This way, you can access the `pandas` functionality with `pd.<name of the function>`.
 
 ```{python}
 import pandas as pd
@@ -225,7 +222,6 @@ df = pd.DataFrame([
 
 print(df)
 ```
-
 
 In contrast, if you want to make your life even easier and produce more "clean" code, you can import just the functions that you need to use. In this method, you can eliminate the dot operator, and refer directly to the function by its name. To use this method, you include the `from` keyword in your import statement.
 
@@ -239,6 +235,5 @@ df = DataFrame([
 
 print(df)
 ```
-
 
 Some packages may be very big, and includes many different functions and classes. As the size of the package becomes bigger and bigger, developers tend to divide this package in may "modules". In other words, the many functions and classes that are available in a python package, are usually organized in "modules". For example, the famous `flask` package contains many modules, such as `cli`, `globals`, `views` and `sessions`. To access the functions available in each one of these modules, you use the dot operator.
