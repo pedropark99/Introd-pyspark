@@ -182,7 +182,7 @@ Python packages are usually published (that is, made available to the public) th
 
 [^python-5]: https://pypi.org/
 
-To use any of the tools provided in a python package, you always need to: 1) have this package installed on your machine; 2) import this package to your session. If a package is not installed in your machine, you will face a `ModuleNotFoundError` as you try to use it, like in the example below. So, if your program produce such an error, is very likely that this package is not currently installed on your machine. To install it, you may use the `pip install <name of the package>` command on the terminal.
+To use a python package, you always need to: 1) have this package installed on your machine; 2) import this package in your python script. If a package is not installed in your machine, you will face a `ModuleNotFoundError` as you try to use it, like in the example below. So, if your program produce such an error, is very likely that this package is not currently installed on your machine. To install it, you may use the `pip install <name of the package>` command on the terminal.
 
 ```{python}
 #| eval: false
@@ -195,7 +195,7 @@ Traceback (most recent call last):
 ModuleNotFoundError: No module named 'a_package'
 ```
 
-But, if this package is already installed in your machine, then, you can just import it to your session. To do this, you just include an `import` statement at the start of your python file. For example, if I wanted to use the `DataFrame` function from the `pandas` package:
+But, if this package is already installed in your machine, then, you can just import it to your session. To do this, you just include an `import` statement at the start of your python file. For example, if I want to use the `DataFrame` function from the `pandas` package:
 
 ```{python}
 import pandas
@@ -210,7 +210,7 @@ print(df)
 
 Therefore, with `import pandas` I can access any of the functions available in the `pandas` package, by using the dot operator after the name of the package (`pandas.<name of the function>`). However, it can become very annoying to write `pandas.` every time you want to access a function from `pandas`, specially if you use it constantly in your code.
 
-To make life a little easier, python offers some alternative ways to define this `import` statement. First, you can give an alias to this package that is shorter/easier to write. As an example, nowadays, is virtually a industry standard to import the `pandas` package as `pd`. To do this, you use the `as` keyword in your `import` statement. This way, you can access the `pandas` functionality with `pd.<name of the function>`.
+To make life a little easier, python offers some alternative ways to define this `import` statement. First, you can give an alias to this package that is shorter/easier to write. As an example, nowadays, is virtually a industry standard to import the `pandas` package as `pd`. To do this, you use the `as` keyword in your `import` statement. This way, you can access the `pandas` functionality with `pd.<name of the function>`:
 
 ```{python}
 import pandas as pd
@@ -223,7 +223,7 @@ df = pd.DataFrame([
 print(df)
 ```
 
-In contrast, if you want to make your life even easier and produce more "clean" code, you can import just the functions that you need to use. In this method, you can eliminate the dot operator, and refer directly to the function by its name. To use this method, you include the `from` keyword in your import statement.
+In contrast, if you want to make your life even easier and produce a more "clean" code, you can import (from the package) just the functions that you need to use. In this method, you can eliminate the dot operator, and refer directly to the function by its name. To use this method, you include the `from` keyword in your import statement, like this:
 
 ```{python}
 from pandas import DataFrame
@@ -236,4 +236,6 @@ df = DataFrame([
 print(df)
 ```
 
-Some packages may be very big, and includes many different functions and classes. As the size of the package becomes bigger and bigger, developers tend to divide this package in may "modules". In other words, the many functions and classes that are available in a python package, are usually organized in "modules". For example, the famous `flask` package contains many modules, such as `cli`, `globals`, `views` and `sessions`. To access the functions available in each one of these modules, you use the dot operator.
+Some packages may be very big, and includes many different functions and classes. As the size of the package becomes bigger and bigger, developers tend to divide this package in may "modules". In other words, the many functions and classes that are available in a python package, are usually organized in "modules". 
+
+As an example, the famous `flask` package is a fairly big package, that contains many functionalities. Because of it, the package is organized in a number of modules, such as `cli`, `globals`, `views` and `sessions`. To access the functions available in each one of these modules, you use the dot operator.
