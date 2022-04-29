@@ -216,8 +216,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </section>
 <section id="how-to-run-a-python-program" class="level2" data-number="3.2">
 <h2 data-number="3.2" class="anchored" data-anchor-id="how-to-run-a-python-program"><span class="header-section-number">3.2</span> How to run a python program</h2>
-<p>There are many ways to run a python program, but I will show you the more “standard” way. That is to use the <code>python</code> command inside the terminal of your OS.</p>
-<p>As an example, lets create a simple “Hello world” program. Create a text file called <code>hello.py</code>, then copy and paste the following command into this file, then save it somewhere in your machine:</p>
+<p>There are many ways to run a python program, but I will show you the more “standard” way. That is to use the <code>python</code> command inside the terminal of your OS (you need to have python already installed).</p>
+<p>As an example, lets create a simple “Hello world” program. Create a text file called <code>hello.py</code>, then copy and paste the following command into this file, then save it (as a <code>.py</code> file) somewhere in your machine:</p>
 <div class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Hello World!"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -360,14 +360,14 @@ NameError: name 'x' is not defined</code></pre>
 <h2 data-number="3.5" class="anchored" data-anchor-id="packages"><span class="header-section-number">3.5</span> Packages</h2>
 <p>A python package (or a python “library”) is basically a set of functions and classes that provides important functionality to solve a specific problem. And pyspark is one of these many python packages available.</p>
 <p>Python packages are usually published (that is, made available to the public) through the PyPI archive<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>. If a python package is published in PyPI, then, you can easily install it through the <code>pip</code> tool, that we just used in <a href="01-intro.html#sec-install-software">Section&nbsp;<span>2.2</span></a>.</p>
-<p>To use any of the tools provided in a python package, you always need to: 1) have this package installed on your machine; 2) import this package to your session. If a package is not installed in your machine, you will face a <code>ModuleNotFoundError</code> as you try to use it, like in the example below. So, if your program produce such an error, is very likely that this package is not currently installed on your machine. To install it, you may use the <code>pip install &lt;name of the package&gt;</code> command on the terminal.</p>
+<p>To use a python package, you always need to: 1) have this package installed on your machine; 2) import this package in your python script. If a package is not installed in your machine, you will face a <code>ModuleNotFoundError</code> as you try to use it, like in the example below. So, if your program produce such an error, is very likely that this package is not currently installed on your machine. To install it, you may use the <code>pip install &lt;name of the package&gt;</code> command on the terminal.</p>
 <div class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> a_package</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <pre class="{verbatim}"><code>Traceback (most recent call last):
   File "&lt;stdin&gt;", line 1, in &lt;module&gt;
 ModuleNotFoundError: No module named 'a_package'</code></pre>
-<p>But, if this package is already installed in your machine, then, you can just import it to your session. To do this, you just include an <code>import</code> statement at the start of your python file. For example, if I wanted to use the <code>DataFrame</code> function from the <code>pandas</code> package:</p>
+<p>But, if this package is already installed in your machine, then, you can just import it to your session. To do this, you just include an <code>import</code> statement at the start of your python file. For example, if I want to use the <code>DataFrame</code> function from the <code>pandas</code> package:</p>
 <div class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas</span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -386,7 +386,7 @@ ModuleNotFoundError: No module named 'a_package'</code></pre>
 </div>
 </div>
 <p>Therefore, with <code>import pandas</code> I can access any of the functions available in the <code>pandas</code> package, by using the dot operator after the name of the package (<code>pandas.&lt;name of the function&gt;</code>). However, it can become very annoying to write <code>pandas.</code> every time you want to access a function from <code>pandas</code>, specially if you use it constantly in your code.</p>
-<p>To make life a little easier, python offers some alternative ways to define this <code>import</code> statement. First, you can give an alias to this package that is shorter/easier to write. As an example, nowadays, is virtually a industry standard to import the <code>pandas</code> package as <code>pd</code>. To do this, you use the <code>as</code> keyword in your <code>import</code> statement. This way, you can access the <code>pandas</code> functionality with <code>pd.&lt;name of the function&gt;</code>.</p>
+<p>To make life a little easier, python offers some alternative ways to define this <code>import</code> statement. First, you can give an alias to this package that is shorter/easier to write. As an example, nowadays, is virtually a industry standard to import the <code>pandas</code> package as <code>pd</code>. To do this, you use the <code>as</code> keyword in your <code>import</code> statement. This way, you can access the <code>pandas</code> functionality with <code>pd.&lt;name of the function&gt;</code>:</p>
 <div class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -404,7 +404,7 @@ ModuleNotFoundError: No module named 'a_package'</code></pre>
 3  4  7822</code></pre>
 </div>
 </div>
-<p>In contrast, if you want to make your life even easier and produce more “clean” code, you can import just the functions that you need to use. In this method, you can eliminate the dot operator, and refer directly to the function by its name. To use this method, you include the <code>from</code> keyword in your import statement.</p>
+<p>In contrast, if you want to make your life even easier and produce a more “clean” code, you can import (from the package) just the functions that you need to use. In this method, you can eliminate the dot operator, and refer directly to the function by its name. To use this method, you include the <code>from</code> keyword in your import statement, like this:</p>
 <div class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pandas <span class="im">import</span> DataFrame</span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -422,7 +422,8 @@ ModuleNotFoundError: No module named 'a_package'</code></pre>
 3  4  7822</code></pre>
 </div>
 </div>
-<p>Some packages may be very big, and includes many different functions and classes. As the size of the package becomes bigger and bigger, developers tend to divide this package in may “modules”. In other words, the many functions and classes that are available in a python package, are usually organized in “modules”. For example, the famous <code>flask</code> package contains many modules, such as <code>cli</code>, <code>globals</code>, <code>views</code> and <code>sessions</code>. To access the functions available in each one of these modules, you use the dot operator.</p>
+<p>Some packages may be very big, and includes many different functions and classes. As the size of the package becomes bigger and bigger, developers tend to divide this package in may “modules”. In other words, the many functions and classes that are available in a python package, are usually organized in “modules”.</p>
+<p>As an example, the famous <code>flask</code> package is a fairly big package, that contains many functionalities. Because of it, the package is organized in a number of modules, such as <code>cli</code>, <code>globals</code>, <code>views</code> and <code>sessions</code>. To access the functions available in each one of these modules, you use the dot operator.</p>
 
 
 </section>

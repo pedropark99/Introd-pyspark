@@ -1,5 +1,38 @@
 {
-    "sources": [],
+    "sources": [
+        {
+            "author": [
+                {
+                    "family": "Karau",
+                    "given": "Holden"
+                },
+                {
+                    "family": "Konwinski",
+                    "given": "Andy"
+                },
+                {
+                    "family": "Wendell",
+                    "given": "Patrick"
+                },
+                {
+                    "family": "Zaharia",
+                    "given": "Matei"
+                }
+            ],
+            "id": "karau2015",
+            "issued": {
+                "date-parts": [
+                    [
+                        2015
+                    ]
+                ]
+            },
+            "publisher": "O’Reilly Media",
+            "publisher-place": "Sebastopol, CA",
+            "title": "Learning spark",
+            "type": "book"
+        }
+    ],
     "project_biblios": [
         "references.bib"
     ]

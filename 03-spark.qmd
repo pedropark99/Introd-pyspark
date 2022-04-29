@@ -1,0 +1,9 @@
+---
+bibliography: references.bib
+---
+
+# Introducing Apache Spark
+
+Apache Spark (or simply Spark) is a multi-language engine for large-scale data processing in a single-node machine or in a cluster of machines. Nowadays, Spark became the de facto standard for structuring big data applications and workloads. It has a number of features that its predecessors did not have, like the capacity for in-memory processing and stream processing [@karau2015].
+
+The `pyspark` package provides an API to this engine. Over the next sections, we will be knowing a little more about this engine.
