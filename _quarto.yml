@@ -11,8 +11,8 @@ book:
   chapters:
     - index.qmd
     - 01-intro.qmd
-    - 02-python.qmd
-    - 03-spark.qmd
+    - 02-spark.qmd
+    - 03-python.qmd
     - references.qmd
 
 bibliography: references.bib
