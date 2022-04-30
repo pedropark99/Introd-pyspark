@@ -73,6 +73,31 @@
             "publisher-place": "Sebastopol, CA",
             "title": "Learning spark",
             "type": "book"
+        },
+        {
+            "author": [
+                {
+                    "family": "Chambers",
+                    "given": "Bill"
+                },
+                {
+                    "family": "Zaharia",
+                    "given": "Matei"
+                }
+            ],
+            "id": "chambers2018",
+            "issued": {
+                "date-parts": [
+                    [
+                        2018
+                    ]
+                ]
+            },
+            "publisher": "O’Reilly Media",
+            "publisher-place": "Sebastopol, CA",
+            "title": "Spark: The definitive guide: Big data processing made simple",
+            "title-short": "Spark",
+            "type": "book"
         }
     ],
     "project_biblios": [
