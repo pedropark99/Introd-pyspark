@@ -4,8 +4,21 @@ bibliography: references.bib
 
 # Introducing Apache Spark
 
-In essence, `pyspark` is an API to Apache Spark (or simply Spark). In other words, with `pyspark` we can write Spark applications using the python language. By learning a little more about Spark, you will understand a lot more about `pyspark`.
+In essence, `pyspark` is an API to Apache Spark (or simply Spark). In other words, with `pyspark` we can write Spark applications using the python language. By learning a little more about Spark, you will understand a lot more about `pyspark`. First, lets just discuss what is Big Data.
 
-Spark is a multi-language engine for large-scale data processing in a single-node machine or in a cluster of machines. Nowadays, Spark became the de facto standard for structuring big data applications and workloads. It has a number of features that its predecessors did not have, like the capacity for in-memory processing and stream processing [@karau2015].
+
+## What is Big Data?
+
+The classical question: "how much big is big?" Even today, there is no clear definition to what "big data" is. But, the most accepted one is this: "big data is any data that we can no longer store, process or manage using traditional computing methods". In other words, big data is data whose volume, complexity or diversity makes it really hard or impossible to deal with this data on a single machine, like a desktop or a laptop.
+
+Realize that, the meaning of "big" can vary in this matter. It is not only the volume (how much GB, TB or PB) of the data that can build a barrier. For example, maybe the velocity is the key issue here. A lot of companies (such as Google or Facebook) need to process data in real time, as it is being generated, so they need to think in terms of continuous flows and process [@mitsloan2013]. , that is, maybe we need to deal with data that is being generated **really fast**; or maybe, we need to deal with many different kinds of data (i.e. unstructured data), like videos, images and tree formats (i.e. XML and JSON like structures).
+
+
+
+
+## What is Spark?
+
+Spark is a multi-language engine for large-scale data processing, that supports both a single-node machine and a cluster of machines [@sparkdoc]. Nowadays, Spark became the de facto standard for structure and manage big data applications. It has a number of features that its predecessors did not have, like the capacity for in-memory processing and stream processing [@karau2015].
+
 
 

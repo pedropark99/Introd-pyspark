@@ -136,7 +136,14 @@ div.csl-indent {
 </nav>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#what-is-big-data" id="toc-what-is-big-data" class="nav-link active" data-scroll-target="#what-is-big-data"> <span class="header-section-number">3.1</span> What is Big Data?</a></li>
+  <li><a href="#what-is-spark" id="toc-what-is-spark" class="nav-link" data-scroll-target="#what-is-spark"> <span class="header-section-number">3.2</span> What is Spark?</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -159,15 +166,29 @@ div.csl-indent {
 
 </header>
 
-<p>Apache Spark (or simply Spark) is a multi-language engine for large-scale data processing in a single-node machine or in a cluster of machines. Nowadays, Spark became the de facto standard for structuring big data applications and workloads. It has a number of features that its predecessors did not have, like the capacity for in-memory processing and stream processing <span class="citation" data-cites="karau2015">(<a href="references.html#ref-karau2015" role="doc-biblioref">Karau et al. 2015</a>)</span>.</p>
-<p>The <code>pyspark</code> package provides an API to this engine. Over the next sections, we will be knowing a little more about this engine.</p>
+<p>In essence, <code>pyspark</code> is an API to Apache Spark (or simply Spark). In other words, with <code>pyspark</code> we can write Spark applications using the python language. By learning a little more about Spark, you will understand a lot more about <code>pyspark</code>. First, lets just discuss what is Big Data.</p>
+<section id="what-is-big-data" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="what-is-big-data"><span class="header-section-number">3.1</span> What is Big Data?</h2>
+<p>The classical question: “how much big is big?” Even today, there is no clear definition to what “big data” is. But, the most accepted one is this: “big data is any data that we can no longer store, process or manage using traditional computing methods”. In other words, big data is data whose volume, complexity or diversity makes it really hard or impossible to deal with this data on a single machine, like a desktop or a laptop.</p>
+<p>Realize that, the meaning of “big” can vary in this matter. It is not only the volume (how much GB, TB or PB) of the data that can build a barrier. A lot of companies (such as Google or Facebook) <span class="citation" data-cites="mitsloan2013">(<a href="references.html#ref-mitsloan2013" role="doc-biblioref">Davenport, Barth, and Bean 2012</a>)</span>. For example, maybe the velocity is the key issue here, that is, maybe we need to deal with data that is being generated <strong>really fast</strong>; or maybe, we need to deal with many different kinds of data (i.e.&nbsp;unstructured data), like videos, images and tree formats (i.e.&nbsp;XML and JSON like structures).</p>
+</section>
+<section id="what-is-spark" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="what-is-spark"><span class="header-section-number">3.2</span> What is Spark?</h2>
+<p>Spark is a multi-language engine for large-scale data processing, that supports both a single-node machine and a cluster of machines <span class="citation" data-cites="sparkdoc">(<a href="references.html#ref-sparkdoc" role="doc-biblioref"><em>Apache Spark Official Documentation</em> 2022</a>)</span>. Nowadays, Spark became the de facto standard for structure and manage big data applications. It has a number of features that its predecessors did not have, like the capacity for in-memory processing and stream processing <span class="citation" data-cites="karau2015">(<a href="references.html#ref-karau2015" role="doc-biblioref">Karau et al. 2015</a>)</span>.</p>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography" style="display: none">
+<div id="ref-sparkdoc" class="csl-entry" role="doc-biblioentry">
+<em>Apache Spark Official Documentation</em>. 2022. Documentation for Apache Spark 3.2.1; Available at: https://spark.apache.org/docs/latest/.
+</div>
+<div id="ref-mitsloan2013" class="csl-entry" role="doc-biblioentry">
+Davenport, Thomas, Paul Barth, and Randy Bean. 2012. <span>“How ’Big Data’ Is Different?”</span> <em>MIT Sloan Management Review</em> 54 (1).
+</div>
 <div id="ref-karau2015" class="csl-entry" role="doc-biblioentry">
 Karau, Holden, Andy Konwinski, Patrick Wendell, and Matei Zaharia. 2015. <em>Learning Spark</em>. Sebastopol, CA: O’Reilly Media.
 </div>
 </div>
+</section>
 
 </main> <!-- /main -->
 <script type="application/javascript">

@@ -3,6 +3,48 @@
         {
             "author": [
                 {
+                    "family": "Davenport",
+                    "given": "Thomas"
+                },
+                {
+                    "family": "Barth",
+                    "given": "Paul"
+                },
+                {
+                    "family": "Bean",
+                    "given": "Randy"
+                }
+            ],
+            "container-title": "MIT Sloan Management Review",
+            "id": "mitsloan2013",
+            "issue": "1",
+            "issued": {
+                "date-parts": [
+                    [
+                        2012
+                    ]
+                ]
+            },
+            "title": "How ’big data’ is different?",
+            "type": "article-journal",
+            "volume": "54"
+        },
+        {
+            "id": "sparkdoc",
+            "issued": {
+                "date-parts": [
+                    [
+                        2022
+                    ]
+                ]
+            },
+            "publisher-place": "Documentation for Apache Spark 3.2.1; Available at: https://spark.apache.org/docs/latest/",
+            "title": "Apache spark official documentation",
+            "type": "book"
+        },
+        {
+            "author": [
+                {
                     "family": "Karau",
                     "given": "Holden"
                 },
