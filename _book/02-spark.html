@@ -146,7 +146,8 @@ div.csl-indent {
    
   <ul>
   <li><a href="#what-is-spark" id="toc-what-is-spark" class="nav-link active" data-scroll-target="#what-is-spark"> <span class="header-section-number">3.1</span> What is Spark?</a></li>
-  <li><a href="#the-spark-session" id="toc-the-spark-session" class="nav-link" data-scroll-target="#the-spark-session"> <span class="header-section-number">3.2</span> The Spark Session</a></li>
+  <li><a href="#spark-application" id="toc-spark-application" class="nav-link" data-scroll-target="#spark-application"> <span class="header-section-number">3.2</span> Spark Application</a></li>
+  <li><a href="#the-spark-session" id="toc-the-spark-session" class="nav-link" data-scroll-target="#the-spark-session"> <span class="header-section-number">3.3</span> The Spark Session</a></li>
   </ul>
 </nav>
     </div>
@@ -184,8 +185,21 @@ div.csl-indent {
 <p>Spark is designed to cover a wide range of workloads that previously required separate distributed systems … By supporting these workloads in the same engine, Spark makes it easy and inexpensive to combine different processing types, which is often necessary in production data analysis pipelines. In addition, it reduces the management burden of maintaining separate tools <span class="citation" data-cites="karau2015">(<a href="references.html#ref-karau2015" role="doc-biblioref">Karau et al. 2015</a>)</span>.</p>
 </blockquote>
 </section>
-<section id="the-spark-session" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="the-spark-session"><span class="header-section-number">3.2</span> The Spark Session</h2>
+<section id="spark-application" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="spark-application"><span class="header-section-number">3.2</span> Spark Application</h2>
+<p>Since Spark is a computing engine for big-data analytics, most of Spark Applications run on a cluster of machines. Because of this, a relevant part of Spark’s structure is deeply connected to distributed computing models.</p>
+<p>You probably do not have a cluster of machines at home. So, while following the examples in this book, you will be running Spark on a single machine (i.e.&nbsp;single node mode). But lets just forget about this detail for a moment.</p>
+<p>Every Spark application is distributed into two different and independent processes: 1) a driver process; 2) and a set of executor processes <span class="citation" data-cites="chambers2018">(<a href="references.html#ref-chambers2018" role="doc-biblioref">Chambers and Zaharia 2018</a>)</span>. These processes are coordinated by your driver program, which is contained in a object called <code>SparkContext</code> <span class="citation" data-cites="sparkdoc">(<a href="references.html#ref-sparkdoc" role="doc-biblioref"><em>Apache Spark Official Documentation</em> 2022</a>)</span>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Figures/spark.application.png" class="img-fluid figure-img"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption">Spark Application structure</figcaption><p></p>
+</figure>
+</div>
+</section>
+<section id="the-spark-session" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="the-spark-session"><span class="header-section-number">3.3</span> The Spark Session</h2>
+<p>Every Spark application starts with a Spark Session. Basically, the Spark Session is the entry point to your application. In <code>pyspark</code>, we always start a Spark</p>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography" style="display: none">

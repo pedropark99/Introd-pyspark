@@ -6,42 +6,40 @@ bibliography: references.bib
 
 In essence, `pyspark` is an API to Apache Spark (or simply Spark). In other words, with `pyspark` we can build Spark applications using the python language. So, by learning a little more about Spark, you will understand a lot more about `pyspark`.
 
-
 <!-- ## What is Big Data? -->
 
 <!-- The classical question: "how much big is big?" Even today, there is no clear definition to what "big data" is. But, the most accepted one is this: "big data is any data that we can no longer store, process or manage using traditional computing methods". In other words, big data is data whose volume, complexity or diversity makes it really hard or impossible to deal with this data on a single machine, like a desktop or a laptop. -->
 
 <!-- Realize that, the meaning of "big" can vary in this matter. It is not only the volume (how much GB, TB or PB) of the data that can build a barrier. For example, maybe the velocity is the key issue here. A lot of companies (such as Google or Facebook) need to process data in real time, as it is being generated, so they need to think in terms of continuous flows and process, rather than storing and processing this data latter [@mitsloan2013]. In contrast, maybe the problem is that we need to deal with many different kinds of data at the same time, like videos, images and tree formats (i.e. XML and JSON like structures). -->
 
-
-
-
 ## What is Spark?
 
-Spark is a multi-language engine for large-scale data processing that supports both single-node machines and clusters of machines [@sparkdoc]. Nowadays, Spark became the de facto standard for structure and manage big data applications. 
+Spark is a multi-language engine for large-scale data processing that supports both single-node machines and clusters of machines [@sparkdoc]. Nowadays, Spark became the de facto standard for structure and manage big data applications.
 
-It has a number of features that its predecessors did not have, like the capacity for in-memory processing and stream processing [@karau2015]. But, the most important feature of all, is that Spark is an **unified platform** for big data processing [@chambers2018]. This means that Spark comes with multiple built-in libraries and tools that deals with different aspects of the work with big data. It has a built-in SQL engine[^1] for performing large-scale data processing; a complete library for scalable machine learning (`MLib`[^2]); a stream processing engine[^3] for streaming analytics; and much more;
+It has a number of features that its predecessors did not have, like the capacity for in-memory processing and stream processing [@karau2015]. But, the most important feature of all, is that Spark is an **unified platform** for big data processing [@chambers2018]. This means that Spark comes with multiple built-in libraries and tools that deals with different aspects of the work with big data. It has a built-in SQL engine[^spark-1] for performing large-scale data processing; a complete library for scalable machine learning (`MLib`[^spark-2]); a stream processing engine[^spark-3] for streaming analytics; and much more;
+
+[^spark-1]: https://spark.apache.org/sql/
+
+[^spark-2]: https://spark.apache.org/docs/latest/ml-guide.html
+
+[^spark-3]: https://spark.apache.org/docs/latest/structured-streaming-programming-guide.html#overview
 
 In general, big companies have many different data necessities, and as a result, the engineers and analysts may have to combine and integrate many tools and techniques together, so they can build many different data pipelines to fulfill these necessities. But this approach can create a very serious dependency problem, which imposes a great barrier to support this workflow. This is one of the big reasons why Spark got so successful. It eliminates big part of this problem, by already including almost everything that you might need to use.
 
 > Spark is designed to cover a wide range of workloads that previously required separate distributed systems ... By supporting these workloads in the same engine, Spark makes it easy and inexpensive to combine different processing types, which is often necessary in production data analysis pipelines. In addition, it reduces the management burden of maintaining separate tools [@karau2015].
 
-
 ## Spark Application
 
-Since Spark is a computing engine for big-data analytics, most of Spark Applications run on a cluster of machines. Because of this, a relevant part of Spark's structure is deeply connected to distributed computing models. 
+Since Spark is a computing engine for big-data analytics, most of Spark Applications run on a cluster of machines. Because of this, a relevant part of Spark's structure is deeply connected to distributed computing models.
 
 You probably do not have a cluster of machines at home. So, while following the examples in this book, you will be running Spark on a single machine (i.e. single node mode). But lets just forget about this detail for a moment.
 
 Every Spark application is distributed into two different and independent processes: 1) a driver process; 2) and a set of executor processes [@chambers2018]. These processes are coordinated by your driver program, which is contained in a object called `SparkContext` [@sparkdoc].
+
+![Spark Application Structure](Figures/spark-application.png){#fig-spark-application fig-align="center"}
 
 ## The Spark Session
 
 Every Spark application starts with a Spark Session. Basically, the Spark Session is the entry point to your application. In `pyspark`, we always start a Spark
 
 
-[^1]: https://spark.apache.org/sql/
-
-[^2]: https://spark.apache.org/docs/latest/ml-guide.html
-
-[^3]: https://spark.apache.org/docs/latest/structured-streaming-programming-guide.html#overview
