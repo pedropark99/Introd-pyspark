@@ -42,6 +42,11 @@ The driver process, or, the driver program, is where your application starts, an
 
 In other hand, the executors (or the worker nodes) are responsible for performing and executing the tasks that were assigned to them, by the driver program.
 
+
+When you run Spark on a cluster of computers, you write the code of your Spark application (i.e. your `pyspark` code) on your (separate) local computer, and them, submit this code to the driver node. After that, the driver node takes care ot the rest, by starting your application, creating your Spark Session, ordering new worker nodes, sending the tasks to be performed, collecting and compiling the results and giving back these results to you.
+
+When you run Spark on your local computer, the process is very similar. But, instead of submitting your code to another computer (which is the driver), you will submit to your own local computer. In other words, when Spark is running on single-node mode, your computer becomes the driver and the worker node at the same time.
+
 ## The Spark Session
 
 Every Spark application starts with a Spark Session. Basically, the Spark Session is the entry point to your application. In `pyspark`, we always start a Spark
