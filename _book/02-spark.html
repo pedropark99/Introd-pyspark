@@ -128,6 +128,11 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./04-dataframes.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Spark DataFrames</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./references.html" class="sidebar-item-text sidebar-link">References</a>
   </div>
 </li>
@@ -140,8 +145,7 @@ div.csl-indent {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#what-is-big-data" id="toc-what-is-big-data" class="nav-link active" data-scroll-target="#what-is-big-data"> <span class="header-section-number">3.1</span> What is Big Data?</a></li>
-  <li><a href="#what-is-spark" id="toc-what-is-spark" class="nav-link" data-scroll-target="#what-is-spark"> <span class="header-section-number">3.2</span> What is Spark?</a></li>
+  <li><a href="#what-is-spark" id="toc-what-is-spark" class="nav-link active" data-scroll-target="#what-is-spark"> <span class="header-section-number">3.1</span> What is Spark?</a></li>
   </ul>
 </nav>
     </div>
@@ -166,31 +170,26 @@ div.csl-indent {
 
 </header>
 
-<p>In essence, <code>pyspark</code> is an API to Apache Spark (or simply Spark). In other words, with <code>pyspark</code> we can write Spark applications using the python language. By learning a little more about Spark, you will understand a lot more about <code>pyspark</code>. First, lets just discuss what is Big Data.</p>
-<section id="what-is-big-data" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="what-is-big-data"><span class="header-section-number">3.1</span> What is Big Data?</h2>
-<p>The classical question: “how much big is big?” Even today, there is no clear definition to what “big data” is. But, the most accepted one is this: “big data is any data that we can no longer store, process or manage using traditional computing methods”. In other words, big data is data whose volume, complexity or diversity makes it really hard or impossible to deal with this data on a single machine, like a desktop or a laptop.</p>
-<p>Realize that, the meaning of “big” can vary in this matter. It is not only the volume (how much GB, TB or PB) of the data that can build a barrier. For example, maybe the velocity is the key issue here. A lot of companies (such as Google or Facebook) need to process data in real time, as it is being generated, so they need to think in terms of continuous flows and process, rather than storing and processing this data latter <span class="citation" data-cites="mitsloan2013">(<a href="references.html#ref-mitsloan2013" role="doc-biblioref">Davenport, Barth, and Bean 2012</a>)</span>. In contrast, maybe the problem is that we need to deal with many different kinds of data at the same time, like videos, images and tree formats (i.e.&nbsp;XML and JSON like structures).</p>
-</section>
-<section id="what-is-spark" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="what-is-spark"><span class="header-section-number">3.2</span> What is Spark?</h2>
-<p>Spark is a multi-language engine for large-scale data processing that supports both a single-node machine and a cluster of machines <span class="citation" data-cites="sparkdoc">(<a href="references.html#ref-sparkdoc" role="doc-biblioref"><em>Apache Spark Official Documentation</em> 2022</a>)</span>. Nowadays, Spark became the de facto standard for structure and manage big data applications.</p>
-<p>It has a number of features that its predecessors did not have, like the capacity for in-memory processing and stream processing <span class="citation" data-cites="karau2015">(<a href="references.html#ref-karau2015" role="doc-biblioref">Karau et al. 2015</a>)</span>. But, the most important feature of all, is that Spark is an <strong>unified platform</strong> for big data processing <span class="citation" data-cites="chambers2018">(<a href="references.html#ref-chambers2018" role="doc-biblioref">Chambers and Zaharia 2018</a>)</span>. This means that Spark comes with multiple libraries and tools that deals with different aspects of the work with big data. It has a built-in SQL engine<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> for performing large-scale data processing; a complete library for scalable machine learning (<code>MLib</code><a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>); a stream processing engine<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> for streaming analytics; and much more;</p>
+<p>In essence, <code>pyspark</code> is an API to Apache Spark (or simply Spark). In other words, with <code>pyspark</code> we can build Spark applications using the python language. So, by learning a little more about Spark, you will understand a lot more about <code>pyspark</code>.</p>
+<!-- ## What is Big Data? -->
+<!-- The classical question: "how much big is big?" Even today, there is no clear definition to what "big data" is. But, the most accepted one is this: "big data is any data that we can no longer store, process or manage using traditional computing methods". In other words, big data is data whose volume, complexity or diversity makes it really hard or impossible to deal with this data on a single machine, like a desktop or a laptop. -->
+<!-- Realize that, the meaning of "big" can vary in this matter. It is not only the volume (how much GB, TB or PB) of the data that can build a barrier. For example, maybe the velocity is the key issue here. A lot of companies (such as Google or Facebook) need to process data in real time, as it is being generated, so they need to think in terms of continuous flows and process, rather than storing and processing this data latter [@mitsloan2013]. In contrast, maybe the problem is that we need to deal with many different kinds of data at the same time, like videos, images and tree formats (i.e. XML and JSON like structures). -->
+<section id="what-is-spark" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="what-is-spark"><span class="header-section-number">3.1</span> What is Spark?</h2>
+<p>Spark is a multi-language engine for large-scale data processing that supports both single-node machines and clusters of machines <span class="citation" data-cites="sparkdoc">(<a href="#ref-sparkdoc" role="doc-biblioref"><em>Apache Spark Official Documentation</em> 2022</a>)</span>. Nowadays, Spark became the de facto standard for structure and manage big data applications.</p>
+<p>It has a number of features that its predecessors did not have, like the capacity for in-memory processing and stream processing <span class="citation" data-cites="karau2015">(<a href="#ref-karau2015" role="doc-biblioref">Karau et al. 2015</a>)</span>. But, the most important feature of all, is that Spark is an <strong>unified platform</strong> for big data processing <span class="citation" data-cites="chambers2018">(<a href="#ref-chambers2018" role="doc-biblioref">Chambers and Zaharia 2018</a>)</span>. This means that Spark comes with multiple built-in libraries and tools that deals with different aspects of the work with big data. It has a built-in SQL engine<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> for performing large-scale data processing; a complete library for scalable machine learning (<code>MLib</code><a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>); a stream processing engine<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> for streaming analytics; and much more;</p>
 <p>In general, big companies have many different data necessities, and as a result, the engineers and analysts may have to combine and integrate many tools and techniques together, so they can build many different data pipelines to fulfill these necessities. But this approach can create a very serious dependency problem, which imposes a great barrier to support this workflow. This is one of the big reasons why Spark got so successful. It eliminates big part of this problem, by already including almost everything that you might need to use.</p>
 <blockquote class="blockquote">
-<p>Spark is designed to cover a wide range of workloads that previously required separate distributed systems … By supporting these workloads in the same engine, Spark makes it easy and inexpensive to combine different processing types, which is often necessary in production data analysis pipelines. In addition, it reduces the management burden of maintaining separate tools <span class="citation" data-cites="karau2015">(<a href="references.html#ref-karau2015" role="doc-biblioref">Karau et al. 2015</a>)</span>.</p>
+<p>Spark is designed to cover a wide range of workloads that previously required separate distributed systems … By supporting these workloads in the same engine, Spark makes it easy and inexpensive to combine different processing types, which is often necessary in production data analysis pipelines. In addition, it reduces the management burden of maintaining separate tools <span class="citation" data-cites="karau2015">(<a href="#ref-karau2015" role="doc-biblioref">Karau et al. 2015</a>)</span>.</p>
 </blockquote>
 
 
-<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography" style="display: none">
+<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
 <div id="ref-sparkdoc" class="csl-entry" role="doc-biblioentry">
 <em>Apache Spark Official Documentation</em>. 2022. Documentation for Apache Spark 3.2.1; Available at: https://spark.apache.org/docs/latest/.
 </div>
 <div id="ref-chambers2018" class="csl-entry" role="doc-biblioentry">
 Chambers, Bill, and Matei Zaharia. 2018. <em>Spark: The Definitive Guide: Big Data Processing Made Simple</em>. Sebastopol, CA: O’Reilly Media.
-</div>
-<div id="ref-mitsloan2013" class="csl-entry" role="doc-biblioentry">
-Davenport, Thomas, Paul Barth, and Randy Bean. 2012. <span>“How ’Big Data’ Is Different?”</span> <em>MIT Sloan Management Review</em> 54 (1).
 </div>
 <div id="ref-karau2015" class="csl-entry" role="doc-biblioentry">
 Karau, Holden, Andy Konwinski, Patrick Wendell, and Matei Zaharia. 2015. <em>Learning Spark</em>. Sebastopol, CA: O’Reilly Media.

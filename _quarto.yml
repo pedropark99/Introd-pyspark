@@ -13,6 +13,7 @@ book:
     - 01-intro.qmd
     - 02-spark.qmd
     - 03-python.qmd
+    - 04-dataframes.qmd
     - references.qmd
 
 bibliography: references.bib

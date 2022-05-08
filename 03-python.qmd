@@ -20,7 +20,7 @@ There are many IDEs or programs that help you to write, manage and organize this
 
 There are many ways to run a python program, but I will show you the more "standard" way. That is to use the `python` command inside the terminal of your OS (you need to have python already installed).
 
-As an example, lets create a simple "Hello world" program. Create a text file called `hello.py`, then copy and paste the following command into this file, then save it (as a `.py` file) somewhere in your machine:
+As an example, lets create a simple "Hello world" program. First, open a new text file then save it somewhere in your machine (with the name `hello.py`). Remember to save the file with the `.py` extension. Then copy and paste the following command into this file:
 
 ```{python}
 #| eval: false
@@ -29,7 +29,7 @@ print("Hello World!")
 
 It will be much easier to run this script, if you open the terminal inside the folder where you save the `hello.py` file. On Linux, with the built-in File Explorer, you can click (with the right button of you mouse) inside the folder, and you will have an option to open the terminal. If you are on windows, you can open the folder on the File Explorer, then, overwrite the path to this folder with "cmd" and press Enter.
 
-But, if for some reason you could not open the terminal inside the folder. Then, you can just open terminal (in any way you can), then, use the `cd` command (stands for "change directory") with the path to the folder where you saved `hello.py`. This way, your terminal will be rooted on this folder.
+But, if for some reason you could not open the terminal inside the folder, just open a terminal (in any way you can), then, use the `cd` command (stands for "change directory") with the path to the folder where you saved `hello.py`. This way, your terminal will be rooted on this folder.
 
 For example, if I saved `hello.py` inside my Documents folder, the path to this folder in Windows would be something like this: `"C:\Users\pedro\Documents"`. On the other hand, this path on Linux would be something like `"/usr/pedro/Documents"`. So the command to change to this directory would be:
 
@@ -239,3 +239,45 @@ print(df)
 Some packages may be very big, and includes many different functions and classes. As the size of the package becomes bigger and bigger, developers tend to divide this package in may "modules". In other words, the many functions and classes that are available in a python package, are usually organized in "modules". 
 
 As an example, the famous `flask` package is a fairly big package, that contains many functionalities. Because of it, the package is organized in a number of modules, such as `cli`, `globals`, `views` and `sessions`. To access the functions available in each one of these modules, you use the dot operator.
+
+
+
+## Methods versus Functions
+
+Beginners tend mix these two types of functions in python, but they are not the same. So lets describe the differences between the two.
+
+Standard python functions, are **functions that we apply over an object**. A classical example, is the `print()` function. You can see in the example below, that we are applying `print()` over the `result` object.
+
+```{python}
+result = 10 + 54
+print(result)
+```
+
+Other examples of a standard python function would be `map()` and `list()`. See in the example below, that we apply the `map()` function over a set of objects:
+
+```{python}
+words = ['apple', 'star', 'abc']
+lengths = map(len, words)
+list(lengths)
+```
+
+
+In contrast, a python method is a function registered inside a python class. In other words, this function belongs to the class itself, and cannot be used outside of it. To use a method, you need to have an instance of the class where it is registered.
+
+For example, the `startswith()` method belongs to the `str` class (this class is used to represent strings in python). So to use this method, we need to have an instance ot this class saved in a object that we can access. Note in the example below, that we access the `startswith()` method through the `name` object. This means that, `startswith()` is a function. But, we cannot use it without an object of class `str`, like `name`.
+
+```{python}
+name = "Pedro"
+name.startswith("P")
+```
+
+So, if we have a class called `people`, and, a method called `location()`, we can use the `location()` method by using the dot operator (`.`) with the name of an object of class `people`. If an object called `x` is an instance of `people` class, then, we can do `x.location()`.
+
+
+## Identifying classes of objects
+
+Over the next chapters, you will realize that the `pyspark` API does not have many standard python functions. So most of its functionality resides in class methods. As a result, the capability of understanding the objects that you have in your python program, and, identifying its classes will be crucial while you are developing you Spark applications.
+
+Every existing object in python represents an instance of a class. In other words, every object is associated to a given class. You can always identify the class of an object, by applying the `type()` function over this object.
+
+

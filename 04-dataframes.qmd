@@ -1,0 +1,44 @@
+---
+bibliography: references.bib
+---
+
+# Spark DataFrames
+
+Different programming languages and frameworks use different names to describe a table (or tabular data). But, in Apache Spark, tables are referred as Spark DataFrames. We have several methods to create a DataFrame. The most basic way is to use the `createDataFrame()` method from your Spark Session.
+
+For example, with the code below, we are creating a DataFrame called `students`. To do this, we create two python lists (`data` and `columns`), then, deliver these lists to `createDataFrame()` method. Each element of `data` is a python `tuple` that represents a row in the `students` DataFrame.
+
+```{python}
+#| eval: false
+
+from pyspark.sql import SparkSession
+spark = SparkSession.builder.getOrCreate()
+
+data = [
+  (12114, 'Anne', 21, 1.56, 8, 9, 10, 9, 'Economics', 'SC'),
+  (13007, 'Adrian', 23, 1.82, 6, 6, 8, 7, 'Economics', 'SC'),
+  (10045, 'George', 29, 1.77, 10, 9, 10, 7, 'Law', 'SC'),
+  (12459, 'Adeline', 26, 1.61, 8, 6, 7, 7, 'Law', 'SC'),
+  (10190, 'Mayla', 22, 1.67, 7, 7, 7, 9, 'Design', 'AR'),
+  (11552, 'Daniel', 24, 1.75, 9, 9, 10, 9, 'Design', 'AR')
+]
+
+columns = [
+  'StudentID', 'Name', 'Age', 'Height', 'Score1',
+  'Score2', 'Score3', 'Score4', 'Course', 'Department'
+]
+
+students = spark.createDataFrame(data, columns)
+students.show(truncate = False)
+```
+
+Another example, is to read (or import) a file and convert it to a DataFrame. Spark can read a variety of file formats, including CSV, Parquet, JSON, ORC and Binary files. Furthermore, Spark can connect to other databases and import tables from them, using JDBC connections.
+
+```{python}
+#| eval: false
+
+path = "examples/src/main/resources/people.csv"
+
+df = spark.read.csv(path)
+df.show()
+```
