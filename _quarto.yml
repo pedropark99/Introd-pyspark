@@ -5,7 +5,7 @@ engine: knitr
 
 
 book:
-  title: "Introduction to pyspark"
+  title: "Introduction to `pyspark`"
   author: "Pedro Duarte Faria"
   date: "2022-04-24"
   chapters:
@@ -21,8 +21,6 @@ number-sections: true
 format:
   html:
     theme: cosmo
-  pdf:
-    documentclass: scrreprt
 
 
 

@@ -27,7 +27,17 @@ In general, big companies have many different data necessities, and as a result,
 > Spark is designed to cover a wide range of workloads that previously required separate distributed systems ... By supporting these workloads in the same engine, Spark makes it easy and inexpensive to combine different processing types, which is often necessary in production data analysis pipelines. In addition, it reduces the management burden of maintaining separate tools [@karau2015].
 
 
+## Spark Application
 
+Since Spark is a computing engine for big-data analytics, most of Spark Applications run on a cluster of machines. Because of this, a relevant part of Spark's structure is deeply connected to distributed computing models. 
+
+You probably do not have a cluster of machines at home. So, while following the examples in this book, you will be running Spark on a single machine (i.e. single node mode). But lets just forget about this detail for a moment.
+
+Every Spark application is distributed into two different and independent processes: 1) a driver process; 2) and a set of executor processes [@chambers2018]. These processes are coordinated by your driver program, which is contained in a object called `SparkContext` [@sparkdoc].
+
+## The Spark Session
+
+Every Spark application starts with a Spark Session. Basically, the Spark Session is the entry point to your application. In `pyspark`, we always start a Spark
 
 
 [^1]: https://spark.apache.org/sql/
