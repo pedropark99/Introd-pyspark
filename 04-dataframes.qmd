@@ -4,15 +4,50 @@ bibliography: references.bib
 
 # Spark DataFrames
 
-Different programming languages and frameworks use different names to describe a table (or tabular data). But, in Apache Spark, tables are referred as Spark DataFrames. We have several methods to create a DataFrame. The most basic way is to use the `createDataFrame()` method from your Spark Session.
+In this chapter, you will understand how Spark represents and manages tables (or tabular data). Different programming languages and frameworks use different names to describe a table. But, in Apache Spark, tables are referred as Spark DataFrames.
+
+In `pyspark`, these DataFrames are stored inside python objects of class `pyspark.sql.DataFrame`, and all the methods present in this class, are commonly referred as the DataFrame API of Spark. This is the most important API of Spark. Much of your Spark applications will heavily use this API to compose your data transformations and data flows [@chambers2018].
+
+## Spark DataFrames versus Spark Datasets
+
+Spark have two notions of structured data: DataFrames and Datasets. In summary, a Spark Dataset, is a distributed collection of data [@sparkdoc]. In contrast, a Spark DataFrame is a Spark Dataset organized into named columns [@sparkdoc].
+
+This means that, Spark DataFrames are very similar to tables as we know in relational databases - RDBMS. So in a Spark DataFrame, each column has a name, and they all have the same number of rows. Furthermore, all the rows inside a column must store the same type of data, however, each column can store a different type of data.
+
+But Spark Datasets are considered a collection of any type of data. So a Dataset might be a collection of unstructured data as well, like log files, JSON and XML trees, etc. Spark Datasets can be created and managed trough the Dataset API of Spark. But this API is available only in Scala and Java API's. Because of this, we do not act directly on Datasets with `pyspark`, only DataFrames.
+
+That's ok, because for the most part of applications, we do want to use DataFrames, and not Datasets, to represent our data.
+
+
+## Building a Spark DataFrame
+
+There are some different methods to create a Spark DataFrame. Because a DataFrame is basically a Dataset of type `Row`, we can build a DataFrame from a collection of `Row`'s, through the `createDataFrame()` method from your Spark Session:
+
+```{python}
+from pyspark.sql import SparkSession
+spark = SparkSession.builder.getOrCreate()
+from datetime import date
+from pyspark.sql import Row
+
+data = [
+  Row(id = 1, value = 28.3, date = date(2021,1,1)),
+  Row(id = 2, value = 15.8, date = date(2021,2,2)),
+  Row(id = 3, value = 20.1, date = date(2021,3,6)),
+  Row(id = 4, value = 12.6, date = date(2021,4,15)),
+]
+
+df = spark.createDataFrame(data)
+df
+```
+
+In the above example, we use the `Row()` constructor to build 4 rows to our new DataFrame `df`. The result is a DataFrame with 
+
 
 For example, with the code below, we are creating a DataFrame called `students`. To do this, we create two python lists (`data` and `columns`), then, deliver these lists to `createDataFrame()` method. Each element of `data` is a python `tuple` that represents a row in the `students` DataFrame.
 
 ```{python}
-#| eval: false
 
-from pyspark.sql import SparkSession
-spark = SparkSession.builder.getOrCreate()
+
 
 data = [
   (12114, 'Anne', 21, 1.56, 8, 9, 10, 9, 'Economics', 'SC'),
@@ -29,7 +64,7 @@ columns = [
 ]
 
 students = spark.createDataFrame(data, columns)
-students.show(truncate = False)
+students
 ```
 
 Another example, is to read (or import) a file and convert it to a DataFrame. Spark can read a variety of file formats, including CSV, Parquet, JSON, ORC and Binary files. Furthermore, Spark can connect to other databases and import tables from them, using JDBC connections.

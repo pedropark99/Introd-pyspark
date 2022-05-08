@@ -195,6 +195,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <li><a href="#expressions" id="toc-expressions" class="nav-link" data-scroll-target="#expressions"> <span class="header-section-number">4.4</span> Expressions</a></li>
   <li><a href="#packages" id="toc-packages" class="nav-link" data-scroll-target="#packages"> <span class="header-section-number">4.5</span> Packages</a></li>
   <li><a href="#methods-versus-functions" id="toc-methods-versus-functions" class="nav-link" data-scroll-target="#methods-versus-functions"> <span class="header-section-number">4.6</span> Methods versus Functions</a></li>
+  <li><a href="#identifying-classes-of-objects" id="toc-identifying-classes-of-objects" class="nav-link" data-scroll-target="#identifying-classes-of-objects"> <span class="header-section-number">4.7</span> Identifying classes of objects</a></li>
   </ul>
 </nav>
     </div>
@@ -447,16 +448,30 @@ ModuleNotFoundError: No module named 'a_package'</code></pre>
 <pre><code>64</code></pre>
 </div>
 </div>
+<p>Other examples of a standard python function would be <code>map()</code> and <code>list()</code>. See in the example below, that we apply the <code>map()</code> function over a set of objects:</p>
+<div class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>words <span class="op">=</span> [<span class="st">'apple'</span>, <span class="st">'star'</span>, <span class="st">'abc'</span>]</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>lengths <span class="op">=</span> <span class="bu">map</span>(<span class="bu">len</span>, words)</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="bu">list</span>(lengths)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="17">
+<pre><code>[5, 4, 3]</code></pre>
+</div>
+</div>
 <p>In contrast, a python method is a function registered inside a python class. In other words, this function belongs to the class itself, and cannot be used outside of it. To use a method, you need to have an instance of the class where it is registered.</p>
 <p>For example, the <code>startswith()</code> method belongs to the <code>str</code> class (this class is used to represent strings in python). So to use this method, we need to have an instance ot this class saved in a object that we can access. Note in the example below, that we access the <code>startswith()</code> method through the <code>name</code> object. This means that, <code>startswith()</code> is a function. But, we cannot use it without an object of class <code>str</code>, like <code>name</code>.</p>
-<div class="cell" data-execution_count="20">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>name <span class="op">=</span> <span class="st">"Pedro"</span></span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>name.startswith(<span class="st">"P"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="17">
+<div class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>name <span class="op">=</span> <span class="st">"Pedro"</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>name.startswith(<span class="st">"P"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="18">
 <pre><code>True</code></pre>
 </div>
 </div>
 <p>So, if we have a class called <code>people</code>, and, a method called <code>location()</code>, we can use the <code>location()</code> method by using the dot operator (<code>.</code>) with the name of an object of class <code>people</code>. If an object called <code>x</code> is an instance of <code>people</code> class, then, we can do <code>x.location()</code>.</p>
+</section>
+<section id="identifying-classes-of-objects" class="level2" data-number="4.7">
+<h2 data-number="4.7" class="anchored" data-anchor-id="identifying-classes-of-objects"><span class="header-section-number">4.7</span> Identifying classes of objects</h2>
+<p>Over the next chapters, you will realize that the <code>pyspark</code> API does not have many standard python functions. So most of its functionality resides in class methods. As a result, the capability of understanding the objects that you have in your python program, and, identifying its classes will be crucial while you are developing you Spark applications.</p>
+<p>Every existing object in python represents an instance of a class. In other words, every object is associated to a given class. You can always identify the class of an object, by applying the <code>type()</code> function over this object.</p>
 
 
 </section>
