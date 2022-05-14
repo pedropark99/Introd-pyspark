@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-0.9.305">
+<meta name="generator" content="quarto-0.9.393">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -77,7 +77,7 @@ div.csl-indent {
 
 </head>
 
-<body class="floating">
+<body class="nav-sidebar floating">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -198,6 +198,8 @@ div.csl-indent {
 </div>
 <p>The driver process, or, the driver program, is where your application starts, and it is executed by the driver node. This driver program is responsible for: 1) maintaining information about your Spark Application; 2) responding to a user’s program or input; 3) and analyzing, distributing, and scheduling work across the executors <span class="citation" data-cites="chambers2018">(<a href="references.html#ref-chambers2018" role="doc-biblioref">Chambers and Zaharia 2018</a>)</span>.</p>
 <p>In other hand, the executors (or the worker nodes) are responsible for performing and executing the tasks that were assigned to them, by the driver program.</p>
+<p>When you run Spark on a cluster of computers, you write the code of your Spark application (i.e.&nbsp;your <code>pyspark</code> code) on your (separate) local computer, and them, submit this code to the driver node. After that, the driver node takes care ot the rest, by starting your application, creating your Spark Session, ordering new worker nodes, sending the tasks to be performed, collecting and compiling the results and giving back these results to you.</p>
+<p>When you run Spark on your local computer, the process is very similar. But, instead of submitting your code to another computer (which is the driver), you will submit to your own local computer. In other words, when Spark is running on single-node mode, your computer becomes the driver and the worker node at the same time.</p>
 </section>
 <section id="the-spark-session" class="level2" data-number="3.3">
 <h2 data-number="3.3" class="anchored" data-anchor-id="the-spark-session"><span class="header-section-number">3.3</span> The Spark Session</h2>
@@ -226,7 +228,7 @@ Karau, Holden, Andy Konwinski, Patrick Wendell, and Matei Zaharia. 2015. <em>Lea
 </section>
 
 </main> <!-- /main -->
-<script type="application/javascript">
+<script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const icon = "";
   const anchorJS = new window.AnchorJS();
