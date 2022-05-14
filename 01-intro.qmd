@@ -1,9 +1,4 @@
 
-<!-- ```{r} -->
-<!-- #| echo: false -->
-<!-- knitr::opts_chunk$set(comment = "##") -->
-<!-- ``` -->
-
 
 
 
@@ -14,6 +9,24 @@ In essence, `pyspark` is a python package that provides an API for Apache Spark.
 This book, also contains a small introduction to key python concepts that are important to understand how `pyspark` is organized and how it works in practice, and, since we will be using Spark under the hood, is very important to understand a little bit of how Spark works, so, we provide a small introduction to Spark as well.
 
 Big part of the knowledge exposed here is extracted from a lot of practical experience of the author, working with `pyspark` to analyze big data at platforms such as Databricks^[https://databricks.com/].
+
+```{r}
+#| include: false
+knitr::opts_chunk$set(lang = "python")
+
+knitr::knit_engines$set(spark = function(options){
+  code <- paste(options$code, collapse = "\n")
+  if(Sys.info()["sysname"] == "Linux"){
+    cmd <- "python3"
+  } else {
+    cmd <- "python"
+  }
+  
+  result <- system2(cmd, args = c("-c", shQuote(code)))
+  return(result)
+})
+```
+
 
 
 ## Some conventions of this book
