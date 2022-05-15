@@ -18,7 +18,7 @@ There are many IDEs or programs that help you to write, manage and organize this
 
 ## How to run a python program
 
-There are many ways to run a python program, but I will show you the more "standard" way. That is to use the `python` command inside the terminal of your OS (you need to have python already installed).
+As you learn how to use `pyspark` to write your Spark applications in python, at some point, you will want to actually execute this `pyspark` program, to see its result. To do so, you need to execute it as a python program. There are many ways to run a python program, but I will show you the more "standard" way. That is to use the `python` command inside the terminal of your OS (you need to have python already installed).
 
 As an example, lets create a simple "Hello world" program. First, open a new text file then save it somewhere in your machine (with the name `hello.py`). Remember to save the file with the `.py` extension. Then copy and paste the following command into this file:
 
@@ -40,14 +40,14 @@ Terminal$ cd "C:\Users\pedro\Documents"
 Terminal$ cd "/usr/pedro/Documents"
 ```
 
-After this `cd` command, you just run the `python hello.py` command in the terminal. As a result, the `hello.py` will be executed, and, the text `Hello World!` should be printed to the terminal.
+After this `cd` command, you just run the `python hello.py` command in the terminal. As a result, python will execute `hello.py`, and, the text `Hello World!` should be printed to the terminal.
 
 ```{verbatim}
 Terminal$ python hello.py
 Hello World!
 ```
 
-There you have it! So every time you need to run your python program, just open a terminal and run the command `python <path to your script>`. If the terminal is rooted on the folder where you saved your script, you can just use the `python <name of the file>` command.
+There you have it! So every time you need to run your python program (or your `pyspark` program), just open a terminal and run the command `python <path to your script>`. If the terminal is rooted on the folder where you saved your script, you can just use the `python <name of the file>` command.
 
 ## Objects
 
@@ -176,13 +176,13 @@ This error occurs, because inside the print statement, we call the name `x`. But
 
 ## Packages
 
-A python package (or a python "library") is basically a set of functions and classes that provides important functionality to solve a specific problem. And pyspark is one of these many python packages available.
+A python package (or a python "library") is basically a set of functions and classes that provides important functionality to solve a specific problem. And `pyspark` is one of these many python packages available.
 
 Python packages are usually published (that is, made available to the public) through the PyPI archive[^python-5]. If a python package is published in PyPI, then, you can easily install it through the `pip` tool, that we just used in @sec-install-software.
 
 [^python-5]: https://pypi.org/
 
-To use a python package, you always need to: 1) have this package installed on your machine; 2) import this package in your python script. If a package is not installed in your machine, you will face a `ModuleNotFoundError` as you try to use it, like in the example below. So, if your program produce such an error, is very likely that this package is not currently installed on your machine. To install it, you may use the `pip install <name of the package>` command on the terminal.
+To use a python package, you always need to: 1) have this package installed on your machine; 2) import this package in your python script. If a package is not installed in your machine, you will face a `ModuleNotFoundError` as you try to use it, like in the example below. So, if your program produce such an error, is very likely that you are trying to use a package that is not currently installed on your machine. To install it, you may use the `pip install <name of the package>` command on the terminal of your OS.
 
 ```{python}
 #| eval: false
@@ -262,7 +262,7 @@ list(lengths)
 ```
 
 
-In contrast, a python method is a function registered inside a python class. In other words, this function belongs to the class itself, and cannot be used outside of it. To use a method, you need to have an instance of the class where it is registered.
+In contrast, a python method is a function registered inside a python class. In other words, this function **belongs to the class itself**, and cannot be used outside of it. To use a method, you need to have an instance of the class where it is registered.
 
 For example, the `startswith()` method belongs to the `str` class (this class is used to represent strings in python). So to use this method, we need to have an instance ot this class saved in a object that we can access. Note in the example below, that we access the `startswith()` method through the `name` object. This means that, `startswith()` is a function. But, we cannot use it without an object of class `str`, like `name`.
 
@@ -276,8 +276,13 @@ So, if we have a class called `people`, and, a method called `location()`, we ca
 
 ## Identifying classes of objects
 
-Over the next chapters, you will realize that the `pyspark` API does not have many standard python functions. So most of its functionality resides in class methods. As a result, the capability of understanding the objects that you have in your python program, and, identifying its classes will be crucial while you are developing you Spark applications.
+Over the next chapters, you will realize that the `pyspark` API does not have many standard python functions. So most of its functionality resides in class methods. As a result, the capability of understanding the objects that you have in your python program, and, identifying its classes will be crucial while you are developing and debugging your Spark applications.
 
-Every existing object in python represents an instance of a class. In other words, every object is associated to a given class. You can always identify the class of an object, by applying the `type()` function over this object.
+Every existing object in python represents an instance of a class. In other words, every object is associated to a given class. You can always identify the class of an object, by applying the `type()` function over this object. In the example below, we can see that, the `name` object is an instance of the `str` class.
+
+```{python}
+name = "Pedro"
+type(name)
+```
 
 
