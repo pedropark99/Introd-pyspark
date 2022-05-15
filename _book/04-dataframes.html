@@ -246,47 +246,78 @@ div.csl-indent {
 <section id="building-a-spark-dataframe" class="level2" data-number="5.2">
 <h2 data-number="5.2" class="anchored" data-anchor-id="building-a-spark-dataframe"><span class="header-section-number">5.2</span> Building a Spark DataFrame</h2>
 <p>There are some different methods to create a Spark DataFrame. Because a DataFrame is basically a Dataset of type <code>Row</code>, we can build a DataFrame from a collection of <code>Row</code>’s, through the <code>createDataFrame()</code> method from your Spark Session:</p>
-<pre class="{spark}"><code>from pyspark.sql import SparkSession
-spark = SparkSession.builder.getOrCreate()
-from datetime import date
-from pyspark.sql import Row
+<div class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql <span class="im">import</span> SparkSession</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>spark <span class="op">=</span> SparkSession.builder.getOrCreate()</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datetime <span class="im">import</span> date</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql <span class="im">import</span> Row</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> [</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  Row(<span class="bu">id</span> <span class="op">=</span> <span class="dv">1</span>, value <span class="op">=</span> <span class="fl">28.3</span>, date <span class="op">=</span> date(<span class="dv">2021</span>,<span class="dv">1</span>,<span class="dv">1</span>)),</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  Row(<span class="bu">id</span> <span class="op">=</span> <span class="dv">2</span>, value <span class="op">=</span> <span class="fl">15.8</span>, date <span class="op">=</span> date(<span class="dv">2021</span>,<span class="dv">2</span>,<span class="dv">2</span>)),</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  Row(<span class="bu">id</span> <span class="op">=</span> <span class="dv">3</span>, value <span class="op">=</span> <span class="fl">20.1</span>, date <span class="op">=</span> date(<span class="dv">2021</span>,<span class="dv">3</span>,<span class="dv">6</span>)),</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  Row(<span class="bu">id</span> <span class="op">=</span> <span class="dv">4</span>, value <span class="op">=</span> <span class="fl">12.6</span>, date <span class="op">=</span> date(<span class="dv">2021</span>,<span class="dv">4</span>,<span class="dv">15</span>)),</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> spark.createDataFrame(data)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
-data = [
-  Row(id = 1, value = 28.3, date = date(2021,1,1)),
-  Row(id = 2, value = 15.8, date = date(2021,2,2)),
-  Row(id = 3, value = 20.1, date = date(2021,3,6)),
-  Row(id = 4, value = 12.6, date = date(2021,4,15)),
-]
 
-df = spark.createDataFrame(data)
-df</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="cell-output cell-output-display" data-execution_count="1">
+<pre><code>DataFrame[id: bigint, value: double, date: date]</code></pre>
+</div>
+</div>
 <p>In the above example, we use the <code>Row()</code> constructor to build 4 rows to our new DataFrame <code>df</code>. The result is a DataFrame with</p>
 <p>For example, with the code below, we are creating a DataFrame called <code>students</code>. To do this, we create two python lists (<code>data</code> and <code>columns</code>), then, deliver these lists to <code>createDataFrame()</code> method. Each element of <code>data</code> is a python <code>tuple</code> that represents a row in the <code>students</code> DataFrame.</p>
-<pre class="{spark}"><code>from pyspark.sql import SparkSession
-spark = SparkSession.builder.getOrCreate()
-
-data = [
-  (12114, 'Anne', 21, 1.56, 8, 9, 10, 9, 'Economics', 'SC'),
-  (13007, 'Adrian', 23, 1.82, 6, 6, 8, 7, 'Economics', 'SC'),
-  (10045, 'George', 29, 1.77, 10, 9, 10, 7, 'Law', 'SC'),
-  (12459, 'Adeline', 26, 1.61, 8, 6, 7, 7, 'Law', 'SC'),
-  (10190, 'Mayla', 22, 1.67, 7, 7, 7, 9, 'Design', 'AR'),
-  (11552, 'Daniel', 24, 1.75, 9, 9, 10, 9, 'Design', 'AR')
-]
-
-columns = [
-  'StudentID', 'Name', 'Age', 'Height', 'Score1',
-  'Score2', 'Score3', 'Score4', 'Course', 'Department'
-]
-
-students = spark.createDataFrame(data, columns)
-students</code></pre>
+<div class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> [</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  (<span class="dv">12114</span>, <span class="st">'Anne'</span>, <span class="dv">21</span>, <span class="fl">1.56</span>, <span class="dv">8</span>, <span class="dv">9</span>, <span class="dv">10</span>, <span class="dv">9</span>, <span class="st">'Economics'</span>, <span class="st">'SC'</span>),</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  (<span class="dv">13007</span>, <span class="st">'Adrian'</span>, <span class="dv">23</span>, <span class="fl">1.82</span>, <span class="dv">6</span>, <span class="dv">6</span>, <span class="dv">8</span>, <span class="dv">7</span>, <span class="st">'Economics'</span>, <span class="st">'SC'</span>),</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  (<span class="dv">10045</span>, <span class="st">'George'</span>, <span class="dv">29</span>, <span class="fl">1.77</span>, <span class="dv">10</span>, <span class="dv">9</span>, <span class="dv">10</span>, <span class="dv">7</span>, <span class="st">'Law'</span>, <span class="st">'SC'</span>),</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  (<span class="dv">12459</span>, <span class="st">'Adeline'</span>, <span class="dv">26</span>, <span class="fl">1.61</span>, <span class="dv">8</span>, <span class="dv">6</span>, <span class="dv">7</span>, <span class="dv">7</span>, <span class="st">'Law'</span>, <span class="st">'SC'</span>),</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  (<span class="dv">10190</span>, <span class="st">'Mayla'</span>, <span class="dv">22</span>, <span class="fl">1.67</span>, <span class="dv">7</span>, <span class="dv">7</span>, <span class="dv">7</span>, <span class="dv">9</span>, <span class="st">'Design'</span>, <span class="st">'AR'</span>),</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  (<span class="dv">11552</span>, <span class="st">'Daniel'</span>, <span class="dv">24</span>, <span class="fl">1.75</span>, <span class="dv">9</span>, <span class="dv">9</span>, <span class="dv">10</span>, <span class="dv">9</span>, <span class="st">'Design'</span>, <span class="st">'AR'</span>)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>columns <span class="op">=</span> [</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">'StudentID'</span>, <span class="st">'Name'</span>, <span class="st">'Age'</span>, <span class="st">'Height'</span>, <span class="st">'Score1'</span>,</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  <span class="st">'Score2'</span>, <span class="st">'Score3'</span>, <span class="st">'Score4'</span>, <span class="st">'Course'</span>, <span class="st">'Department'</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>students <span class="op">=</span> spark.createDataFrame(data, columns)</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>students</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="2">
+<pre><code>DataFrame[StudentID: bigint, Name: string, Age: bigint, Height: double, Score1: bigint, Score2: bigint, Score3: bigint, Score4: bigint, Course: string, Department: string]</code></pre>
+</div>
+</div>
 <p>Another example, is to read (or import) a file and convert it to a DataFrame. Spark can read a variety of file formats, including CSV, Parquet, JSON, ORC and Binary files. Furthermore, Spark can connect to other databases and import tables from them, using JDBC connections.</p>
-<div class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>path <span class="op">=</span> <span class="st">"examples/src/main/resources/people.csv"</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> spark.read.csv(path)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>df.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>path <span class="op">=</span> <span class="st">"examples/src/main/resources/people.csv"</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> spark.read.csv(path)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>df.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 

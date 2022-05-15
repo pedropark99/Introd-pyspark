@@ -2,9 +2,7 @@
   "hash": "7560f644beee8be2f4a118c2f56bdca6",
   "result": {
     "markdown": "\n\n# Welcome!\n\nHello! This is the initial page!\n\n\n\n\n",
-    "supporting": [
-      "index_files"
-    ],
+    "supporting": [],
     "filters": [
       "rmarkdown/pagebreak.lua"
     ],
