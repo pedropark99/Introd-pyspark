@@ -86,12 +86,21 @@ students = spark.createDataFrame(data, columns)
 students
 ```
 
-Another way of creating Spark DataFrames, is to read (or import) a file and convert it to a DataFrame. Spark can read a variety of file formats, including CSV, Parquet, JSON, ORC and Binary files. Furthermore, Spark can connect to other databases and import tables from them, using JDBC connections.
+Another way of creating Spark DataFrames, is to read (or import) a file and convert it to a DataFrame. Spark can read a variety of file formats, including CSV, Parquet, JSON, ORC and Binary files. Furthermore, Spark can connect to other databases and import tables from them, using JDBC connections. We can access the read engines for these different file formats, by using the `read` module from your Spark Session object. 
+
+For example, I have the following CSV file saved in my computer:
+
+```{verbatim}
+name,age,job
+Jorge,30,Developer
+Bob,32,Developer
+```
+
+
+This CSV was saved in a file called `people.csv`, inside a folder called `Data`. So, to read this file, I give the path to this CSV file to the `read.csv()` method of my Spark Session, like in the example below:
 
 ```{python}
-#| eval: false
-
-path = "examples/src/main/resources/people.csv"
+path = "Data/people.csv"
 
 df = spark.read.csv(path)
 df.show()

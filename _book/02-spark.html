@@ -15,6 +15,69 @@ span.underline{text-decoration: underline;}
 div.column{display: inline-block; vertical-align: top; width: 50%;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
@@ -187,7 +250,8 @@ div.csl-indent {
 </section>
 <section id="spark-application" class="level2" data-number="3.2">
 <h2 data-number="3.2" class="anchored" data-anchor-id="spark-application"><span class="header-section-number">3.2</span> Spark application</h2>
-<p>Since Spark is a computing engine for big-data analytics, most of Spark applications run on a cluster of machines. Because of this, a relevant part of Spark’s structure is deeply connected to distributed computing models. You probably do not have a cluster of machines at home. So, while following the examples in this book, you will be running Spark on a single machine (i.e.&nbsp;single node mode). But lets just forget about this detail for a moment.</p>
+<p>Since Spark is a computing engine for big-data analytics, most of Spark applications run on a cluster of machines. Because of this, a relevant part of Spark’s structure is deeply connected to distributed computing models.</p>
+<p>You probably do not have a cluster of machines at home. So, while following the examples in this book, you will be running Spark on a single machine (i.e.&nbsp;single node mode). But lets just forget about this detail for a moment.</p>
 <p>In every Spark application, you always have a single machine behaving as the driver node, and multiple machines behaving as the worker nodes. The driver node is responsible for managing the Spark application, i.e.&nbsp;asking for resources, distributing tasks to the workers, collecting and compiling the results, …. The worker nodes are responsible for executing the tasks that are assigned to them, and they need to send the results of these tasks back to the driver node.</p>
 <p>Every Spark application is distributed into two different and independent processes: 1) a driver process; 2) and a set of executor processes <span class="citation" data-cites="chambers2018">(<a href="references.html#ref-chambers2018" role="doc-biblioref">Chambers and Zaharia 2018</a>)</span>. These processes are coordinated by your driver program. This is the program that contains all the information about your Spark Session <span class="citation" data-cites="sparkdoc">(<a href="references.html#ref-sparkdoc" role="doc-biblioref"><em>Apache Spark Official Documentation</em> 2022</a>)</span>, and, is the program that drives your driver node.</p>
 <p>In the other hand, each one of your executor processes happen inside a worker node. Each executor process is composed of a set of tasks. The worker node will execute these tasks, and send the results back to the driver node (or the driver program).</p>
@@ -205,7 +269,12 @@ div.csl-indent {
 </section>
 <section id="the-spark-session" class="level2" data-number="3.3">
 <h2 data-number="3.3" class="anchored" data-anchor-id="the-spark-session"><span class="header-section-number">3.3</span> The Spark Session</h2>
-<p>Every Spark application starts with a Spark Session. Basically, the Spark Session is the entry point to your application. In <code>pyspark</code>, we always start a Spark</p>
+<p>Every Spark application starts with a Spark Session. Basically, the Spark Session is the entry point to your application. This means that, in every <code>pyspark</code> program that you write, you should always start by defining your Spark Session. We do this, by using the <code>getOrCreate()</code> method from <code>pyspark.sql.SparkSession.builder</code>.</p>
+<p>Just store the result of this method in any python object. Is very common to name this object as <code>spark</code>. This way, you can access all the information and methods of Spark from this <code>spark</code> object, like in the example below:</p>
+<div class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql <span class="im">import</span> SparkSession</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>spark <span class="op">=</span> SparkSession.builder.getOrCreate()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography" style="display: none">

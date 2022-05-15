@@ -309,18 +309,6 @@ div.csl-indent {
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> spark.createDataFrame(data)</span>
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>22/05/15 13:44:18 WARN Utils: Your hostname, pedro-IdeaPad-3-15ALC6 resolves to a loopback address: 127.0.1.1; using 192.168.0.33 instead (on interface wlp1s0)
-22/05/15 13:44:18 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Using Spark's default log4j profile: org/apache/spark/log4j-defaults.properties
-Setting default log level to "WARN".
-To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>22/05/15 13:44:19 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable</code></pre>
-</div>
 <div class="cell-output cell-output-display" data-execution_count="1">
 <pre><code>DataFrame[id: bigint, value: double, date: date]</code></pre>
 </div>
@@ -330,12 +318,6 @@ To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLeve
 <p>So how we can actually see our DataFrame? How we can visualize the rows and values that are stored inside of it? We can use the <code>show()</code> method for this. It will print the table as pure text, as you can see in the example below:</p>
 <div class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>df.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>[Stage 0:&gt;                                                          (0 + 1) / 1]</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>                                                                                </code></pre>
-</div>
 <div class="cell-output cell-output-stdout">
 <pre><code>+---+-----+----------+
 | id|value|      date|
@@ -370,12 +352,27 @@ To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLeve
 <pre><code>DataFrame[StudentID: bigint, Name: string, Age: bigint, Height: double, Score1: bigint, Score2: bigint, Score3: bigint, Score4: bigint, Course: string, Department: string]</code></pre>
 </div>
 </div>
-<p>Another way of creating Spark DataFrames, is to read (or import) a file and convert it to a DataFrame. Spark can read a variety of file formats, including CSV, Parquet, JSON, ORC and Binary files. Furthermore, Spark can connect to other databases and import tables from them, using JDBC connections.</p>
+<p>Another way of creating Spark DataFrames, is to read (or import) a file and convert it to a DataFrame. Spark can read a variety of file formats, including CSV, Parquet, JSON, ORC and Binary files. Furthermore, Spark can connect to other databases and import tables from them, using JDBC connections. We can access the read engines for these different file formats, by using the <code>read</code> module from your Spark Session object.</p>
+<p>For example, I have the following CSV file saved in my computer:</p>
+<pre class="{verbatim}"><code>name,age,job
+Jorge,30,Developer
+Bob,32,Developer</code></pre>
+<p>This CSV was saved in a file called <code>people.csv</code>, inside a folder called <code>Data</code>. So, to read this file, I give the path to this CSV file to the <code>read.csv()</code> method of my Spark Session, like in the example below:</p>
 <div class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>path <span class="op">=</span> <span class="st">"examples/src/main/resources/people.csv"</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> spark.read.csv(path)</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>df.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>path <span class="op">=</span> <span class="st">"Data/people.csv"</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> spark.read.csv(path)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>df.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>+-----+---+---------+
+|  _c0|_c1|      _c2|
++-----+---+---------+
+| name|age|      job|
+|Jorge| 30|Developer|
+|  Bob| 32|Developer|
++-----+---+---------+
+</code></pre>
+</div>
 </div>
 
 

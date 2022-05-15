@@ -228,7 +228,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </section>
 <section id="how-to-run-a-python-program" class="level2" data-number="4.2">
 <h2 data-number="4.2" class="anchored" data-anchor-id="how-to-run-a-python-program"><span class="header-section-number">4.2</span> How to run a python program</h2>
-<p>There are many ways to run a python program, but I will show you the more “standard” way. That is to use the <code>python</code> command inside the terminal of your OS (you need to have python already installed).</p>
+<p>As you learn how to use <code>pyspark</code> to write your Spark applications in python, at some point, you will want to actually execute this <code>pyspark</code> program, to see its result. To do so, you need to execute it as a python program. There are many ways to run a python program, but I will show you the more “standard” way. That is to use the <code>python</code> command inside the terminal of your OS (you need to have python already installed).</p>
 <p>As an example, lets create a simple “Hello world” program. First, open a new text file then save it somewhere in your machine (with the name <code>hello.py</code>). Remember to save the file with the <code>.py</code> extension. Then copy and paste the following command into this file:</p>
 <div class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Hello World!"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -240,10 +240,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 Terminal$ cd "C:\Users\pedro\Documents"
 # On Linux:
 Terminal$ cd "/usr/pedro/Documents"</code></pre>
-<p>After this <code>cd</code> command, you just run the <code>python hello.py</code> command in the terminal. As a result, the <code>hello.py</code> will be executed, and, the text <code>Hello World!</code> should be printed to the terminal.</p>
+<p>After this <code>cd</code> command, you just run the <code>python hello.py</code> command in the terminal. As a result, python will execute <code>hello.py</code>, and, the text <code>Hello World!</code> should be printed to the terminal.</p>
 <pre class="{verbatim}"><code>Terminal$ python hello.py
 Hello World!</code></pre>
-<p>There you have it! So every time you need to run your python program, just open a terminal and run the command <code>python &lt;path to your script&gt;</code>. If the terminal is rooted on the folder where you saved your script, you can just use the <code>python &lt;name of the file&gt;</code> command.</p>
+<p>There you have it! So every time you need to run your python program (or your <code>pyspark</code> program), just open a terminal and run the command <code>python &lt;path to your script&gt;</code>. If the terminal is rooted on the folder where you saved your script, you can just use the <code>python &lt;name of the file&gt;</code> command.</p>
 </section>
 <section id="objects" class="level2" data-number="4.3">
 <h2 data-number="4.3" class="anchored" data-anchor-id="objects"><span class="header-section-number">4.3</span> Objects</h2>
@@ -370,9 +370,9 @@ NameError: name 'x' is not defined</code></pre>
 </section>
 <section id="packages" class="level2" data-number="4.5">
 <h2 data-number="4.5" class="anchored" data-anchor-id="packages"><span class="header-section-number">4.5</span> Packages</h2>
-<p>A python package (or a python “library”) is basically a set of functions and classes that provides important functionality to solve a specific problem. And pyspark is one of these many python packages available.</p>
+<p>A python package (or a python “library”) is basically a set of functions and classes that provides important functionality to solve a specific problem. And <code>pyspark</code> is one of these many python packages available.</p>
 <p>Python packages are usually published (that is, made available to the public) through the PyPI archive<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>. If a python package is published in PyPI, then, you can easily install it through the <code>pip</code> tool, that we just used in <a href="01-intro.html#sec-install-software">Section&nbsp;<span>2.2</span></a>.</p>
-<p>To use a python package, you always need to: 1) have this package installed on your machine; 2) import this package in your python script. If a package is not installed in your machine, you will face a <code>ModuleNotFoundError</code> as you try to use it, like in the example below. So, if your program produce such an error, is very likely that this package is not currently installed on your machine. To install it, you may use the <code>pip install &lt;name of the package&gt;</code> command on the terminal.</p>
+<p>To use a python package, you always need to: 1) have this package installed on your machine; 2) import this package in your python script. If a package is not installed in your machine, you will face a <code>ModuleNotFoundError</code> as you try to use it, like in the example below. So, if your program produce such an error, is very likely that you are trying to use a package that is not currently installed on your machine. To install it, you may use the <code>pip install &lt;name of the package&gt;</code> command on the terminal of your OS.</p>
 <div class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> a_package</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -457,7 +457,7 @@ ModuleNotFoundError: No module named 'a_package'</code></pre>
 <pre><code>[5, 4, 3]</code></pre>
 </div>
 </div>
-<p>In contrast, a python method is a function registered inside a python class. In other words, this function belongs to the class itself, and cannot be used outside of it. To use a method, you need to have an instance of the class where it is registered.</p>
+<p>In contrast, a python method is a function registered inside a python class. In other words, this function <strong>belongs to the class itself</strong>, and cannot be used outside of it. To use a method, you need to have an instance of the class where it is registered.</p>
 <p>For example, the <code>startswith()</code> method belongs to the <code>str</code> class (this class is used to represent strings in python). So to use this method, we need to have an instance ot this class saved in a object that we can access. Note in the example below, that we access the <code>startswith()</code> method through the <code>name</code> object. This means that, <code>startswith()</code> is a function. But, we cannot use it without an object of class <code>str</code>, like <code>name</code>.</p>
 <div class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>name <span class="op">=</span> <span class="st">"Pedro"</span></span>
@@ -470,8 +470,15 @@ ModuleNotFoundError: No module named 'a_package'</code></pre>
 </section>
 <section id="identifying-classes-of-objects" class="level2" data-number="4.7">
 <h2 data-number="4.7" class="anchored" data-anchor-id="identifying-classes-of-objects"><span class="header-section-number">4.7</span> Identifying classes of objects</h2>
-<p>Over the next chapters, you will realize that the <code>pyspark</code> API does not have many standard python functions. So most of its functionality resides in class methods. As a result, the capability of understanding the objects that you have in your python program, and, identifying its classes will be crucial while you are developing you Spark applications.</p>
-<p>Every existing object in python represents an instance of a class. In other words, every object is associated to a given class. You can always identify the class of an object, by applying the <code>type()</code> function over this object.</p>
+<p>Over the next chapters, you will realize that the <code>pyspark</code> API does not have many standard python functions. So most of its functionality resides in class methods. As a result, the capability of understanding the objects that you have in your python program, and, identifying its classes will be crucial while you are developing and debugging your Spark applications.</p>
+<p>Every existing object in python represents an instance of a class. In other words, every object is associated to a given class. You can always identify the class of an object, by applying the <code>type()</code> function over this object. In the example below, we can see that, the <code>name</code> object is an instance of the <code>str</code> class.</p>
+<div class="cell" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>name <span class="op">=</span> <span class="st">"Pedro"</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(name)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="19">
+<pre><code>str</code></pre>
+</div>
+</div>
 
 
 </section>
