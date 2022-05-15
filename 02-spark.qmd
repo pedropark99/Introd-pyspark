@@ -28,15 +28,19 @@ In general, big companies have many different data necessities, and as a result,
 
 > Spark is designed to cover a wide range of workloads that previously required separate distributed systems ... By supporting these workloads in the same engine, Spark makes it easy and inexpensive to combine different processing types, which is often necessary in production data analysis pipelines. In addition, it reduces the management burden of maintaining separate tools [@karau2015].
 
-## Spark Application
+## Spark application
 
-Since Spark is a computing engine for big-data analytics, most of Spark Applications run on a cluster of machines. Because of this, a relevant part of Spark's structure is deeply connected to distributed computing models.
+Since Spark is a computing engine for big-data analytics, most of Spark applications run on a cluster of machines. Because of this, a relevant part of Spark's structure is deeply connected to distributed computing models. You probably do not have a cluster of machines at home. So, while following the examples in this book, you will be running Spark on a single machine (i.e. single node mode). But lets just forget about this detail for a moment.
 
-You probably do not have a cluster of machines at home. So, while following the examples in this book, you will be running Spark on a single machine (i.e. single node mode). But lets just forget about this detail for a moment.
+In every Spark application, you always have a single machine behaving as the driver node, and multiple machines behaving as the worker nodes. The driver node is responsible for managing the Spark application, i.e. asking for resources, distributing tasks to the workers, collecting and compiling the results, .... The worker nodes are responsible for executing the tasks that are assigned to them, and they need to send the results of these tasks back to the driver node.
 
-Every Spark application is distributed into two different and independent processes: 1) a driver process; 2) and a set of executor processes [@chambers2018]. These processes are coordinated by your driver program, which contains your which contains all the information about your Spark Session [@sparkdoc]. This structure is represented in @fig-spark-application:
+Every Spark application is distributed into two different and independent processes: 1) a driver process; 2) and a set of executor processes [@chambers2018]. These processes are coordinated by your driver program. This is the program that contains all the information about your Spark Session [@sparkdoc], and, is the program that drives your driver node. 
 
-![Spark Application Structure on a cluster of computers](Figures/spark-application.png){#fig-spark-application fig-align="center"}
+In the other hand, each one of your executor processes happen inside a worker node. Each executor process is composed of a set of tasks. The worker node will execute these tasks, and send the results back to the driver node (or the driver program).
+
+This structure is represented in @fig-spark-application:
+
+![Spark application structure on a cluster of computers](Figures/spark-application.png){#fig-spark-application fig-align="center"}
 
 The driver process, or, the driver program, is where your application starts, and it is executed by the driver node. This driver program is responsible for: 1) maintaining information about your Spark Application; 2) responding to a user's program or input; 3) and analyzing, distributing, and scheduling work across the executors [@chambers2018].
 
