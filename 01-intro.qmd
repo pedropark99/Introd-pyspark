@@ -15,6 +15,7 @@ Big part of the knowledge exposed here is extracted from a lot of practical expe
 
 ## Some conventions of this book
 
+### Python code and terminal commands
 
 This book is about `pyspark`, which is a python package. As a result, we will be exposing a lot of python code across the entire book. Examples of python code, are always shown inside a gray rectangle, like this example below.
 
@@ -26,7 +27,6 @@ y = 9 ** x
 
 print(y)
 ```
-
 
 Furthermore, all terminal commands that we expose in this book, will always be: pre-fixed by `Terminal$`; written in black; and, not outlined by a gray rectangle. In the example below, we can easily detect that this command `pip install jupyter` should be inserted in the terminal of the OS (whatever is the terminal that your OS uses), and not in the python interpreter, because this command is prefixed with `Terminal$`.
 
@@ -41,8 +41,60 @@ Terminal$ echo "Hello!"
 "Hello!"
 ```
 
-When I refer to some python object, function, method or package, I will use a monospaced font. In other words, if I have a python object called "name", and, I am describing this object, I will use `name` in the paragraph, and not "name".
+### Python objects, functions and methods
 
+When I refer to some python object, function, method or package, I will use a monospaced font. In other words, if I have a python object called "name", and, I am describing this object, I will use `name` in the paragraph, and not "name". The same logic applies to functions, methods and package names.
+
+
+### Be aware of differences between OS's!
+
+Spark is available for all three main operational systems (or OS's) used in the world (Windows, MacOs and Linux). I will use constantly the word OS as an abbreviation to "operational system". 
+
+The snippets of python code shown throughout this book should just run correctly no matter which one of the three OS's you are using. In other words, the python code snippets are made to be portable. So you can just copy and paste them to your computer, no matter which OS you are using. 
+
+But, at some points, I may need to show you some terminal commands that are OS specific, and are not easily portable. For example, Linux have a package manager, but Windows does not have one. This means that, if you are on Linux, you will need to use some terminal commands to install some necessary programs (like python). In contrast, if you are on Windows, you will generally download executable files (`.exe`) that make this installation for you.
+
+In cases like this, I will always point out the specific OS of each one of the commands, or, I will describe the necessary steps to be made on each one the OS's. Just be aware that these differences exists between the OS's.
+
+
+## Opening the terminal of your OS
+
+Every OS comes with a terminal (or command prompt), and you will find this tool very useful for a number of things. I will expose many terminal commands in this book, and these commands should be used inside these terminals that comes with your OS.
+
+The next sub-sections will show you how to open a terminal in each one of the OS's where Spark is available. Lets begin with Windows.
+
+### Opening a terminal on Windows
+
+There are some different approaches to do this, but, the one that I find the most useful, is to open a terminal from inside a Windows folder, using the default File Explorer program of Windows. When we use the terminal, we usually want to affect or use a file that is stored inside a folder in our computer, with a terminal command. 
+
+Because of that, when we open a terminal from inside a folder, the terminal opened is already rooted inside the folder where our file is stored. In other words, we already have easy access to the file that we want to affect/use in our command, and we do not have the work to change or adjust directories in this terminal.
+
+For example, lets suppose that we want to use a terminal command to use a file called `hello.py`, and, that this `hello.py` file is stored inside a folder called `HelloPython`. You can see in @fig-windows-hello-folder, that this folder is in path `C:\Users\pedro\Documents\HelloPython`. So, the first step, is to use the File Explorer of Windows, to open this folder, like in @fig-windows-hello-folder.
+
+![Opening the `HelloPython` folder in Windows](Figures/windows-hello-folder.png){#fig-windows-hello-folder fig-align="center"}
+
+
+After you opened this folder, substitute the path to the folder in the search box with the word "cmd", like in @fig-windows-hello-folder2, and them, press Enter in the keyboard.
+
+![Opening a terminal inside a Windows folder - Part 1](Figures/windows-hello-folder2.png){#fig-windows-hello-folder2 fig-align="center"}
+
+
+As a result, a new terminal will open. See in @fig-windows-terminal, that this new terminal is already looking to (or is already rooted on) this `HelloPython` folder. This way, we can easily access the files stored inside this folder, like the `hello.py` file.
+
+![Opening a terminal inside a Windows folder - Part 2](Figures/windows-terminal.png){#fig-windows-terminal fig-align="center"}
+
+
+### Opening a terminal on Linux
+
+Is fairly easy to open a terminal on a Linux distribution. Again, is very useful when you open the terminal from inside the folder you are interested in. Because you will have an easier access to all the files that are stored inside this folder.
+
+To do this in Linux, you use the built-in File Explorer to open the folder where you want to root your terminal. At the moment, I am using an Ubuntu distribution. I just opened the same `HelloPython` folder, with the same `hello.py` file, in the File Explorer of Linux. '
+
+![Opening the `HelloPython` folder in Linux](Figures/ubuntu-folder.png){#fig-ubuntu-folder fig-align="center"}
+
+After you opened the folder, just click with the right button of your mouse, and select the "Open in Terminal" option, and a new terminal should appear on your screen. See in @fig-ubuntu-folder-terminal, that the new terminal is already looking to the `HelloPython` folder, as we expected.
+
+![Opening the terminal in Linux](Figures/ubuntu-folder-terminal.png){#fig-ubuntu-folder-terminal fig-align="center"}
 
 ## First step: install the necessary software {#sec-install-software}
 
