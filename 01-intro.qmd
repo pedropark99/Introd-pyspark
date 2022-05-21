@@ -18,7 +18,7 @@ Big part of the knowledge exposed here is extracted from a lot of practical expe
 
 This book is about `pyspark`, which is a python package. As a result, we will be exposing a lot of python code across the entire book. Examples of python code, are always shown inside a gray rectangle, like this example below.
 
-Every visible result that this python code produce, will be shown outside of the gray rectangle, just below the command that produced that visible result. Besides that, every line of result will always be written in plain black. So in the example below, the value `729` is the only visible result of this python code, and, the statement `print(y)` is the command that triggered this result.
+Every visible result that this python code produce, will be shown outside of the gray rectangle, just below the command that produced that visible result. Besides that, every line of result will always be written in plain black. So in the example below, the value `729` is the only visible result of this python code, and, the statement `print(y)` is the command that triggered this visible result.
 
 ```{python}
 x = 3

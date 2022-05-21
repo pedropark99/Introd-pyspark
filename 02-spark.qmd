@@ -40,7 +40,7 @@ Every Spark application is distributed into two different and independent proces
 
 Every time a Spark application starts, the driver process has to communicate with the cluster manager, to acquire workers to perform the necessary tasks. In other words, the cluster manager decides if Spark can use some of the resources (i.e. some of the machines) of the cluster. If the cluster manager allow Spark to use the nodes it needs, the driver program will break the application into many small tasks, and will assign these tasks to the worker nodes.
 
-The executor processes, are the processes that happens inside of each one of the worker nodes. Each executor process is composed of a set of tasks, and the worker node is responsible for performing and executing these tasks that were assigned to him, by the driver program. After executing these tasks, the worker node will send the results back to the driver node (or the driver program). If they need, the worker nodes can communicate with each other, while performing its tasks.
+The executor processes, are the processes that take place within each one of the worker nodes. Each executor process is composed of a set of tasks, and the worker node is responsible for performing and executing these tasks that were assigned to him, by the driver program. After executing these tasks, the worker node will send the results back to the driver node (or the driver program). If they need, the worker nodes can communicate with each other, while performing its tasks.
 
 This structure is represented in @fig-spark-application:
 
@@ -49,9 +49,9 @@ This structure is represented in @fig-spark-application:
 
 When you run Spark on a cluster of computers, you write the code of your Spark application (i.e. your `pyspark` code) on your (single) local computer, and them, submit this code to the driver node. After that, the driver node takes care of the rest, by starting your application, creating your Spark Session, asking for new worker nodes, sending the tasks to be performed, collecting and compiling the results and giving back these results to you.
 
-When you run Spark on your (single) local computer, the process is very similar. But, instead of submitting your code to another computer (which is the driver node), you will submit to your own local computer. In other words, when Spark is running on single-node mode, your computer becomes the driver and the worker node at the same time.
+However, when you run Spark on your (single) local computer, the process is very similar. But, instead of submitting your code to another computer (which is the driver node), you will submit to your own local computer. In other words, when Spark is running on single-node mode, your computer becomes the driver and the worker node at the same time.
 
-## The Spark Session
+## Starting your Spark Session
 
 Every Spark application starts with a Spark Session. Basically, the Spark Session is the entry point to your application. This means that, in every `pyspark` program that you write, you should always start by defining your Spark Session. We do this, by using the `getOrCreate()` method from `pyspark.sql.SparkSession.builder`. 
 

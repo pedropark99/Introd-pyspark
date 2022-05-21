@@ -18,7 +18,7 @@ There are many IDEs or programs that help you to write, manage and organize this
 
 ## How to run a python program
 
-As you learn how to use `pyspark` to write your Spark applications in python, at some point, you will want to actually execute this `pyspark` program, to see its result. To do so, you need to execute it as a python program. There are many ways to run a python program, but I will show you the more "standard" way. That is to use the `python` command inside the terminal of your OS (you need to have python already installed).
+As you learn to write your Spark applications with `pyspark`, at some point, you will want to actually execute this `pyspark` program, to see its result. To do so, you need to execute it as a python program. There are many ways to run a python program, but I will show you the more "standard" way. That is to use the `python` command inside the terminal of your OS (you need to have python already installed).
 
 As an example, lets create a simple "Hello world" program. First, open a new text file then save it somewhere in your machine (with the name `hello.py`). Remember to save the file with the `.py` extension. Then copy and paste the following command into this file:
 
@@ -29,7 +29,7 @@ print("Hello World!")
 
 It will be much easier to run this script, if you open the terminal inside the folder where you save the `hello.py` file. On Linux, with the built-in File Explorer, you can click (with the right button of you mouse) inside the folder, and you will have an option to open the terminal. If you are on windows, you can open the folder on the File Explorer, then, overwrite the path to this folder with "cmd" and press Enter.
 
-But, if for some reason you could not open the terminal inside the folder, just open a terminal (in any way you can), then, use the `cd` command (stands for "change directory") with the path to the folder where you saved `hello.py`. This way, your terminal will be rooted on this folder.
+But, if for some reason you could not open the terminal inside the folder, just open a terminal (in any way you can), then, use the `cd` command (stands for "change directory") with the path to the folder where you saved `hello.py`. This way, your terminal will be rooted in this folder.
 
 For example, if I saved `hello.py` inside my Documents folder, the path to this folder in Windows would be something like this: `"C:\Users\pedro\Documents"`. On the other hand, this path on Linux would be something like `"/usr/pedro/Documents"`. So the command to change to this directory would be:
 
@@ -120,7 +120,7 @@ Python programs are organized in blocks of expressions (or statements). A python
 3 + 5
 ```
 
-The expression above is composed of numbers (like 3 and 5) and a operator, more specifically, the sum symbol (`+`). But any python expression can include a multitude of different items. It can be composed of functions (like `print()`, `map()` and `str()`), constant strings (like `"Hello World!"`), logical operators (like `!=`, `<`, `>` and `==`), arithmetic operators (like `*`, `/`, `**`, `%`, `-` and `+`), structures (like lists, arrays and dicts) and many other types of commands.
+The expression above is composed of numbers (like 3 and 5) and a operator, more specifically, the sum operator (`+`). But any python expression can include a multitude of different items. It can be composed of functions (like `print()`, `map()` and `str()`), constant strings (like `"Hello World!"`), logical operators (like `!=`, `<`, `>` and `==`), arithmetic operators (like `*`, `/`, `**`, `%`, `-` and `+`), structures (like lists, arrays and dicts) and many other types of commands.
 
 Below we have a more complex example, that contains the `def` keyword (which starts a function definition; in the example below, this new function being defined is `double()`), many built-in functions (`list()`, `map()` and `print()`), a arithmetic operator (`*`), numbers and a list (initiated by the pair of brackets - `[]`).
 
@@ -195,7 +195,7 @@ Traceback (most recent call last):
 ModuleNotFoundError: No module named 'a_package'
 ```
 
-But, if this package is already installed in your machine, then, you can just import it to your session. To do this, you just include an `import` statement at the start of your python file. For example, if I want to use the `DataFrame` function from the `pandas` package:
+But, if this package is already installed in your machine, then, you can just import it to your script. To do this, you just include an `import` statement at the start of your python file. For example, if I want to use the `DataFrame` function from the `pandas` package:
 
 ```{python}
 import pandas
@@ -271,7 +271,24 @@ name = "Pedro"
 name.startswith("P")
 ```
 
-So, if we have a class called `people`, and, a method called `location()`, we can use the `location()` method by using the dot operator (`.`) with the name of an object of class `people`. If an object called `x` is an instance of `people` class, then, we can do `x.location()`.
+So, if we have a class called `people`, and, a method called `location()`, we can use the `location()` method by using the dot operator (`.`) with the name of an object of class `people`. If an object called `x` is an instance of `people` class, then, we can do `x.location()`. 
+
+But if the object `x` is an object of a different class, like `int`, then we can no longer use the `location()` method, because this method does not belong to `int` class. For example, if your object is from class `A`, and, you try to use a method from class `B`, you will get an `AttributeError`, like exposed below:
+
+```{python}
+#| eval: false
+x = 2
+# You can see below that, the `x` object have class `int`
+type(x)
+# Trying to use a method from `str` class
+x.startswith("P")
+```
+
+```{verbatim}
+AttributeError: 'int' object has no attribute 'startswith'
+```
+
+
 
 
 ## Identifying classes of objects
