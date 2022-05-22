@@ -6,7 +6,7 @@ If you have experience with python, and understands how objects and classes work
 
 Python programs are written in plain text files that are saved with the `.py` extension. After you save these files, they are usually called "scripts". So a script is just a text file that contains all the commands that make your python program.
 
-There are many IDEs or programs that help you to write, manage and organize this kind of files (like Microsoft Visual Studio Code[^python-1], PyCharm[^python-2], Anaconda[^python-3] and RStudio[^python-4]). But, if you do not have any of them installed, you can just create a new plain text file from the built-in Notepad program of your OS (operational system), and, save it with the `.py` extension.
+There are many IDEs or programs that help you to write, manage, run and organize this kind of files (like Microsoft Visual Studio Code[^python-1], PyCharm[^python-2], Anaconda[^python-3] and RStudio[^python-4]). But, if you do not have any of them installed, you can just create a new plain text file from the built-in Notepad program of your OS (operational system), and, save it with the `.py` extension.
 
 [^python-1]: https://code.visualstudio.com/
 
@@ -27,7 +27,15 @@ As an example, lets create a simple "Hello world" program. First, open a new tex
 print("Hello World!")
 ```
 
-It will be much easier to run this script, if you open the terminal inside the folder where you save the `hello.py` file. On Linux, with the built-in File Explorer, you can click (with the right button of you mouse) inside the folder, and you will have an option to open the terminal. If you are on windows, you can open the folder on the File Explorer, then, overwrite the path to this folder with "cmd" and press Enter.
+It will be much easier to run this script, if you open the terminal inside the folder where you save the `hello.py` file. If you do not know how to do this, look at section @sec-open-terminal. After you opened the terminal inside the folder, just run the `python hello.py` command. As a result, python will execute `hello.py`, and, the text `Hello World!` should be printed to the terminal:
+
+```{terminal}
+Terminal$ python hello.py
+```
+
+```
+Hello World!
+```
 
 But, if for some reason you could not open the terminal inside the folder, just open a terminal (in any way you can), then, use the `cd` command (stands for "change directory") with the path to the folder where you saved `hello.py`. This way, your terminal will be rooted in this folder.
 
@@ -40,14 +48,10 @@ Terminal$ cd "C:\Users\pedro\Documents"
 Terminal$ cd "/usr/pedro/Documents"
 ```
 
-After this `cd` command, you just run the `python hello.py` command in the terminal. As a result, python will execute `hello.py`, and, the text `Hello World!` should be printed to the terminal.
+After this `cd` command, you can run the `python hello.py` command in the terminal, and get the exact same result of the previous example.
 
-```{verbatim}
-Terminal$ python hello.py
-Hello World!
-```
+There you have it! So every time you need to run your python program (or your `pyspark` program), just open a terminal and run the command `python <complete path to your script>`. If the terminal is rooted on the folder where you saved your script, you can just use the `python <name of the script>` command.
 
-There you have it! So every time you need to run your python program (or your `pyspark` program), just open a terminal and run the command `python <path to your script>`. If the terminal is rooted on the folder where you saved your script, you can just use the `python <name of the file>` command.
 
 ## Objects
 
