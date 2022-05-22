@@ -53,7 +53,7 @@ df = spark.createDataFrame(data)
 df
 ```
 
-In the above example, we use the `Row()` constructor (from `pyspark.sql` module) to build 4 rows. The `createDataFrame()` method, stack these 4 rows together to form our new DataFrame `df`. The result is a DataFrame with 4 rows and 3 columns.
+In the above example, we use the `Row()` constructor (from `pyspark.sql` module) to build 4 rows. The `createDataFrame()` method, stack these 4 rows together to form our new DataFrame `df`. The result is a DataFrame with 4 rows and 3 columns (`id`, `value` and `date`).
 
 A key aspect of Spark is its laziness. In other words, for most operations, Spark will only check if your code is correct and if it makes sense. Spark will not actually run or execute the operations you are describing in your code, unless you explicit ask for it with a trigger operation. You can see this laziness in the above output. When we call for an object that stores a Spark DataFrame (like the `df` object), Spark will only calculate and print the schema of your Spark DataFrame, and not the DataFrame itself.
 

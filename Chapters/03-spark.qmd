@@ -53,7 +53,7 @@ However, when you run Spark on your (single) local computer, the process is very
 
 ## Starting your Spark Session
 
-Every Spark application starts with a Spark Session. Basically, the Spark Session is the entry point to your application. This means that, in every `pyspark` program that you write, you should always start by defining your Spark Session. We do this, by using the `getOrCreate()` method from `pyspark.sql.SparkSession.builder`. 
+Every Spark application starts with a Spark Session. Basically, the Spark Session is the entry point to your application. This means that, in every `pyspark` program that you write, **you should always start by defining your Spark Session**. We do this, by using the `getOrCreate()` method from `pyspark.sql.SparkSession.builder`. 
 
 Just store the result of this method in any python object. Is very common to name this object as `spark`, like in the example below. This way, you can access all the information and methods of Spark from this `spark` object.
 
@@ -63,4 +63,4 @@ spark = SparkSession.builder.getOrCreate()
 ```
 
 
-
+## Running your first Spark application
