@@ -195,7 +195,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <li><a href="#expressions" id="toc-expressions" class="nav-link" data-scroll-target="#expressions"> <span class="header-section-number">4.4</span> Expressions</a></li>
   <li><a href="#packages" id="toc-packages" class="nav-link" data-scroll-target="#packages"> <span class="header-section-number">4.5</span> Packages</a></li>
   <li><a href="#methods-versus-functions" id="toc-methods-versus-functions" class="nav-link" data-scroll-target="#methods-versus-functions"> <span class="header-section-number">4.6</span> Methods versus Functions</a></li>
-  <li><a href="#identifying-classes-of-objects" id="toc-identifying-classes-of-objects" class="nav-link" data-scroll-target="#identifying-classes-of-objects"> <span class="header-section-number">4.7</span> Identifying classes of objects</a></li>
+  <li><a href="#identifying-classes-and-the-methods-of-it" id="toc-identifying-classes-and-the-methods-of-it" class="nav-link" data-scroll-target="#identifying-classes-and-the-methods-of-it"> <span class="header-section-number">4.7</span> Identifying classes and the methods of it</a></li>
   </ul>
 </nav>
     </div>
@@ -466,26 +466,111 @@ ModuleNotFoundError: No module named 'a_package'</code></pre>
 <pre><code>True</code></pre>
 </div>
 </div>
-<p>So, if we have a class called <code>people</code>, and, a method called <code>location()</code>, we can use the <code>location()</code> method by using the dot operator (<code>.</code>) with the name of an object of class <code>people</code>. If an object called <code>x</code> is an instance of <code>people</code> class, then, we can do <code>x.location()</code>.</p>
-<p>But if the object <code>x</code> is an object of a different class, like <code>int</code>, then we can no longer use the <code>location()</code> method, because this method does not belong to <code>int</code> class. For example, if your object is from class <code>A</code>, and, you try to use a method from class <code>B</code>, you will get an <code>AttributeError</code>, like exposed below:</p>
+<p>So, if we have a class called <code>people</code>, and, this class has a method called <code>location()</code>, we can use this <code>location()</code> method by using the dot operator (<code>.</code>) with the name of an object of class <code>people</code>. If an object called <code>x</code> is an instance of <code>people</code> class, then, we can do <code>x.location()</code>.</p>
+<p>But if this object <code>x</code> is of a different class, like <code>int</code>, then we can no longer use the <code>location()</code> method, because this method does not belong to the <code>int</code> class. For example, if your object is from class <code>A</code>, and, you try to use a method of class <code>B</code>, you will get an <code>AttributeError</code>.</p>
+<p>In the example exposed below, I have an object called <code>number</code> of class <code>int</code>, and, I try to use the method <code>startswith()</code> from <code>str</code> class with this object:</p>
 <div class="cell" data-execution_count="22">
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="dv">2</span></span>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>number <span class="op">=</span> <span class="dv">2</span></span>
 <span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="co"># You can see below that, the `x` object have class `int`</span></span>
-<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(x)</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(number)</span>
 <span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Trying to use a method from `str` class</span></span>
-<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>x.startswith(<span class="st">"P"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>number.startswith(<span class="st">"P"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <pre class="{verbatim}"><code>AttributeError: 'int' object has no attribute 'startswith'</code></pre>
 </section>
-<section id="identifying-classes-of-objects" class="level2" data-number="4.7">
-<h2 data-number="4.7" class="anchored" data-anchor-id="identifying-classes-of-objects"><span class="header-section-number">4.7</span> Identifying classes of objects</h2>
-<p>Over the next chapters, you will realize that the <code>pyspark</code> API does not have many standard python functions. So most of its functionality resides in class methods. As a result, the capability of understanding the objects that you have in your python program, and, identifying its classes will be crucial while you are developing and debugging your Spark applications.</p>
+<section id="identifying-classes-and-the-methods-of-it" class="level2" data-number="4.7">
+<h2 data-number="4.7" class="anchored" data-anchor-id="identifying-classes-and-the-methods-of-it"><span class="header-section-number">4.7</span> Identifying classes and the methods of it</h2>
+<p>Over the next chapters, you will realize that the <code>pyspark</code> API does not have many standard python functions. So most of its functionality resides in class methods. As a result, the capability of understanding the objects that you have in your python program, and, identifying its classes and methods will be crucial while you are developing and debugging your Spark applications.</p>
 <p>Every existing object in python represents an instance of a class. In other words, every object is associated to a given class. You can always identify the class of an object, by applying the <code>type()</code> function over this object. In the example below, we can see that, the <code>name</code> object is an instance of the <code>str</code> class.</p>
 <div class="cell" data-execution_count="23">
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>name <span class="op">=</span> <span class="st">"Pedro"</span></span>
 <span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(name)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="19">
 <pre><code>str</code></pre>
+</div>
+</div>
+<p>If you do not know all the methods that a class have, you can always apply the <code>dir()</code> function over this class to get a list of all available methods. For example, lets suppose you wanted to see all methods from the <code>str</code> class. To do so, you would do this:</p>
+<div class="cell" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="bu">dir</span>(<span class="bu">str</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="20">
+<pre><code>['__add__',
+ '__class__',
+ '__contains__',
+ '__delattr__',
+ '__dir__',
+ '__doc__',
+ '__eq__',
+ '__format__',
+ '__ge__',
+ '__getattribute__',
+ '__getitem__',
+ '__getnewargs__',
+ '__gt__',
+ '__hash__',
+ '__init__',
+ '__init_subclass__',
+ '__iter__',
+ '__le__',
+ '__len__',
+ '__lt__',
+ '__mod__',
+ '__mul__',
+ '__ne__',
+ '__new__',
+ '__reduce__',
+ '__reduce_ex__',
+ '__repr__',
+ '__rmod__',
+ '__rmul__',
+ '__setattr__',
+ '__sizeof__',
+ '__str__',
+ '__subclasshook__',
+ 'capitalize',
+ 'casefold',
+ 'center',
+ 'count',
+ 'encode',
+ 'endswith',
+ 'expandtabs',
+ 'find',
+ 'format',
+ 'format_map',
+ 'index',
+ 'isalnum',
+ 'isalpha',
+ 'isascii',
+ 'isdecimal',
+ 'isdigit',
+ 'isidentifier',
+ 'islower',
+ 'isnumeric',
+ 'isprintable',
+ 'isspace',
+ 'istitle',
+ 'isupper',
+ 'join',
+ 'ljust',
+ 'lower',
+ 'lstrip',
+ 'maketrans',
+ 'partition',
+ 'replace',
+ 'rfind',
+ 'rindex',
+ 'rjust',
+ 'rpartition',
+ 'rsplit',
+ 'rstrip',
+ 'split',
+ 'splitlines',
+ 'startswith',
+ 'strip',
+ 'swapcase',
+ 'title',
+ 'translate',
+ 'upper',
+ 'zfill']</code></pre>
 </div>
 </div>
 
