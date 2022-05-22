@@ -1,5 +1,5 @@
 ---
-bibliography: references.bib
+bibliography: ../references.bib
 ---
 
 # Spark DataFrames
@@ -100,7 +100,7 @@ Bob,32,Developer
 This CSV was saved in a file called `people.csv`, inside a folder called `Data`. So, to read this file, I give the path to this CSV file to the `read.csv()` method of my Spark Session, like in the example below:
 
 ```{python}
-path = "Data/people.csv"
+path = "../Data/people.csv"
 
 df = spark.read.csv(path)
 df.show()

@@ -9,11 +9,11 @@ book:
   date: "2022-04-24"
   chapters:
     - index.qmd
-    - 01-intro.qmd
-    - 02-spark.qmd
-    - 03-python.qmd
-    - 04-dataframes.qmd
-    - references.qmd
+    - Chapters/01-intro.qmd
+    - Chapters/02-spark.qmd
+    - Chapters/03-python.qmd
+    - Chapters/04-dataframes.qmd
+    - Chapters/references.qmd
 
 bibliography: references.bib
 number-sections: true

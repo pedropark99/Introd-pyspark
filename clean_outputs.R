@@ -5,7 +5,7 @@ library(fs)
 
 # "cell-output cell-output-stderr"
 
-htmls <- fs::dir_ls("_book", glob = "*.html")
+htmls <- fs::dir_ls(c("_book", "_book/Chapters"), glob = "*.html")
 
 htmls <- map(htmls, read_file) |> 
   map(str_split, "\n") |> 
@@ -37,13 +37,6 @@ remove_spark_warnings <- function(text){
   ends <- find_ends(text, starts)
   diffs <- ends - starts
   lines_to_remove <- sequence.default(diffs + 1, from = starts)
-  # pattern <- "Using Spark's default log4j profile|[0-9]{2}/[0-9]{2}/[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2} WARN"
-  # for(i in seq_along(starts)){
-  #   start <- starts[i]
-  #   end <- ends[i]
-  #   remove <- any(str_detect(html_text[start:end], pattern))
-  #   if(remove) html_text[start:end] <- "\n"
-  # }
   lines_to_keep <- !(lines_to_keep %in% lines_to_remove)
   return(html_text[lines_to_keep])
 }
