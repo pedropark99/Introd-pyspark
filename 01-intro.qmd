@@ -57,7 +57,7 @@ But, at some points, I may need to show you some terminal commands that are OS s
 In cases like this, I will always point out the specific OS of each one of the commands, or, I will describe the necessary steps to be made on each one the OS's. Just be aware that these differences exists between the OS's.
 
 
-## Opening the terminal of your OS
+## Opening the terminal of your OS {#sec-open-terminal}
 
 Every OS comes with a terminal (or command prompt), and you will find this tool very useful for a number of things. I will expose many terminal commands in this book, and these commands should be used inside these terminals that comes with your OS.
 
@@ -88,7 +88,7 @@ As a result, a new terminal will open. See in @fig-windows-terminal, that this n
 
 Is fairly easy to open a terminal on a Linux distribution. Again, is very useful when you open the terminal from inside the folder you are interested in. Because you will have an easier access to all the files that are stored inside this folder.
 
-To do this in Linux, you use the built-in File Explorer to open the folder where you want to root your terminal. At the moment, I am using an Ubuntu distribution. I just opened the same `HelloPython` folder, with the same `hello.py` file, in the File Explorer of Linux. '
+To do this in Linux, you use the built-in File Explorer to open the folder where you want to root your terminal. At the moment, I am using an Ubuntu distribution. I just opened the same `HelloPython` folder, with the same `hello.py` file, in the File Explorer of Linux. As shown in @fig-ubuntu-folder:
 
 ![Opening the `HelloPython` folder in Linux](Figures/ubuntu-folder.png){#fig-ubuntu-folder fig-align="center"}
 
@@ -96,26 +96,41 @@ After you opened the folder, just click with the right button of your mouse, and
 
 ![Opening the terminal in Linux](Figures/ubuntu-folder-terminal.png){#fig-ubuntu-folder-terminal fig-align="center"}
 
+### Opening a terminal in MacOs
+
+Unfortunately, I do not have a Mac machine in my possession, so I cannot easily show you how to open a terminal in MacOs. But there a lot of articles available in the internet discussing how to open a terminal in MacOs. For example, there is a article from the support of Apple^[https://support.apple.com/en-ie/guide/terminal/apd5265185d-f365-44cb-8b09-71a064a42125/mac], or this other article from iDownloadBlog^[https://www.idownloadblog.com/2019/04/19/ways-open-terminal-mac/].
+
+
 ## First step: install the necessary software {#sec-install-software}
 
-Before we start, is really important that you have all the software you need already installed on your machine and ready to go. `Spark` and, as a result, `pyspark`, are both available for Windows and UNIX-like systems (e.g. Linux and MacOs). 
+Before we start, is really important that you have all the software you need already installed on your machine and ready to go. `Spark` and, as a result, `pyspark`, are both available for Windows and UNIX-like systems (e.g. Linux and MacOs). To use `pyspark` you need to install: 1) `Spark`; 2) Python; 3) and the python package called `pyspark`. 
 
-Install and manage `spark` in Windows is a little harder than in a UNIX-like machine. But it's perfectly ok if do not have a UNIX machine. A Windows machine will do it just fine. Just for referencing, the examples showed throughout this book were executed in a Linux machine (more specifically, in Ubuntu).
+Install and manage `Spark` in Windows is a little harder than in a UNIX-like machine. But it's perfectly ok if you do not have a UNIX machine. A Windows machine will do it just fine. Just for referencing, the examples showed throughout this book were executed in a Linux machine (more specifically, in Ubuntu).
 
-So, to use `pyspark` you need to install: 1) a `Spark` distribution; 2) and, the python package called `pyspark`. Installing the `pyspark` python package is pretty straightforward. Just open a terminal, and use the `pip` command to do it:
+### Install python
+
+To install python on Windows, you can download the executable files at the official Python website^[https://www.python.org/downloads/]. But, if you are on Linux, you can install python with the package manager, by opening a terminal and running the following command:
+
+```{terminal}
+sudo apt-get install python3
+```
 
 
-```{verbatim}
+### Install `pyspark`
+
+Installing the `pyspark` python package is pretty straightforward. Just open a terminal (if you need help to open the terminal check @sec-open-terminal), and use the `pip` command to do it:
+
+```{terminal}
 Terminal$ pip install pyspark
 ```
 
-If you are in Windows, this would mean: open the `cmd.exe` (or "Command Prompt") terminal, and, run the above command. But, if a message like `pip: command not found` appears, this means that you do not have the `pip` tool installed on your Windows. Hence, if you face this kind of message, you need to install `pip` before you even install `pyspark`.
+If you try to run the above command (inside a terminal of any OS), and a message like `pip: command not found` appears, this means that you do not have the `pip` tool installed on your machine. Hence, if you face this kind of message, you need to install `pip` before you even install `pyspark`.
 
-In contrast, if you are running on a Linux or MacOs machine, you need to open a `bash` terminal (most distros of Linux can open a terminal by pressing the `Ctrl+Alt+T` shortcut on the keyboard), and, run the exact same command above. Again, if a message like `pip: command not found` appears, it means that `pip` is not installed on your system. 
+The `pip` tool is automatically installed with Python on Windows. So, if you face this message (`pip: command not found`), then, is very likely that you do not have Python correctly installed on your machine. Or maybe, Python is not installed at all in any shape or size in your system. So, you should comeback to previous section, and re install it.
 
-In UNIX-like systems, installing `pip` is even easier, because you can use the built-in package manager to do this for you. In Debian like distros (e.g. Ubuntu), you use the `apt` tool, and, in Arch-Linux like distros (e.g. Arch Linux, Manjaro) you would use the `pacman` tool. Both possibilities are exposed below:
+In UNIX-like systems, installing `pip` is very easy, because you can use the built-in package manager to do this for you. In Debian like distros (e.g. Ubuntu), you use the `apt` tool, and, in Arch-Linux like distros (e.g. Arch Linux, Manjaro) you would use the `pacman` tool. Both possibilities are exposed below:
 
-```{verbatim}
+```{terminal}
 # If you are in a Debian like distro of Linux
 # and need to install `pip`, use this command:
 Terminal$ apt install python3-pip
@@ -126,12 +141,15 @@ Terminal$ pacman -S python-pip
 
 But, if you are running in MacOs, is best to use the `get-pip.py` method to do install `pip`^[See the following discussion: https://stackoverflow.com/questions/17271319/how-do-i-install-pip-on-macos-or-os-x]. To use this method, try to run the command below on the terminal. After you installed pip, run the same `pip` command we showed earlier to install `pyspark`.
 
-```{verbatim}
+```{terminal}
 # To install `pip` on a MacOs:
 Terminal$ curl https://bootstrap.pypa.io/get-pip.py | python3
 ```
 
+After you correctly installed `pip`, try to execute the first command again, to install the `pyspark` package on your machine.
 
+
+### Install `Spark`
 
 
 
