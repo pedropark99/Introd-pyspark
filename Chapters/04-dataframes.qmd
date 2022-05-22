@@ -29,7 +29,7 @@ But, what makes a Spark DataFrame different from other dataframes? Like the `pan
 
 If you are running Spark in a 4 nodes cluster (one is the driver node, and the other three are worker nodes). Each worker node of the cluster will store a section of this data. So you, as the programmer, will see, manage and transform this table as if it was a single and unified table. But behind the hoods, Spark will split this data and store it as many fragments across the Spark cluster. @fig-distributed-df presents this notion in a visual manner.
 
-![A Spark DataFrame is distributed across the cluster](Figures/distributed-df.png){#fig-distributed-df fig-align="center"}
+![A Spark DataFrame is distributed across the cluster](../Figures/distributed-df.png){#fig-distributed-df fig-align="center"}
 
 
 ## Building a Spark DataFrame

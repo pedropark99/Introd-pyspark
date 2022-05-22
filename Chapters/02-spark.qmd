@@ -44,7 +44,7 @@ The executor processes, are the processes that take place within each one of the
 
 This structure is represented in @fig-spark-application:
 
-![Spark application structure on a cluster of computers](Figures/spark-application.png){#fig-spark-application fig-align="center"}
+![Spark application structure on a cluster of computers](../Figures/spark-application.png){#fig-spark-application fig-align="center"}
 
 
 When you run Spark on a cluster of computers, you write the code of your Spark application (i.e. your `pyspark` code) on your (single) local computer, and them, submit this code to the driver node. After that, the driver node takes care of the rest, by starting your application, creating your Spark Session, asking for new worker nodes, sending the tasks to be performed, collecting and compiling the results and giving back these results to you.
