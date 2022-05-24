@@ -47,7 +47,7 @@ This structure is represented in @fig-spark-application:
 ![Spark application structure on a cluster of computers](../Figures/spark-application.png){#fig-spark-application fig-align="center"}
 
 
-When you run Spark on a cluster of computers, you write the code of your Spark application (i.e. your `pyspark` code) on your (single) local computer, and them, submit this code to the driver node. After that, the driver node takes care of the rest, by starting your application, creating your Spark Session, asking for new worker nodes, sending the tasks to be performed, collecting and compiling the results and giving back these results to you.
+When you run Spark on a cluster of computers, you write the code of your Spark application (i.e. your `pyspark` code) on your (single) local computer, and then, submit this code to the driver node. After that, the driver node takes care of the rest, by starting your application, creating your Spark Session, asking for new worker nodes, sending the tasks to be performed, collecting and compiling the results and giving back these results to you.
 
 However, when you run Spark on your (single) local computer, the process is very similar. But, instead of submitting your code to another computer (which is the driver node), you will submit to your own local computer. In other words, when Spark is running on single-node mode, your computer becomes the driver and the worker node at the same time.
 
@@ -64,3 +64,40 @@ spark = SparkSession.builder.getOrCreate()
 
 
 ## Running your first Spark application
+
+To demonstrate what I `pyspark` program looks like, lets write and run a very simple example of Spark application. This Spark application will build a simple table of 1 column that contains 5 numbers, and then, it will return a list with the first two rows of this table as the result.
+
+First, create a new blank text file in your computer, and save it somewhere with the name `spark-example.py`. Do not forget to put the `.py` extension in the name. This program we are writing together is a python program, and should be treated as such. With the `.py` extension in the name file, you are stating this fact quite clearly to your computer.
+
+After you created and saved the python script (i.e. the text file with the `.py` extension), you can start writing your `pyspark` program. As we noted in the previous section, you should always start your `pyspark` program by defining your Spark Session, with this code:
+
+```{python}
+#| eval: false
+from pyspark.sql import SparkSession
+spark = SparkSession.builder.getOrCreate()
+```
+
+After you defined your Spark Session, and saved it in an object called `spark`, you can now access all Spark's functionality through this `spark` object. To create the table we use the `range()` method, and to return the first two rows of the resulting table, we use the `take()` method:
+
+```{python}
+#| eval: false
+table = spark.range(5)
+table.take(2)
+```
+
+So, the entire program is just these two parts (or sections) of code. Just copy and paste this code to your python script, then save it.
+
+```{python}
+#| eval: false
+# The entire program:
+from pyspark.sql import SparkSession
+spark = SparkSession.builder.getOrCreate()
+
+table = spark.range(5)
+table.take(2)
+```
+
+Now that you have written your first Spark application with `pyspark`, you want to execute this application and see its results. To do so, you need send this script to the python interpreter, and to do this you need to: 1) copy the path to your python script; and, 2) open a terminal.
+
+
+
