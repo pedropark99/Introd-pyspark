@@ -264,7 +264,7 @@ div.csl-indent {
 <p></p><figcaption aria-hidden="true" class="figure-caption">Figure 4.1: Spark application structure on a cluster of computers</figcaption><p></p>
 </figure>
 </div>
-<p>When you run Spark on a cluster of computers, you write the code of your Spark application (i.e.&nbsp;your <code>pyspark</code> code) on your (single) local computer, and them, submit this code to the driver node. After that, the driver node takes care of the rest, by starting your application, creating your Spark Session, asking for new worker nodes, sending the tasks to be performed, collecting and compiling the results and giving back these results to you.</p>
+<p>When you run Spark on a cluster of computers, you write the code of your Spark application (i.e.&nbsp;your <code>pyspark</code> code) on your (single) local computer, and then, submit this code to the driver node. After that, the driver node takes care of the rest, by starting your application, creating your Spark Session, asking for new worker nodes, sending the tasks to be performed, collecting and compiling the results and giving back these results to you.</p>
 <p>However, when you run Spark on your (single) local computer, the process is very similar. But, instead of submitting your code to another computer (which is the driver node), you will submit to your own local computer. In other words, when Spark is running on single-node mode, your computer becomes the driver and the worker node at the same time.</p>
 </section>
 <section id="starting-your-spark-session" class="level2" data-number="4.3">
@@ -274,22 +274,32 @@ div.csl-indent {
 <div class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql <span class="im">import</span> SparkSession</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>spark <span class="op">=</span> SparkSession.builder.getOrCreate()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>22/05/23 20:48:04 WARN Utils: Your hostname, pedro-IdeaPad-3-15ALC6 resolves to a loopback address: 127.0.1.1; using 192.168.0.33 instead (on interface wlp1s0)
-22/05/23 20:48:04 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Using Spark's default log4j profile: org/apache/spark/log4j-defaults.properties
-Setting default log level to "WARN".
-To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>22/05/23 20:48:05 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable</code></pre>
-</div>
 </div>
 </section>
 <section id="running-your-first-spark-application" class="level2" data-number="4.4">
 <h2 data-number="4.4" class="anchored" data-anchor-id="running-your-first-spark-application"><span class="header-section-number">4.4</span> Running your first Spark application</h2>
+<p>To demonstrate what I <code>pyspark</code> program looks like, lets write and run a very simple example of Spark application. This Spark application will build a simple table of 1 column that contains 5 numbers, and then, it will return a list with the first two rows of this table as the result.</p>
+<p>First, create a new blank text file in your computer, and save it somewhere with the name <code>spark-example.py</code>. Do not forget to put the <code>.py</code> extension in the name. This program we are writing together is a python program, and should be treated as such. With the <code>.py</code> extension in the name file, you are stating this fact quite clearly to your computer.</p>
+<p>After you created and saved the python script (i.e.&nbsp;the text file with the <code>.py</code> extension), you can start writing your <code>pyspark</code> program. As we noted in the previous section, you should always start your <code>pyspark</code> program by defining your Spark Session, with this code:</p>
+<div class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql <span class="im">import</span> SparkSession</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>spark <span class="op">=</span> SparkSession.builder.getOrCreate()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>After you defined your Spark Session, and saved it in an object called <code>spark</code>, you can now access all Spark’s functionality through this <code>spark</code> object. To create the table we use the <code>range()</code> method, and to return the first two rows of the resulting table, we use the <code>take()</code> method:</p>
+<div class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>table <span class="op">=</span> spark.<span class="bu">range</span>(<span class="dv">5</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>table.take(<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>So, the entire program is just these two parts (or sections) of code. Just copy and paste this code to your python script, then save it.</p>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The entire program:</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql <span class="im">import</span> SparkSession</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>spark <span class="op">=</span> SparkSession.builder.getOrCreate()</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>table <span class="op">=</span> spark.<span class="bu">range</span>(<span class="dv">5</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>table.take(<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now that you have written your first Spark application with <code>pyspark</code>, you want to execute this application and see its results. To do so, you need send this script to the python interpreter, and to do this you need to: 1) copy the path to your python script; and, 2) open a terminal.</p>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography" style="display: none">

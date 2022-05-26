@@ -6,7 +6,7 @@ bibliography: ../references.bib
 
 In this chapter, you will understand how Spark represents and manages tables (or tabular data). Different programming languages and frameworks use different names to describe a table. But, in Apache Spark, tables are referred as Spark DataFrames.
 
-In `pyspark`, these DataFrames are stored inside python objects of class `pyspark.sql.DataFrame`, and all the methods present in this class, are commonly referred as the DataFrame API of Spark. This is the most important API of Spark. Much of your Spark applications will heavily use this API to compose your data transformations and data flows [@chambers2018].
+In `pyspark`, these DataFrames are stored inside python objects of class `pyspark.sql.dataframe.DataFrame`, and all the methods present in this class, are commonly referred as the DataFrame API of Spark. This is the most important API of Spark. Much of your Spark applications will heavily use this API to compose your data transformations and data flows [@chambers2018].
 
 ## Spark DataFrames versus Spark Datasets
 
@@ -50,19 +50,26 @@ data = [
 ]
 
 df = spark.createDataFrame(data)
+```
+
+
+Remember that a Spark DataFrame in python is a object of class `pyspark.sql.dataframe.DataFrame` as you can see below. If you try to see what is inside in this kind of object, you will get a small description of the columns present in the DataFrame as a result:
+
+```{python}
+#| eval: false
+type(df)
+```
+
+```{verbatim}
+<class 'pyspark.sql.dataframe.DataFrame'>
+```
+
+
+```{python}
 df
 ```
 
-In the above example, we use the `Row()` constructor (from `pyspark.sql` module) to build 4 rows. The `createDataFrame()` method, stack these 4 rows together to form our new DataFrame `df`. The result is a DataFrame with 4 rows and 3 columns (`id`, `value` and `date`).
-
-A key aspect of Spark is its laziness. In other words, for most operations, Spark will only check if your code is correct and if it makes sense. Spark will not actually run or execute the operations you are describing in your code, unless you explicit ask for it with a trigger operation. You can see this laziness in the above output. When we call for an object that stores a Spark DataFrame (like the `df` object), Spark will only calculate and print the schema of your Spark DataFrame, and not the DataFrame itself.
-
-So how we can actually see our DataFrame? How we can visualize the rows and values that are stored inside of it? We can use the `show()` method for this. It will print the table as pure text, as you can see in the example below:
-
-```{python}
-df.show()
-```
-
+So, in the above example, we use the `Row()` constructor (from `pyspark.sql` module) to build 4 rows. The `createDataFrame()` method, stack these 4 rows together to form our new DataFrame `df`. The result is a DataFrame with 4 rows and 3 columns (`id`, `value` and `date`).
 
 As another example, with the code below, we are creating a DataFrame called `students`. To do this, we create two python lists (`data` and `columns`), then, deliver these lists to `createDataFrame()` method. Each element of `data` is a python `tuple` that represents a row in the `students` DataFrame.
 
@@ -86,9 +93,20 @@ students = spark.createDataFrame(data, columns)
 students
 ```
 
-Another way of creating Spark DataFrames, is to read (or import) a file and convert it to a DataFrame. Spark can read a variety of file formats, including CSV, Parquet, JSON, ORC and Binary files. Furthermore, Spark can connect to other databases and import tables from them, using JDBC connections. We can access the read engines for these different file formats, by using the `read` module from your Spark Session object. 
+A key aspect of Spark is its laziness. In other words, for most operations, Spark will only check if your code is correct and if it makes sense. Spark will not actually run or execute the operations you are describing in your code, unless you explicit ask for it with a trigger operation. You can notice this laziness in the above output. Because when we call for an object that stores a Spark DataFrame (like the `df` object), Spark will only calculate and print the schema of your Spark DataFrame, and not the DataFrame itself.
 
-For example, I have the following CSV file saved in my computer:
+So how can we actually see our DataFrame? How can we visualize the rows and values that are stored inside of it? We can use the `show()` method for this. It will print the table as pure text, as you can see in the example below:
+
+```{python}
+students.show()
+```
+
+
+## Reading data from static files
+
+Another way of creating Spark DataFrames, is to read (or import) a file and convert it to a DataFrame. Spark can read a variety of file formats, including CSV, Parquet, JSON, ORC and Binary files. Furthermore, Spark can connect to other databases and import tables from them, using JDBC connections. 
+
+We can access the read engines for these different file formats, by using the `read` module from your Spark Session object. For example, I have the following CSV file saved in my computer:
 
 ```{verbatim}
 name,age,job
@@ -105,3 +123,22 @@ path = "../Data/people.csv"
 df = spark.read.csv(path)
 df.show()
 ```
+
+Some of the many different read engines available in spark are listed below:
+
+- `spark.read.json()`: to read JSON files;
+- `spark.read.csv()`: to read CSV files;
+- `spark.read.parquet ()`: to read Apache Parquet files;
+- `spark.read.orc()`: to read ORC (Apache *Optimized Row Columnar* format) files;
+
+
+### Defining some import options
+
+The `spark.read.csv()` method, Spark will use the default options to read and import your CSV files. But, you may want to change these default options at some point.
+
+For example, the `people.csv` that we shown above, has no column names.
+
+
+## Pulling data from SQL Databases
+
+We can use the `spark.read.jdbc()` method to connect and read data from Databases using JDBC connections. Also, you can read a SQL table from your Spark context by using the `spark.table()` method.
