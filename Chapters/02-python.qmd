@@ -1,4 +1,9 @@
-# Key concepts of python
+---
+title: Key concepts of python
+---
+
+
+## Introduction
 
 If you have experience with python, and understands how objects and classes works, you might want to skip this entire chapter. But, if you are new to the language and do not have much experience with it, you might want to stick a little bit, and learn a few key concepts that will help you to understand how the `pyspark` package is organized, and how to work with it.
 

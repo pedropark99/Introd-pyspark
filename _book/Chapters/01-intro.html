@@ -172,7 +172,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Chapters/04-dataframes.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Spark DataFrames</span></a>
+  <a href="../Chapters/04-dataframes.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Introducing Spark DataFrames</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -189,23 +189,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#some-conventions-of-this-book" id="toc-some-conventions-of-this-book" class="nav-link active" data-scroll-target="#some-conventions-of-this-book"> <span class="header-section-number">2.1</span> Some conventions of this book</a>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"> <span class="header-section-number">2.1</span> Introduction</a></li>
+  <li><a href="#some-conventions-of-this-book" id="toc-some-conventions-of-this-book" class="nav-link" data-scroll-target="#some-conventions-of-this-book"> <span class="header-section-number">2.2</span> Some conventions of this book</a>
   <ul class="collapse">
-  <li><a href="#python-code-and-terminal-commands" id="toc-python-code-and-terminal-commands" class="nav-link" data-scroll-target="#python-code-and-terminal-commands"> <span class="header-section-number">2.1.1</span> Python code and terminal commands</a></li>
-  <li><a href="#python-objects-functions-and-methods" id="toc-python-objects-functions-and-methods" class="nav-link" data-scroll-target="#python-objects-functions-and-methods"> <span class="header-section-number">2.1.2</span> Python objects, functions and methods</a></li>
-  <li><a href="#be-aware-of-differences-between-oss" id="toc-be-aware-of-differences-between-oss" class="nav-link" data-scroll-target="#be-aware-of-differences-between-oss"> <span class="header-section-number">2.1.3</span> Be aware of differences between OS’s!</a></li>
+  <li><a href="#python-code-and-terminal-commands" id="toc-python-code-and-terminal-commands" class="nav-link" data-scroll-target="#python-code-and-terminal-commands"> <span class="header-section-number">2.2.1</span> Python code and terminal commands</a></li>
+  <li><a href="#python-objects-functions-and-methods" id="toc-python-objects-functions-and-methods" class="nav-link" data-scroll-target="#python-objects-functions-and-methods"> <span class="header-section-number">2.2.2</span> Python objects, functions and methods</a></li>
+  <li><a href="#be-aware-of-differences-between-oss" id="toc-be-aware-of-differences-between-oss" class="nav-link" data-scroll-target="#be-aware-of-differences-between-oss"> <span class="header-section-number">2.2.3</span> Be aware of differences between OS’s!</a></li>
   </ul></li>
-  <li><a href="#sec-open-terminal" id="toc-sec-open-terminal" class="nav-link" data-scroll-target="#sec-open-terminal"> <span class="header-section-number">2.2</span> Opening the terminal of your OS</a>
+  <li><a href="#sec-open-terminal" id="toc-sec-open-terminal" class="nav-link" data-scroll-target="#sec-open-terminal"> <span class="header-section-number">2.3</span> Opening the terminal of your OS</a>
   <ul class="collapse">
-  <li><a href="#opening-a-terminal-on-windows" id="toc-opening-a-terminal-on-windows" class="nav-link" data-scroll-target="#opening-a-terminal-on-windows"> <span class="header-section-number">2.2.1</span> Opening a terminal on Windows</a></li>
-  <li><a href="#opening-a-terminal-on-linux" id="toc-opening-a-terminal-on-linux" class="nav-link" data-scroll-target="#opening-a-terminal-on-linux"> <span class="header-section-number">2.2.2</span> Opening a terminal on Linux</a></li>
-  <li><a href="#opening-a-terminal-in-macos" id="toc-opening-a-terminal-in-macos" class="nav-link" data-scroll-target="#opening-a-terminal-in-macos"> <span class="header-section-number">2.2.3</span> Opening a terminal in MacOs</a></li>
+  <li><a href="#opening-a-terminal-on-windows" id="toc-opening-a-terminal-on-windows" class="nav-link" data-scroll-target="#opening-a-terminal-on-windows"> <span class="header-section-number">2.3.1</span> Opening a terminal on Windows</a></li>
+  <li><a href="#opening-a-terminal-on-linux" id="toc-opening-a-terminal-on-linux" class="nav-link" data-scroll-target="#opening-a-terminal-on-linux"> <span class="header-section-number">2.3.2</span> Opening a terminal on Linux</a></li>
+  <li><a href="#opening-a-terminal-in-macos" id="toc-opening-a-terminal-in-macos" class="nav-link" data-scroll-target="#opening-a-terminal-in-macos"> <span class="header-section-number">2.3.3</span> Opening a terminal in MacOs</a></li>
   </ul></li>
-  <li><a href="#sec-install-software" id="toc-sec-install-software" class="nav-link" data-scroll-target="#sec-install-software"> <span class="header-section-number">2.3</span> First step: install the necessary software</a>
+  <li><a href="#sec-install-software" id="toc-sec-install-software" class="nav-link" data-scroll-target="#sec-install-software"> <span class="header-section-number">2.4</span> First step: install the necessary software</a>
   <ul class="collapse">
-  <li><a href="#install-python" id="toc-install-python" class="nav-link" data-scroll-target="#install-python"> <span class="header-section-number">2.3.1</span> Install python</a></li>
-  <li><a href="#install-pyspark" id="toc-install-pyspark" class="nav-link" data-scroll-target="#install-pyspark"> <span class="header-section-number">2.3.2</span> Install <code>pyspark</code></a></li>
-  <li><a href="#install-spark" id="toc-install-spark" class="nav-link" data-scroll-target="#install-spark"> <span class="header-section-number">2.3.3</span> Install <code>Spark</code></a></li>
+  <li><a href="#install-python" id="toc-install-python" class="nav-link" data-scroll-target="#install-python"> <span class="header-section-number">2.4.1</span> Install python</a></li>
+  <li><a href="#install-pyspark" id="toc-install-pyspark" class="nav-link" data-scroll-target="#install-pyspark"> <span class="header-section-number">2.4.2</span> Install <code>pyspark</code></a></li>
+  <li><a href="#install-spark" id="toc-install-spark" class="nav-link" data-scroll-target="#install-spark"> <span class="header-section-number">2.4.3</span> Install <code>Spark</code></a></li>
   </ul></li>
   </ul>
 </nav>
@@ -231,13 +232,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </header>
 
+<section id="introduction" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">2.1</span> Introduction</h2>
 <p>In essence, <code>pyspark</code> is a python package that provides an API for Apache Spark. In other words, with <code>pyspark</code> you are able to use the python language to write Spark applications and run them on a Spark cluster in a scalable and elegant way. This book focus on teaching the fundamentals of <code>pyspark</code>, and how to use it for big data analysis.</p>
 <p>This book, also contains a small introduction to key python concepts that are important to understand how <code>pyspark</code> is organized and how it works in practice, and, since we will be using Spark under the hood, is very important to understand a little bit of how Spark works, so, we provide a small introduction to Spark as well.</p>
 <p>Big part of the knowledge exposed here is extracted from a lot of practical experience of the author, working with <code>pyspark</code> to analyze big data at platforms such as Databricks<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.</p>
-<section id="some-conventions-of-this-book" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="some-conventions-of-this-book"><span class="header-section-number">2.1</span> Some conventions of this book</h2>
-<section id="python-code-and-terminal-commands" class="level3" data-number="2.1.1">
-<h3 data-number="2.1.1" class="anchored" data-anchor-id="python-code-and-terminal-commands"><span class="header-section-number">2.1.1</span> Python code and terminal commands</h3>
+</section>
+<section id="some-conventions-of-this-book" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="some-conventions-of-this-book"><span class="header-section-number">2.2</span> Some conventions of this book</h2>
+<section id="python-code-and-terminal-commands" class="level3" data-number="2.2.1">
+<h3 data-number="2.2.1" class="anchored" data-anchor-id="python-code-and-terminal-commands"><span class="header-section-number">2.2.1</span> Python code and terminal commands</h3>
 <p>This book is about <code>pyspark</code>, which is a python package. As a result, we will be exposing a lot of python code across the entire book. Examples of python code, are always shown inside a gray rectangle, like this example below.</p>
 <p>Every visible result that this python code produce, will be shown outside of the gray rectangle, just below the command that produced that visible result. Besides that, every line of result will always be written in plain black. So in the example below, the value <code>729</code> is the only visible result of this python code, and, the statement <code>print(y)</code> is the command that triggered this visible result.</p>
 <div class="cell" data-execution_count="1">
@@ -255,24 +259,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre class="{verbatim}"><code>Terminal$ echo "Hello!"
 "Hello!"</code></pre>
 </section>
-<section id="python-objects-functions-and-methods" class="level3" data-number="2.1.2">
-<h3 data-number="2.1.2" class="anchored" data-anchor-id="python-objects-functions-and-methods"><span class="header-section-number">2.1.2</span> Python objects, functions and methods</h3>
+<section id="python-objects-functions-and-methods" class="level3" data-number="2.2.2">
+<h3 data-number="2.2.2" class="anchored" data-anchor-id="python-objects-functions-and-methods"><span class="header-section-number">2.2.2</span> Python objects, functions and methods</h3>
 <p>When I refer to some python object, function, method or package, I will use a monospaced font. In other words, if I have a python object called “name”, and, I am describing this object, I will use <code>name</code> in the paragraph, and not “name”. The same logic applies to functions, methods and package names.</p>
 </section>
-<section id="be-aware-of-differences-between-oss" class="level3" data-number="2.1.3">
-<h3 data-number="2.1.3" class="anchored" data-anchor-id="be-aware-of-differences-between-oss"><span class="header-section-number">2.1.3</span> Be aware of differences between OS’s!</h3>
+<section id="be-aware-of-differences-between-oss" class="level3" data-number="2.2.3">
+<h3 data-number="2.2.3" class="anchored" data-anchor-id="be-aware-of-differences-between-oss"><span class="header-section-number">2.2.3</span> Be aware of differences between OS’s!</h3>
 <p>Spark is available for all three main operational systems (or OS’s) used in the world (Windows, MacOs and Linux). I will use constantly the word OS as an abbreviation to “operational system”.</p>
 <p>The snippets of python code shown throughout this book should just run correctly no matter which one of the three OS’s you are using. In other words, the python code snippets are made to be portable. So you can just copy and paste them to your computer, no matter which OS you are using.</p>
 <p>But, at some points, I may need to show you some terminal commands that are OS specific, and are not easily portable. For example, Linux have a package manager, but Windows does not have one. This means that, if you are on Linux, you will need to use some terminal commands to install some necessary programs (like python). In contrast, if you are on Windows, you will generally download executable files (<code>.exe</code>) that make this installation for you.</p>
 <p>In cases like this, I will always point out the specific OS of each one of the commands, or, I will describe the necessary steps to be made on each one the OS’s. Just be aware that these differences exists between the OS’s.</p>
 </section>
 </section>
-<section id="sec-open-terminal" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="sec-open-terminal"><span class="header-section-number">2.2</span> Opening the terminal of your OS</h2>
+<section id="sec-open-terminal" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="sec-open-terminal"><span class="header-section-number">2.3</span> Opening the terminal of your OS</h2>
 <p>Every OS comes with a terminal (or command prompt), and you will find this tool very useful for a number of things. I will expose many terminal commands in this book, and these commands should be used inside these terminals that comes with your OS.</p>
 <p>The next sub-sections will show you how to open a terminal in each one of the OS’s where Spark is available. Lets begin with Windows.</p>
-<section id="opening-a-terminal-on-windows" class="level3" data-number="2.2.1">
-<h3 data-number="2.2.1" class="anchored" data-anchor-id="opening-a-terminal-on-windows"><span class="header-section-number">2.2.1</span> Opening a terminal on Windows</h3>
+<section id="opening-a-terminal-on-windows" class="level3" data-number="2.3.1">
+<h3 data-number="2.3.1" class="anchored" data-anchor-id="opening-a-terminal-on-windows"><span class="header-section-number">2.3.1</span> Opening a terminal on Windows</h3>
 <p>There are some different approaches to do this, but, the one that I find the most useful, is to open a terminal from inside a Windows folder, using the default File Explorer program of Windows. When we use the terminal, we usually want to affect or use a file that is stored inside a folder in our computer, with a terminal command.</p>
 <p>Because of that, when we open a terminal from inside a folder, the terminal opened is already rooted inside the folder where our file is stored. In other words, we already have easy access to the file that we want to affect/use in our command, and we do not have the work to change or adjust directories in this terminal.</p>
 <p>For example, lets suppose that we want to use a terminal command to use a file called <code>hello.py</code>, and, that this <code>hello.py</code> file is stored inside a folder called <code>HelloPython</code>. You can see in <a href="#fig-windows-hello-folder">Figure&nbsp;<span>2.1</span></a>, that this folder is in path <code>C:\Users\pedro\Documents\HelloPython</code>. So, the first step, is to use the File Explorer of Windows, to open this folder, like in <a href="#fig-windows-hello-folder">Figure&nbsp;<span>2.1</span></a>.</p>
@@ -297,8 +301,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </figure>
 </div>
 </section>
-<section id="opening-a-terminal-on-linux" class="level3" data-number="2.2.2">
-<h3 data-number="2.2.2" class="anchored" data-anchor-id="opening-a-terminal-on-linux"><span class="header-section-number">2.2.2</span> Opening a terminal on Linux</h3>
+<section id="opening-a-terminal-on-linux" class="level3" data-number="2.3.2">
+<h3 data-number="2.3.2" class="anchored" data-anchor-id="opening-a-terminal-on-linux"><span class="header-section-number">2.3.2</span> Opening a terminal on Linux</h3>
 <p>Is fairly easy to open a terminal on a Linux distribution. Again, is very useful when you open the terminal from inside the folder you are interested in. Because you will have an easier access to all the files that are stored inside this folder.</p>
 <p>To do this in Linux, you use the built-in File Explorer to open the folder where you want to root your terminal. At the moment, I am using an Ubuntu distribution. I just opened the same <code>HelloPython</code> folder, with the same <code>hello.py</code> file, in the File Explorer of Linux. As shown in <a href="#fig-ubuntu-folder">Figure&nbsp;<span>2.4</span></a>:</p>
 <div id="fig-ubuntu-folder" class="quarto-figure quarto-figure-center anchored">
@@ -315,23 +319,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </figure>
 </div>
 </section>
-<section id="opening-a-terminal-in-macos" class="level3" data-number="2.2.3">
-<h3 data-number="2.2.3" class="anchored" data-anchor-id="opening-a-terminal-in-macos"><span class="header-section-number">2.2.3</span> Opening a terminal in MacOs</h3>
+<section id="opening-a-terminal-in-macos" class="level3" data-number="2.3.3">
+<h3 data-number="2.3.3" class="anchored" data-anchor-id="opening-a-terminal-in-macos"><span class="header-section-number">2.3.3</span> Opening a terminal in MacOs</h3>
 <p>Unfortunately, I do not have a Mac machine in my possession, so I cannot easily show you how to open a terminal in MacOs. But there a lot of articles available in the internet discussing how to open a terminal in MacOs. For example, there is a article from the support of Apple<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>, or this other article from iDownloadBlog<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>.</p>
 </section>
 </section>
-<section id="sec-install-software" class="level2" data-number="2.3">
-<h2 data-number="2.3" class="anchored" data-anchor-id="sec-install-software"><span class="header-section-number">2.3</span> First step: install the necessary software</h2>
+<section id="sec-install-software" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="sec-install-software"><span class="header-section-number">2.4</span> First step: install the necessary software</h2>
 <p>Before we start, is really important that you have all the software you need already installed on your machine and ready to go. <code>Spark</code> and, as a result, <code>pyspark</code>, are both available for Windows and UNIX-like systems (e.g.&nbsp;Linux and MacOs). To use <code>pyspark</code> you need to install: 1) <code>Spark</code>; 2) Python; 3) and the python package called <code>pyspark</code>.</p>
 <p>Install and manage <code>Spark</code> in Windows is a little harder than in a UNIX-like machine. But it’s perfectly ok if you do not have a UNIX machine. A Windows machine will do it just fine. Just for referencing, the examples showed throughout this book were executed in a Linux machine (more specifically, in Ubuntu).</p>
-<section id="install-python" class="level3" data-number="2.3.1">
-<h3 data-number="2.3.1" class="anchored" data-anchor-id="install-python"><span class="header-section-number">2.3.1</span> Install python</h3>
+<section id="install-python" class="level3" data-number="2.4.1">
+<h3 data-number="2.4.1" class="anchored" data-anchor-id="install-python"><span class="header-section-number">2.4.1</span> Install python</h3>
 <p>To install python on Windows, you can download the executable files at the official Python website<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>. But, if you are on Linux, you can install python with the package manager, by opening a terminal and running the following command:</p>
 <pre class="{terminal}"><code>sudo apt-get install python3</code></pre>
 </section>
-<section id="install-pyspark" class="level3" data-number="2.3.2">
-<h3 data-number="2.3.2" class="anchored" data-anchor-id="install-pyspark"><span class="header-section-number">2.3.2</span> Install <code>pyspark</code></h3>
-<p>Installing the <code>pyspark</code> python package is pretty straightforward. Just open a terminal (if you need help to open the terminal check <a href="#sec-open-terminal">Section&nbsp;<span>2.2</span></a>), and use the <code>pip</code> command to do it:</p>
+<section id="install-pyspark" class="level3" data-number="2.4.2">
+<h3 data-number="2.4.2" class="anchored" data-anchor-id="install-pyspark"><span class="header-section-number">2.4.2</span> Install <code>pyspark</code></h3>
+<p>Installing the <code>pyspark</code> python package is pretty straightforward. Just open a terminal (if you need help to open the terminal check <a href="#sec-open-terminal">Section&nbsp;<span>2.3</span></a>), and use the <code>pip</code> command to do it:</p>
 <pre class="{terminal}"><code>Terminal$ pip install pyspark</code></pre>
 <p>If you try to run the above command (inside a terminal of any OS), and a message like <code>pip: command not found</code> appears, this means that you do not have the <code>pip</code> tool installed on your machine. Hence, if you face this kind of message, you need to install <code>pip</code> before you even install <code>pyspark</code>.</p>
 <p>The <code>pip</code> tool is automatically installed with Python on Windows. So, if you face this message (<code>pip: command not found</code>), then, is very likely that you do not have Python correctly installed on your machine. Or maybe, Python is not installed at all in any shape or size in your system. So, you should comeback to previous section, and re install it.</p>
@@ -347,8 +351,8 @@ Terminal$ pacman -S python-pip</code></pre>
 Terminal$ curl https://bootstrap.pypa.io/get-pip.py | python3</code></pre>
 <p>After you correctly installed <code>pip</code>, try to execute the first command again, to install the <code>pyspark</code> package on your machine.</p>
 </section>
-<section id="install-spark" class="level3" data-number="2.3.3">
-<h3 data-number="2.3.3" class="anchored" data-anchor-id="install-spark"><span class="header-section-number">2.3.3</span> Install <code>Spark</code></h3>
+<section id="install-spark" class="level3" data-number="2.4.3">
+<h3 data-number="2.4.3" class="anchored" data-anchor-id="install-spark"><span class="header-section-number">2.4.3</span> Install <code>Spark</code></h3>
 
 
 </section>

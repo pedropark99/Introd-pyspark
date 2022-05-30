@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Introduction to pyspark - 5&nbsp; Spark DataFrames</title>
+<title>Introduction to pyspark - 5&nbsp; Introducing Spark DataFrames</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -146,7 +146,7 @@ div.csl-indent {
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Spark DataFrames</span></h1>
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Introducing Spark DataFrames</span></h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -191,7 +191,7 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Chapters/04-dataframes.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Spark DataFrames</span></a>
+  <a href="../Chapters/04-dataframes.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Introducing Spark DataFrames</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -208,10 +208,16 @@ div.csl-indent {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#spark-dataframes-versus-spark-datasets" id="toc-spark-dataframes-versus-spark-datasets" class="nav-link active" data-scroll-target="#spark-dataframes-versus-spark-datasets"> <span class="header-section-number">5.1</span> Spark DataFrames versus Spark Datasets</a></li>
-  <li><a href="#building-a-spark-dataframe" id="toc-building-a-spark-dataframe" class="nav-link" data-scroll-target="#building-a-spark-dataframe"> <span class="header-section-number">5.2</span> Building a Spark DataFrame</a></li>
-  <li><a href="#reading-data-from-files" id="toc-reading-data-from-files" class="nav-link" data-scroll-target="#reading-data-from-files"> <span class="header-section-number">5.3</span> Reading data from files</a></li>
-  <li><a href="#pulling-data-from-sql-databases" id="toc-pulling-data-from-sql-databases" class="nav-link" data-scroll-target="#pulling-data-from-sql-databases"> <span class="header-section-number">5.4</span> Pulling data from SQL Databases</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"> <span class="header-section-number">5.1</span> Introduction</a></li>
+  <li><a href="#spark-dataframes-versus-spark-datasets" id="toc-spark-dataframes-versus-spark-datasets" class="nav-link" data-scroll-target="#spark-dataframes-versus-spark-datasets"> <span class="header-section-number">5.2</span> Spark DataFrames versus Spark Datasets</a></li>
+  <li><a href="#building-a-spark-dataframe" id="toc-building-a-spark-dataframe" class="nav-link" data-scroll-target="#building-a-spark-dataframe"> <span class="header-section-number">5.3</span> Building a Spark DataFrame</a></li>
+  <li><a href="#viewing-a-spark-dataframe" id="toc-viewing-a-spark-dataframe" class="nav-link" data-scroll-target="#viewing-a-spark-dataframe"> <span class="header-section-number">5.4</span> Viewing a Spark DataFrame</a></li>
+  <li><a href="#importing-data-from-different-data-sources" id="toc-importing-data-from-different-data-sources" class="nav-link" data-scroll-target="#importing-data-from-different-data-sources"> <span class="header-section-number">5.5</span> Importing data from different data sources</a>
+  <ul class="collapse">
+  <li><a href="#reading-static-files" id="toc-reading-static-files" class="nav-link" data-scroll-target="#reading-static-files"> <span class="header-section-number">5.5.1</span> Reading static files</a></li>
+  <li><a href="#defining-import-options" id="toc-defining-import-options" class="nav-link" data-scroll-target="#defining-import-options"> <span class="header-section-number">5.5.2</span> Defining import options</a></li>
+  <li><a href="#pulling-data-from-sql-databases" id="toc-pulling-data-from-sql-databases" class="nav-link" data-scroll-target="#pulling-data-from-sql-databases"> <span class="header-section-number">5.5.3</span> Pulling data from SQL Databases</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -220,7 +226,7 @@ div.csl-indent {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Spark DataFrames</span></h1>
+<h1 class="title d-none d-lg-block"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Introducing Spark DataFrames</span></h1>
 </div>
 
 
@@ -236,10 +242,13 @@ div.csl-indent {
 
 </header>
 
+<section id="introduction" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">5.1</span> Introduction</h2>
 <p>In this chapter, you will understand how Spark represents and manages tables (or tabular data). Different programming languages and frameworks use different names to describe a table. But, in Apache Spark, tables are referred as Spark DataFrames.</p>
 <p>In <code>pyspark</code>, these DataFrames are stored inside python objects of class <code>pyspark.sql.dataframe.DataFrame</code>, and all the methods present in this class, are commonly referred as the DataFrame API of Spark. This is the most important API of Spark. Much of your Spark applications will heavily use this API to compose your data transformations and data flows <span class="citation" data-cites="chambers2018">(<a href="references.html#ref-chambers2018" role="doc-biblioref">Chambers and Zaharia 2018</a>)</span>.</p>
-<section id="spark-dataframes-versus-spark-datasets" class="level2" data-number="5.1">
-<h2 data-number="5.1" class="anchored" data-anchor-id="spark-dataframes-versus-spark-datasets"><span class="header-section-number">5.1</span> Spark DataFrames versus Spark Datasets</h2>
+</section>
+<section id="spark-dataframes-versus-spark-datasets" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="spark-dataframes-versus-spark-datasets"><span class="header-section-number">5.2</span> Spark DataFrames versus Spark Datasets</h2>
 <p>Spark have two notions of structured data: DataFrames and Datasets. In summary, a Spark Dataset, is a distributed collection of data <span class="citation" data-cites="sparkdoc">(<a href="references.html#ref-sparkdoc" role="doc-biblioref"><em>Apache Spark Official Documentation</em> 2022</a>)</span>. In contrast, a Spark DataFrame is a Spark Dataset organized into named columns <span class="citation" data-cites="sparkdoc">(<a href="references.html#ref-sparkdoc" role="doc-biblioref"><em>Apache Spark Official Documentation</em> 2022</a>)</span>.</p>
 <p>This means that, Spark DataFrames are very similar to tables as we know in relational databases - RDBMS. So in a Spark DataFrame, each column has a name, and they all have the same number of rows. Furthermore, all the rows inside a column must store the same type of data, but each column can store a different type of data.</p>
 <p>In the other hand, Spark Datasets are considered a collection of any type of data. So a Dataset might be a collection of unstructured data as well, like log files, JSON and XML trees, etc. Spark Datasets can be created and transformed trough the Dataset API of Spark. But this API is available only in Scala and Java API’s of Spark. For this reason, we do not act directly on Datasets with <code>pyspark</code>, only DataFrames. That’s ok, because for the most part of applications, we do want to use DataFrames, and not Datasets, to represent our data.</p>
@@ -293,8 +302,8 @@ div.csl-indent {
 </figure>
 </div>
 </section>
-<section id="building-a-spark-dataframe" class="level2" data-number="5.2">
-<h2 data-number="5.2" class="anchored" data-anchor-id="building-a-spark-dataframe"><span class="header-section-number">5.2</span> Building a Spark DataFrame</h2>
+<section id="building-a-spark-dataframe" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="building-a-spark-dataframe"><span class="header-section-number">5.3</span> Building a Spark DataFrame</h2>
 <p>There are some different methods to create a Spark DataFrame. For example, because a DataFrame is basically a Dataset of rows, we can build a DataFrame from a collection of <code>Row</code>’s, through the <code>createDataFrame()</code> method from your Spark Session:</p>
 <div class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql <span class="im">import</span> SparkSession</span>
@@ -311,44 +320,48 @@ div.csl-indent {
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> spark.createDataFrame(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Remember that a Spark DataFrame in python is a object of class <code>pyspark.sql.dataframe.DataFrame</code> as you can see below. If you try to see what is inside in this kind of object, you will get a small description of the columns present in the DataFrame as a result:</p>
+<p>Remember that a Spark DataFrame in python is a object of class <code>pyspark.sql.dataframe.DataFrame</code> as you can see below. If you try to see what is inside of this kind of object, you will get a small description of the columns present in the DataFrame as a result:</p>
 <div class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <pre class="{verbatim}"><code>&lt;class 'pyspark.sql.dataframe.DataFrame'&gt;</code></pre>
 <div class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
 <pre><code>DataFrame[id: bigint, value: double, date: date]</code></pre>
 </div>
 </div>
 <p>So, in the above example, we use the <code>Row()</code> constructor (from <code>pyspark.sql</code> module) to build 4 rows. The <code>createDataFrame()</code> method, stack these 4 rows together to form our new DataFrame <code>df</code>. The result is a DataFrame with 4 rows and 3 columns (<code>id</code>, <code>value</code> and <code>date</code>).</p>
-<p>As another example, with the code below, we are creating a DataFrame called <code>students</code>. To do this, we create two python lists (<code>data</code> and <code>columns</code>), then, deliver these lists to <code>createDataFrame()</code> method. Each element of <code>data</code> is a python <code>tuple</code> that represents a row in the <code>students</code> DataFrame.</p>
+<p>But you can use different methods to create the same DataFrame. As another example, with the code below, we are creating a DataFrame called <code>students</code>. To do this, we create two python lists (<code>data</code> and <code>columns</code>), then, deliver these lists to <code>createDataFrame()</code> method. Each element of <code>data</code> is a python <code>tuple</code> that represents a row in the <code>students</code> DataFrame.</p>
 <div class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> [</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  (<span class="dv">12114</span>, <span class="st">'Anne'</span>, <span class="dv">21</span>, <span class="fl">1.56</span>, <span class="dv">8</span>, <span class="dv">9</span>, <span class="dv">10</span>, <span class="dv">9</span>, <span class="st">'Economics'</span>, <span class="st">'SC'</span>),</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  (<span class="dv">13007</span>, <span class="st">'Adrian'</span>, <span class="dv">23</span>, <span class="fl">1.82</span>, <span class="dv">6</span>, <span class="dv">6</span>, <span class="dv">8</span>, <span class="dv">7</span>, <span class="st">'Economics'</span>, <span class="st">'SC'</span>),</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  (<span class="dv">10045</span>, <span class="st">'George'</span>, <span class="dv">29</span>, <span class="fl">1.77</span>, <span class="dv">10</span>, <span class="dv">9</span>, <span class="dv">10</span>, <span class="dv">7</span>, <span class="st">'Law'</span>, <span class="st">'SC'</span>),</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  (<span class="dv">12459</span>, <span class="st">'Adeline'</span>, <span class="dv">26</span>, <span class="fl">1.61</span>, <span class="dv">8</span>, <span class="dv">6</span>, <span class="dv">7</span>, <span class="dv">7</span>, <span class="st">'Law'</span>, <span class="st">'SC'</span>),</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  (<span class="dv">10190</span>, <span class="st">'Mayla'</span>, <span class="dv">22</span>, <span class="fl">1.67</span>, <span class="dv">7</span>, <span class="dv">7</span>, <span class="dv">7</span>, <span class="dv">9</span>, <span class="st">'Design'</span>, <span class="st">'AR'</span>),</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  (<span class="dv">11552</span>, <span class="st">'Daniel'</span>, <span class="dv">24</span>, <span class="fl">1.75</span>, <span class="dv">9</span>, <span class="dv">9</span>, <span class="dv">10</span>, <span class="dv">9</span>, <span class="st">'Design'</span>, <span class="st">'AR'</span>)</span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>columns <span class="op">=</span> [</span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">'StudentID'</span>, <span class="st">'Name'</span>, <span class="st">'Age'</span>, <span class="st">'Height'</span>, <span class="st">'Score1'</span>,</span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  <span class="st">'Score2'</span>, <span class="st">'Score3'</span>, <span class="st">'Score4'</span>, <span class="st">'Course'</span>, <span class="st">'Department'</span></span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>students <span class="op">=</span> spark.createDataFrame(data, columns)</span>
-<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>students</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> [</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  (<span class="dv">12114</span>, <span class="st">'Anne'</span>, <span class="dv">21</span>, <span class="fl">1.56</span>, <span class="dv">8</span>, <span class="dv">9</span>, <span class="dv">10</span>, <span class="dv">9</span>, <span class="st">'Economics'</span>, <span class="st">'SC'</span>),</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  (<span class="dv">13007</span>, <span class="st">'Adrian'</span>, <span class="dv">23</span>, <span class="fl">1.82</span>, <span class="dv">6</span>, <span class="dv">6</span>, <span class="dv">8</span>, <span class="dv">7</span>, <span class="st">'Economics'</span>, <span class="st">'SC'</span>),</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  (<span class="dv">10045</span>, <span class="st">'George'</span>, <span class="dv">29</span>, <span class="fl">1.77</span>, <span class="dv">10</span>, <span class="dv">9</span>, <span class="dv">10</span>, <span class="dv">7</span>, <span class="st">'Law'</span>, <span class="st">'SC'</span>),</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  (<span class="dv">12459</span>, <span class="st">'Adeline'</span>, <span class="dv">26</span>, <span class="fl">1.61</span>, <span class="dv">8</span>, <span class="dv">6</span>, <span class="dv">7</span>, <span class="dv">7</span>, <span class="st">'Law'</span>, <span class="st">'SC'</span>),</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  (<span class="dv">10190</span>, <span class="st">'Mayla'</span>, <span class="dv">22</span>, <span class="fl">1.67</span>, <span class="dv">7</span>, <span class="dv">7</span>, <span class="dv">7</span>, <span class="dv">9</span>, <span class="st">'Design'</span>, <span class="st">'AR'</span>),</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  (<span class="dv">11552</span>, <span class="st">'Daniel'</span>, <span class="dv">24</span>, <span class="fl">1.75</span>, <span class="dv">9</span>, <span class="dv">9</span>, <span class="dv">10</span>, <span class="dv">9</span>, <span class="st">'Design'</span>, <span class="st">'AR'</span>)</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>columns <span class="op">=</span> [</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">'StudentID'</span>, <span class="st">'Name'</span>, <span class="st">'Age'</span>, <span class="st">'Height'</span>, <span class="st">'Score1'</span>,</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  <span class="st">'Score2'</span>, <span class="st">'Score3'</span>, <span class="st">'Score4'</span>, <span class="st">'Course'</span>, <span class="st">'Department'</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>students <span class="op">=</span> spark.createDataFrame(data, columns)</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>students</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
 <pre><code>DataFrame[StudentID: bigint, Name: string, Age: bigint, Height: double, Score1: bigint, Score2: bigint, Score3: bigint, Score4: bigint, Course: string, Department: string]</code></pre>
 </div>
 </div>
-<p>A key aspect of Spark is its laziness. In other words, for most operations, Spark will only check if your code is correct and if it makes sense. Spark will not actually run or execute the operations you are describing in your code, unless you explicit ask for it with a trigger operation. You can notice this laziness in the above output. Because when we call for an object that stores a Spark DataFrame (like the <code>df</code> object), Spark will only calculate and print the schema of your Spark DataFrame, and not the DataFrame itself.</p>
+</section>
+<section id="viewing-a-spark-dataframe" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="viewing-a-spark-dataframe"><span class="header-section-number">5.4</span> Viewing a Spark DataFrame</h2>
+<p>A key aspect of Spark is its laziness. In other words, for most operations, Spark will only check if your code is correct and if it makes sense. Spark will not actually run or execute the operations you are describing in your code, unless you explicit ask for it with a trigger operation.</p>
+<p>You can notice this laziness in the above output. Because when we call for an object that stores a Spark DataFrame (like <code>df</code> and <code>students</code>), Spark will only calculate and print the schema of your Spark DataFrame, and not the DataFrame itself.</p>
 <p>So how can we actually see our DataFrame? How can we visualize the rows and values that are stored inside of it? We can use the <code>show()</code> method for this. It will print the table as pure text, as you can see in the example below:</p>
 <div class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>students.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>students.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>+---------+-------+---+------+------+------+------+------+---------+----------+
 |StudentID|   Name|Age|Height|Score1|Score2|Score3|Score4|   Course|Department|
@@ -363,20 +376,37 @@ div.csl-indent {
 </code></pre>
 </div>
 </div>
+<p>By default, this method shows only the top rows of your DataFrame, but you can specify how much rows exactly you want to see, by using <code>show(n)</code>, where <code>n</code> is the number of rows. For example, I can visualize only the first 2 rows of <code>df</code> like this:</p>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>df.show(<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>+---+-----+----------+
+| id|value|      date|
++---+-----+----------+
+|  1| 28.3|2021-01-01|
+|  2| 15.8|2021-02-02|
++---+-----+----------+
+only showing top 2 rows
+</code></pre>
+</div>
+</div>
 </section>
-<section id="reading-data-from-files" class="level2" data-number="5.3">
-<h2 data-number="5.3" class="anchored" data-anchor-id="reading-data-from-files"><span class="header-section-number">5.3</span> Reading data from files</h2>
-<p>Another way of creating Spark DataFrames, is to read (or import) a file and convert it to a DataFrame. Spark can read a variety of file formats, including CSV, Parquet, JSON, ORC and Binary files. Furthermore, Spark can connect to other databases and import tables from them, using JDBC connections.</p>
-<p>We can access the read engines for these different file formats, by using the <code>read</code> module from your Spark Session object. For example, I have the following CSV file saved in my computer:</p>
+<section id="importing-data-from-different-data-sources" class="level2" data-number="5.5">
+<h2 data-number="5.5" class="anchored" data-anchor-id="importing-data-from-different-data-sources"><span class="header-section-number">5.5</span> Importing data from different data sources</h2>
+<p>Another way of creating Spark DataFrames, is to read (or import) data from a file and convert it to a DataFrame. Spark can read a variety of file formats, including CSV, Parquet, JSON, ORC and Binary files. Furthermore, Spark can connect to other databases and import tables from them, using JDBC connections. We can access the read engines for these different file formats, by using the <code>read</code> module from your Spark Session object.</p>
+<section id="reading-static-files" class="level3" data-number="5.5.1">
+<h3 data-number="5.5.1" class="anchored" data-anchor-id="reading-static-files"><span class="header-section-number">5.5.1</span> Reading static files</h3>
+<p>Static files are probably the easiest way to transport data from one computer to another. Because you just need to copy and paste this file to this other machine, or download it from the internet. To read any file stored inside your computer, Spark always need to know the path to this file.</p>
+<p>As an example, I have the following CSV file saved in my computer:</p>
 <pre class="{verbatim}"><code>name,age,job
 Jorge,30,Developer
 Bob,32,Developer</code></pre>
-<p>This CSV was saved in a file called <code>people.csv</code>, inside a folder called <code>Data</code>. So, to read this file, I give the path to this CSV file to the <code>read.csv()</code> method of my Spark Session, like in the example below:</p>
-<div class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>path <span class="op">=</span> <span class="st">"../Data/people.csv"</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> spark.read.csv(path)</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>df.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This CSV was saved in a file called <code>people.csv</code>, inside a folder called <code>Data</code>. So, to read this file, I gave the path to this CSV file to the <code>read.csv()</code> method of my Spark Session, like in the example below:</p>
+<div class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>path <span class="op">=</span> <span class="st">"../Data/people.csv"</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> spark.read.csv(path)</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>df.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>+-----+---+---------+
 |  _c0|_c1|      _c2|
@@ -388,16 +418,55 @@ Bob,32,Developer</code></pre>
 </code></pre>
 </div>
 </div>
-<p>Some of the many different read engines available in spark are listed below:</p>
+<p>In the above example, I gave a relative path to the file I wanted to read. But you can provide an absolute path<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> to the file, if you want to.</p>
+<p>The <code>people.csv</code> is located at a very specific folder in my Linux computer, so, the absolute path to this file is pretty long as you can see below. But, if I were in my Windows machine, this absolute path would be something like <code>"C:\Users\pedro\Documents\Projects\..."</code>.</p>
+<div class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>path <span class="op">=</span> <span class="st">"/home/pedro/Documents/Projets/Books/Introd-pyspark/Data/people.csv"</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> spark.read.csv(path)</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>df.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="9">
+<div class="cell-output cell-output-stdout">
+<pre><code>+-----+---+---------+
+|  _c0|_c1|      _c2|
++-----+---+---------+
+| name|age|      job|
+|Jorge| 30|Developer|
+|  Bob| 32|Developer|
++-----+---+---------+
+</code></pre>
+</div>
+</div>
+<p>If you give an invalid path (that is, a path that does not exist in your computer), you will get a <code>AnalysisException</code>. In the example below, I try to read a file called <code>"weird-file.csv"</code> that (in theory) is located at my current working directory. But when Spark looks inside my current directory, it does not find any file called <code>"weird-file.csv"</code>. As a result, Spark raises a <code>AnalysisException</code> that warns me about this mistake.</p>
+<div class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> spark.read.csv(<span class="st">"weird-file.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<pre class="{verbatim}"><code>Traceback (most recent call last):
+  ...
+pyspark.sql.utils.AnalysisException: Path does not exist: file:/home/pedro/Documents/Projects/Books/Introd-pyspark/weird-file.csv</code></pre>
+<p>Even CSV’s being a very popular format, is very likely that you will need to read archives in many different formats. The main read engines available in Spark for static files are listed below:</p>
 <ul>
 <li><code>spark.read.json()</code>: to read JSON files;</li>
 <li><code>spark.read.csv()</code>: to read CSV files;</li>
-<li><code>spark.read.parquet ()</code>: to read Apache Parquet files;</li>
+<li><code>spark.read.parquet()</code>: to read Apache Parquet files;</li>
 <li><code>spark.read.orc()</code>: to read ORC (Apache <em>Optimized Row Columnar</em> format) files;</li>
 </ul>
 </section>
-<section id="pulling-data-from-sql-databases" class="level2" data-number="5.4">
-<h2 data-number="5.4" class="anchored" data-anchor-id="pulling-data-from-sql-databases"><span class="header-section-number">5.4</span> Pulling data from SQL Databases</h2>
+<section id="defining-import-options" class="level3" data-number="5.5.2">
+<h3 data-number="5.5.2" class="anchored" data-anchor-id="defining-import-options"><span class="header-section-number">5.5.2</span> Defining import options</h3>
+<p>While reading and importing your files, Spark will use the default values for the import options defined by the read engine you are using, unless you explicit ask it to use different values. Each read engine has its own read/import options.</p>
+<p>For example, the <code>spark.read.orc()</code> engine has a option called <code>mergeSchema</code>. With this option, you can ask Spark to merge the schemas collected from all the ORC part-files. In contrast, the <code>spark.read.csv()</code> engine does not have such option. Because this functionality of “merging schemas” does not make sense with CSV files.</p>
+<p>This means that, some import options are specific (or characteristic) of some file formats. For example, the <code>sep</code> option (where you define the <em>separator</em> character) is used only in the <code>spark.read.csv()</code> engine, because you do not have a special character that behaves as the “separator” in the other file formats (ORC, JSON, Parquet…). So it does not make sense to have such option in the other read engines.</p>
+<p>In the other hand, some import options can co-exist in multiple read engines. For example, the <code>spark.read.json()</code> and <code>spark.read.csv()</code> have both an <code>encoding</code> option. The encoding is a very important information, and Spark needs it to correct interpret your file. By default, Spark will always assume that your files use the UTF-8 encoding system. Although this may not be true for your specific case, and for these cases you use this <code>encoding</code> option to tell Spark which one to use.</p>
+<p>In the next sections, I will break down some of the most used import options for each file format. If you want to see the complete list of import options, you can visit the <em>Data Source Option</em> section in the specific part of the file format you are using in the Spark SQL Guide<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>.</p>
+<section id="import-options-for-csv-files" class="level4" data-number="5.5.2.1">
+<h4 data-number="5.5.2.1" class="anchored" data-anchor-id="import-options-for-csv-files"><span class="header-section-number">5.5.2.1</span> Import options for CSV files</h4>
+<p>The most important import options for CSV files are <code>sep</code>, <code>encoding</code>, <code>header</code></p>
+</section>
+</section>
+<section id="pulling-data-from-sql-databases" class="level3" data-number="5.5.3">
+<h3 data-number="5.5.3" class="anchored" data-anchor-id="pulling-data-from-sql-databases"><span class="header-section-number">5.5.3</span> Pulling data from SQL Databases</h3>
 <p>We can use the <code>spark.read.jdbc()</code> method to connect and read data from Databases using JDBC connections. Also, you can read a SQL table from your Spark context by using the <code>spark.table()</code> method.</p>
 
 
@@ -409,6 +478,14 @@ Bob,32,Developer</code></pre>
 Chambers, Bill, and Matei Zaharia. 2018. <em>Spark: The Definitive Guide: Big Data Processing Made Simple</em>. Sebastopol, CA: O’Reilly Media.
 </div>
 </div>
+</section>
+</section>
+<section class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1" role="doc-endnote"><p>That is, the complete path to the file, or, in other words, a path that starts in the root folder of your hard drive.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2" role="doc-endnote"><p>For example, this <em>Data Source Option</em> for Parque files is located at: https://spark.apache.org/docs/latest/sql-data-sources-parquet.html#data-source-option<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
 </section>
 
 </main> <!-- /main -->

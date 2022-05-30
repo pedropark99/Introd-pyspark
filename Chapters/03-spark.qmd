@@ -1,8 +1,9 @@
 ---
+title: Introducing Apache Spark
 bibliography: ../references.bib
 ---
 
-# Introducing Apache Spark
+## Introduction
 
 In essence, `pyspark` is an API to Apache Spark (or simply Spark). In other words, with `pyspark` we can build Spark applications using the python language. So, by learning a little more about Spark, you will understand a lot more about `pyspark`.
 

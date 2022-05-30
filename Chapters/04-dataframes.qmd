@@ -1,8 +1,9 @@
 ---
+title: Introducing Spark DataFrames
 bibliography: ../references.bib
 ---
 
-# Spark DataFrames
+## Introduction
 
 In this chapter, you will understand how Spark represents and manages tables (or tabular data). Different programming languages and frameworks use different names to describe a table. But, in Apache Spark, tables are referred as Spark DataFrames.
 
@@ -53,7 +54,7 @@ df = spark.createDataFrame(data)
 ```
 
 
-Remember that a Spark DataFrame in python is a object of class `pyspark.sql.dataframe.DataFrame` as you can see below. If you try to see what is inside in this kind of object, you will get a small description of the columns present in the DataFrame as a result:
+Remember that a Spark DataFrame in python is a object of class `pyspark.sql.dataframe.DataFrame` as you can see below. If you try to see what is inside of this kind of object, you will get a small description of the columns present in the DataFrame as a result:
 
 ```{python}
 #| eval: false
@@ -71,7 +72,7 @@ df
 
 So, in the above example, we use the `Row()` constructor (from `pyspark.sql` module) to build 4 rows. The `createDataFrame()` method, stack these 4 rows together to form our new DataFrame `df`. The result is a DataFrame with 4 rows and 3 columns (`id`, `value` and `date`).
 
-As another example, with the code below, we are creating a DataFrame called `students`. To do this, we create two python lists (`data` and `columns`), then, deliver these lists to `createDataFrame()` method. Each element of `data` is a python `tuple` that represents a row in the `students` DataFrame.
+But you can use different methods to create the same DataFrame. As another example, with the code below, we are creating a DataFrame called `students`. To do this, we create two python lists (`data` and `columns`), then, deliver these lists to `createDataFrame()` method. Each element of `data` is a python `tuple` that represents a row in the `students` DataFrame.
 
 ```{python}
 
@@ -93,6 +94,9 @@ students = spark.createDataFrame(data, columns)
 students
 ```
 
+
+## Viewing a Spark DataFrame
+
 A key aspect of Spark is its laziness. In other words, for most operations, Spark will only check if your code is correct and if it makes sense. Spark will not actually run or execute the operations you are describing in your code, unless you explicit ask for it with a trigger operation. 
 
 You can notice this laziness in the above output. Because when we call for an object that stores a Spark DataFrame (like `df` and `students`), Spark will only calculate and print the schema of your Spark DataFrame, and not the DataFrame itself.
@@ -103,12 +107,21 @@ So how can we actually see our DataFrame? How can we visualize the rows and valu
 students.show()
 ```
 
+By default, this method shows only the top rows of your DataFrame, but you can specify how much rows exactly you want to see, by using `show(n)`, where `n` is the number of rows. For example, I can visualize only the first 2 rows of `df` like this:
 
-## Reading data from static files
+```{python}
+df.show(2)
+```
 
-Another way of creating Spark DataFrames, is to read (or import) a file and convert it to a DataFrame. Spark can read a variety of file formats, including CSV, Parquet, JSON, ORC and Binary files. Furthermore, Spark can connect to other databases and import tables from them, using JDBC connections. 
+## Importing data from different data sources
 
-We can access the read engines for these different file formats, by using the `read` module from your Spark Session object. For example, I have the following CSV file saved in my computer:
+Another way of creating Spark DataFrames, is to read (or import) data from a file and convert it to a DataFrame. Spark can read a variety of file formats, including CSV, Parquet, JSON, ORC and Binary files. Furthermore, Spark can connect to other databases and import tables from them, using JDBC connections. We can access the read engines for these different file formats, by using the `read` module from your Spark Session object. 
+
+### Reading data from static files
+
+Static files are probably the easiest way to transport data from one computer to another. Because you just need to copy and paste this file to this other machine, or download it from the internet. To read any file stored inside your computer, Spark always need to know the path to this file.
+
+As an example, I have the following CSV file saved in my computer:
 
 ```{verbatim}
 name,age,job
@@ -116,8 +129,7 @@ Jorge,30,Developer
 Bob,32,Developer
 ```
 
-
-This CSV was saved in a file called `people.csv`, inside a folder called `Data`. So, to read this file, I give the path to this CSV file to the `read.csv()` method of my Spark Session, like in the example below:
+This CSV was saved in a file called `people.csv`, inside a folder called `Data`. So, to read this file, I gave the path to this CSV file to the `read.csv()` method of my Spark Session, like in the example below:
 
 ```{python}
 path = "../Data/people.csv"
@@ -126,10 +138,38 @@ df = spark.read.csv(path)
 df.show()
 ```
 
-In the above example, I gave a relative path to the file I wanted to read. But you can
+In the above example, I gave a relative path to the file I wanted to read. But you can provide an absolute path^[That is, the complete path to the file, or, in other words, a path that starts in the root folder of your hard drive.] to the file, if you want to. 
+
+The `people.csv` is located at a very specific folder in my Linux computer, so, the absolute path to this file is pretty long as you can see below. But, if I were in my Windows machine, this absolute path would be something like `"C:\Users\pedro\Documents\Projects\..."`.
+
+```{python}
+#| eval: false
+path = "/home/pedro/Documents/Projets/Books/Introd-pyspark/Data/people.csv"
+
+df = spark.read.csv(path)
+df.show()
+```
+
+```{python}
+#| echo: false
+df.show()
+```
+
+If you give an invalid path (that is, a path that does not exist in your computer), you will get a `AnalysisException`. In the example below, I try to read a file called `"weird-file.csv"` that (in theory) is located at my current working directory. But when Spark looks inside my current directory, it does not find any file called `"weird-file.csv"`. As a result, Spark raises a `AnalysisException` that warns me about this mistake.
 
 
-Some of the many different read engines available in spark are listed below:
+```{python}
+#| eval: false
+df = spark.read.csv("weird-file.csv")
+```
+
+```{verbatim}
+Traceback (most recent call last):
+  ...
+pyspark.sql.utils.AnalysisException: Path does not exist: file:/home/pedro/Documents/Projects/Books/Introd-pyspark/weird-file.csv
+```
+
+Even CSV's being a very popular format, is very likely that you will need to read archives in many different formats. The main read engines available in Spark for static files are listed below:
 
 - `spark.read.json()`: to read JSON files;
 - `spark.read.csv()`: to read CSV files;
@@ -137,13 +177,27 @@ Some of the many different read engines available in spark are listed below:
 - `spark.read.orc()`: to read ORC (Apache *Optimized Row Columnar* format) files;
 
 
-### Defining some import options
+### Defining import options
 
-The `spark.read.csv()` method, Spark will use the default options to read and import your CSV files. But, you may want to change these default options at some point.
+While reading and importing your files, Spark will use the default values for the import options defined by the read engine you are using, unless you explicit ask it to use different values. Each read engine has its own read/import options.
 
-For example, the `people.csv` that we shown above, has no column names.
+For example, the `spark.read.orc()` engine has a option called `mergeSchema`. With this option, you can ask Spark to merge the schemas collected from all the ORC part-files. In contrast, the `spark.read.csv()` engine does not have such option. Because this functionality of "merging schemas" does not make sense with CSV files. 
+
+This means that, some import options are specific (or characteristic) of some file formats. For example, the `sep` option (where you define the *separator* character) is used only in the `spark.read.csv()` engine, because you do not have a special character that behaves as the "separator" in the other file formats (ORC, JSON, Parquet...). So it does not make sense to have such option in the other read engines.
+
+In the other hand, some import options can co-exist in multiple read engines. For example, the `spark.read.json()` and `spark.read.csv()` have both an `encoding` option. The encoding is a very important information, and Spark needs it to correct interpret your file. By default, Spark will always assume that your files use the UTF-8 encoding system. Although this may not be true for your specific case, and for these cases you use this `encoding` option to tell Spark which one to use.
+
+In the next sections, I will break down some of the most used import options for each file format. If you want to see the complete list of import options, you can visit the *Data Source Option* section in the specific part of the file format you are using in the Spark SQL Guide^[For example, this *Data Source Option* for Parque files is located at: https://spark.apache.org/docs/latest/sql-data-sources-parquet.html#data-source-option].
+
+### Import options for CSV files
+
+The most important import options for CSV files are `sep`, `encoding`, `header`.
 
 
-## Pulling data from SQL Databases
+
+
+
+
+### Pulling data from SQL Databases
 
 We can use the `spark.read.jdbc()` method to connect and read data from Databases using JDBC connections. Also, you can read a SQL table from your Spark context by using the `spark.table()` method.
