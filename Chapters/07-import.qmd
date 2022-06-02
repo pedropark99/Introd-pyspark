@@ -22,6 +22,9 @@ Bob,32,Developer
 This CSV was saved in a file called `people.csv`, inside a folder called `Data`. So, to read this file, I gave the path to this CSV file to the `read.csv()` method of my Spark Session, like in the example below:
 
 ```{python}
+from pyspark.sql import SparkSession
+spark = SparkSession.builder.getOrCreate()
+
 path = "../Data/people.csv"
 
 df = spark.read.csv(path)
