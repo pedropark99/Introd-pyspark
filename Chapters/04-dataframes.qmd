@@ -94,6 +94,13 @@ students = spark.createDataFrame(data, columns)
 students
 ```
 
+If you need to, you can easily collect a python list with the column names present in your DataFrame, in the same way you would do in a `pandas` DataFrame. That is, by using the `columns` method of your DataFrame, like this:
+
+```{python}
+students.columns
+```
+
+
 
 ## Viewing a Spark DataFrame
 
@@ -140,15 +147,28 @@ for column in schema:
   print(column)
 ```
 
-To access the data type of each column, you use the `dataType` element of each `StructField()` object.
+You can access just the data type of each column by using the `dataType` method of each `StructField()` object.
 
 ```{python}
-schema = df.schema
 for column in schema:
   datatype = column.dataType
   print(datatype)
 ```
 
+And you can do the same for column names and the boolean value (that indicates if the column can contain "null" values), by using the `name` and `nullable` methods, respectively.
+
+```{python}
+# Accessing the name of each column
+for column in schema:
+  print(column.name)
+```
+
+```{python}
+# Accessing the boolean value that indicates
+# if the column can contain null values
+for column in schema:
+  print(column.nullable)
+```
 
 
 
