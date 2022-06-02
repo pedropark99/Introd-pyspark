@@ -72,7 +72,7 @@ df
 
 So, in the above example, we use the `Row()` constructor (from `pyspark.sql` module) to build 4 rows. The `createDataFrame()` method, stack these 4 rows together to form our new DataFrame `df`. The result is a DataFrame with 4 rows and 3 columns (`id`, `value` and `date`).
 
-But you can use different methods to create the same DataFrame. As another example, with the code below, we are creating a DataFrame called `students`. To do this, we create two python lists (`data` and `columns`), then, deliver these lists to `createDataFrame()` method. Each element of `data` is a python `tuple` that represents a row in the `students` DataFrame.
+But you can use different methods to create the same DataFrame. As another example, with the code below, we are creating a DataFrame called `students`. To do this, we create two python lists (`data` and `columns`), then, deliver these lists to `createDataFrame()` method. Each element of `data` is a python `tuple` that represents a row in the `students` DataFrame. And each element of `columns` represent the name of a column present in this new DataFrame.
 
 ```{python}
 
@@ -112,4 +112,24 @@ By default, this method shows only the top rows of your DataFrame, but you can s
 ```{python}
 df.show(2)
 ```
+
+
+## The DataFrame Schema
+
+The schema of a Spark DataFrame is the combination of column names and the data types associated with each of these columns. For example, if we look again to the `df` DataFrame, we get a succinct description of the schema of this DataFrame. 
+
+See in the result below, that `df` has three columns (`id`, `value` and `date`). By the description `id: bigint`, we know that `id` is a column of type `bigint`, which translates to the `LongType()` of Spark (we will talk about these data types shortly). Furthermore, by the descriptions `value: double` and `date: date`, we know too that the columns `value` and `date` are of type `double` and `date`, respectively.
+
+```{python}
+df
+```
+
+So, by calling the object of your DataFrame (i.e. an object of class `pyspark.sql.dataframe.DataFrame`), you get a small description of the schema of this DataFrame. But, how can you access the complete description of the schema programmatically? You do this, by using the `schema` method of your DataFrame, like in the example below:
+
+```{python}
+df.schema
+```
+
+
+
 
