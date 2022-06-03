@@ -2,4 +2,56 @@
 title: "Transforming your Spark DataFrame"
 ---
 
+## Introduction
+
+
+## Defining basic transformations
+
+Spark DataFrames are immutable, meaning that, they cannot be directly changed. But you can use an existing DataFrame to create a new one, based on a set of transformations. In other words, you define a new DataFrame as a transformed version of an older DataFrame.
+
+Basically every `pyspark` program that you write will have such transformations. In Spark, you can have 4 basic transformations that you can apply to a DataFrame:
+
+- Filtering rows;
+- Sorting rows;
+- Adding or deleting columns;
+- Calculate aggregates;
+
+So each one of the above transformations, when applied to an existing DataFrame, will give you a new DataFrame as a result. You usually combine multiple transformations together to get your desired result.
+
+```{python}
+from pyspark.sql import SparkSession
+spark = SparkSession.builder.getOrCreate()
+from datetime import date
+from pyspark.sql import Row
+
+data = [
+  Row(id = 1, value = 28.3, date = date(2021,1,1)),
+  Row(id = 2, value = 15.8, date = date(2021,1,1)),
+  Row(id = 3, value = 20.1, date = date(2021,1,2)),
+  Row(id = 4, value = 12.6, date = date(2021,1,3))
+]
+
+df = spark.createDataFrame(data)
+```
+
+In the example below, to create this new DataFrame called `value_per_date`, we begin with the `df` DataFrame, then, we filter its rows where `value` is greater than 15, then, we group it by the values in the `date` column, then, we calculate the sum of the `value` column. So, this set of sequential transformations (filter it, then, group it, then, aggregate it, ...) defines this new `value_per_date` DataFrame.
+
+```{python}
+# You define a chain of transformations to
+# create a new DataFrame
+value_per_date = df\
+  .filter(col('value') > 15)\
+  .groupBy('date')\
+  .sum('value')
+```
+
+
+## Triggering calculations with actions
+
+
+
+## Understanding narrow and wide transformations
+
+## Filtering rows
+
 
