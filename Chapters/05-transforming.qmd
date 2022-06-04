@@ -16,7 +16,7 @@ Basically every `pyspark` program that you write will have such transformations.
 - Adding or deleting columns;
 - Calculate aggregates;
 
-So each one of the above transformations, when applied to an existing DataFrame, will give you a new DataFrame as a result. You usually combine multiple transformations together to get your desired result. As a first example, lets get back to the `df` DataFrame:
+Therefore, when you apply one of the above transformations to an existing DataFrame, you will get a new DataFrame as a result. You usually combine multiple transformations together to get your desired result. As a first example, lets get back to the `df` DataFrame:
 
 ```{python}
 from pyspark.sql import SparkSession
@@ -62,7 +62,14 @@ There are five kinds of actions in Spark:
 - Describing a DataFrame;
 - Counting the number of rows in a DataFrame;
 
-The first
+You already know the first type of action, because we used it before with the `show()` method. This `show()` method is an action by itself, because you are asking Spark to show some output to you. So we can make Spark to actually calculate the transformations that defines the `big_values` DataFrame, by asking Spark to show this DataFrame to us.
+
+```{python}
+big_values.show()
+```
+
+
+
 
 ## Understanding narrow and wide transformations
 
