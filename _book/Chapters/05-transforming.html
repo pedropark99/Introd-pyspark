@@ -15,6 +15,69 @@ span.underline{text-decoration: underline;}
 div.column{display: inline-block; vertical-align: top; width: 50%;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 <script src="../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -137,7 +200,17 @@ ul.task-list{list-style: none;}
 </nav>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"> <span class="header-section-number">6.1</span> Introduction</a></li>
+  <li><a href="#defining-basic-transformations" id="toc-defining-basic-transformations" class="nav-link" data-scroll-target="#defining-basic-transformations"> <span class="header-section-number">6.2</span> Defining basic transformations</a></li>
+  <li><a href="#triggering-calculations-with-actions" id="toc-triggering-calculations-with-actions" class="nav-link" data-scroll-target="#triggering-calculations-with-actions"> <span class="header-section-number">6.3</span> Triggering calculations with actions</a></li>
+  <li><a href="#understanding-narrow-and-wide-transformations" id="toc-understanding-narrow-and-wide-transformations" class="nav-link" data-scroll-target="#understanding-narrow-and-wide-transformations"> <span class="header-section-number">6.4</span> Understanding narrow and wide transformations</a></li>
+  <li><a href="#filtering-rows" id="toc-filtering-rows" class="nav-link" data-scroll-target="#filtering-rows"> <span class="header-section-number">6.5</span> Filtering rows</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -160,8 +233,69 @@ ul.task-list{list-style: none;}
 
 </header>
 
+<section id="introduction" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">6.1</span> Introduction</h2>
+</section>
+<section id="defining-basic-transformations" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="defining-basic-transformations"><span class="header-section-number">6.2</span> Defining basic transformations</h2>
+<p>Spark DataFrames are immutable, meaning that, they cannot be directly changed. But you can use an existing DataFrame to create a new one, based on a set of transformations. In other words, you define a new DataFrame as a transformed version of an older DataFrame.</p>
+<p>Basically every <code>pyspark</code> program that you write will have such transformations. In Spark, you have 4 basic transformations that you can apply to a DataFrame:</p>
+<ul>
+<li>Filtering rows;</li>
+<li>Sorting rows;</li>
+<li>Adding or deleting columns;</li>
+<li>Calculate aggregates;</li>
+</ul>
+<p>So each one of the above transformations, when applied to an existing DataFrame, will give you a new DataFrame as a result. You usually combine multiple transformations together to get your desired result. As a first example, lets get back to the <code>df</code> DataFrame:</p>
+<div class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql <span class="im">import</span> SparkSession</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>spark <span class="op">=</span> SparkSession.builder.getOrCreate()</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datetime <span class="im">import</span> date</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql <span class="im">import</span> Row</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> [</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  Row(<span class="bu">id</span> <span class="op">=</span> <span class="dv">1</span>, value <span class="op">=</span> <span class="fl">28.3</span>, date <span class="op">=</span> date(<span class="dv">2021</span>,<span class="dv">1</span>,<span class="dv">1</span>)),</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  Row(<span class="bu">id</span> <span class="op">=</span> <span class="dv">2</span>, value <span class="op">=</span> <span class="fl">15.8</span>, date <span class="op">=</span> date(<span class="dv">2021</span>,<span class="dv">1</span>,<span class="dv">1</span>)),</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  Row(<span class="bu">id</span> <span class="op">=</span> <span class="dv">3</span>, value <span class="op">=</span> <span class="fl">20.1</span>, date <span class="op">=</span> date(<span class="dv">2021</span>,<span class="dv">1</span>,<span class="dv">2</span>)),</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  Row(<span class="bu">id</span> <span class="op">=</span> <span class="dv">4</span>, value <span class="op">=</span> <span class="fl">12.6</span>, date <span class="op">=</span> date(<span class="dv">2021</span>,<span class="dv">1</span>,<span class="dv">3</span>))</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> spark.createDataFrame(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>In the example below, to create a new DataFrame called <code>big_values</code>, we begin with the <code>df</code> DataFrame, then, we filter its rows where <code>value</code> is greater than 15, then, we select <code>date</code> and <code>value</code> columns, then, we sort the rows based on the <code>value</code> column. So, this set of sequential transformations (filter it, then, select it, then, order it, …) defines what this new <code>big_values</code> DataFrame is.</p>
+<div class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> col</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># You define a chain of transformations to</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># create a new DataFrame</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>big_values <span class="op">=</span> df<span class="op">\</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  .<span class="bu">filter</span>(col(<span class="st">'value'</span>) <span class="op">&gt;</span> <span class="dv">15</span>)<span class="op">\</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  .select(<span class="st">'date'</span>, <span class="st">'value'</span>)<span class="op">\</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  .orderBy(<span class="st">'value'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Thus, to apply a transformation to an existing DataFrame, we use DataFrame methods such as <code>select()</code>, <code>filter()</code>, <code>withColumn()</code>, <code>orderBy()</code> and <code>agg()</code>. Remember, these are methods from the python class that defines Apache Spark DataFrame’s (i.e.&nbsp;<code>pyspark.sql.dataframe.DataFrame</code>). This means that, you can apply these transformations only to Spark DataFrames, and no other kind of python object.</p>
+<p>Each one of these methods create a <em>lazily evaluated transformation</em>. Once again, we see the <strong>lazy</strong> aspect of Spark doing its work here. All these transformation methods are lazily evaluated, meaning that, Spark will only check if they make sense with the initial DataFrame that you have. Spark will not actually perform these transformations on your initial DataFrame, not untill you trigger these transformations with an <strong>action</strong>.</p>
+</section>
+<section id="triggering-calculations-with-actions" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="triggering-calculations-with-actions"><span class="header-section-number">6.3</span> Triggering calculations with actions</h2>
+<p>Therefore, Spark will avoid performing any heavy calculation until such calculation is really needed. But how or when Spark will face this decision? <strong>When it encounters an action</strong>. An action is the tool you have to trigger Spark to actually perform the transformations you have defined.</p>
+<p>There are five kinds of actions in Spark:</p>
+<ul>
+<li>Showing an output;</li>
+<li>Writing data to disk;</li>
+<li>Collecting parts of a DataFrame;</li>
+<li>Describing a DataFrame;</li>
+<li>Counting the number of rows in a DataFrame;</li>
+</ul>
+<p>The first</p>
+</section>
+<section id="understanding-narrow-and-wide-transformations" class="level2" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="understanding-narrow-and-wide-transformations"><span class="header-section-number">6.4</span> Understanding narrow and wide transformations</h2>
+</section>
+<section id="filtering-rows" class="level2" data-number="6.5">
+<h2 data-number="6.5" class="anchored" data-anchor-id="filtering-rows"><span class="header-section-number">6.5</span> Filtering rows</h2>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

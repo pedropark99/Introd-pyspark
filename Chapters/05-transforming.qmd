@@ -9,14 +9,14 @@ title: "Transforming your Spark DataFrame"
 
 Spark DataFrames are immutable, meaning that, they cannot be directly changed. But you can use an existing DataFrame to create a new one, based on a set of transformations. In other words, you define a new DataFrame as a transformed version of an older DataFrame.
 
-Basically every `pyspark` program that you write will have such transformations. In Spark, you can have 4 basic transformations that you can apply to a DataFrame:
+Basically every `pyspark` program that you write will have such transformations. In Spark, you have 4 basic transformations that you can apply to a DataFrame:
 
 - Filtering rows;
 - Sorting rows;
 - Adding or deleting columns;
 - Calculate aggregates;
 
-So each one of the above transformations, when applied to an existing DataFrame, will give you a new DataFrame as a result. You usually combine multiple transformations together to get your desired result.
+So each one of the above transformations, when applied to an existing DataFrame, will give you a new DataFrame as a result. You usually combine multiple transformations together to get your desired result. As a first example, lets get back to the `df` DataFrame:
 
 ```{python}
 from pyspark.sql import SparkSession
@@ -34,21 +34,35 @@ data = [
 df = spark.createDataFrame(data)
 ```
 
-In the example below, to create this new DataFrame called `value_per_date`, we begin with the `df` DataFrame, then, we filter its rows where `value` is greater than 15, then, we group it by the values in the `date` column, then, we calculate the sum of the `value` column. So, this set of sequential transformations (filter it, then, group it, then, aggregate it, ...) defines this new `value_per_date` DataFrame.
+In the example below, to create a new DataFrame called `big_values`, we begin with the `df` DataFrame, then, we filter its rows where `value` is greater than 15, then, we select `date` and `value` columns, then, we sort the rows based on the `value` column. So, this set of sequential transformations (filter it, then, select it, then, order it, ...) defines what this new `big_values` DataFrame is.
 
 ```{python}
+from pyspark.sql.functions import col
 # You define a chain of transformations to
 # create a new DataFrame
-value_per_date = df\
+big_values = df\
   .filter(col('value') > 15)\
-  .groupBy('date')\
-  .sum('value')
+  .select('date', 'value')\
+  .orderBy('value')
 ```
 
+Thus, to apply a transformation to an existing DataFrame, we use DataFrame methods such as `select()`, `filter()`, `withColumn()`, `orderBy()` and `agg()`. Remember, these are methods from the python class that defines Apache Spark DataFrame's (i.e. `pyspark.sql.dataframe.DataFrame`). This means that, you can apply these transformations only to Spark DataFrames, and no other kind of python object. 
+
+Each one of these methods create a *lazily evaluated transformation*. Once again, we see the **lazy** aspect of Spark doing its work here. All these transformation methods are lazily evaluated, meaning that, Spark will only check if they make sense with the initial DataFrame that you have. Spark will not actually perform these transformations on your initial DataFrame, not untill you trigger these transformations with an **action**.
 
 ## Triggering calculations with actions
 
+Therefore, Spark will avoid performing any heavy calculation until such calculation is really needed. But how or when Spark will face this decision? **When it encounters an action**. An action is the tool you have to trigger Spark to actually perform the transformations you have defined.
 
+There are five kinds of actions in Spark:
+
+- Showing an output;
+- Writing data to disk;
+- Collecting parts of a DataFrame;
+- Describing a DataFrame;
+- Counting the number of rows in a DataFrame;
+
+The first
 
 ## Understanding narrow and wide transformations
 

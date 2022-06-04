@@ -1,7 +1,7 @@
 {
-  "hash": "7560f644beee8be2f4a118c2f56bdca6",
+  "hash": "359e1ed5da746b5e9b3596378b74c56d",
   "result": {
-    "markdown": "\n\n# Welcome!\n\nHello! This is the initial page!\n\n\n\n\n",
+    "markdown": "\n\n# Welcome!\n\nHello! This is the initial page! This book provides an introduction to `pyspark`, but, because `pyspark` is a python API to Apache Spark, this book is about Apache Spark too.\n\n\n\n\n",
     "supporting": [],
     "filters": [
       "rmarkdown/pagebreak.lua"

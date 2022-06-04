@@ -2,7 +2,7 @@
 
 # Welcome!
 
-Hello! This is the initial page!
+Hello! This is the initial page! This book provides an introduction to `pyspark`, but, because `pyspark` is a python API to Apache Spark, this book is about Apache Spark too.
 
 
 ```{r setup, include=FALSE}
