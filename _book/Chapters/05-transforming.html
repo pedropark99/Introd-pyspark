@@ -78,6 +78,25 @@ code span.st { color: #4070a0; } /* String */
 code span.va { color: #19177c; } /* Variable */
 code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
 </style>
 
 <script src="../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -206,7 +225,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <ul>
   <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"> <span class="header-section-number">6.1</span> Introduction</a></li>
   <li><a href="#defining-basic-transformations" id="toc-defining-basic-transformations" class="nav-link" data-scroll-target="#defining-basic-transformations"> <span class="header-section-number">6.2</span> Defining basic transformations</a></li>
-  <li><a href="#triggering-calculations-with-actions" id="toc-triggering-calculations-with-actions" class="nav-link" data-scroll-target="#triggering-calculations-with-actions"> <span class="header-section-number">6.3</span> Triggering calculations with actions</a></li>
+  <li><a href="#sec-dataframe-actions" id="toc-sec-dataframe-actions" class="nav-link" data-scroll-target="#sec-dataframe-actions"> <span class="header-section-number">6.3</span> Triggering calculations with actions</a></li>
   <li><a href="#understanding-narrow-and-wide-transformations" id="toc-understanding-narrow-and-wide-transformations" class="nav-link" data-scroll-target="#understanding-narrow-and-wide-transformations"> <span class="header-section-number">6.4</span> Understanding narrow and wide transformations</a></li>
   <li><a href="#filtering-rows" id="toc-filtering-rows" class="nav-link" data-scroll-target="#filtering-rows"> <span class="header-section-number">6.5</span> Filtering rows</a></li>
   </ul>
@@ -275,16 +294,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Thus, to apply a transformation to an existing DataFrame, we use DataFrame methods such as <code>select()</code>, <code>filter()</code>, <code>withColumn()</code>, <code>orderBy()</code> and <code>agg()</code>. Remember, these are methods from the python class that defines Apache Spark DataFrame’s (i.e.&nbsp;<code>pyspark.sql.dataframe.DataFrame</code>). This means that, you can apply these transformations only to Spark DataFrames, and no other kind of python object.</p>
 <p>Each one of these methods create a <em>lazily evaluated transformation</em>. Once again, we see the <strong>lazy</strong> aspect of Spark doing its work here. All these transformation methods are lazily evaluated, meaning that, Spark will only check if they make sense with the initial DataFrame that you have. Spark will not actually perform these transformations on your initial DataFrame, not untill you trigger these transformations with an <strong>action</strong>.</p>
 </section>
-<section id="triggering-calculations-with-actions" class="level2" data-number="6.3">
-<h2 data-number="6.3" class="anchored" data-anchor-id="triggering-calculations-with-actions"><span class="header-section-number">6.3</span> Triggering calculations with actions</h2>
+<section id="sec-dataframe-actions" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="sec-dataframe-actions"><span class="header-section-number">6.3</span> Triggering calculations with actions</h2>
 <p>Therefore, Spark will avoid performing any heavy calculation until such calculation is really needed. But how or when Spark will face this decision? <strong>When it encounters an action</strong>. An action is the tool you have to trigger Spark to actually perform the transformations you have defined.</p>
-<p>There are five kinds of actions in Spark:</p>
+<blockquote class="blockquote">
+<blockquote class="blockquote">
+<p>An action instructs Spark to compute the result from a series of transformations. <span class="citation" data-cites="chambers2018">(<a href="references.html#ref-chambers2018" role="doc-biblioref">Chambers and Zaharia 2018</a>)</span>.</p>
+</blockquote>
+</blockquote>
+<p>There are four kinds of actions in Spark:</p>
 <ul>
-<li>Showing an output;</li>
-<li>Writing data to disk;</li>
-<li>Collecting parts of a DataFrame;</li>
-<li>Describing a DataFrame;</li>
-<li>Counting the number of rows in a DataFrame;</li>
+<li>Showing an output in the console;</li>
+<li>Writing Spark data to some file or data source;</li>
+<li>Collecting data from a Spark DataFrame to native objects in python (or Java, Scala, R, etc.);</li>
+<li>Counting the number of rows in a Spark DataFrame;</li>
 </ul>
 <p>You already know the first type of action, because we used it before with the <code>show()</code> method. This <code>show()</code> method is an action by itself, because you are asking Spark to show some output to you. So we can make Spark to actually calculate the transformations that defines the <code>big_values</code> DataFrame, by asking Spark to show this DataFrame to us.</p>
 <div class="cell" data-execution_count="3">
@@ -307,8 +330,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code>3</code></pre>
 </div>
 </div>
-<p>Sometimes, you want to collect the data of a Spark DataFrame to use it inside python. In other words, sometimes you need to do some work that Spark cannot do by itself. To do so, you collect part of the data that is being generated by Spark, and store it inside a normal python object to use it in a standard python program.</p>
-<p>That is what the <code>collect()</code> method do. It transfers all the data of your Spark DataFrame into a standard python list that you can easily access with python:</p>
+<p>Furthermore, sometimes, you want to collect the data of a Spark DataFrame to use it inside python. In other words, sometimes you need to do some work that Spark cannot do by itself. To do so, you collect part of the data that is being generated by Spark, and store it inside a normal python object to use it in a standard python program.</p>
+<p>That is what the <code>collect()</code> method do. It transfers all the data of your Spark DataFrame into a standard python list that you can easily access with python. More specifically, you get a python list full of <code>Row()</code> values:</p>
 <div class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> big_values.collect()</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -316,32 +339,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code>[Row(date=datetime.date(2021, 1, 1), value=15.8), Row(date=datetime.date(2021, 1, 2), value=20.1), Row(date=datetime.date(2021, 1, 1), value=28.3)]</code></pre>
 </div>
 </div>
-<p>The <code>take()</code> method is very similar to <code>collect()</code>. But you usually use <code>take()</code> when you need to collect just a small section of your DataFrame, like the first <code>n</code> rows.</p>
+<p>The <code>take()</code> method is very similar to <code>collect()</code>. But you usually apply <code>take()</code> when you need to collect just a small section of your DataFrame (and not the entire thing), like the first <code>n</code> rows.</p>
 <div class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">1</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>first_row <span class="op">=</span> big_values.take(n)</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(first_row)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[Row(date=datetime.date(2021, 1, 1), value=15.8)]</code></pre>
-</div>
-</div>
-<p>Furthermore, you have the <code>summary()</code> and <code>describe()</code> methods to get some useful summary information about your Spark DataFrame. Both of these methods calculate a new DataFrame, that is why I used the <code>show()</code> method to actually see what this DataFrame looks like.</p>
-<div class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>big_values.summary().show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>+-------+------------------+
-|summary|             value|
-+-------+------------------+
-|  count|                 3|
-|   mean|21.400000000000002|
-| stddev| 6.350590523722969|
-|    min|              15.8|
-|    25%|              15.8|
-|    50%|              20.1|
-|    75%|              28.3|
-|    max|              28.3|
-+-------+------------------+
-</code></pre>
 </div>
 </div>
 <p>The last action would be the <code>write()</code> method, but we will explain this method latter, in the <a href="07-import.html#sec-import-export">Section&nbsp;<span>8.1</span></a>.</p>
@@ -353,6 +357,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2 data-number="6.5" class="anchored" data-anchor-id="filtering-rows"><span class="header-section-number">6.5</span> Filtering rows</h2>
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography" style="display: none">
+<div id="ref-chambers2018" class="csl-entry" role="doc-biblioentry">
+Chambers, Bill, and Matei Zaharia. 2018. <em>Spark: The Definitive Guide: Big Data Processing Made Simple</em>. Sebastopol, CA: O’Reilly Media.
+</div>
+</div>
 </section>
 
 </main> <!-- /main -->
