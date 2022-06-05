@@ -129,8 +129,26 @@ A classic example of wide operation is a grouped aggregation. For example, lets 
 
 ## Filtering rows of your DataFrame
 
+To filter specific rows of a DataFrame, `pyspark` offers two equivalent methods called `where()` and `filter()`. In other words, they both do the same thing, and work in the same way. To use 
+
+```{python}
+path = "../Data/transf_reform.csv"
+transf = spark.read.csv(path)\
+  option("sep", ";")
+  
+transf.show()
+```
+
+
+```{python}
+transf\
+```
+
+
 
 ## Selecting specific columns of your DataFrame
+
+Sometimes, you need to change the order of the columns, or, to delete some of them from your DataFrame. To do this, you can use the `select()` and `drop()` methods.
 
 
 ## Calculating or adding new columns to your DataFrame
