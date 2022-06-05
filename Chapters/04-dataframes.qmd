@@ -17,7 +17,7 @@ This means that, Spark DataFrames are very similar to tables as we know in relat
 
 In the other hand, Spark Datasets are considered a collection of any type of data. So a Dataset might be a collection of unstructured data as well, like log files, JSON and XML trees, etc. Spark Datasets can be created and transformed trough the Dataset API of Spark. But this API is available only in Scala and Java API's of Spark. For this reason, we do not act directly on Datasets with `pyspark`, only DataFrames. That's ok, because for the most part of applications, we do want to use DataFrames, and not Datasets, to represent our data.
 
-But, what makes a Spark DataFrame different from other dataframes? Like the `pandas` DataFrame? Or the R native `data.frame` structure? Is the **distributed** aspect of it. Spark DataFrames are based on Spark Datasets, and these Datasets are collections of data that are distributed across the cluster. As an example, lets suppose you have the following table stored as a Spark DataFrame:
+However, what makes a Spark DataFrame different from other dataframes? Like the `pandas` DataFrame? Or the R native `data.frame` structure? Is the **distributed** aspect of it. Spark DataFrames are based on Spark Datasets, and these Datasets are collections of data that are distributed across the cluster. As an example, lets suppose you have the following table stored as a Spark DataFrame:
 
 | ID  | Name   | Value |
 |-----|--------|-------|
@@ -170,5 +170,9 @@ for column in schema:
   print(column.nullable)
 ```
 
+
+## Partitions of a Spark DataFrame
+
+As we exposed in @fig-distributed-df, a Spark DataFrame is broken into many small parts that are distributed across the cluster. Each one of these parts are considered a DataFrame *partition*.
 
 

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-0.9.393">
+<meta name="generator" content="quarto-0.9.518">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -80,13 +80,14 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+
 <script src="../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../site_libs/clipboard/clipboard.min.js"></script>
-<meta name="quarto:offset" content="../">
 <script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
 <link href="../Chapters/02-python.html" rel="next">
 <link href="../index.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js"></script>
@@ -94,7 +95,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link id="quarto-text-highlighting-styles" href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
@@ -236,8 +237,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 
 
-
-
 <div class="quarto-title-meta">
 
     
@@ -350,7 +349,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </section>
 <section id="install-pyspark" class="level3">
 <h3 class="anchored" data-anchor-id="install-pyspark">Install <code>pyspark</code></h3>
-<p>Installing the <code>pyspark</code> python package is pretty straightforward. Just open a terminal (if you need help to open the terminal check <a href="#sec-open-terminal">Section&nbsp;<span>3</span></a>), and use the <code>pip</code> command to do it:</p>
+<p>Installing the <code>pyspark</code> python package is pretty straightforward. Just open a terminal (if you need help to open the terminal check <a href="#sec-open-terminal"><span>Section&nbsp;3</span></a>), and use the <code>pip</code> command to do it:</p>
 <pre class="{terminal}"><code>Terminal$ pip install pyspark</code></pre>
 <p>If you try to run the above command (inside a terminal of any OS), and a message like <code>pip: command not found</code> appears, this means that you do not have the <code>pip</code> tool installed on your machine. Hence, if you face this kind of message, you need to install <code>pip</code> before you even install <code>pyspark</code>.</p>
 <p>The <code>pip</code> tool is automatically installed with Python on Windows. So, if you face this message (<code>pip: command not found</code>), then, is very likely that you do not have Python correctly installed on your machine. Or maybe, Python is not installed at all in any shape or size in your system. So, you should comeback to previous section, and re install it.</p>
