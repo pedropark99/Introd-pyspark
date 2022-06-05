@@ -2,7 +2,7 @@
 # Importing data to Spark {#sec-import-export}
 
 
-## Importing data from different data sources {#sec-import-export}
+## Importing data from different data sources
 
 Another way of creating Spark DataFrames, is to read (or import) data from a file and convert it to a DataFrame. Spark can read a variety of file formats, including CSV, Parquet, JSON, ORC and Binary files. Furthermore, Spark can connect to other databases and import tables from them, using JDBC connections. We can access the read engines for these different file formats, by using the `read` module from your Spark Session object. 
 
