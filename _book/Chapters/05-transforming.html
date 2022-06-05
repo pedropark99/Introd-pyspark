@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Introduction to pyspark - 6&nbsp; Transforming your Spark DataFrame</title>
+<title>Introduction to pyspark - 4&nbsp; Transforming your Spark DataFrame</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -146,7 +146,7 @@ div.csl-indent {
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Transforming your Spark DataFrame</span></h1>
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Transforming your Spark DataFrame</span></h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -171,42 +171,42 @@ div.csl-indent {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../index.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Welcome!</span></a>
+  <a href="../index.html" class="sidebar-item-text sidebar-link">Welcome!</a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Chapters/01-intro.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Preface</span></a>
+  <a href="../Chapters/01-intro.html" class="sidebar-item-text sidebar-link">Preface</a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Chapters/02-python.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Key concepts of python</span></a>
+  <a href="../Chapters/02-python.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Key concepts of python</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Chapters/03-spark.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Introducing Apache Spark</span></a>
+  <a href="../Chapters/03-spark.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introducing Apache Spark</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Chapters/04-dataframes.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Introducing Spark DataFrames</span></a>
+  <a href="../Chapters/04-dataframes.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Introducing Spark DataFrames</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Chapters/05-transforming.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Transforming your Spark DataFrame</span></a>
+  <a href="../Chapters/05-transforming.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Transforming your Spark DataFrame</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Chapters/06-dataframes-sql.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Working with SQL in Spark DataFrames</span></a>
+  <a href="../Chapters/06-dataframes-sql.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Working with SQL in Spark DataFrames</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Chapters/07-import.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Importing data to Spark</span></a>
+  <a href="../Chapters/07-import.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Importing data to Spark</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -223,11 +223,11 @@ div.csl-indent {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"> <span class="header-section-number">6.1</span> Introduction</a></li>
-  <li><a href="#defining-basic-transformations" id="toc-defining-basic-transformations" class="nav-link" data-scroll-target="#defining-basic-transformations"> <span class="header-section-number">6.2</span> Defining basic transformations</a></li>
-  <li><a href="#sec-dataframe-actions" id="toc-sec-dataframe-actions" class="nav-link" data-scroll-target="#sec-dataframe-actions"> <span class="header-section-number">6.3</span> Triggering calculations with actions</a></li>
-  <li><a href="#understanding-narrow-and-wide-transformations" id="toc-understanding-narrow-and-wide-transformations" class="nav-link" data-scroll-target="#understanding-narrow-and-wide-transformations"> <span class="header-section-number">6.4</span> Understanding narrow and wide transformations</a></li>
-  <li><a href="#filtering-rows" id="toc-filtering-rows" class="nav-link" data-scroll-target="#filtering-rows"> <span class="header-section-number">6.5</span> Filtering rows</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"> <span class="header-section-number">4.1</span> Introduction</a></li>
+  <li><a href="#defining-basic-transformations" id="toc-defining-basic-transformations" class="nav-link" data-scroll-target="#defining-basic-transformations"> <span class="header-section-number">4.2</span> Defining basic transformations</a></li>
+  <li><a href="#sec-dataframe-actions" id="toc-sec-dataframe-actions" class="nav-link" data-scroll-target="#sec-dataframe-actions"> <span class="header-section-number">4.3</span> Triggering calculations with actions</a></li>
+  <li><a href="#understanding-narrow-and-wide-transformations" id="toc-understanding-narrow-and-wide-transformations" class="nav-link" data-scroll-target="#understanding-narrow-and-wide-transformations"> <span class="header-section-number">4.4</span> Understanding narrow and wide transformations</a></li>
+  <li><a href="#filtering-rows" id="toc-filtering-rows" class="nav-link" data-scroll-target="#filtering-rows"> <span class="header-section-number">4.5</span> Filtering rows</a></li>
   </ul>
 </nav>
     </div>
@@ -236,7 +236,7 @@ div.csl-indent {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Transforming your Spark DataFrame</span></h1>
+<h1 class="title d-none d-lg-block"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Transforming your Spark DataFrame</span></h1>
 </div>
 
 
@@ -252,11 +252,11 @@ div.csl-indent {
 
 </header>
 
-<section id="introduction" class="level2" data-number="6.1">
-<h2 data-number="6.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">6.1</span> Introduction</h2>
+<section id="introduction" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">4.1</span> Introduction</h2>
 </section>
-<section id="defining-basic-transformations" class="level2" data-number="6.2">
-<h2 data-number="6.2" class="anchored" data-anchor-id="defining-basic-transformations"><span class="header-section-number">6.2</span> Defining basic transformations</h2>
+<section id="defining-basic-transformations" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="defining-basic-transformations"><span class="header-section-number">4.2</span> Defining basic transformations</h2>
 <p>Spark DataFrames are immutable, meaning that, they cannot be directly changed. But you can use an existing DataFrame to create a new one, based on a set of transformations. In other words, you define a new DataFrame as a transformed version of an older DataFrame.</p>
 <p>Basically every <code>pyspark</code> program that you write will have such transformations. In Spark, you have 4 basic transformations that you can apply to a DataFrame:</p>
 <ul>
@@ -294,8 +294,8 @@ div.csl-indent {
 <p>Thus, to apply a transformation to an existing DataFrame, we use DataFrame methods such as <code>select()</code>, <code>filter()</code>, <code>withColumn()</code>, <code>orderBy()</code> and <code>agg()</code>. Remember, these are methods from the python class that defines Apache Spark DataFrame’s (i.e.&nbsp;<code>pyspark.sql.dataframe.DataFrame</code>). This means that, you can apply these transformations only to Spark DataFrames, and no other kind of python object.</p>
 <p>Each one of these methods create a <em>lazily evaluated transformation</em>. Once again, we see the <strong>lazy</strong> aspect of Spark doing its work here. All these transformation methods are lazily evaluated, meaning that, Spark will only check if they make sense with the initial DataFrame that you have. Spark will not actually perform these transformations on your initial DataFrame, not untill you trigger these transformations with an <strong>action</strong>.</p>
 </section>
-<section id="sec-dataframe-actions" class="level2" data-number="6.3">
-<h2 data-number="6.3" class="anchored" data-anchor-id="sec-dataframe-actions"><span class="header-section-number">6.3</span> Triggering calculations with actions</h2>
+<section id="sec-dataframe-actions" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="sec-dataframe-actions"><span class="header-section-number">4.3</span> Triggering calculations with actions</h2>
 <p>Therefore, Spark will avoid performing any heavy calculation until such calculation is really needed. But how or when Spark will face this decision? <strong>When it encounters an action</strong>. An action is the tool you have to trigger Spark to actually perform the transformations you have defined.</p>
 <blockquote class="blockquote">
 <blockquote class="blockquote">
@@ -348,13 +348,13 @@ div.csl-indent {
 <pre><code>[Row(date=datetime.date(2021, 1, 1), value=15.8)]</code></pre>
 </div>
 </div>
-<p>The last action would be the <code>write()</code> method, but we will explain this method latter, in the <a href="07-import.html#sec-import-export">Section&nbsp;<span>8.1</span></a>.</p>
+<p>The last action would be the <code>write()</code> method, but we will explain this method latter, in the <a href="07-import.html#sec-import-export">Section&nbsp;<span>6.1</span></a>.</p>
 </section>
-<section id="understanding-narrow-and-wide-transformations" class="level2" data-number="6.4">
-<h2 data-number="6.4" class="anchored" data-anchor-id="understanding-narrow-and-wide-transformations"><span class="header-section-number">6.4</span> Understanding narrow and wide transformations</h2>
+<section id="understanding-narrow-and-wide-transformations" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="understanding-narrow-and-wide-transformations"><span class="header-section-number">4.4</span> Understanding narrow and wide transformations</h2>
 </section>
-<section id="filtering-rows" class="level2" data-number="6.5">
-<h2 data-number="6.5" class="anchored" data-anchor-id="filtering-rows"><span class="header-section-number">6.5</span> Filtering rows</h2>
+<section id="filtering-rows" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="filtering-rows"><span class="header-section-number">4.5</span> Filtering rows</h2>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography" style="display: none">
@@ -447,12 +447,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="../Chapters/04-dataframes.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Introducing Spark DataFrames</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Introducing Spark DataFrames</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="../Chapters/06-dataframes-sql.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Working with SQL in Spark DataFrames</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Working with SQL in Spark DataFrames</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

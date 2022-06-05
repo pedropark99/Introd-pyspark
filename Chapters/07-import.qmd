@@ -1,6 +1,5 @@
----
-title: "Importing data to Spark"
----
+
+# Importing data to Spark {#sec-import-export}
 
 
 ## Importing data from different data sources {#sec-import-export}

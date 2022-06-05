@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Introduction to pyspark - 5&nbsp; Introducing Spark DataFrames</title>
+<title>Introduction to pyspark - 3&nbsp; Introducing Spark DataFrames</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -146,7 +146,7 @@ div.csl-indent {
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Introducing Spark DataFrames</span></h1>
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Introducing Spark DataFrames</span></h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -171,42 +171,42 @@ div.csl-indent {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../index.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Welcome!</span></a>
+  <a href="../index.html" class="sidebar-item-text sidebar-link">Welcome!</a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Chapters/01-intro.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Preface</span></a>
+  <a href="../Chapters/01-intro.html" class="sidebar-item-text sidebar-link">Preface</a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Chapters/02-python.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Key concepts of python</span></a>
+  <a href="../Chapters/02-python.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Key concepts of python</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Chapters/03-spark.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Introducing Apache Spark</span></a>
+  <a href="../Chapters/03-spark.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introducing Apache Spark</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Chapters/04-dataframes.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Introducing Spark DataFrames</span></a>
+  <a href="../Chapters/04-dataframes.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Introducing Spark DataFrames</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Chapters/05-transforming.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Transforming your Spark DataFrame</span></a>
+  <a href="../Chapters/05-transforming.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Transforming your Spark DataFrame</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Chapters/06-dataframes-sql.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Working with SQL in Spark DataFrames</span></a>
+  <a href="../Chapters/06-dataframes-sql.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Working with SQL in Spark DataFrames</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Chapters/07-import.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Importing data to Spark</span></a>
+  <a href="../Chapters/07-import.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Importing data to Spark</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -223,11 +223,11 @@ div.csl-indent {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"> <span class="header-section-number">5.1</span> Introduction</a></li>
-  <li><a href="#spark-dataframes-versus-spark-datasets" id="toc-spark-dataframes-versus-spark-datasets" class="nav-link" data-scroll-target="#spark-dataframes-versus-spark-datasets"> <span class="header-section-number">5.2</span> Spark DataFrames versus Spark Datasets</a></li>
-  <li><a href="#building-a-spark-dataframe" id="toc-building-a-spark-dataframe" class="nav-link" data-scroll-target="#building-a-spark-dataframe"> <span class="header-section-number">5.3</span> Building a Spark DataFrame</a></li>
-  <li><a href="#viewing-a-spark-dataframe" id="toc-viewing-a-spark-dataframe" class="nav-link" data-scroll-target="#viewing-a-spark-dataframe"> <span class="header-section-number">5.4</span> Viewing a Spark DataFrame</a></li>
-  <li><a href="#the-dataframe-schema" id="toc-the-dataframe-schema" class="nav-link" data-scroll-target="#the-dataframe-schema"> <span class="header-section-number">5.5</span> The DataFrame Schema</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"> <span class="header-section-number">3.1</span> Introduction</a></li>
+  <li><a href="#spark-dataframes-versus-spark-datasets" id="toc-spark-dataframes-versus-spark-datasets" class="nav-link" data-scroll-target="#spark-dataframes-versus-spark-datasets"> <span class="header-section-number">3.2</span> Spark DataFrames versus Spark Datasets</a></li>
+  <li><a href="#building-a-spark-dataframe" id="toc-building-a-spark-dataframe" class="nav-link" data-scroll-target="#building-a-spark-dataframe"> <span class="header-section-number">3.3</span> Building a Spark DataFrame</a></li>
+  <li><a href="#viewing-a-spark-dataframe" id="toc-viewing-a-spark-dataframe" class="nav-link" data-scroll-target="#viewing-a-spark-dataframe"> <span class="header-section-number">3.4</span> Viewing a Spark DataFrame</a></li>
+  <li><a href="#the-dataframe-schema" id="toc-the-dataframe-schema" class="nav-link" data-scroll-target="#the-dataframe-schema"> <span class="header-section-number">3.5</span> The DataFrame Schema</a></li>
   </ul>
 </nav>
     </div>
@@ -236,7 +236,7 @@ div.csl-indent {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Introducing Spark DataFrames</span></h1>
+<h1 class="title d-none d-lg-block"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Introducing Spark DataFrames</span></h1>
 </div>
 
 
@@ -252,13 +252,13 @@ div.csl-indent {
 
 </header>
 
-<section id="introduction" class="level2" data-number="5.1">
-<h2 data-number="5.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">5.1</span> Introduction</h2>
+<section id="introduction" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">3.1</span> Introduction</h2>
 <p>In this chapter, you will understand how Spark represents and manages tables (or tabular data). Different programming languages and frameworks use different names to describe a table. But, in Apache Spark, tables are referred as Spark DataFrames.</p>
 <p>In <code>pyspark</code>, these DataFrames are stored inside python objects of class <code>pyspark.sql.dataframe.DataFrame</code>, and all the methods present in this class, are commonly referred as the DataFrame API of Spark. This is the most important API of Spark. Much of your Spark applications will heavily use this API to compose your data transformations and data flows <span class="citation" data-cites="chambers2018">(<a href="references.html#ref-chambers2018" role="doc-biblioref">Chambers and Zaharia 2018</a>)</span>.</p>
 </section>
-<section id="spark-dataframes-versus-spark-datasets" class="level2" data-number="5.2">
-<h2 data-number="5.2" class="anchored" data-anchor-id="spark-dataframes-versus-spark-datasets"><span class="header-section-number">5.2</span> Spark DataFrames versus Spark Datasets</h2>
+<section id="spark-dataframes-versus-spark-datasets" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="spark-dataframes-versus-spark-datasets"><span class="header-section-number">3.2</span> Spark DataFrames versus Spark Datasets</h2>
 <p>Spark have two notions of structured data: DataFrames and Datasets. In summary, a Spark Dataset, is a distributed collection of data <span class="citation" data-cites="sparkdoc">(<a href="references.html#ref-sparkdoc" role="doc-biblioref"><em>Apache Spark Official Documentation</em> 2022</a>)</span>. In contrast, a Spark DataFrame is a Spark Dataset organized into named columns <span class="citation" data-cites="sparkdoc">(<a href="references.html#ref-sparkdoc" role="doc-biblioref"><em>Apache Spark Official Documentation</em> 2022</a>)</span>.</p>
 <p>This means that, Spark DataFrames are very similar to tables as we know in relational databases - RDBMS. So in a Spark DataFrame, each column has a name, and they all have the same number of rows. Furthermore, all the rows inside a column must store the same type of data, but each column can store a different type of data.</p>
 <p>In the other hand, Spark Datasets are considered a collection of any type of data. So a Dataset might be a collection of unstructured data as well, like log files, JSON and XML trees, etc. Spark Datasets can be created and transformed trough the Dataset API of Spark. But this API is available only in Scala and Java API’s of Spark. For this reason, we do not act directly on Datasets with <code>pyspark</code>, only DataFrames. That’s ok, because for the most part of applications, we do want to use DataFrames, and not Datasets, to represent our data.</p>
@@ -304,16 +304,16 @@ div.csl-indent {
 </tr>
 </tbody>
 </table>
-<p>If you are running Spark in a 4 nodes cluster (one is the driver node, and the other three are worker nodes). Each worker node of the cluster will store a section of this data. So you, as the programmer, will see, manage and transform this table as if it was a single and unified table. But behind the hoods, Spark will split this data and store it as many fragments across the Spark cluster. <a href="#fig-distributed-df">Figure&nbsp;<span>5.1</span></a> presents this notion in a visual manner.</p>
+<p>If you are running Spark in a 4 nodes cluster (one is the driver node, and the other three are worker nodes). Each worker node of the cluster will store a section of this data. So you, as the programmer, will see, manage and transform this table as if it was a single and unified table. But behind the hoods, Spark will split this data and store it as many fragments across the Spark cluster. <a href="#fig-distributed-df">Figure&nbsp;<span>3.1</span></a> presents this notion in a visual manner.</p>
 <div id="fig-distributed-df" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="../Figures/distributed-df.png" class="img-fluid figure-img"></p>
-<p></p><figcaption aria-hidden="true" class="figure-caption">Figure 5.1: A Spark DataFrame is distributed across the cluster</figcaption><p></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption">Figure 3.1: A Spark DataFrame is distributed across the cluster</figcaption><p></p>
 </figure>
 </div>
 </section>
-<section id="building-a-spark-dataframe" class="level2" data-number="5.3">
-<h2 data-number="5.3" class="anchored" data-anchor-id="building-a-spark-dataframe"><span class="header-section-number">5.3</span> Building a Spark DataFrame</h2>
+<section id="building-a-spark-dataframe" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="building-a-spark-dataframe"><span class="header-section-number">3.3</span> Building a Spark DataFrame</h2>
 <p>There are some different methods to create a Spark DataFrame. For example, because a DataFrame is basically a Dataset of rows, we can build a DataFrame from a collection of <code>Row</code>’s, through the <code>createDataFrame()</code> method from your Spark Session:</p>
 <div class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql <span class="im">import</span> SparkSession</span>
@@ -332,11 +332,11 @@ div.csl-indent {
 </div>
 <p>Remember that a Spark DataFrame in python is a object of class <code>pyspark.sql.dataframe.DataFrame</code> as you can see below. If you try to see what is inside of this kind of object, you will get a small description of the columns present in the DataFrame as a result:</p>
 <div class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <pre class="{verbatim}"><code>&lt;class 'pyspark.sql.dataframe.DataFrame'&gt;</code></pre>
 <div class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
 <pre><code>DataFrame[id: bigint, value: double, date: date]</code></pre>
 </div>
@@ -344,29 +344,29 @@ div.csl-indent {
 <p>So, in the above example, we use the <code>Row()</code> constructor (from <code>pyspark.sql</code> module) to build 4 rows. The <code>createDataFrame()</code> method, stack these 4 rows together to form our new DataFrame <code>df</code>. The result is a Spark DataFrame with 4 rows and 3 columns (<code>id</code>, <code>value</code> and <code>date</code>).</p>
 <p>But you can use different methods to create the same Spark DataFrame. As another example, with the code below, we are creating a DataFrame called <code>students</code>. To do this, we create two python lists (<code>data</code> and <code>columns</code>), then, deliver these lists to <code>createDataFrame()</code> method. Each element of <code>data</code> is a python <code>tuple</code> that represents a row in the <code>students</code> DataFrame. And each element of <code>columns</code> represent the name of a column present in this new DataFrame.</p>
 <div class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> [</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  (<span class="dv">12114</span>, <span class="st">'Anne'</span>, <span class="dv">21</span>, <span class="fl">1.56</span>, <span class="dv">8</span>, <span class="dv">9</span>, <span class="dv">10</span>, <span class="dv">9</span>, <span class="st">'Economics'</span>, <span class="st">'SC'</span>),</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  (<span class="dv">13007</span>, <span class="st">'Adrian'</span>, <span class="dv">23</span>, <span class="fl">1.82</span>, <span class="dv">6</span>, <span class="dv">6</span>, <span class="dv">8</span>, <span class="dv">7</span>, <span class="st">'Economics'</span>, <span class="st">'SC'</span>),</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  (<span class="dv">10045</span>, <span class="st">'George'</span>, <span class="dv">29</span>, <span class="fl">1.77</span>, <span class="dv">10</span>, <span class="dv">9</span>, <span class="dv">10</span>, <span class="dv">7</span>, <span class="st">'Law'</span>, <span class="st">'SC'</span>),</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  (<span class="dv">12459</span>, <span class="st">'Adeline'</span>, <span class="dv">26</span>, <span class="fl">1.61</span>, <span class="dv">8</span>, <span class="dv">6</span>, <span class="dv">7</span>, <span class="dv">7</span>, <span class="st">'Law'</span>, <span class="st">'SC'</span>),</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  (<span class="dv">10190</span>, <span class="st">'Mayla'</span>, <span class="dv">22</span>, <span class="fl">1.67</span>, <span class="dv">7</span>, <span class="dv">7</span>, <span class="dv">7</span>, <span class="dv">9</span>, <span class="st">'Design'</span>, <span class="st">'AR'</span>),</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  (<span class="dv">11552</span>, <span class="st">'Daniel'</span>, <span class="dv">24</span>, <span class="fl">1.75</span>, <span class="dv">9</span>, <span class="dv">9</span>, <span class="dv">10</span>, <span class="dv">9</span>, <span class="st">'Design'</span>, <span class="st">'AR'</span>)</span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>columns <span class="op">=</span> [</span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">'StudentID'</span>, <span class="st">'Name'</span>, <span class="st">'Age'</span>, <span class="st">'Height'</span>, <span class="st">'Score1'</span>,</span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  <span class="st">'Score2'</span>, <span class="st">'Score3'</span>, <span class="st">'Score4'</span>, <span class="st">'Course'</span>, <span class="st">'Department'</span></span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>students <span class="op">=</span> spark.createDataFrame(data, columns)</span>
-<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>students</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> [</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  (<span class="dv">12114</span>, <span class="st">'Anne'</span>, <span class="dv">21</span>, <span class="fl">1.56</span>, <span class="dv">8</span>, <span class="dv">9</span>, <span class="dv">10</span>, <span class="dv">9</span>, <span class="st">'Economics'</span>, <span class="st">'SC'</span>),</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  (<span class="dv">13007</span>, <span class="st">'Adrian'</span>, <span class="dv">23</span>, <span class="fl">1.82</span>, <span class="dv">6</span>, <span class="dv">6</span>, <span class="dv">8</span>, <span class="dv">7</span>, <span class="st">'Economics'</span>, <span class="st">'SC'</span>),</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  (<span class="dv">10045</span>, <span class="st">'George'</span>, <span class="dv">29</span>, <span class="fl">1.77</span>, <span class="dv">10</span>, <span class="dv">9</span>, <span class="dv">10</span>, <span class="dv">7</span>, <span class="st">'Law'</span>, <span class="st">'SC'</span>),</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  (<span class="dv">12459</span>, <span class="st">'Adeline'</span>, <span class="dv">26</span>, <span class="fl">1.61</span>, <span class="dv">8</span>, <span class="dv">6</span>, <span class="dv">7</span>, <span class="dv">7</span>, <span class="st">'Law'</span>, <span class="st">'SC'</span>),</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  (<span class="dv">10190</span>, <span class="st">'Mayla'</span>, <span class="dv">22</span>, <span class="fl">1.67</span>, <span class="dv">7</span>, <span class="dv">7</span>, <span class="dv">7</span>, <span class="dv">9</span>, <span class="st">'Design'</span>, <span class="st">'AR'</span>),</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  (<span class="dv">11552</span>, <span class="st">'Daniel'</span>, <span class="dv">24</span>, <span class="fl">1.75</span>, <span class="dv">9</span>, <span class="dv">9</span>, <span class="dv">10</span>, <span class="dv">9</span>, <span class="st">'Design'</span>, <span class="st">'AR'</span>)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>columns <span class="op">=</span> [</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">'StudentID'</span>, <span class="st">'Name'</span>, <span class="st">'Age'</span>, <span class="st">'Height'</span>, <span class="st">'Score1'</span>,</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  <span class="st">'Score2'</span>, <span class="st">'Score3'</span>, <span class="st">'Score4'</span>, <span class="st">'Course'</span>, <span class="st">'Department'</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>students <span class="op">=</span> spark.createDataFrame(data, columns)</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>students</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
 <pre><code>DataFrame[StudentID: bigint, Name: string, Age: bigint, Height: double, Score1: bigint, Score2: bigint, Score3: bigint, Score4: bigint, Course: string, Department: string]</code></pre>
 </div>
 </div>
 <p>If you need to, you can easily collect a python list with the column names present in your DataFrame, in the same way you would do in a <code>pandas</code> DataFrame. That is, by using the <code>columns</code> method of your DataFrame, like this:</p>
 <div class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>students.columns</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>students.columns</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
 <pre><code>['StudentID',
  'Name',
@@ -381,13 +381,13 @@ div.csl-indent {
 </div>
 </div>
 </section>
-<section id="viewing-a-spark-dataframe" class="level2" data-number="5.4">
-<h2 data-number="5.4" class="anchored" data-anchor-id="viewing-a-spark-dataframe"><span class="header-section-number">5.4</span> Viewing a Spark DataFrame</h2>
-<p>A key aspect of Spark is its laziness. In other words, for most operations, Spark will only check if your code is correct and if it makes sense. Spark will not actually run or execute the operations you are describing in your code, unless you explicit ask for it with a trigger operation, that is called an “action” (this kind of operation is described in <a href="05-transforming.html#sec-dataframe-actions">Section&nbsp;<span>6.3</span></a>).</p>
+<section id="viewing-a-spark-dataframe" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="viewing-a-spark-dataframe"><span class="header-section-number">3.4</span> Viewing a Spark DataFrame</h2>
+<p>A key aspect of Spark is its laziness. In other words, for most operations, Spark will only check if your code is correct and if it makes sense. Spark will not actually run or execute the operations you are describing in your code, unless you explicit ask for it with a trigger operation, that is called an “action” (this kind of operation is described in <a href="05-transforming.html#sec-dataframe-actions">Section&nbsp;<span>4.3</span></a>).</p>
 <p>You can notice this laziness in the above output. Because when we call for an object that stores a Spark DataFrame (like <code>df</code> and <code>students</code>), Spark will only calculate and print a summary of the structure of your Spark DataFrame, and not the DataFrame itself.</p>
 <p>So how can we actually see our DataFrame? How can we visualize the rows and values that are stored inside of it? We use the <code>show()</code> method. With this method, Spark will print the table as pure text, as you can see in the example below:</p>
 <div class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>students.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>students.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>+---------+-------+---+------+------+------+------+------+---------+----------+
 |StudentID|   Name|Age|Height|Score1|Score2|Score3|Score4|   Course|Department|
@@ -404,7 +404,7 @@ div.csl-indent {
 </div>
 <p>By default, this method shows only the top rows of your DataFrame, but you can specify how much rows exactly you want to see, by using <code>show(n)</code>, where <code>n</code> is the number of rows. For example, I can visualize only the first 2 rows of <code>df</code> like this:</p>
 <div class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>df.show(<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>df.show(<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>+---+-----+----------+
 | id|value|      date|
@@ -417,19 +417,19 @@ only showing top 2 rows
 </div>
 </div>
 </section>
-<section id="the-dataframe-schema" class="level2" data-number="5.5">
-<h2 data-number="5.5" class="anchored" data-anchor-id="the-dataframe-schema"><span class="header-section-number">5.5</span> The DataFrame Schema</h2>
+<section id="the-dataframe-schema" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="the-dataframe-schema"><span class="header-section-number">3.5</span> The DataFrame Schema</h2>
 <p>The schema of a Spark DataFrame is the combination of column names and the data types associated with each of these columns. Schemas can be set explicitly by you (that is, you can tell Spark how the schema of your DataFrame should look like), or, can be defined automatically by Spark while reading and creating data. You can get a succinct description of a DataFrame schema, by looking inside the object where this DataFrame is stored.</p>
 <p>For example, lets look again to the <code>df</code> DataFrame. In the result below, we can see that <code>df</code> has three columns (<code>id</code>, <code>value</code> and <code>date</code>). By the description <code>id: bigint</code>, we know that <code>id</code> is a column of type <code>bigint</code>, which translates to the <code>LongType()</code> of Spark (we will talk shortly about these data types). Furthermore, by the descriptions <code>value: double</code> and <code>date: date</code>, we know too that the columns <code>value</code> and <code>date</code> are of type <code>double</code> and <code>date</code>, respectively.</p>
 <div class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="7">
 <pre><code>DataFrame[id: bigint, value: double, date: date]</code></pre>
 </div>
 </div>
 <p>So, by calling the object of your DataFrame (i.e.&nbsp;an object of class <code>pyspark.sql.dataframe.DataFrame</code>) in the console, you can see a small description of the schema of this DataFrame. But, how can you access the description of this schema programmatically? You do this, by using the <code>schema</code> method of your DataFrame, like in the example below:</p>
 <div class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>df.schema</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>df.schema</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="8">
 <pre><code>StructType(List(StructField(id,LongType,true),StructField(value,DoubleType,true),StructField(date,DateType,true)))</code></pre>
 </div>
@@ -437,9 +437,9 @@ only showing top 2 rows
 <p>The result of the <code>schema</code> method, is a <code>StructType()</code> object, that contains some information about each column of your DataFrame. More specifically, a <code>StructType()</code> object is filled with multiple <code>StructField()</code> objects. Each <code>StructField()</code> object store the name and the type of a column, and a boolean value (<code>True</code> or <code>False</code>) that indicates if this column can contain any null value inside of it.</p>
 <p>You can use a <code>for</code> loop to iterate through this <code>StructType()</code> and get the information of each column separately.</p>
 <div class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>schema <span class="op">=</span> df.schema</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> column <span class="kw">in</span> schema:</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="bu">print</span>(column)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>schema <span class="op">=</span> df.schema</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> column <span class="kw">in</span> schema:</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="bu">print</span>(column)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>StructField(id,LongType,true)
 StructField(value,DoubleType,true)
@@ -448,9 +448,9 @@ StructField(date,DateType,true)</code></pre>
 </div>
 <p>You can access just the data type of each column by using the <code>dataType</code> method of each <code>StructField()</code> object.</p>
 <div class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> column <span class="kw">in</span> schema:</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  datatype <span class="op">=</span> column.dataType</span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="bu">print</span>(datatype)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> column <span class="kw">in</span> schema:</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  datatype <span class="op">=</span> column.dataType</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="bu">print</span>(datatype)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>LongType
 DoubleType
@@ -459,9 +459,9 @@ DateType</code></pre>
 </div>
 <p>And you can do the same for column names and the boolean value (that indicates if the column can contain “null” values), by using the <code>name</code> and <code>nullable</code> methods, respectively.</p>
 <div class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Accessing the name of each column</span></span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> column <span class="kw">in</span> schema:</span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="bu">print</span>(column.name)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Accessing the name of each column</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> column <span class="kw">in</span> schema:</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="bu">print</span>(column.name)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>id
 value
@@ -469,10 +469,10 @@ date</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="13">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Accessing the boolean value that indicates</span></span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="co"># if the column can contain null values</span></span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> column <span class="kw">in</span> schema:</span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  <span class="bu">print</span>(column.nullable)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Accessing the boolean value that indicates</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="co"># if the column can contain null values</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> column <span class="kw">in</span> schema:</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="bu">print</span>(column.nullable)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>True
 True
@@ -574,12 +574,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="../Chapters/03-spark.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Introducing Apache Spark</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introducing Apache Spark</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="../Chapters/05-transforming.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Transforming your Spark DataFrame</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Transforming your Spark DataFrame</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

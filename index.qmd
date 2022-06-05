@@ -1,6 +1,6 @@
 
 
-# Welcome!
+# Welcome! {.unnumbered}
 
 Hello! This is the initial page! This book provides an introduction to `pyspark`, but, because `pyspark` is a python API to Apache Spark, this book is about Apache Spark too.
 
