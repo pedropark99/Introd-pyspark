@@ -231,6 +231,9 @@ div.csl-indent {
   <li><a href="#filtering-rows-of-your-dataframe" id="toc-filtering-rows-of-your-dataframe" class="nav-link" data-scroll-target="#filtering-rows-of-your-dataframe"> <span class="header-section-number">4.5</span> Filtering rows of your DataFrame</a>
   <ul class="collapse">
   <li><a href="#logical-operators-available" id="toc-logical-operators-available" class="nav-link" data-scroll-target="#logical-operators-available"> <span class="header-section-number">4.5.1</span> Logical operators available</a></li>
+  <li><a href="#connecting-multiple-logical-expressions" id="toc-connecting-multiple-logical-expressions" class="nav-link" data-scroll-target="#connecting-multiple-logical-expressions"> <span class="header-section-number">4.5.2</span> Connecting multiple logical expressions</a></li>
+  <li><a href="#translating-the-in-keyword-to-the-pythonic-way" id="toc-translating-the-in-keyword-to-the-pythonic-way" class="nav-link" data-scroll-target="#translating-the-in-keyword-to-the-pythonic-way"> <span class="header-section-number">4.5.3</span> Translating the <code>in</code> keyword to the pythonic way</a></li>
+  <li><a href="#negating-logical-conditions" id="toc-negating-logical-conditions" class="nav-link" data-scroll-target="#negating-logical-conditions"> <span class="header-section-number">4.5.4</span> Negating logical conditions</a></li>
   </ul></li>
   <li><a href="#selecting-specific-columns-of-your-dataframe" id="toc-selecting-specific-columns-of-your-dataframe" class="nav-link" data-scroll-target="#selecting-specific-columns-of-your-dataframe"> <span class="header-section-number">4.6</span> Selecting specific columns of your DataFrame</a></li>
   <li><a href="#calculating-or-adding-new-columns-to-your-dataframe" id="toc-calculating-or-adding-new-columns-to-your-dataframe" class="nav-link" data-scroll-target="#calculating-or-adding-new-columns-to-your-dataframe"> <span class="header-section-number">4.7</span> Calculating or adding new columns to your DataFrame</a></li>
@@ -287,6 +290,19 @@ div.csl-indent {
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>]</span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> spark.createDataFrame(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>22/06/11 19:19:46 WARN Utils: Your hostname, pedro-IdeaPad-3-15ALC6 resolves to a loopback address: 127.0.1.1; using 192.168.0.33 instead (on interface wlp1s0)
+22/06/11 19:19:46 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Using Spark's default log4j profile: org/apache/spark/log4j-defaults.properties
+Setting default log level to "WARN".
+To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
+22/06/11 19:19:47 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>22/06/11 19:19:48 WARN Utils: Service 'SparkUI' could not bind on port 4040. Attempting port 4041.</code></pre>
+</div>
 </div>
 <p>In the example below, to create a new DataFrame called <code>big_values</code>, we begin with the <code>df</code> DataFrame, then, we filter its rows where <code>value</code> is greater than 15, then, we select <code>date</code> and <code>value</code> columns, then, we sort the rows based on the <code>value</code> column. So, this set of sequential transformations (filter it, then, select it, then, order it, …) defines what this new <code>big_values</code> DataFrame is.</p>
 <div class="cell" data-execution_count="2">
@@ -317,6 +333,9 @@ div.csl-indent {
 <p>You already know the first type of action, because we used it before with the <code>show()</code> method. This <code>show()</code> method is an action by itself, because you are asking Spark to show some output to you. So we can make Spark to actually calculate the transformations that defines the <code>big_values</code> DataFrame, by asking Spark to show this DataFrame to us.</p>
 <div class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>big_values.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>[Stage 0:&gt;                                                        (0 + 12) / 12]</code></pre>
+</div>
 <div class="cell-output cell-output-stdout">
 <pre><code>+----------+-----+
 |      date|value|
@@ -326,6 +345,9 @@ div.csl-indent {
 |2021-01-01| 28.3|
 +----------+-----+
 </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>                                                                                </code></pre>
 </div>
 </div>
 <p>Another very useful action is the <code>count()</code> method, that gives you the number of rows in a DataFrame. To be able to count the number of rows in a DataFrame, Spark needs to access this DataFrame in the first place. That is why this <code>count()</code> method behaves as an action. Spark will perform the transformations that defines <code>big_values</code> to access the actual rows of this DataFrame and count them.</p>
@@ -436,7 +458,7 @@ only showing top 5 rows
 </code></pre>
 </div>
 </div>
-<p>Writing the logical expression inside a string is the most easy and “clean” way to create a filter expression. However, you could write the same exact expression in a more “formal” way, using the <code>col()</code> function from <code>pyspark.sql.functions</code>.</p>
+<p>Writing simple SQL logical expression inside a string is the most easy and “clean” way to create a filter expression in <code>pyspark</code>. However, you could write the same exact expression in a more “pythonic” way, using the <code>col()</code> function from <code>pyspark.sql.functions</code>.</p>
 <div class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> col</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -466,10 +488,77 @@ only showing top 5 rows
 </div>
 <section id="logical-operators-available" class="level3" data-number="4.5.1">
 <h3 data-number="4.5.1" class="anchored" data-anchor-id="logical-operators-available"><span class="header-section-number">4.5.1</span> Logical operators available</h3>
-<p>To create these logical expressions, we use the logical operators of python, which are described in the table below:</p>
-<div id="tbl-logical-operators" class="anchored">
+<p>As we saw in the previous section, there are two ways to write logical expressions in <code>pyspark</code>: write SQL logical expressions inside a string; or, write python logical expressions using the <code>col()</code> function.</p>
+<p>If you choose to write the more clean SQL logical expressions in a string, you need to use the logical operators of SQL in your expression (not the logical operators of python). In the other hand, if you choose to write in the “python” way, than, you need to use the logical operators of python.</p>
+<p>The logical operators of SQL are described in the table below:</p>
+<div id="tbl-logical-operators-sql" class="anchored">
 <table class="table">
-<caption>Table 4.1: List of logical operators of python</caption>
+<caption>Table 4.1: List of logical operators of SQL</caption>
+<colgroup>
+<col style="width: 11%">
+<col style="width: 24%">
+<col style="width: 64%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Operator</th>
+<th>Example of expression</th>
+<th>Meaning of the expression</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>&lt;</td>
+<td><code>x &lt; y</code></td>
+<td>is <code>x</code> less than <code>y</code>?</td>
+</tr>
+<tr class="even">
+<td>&gt;</td>
+<td><code>x &gt; y</code></td>
+<td>is <code>x</code> greater than <code>y</code>?</td>
+</tr>
+<tr class="odd">
+<td>&lt;=</td>
+<td><code>x &lt;= y</code></td>
+<td>is <code>x</code> less or equal than <code>y</code>?</td>
+</tr>
+<tr class="even">
+<td>&gt;=</td>
+<td><code>x &gt;= y</code></td>
+<td>is <code>x</code> greater or equal than <code>y</code>?</td>
+</tr>
+<tr class="odd">
+<td>==</td>
+<td><code>x == y</code></td>
+<td>is <code>x</code> equal to <code>y</code>?</td>
+</tr>
+<tr class="even">
+<td>!=</td>
+<td><code>x != y</code></td>
+<td>is <code>x</code> not equal to <code>y</code>?</td>
+</tr>
+<tr class="odd">
+<td>in</td>
+<td><code>x in y</code></td>
+<td>is <code>x</code> one of the values listed in <code>y</code>?</td>
+</tr>
+<tr class="even">
+<td>and</td>
+<td><code>x and y</code></td>
+<td>both logical expressions <code>x</code> and <code>y</code> are true?</td>
+</tr>
+<tr class="odd">
+<td>or</td>
+<td><code>x or y</code></td>
+<td>at least one of logical expressions <code>x</code> and <code>y</code> are true?</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The logical operators of python are described in the table below:</p>
+<div id="tbl-logical-operators-python" class="anchored">
+<table class="table">
+<caption>Table 4.2: List of logical operators of python</caption>
 <colgroup>
 <col style="width: 11%">
 <col style="width: 24%">
@@ -526,6 +615,180 @@ only showing top 5 rows
 </tbody>
 </table>
 </div>
+</section>
+<section id="connecting-multiple-logical-expressions" class="level3" data-number="4.5.2">
+<h3 data-number="4.5.2" class="anchored" data-anchor-id="connecting-multiple-logical-expressions"><span class="header-section-number">4.5.2</span> Connecting multiple logical expressions</h3>
+<p>Sometimes, you need to write more complex logical expressions to correctly describe the rows you are interested in. That is, when you combine multiple logical expressions together.</p>
+<p>As an example, lets suppose you wanted all the rows in <code>transf</code> DataFrame, where <code>value</code> is smaller than 1000, and, the <code>country</code> is Brazil, and, <code>user</code> is Eduardo. These conditions are dependent, that is, they are connected to each other. That is why I used the <code>and</code> keyword in the example below, to connect these three conditions together.</p>
+<div class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>condition <span class="op">=</span> <span class="st">'''</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="st">  value &lt; 1000 and country == 'Brazil' and user == 'Eduardo'</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="st">'''</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>transf<span class="op">\</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>  .<span class="bu">filter</span>(condition)<span class="op">\</span></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>  .show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>+-------------------+-------+--------+----------+-------+-----------+
+|           datetime|   user|   value|transferid|country|description|
++-------------------+-------+--------+----------+-------+-----------+
+|2018-12-06 12:00:47|Eduardo|74.54787| 114785689| Brazil|       null|
+|2018-12-05 18:55:00|Eduardo| 422.832| 115120371| Brazil|       null|
+|2018-12-05 14:12:52|Eduardo|23.65436| 114706389| Brazil|       null|
+|2018-12-05 12:59:46|Eduardo|729.4454| 115857204| Brazil|       null|
+|2018-12-04 17:51:20|Eduardo|416.6055| 116252992| Brazil|       null|
++-------------------+-------+--------+----------+-------+-----------+
+only showing top 5 rows
+</code></pre>
+</div>
+</div>
+<p>I could translate this logical expression into the “pythonic” way (using the <code>col()</code> function). However, I would have to surround each individual expression by parentheses, and, use the <code>&amp;</code> operator to substitute the <code>and</code> keyword.</p>
+<div class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>transf<span class="op">\</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  .<span class="bu">filter</span>(</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>    (col(<span class="st">'value'</span>) <span class="op">&lt;</span> <span class="dv">1000</span>) <span class="op">&amp;</span> (col(<span class="st">'country'</span>) <span class="op">==</span> <span class="st">'Brazil'</span>) <span class="op">&amp;</span> (col(<span class="st">'user'</span>) <span class="op">==</span> <span class="st">'Eduardo'</span>)</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  )<span class="op">\</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  .show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>+-------------------+-------+--------+----------+-------+-----------+
+|           datetime|   user|   value|transferid|country|description|
++-------------------+-------+--------+----------+-------+-----------+
+|2018-12-06 12:00:47|Eduardo|74.54787| 114785689| Brazil|       null|
+|2018-12-05 18:55:00|Eduardo| 422.832| 115120371| Brazil|       null|
+|2018-12-05 14:12:52|Eduardo|23.65436| 114706389| Brazil|       null|
+|2018-12-05 12:59:46|Eduardo|729.4454| 115857204| Brazil|       null|
+|2018-12-04 17:51:20|Eduardo|416.6055| 116252992| Brazil|       null|
++-------------------+-------+--------+----------+-------+-----------+
+only showing top 5 rows
+</code></pre>
+</div>
+</div>
+<p>This a very important detail, because is very easy to forget it. When building your complex logical expressions, if you are using the <code>col()</code> function, always remember to surround each expression by a pair of parentheses. Otherwise, you will get a very confusing and useless error message, like this:</p>
+<div class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>transf<span class="op">\</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  .<span class="bu">filter</span>(</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    col(<span class="st">'value'</span>) <span class="op">&lt;</span> <span class="dv">1000</span> <span class="op">&amp;</span> col(<span class="st">'country'</span>) <span class="op">==</span> <span class="st">'Brazil'</span> <span class="op">&amp;</span> col(<span class="st">'user'</span>) <span class="op">==</span> <span class="st">'Eduardo'</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  )<span class="op">\</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>  .show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<pre class="{verbatim}"><code>Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 3, in &lt;module&gt;
+  File "/usr/local/spark/python/pyspark/sql/column.py", line 111, in _
+    njc = getattr(self._jc, name)(jc)
+  File "/usr/local/spark/python/lib/py4j-0.10.9.3-src.zip/py4j/java_gateway.py", line 1321, in __call__
+  File "/usr/local/spark/python/pyspark/sql/utils.py", line 111, in deco
+    return f(*a, **kw)
+  File "/usr/local/spark/python/lib/py4j-0.10.9.3-src.zip/py4j/protocol.py", line 330, in get_return_value
+py4j.protocol.Py4JError: An error occurred while calling o89.and. Trace:
+py4j.Py4JException: Method and([class java.lang.Integer]) does not exist
+    at py4j.reflection.ReflectionEngine.getMethod(ReflectionEngine.java:318)
+    at py4j.reflection.ReflectionEngine.getMethod(ReflectionEngine.java:326)
+    at py4j.Gateway.invoke(Gateway.java:274)
+    at py4j.commands.AbstractCommand.invokeMethod(AbstractCommand.java:132)
+    at py4j.commands.CallCommand.execute(CallCommand.java:79)
+    at py4j.ClientServerConnection.waitForCommands(ClientServerConnection.java:182)
+    at py4j.ClientServerConnection.run(ClientServerConnection.java:106)
+    at java.lang.Thread.run(Thread.java:748)</code></pre>
+<p>In the above examples, we have logical expressions that are dependent on each other. But, lets suppose these conditions were independent. In this case, we would use the <code>or</code> keyword, instead of <code>and</code>. Now, Spark will look for every row of <code>transf</code> where <code>value</code> is smaller than 1000, or, <code>country</code> is Brazil, or, <code>user</code> is Eduardo.</p>
+<div class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>condition <span class="op">=</span> <span class="st">'''</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="st">  value &lt; 1000 or country == 'Brazil' or user == 'Eduardo'</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="st">'''</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>transf<span class="op">\</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>  .<span class="bu">filter</span>(condition)<span class="op">\</span></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>  .show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>+-------------------+-----------+--------+----------+-------+-----------+
+|           datetime|       user|   value|transferid|country|description|
++-------------------+-----------+--------+----------+-------+-----------+
+|2018-12-06 20:19:19|    Eduardo|598.5984| 116241629|Germany|       null|
+|2018-12-06 18:54:32|    Eduardo|5665.214| 114830203|Germany|       null|
+|2018-12-06 17:07:50|    Eduardo|9560.668| 115917812|Germany|       null|
+|2018-12-06 16:09:15|Júlio Cesar| 387.596| 114894102|Germany|       null|
+|2018-12-06 14:59:38|    Eduardo|11758.72| 115580064|Germany|       null|
++-------------------+-----------+--------+----------+-------+-----------+
+only showing top 5 rows
+</code></pre>
+</div>
+</div>
+<p>To translate this expression into the pythonic way, we have to substitute the <code>or</code> keyword by the <code>|</code> operator, and surround each expression by parentheses, like this:</p>
+<div class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>transf<span class="op">\</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  .<span class="bu">filter</span>(</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>    (col(<span class="st">'value'</span>) <span class="op">&lt;</span> <span class="dv">1000</span>) <span class="op">|</span> (col(<span class="st">'country'</span>) <span class="op">==</span> <span class="st">'Brazil'</span>) <span class="op">|</span> (col(<span class="st">'user'</span>) <span class="op">==</span> <span class="st">'Eduardo'</span>)</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>  )<span class="op">\</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>  .show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>+-------------------+-----------+--------+----------+-------+-----------+
+|           datetime|       user|   value|transferid|country|description|
++-------------------+-----------+--------+----------+-------+-----------+
+|2018-12-06 20:19:19|    Eduardo|598.5984| 116241629|Germany|       null|
+|2018-12-06 18:54:32|    Eduardo|5665.214| 114830203|Germany|       null|
+|2018-12-06 17:07:50|    Eduardo|9560.668| 115917812|Germany|       null|
+|2018-12-06 16:09:15|Júlio Cesar| 387.596| 114894102|Germany|       null|
+|2018-12-06 14:59:38|    Eduardo|11758.72| 115580064|Germany|       null|
++-------------------+-----------+--------+----------+-------+-----------+
+only showing top 5 rows
+</code></pre>
+</div>
+</div>
+<p>You can increase the complexity of your logical expressions by mixing dependent expressions with independent expressions. For example, to filter all the rows where <code>country</code> is Germany, and, <code>user</code> is either Eduardo or Ana, you would have the following code:</p>
+<div class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>condition <span class="op">=</span> <span class="st">'''</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="st">  (user == 'Eduardo' or user == 'Ana') and country == 'Germany'</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="st">'''</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>transf<span class="op">\</span></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>  .<span class="bu">filter</span>(condition)<span class="op">\</span></span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>  .show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>+-------------------+-------+--------+----------+-------+-----------+
+|           datetime|   user|   value|transferid|country|description|
++-------------------+-------+--------+----------+-------+-----------+
+|2018-12-06 20:19:19|Eduardo|598.5984| 116241629|Germany|       null|
+|2018-12-06 19:41:27|    Ana|1408.261| 116262934|Germany|       null|
+|2018-12-06 18:54:32|Eduardo|5665.214| 114830203|Germany|       null|
+|2018-12-06 17:48:39|    Ana|4588.665| 116281690|Germany|       null|
+|2018-12-06 17:07:50|Eduardo|9560.668| 115917812|Germany|       null|
++-------------------+-------+--------+----------+-------+-----------+
+only showing top 5 rows
+</code></pre>
+</div>
+</div>
+<p>If you investigate the above condition carefully, maybe, you will identify that this condition could be rewritten in a simpler format, by using the <code>in</code> keyword. This way, Spark will look for all the rows where <code>user</code> is equal to one of the listed values, and, that <code>country</code> is Germany.</p>
+<div class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>condition <span class="op">=</span> <span class="st">'''</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="st">  user in ('Eduardo', 'Ana') and country == 'Germany'</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="st">'''</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="translating-the-in-keyword-to-the-pythonic-way" class="level3" data-number="4.5.3">
+<h3 data-number="4.5.3" class="anchored" data-anchor-id="translating-the-in-keyword-to-the-pythonic-way"><span class="header-section-number">4.5.3</span> Translating the <code>in</code> keyword to the pythonic way</h3>
+<p>Python does have a <code>in</code> keyword just like SQL, but, this keyword does not work in the pythonic way. To filter the rows where a column is equal to one of many the listed values, you can use the <code>isin()</code> method for columns.</p>
+<p>In the example below, we are filtering the rows where <code>user</code> is Eduardo or Ana:</p>
+<div class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>transf<span class="op">\</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  .<span class="bu">filter</span>(col(<span class="st">'user'</span>).isin(<span class="st">'Eduardo'</span>, <span class="st">'Ana'</span>))<span class="op">\</span></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  .show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>+-------------------+-------+--------+----------+-------+-----------+
+|           datetime|   user|   value|transferid|country|description|
++-------------------+-------+--------+----------+-------+-----------+
+|2018-12-06 20:19:19|Eduardo|598.5984| 116241629|Germany|       null|
+|2018-12-06 19:41:27|    Ana|1408.261| 116262934|Germany|       null|
+|2018-12-06 18:54:32|Eduardo|5665.214| 114830203|Germany|       null|
+|2018-12-06 17:48:39|    Ana|4588.665| 116281690|Germany|       null|
+|2018-12-06 17:07:50|Eduardo|9560.668| 115917812|Germany|       null|
++-------------------+-------+--------+----------+-------+-----------+
+only showing top 5 rows
+</code></pre>
+</div>
+</div>
+</section>
+<section id="negating-logical-conditions" class="level3" data-number="4.5.4">
+<h3 data-number="4.5.4" class="anchored" data-anchor-id="negating-logical-conditions"><span class="header-section-number">4.5.4</span> Negating logical conditions</h3>
+<!-- Describe the ~ operator -->
 </section>
 </section>
 <section id="selecting-specific-columns-of-your-dataframe" class="level2" data-number="4.6">

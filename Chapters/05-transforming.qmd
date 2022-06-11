@@ -163,7 +163,7 @@ transf\
   .show(5)
 ```
 
-Writing the logical expression inside a string is the most easy and "clean" way to create a filter expression. However, you could write the same exact expression in a more "formal" way, using the `col()` function from `pyspark.sql.functions`.
+Writing simple SQL logical expression inside a string is the most easy and "clean" way to create a filter expression in `pyspark`. However, you could write the same exact expression in a more "pythonic" way, using the `col()` function from `pyspark.sql.functions`.
 
 ```{python}
 from pyspark.sql.functions import col
@@ -185,7 +185,28 @@ transf\
 
 ### Logical operators available
 
-To create these logical expressions, we use the logical operators of python, which are described in the table below:
+As we saw in the previous section, there are two ways to write logical expressions in `pyspark`: write SQL logical expressions inside a string; or, write python logical expressions using the `col()` function. 
+
+If you choose to write the more clean SQL logical expressions in a string, you need to use the logical operators of SQL in your expression (not the logical operators of python). In the other hand, if you choose to write in the "python" way, than, you need to use the logical operators of python.
+
+The logical operators of SQL are described in the table below:
+
+| Operator | Example of expression| Meaning of the expression                               |
+|----------|----------------------|---------------------------------------------------------|
+| \<       |`x < y`               |is `x` less than `y`?                                    |
+| \>       |`x > y`               |is `x` greater than `y`?                                 |
+| \<=      |`x <= y`              |is `x` less or equal than `y`?                           |
+| \>=      |`x >= y`              |is `x` greater or equal than `y`?                        |
+| ==       |`x == y`              |is `x` equal to `y`?                                     |
+| !=       |`x != y`              |is `x` not equal to `y`?                                 |
+| in       |`x in y`              |is `x` one of the values listed in `y`?                  |
+| and      |`x and y`             |both logical expressions `x` and `y` are true?           |
+| or       |`x or y`              |at least one of logical expressions `x` and `y` are true?|
+
+: List of logical operators of SQL {#tbl-logical-operators-sql}
+
+
+The logical operators of python are described in the table below:
 
 | Operator | Example of expression| Meaning of the expression                               |
 |----------|----------------------|---------------------------------------------------------|
@@ -198,7 +219,127 @@ To create these logical expressions, we use the logical operators of python, whi
 | &        |`x & y`               |both logical expressions `x` and `y` are true?           |
 | \|       |`x | y`               |at least one of logical expressions `x` and `y` are true?|
 
-: List of logical operators of python {#tbl-logical-operators}
+: List of logical operators of python {#tbl-logical-operators-python}
+
+### Connecting multiple logical expressions
+
+Sometimes, you need to write more complex logical expressions to correctly describe the rows you are interested in. That is, when you combine multiple logical expressions together.
+
+As an example, lets suppose you wanted all the rows in `transf` DataFrame, where `value` is smaller than 1000, and, the `country` is Brazil, and, `user` is Eduardo. These conditions are dependent, that is, they are connected to each other. That is why I used the `and` keyword in the example below, to connect these three conditions together.
+
+```{python}
+condition = '''
+  value < 1000 and country == 'Brazil' and user == 'Eduardo'
+'''
+
+transf\
+  .filter(condition)\
+  .show(5)
+```
+
+I could translate this logical expression into the "pythonic" way (using the `col()` function). However, I would have to surround each individual expression by parentheses, and, use the `&` operator to substitute the `and` keyword.
+
+```{python}
+transf\
+  .filter(
+    (col('value') < 1000) & (col('country') == 'Brazil') & (col('user') == 'Eduardo')
+  )\
+  .show(5)
+```
+
+This a very important detail, because is very easy to forget it. When building your complex logical expressions, if you are using the `col()` function, always remember to surround each expression by a pair of parentheses. Otherwise, you will get a very confusing and useless error message, like this:
+
+```{python}
+#| eval: false
+transf\
+  .filter(
+    col('value') < 1000 & col('country') == 'Brazil' & col('user') == 'Eduardo'
+  )\
+  .show(5)
+```
+
+
+```{verbatim}
+Traceback (most recent call last):
+  File "<stdin>", line 3, in <module>
+  File "/usr/local/spark/python/pyspark/sql/column.py", line 111, in _
+    njc = getattr(self._jc, name)(jc)
+  File "/usr/local/spark/python/lib/py4j-0.10.9.3-src.zip/py4j/java_gateway.py", line 1321, in __call__
+  File "/usr/local/spark/python/pyspark/sql/utils.py", line 111, in deco
+    return f(*a, **kw)
+  File "/usr/local/spark/python/lib/py4j-0.10.9.3-src.zip/py4j/protocol.py", line 330, in get_return_value
+py4j.protocol.Py4JError: An error occurred while calling o89.and. Trace:
+py4j.Py4JException: Method and([class java.lang.Integer]) does not exist
+	at py4j.reflection.ReflectionEngine.getMethod(ReflectionEngine.java:318)
+	at py4j.reflection.ReflectionEngine.getMethod(ReflectionEngine.java:326)
+	at py4j.Gateway.invoke(Gateway.java:274)
+	at py4j.commands.AbstractCommand.invokeMethod(AbstractCommand.java:132)
+	at py4j.commands.CallCommand.execute(CallCommand.java:79)
+	at py4j.ClientServerConnection.waitForCommands(ClientServerConnection.java:182)
+	at py4j.ClientServerConnection.run(ClientServerConnection.java:106)
+	at java.lang.Thread.run(Thread.java:748)
+```
+
+In the above examples, we have logical expressions that are dependent on each other. But, lets suppose these conditions were independent. In this case, we would use the `or` keyword, instead of `and`. Now, Spark will look for every row of `transf` where `value` is smaller than 1000, or, `country` is Brazil, or, `user` is Eduardo.
+
+```{python}
+condition = '''
+  value < 1000 or country == 'Brazil' or user == 'Eduardo'
+'''
+
+transf\
+  .filter(condition)\
+  .show(5)
+```
+
+To translate this expression into the pythonic way, we have to substitute the `or` keyword by the `|` operator, and surround each expression by parentheses, like this:
+
+```{python}
+transf\
+  .filter(
+    (col('value') < 1000) | (col('country') == 'Brazil') | (col('user') == 'Eduardo')
+  )\
+  .show(5)
+```
+
+
+You can increase the complexity of your logical expressions by mixing dependent expressions with independent expressions. For example, to filter all the rows where `country` is Germany, and, `user` is either Eduardo or Ana, you would have the following code:
+
+```{python}
+condition = '''
+  (user == 'Eduardo' or user == 'Ana') and country == 'Germany'
+'''
+
+transf\
+  .filter(condition)\
+  .show(5)
+```
+
+If you investigate the above condition carefully, maybe, you will identify that this condition could be rewritten in a simpler format, by using the `in` keyword. This way, Spark will look for all the rows where `user` is equal to one of the listed values, and, that `country` is Germany.
+
+```{python}
+condition = '''
+  user in ('Eduardo', 'Ana') and country == 'Germany'
+'''
+```
+
+
+### Translating the `in` keyword to the pythonic way
+
+Python does have a `in` keyword just like SQL, but, this keyword does not work in `pyspark`. To write a logical expression, using the pythonic way, that filters the rows where a column is equal to one of many the listed values, you can use the `isin()` method for columns.
+
+In the example below, we are filtering the rows where `user` is Eduardo or Ana:
+
+```{python}
+transf\
+  .filter(col('user').isin('Eduardo', 'Ana'))\
+  .show(5)
+```
+
+### Negating logical conditions
+
+<!-- Describe the ~ operator -->
+
 
 ## Selecting specific columns of your DataFrame
 

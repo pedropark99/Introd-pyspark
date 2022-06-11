@@ -259,6 +259,25 @@ from pyspark.sql.types import LongType
 isinstance(id_column.dataType, LongType)
 ```
 
+## The `Column` class
+
+As we described in the introduction to this chapter, you will massively use the methods from the `pyspark.sql.dataframe.DataFrame` class in your Spark applications to manage, modify and calculate your Spark DataFrames. But there is one more python class that provides some very useful methods that you will regularly use, which is the `Column` class, or more specifically, the `pyspark.sql.column.Column` class.
+
+The `Column` class is used to represent a column in a Spark DataFrame. This means that, each column of a Spark DataFrame is a object of class `Column`. We can confirm this statement, by looking at the class of any column from the `df` DataFrame.
+
+```{python}
+type(df.id)
+```
+
+You can refer or create a column, by using the `col()` function from `pyspark.sql.functions` module. In other words, the result of this `col()` function is always a object of class `Column`. The code below creates a column called `ID`.
+
+```{python}
+from pyspark.sql.functions import col
+a_column = col('ID')
+print(a_column)
+```
+
+You will see some of the methods from this `Column` class across the next chapters, like `desc()`, `alias()` and `cast()`.
 
 
 ## Partitions of a Spark DataFrame

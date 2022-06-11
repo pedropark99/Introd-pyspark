@@ -235,7 +235,8 @@ div.csl-indent {
   <li><a href="#building-a-dataframe-schema" id="toc-building-a-dataframe-schema" class="nav-link" data-scroll-target="#building-a-dataframe-schema"> <span class="header-section-number">3.6.2</span> Building a DataFrame schema</a></li>
   <li><a href="#checking-your-dataframe-schema" id="toc-checking-your-dataframe-schema" class="nav-link" data-scroll-target="#checking-your-dataframe-schema"> <span class="header-section-number">3.6.3</span> Checking your DataFrame schema</a></li>
   </ul></li>
-  <li><a href="#partitions-of-a-spark-dataframe" id="toc-partitions-of-a-spark-dataframe" class="nav-link" data-scroll-target="#partitions-of-a-spark-dataframe"> <span class="header-section-number">3.7</span> Partitions of a Spark DataFrame</a></li>
+  <li><a href="#the-column-class" id="toc-the-column-class" class="nav-link" data-scroll-target="#the-column-class"> <span class="header-section-number">3.7</span> The Column class</a></li>
+  <li><a href="#partitions-of-a-spark-dataframe" id="toc-partitions-of-a-spark-dataframe" class="nav-link" data-scroll-target="#partitions-of-a-spark-dataframe"> <span class="header-section-number">3.8</span> Partitions of a Spark DataFrame</a></li>
   </ul>
 </nav>
     </div>
@@ -335,6 +336,21 @@ div.csl-indent {
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>]</span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> spark.createDataFrame(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>22/06/11 20:00:03 WARN Utils: Your hostname, pedro-IdeaPad-3-15ALC6 resolves to a loopback address: 127.0.1.1; using 192.168.0.33 instead (on interface wlp1s0)
+22/06/11 20:00:03 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Using Spark's default log4j profile: org/apache/spark/log4j-defaults.properties
+Setting default log level to "WARN".
+To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>22/06/11 20:00:03 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>22/06/11 20:00:04 WARN Utils: Service 'SparkUI' could not bind on port 4040. Attempting port 4041.</code></pre>
+</div>
 </div>
 <p>Remember that a Spark DataFrame in python is a object of class <code>pyspark.sql.dataframe.DataFrame</code> as you can see below. If you try to see what is inside of this kind of object, you will get a small description of the columns present in the DataFrame as a result:</p>
 <div class="cell" data-execution_count="2">
@@ -394,6 +410,12 @@ div.csl-indent {
 <p>So how can we actually see our DataFrame? How can we visualize the rows and values that are stored inside of it? We use the <code>show()</code> method. With this method, Spark will print the table as pure text, as you can see in the example below:</p>
 <div class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>students.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>[Stage 0:&gt;                                                          (0 + 1) / 1]</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>[Stage 0:===========================================================(1 + 0) / 1]                                                                                </code></pre>
+</div>
 <div class="cell-output cell-output-stdout">
 <pre><code>+---------+-------+---+------+------+------+------+------+---------+----------+
 |StudentID|   Name|Age|Height|Score1|Score2|Score3|Score4|   Course|Department|
@@ -567,8 +589,27 @@ True</code></pre>
 </div>
 </section>
 </section>
-<section id="partitions-of-a-spark-dataframe" class="level2" data-number="3.7">
-<h2 data-number="3.7" class="anchored" data-anchor-id="partitions-of-a-spark-dataframe"><span class="header-section-number">3.7</span> Partitions of a Spark DataFrame</h2>
+<section id="the-column-class" class="level2" data-number="3.7">
+<h2 data-number="3.7" class="anchored" data-anchor-id="the-column-class"><span class="header-section-number">3.7</span> The Column class</h2>
+<p>As we described in the introduction to this chapter, you will massively use the methods from the <code>pyspark.sql.dataframe.DataFrame</code> class in your Spark applications to manage, modify and calculate your Spark DataFrames. But there is one more python class that provides some very useful methods that you will regularly use, which is the <code>Column</code> class.</p>
+<p>The <code>Column</code> class is used to represent a column in a Spark DataFrame. This means that, each column of a Spark DataFrame is a object of class <code>Column</code>. We can confirm this statement,l by looking at the class of <code>id</code> column from <code>df</code>.</p>
+<div class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(df.<span class="bu">id</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="17">
+<pre><code>pyspark.sql.column.Column</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> col</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>a_column <span class="op">=</span> col(<span class="st">'ID'</span>)</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(a_column)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Column&lt;'ID'&gt;</code></pre>
+</div>
+</div>
+</section>
+<section id="partitions-of-a-spark-dataframe" class="level2" data-number="3.8">
+<h2 data-number="3.8" class="anchored" data-anchor-id="partitions-of-a-spark-dataframe"><span class="header-section-number">3.8</span> Partitions of a Spark DataFrame</h2>
 <p>As we exposed in <a href="#fig-distributed-df">Figure&nbsp;<span>3.1</span></a>, a Spark DataFrame is broken into many small parts that are distributed across the cluster. Each one of these parts are considered a DataFrame <em>partition</em>.</p>
 
 
