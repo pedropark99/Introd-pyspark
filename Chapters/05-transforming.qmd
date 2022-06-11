@@ -57,7 +57,7 @@ Each one of these methods create a *lazily evaluated transformation*. Once again
 
 Therefore, Spark will avoid performing any heavy calculation until such calculation is really needed. But how or when Spark will face this decision? **When it encounters an action**. An action is the tool you have to trigger Spark to actually perform the transformations you have defined.
 
-> > An action instructs Spark to compute the result from a series of transformations. [@chambers2018].
+> An action instructs Spark to compute the result from a series of transformations. [@chambers2018].
 
 There are four kinds of actions in Spark:
 
@@ -119,7 +119,7 @@ In contrast, wide transformations are the opposite of that. In wide transformati
 
 When this kind of transformation happens, each worker node of the cluster needs to share his partition with the others. In other words, what happens is a partition shuffle. Each worker node sends his partition to the others, so they can have access to it, while performing their assigned tasks.
 
-Partition shuffles are a very popular topic in Apache Spark, because they can be a serious source of inefficiency in your Spark application. In more details, when these shuffles happens, Spark needs to write data back to the hard disk of the computer, and this is not a very fast operation. It does not mean that wide transformations are bad or slow, just that the shuffles they are producing can be a problem.
+Partition shuffles are a very popular topic in Apache Spark, because they can be a serious source of inefficiency in your Spark application [@chambers2018]. In more details, when these shuffles happens, Spark needs to write data back to the hard disk of the computer, and this is not a very fast operation. It does not mean that wide transformations are bad or slow, just that the shuffles they are producing can be a problem.
 
 A classic example of wide operation is a grouped aggregation. For example, lets suppose we had a DataFrame with the daily sales of multiple stores spread across the country, and, we wanted to calculate the total sales per city/region. To calculate the total sales of a specific city, like São Paulo, Spark would need to find all the rows that corresponds to this city, before adding the values, and these rows can be spread across multiple partitions of the cluster.
 

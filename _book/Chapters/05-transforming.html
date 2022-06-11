@@ -228,7 +228,10 @@ div.csl-indent {
   <li><a href="#defining-transformations" id="toc-defining-transformations" class="nav-link" data-scroll-target="#defining-transformations"> <span class="header-section-number">4.2</span> Defining transformations</a></li>
   <li><a href="#sec-dataframe-actions" id="toc-sec-dataframe-actions" class="nav-link" data-scroll-target="#sec-dataframe-actions"> <span class="header-section-number">4.3</span> Triggering calculations with actions</a></li>
   <li><a href="#understanding-narrow-and-wide-transformations" id="toc-understanding-narrow-and-wide-transformations" class="nav-link" data-scroll-target="#understanding-narrow-and-wide-transformations"> <span class="header-section-number">4.4</span> Understanding narrow and wide transformations</a></li>
-  <li><a href="#filtering-rows-of-your-dataframe" id="toc-filtering-rows-of-your-dataframe" class="nav-link" data-scroll-target="#filtering-rows-of-your-dataframe"> <span class="header-section-number">4.5</span> Filtering rows of your DataFrame</a></li>
+  <li><a href="#filtering-rows-of-your-dataframe" id="toc-filtering-rows-of-your-dataframe" class="nav-link" data-scroll-target="#filtering-rows-of-your-dataframe"> <span class="header-section-number">4.5</span> Filtering rows of your DataFrame</a>
+  <ul class="collapse">
+  <li><a href="#logical-operators-available" id="toc-logical-operators-available" class="nav-link" data-scroll-target="#logical-operators-available"> <span class="header-section-number">4.5.1</span> Logical operators available</a></li>
+  </ul></li>
   <li><a href="#selecting-specific-columns-of-your-dataframe" id="toc-selecting-specific-columns-of-your-dataframe" class="nav-link" data-scroll-target="#selecting-specific-columns-of-your-dataframe"> <span class="header-section-number">4.6</span> Selecting specific columns of your DataFrame</a></li>
   <li><a href="#calculating-or-adding-new-columns-to-your-dataframe" id="toc-calculating-or-adding-new-columns-to-your-dataframe" class="nav-link" data-scroll-target="#calculating-or-adding-new-columns-to-your-dataframe"> <span class="header-section-number">4.7</span> Calculating or adding new columns to your DataFrame</a></li>
   <li><a href="#sorting-rows-of-your-dataframe" id="toc-sorting-rows-of-your-dataframe" class="nav-link" data-scroll-target="#sorting-rows-of-your-dataframe"> <span class="header-section-number">4.8</span> Sorting rows of your DataFrame</a></li>
@@ -284,31 +287,16 @@ div.csl-indent {
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>]</span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> spark.createDataFrame(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>22/06/05 22:15:24 WARN Utils: Your hostname, pedro-IdeaPad-3-15ALC6 resolves to a loopback address: 127.0.1.1; using 192.168.0.33 instead (on interface wlp1s0)
-22/06/05 22:15:24 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Using Spark's default log4j profile: org/apache/spark/log4j-defaults.properties
-Setting default log level to "WARN".
-To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>22/06/05 22:15:25 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>22/06/05 22:15:25 WARN Utils: Service 'SparkUI' could not bind on port 4040. Attempting port 4041.</code></pre>
-</div>
 </div>
 <p>In the example below, to create a new DataFrame called <code>big_values</code>, we begin with the <code>df</code> DataFrame, then, we filter its rows where <code>value</code> is greater than 15, then, we select <code>date</code> and <code>value</code> columns, then, we sort the rows based on the <code>value</code> column. So, this set of sequential transformations (filter it, then, select it, then, order it, …) defines what this new <code>big_values</code> DataFrame is.</p>
 <div class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> col</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co"># You define a chain of transformations to</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># create a new DataFrame</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>big_values <span class="op">=</span> df<span class="op">\</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  .<span class="bu">filter</span>(col(<span class="st">'value'</span>) <span class="op">&gt;</span> <span class="dv">15</span>)<span class="op">\</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  .select(<span class="st">'date'</span>, <span class="st">'value'</span>)<span class="op">\</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  .orderBy(<span class="st">'value'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> col</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># You define a chain of transformations to</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># create a new DataFrame</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>big_values <span class="op">=</span> df<span class="op">\</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  .<span class="bu">filter</span>(col(<span class="st">'value'</span>) <span class="op">&gt;</span> <span class="dv">15</span>)<span class="op">\</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  .select(<span class="st">'date'</span>, <span class="st">'value'</span>)<span class="op">\</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  .orderBy(<span class="st">'value'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Thus, to apply a transformation to an existing DataFrame, we use DataFrame methods such as <code>select()</code>, <code>filter()</code>, <code>withColumn()</code>, <code>orderBy()</code> and <code>agg()</code>. Remember, these are methods from the python class that defines Apache Spark DataFrame’s (i.e.&nbsp;<code>pyspark.sql.dataframe.DataFrame</code>). This means that you can apply these transformations only to Spark DataFrames, and no other kind of python object.</p>
 <p>Each one of these methods create a <em>lazily evaluated transformation</em>. Once again, we see the <strong>lazy</strong> aspect of Spark doing its work here. All these transformation methods are lazily evaluated, meaning that, Spark will only check if they make sense with the initial DataFrame that you have. Spark will not actually perform these transformations on your initial DataFrame, not untill you trigger these transformations with an <strong>action</strong>.</p>
@@ -317,9 +305,7 @@ To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLeve
 <h2 data-number="4.3" class="anchored" data-anchor-id="sec-dataframe-actions"><span class="header-section-number">4.3</span> Triggering calculations with actions</h2>
 <p>Therefore, Spark will avoid performing any heavy calculation until such calculation is really needed. But how or when Spark will face this decision? <strong>When it encounters an action</strong>. An action is the tool you have to trigger Spark to actually perform the transformations you have defined.</p>
 <blockquote class="blockquote">
-<blockquote class="blockquote">
 <p>An action instructs Spark to compute the result from a series of transformations. <span class="citation" data-cites="chambers2018">(<a href="references.html#ref-chambers2018" role="doc-biblioref">Chambers and Zaharia 2018</a>)</span>.</p>
-</blockquote>
 </blockquote>
 <p>There are four kinds of actions in Spark:</p>
 <ul>
@@ -330,10 +316,7 @@ To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLeve
 </ul>
 <p>You already know the first type of action, because we used it before with the <code>show()</code> method. This <code>show()</code> method is an action by itself, because you are asking Spark to show some output to you. So we can make Spark to actually calculate the transformations that defines the <code>big_values</code> DataFrame, by asking Spark to show this DataFrame to us.</p>
 <div class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>big_values.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>[Stage 0:&gt;                                                        (0 + 12) / 12]</code></pre>
-</div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>big_values.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>+----------+-----+
 |      date|value|
@@ -344,13 +327,10 @@ To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLeve
 +----------+-----+
 </code></pre>
 </div>
-<div class="cell-output cell-output-stderr">
-<pre><code>                                                                                </code></pre>
-</div>
 </div>
 <p>Another very useful action is the <code>count()</code> method, that gives you the number of rows in a DataFrame. To be able to count the number of rows in a DataFrame, Spark needs to access this DataFrame in the first place. That is why this <code>count()</code> method behaves as an action. Spark will perform the transformations that defines <code>big_values</code> to access the actual rows of this DataFrame and count them.</p>
 <div class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>big_values.count()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>big_values.count()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
 <pre><code>3</code></pre>
 </div>
@@ -358,17 +338,17 @@ To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLeve
 <p>Furthermore, sometimes, you want to collect the data of a Spark DataFrame to use it inside python. In other words, sometimes you need to do some work that Spark cannot do by itself. To do so, you collect part of the data that is being generated by Spark, and store it inside a normal python object to use it in a standard python program.</p>
 <p>That is what the <code>collect()</code> method do. It transfers all the data of your Spark DataFrame into a standard python list that you can easily access with python. More specifically, you get a python list full of <code>Row()</code> values:</p>
 <div class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> big_values.collect()</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> big_values.collect()</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[Row(date=datetime.date(2021, 1, 1), value=15.8), Row(date=datetime.date(2021, 1, 2), value=20.1), Row(date=datetime.date(2021, 1, 1), value=28.3)]</code></pre>
 </div>
 </div>
 <p>The <code>take()</code> method is very similar to <code>collect()</code>. But you usually apply <code>take()</code> when you need to collect just a small section of your DataFrame (and not the entire thing), like the first <code>n</code> rows.</p>
 <div class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">1</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>first_row <span class="op">=</span> big_values.take(n)</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(first_row)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>first_row <span class="op">=</span> big_values.take(n)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(first_row)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[Row(date=datetime.date(2021, 1, 1), value=15.8)]</code></pre>
 </div>
@@ -397,7 +377,7 @@ To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLeve
 </figure>
 </div>
 <p>When this kind of transformation happens, each worker node of the cluster needs to share his partition with the others. In other words, what happens is a partition shuffle. Each worker node sends his partition to the others, so they can have access to it, while performing their assigned tasks.</p>
-<p>Partition shuffles are a very popular topic in Apache Spark, because they can be a serious source of inefficiency in your Spark application. In more details, when these shuffles happens, Spark needs to write data back to the hard disk of the computer, and this is not a very fast operation. It does not mean that wide transformations are bad or slow, just that the shuffles they are producing can be a problem.</p>
+<p>Partition shuffles are a very popular topic in Apache Spark, because they can be a serious source of inefficiency in your Spark application <span class="citation" data-cites="chambers2018">(<a href="references.html#ref-chambers2018" role="doc-biblioref">Chambers and Zaharia 2018</a>)</span>. In more details, when these shuffles happens, Spark needs to write data back to the hard disk of the computer, and this is not a very fast operation. It does not mean that wide transformations are bad or slow, just that the shuffles they are producing can be a problem.</p>
 <p>A classic example of wide operation is a grouped aggregation. For example, lets suppose we had a DataFrame with the daily sales of multiple stores spread across the country, and, we wanted to calculate the total sales per city/region. To calculate the total sales of a specific city, like São Paulo, Spark would need to find all the rows that corresponds to this city, before adding the values, and these rows can be spread across multiple partitions of the cluster.</p>
 </section>
 <section id="filtering-rows-of-your-dataframe" class="level2" data-number="4.5">
@@ -405,24 +385,24 @@ To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLeve
 <p>To filter specific rows of a DataFrame, <code>pyspark</code> offers two equivalent methods called <code>where()</code> and <code>filter()</code>. In other words, they both do the same thing, and work in the same way. You should give to these methods, a logical expression that translates what you want to filter.</p>
 <p>To demonstrate some of the examples in this and some of the next sections, we will use a different DataFrame, called <code>transf</code>. With the code below, you can import the data from <code>trans_reform.csv</code> to create this DataFrame in your Spark Session. Remember that, this CSV file is freely available to download at the repository of this book<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.</p>
 <div class="cell" data-cache="true" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.types <span class="im">import</span> StructType, StructField</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.types <span class="im">import</span> DoubleType, StringType, IntegerType, TimestampType</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>path <span class="op">=</span> <span class="st">"../Data/transf_reform.csv"</span></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>schema <span class="op">=</span> StructType([</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  StructField(<span class="st">'datetime'</span>, TimestampType(), <span class="va">False</span>),</span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  StructField(<span class="st">'user'</span>, StringType(), <span class="va">True</span>),</span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  StructField(<span class="st">'value'</span>, DoubleType(), <span class="va">True</span>),</span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>  StructField(<span class="st">'transferid'</span>, IntegerType(), <span class="va">False</span>),</span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>  StructField(<span class="st">'country'</span>, StringType(), <span class="va">True</span>),</span>
-<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>  StructField(<span class="st">'description'</span>, StringType(), <span class="va">True</span>)</span>
-<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>])</span>
-<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>transf <span class="op">=</span> spark.read<span class="op">\</span></span>
-<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>  .csv(path, schema <span class="op">=</span> schema, sep <span class="op">=</span> <span class="st">";"</span>, header <span class="op">=</span> <span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.types <span class="im">import</span> StructType, StructField</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.types <span class="im">import</span> DoubleType, StringType, IntegerType, TimestampType</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>path <span class="op">=</span> <span class="st">"../Data/transf_reform.csv"</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>schema <span class="op">=</span> StructType([</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  StructField(<span class="st">'datetime'</span>, TimestampType(), <span class="va">False</span>),</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  StructField(<span class="st">'user'</span>, StringType(), <span class="va">True</span>),</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  StructField(<span class="st">'value'</span>, DoubleType(), <span class="va">True</span>),</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  StructField(<span class="st">'transferid'</span>, IntegerType(), <span class="va">False</span>),</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>  StructField(<span class="st">'country'</span>, StringType(), <span class="va">True</span>),</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>  StructField(<span class="st">'description'</span>, StringType(), <span class="va">True</span>)</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>])</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>transf <span class="op">=</span> spark.read<span class="op">\</span></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>  .csv(path, schema <span class="op">=</span> schema, sep <span class="op">=</span> <span class="st">";"</span>, header <span class="op">=</span> <span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This <code>transf</code> DataFrame contains bank transfer records from a fictitious bank. Column <code>datetime</code> presents the date and time when the transfer occurred; <code>user</code> is the bank user that did the transfer; <code>value</code> presents the value that was transferred; <code>transferid</code> is an unique ID for the transfer; <code>country</code> show us the target country of the transfer; and <code>description</code> store some description of this transfer if needed.</p>
 <div class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>transf.show(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>transf.show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>+-------------------+--------+--------+----------+-------+-----------+
 |           datetime|    user|   value|transferid|country|description|
@@ -432,21 +412,16 @@ To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLeve
 |2018-12-06 19:59:50|Nathália|4417.866| 115079280|Germany|       null|
 |2018-12-06 19:54:13|   Júlio|2739.618| 114972398|Germany|       null|
 |2018-12-06 19:41:27|     Ana|1408.261| 116262934|Germany|       null|
-|2018-12-06 19:18:40|Nathália|5051.828| 115710402|Germany|       null|
-|2018-12-06 18:54:32| Eduardo|5665.214| 114830203|Germany|       null|
-|2018-12-06 18:15:46|  Sandra| 1474.44| 116323455|Germany|       null|
-|2018-12-06 18:04:35| Armando|8905.509| 115304382|Germany|       null|
-|2018-12-22 18:00:56| Armando| 18521.2| 114513684|Germany|       null|
 +-------------------+--------+--------+----------+-------+-----------+
-only showing top 10 rows
+only showing top 5 rows
 </code></pre>
 </div>
 </div>
 <p>As a first example, lets suppose you wanted to inspect all the rows where <code>value</code> is less than 1000. To do so, you can use the following code:</p>
 <div class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>transf<span class="op">\</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  .<span class="bu">filter</span>(<span class="st">"value &lt; 1000"</span>)<span class="op">\</span></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  .show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>transf<span class="op">\</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  .<span class="bu">filter</span>(<span class="st">"value &lt; 1000"</span>)<span class="op">\</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  .show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>+-------------------+-----------+--------+----------+-------+-----------+
 |           datetime|       user|   value|transferid|country|description|
@@ -463,11 +438,11 @@ only showing top 5 rows
 </div>
 <p>Writing the logical expression inside a string is the most easy and “clean” way to create a filter expression. However, you could write the same exact expression in a more “formal” way, using the <code>col()</code> function from <code>pyspark.sql.functions</code>.</p>
 <div class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> col</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>transf<span class="op">\</span></span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  .<span class="bu">filter</span>(col(<span class="st">"value"</span>) <span class="op">&lt;</span> <span class="dv">1000</span>)<span class="op">\</span></span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  .show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> col</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>transf<span class="op">\</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  .<span class="bu">filter</span>(col(<span class="st">"value"</span>) <span class="op">&lt;</span> <span class="dv">1000</span>)<span class="op">\</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  .show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>+-------------------+-----------+--------+----------+-------+-----------+
 |           datetime|       user|   value|transferid|country|description|
@@ -484,14 +459,13 @@ only showing top 5 rows
 </div>
 <p>You still have a more verbose alternative, that does not require the <code>col()</code> function. With this method, you refer to the specific column using the dot operator (<code>.</code>), like in the example below:</p>
 <div class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This will give you the exact</span></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="co"># same result of the examples above</span></span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>transf<span class="op">\</span></span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  .<span class="bu">filter</span>(transf.value <span class="op">&lt;</span> <span class="dv">1000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="11">
-<pre><code>DataFrame[datetime: timestamp, user: string, value: double, transferid: int, country: string, description: string]</code></pre>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This will give you the exact</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="co"># same result of the examples above</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>transf<span class="op">\</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  .<span class="bu">filter</span>(transf.value <span class="op">&lt;</span> <span class="dv">1000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</div>
+<section id="logical-operators-available" class="level3" data-number="4.5.1">
+<h3 data-number="4.5.1" class="anchored" data-anchor-id="logical-operators-available"><span class="header-section-number">4.5.1</span> Logical operators available</h3>
 <p>To create these logical expressions, we use the logical operators of python, which are described in the table below:</p>
 <div id="tbl-logical-operators" class="anchored">
 <table class="table">
@@ -552,6 +526,7 @@ only showing top 5 rows
 </tbody>
 </table>
 </div>
+</section>
 </section>
 <section id="selecting-specific-columns-of-your-dataframe" class="level2" data-number="4.6">
 <h2 data-number="4.6" class="anchored" data-anchor-id="selecting-specific-columns-of-your-dataframe"><span class="header-section-number">4.6</span> Selecting specific columns of your DataFrame</h2>

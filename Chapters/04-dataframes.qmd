@@ -121,6 +121,38 @@ df.show(2)
 ```
 
 
+## Spark Data Types
+
+Each column of your Spark DataFrame is associated with a specific data type. Spark supports a number of different data types. You can see the full list at the official documentation page^[spark-data-types1]. For now, we will focus on the most used data types, which are listed below:
+
+[^spark-data-types1]: https://spark.apache.org/docs/3.2.1/sql-ref-datatypes.html#content
+
+- `IntegerType`: Represents 4-byte signed integer numbers. The range of numbers is from -2147483648 to 2147483647.
+- `LongType`: Represents 8-byte signed integer numbers. The range of numbers is from -9223372036854775808 to 9223372036854775807.
+- `FloatType`: Represents 4-byte single-precision floating point numbers.
+- `DoubleType`: Represents 8-byte double-precision floating point numbers.
+- `StringType`: Represents character string values.
+- `BooleanType`: Represents boolean values (true or false).
+- `TimestampType`: Represents datetime values, i.e. values that contains fields year, month, day, hour, minute, and second, with the session local time-zone. The timestamp value represents an absolute point in time.
+- `DateType`: Represents date values, i.e. values that contains fields year, month and day, without a time-zone.
+
+Besides these more "standard" data types, Spark supports two other complex types, which are `ArrayType` and `MapType`:
+
+- `ArrayType(elementType, containsNull)`: Represents a sequence of elements with the type of `elementType`. `containsNull` is used to indicate if elements in a `ArrayType` value can have `null` values.
+
+- `MapType(keyType, valueType, valueContainsNull)`: Represents a set of key-value pairs. The data type of keys is described by `keyType` and the data type of values is described by `valueType`. For a `MapType` value, keys are not allowed to have `null` values. `valueContainsNull` is used to indicate if values of a `MapType` value can have `null` values.
+
+Each one of these Spark data types have a corresponding python class in `pyspark`, which are stored in the `pyspark.sql.types` module. As a result, to access, lets say, type `StryngType`, we can do this:
+
+```{python}
+from pyspark.sql.types import StringType
+s = StringType()
+print(s)
+```
+
+
+
+
 ## The DataFrame Schema
 
 The schema of a Spark DataFrame is the combination of column names and the data types associated with each of these columns. Schemas can be set explicitly by you (that is, you can tell Spark how the schema of your DataFrame should look like), or, can be defined automatically by Spark while reading and creating data. You can get a succinct description of a DataFrame schema, by looking inside the object where this DataFrame is stored. 
@@ -130,6 +162,8 @@ For example, lets look again to the `df` DataFrame. In the result below, we can 
 ```{python}
 df
 ```
+
+### Accessing the DataFrame schema
 
 So, by calling the object of your DataFrame (i.e. an object of class `pyspark.sql.dataframe.DataFrame`) in the console, you can see a small description of the schema of this DataFrame. But, how can you access the description of this schema programmatically? You do this, by using the `schema` method of your DataFrame, like in the example below:
 
@@ -169,6 +203,62 @@ for column in schema:
 for column in schema:
   print(column.nullable)
 ```
+
+
+### Building a DataFrame schema
+
+When Spark creates a new DataFrame, it will automatically guess which schema is appropriate for that DataFrame. In other words, Spark will try to guess which are the appropriate data types for each column. But, this is just a guess, and, sometimes, Spark go way off.
+
+Because of that, in some cases, you have to tell Spark how exactly you want this DataFrame schema to be like. To do that, you need to build the DataFrame schema by yourself, with `StructType()` and `StructField()` functions, alongside with the Spark data types (i.e. `StringType()`, `DoubleType()`, `IntegerType()`, ...). Remember, all of these python classes come from the `pyspark.sql.types` module. 
+
+In the example below, the `schema` object represents the schema of the `registers` DataFrame. This DataFrame have three columns (`ID`, `Date`, `Name`) of types `IntegerType`, `DateType` and `StringType`, respectively. See below that I deliver this `schema` object that I built to `spark.createDataFrame()`. 
+
+```{python}
+#| eval: true
+from pyspark.sql.types import StructType, StructField
+from pyspark.sql.types import DateType, StringType, IntegerType
+from datetime import date
+
+data = [
+  (1, date(2022, 1, 1), 'Anne'),
+  (2, date(2022, 1, 3), 'Layla'),
+  (3, date(2022, 1, 15), 'Wick'),
+  (4, date(2022, 1, 11), 'Paul')
+]
+
+schema = StructType([
+  StructField('ID', IntegerType(), True),
+  StructField('Date', DateType(), True),
+  StructField('Name', StringType(), True)
+])
+
+registers = spark.createDataFrame(data, schema = schema)
+```
+
+So to build a DataFrame schema, you build the equivalent `StructType()` object that represents the schema you want.
+
+### Checking your DataFrame schema
+
+In some cases, you need to include in your `pyspark` program, some checks that certifies that your Spark DataFrame have the expected schema. In other words, you want to take actions in case your DataFrame have a different schema that might cause a problem in your program.
+
+To check if a specific column of your DataFrame is associated with the correct data type, you have to use the DataFrame schema to check if the respective column is an "instance" of the python class that represents that data type. Lets get back to the `df` DataFrame.
+
+As an example, suppose you wanted to check if the `id` column is of type `IntegerType`. To do this check, we use the python built-in function `isinstance()` with the python class that represents the Spark `IntegerType` data type. As you can see below, the `id` column is not of type `IntegerType`.
+
+```{python}
+from pyspark.sql.types import IntegerType
+schema = df.schema
+id_column = schema[0]
+isinstance(id_column.dataType, IntegerType)
+```
+
+The `id` column is actually from the "big integer" type, or, the `LongType` type (which are 8-byte signed integer).
+
+```{python}
+from pyspark.sql.types import LongType
+isinstance(id_column.dataType, LongType)
+```
+
 
 
 ## Partitions of a Spark DataFrame
