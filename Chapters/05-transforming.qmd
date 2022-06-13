@@ -187,7 +187,7 @@ transf\
 
 As we saw in the previous section, there are two ways to write logical expressions in `pyspark`: write SQL logical expressions inside a string; or, write python logical expressions using the `col()` function. 
 
-If you choose to write the more clean SQL logical expressions in a string, you need to use the logical operators of SQL in your expression (not the logical operators of python). In the other hand, if you choose to write in the "python" way, than, you need to use the logical operators of python.
+If you choose to write the SQL logical expressions in a string, you need to use the logical operators of SQL in your expression (not the logical operators of python). In the other hand, if you choose to write in the "python" way, than, you need to use the logical operators of python.
 
 The logical operators of SQL are described in the table below:
 
@@ -202,6 +202,7 @@ The logical operators of SQL are described in the table below:
 | in       |`x in y`              |is `x` one of the values listed in `y`?                  |
 | and      |`x and y`             |both logical expressions `x` and `y` are true?           |
 | or       |`x or y`              |at least one of logical expressions `x` and `y` are true?|
+| not      |`not x`               |is the logical expression `x` not true?                  |
 
 : List of logical operators of SQL {#tbl-logical-operators-sql}
 
@@ -218,6 +219,7 @@ The logical operators of python are described in the table below:
 | !=       |`x != y`              |is `x` not equal to `y`?                                 |
 | &        |`x & y`               |both logical expressions `x` and `y` are true?           |
 | \|       |`x | y`               |at least one of logical expressions `x` and `y` are true?|
+| ~        |`~x`                  |is the logical expression `x` not true?                  |
 
 : List of logical operators of python {#tbl-logical-operators-python}
 
@@ -292,7 +294,7 @@ transf\
   .show(5)
 ```
 
-To translate this expression into the pythonic way, we have to substitute the `or` keyword by the `|` operator, and surround each expression by parentheses, like this:
+To translate this expression into the pythonic way, we have to substitute the `or` keyword by the `|` operator, and surround each expression by parentheses again:
 
 ```{python}
 transf\
@@ -315,7 +317,7 @@ transf\
   .show(5)
 ```
 
-If you investigate the above condition carefully, maybe, you will identify that this condition could be rewritten in a simpler format, by using the `in` keyword. This way, Spark will look for all the rows where `user` is equal to one of the listed values, and, that `country` is Germany.
+If you investigate the above condition carefully, maybe, you will identify that this condition could be rewritten in a simpler format, by using the `in` keyword. This way, Spark will look for all the rows where `user` is equal to one of the listed values (Eduardo and Ana), and, that `country` is Germany.
 
 ```{python}
 condition = '''
@@ -326,13 +328,13 @@ condition = '''
 
 ### Translating the `in` keyword to the pythonic way
 
-Python does have a `in` keyword just like SQL, but, this keyword does not work in `pyspark`. To write a logical expression, using the pythonic way, that filters the rows where a column is equal to one of many the listed values, you can use the `isin()` method for columns.
+Python does have a `in` keyword just like SQL, but, this keyword does not work as expected in `pyspark`. To write a logical expression, using the pythonic way, that filters the rows where a column is equal to one of the listed values, you can use the `isin()` method. 
 
-In the example below, we are filtering the rows where `user` is Eduardo or Ana:
+This method belongs to the `Column` class, so, you should always use `isin()` after a column name or a `col()` function. In the example below, we are filtering the rows where `user` is Eduardo or Júlio Cesar:
 
 ```{python}
 transf\
-  .filter(col('user').isin('Eduardo', 'Ana'))\
+  .filter(col('user').isin('Eduardo', 'Júlio Cesar'))\
   .show(5)
 ```
 
@@ -340,10 +342,193 @@ transf\
 
 <!-- Describe the ~ operator -->
 
+In some cases, is easier to describe what rows you **do not want** in your filter. In this case, you want to negate (or invert) your logical expression. For this, SQL provides the `not` keyword, that you place before the logical expression you want to negate.
+
+For example, we can filter all the rows of `transf` where `user` is not equal to Ana. Remember, the methods `filter()` and `where()` are equivalents or synonymous (they both mean the same thing).
+
+```{python}
+condition = '''
+  not user == 'Ana'
+'''
+
+transf\
+  .where(condition)\
+  .show(5)
+```
+
+To translate this expression to the pythonic way, we use the `~` operator. Because we are negating the logical expression as a whole, is important to surround the entire expression with parentheses.
+
+```{python}
+transf\
+  .where(~(col('user') == 'Ana'))\
+  .show(5)
+```
+
+If you forget to do this, Spark will think you are negating just the column (e.g. `~col('user')`), and not the entire expression. That would not make sense, and, as a result, Spark would throw an error:
+
+```{python}
+#| eval: false
+transf\
+  .where(~col('user') == 'Ana')\
+  .show(5)
+```
+
+```{verbatim}
+AnalysisException: cannot resolve '(NOT user)' due to data type mismatch: argument 1 requires boolean type, however, 'user' is of string type.;
+'Filter (NOT user#25 = Ana)
+```
+
+Because the `~` operator is a little discrete and can go unnoticed, I sometimes use a different approach to negate my logical expressions. I make the entire expression equal to `False`. This way, I get all the rows where that particular expression is `False`. This makes my intention more visible in the code, but, is harder to write it.
+
+```{python}
+# Filter all the rows where `user` is not equal to
+# Ana or Eduardo.
+transf\
+  .where( (col('user').isin('Ana', 'Eduardo')) == False )\
+  .show(5)
+```
+
+
+### Filtering `null` values
+
+Sometimes, the `null` values play an important role in your filter. You either want to collect all these `null` values, so you can investigate why they are null in the first place, or, you want to completely eliminate them from your DataFrame.
+
+Because this is a special kind of value in Spark, with a special meaning (the "absence" of a value), you need to use a special syntax to correctly filter these values in your DataFrame. In SQL, you can use the `is` keyword to filter these values:
+
+```{python}
+transf\
+  .where('user is null')\
+  .show()
+```
+
+However, if you want to remove these values from your DataFrame, than, you can just negate (or invert) the above expression with the `not` keyword, like this:
+
+```{python}
+transf\
+  .where('not user is null')\
+  .show(5)
+```
+
+The `is` and `not` keywords have a special relation. Because you can create the same negation/inversion of the expression by inserting the `not` keyword in the middle of the expression (you can do this too in expressions with the `in` keyword). In other words, you might see in someone else's code this expression written in this form:
+
+```{python}
+transf\
+  .where('user is not null')\
+  .show(5)
+```
+
+This is a valid SQL logical expression, but is a strange one. Because we cannot use the `not` keyword in this manner on other kinds of logical expressions. Normally, we put the `not` keyword **before** the logical expression we want to negate, not in the middle of it. Anyway, just have in mind that this form of logical expression exists, and, that is a perfectly valid one.
+
+When we translate the above examples to the "pythonic" way, many people tend to use the `null` equivalent of python, that is, the `None` value, in the expression. But as you can see in the result below, this method does not work as expected:
+
+```{python}
+transf\
+  .where(col('user') == None)\
+  .show()
+```
+
+The correct way to do this in `pyspark`, is to use the `isNull()` method from the `Column` class.
+
+```{python}
+transf\
+  .where(col('user').isNull())\
+  .show()
+```
+
+If you want to eliminate the `null` values, just use the inverse method `isNotNull()`.
+
+```{python}
+transf\
+  .where(col('user').isNotNull())\
+  .show(5)
+```
+
+
 
 ## Selecting specific columns of your DataFrame
 
-Sometimes, you need to change the order of the columns, or, to delete some of them from your DataFrame. To do this, you can use the `select()` and `drop()` methods.
+Sometimes, you need manage or transform the columns you have. For example, you might need to change the order of these columns, or, to delete/rename some of them. To do this, you can use the `select()` and `drop()` methods of your DataFrame. 
+
+The `select()` method works very similarly to the `SELECT` statement of SQL. You basically list all the columns you want to keep in your DataFrame, in the specific order you want.
+
+```{python}
+transf\
+  .select('transferid', 'datetime', 'user', 'value')\
+  .show(5)
+```
+
+### Renaming your columns
+
+Realize in the example above, that the column names can be delivered directly as strings to `select()`. This makes life pretty easy, but, it does not give you extra options. You may want to rename some of the columns, and, to do this, you need to use the `alias()` method from `Column` class. Since this is a method from `Column` class, I always use it after a `col()` function, or, after a column name.
+
+```{python}
+transf\
+  .select(
+    'datetime',
+    col('transferid').alias('transferID'),  
+    col('user').alias('clientName')
+  )\
+  .show(5)
+```
+
+### Dropping unnecessary columns
+
+In some cases, your DataFrame just have too many columns and you just want to eliminate a few of them. In a situation like this, you can list the columns you want to drop from your DataFrame, inside the `drop()` method, like this:
+
+```{python}
+transf\
+  .drop('user', 'description')\
+  .show(5)
+```
+
+
+### You can add new columns with `select()`
+
+When I say that `select()` works in the same way as the `SELECT` statement of SQL, it means that you can use `select()` to select columns that do not currently exist in your DataFrame, and add them to the final result. 
+
+For example, I can select a new column (called `by_1000`) containing the `value` divided by 1000:
+
+```{python}
+from pyspark.sql.functions import sum, lit
+transf\
+  .select(
+    'value',
+    (col('value') / 1000).alias('by_1000')
+  )\
+  .show(5)
+```
+
+So this `by_1000` column do not exist in `transf` DataFrame, it was calculated and added to the final result by `select()`. The formula `col('value') / 1000` is the equation that defines what this `by_1000` column is, or, how it should be calculated. 
+
+### Casting columns to a different data type
+
+Spark try to do its best when guessing which is correct data type for the columns of your DataFrame. But, obviously, Spark can get it wrong, and, you end up deciding by your own which data type to use for a specific column.
+
+While working with your DataFrame, you can use the `cast()` method inside `select()` to change the data type of a specific column. This `cast()` method belongs to the `Column` class, so, you should always use it after a column name, or, a `col()` function:
+
+```{python}
+transf\
+  .select(
+    'value',
+    col('value').cast('int').alias('value_as_integer'),
+    transf.value.cast('string').alias('value_as_string')
+  )\
+  .show(5)
+```
+
+To use this `cast()` method, you give the name of the data type (as a string) to which you want to cast the column. The main available data types to `cast()` are:
+
+- `'string'`: correspond to `StringType()`;
+- `'int'`: correspond to `IntegerType()`;
+- `'long'`: correspond to `LongType()`;
+- `'double'`: correspond to `DoubleType()`;
+- `'date'`: correspond to `DateType()`;
+- `'timestamp'`: correspond to `TimestampType()`;
+- `'bool'`: correspond to `BooleanType()`;
+- `'array'`: correspond to `ArrayType()`;
+- `'dict'`: correspond to `MapType()`;
+
+
 
 ## Calculating or adding new columns to your DataFrame
 

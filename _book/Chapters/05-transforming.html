@@ -234,8 +234,15 @@ div.csl-indent {
   <li><a href="#connecting-multiple-logical-expressions" id="toc-connecting-multiple-logical-expressions" class="nav-link" data-scroll-target="#connecting-multiple-logical-expressions"> <span class="header-section-number">4.5.2</span> Connecting multiple logical expressions</a></li>
   <li><a href="#translating-the-in-keyword-to-the-pythonic-way" id="toc-translating-the-in-keyword-to-the-pythonic-way" class="nav-link" data-scroll-target="#translating-the-in-keyword-to-the-pythonic-way"> <span class="header-section-number">4.5.3</span> Translating the <code>in</code> keyword to the pythonic way</a></li>
   <li><a href="#negating-logical-conditions" id="toc-negating-logical-conditions" class="nav-link" data-scroll-target="#negating-logical-conditions"> <span class="header-section-number">4.5.4</span> Negating logical conditions</a></li>
+  <li><a href="#filtering-null-values" id="toc-filtering-null-values" class="nav-link" data-scroll-target="#filtering-null-values"> <span class="header-section-number">4.5.5</span> Filtering <code>null</code> values</a></li>
   </ul></li>
-  <li><a href="#selecting-specific-columns-of-your-dataframe" id="toc-selecting-specific-columns-of-your-dataframe" class="nav-link" data-scroll-target="#selecting-specific-columns-of-your-dataframe"> <span class="header-section-number">4.6</span> Selecting specific columns of your DataFrame</a></li>
+  <li><a href="#selecting-specific-columns-of-your-dataframe" id="toc-selecting-specific-columns-of-your-dataframe" class="nav-link" data-scroll-target="#selecting-specific-columns-of-your-dataframe"> <span class="header-section-number">4.6</span> Selecting specific columns of your DataFrame</a>
+  <ul class="collapse">
+  <li><a href="#renaming-your-columns" id="toc-renaming-your-columns" class="nav-link" data-scroll-target="#renaming-your-columns"> <span class="header-section-number">4.6.1</span> Renaming your columns</a></li>
+  <li><a href="#dropping-unnecessary-columns" id="toc-dropping-unnecessary-columns" class="nav-link" data-scroll-target="#dropping-unnecessary-columns"> <span class="header-section-number">4.6.2</span> Dropping unnecessary columns</a></li>
+  <li><a href="#you-can-add-new-columns-with-select" id="toc-you-can-add-new-columns-with-select" class="nav-link" data-scroll-target="#you-can-add-new-columns-with-select"> <span class="header-section-number">4.6.3</span> You can add new columns with <code>select()</code></a></li>
+  <li><a href="#casting-columns-to-a-different-data-type" id="toc-casting-columns-to-a-different-data-type" class="nav-link" data-scroll-target="#casting-columns-to-a-different-data-type"> <span class="header-section-number">4.6.4</span> Casting columns to a different data type</a></li>
+  </ul></li>
   <li><a href="#calculating-or-adding-new-columns-to-your-dataframe" id="toc-calculating-or-adding-new-columns-to-your-dataframe" class="nav-link" data-scroll-target="#calculating-or-adding-new-columns-to-your-dataframe"> <span class="header-section-number">4.7</span> Calculating or adding new columns to your DataFrame</a></li>
   <li><a href="#sorting-rows-of-your-dataframe" id="toc-sorting-rows-of-your-dataframe" class="nav-link" data-scroll-target="#sorting-rows-of-your-dataframe"> <span class="header-section-number">4.8</span> Sorting rows of your DataFrame</a></li>
   </ul>
@@ -290,29 +297,16 @@ div.csl-indent {
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>]</span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> spark.createDataFrame(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>22/06/11 19:19:46 WARN Utils: Your hostname, pedro-IdeaPad-3-15ALC6 resolves to a loopback address: 127.0.1.1; using 192.168.0.33 instead (on interface wlp1s0)
-22/06/11 19:19:46 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Using Spark's default log4j profile: org/apache/spark/log4j-defaults.properties
-Setting default log level to "WARN".
-To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
-22/06/11 19:19:47 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>22/06/11 19:19:48 WARN Utils: Service 'SparkUI' could not bind on port 4040. Attempting port 4041.</code></pre>
-</div>
 </div>
 <p>In the example below, to create a new DataFrame called <code>big_values</code>, we begin with the <code>df</code> DataFrame, then, we filter its rows where <code>value</code> is greater than 15, then, we select <code>date</code> and <code>value</code> columns, then, we sort the rows based on the <code>value</code> column. So, this set of sequential transformations (filter it, then, select it, then, order it, …) defines what this new <code>big_values</code> DataFrame is.</p>
 <div class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> col</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># You define a chain of transformations to</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># create a new DataFrame</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>big_values <span class="op">=</span> df<span class="op">\</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  .<span class="bu">filter</span>(col(<span class="st">'value'</span>) <span class="op">&gt;</span> <span class="dv">15</span>)<span class="op">\</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  .select(<span class="st">'date'</span>, <span class="st">'value'</span>)<span class="op">\</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  .orderBy(<span class="st">'value'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> col</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># You define a chain of transformations to</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># create a new DataFrame</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>big_values <span class="op">=</span> df<span class="op">\</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  .<span class="bu">filter</span>(col(<span class="st">'value'</span>) <span class="op">&gt;</span> <span class="dv">15</span>)<span class="op">\</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  .select(<span class="st">'date'</span>, <span class="st">'value'</span>)<span class="op">\</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  .orderBy(<span class="st">'value'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Thus, to apply a transformation to an existing DataFrame, we use DataFrame methods such as <code>select()</code>, <code>filter()</code>, <code>withColumn()</code>, <code>orderBy()</code> and <code>agg()</code>. Remember, these are methods from the python class that defines Apache Spark DataFrame’s (i.e.&nbsp;<code>pyspark.sql.dataframe.DataFrame</code>). This means that you can apply these transformations only to Spark DataFrames, and no other kind of python object.</p>
 <p>Each one of these methods create a <em>lazily evaluated transformation</em>. Once again, we see the <strong>lazy</strong> aspect of Spark doing its work here. All these transformation methods are lazily evaluated, meaning that, Spark will only check if they make sense with the initial DataFrame that you have. Spark will not actually perform these transformations on your initial DataFrame, not untill you trigger these transformations with an <strong>action</strong>.</p>
@@ -332,10 +326,7 @@ To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLeve
 </ul>
 <p>You already know the first type of action, because we used it before with the <code>show()</code> method. This <code>show()</code> method is an action by itself, because you are asking Spark to show some output to you. So we can make Spark to actually calculate the transformations that defines the <code>big_values</code> DataFrame, by asking Spark to show this DataFrame to us.</p>
 <div class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>big_values.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>[Stage 0:&gt;                                                        (0 + 12) / 12]</code></pre>
-</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>big_values.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>+----------+-----+
 |      date|value|
@@ -346,31 +337,28 @@ To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLeve
 +----------+-----+
 </code></pre>
 </div>
-<div class="cell-output cell-output-stderr">
-<pre><code>                                                                                </code></pre>
-</div>
 </div>
 <p>Another very useful action is the <code>count()</code> method, that gives you the number of rows in a DataFrame. To be able to count the number of rows in a DataFrame, Spark needs to access this DataFrame in the first place. That is why this <code>count()</code> method behaves as an action. Spark will perform the transformations that defines <code>big_values</code> to access the actual rows of this DataFrame and count them.</p>
 <div class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>big_values.count()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>big_values.count()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="35">
 <pre><code>3</code></pre>
 </div>
 </div>
 <p>Furthermore, sometimes, you want to collect the data of a Spark DataFrame to use it inside python. In other words, sometimes you need to do some work that Spark cannot do by itself. To do so, you collect part of the data that is being generated by Spark, and store it inside a normal python object to use it in a standard python program.</p>
 <p>That is what the <code>collect()</code> method do. It transfers all the data of your Spark DataFrame into a standard python list that you can easily access with python. More specifically, you get a python list full of <code>Row()</code> values:</p>
 <div class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> big_values.collect()</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> big_values.collect()</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[Row(date=datetime.date(2021, 1, 1), value=15.8), Row(date=datetime.date(2021, 1, 2), value=20.1), Row(date=datetime.date(2021, 1, 1), value=28.3)]</code></pre>
 </div>
 </div>
 <p>The <code>take()</code> method is very similar to <code>collect()</code>. But you usually apply <code>take()</code> when you need to collect just a small section of your DataFrame (and not the entire thing), like the first <code>n</code> rows.</p>
 <div class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">1</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>first_row <span class="op">=</span> big_values.take(n)</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(first_row)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>first_row <span class="op">=</span> big_values.take(n)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(first_row)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[Row(date=datetime.date(2021, 1, 1), value=15.8)]</code></pre>
 </div>
@@ -407,24 +395,24 @@ To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLeve
 <p>To filter specific rows of a DataFrame, <code>pyspark</code> offers two equivalent methods called <code>where()</code> and <code>filter()</code>. In other words, they both do the same thing, and work in the same way. You should give to these methods, a logical expression that translates what you want to filter.</p>
 <p>To demonstrate some of the examples in this and some of the next sections, we will use a different DataFrame, called <code>transf</code>. With the code below, you can import the data from <code>trans_reform.csv</code> to create this DataFrame in your Spark Session. Remember that, this CSV file is freely available to download at the repository of this book<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.</p>
 <div class="cell" data-cache="true" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.types <span class="im">import</span> StructType, StructField</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.types <span class="im">import</span> DoubleType, StringType, IntegerType, TimestampType</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>path <span class="op">=</span> <span class="st">"../Data/transf_reform.csv"</span></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>schema <span class="op">=</span> StructType([</span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  StructField(<span class="st">'datetime'</span>, TimestampType(), <span class="va">False</span>),</span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  StructField(<span class="st">'user'</span>, StringType(), <span class="va">True</span>),</span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  StructField(<span class="st">'value'</span>, DoubleType(), <span class="va">True</span>),</span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  StructField(<span class="st">'transferid'</span>, IntegerType(), <span class="va">False</span>),</span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>  StructField(<span class="st">'country'</span>, StringType(), <span class="va">True</span>),</span>
-<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>  StructField(<span class="st">'description'</span>, StringType(), <span class="va">True</span>)</span>
-<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>])</span>
-<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>transf <span class="op">=</span> spark.read<span class="op">\</span></span>
-<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>  .csv(path, schema <span class="op">=</span> schema, sep <span class="op">=</span> <span class="st">";"</span>, header <span class="op">=</span> <span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.types <span class="im">import</span> StructType, StructField</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.types <span class="im">import</span> DoubleType, StringType, IntegerType, TimestampType</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>path <span class="op">=</span> <span class="st">"../Data/transf_reform.csv"</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>schema <span class="op">=</span> StructType([</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  StructField(<span class="st">'datetime'</span>, TimestampType(), <span class="va">False</span>),</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  StructField(<span class="st">'user'</span>, StringType(), <span class="va">True</span>),</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  StructField(<span class="st">'value'</span>, DoubleType(), <span class="va">True</span>),</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  StructField(<span class="st">'transferid'</span>, IntegerType(), <span class="va">False</span>),</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>  StructField(<span class="st">'country'</span>, StringType(), <span class="va">True</span>),</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>  StructField(<span class="st">'description'</span>, StringType(), <span class="va">True</span>)</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>])</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>transf <span class="op">=</span> spark.read<span class="op">\</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>  .csv(path, schema <span class="op">=</span> schema, sep <span class="op">=</span> <span class="st">";"</span>, header <span class="op">=</span> <span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This <code>transf</code> DataFrame contains bank transfer records from a fictitious bank. Column <code>datetime</code> presents the date and time when the transfer occurred; <code>user</code> is the bank user that did the transfer; <code>value</code> presents the value that was transferred; <code>transferid</code> is an unique ID for the transfer; <code>country</code> show us the target country of the transfer; and <code>description</code> store some description of this transfer if needed.</p>
 <div class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>transf.show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>transf.show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>+-------------------+--------+--------+----------+-------+-----------+
 |           datetime|    user|   value|transferid|country|description|
@@ -441,9 +429,9 @@ only showing top 5 rows
 </div>
 <p>As a first example, lets suppose you wanted to inspect all the rows where <code>value</code> is less than 1000. To do so, you can use the following code:</p>
 <div class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>transf<span class="op">\</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  .<span class="bu">filter</span>(<span class="st">"value &lt; 1000"</span>)<span class="op">\</span></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  .show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>transf<span class="op">\</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  .<span class="bu">filter</span>(<span class="st">"value &lt; 1000"</span>)<span class="op">\</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  .show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>+-------------------+-----------+--------+----------+-------+-----------+
 |           datetime|       user|   value|transferid|country|description|
@@ -460,11 +448,11 @@ only showing top 5 rows
 </div>
 <p>Writing simple SQL logical expression inside a string is the most easy and “clean” way to create a filter expression in <code>pyspark</code>. However, you could write the same exact expression in a more “pythonic” way, using the <code>col()</code> function from <code>pyspark.sql.functions</code>.</p>
 <div class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> col</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>transf<span class="op">\</span></span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  .<span class="bu">filter</span>(col(<span class="st">"value"</span>) <span class="op">&lt;</span> <span class="dv">1000</span>)<span class="op">\</span></span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  .show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> col</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>transf<span class="op">\</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  .<span class="bu">filter</span>(col(<span class="st">"value"</span>) <span class="op">&lt;</span> <span class="dv">1000</span>)<span class="op">\</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  .show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>+-------------------+-----------+--------+----------+-------+-----------+
 |           datetime|       user|   value|transferid|country|description|
@@ -481,15 +469,15 @@ only showing top 5 rows
 </div>
 <p>You still have a more verbose alternative, that does not require the <code>col()</code> function. With this method, you refer to the specific column using the dot operator (<code>.</code>), like in the example below:</p>
 <div class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This will give you the exact</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="co"># same result of the examples above</span></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>transf<span class="op">\</span></span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  .<span class="bu">filter</span>(transf.value <span class="op">&lt;</span> <span class="dv">1000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This will give you the exact</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="co"># same result of the examples above</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>transf<span class="op">\</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  .<span class="bu">filter</span>(transf.value <span class="op">&lt;</span> <span class="dv">1000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="logical-operators-available" class="level3" data-number="4.5.1">
 <h3 data-number="4.5.1" class="anchored" data-anchor-id="logical-operators-available"><span class="header-section-number">4.5.1</span> Logical operators available</h3>
 <p>As we saw in the previous section, there are two ways to write logical expressions in <code>pyspark</code>: write SQL logical expressions inside a string; or, write python logical expressions using the <code>col()</code> function.</p>
-<p>If you choose to write the more clean SQL logical expressions in a string, you need to use the logical operators of SQL in your expression (not the logical operators of python). In the other hand, if you choose to write in the “python” way, than, you need to use the logical operators of python.</p>
+<p>If you choose to write the SQL logical expressions in a string, you need to use the logical operators of SQL in your expression (not the logical operators of python). In the other hand, if you choose to write in the “python” way, than, you need to use the logical operators of python.</p>
 <p>The logical operators of SQL are described in the table below:</p>
 <div id="tbl-logical-operators-sql" class="anchored">
 <table class="table">
@@ -552,6 +540,11 @@ only showing top 5 rows
 <td><code>x or y</code></td>
 <td>at least one of logical expressions <code>x</code> and <code>y</code> are true?</td>
 </tr>
+<tr class="even">
+<td>not</td>
+<td><code>not x</code></td>
+<td>is the logical expression <code>x</code> not true?</td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -612,6 +605,11 @@ only showing top 5 rows
 <td><code>x | y</code></td>
 <td>at least one of logical expressions <code>x</code> and <code>y</code> are true?</td>
 </tr>
+<tr class="odd">
+<td>~</td>
+<td><code>~x</code></td>
+<td>is the logical expression <code>x</code> not true?</td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -621,13 +619,13 @@ only showing top 5 rows
 <p>Sometimes, you need to write more complex logical expressions to correctly describe the rows you are interested in. That is, when you combine multiple logical expressions together.</p>
 <p>As an example, lets suppose you wanted all the rows in <code>transf</code> DataFrame, where <code>value</code> is smaller than 1000, and, the <code>country</code> is Brazil, and, <code>user</code> is Eduardo. These conditions are dependent, that is, they are connected to each other. That is why I used the <code>and</code> keyword in the example below, to connect these three conditions together.</p>
 <div class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>condition <span class="op">=</span> <span class="st">'''</span></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="st">  value &lt; 1000 and country == 'Brazil' and user == 'Eduardo'</span></span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="st">'''</span></span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>transf<span class="op">\</span></span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>  .<span class="bu">filter</span>(condition)<span class="op">\</span></span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>  .show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>condition <span class="op">=</span> <span class="st">'''</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="st">  value &lt; 1000 and country == 'Brazil' and user == 'Eduardo'</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="st">'''</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>transf<span class="op">\</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  .<span class="bu">filter</span>(condition)<span class="op">\</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  .show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>+-------------------+-------+--------+----------+-------+-----------+
 |           datetime|   user|   value|transferid|country|description|
@@ -644,11 +642,11 @@ only showing top 5 rows
 </div>
 <p>I could translate this logical expression into the “pythonic” way (using the <code>col()</code> function). However, I would have to surround each individual expression by parentheses, and, use the <code>&amp;</code> operator to substitute the <code>and</code> keyword.</p>
 <div class="cell" data-execution_count="13">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>transf<span class="op">\</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  .<span class="bu">filter</span>(</span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>    (col(<span class="st">'value'</span>) <span class="op">&lt;</span> <span class="dv">1000</span>) <span class="op">&amp;</span> (col(<span class="st">'country'</span>) <span class="op">==</span> <span class="st">'Brazil'</span>) <span class="op">&amp;</span> (col(<span class="st">'user'</span>) <span class="op">==</span> <span class="st">'Eduardo'</span>)</span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  )<span class="op">\</span></span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  .show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>transf<span class="op">\</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  .<span class="bu">filter</span>(</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    (col(<span class="st">'value'</span>) <span class="op">&lt;</span> <span class="dv">1000</span>) <span class="op">&amp;</span> (col(<span class="st">'country'</span>) <span class="op">==</span> <span class="st">'Brazil'</span>) <span class="op">&amp;</span> (col(<span class="st">'user'</span>) <span class="op">==</span> <span class="st">'Eduardo'</span>)</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  )<span class="op">\</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  .show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>+-------------------+-------+--------+----------+-------+-----------+
 |           datetime|   user|   value|transferid|country|description|
@@ -665,11 +663,11 @@ only showing top 5 rows
 </div>
 <p>This a very important detail, because is very easy to forget it. When building your complex logical expressions, if you are using the <code>col()</code> function, always remember to surround each expression by a pair of parentheses. Otherwise, you will get a very confusing and useless error message, like this:</p>
 <div class="cell" data-execution_count="14">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>transf<span class="op">\</span></span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  .<span class="bu">filter</span>(</span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    col(<span class="st">'value'</span>) <span class="op">&lt;</span> <span class="dv">1000</span> <span class="op">&amp;</span> col(<span class="st">'country'</span>) <span class="op">==</span> <span class="st">'Brazil'</span> <span class="op">&amp;</span> col(<span class="st">'user'</span>) <span class="op">==</span> <span class="st">'Eduardo'</span></span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  )<span class="op">\</span></span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>  .show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>transf<span class="op">\</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  .<span class="bu">filter</span>(</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    col(<span class="st">'value'</span>) <span class="op">&lt;</span> <span class="dv">1000</span> <span class="op">&amp;</span> col(<span class="st">'country'</span>) <span class="op">==</span> <span class="st">'Brazil'</span> <span class="op">&amp;</span> col(<span class="st">'user'</span>) <span class="op">==</span> <span class="st">'Eduardo'</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  )<span class="op">\</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  .show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <pre class="{verbatim}"><code>Traceback (most recent call last):
   File "&lt;stdin&gt;", line 3, in &lt;module&gt;
@@ -691,13 +689,13 @@ py4j.Py4JException: Method and([class java.lang.Integer]) does not exist
     at java.lang.Thread.run(Thread.java:748)</code></pre>
 <p>In the above examples, we have logical expressions that are dependent on each other. But, lets suppose these conditions were independent. In this case, we would use the <code>or</code> keyword, instead of <code>and</code>. Now, Spark will look for every row of <code>transf</code> where <code>value</code> is smaller than 1000, or, <code>country</code> is Brazil, or, <code>user</code> is Eduardo.</p>
 <div class="cell" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>condition <span class="op">=</span> <span class="st">'''</span></span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="st">  value &lt; 1000 or country == 'Brazil' or user == 'Eduardo'</span></span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="st">'''</span></span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>transf<span class="op">\</span></span>
-<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>  .<span class="bu">filter</span>(condition)<span class="op">\</span></span>
-<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>  .show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>condition <span class="op">=</span> <span class="st">'''</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="st">  value &lt; 1000 or country == 'Brazil' or user == 'Eduardo'</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="st">'''</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>transf<span class="op">\</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>  .<span class="bu">filter</span>(condition)<span class="op">\</span></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>  .show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>+-------------------+-----------+--------+----------+-------+-----------+
 |           datetime|       user|   value|transferid|country|description|
@@ -712,13 +710,13 @@ only showing top 5 rows
 </code></pre>
 </div>
 </div>
-<p>To translate this expression into the pythonic way, we have to substitute the <code>or</code> keyword by the <code>|</code> operator, and surround each expression by parentheses, like this:</p>
+<p>To translate this expression into the pythonic way, we have to substitute the <code>or</code> keyword by the <code>|</code> operator, and surround each expression by parentheses again:</p>
 <div class="cell" data-execution_count="16">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>transf<span class="op">\</span></span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  .<span class="bu">filter</span>(</span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>    (col(<span class="st">'value'</span>) <span class="op">&lt;</span> <span class="dv">1000</span>) <span class="op">|</span> (col(<span class="st">'country'</span>) <span class="op">==</span> <span class="st">'Brazil'</span>) <span class="op">|</span> (col(<span class="st">'user'</span>) <span class="op">==</span> <span class="st">'Eduardo'</span>)</span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>  )<span class="op">\</span></span>
-<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>  .show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>transf<span class="op">\</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  .<span class="bu">filter</span>(</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>    (col(<span class="st">'value'</span>) <span class="op">&lt;</span> <span class="dv">1000</span>) <span class="op">|</span> (col(<span class="st">'country'</span>) <span class="op">==</span> <span class="st">'Brazil'</span>) <span class="op">|</span> (col(<span class="st">'user'</span>) <span class="op">==</span> <span class="st">'Eduardo'</span>)</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  )<span class="op">\</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  .show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>+-------------------+-----------+--------+----------+-------+-----------+
 |           datetime|       user|   value|transferid|country|description|
@@ -735,13 +733,13 @@ only showing top 5 rows
 </div>
 <p>You can increase the complexity of your logical expressions by mixing dependent expressions with independent expressions. For example, to filter all the rows where <code>country</code> is Germany, and, <code>user</code> is either Eduardo or Ana, you would have the following code:</p>
 <div class="cell" data-execution_count="17">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>condition <span class="op">=</span> <span class="st">'''</span></span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="st">  (user == 'Eduardo' or user == 'Ana') and country == 'Germany'</span></span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="st">'''</span></span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>transf<span class="op">\</span></span>
-<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>  .<span class="bu">filter</span>(condition)<span class="op">\</span></span>
-<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>  .show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>condition <span class="op">=</span> <span class="st">'''</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="st">  (user == 'Eduardo' or user == 'Ana') and country == 'Germany'</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="st">'''</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>transf<span class="op">\</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>  .<span class="bu">filter</span>(condition)<span class="op">\</span></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>  .show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>+-------------------+-------+--------+----------+-------+-----------+
 |           datetime|   user|   value|transferid|country|description|
@@ -756,31 +754,31 @@ only showing top 5 rows
 </code></pre>
 </div>
 </div>
-<p>If you investigate the above condition carefully, maybe, you will identify that this condition could be rewritten in a simpler format, by using the <code>in</code> keyword. This way, Spark will look for all the rows where <code>user</code> is equal to one of the listed values, and, that <code>country</code> is Germany.</p>
+<p>If you investigate the above condition carefully, maybe, you will identify that this condition could be rewritten in a simpler format, by using the <code>in</code> keyword. This way, Spark will look for all the rows where <code>user</code> is equal to one of the listed values (Eduardo and Ana), and, that <code>country</code> is Germany.</p>
 <div class="cell" data-execution_count="18">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>condition <span class="op">=</span> <span class="st">'''</span></span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="st">  user in ('Eduardo', 'Ana') and country == 'Germany'</span></span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="st">'''</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>condition <span class="op">=</span> <span class="st">'''</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="st">  user in ('Eduardo', 'Ana') and country == 'Germany'</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="st">'''</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="translating-the-in-keyword-to-the-pythonic-way" class="level3" data-number="4.5.3">
 <h3 data-number="4.5.3" class="anchored" data-anchor-id="translating-the-in-keyword-to-the-pythonic-way"><span class="header-section-number">4.5.3</span> Translating the <code>in</code> keyword to the pythonic way</h3>
-<p>Python does have a <code>in</code> keyword just like SQL, but, this keyword does not work in the pythonic way. To filter the rows where a column is equal to one of many the listed values, you can use the <code>isin()</code> method for columns.</p>
-<p>In the example below, we are filtering the rows where <code>user</code> is Eduardo or Ana:</p>
+<p>Python does have a <code>in</code> keyword just like SQL, but, this keyword does not work as expected in <code>pyspark</code>. To write a logical expression, using the pythonic way, that filters the rows where a column is equal to one of the listed values, you can use the <code>isin()</code> method.</p>
+<p>This method belongs to the <code>Column</code> class, so, you should always use <code>isin()</code> after a column name or a <code>col()</code> function. In the example below, we are filtering the rows where <code>user</code> is Eduardo or Júlio Cesar:</p>
 <div class="cell" data-execution_count="19">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>transf<span class="op">\</span></span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  .<span class="bu">filter</span>(col(<span class="st">'user'</span>).isin(<span class="st">'Eduardo'</span>, <span class="st">'Ana'</span>))<span class="op">\</span></span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  .show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>transf<span class="op">\</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  .<span class="bu">filter</span>(col(<span class="st">'user'</span>).isin(<span class="st">'Eduardo'</span>, <span class="st">'Júlio Cesar'</span>))<span class="op">\</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  .show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>+-------------------+-------+--------+----------+-------+-----------+
-|           datetime|   user|   value|transferid|country|description|
-+-------------------+-------+--------+----------+-------+-----------+
-|2018-12-06 20:19:19|Eduardo|598.5984| 116241629|Germany|       null|
-|2018-12-06 19:41:27|    Ana|1408.261| 116262934|Germany|       null|
-|2018-12-06 18:54:32|Eduardo|5665.214| 114830203|Germany|       null|
-|2018-12-06 17:48:39|    Ana|4588.665| 116281690|Germany|       null|
-|2018-12-06 17:07:50|Eduardo|9560.668| 115917812|Germany|       null|
-+-------------------+-------+--------+----------+-------+-----------+
+<pre><code>+-------------------+-----------+--------+----------+-------+-----------+
+|           datetime|       user|   value|transferid|country|description|
++-------------------+-----------+--------+----------+-------+-----------+
+|2018-12-06 20:19:19|    Eduardo|598.5984| 116241629|Germany|       null|
+|2018-12-06 18:54:32|    Eduardo|5665.214| 114830203|Germany|       null|
+|2018-12-06 17:07:50|    Eduardo|9560.668| 115917812|Germany|       null|
+|2018-12-21 16:46:59|Júlio Cesar|16226.42| 116279014|Germany|       null|
+|2018-12-06 16:09:15|Júlio Cesar| 387.596| 114894102|Germany|       null|
++-------------------+-----------+--------+----------+-------+-----------+
 only showing top 5 rows
 </code></pre>
 </div>
@@ -789,11 +787,326 @@ only showing top 5 rows
 <section id="negating-logical-conditions" class="level3" data-number="4.5.4">
 <h3 data-number="4.5.4" class="anchored" data-anchor-id="negating-logical-conditions"><span class="header-section-number">4.5.4</span> Negating logical conditions</h3>
 <!-- Describe the ~ operator -->
+<p>In some cases, is easier to describe what rows you <strong>do not want</strong> in your filter. In this case, you want to negate (or invert) your logical expression. For this, SQL provides the <code>not</code> keyword, that you place before the logical expression you want to negate.</p>
+<p>For example, we can filter all the rows of <code>transf</code> where <code>user</code> is not equal to Ana. Remember, the methods <code>filter()</code> and <code>where()</code> are equivalents or synonymous (they both mean the same thing).</p>
+<div class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>condition <span class="op">=</span> <span class="st">'''</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="st">  not user == 'Ana'</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="st">'''</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>transf<span class="op">\</span></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>  .where(condition)<span class="op">\</span></span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>  .show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>+-------------------+--------+--------+----------+-------+-----------+
+|           datetime|    user|   value|transferid|country|description|
++-------------------+--------+--------+----------+-------+-----------+
+|2018-12-06 20:19:19| Eduardo|598.5984| 116241629|Germany|       null|
+|2018-12-06 20:10:34|   Júlio|4610.955| 115586504|Germany|       null|
+|2018-12-06 19:59:50|Nathália|4417.866| 115079280|Germany|       null|
+|2018-12-06 19:54:13|   Júlio|2739.618| 114972398|Germany|       null|
+|2018-12-06 19:18:40|Nathália|5051.828| 115710402|Germany|       null|
++-------------------+--------+--------+----------+-------+-----------+
+only showing top 5 rows
+</code></pre>
+</div>
+</div>
+<p>To translate this expression to the pythonic way, we use the <code>~</code> operator. Because we are negating the logical expression as a whole, is important to surround the entire expression with parentheses.</p>
+<div class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>transf<span class="op">\</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  .where(<span class="op">~</span>(col(<span class="st">'user'</span>) <span class="op">==</span> <span class="st">'Ana'</span>))<span class="op">\</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  .show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>+-------------------+--------+--------+----------+-------+-----------+
+|           datetime|    user|   value|transferid|country|description|
++-------------------+--------+--------+----------+-------+-----------+
+|2018-12-06 20:19:19| Eduardo|598.5984| 116241629|Germany|       null|
+|2018-12-06 20:10:34|   Júlio|4610.955| 115586504|Germany|       null|
+|2018-12-06 19:59:50|Nathália|4417.866| 115079280|Germany|       null|
+|2018-12-06 19:54:13|   Júlio|2739.618| 114972398|Germany|       null|
+|2018-12-06 19:18:40|Nathália|5051.828| 115710402|Germany|       null|
++-------------------+--------+--------+----------+-------+-----------+
+only showing top 5 rows
+</code></pre>
+</div>
+</div>
+<p>If you forget to do this, Spark will think you are negating just the column (e.g.&nbsp;<code>~col('user')</code>), and not the entire expression. That would not make sense, and, as a result, Spark would throw an error:</p>
+<div class="cell" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>transf<span class="op">\</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  .where(<span class="op">~</span>col(<span class="st">'user'</span>) <span class="op">==</span> <span class="st">'Ana'</span>)<span class="op">\</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>  .show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<pre class="{verbatim}"><code>AnalysisException: cannot resolve '(NOT user)' due to data type mismatch: argument 1 requires boolean type, however, 'user' is of string type.;
+'Filter (NOT user#25 = Ana)</code></pre>
+<p>Because the <code>~</code> operator is a little discrete and can go unnoticed, I sometimes use a different approach to negate my logical expressions. I make the entire expression equal to <code>False</code>. This way, I get all the rows where that particular expression is <code>False</code>. This makes my intention more visible in the code, but, is harder to write it.</p>
+<div class="cell" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter all the rows where `user` is not equal to</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Ana or Eduardo.</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>transf<span class="op">\</span></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>  .where( (col(<span class="st">'user'</span>).isin(<span class="st">'Ana'</span>, <span class="st">'Eduardo'</span>)) <span class="op">==</span> <span class="va">False</span> )<span class="op">\</span></span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>  .show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>+-------------------+--------+--------+----------+-------+-----------+
+|           datetime|    user|   value|transferid|country|description|
++-------------------+--------+--------+----------+-------+-----------+
+|2018-12-06 20:10:34|   Júlio|4610.955| 115586504|Germany|       null|
+|2018-12-06 19:59:50|Nathália|4417.866| 115079280|Germany|       null|
+|2018-12-06 19:54:13|   Júlio|2739.618| 114972398|Germany|       null|
+|2018-12-06 19:18:40|Nathália|5051.828| 115710402|Germany|       null|
+|2018-12-06 18:15:46|  Sandra| 1474.44| 116323455|Germany|       null|
++-------------------+--------+--------+----------+-------+-----------+
+only showing top 5 rows
+</code></pre>
+</div>
+</div>
+</section>
+<section id="filtering-null-values" class="level3" data-number="4.5.5">
+<h3 data-number="4.5.5" class="anchored" data-anchor-id="filtering-null-values"><span class="header-section-number">4.5.5</span> Filtering <code>null</code> values</h3>
+<p>Sometimes, the <code>null</code> values play an important role in your filter. You either want to collect all these <code>null</code> values, so you can investigate why they are null in the first place, or, you want to completely eliminate them from your DataFrame.</p>
+<p>Because this is a special kind of value in Spark, with a special meaning (the “absence” of a value), you need to use a special syntax to correctly filter these values in your DataFrame. In SQL, you can use the <code>is</code> keyword to filter these values:</p>
+<div class="cell" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>transf<span class="op">\</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  .where(<span class="st">'user is null'</span>)<span class="op">\</span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>  .show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>+-------------------+----+-------+----------+-------+-----------+
+|           datetime|user|  value|transferid|country|description|
++-------------------+----+-------+----------+-------+-----------+
+|2018-11-10 02:02:56|null|   null| 166420322|   null|       null|
+|2018-11-10 11:12:06|null| 170.21| 166420323|   null|       null|
+|2018-11-10 03:12:09|null|1002.35| 166420324|   null|       null|
+|2018-11-10 00:43:41|null|1002.35| 166420324|   null|       null|
++-------------------+----+-------+----------+-------+-----------+
+</code></pre>
+</div>
+</div>
+<p>However, if you want to remove these values from your DataFrame, than, you can just negate (or invert) the above expression with the <code>not</code> keyword, like this:</p>
+<div class="cell" data-execution_count="25">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>transf<span class="op">\</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>  .where(<span class="st">'not user is null'</span>)<span class="op">\</span></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>  .show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>+-------------------+--------+--------+----------+-------+-----------+
+|           datetime|    user|   value|transferid|country|description|
++-------------------+--------+--------+----------+-------+-----------+
+|2018-12-06 20:19:19| Eduardo|598.5984| 116241629|Germany|       null|
+|2018-12-06 20:10:34|   Júlio|4610.955| 115586504|Germany|       null|
+|2018-12-06 19:59:50|Nathália|4417.866| 115079280|Germany|       null|
+|2018-12-06 19:54:13|   Júlio|2739.618| 114972398|Germany|       null|
+|2018-12-06 19:41:27|     Ana|1408.261| 116262934|Germany|       null|
++-------------------+--------+--------+----------+-------+-----------+
+only showing top 5 rows
+</code></pre>
+</div>
+</div>
+<p>The <code>is</code> and <code>not</code> keywords have a special relation. Because you can create the same negation/inversion of the expression by inserting the <code>not</code> keyword in the middle of the expression (you can do this too in expressions with the <code>in</code> keyword). In other words, you might see in someone else’s code this expression written in this form:</p>
+<div class="cell" data-execution_count="26">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>transf<span class="op">\</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>  .where(<span class="st">'user is not null'</span>)<span class="op">\</span></span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>  .show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>+-------------------+--------+--------+----------+-------+-----------+
+|           datetime|    user|   value|transferid|country|description|
++-------------------+--------+--------+----------+-------+-----------+
+|2018-12-06 20:19:19| Eduardo|598.5984| 116241629|Germany|       null|
+|2018-12-06 20:10:34|   Júlio|4610.955| 115586504|Germany|       null|
+|2018-12-06 19:59:50|Nathália|4417.866| 115079280|Germany|       null|
+|2018-12-06 19:54:13|   Júlio|2739.618| 114972398|Germany|       null|
+|2018-12-06 19:41:27|     Ana|1408.261| 116262934|Germany|       null|
++-------------------+--------+--------+----------+-------+-----------+
+only showing top 5 rows
+</code></pre>
+</div>
+</div>
+<p>This is a valid SQL logical expression, but is a strange one. Because we cannot use the <code>not</code> keyword in this manner on other kinds of logical expressions. Normally, we put the <code>not</code> keyword <strong>before</strong> the logical expression we want to negate, not in the middle of it. Anyway, just have in mind that this form of logical expression exists, and, that is a perfectly valid one.</p>
+<p>When we translate the above examples to the “pythonic” way, many people tend to use the <code>null</code> equivalent of python, that is, the <code>None</code> value, in the expression. But as you can see in the result below, this method does not work as expected:</p>
+<div class="cell" data-execution_count="27">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>transf<span class="op">\</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>  .where(col(<span class="st">'user'</span>) <span class="op">==</span> <span class="va">None</span>)<span class="op">\</span></span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>  .show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>+--------+----+-----+----------+-------+-----------+
+|datetime|user|value|transferid|country|description|
++--------+----+-----+----------+-------+-----------+
++--------+----+-----+----------+-------+-----------+
+</code></pre>
+</div>
+</div>
+<p>The correct way to do this in <code>pyspark</code>, is to use the <code>isNull()</code> method from the <code>Column</code> class.</p>
+<div class="cell" data-execution_count="28">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>transf<span class="op">\</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>  .where(col(<span class="st">'user'</span>).isNull())<span class="op">\</span></span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>  .show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>+-------------------+----+-------+----------+-------+-----------+
+|           datetime|user|  value|transferid|country|description|
++-------------------+----+-------+----------+-------+-----------+
+|2018-11-10 02:02:56|null|   null| 166420322|   null|       null|
+|2018-11-10 11:12:06|null| 170.21| 166420323|   null|       null|
+|2018-11-10 03:12:09|null|1002.35| 166420324|   null|       null|
+|2018-11-10 00:43:41|null|1002.35| 166420324|   null|       null|
++-------------------+----+-------+----------+-------+-----------+
+</code></pre>
+</div>
+</div>
+<p>If you want to eliminate the <code>null</code> values, just use the inverse method <code>isNotNull()</code>.</p>
+<div class="cell" data-execution_count="29">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>transf<span class="op">\</span></span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>  .where(col(<span class="st">'user'</span>).isNotNull())<span class="op">\</span></span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>  .show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>+-------------------+--------+--------+----------+-------+-----------+
+|           datetime|    user|   value|transferid|country|description|
++-------------------+--------+--------+----------+-------+-----------+
+|2018-12-06 20:19:19| Eduardo|598.5984| 116241629|Germany|       null|
+|2018-12-06 20:10:34|   Júlio|4610.955| 115586504|Germany|       null|
+|2018-12-06 19:59:50|Nathália|4417.866| 115079280|Germany|       null|
+|2018-12-06 19:54:13|   Júlio|2739.618| 114972398|Germany|       null|
+|2018-12-06 19:41:27|     Ana|1408.261| 116262934|Germany|       null|
++-------------------+--------+--------+----------+-------+-----------+
+only showing top 5 rows
+</code></pre>
+</div>
+</div>
 </section>
 </section>
 <section id="selecting-specific-columns-of-your-dataframe" class="level2" data-number="4.6">
 <h2 data-number="4.6" class="anchored" data-anchor-id="selecting-specific-columns-of-your-dataframe"><span class="header-section-number">4.6</span> Selecting specific columns of your DataFrame</h2>
-<p>Sometimes, you need to change the order of the columns, or, to delete some of them from your DataFrame. To do this, you can use the <code>select()</code> and <code>drop()</code> methods.</p>
+<p>Sometimes, you need manage or transform the columns you have. For example, you might need to change the order of these columns, or, to delete/rename some of them. To do this, you can use the <code>select()</code> and <code>drop()</code> methods of your DataFrame.</p>
+<p>The <code>select()</code> method works very similarly to the <code>SELECT</code> statement of SQL. You basically list all the columns you want to keep in your DataFrame, in the specific order you want.</p>
+<div class="cell" data-execution_count="30">
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>transf<span class="op">\</span></span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>  .select(<span class="st">'transferid'</span>, <span class="st">'datetime'</span>, <span class="st">'user'</span>, <span class="st">'value'</span>)<span class="op">\</span></span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>  .show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>+----------+-------------------+--------+--------+
+|transferid|           datetime|    user|   value|
++----------+-------------------+--------+--------+
+| 116241629|2018-12-06 20:19:19| Eduardo|598.5984|
+| 115586504|2018-12-06 20:10:34|   Júlio|4610.955|
+| 115079280|2018-12-06 19:59:50|Nathália|4417.866|
+| 114972398|2018-12-06 19:54:13|   Júlio|2739.618|
+| 116262934|2018-12-06 19:41:27|     Ana|1408.261|
++----------+-------------------+--------+--------+
+only showing top 5 rows
+</code></pre>
+</div>
+</div>
+<section id="renaming-your-columns" class="level3" data-number="4.6.1">
+<h3 data-number="4.6.1" class="anchored" data-anchor-id="renaming-your-columns"><span class="header-section-number">4.6.1</span> Renaming your columns</h3>
+<p>Realize in the example above, that the column names can be delivered directly as strings to <code>select()</code>. This makes life pretty easy, but, it does not give you extra options. You may want to rename some of the columns, and, to do this, you need to use the <code>alias()</code> method from <code>Column</code> class. Since this is a method from <code>Column</code> class, I always use it after a <code>col()</code> function, or, after a column name.</p>
+<div class="cell" data-execution_count="31">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>transf<span class="op">\</span></span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>  .select(</span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'datetime'</span>,</span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>    col(<span class="st">'transferid'</span>).alias(<span class="st">'transferID'</span>),  </span>
+<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a>    col(<span class="st">'user'</span>).alias(<span class="st">'clientName'</span>)</span>
+<span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a>  )<span class="op">\</span></span>
+<span id="cb56-7"><a href="#cb56-7" aria-hidden="true" tabindex="-1"></a>  .show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>+-------------------+----------+----------+
+|           datetime|transferID|clientName|
++-------------------+----------+----------+
+|2018-12-06 20:19:19| 116241629|   Eduardo|
+|2018-12-06 20:10:34| 115586504|     Júlio|
+|2018-12-06 19:59:50| 115079280|  Nathália|
+|2018-12-06 19:54:13| 114972398|     Júlio|
+|2018-12-06 19:41:27| 116262934|       Ana|
++-------------------+----------+----------+
+only showing top 5 rows
+</code></pre>
+</div>
+</div>
+</section>
+<section id="dropping-unnecessary-columns" class="level3" data-number="4.6.2">
+<h3 data-number="4.6.2" class="anchored" data-anchor-id="dropping-unnecessary-columns"><span class="header-section-number">4.6.2</span> Dropping unnecessary columns</h3>
+<p>In some cases, your DataFrame just have too many columns and you just want to eliminate a few of them. In a situation like this, you can list the columns you want to drop from your DataFrame, inside the <code>drop()</code> method, like this:</p>
+<div class="cell" data-execution_count="32">
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>transf<span class="op">\</span></span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>  .drop(<span class="st">'user'</span>, <span class="st">'description'</span>)<span class="op">\</span></span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>  .show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>+-------------------+--------+----------+-------+
+|           datetime|   value|transferid|country|
++-------------------+--------+----------+-------+
+|2018-12-06 20:19:19|598.5984| 116241629|Germany|
+|2018-12-06 20:10:34|4610.955| 115586504|Germany|
+|2018-12-06 19:59:50|4417.866| 115079280|Germany|
+|2018-12-06 19:54:13|2739.618| 114972398|Germany|
+|2018-12-06 19:41:27|1408.261| 116262934|Germany|
++-------------------+--------+----------+-------+
+only showing top 5 rows
+</code></pre>
+</div>
+</div>
+</section>
+<section id="you-can-add-new-columns-with-select" class="level3" data-number="4.6.3">
+<h3 data-number="4.6.3" class="anchored" data-anchor-id="you-can-add-new-columns-with-select"><span class="header-section-number">4.6.3</span> You can add new columns with <code>select()</code></h3>
+<p>When I say that <code>select()</code> works in the same way as the <code>SELECT</code> statement of SQL, it means that you can use <code>select()</code> to select columns that do not currently exist in your DataFrame, and add them to the final result.</p>
+<p>For example, I can select a new column (called <code>by_1000</code>) containing the <code>value</code> divided by 1000:</p>
+<div class="cell" data-execution_count="33">
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> <span class="bu">sum</span>, lit</span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>transf<span class="op">\</span></span>
+<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a>  .select(</span>
+<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'value'</span>,</span>
+<span id="cb60-5"><a href="#cb60-5" aria-hidden="true" tabindex="-1"></a>    (col(<span class="st">'value'</span>) <span class="op">/</span> <span class="dv">1000</span>).alias(<span class="st">'by_1000'</span>)</span>
+<span id="cb60-6"><a href="#cb60-6" aria-hidden="true" tabindex="-1"></a>  )<span class="op">\</span></span>
+<span id="cb60-7"><a href="#cb60-7" aria-hidden="true" tabindex="-1"></a>  .show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>+--------+---------+
+|   value|  by_1000|
++--------+---------+
+|598.5984|0.5985984|
+|4610.955| 4.610955|
+|4417.866| 4.417866|
+|2739.618| 2.739618|
+|1408.261| 1.408261|
++--------+---------+
+only showing top 5 rows
+</code></pre>
+</div>
+</div>
+<p>So this <code>by_1000</code> column do not exist in <code>transf</code> DataFrame, it was calculated and added to the final result by <code>select()</code>. The formula <code>col('value') / 1000</code> is the equation that defines what this <code>by_1000</code> column is, or, how it should be calculated.</p>
+</section>
+<section id="casting-columns-to-a-different-data-type" class="level3" data-number="4.6.4">
+<h3 data-number="4.6.4" class="anchored" data-anchor-id="casting-columns-to-a-different-data-type"><span class="header-section-number">4.6.4</span> Casting columns to a different data type</h3>
+<p>Spark try to do its best when guessing which is correct data type for the columns of your DataFrame. But, obviously, Spark can get it wrong, and, you end up deciding by your own which data type to use for a specific column.</p>
+<p>While working with your DataFrame, you can use the <code>cast()</code> method inside <code>select()</code> to change the data type of a specific column. This <code>cast()</code> method belongs to the <code>Column</code> class, so, you should always use it after a column name, or, a <code>col()</code> function:</p>
+<div class="cell" data-execution_count="34">
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>transf<span class="op">\</span></span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>  .select(</span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'value'</span>,</span>
+<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a>    col(<span class="st">'value'</span>).cast(<span class="st">'int'</span>).alias(<span class="st">'value_as_integer'</span>),</span>
+<span id="cb62-5"><a href="#cb62-5" aria-hidden="true" tabindex="-1"></a>    transf.value.cast(<span class="st">'string'</span>).alias(<span class="st">'value_as_string'</span>)</span>
+<span id="cb62-6"><a href="#cb62-6" aria-hidden="true" tabindex="-1"></a>  )<span class="op">\</span></span>
+<span id="cb62-7"><a href="#cb62-7" aria-hidden="true" tabindex="-1"></a>  .show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>+--------+----------------+---------------+
+|   value|value_as_integer|value_as_string|
++--------+----------------+---------------+
+|598.5984|             598|       598.5984|
+|4610.955|            4610|       4610.955|
+|4417.866|            4417|       4417.866|
+|2739.618|            2739|       2739.618|
+|1408.261|            1408|       1408.261|
++--------+----------------+---------------+
+only showing top 5 rows
+</code></pre>
+</div>
+</div>
+<p>To use this <code>cast()</code> method, you give the name of the data type (as a string) to which you want to cast the column. The main available data types to <code>cast()</code> are:</p>
+<ul>
+<li><code>'string'</code>: correspond to <code>StringType()</code>;</li>
+<li><code>'int'</code>: correspond to <code>IntegerType()</code>;</li>
+<li><code>'long'</code>: correspond to <code>LongType()</code>;</li>
+<li><code>'double'</code>: correspond to <code>DoubleType()</code>;</li>
+<li><code>'date'</code>: correspond to <code>DateType()</code>;</li>
+<li><code>'timestamp'</code>: correspond to <code>TimestampType()</code>;</li>
+<li><code>'bool'</code>: correspond to <code>BooleanType()</code>;</li>
+<li><code>'array'</code>: correspond to <code>ArrayType()</code>;</li>
+<li><code>'dict'</code>: correspond to <code>MapType()</code>;</li>
+</ul>
+</section>
 </section>
 <section id="calculating-or-adding-new-columns-to-your-dataframe" class="level2" data-number="4.7">
 <h2 data-number="4.7" class="anchored" data-anchor-id="calculating-or-adding-new-columns-to-your-dataframe"><span class="header-section-number">4.7</span> Calculating or adding new columns to your DataFrame</h2>
