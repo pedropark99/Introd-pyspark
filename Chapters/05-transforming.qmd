@@ -489,7 +489,6 @@ When I say that `select()` works in the same way as the `SELECT` statement of SQ
 For example, I can select a new column (called `by_1000`) containing the `value` divided by 1000:
 
 ```{python}
-from pyspark.sql.functions import sum, lit
 transf\
   .select(
     'value',
@@ -499,6 +498,20 @@ transf\
 ```
 
 So this `by_1000` column do not exist in `transf` DataFrame, it was calculated and added to the final result by `select()`. The formula `col('value') / 1000` is the equation that defines what this `by_1000` column is, or, how it should be calculated. 
+
+Besides that, `select()` provides a useful shortcut to reference all the columns of your DataFrame. That is, the star symbol (`*`) from the `SELECT` statement in SQL. This shortcut is very useful when you want to maintain all columns, and, add a new column, at the same time.
+
+In the example below, we are adding the same `by_1000` column, however, we are bringing all the columns of `transf` together.
+
+```{python}
+transf\
+  .select(
+    '*',
+    (col('value') / 1000).alias('by_1000')
+  )\
+  .show(5)
+```
+
 
 ### Casting columns to a different data type
 
@@ -528,8 +541,24 @@ To use this `cast()` method, you give the name of the data type (as a string) to
 - `'array'`: correspond to `ArrayType()`;
 - `'dict'`: correspond to `MapType()`;
 
-
-
 ## Calculating or adding new columns to your DataFrame
 
+Although you can add new columns with `select()`, this method is not specialized to do that. As consequence, when you want to add many new columns, it can become pretty annoying to write `select('*', new_column)` over and over again. That is why `pyspark` provides a special method called `withColumn()`.
+
+This method has two arguments. First, is the name of the new column. Second, is the formula or equation that represents this new column. As an example, I could reproduce the same `by_1000` column like this:
+
+```{python}
+transf\
+  .withColumn('by_1000', col('value') / 1000)\
+  .show(5)
+```
+
+
+
 ## Sorting rows of your DataFrame
+
+
+
+
+
+
