@@ -552,6 +552,8 @@ transf\
   .show(5)
 ```
 
+A lot of the times we use the functions from `pyspark.sql.functions` module to produce such formulas used by `withColumn()`. You can checkout the complete list of functions present in this module, by visiting the official documentation of `pyspark`^[https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql.html#functions].
+
 You will see a lot more examples of formulas and uses of `withColumn()` throughout this book. I just want you to know that `withColumn()` is a method that adds a new column to your DataFrame. The first argument is the name of the new column, and, the second argument is the calculation formula of this new column.
 
 ## Sorting rows of your DataFrame

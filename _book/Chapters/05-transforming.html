@@ -297,6 +297,16 @@ div.csl-indent {
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>]</span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> spark.createDataFrame(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>22/06/14 19:54:32 WARN Utils: Your hostname, pedro-IdeaPad-3-15ALC6 resolves to a loopback address: 127.0.1.1; using 192.168.0.33 instead (on interface wlp1s0)
+22/06/14 19:54:32 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Using Spark's default log4j profile: org/apache/spark/log4j-defaults.properties
+Setting default log level to "WARN".
+To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
+22/06/14 19:54:33 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable</code></pre>
+</div>
 </div>
 <p>In the example below, to create a new DataFrame called <code>big_values</code>, we begin with the <code>df</code> DataFrame, then, we filter its rows where <code>value</code> is greater than 15, then, we select <code>date</code> and <code>value</code> columns, then, we sort the rows based on the <code>value</code> column. So, this set of sequential transformations (filter it, then, select it, then, order it, …) defines what this new <code>big_values</code> DataFrame is.</p>
 <div class="cell" data-execution_count="2">
@@ -327,6 +337,9 @@ div.csl-indent {
 <p>You already know the first type of action, because we used it before with the <code>show()</code> method. This <code>show()</code> method is an action by itself, because you are asking Spark to show some output to you. So we can make Spark to actually calculate the transformations that defines the <code>big_values</code> DataFrame, by asking Spark to show this DataFrame to us.</p>
 <div class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>big_values.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>[Stage 0:&gt;                                                        (0 + 12) / 12]</code></pre>
+</div>
 <div class="cell-output cell-output-stdout">
 <pre><code>+----------+-----+
 |      date|value|
@@ -336,6 +349,9 @@ div.csl-indent {
 |2021-01-01| 28.3|
 +----------+-----+
 </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>                                                                                </code></pre>
 </div>
 </div>
 <p>Another very useful action is the <code>count()</code> method, that gives you the number of rows in a DataFrame. To be able to count the number of rows in a DataFrame, Spark needs to access this DataFrame in the first place. That is why this <code>count()</code> method behaves as an action. Spark will perform the transformations that defines <code>big_values</code> to access the actual rows of this DataFrame and count them.</p>
@@ -1152,6 +1168,7 @@ only showing top 5 rows
 </code></pre>
 </div>
 </div>
+<p>A lot of the times we use the functions from <code>pyspark.sql.functions</code> module to produce such formulas used by <code>withColumn()</code>. You can checkout the complete list of functions present in this module, by visiting the official documentation of <code>pyspark</code><a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>.</p>
 <p>You will see a lot more examples of formulas and uses of <code>withColumn()</code> throughout this book. I just want you to know that <code>withColumn()</code> is a method that adds a new column to your DataFrame. The first argument is the name of the new column, and, the second argument is the calculation formula of this new column.</p>
 </section>
 <section id="sorting-rows-of-your-dataframe" class="level2" data-number="4.8">
@@ -1227,6 +1244,7 @@ Chambers, Bill, and Matei Zaharia. 2018. <em>Spark: The Definitive Guide: Big Da
 <hr>
 <ol>
 <li id="fn1" role="doc-endnote"><p>https://github.com/pedropark99/Introd-pyspark/tree/main/Data<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2" role="doc-endnote"><p>https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql.html#functions<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section>
 

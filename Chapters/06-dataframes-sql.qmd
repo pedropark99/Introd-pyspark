@@ -2,4 +2,41 @@
 
 # Working with SQL in Spark DataFrames
 
+## Introduction
+
+As we discussed in @sec-introd-spark, Spark is a **multi-language** engine for large-scale data processing. This means that we can build our Spark application using many different languages (like Java, Scala, Python and R). And Spark have some tools that allow us to mix these different languages with pure SQL in our application. We will focus on these tools in this chapter.
+
+## Creating SQL Tables in Spark
+
+In real life jobs at the industry, is very likely that your data will be allocated inside a SQL database. Spark can connect to external SQL databases through JDBC/ODBC connections, or, read tables from Apache Hive.
+
+As a first example, lets use `pyspark` to create a DataFrame, and, register this DataFrame as a temporary SQL table in our Spark context. This way, we avoid the work to connect to some existing SQL database, and, still get to learn how to use SQL queries in `pyspark`.
+
+In the example below, I am reading a CSV file from my computer called `penguins.csv` (remember that this CSV can be dowloaded from the book repository^[https://github.com/pedropark99/Introd-pyspark/tree/main/Data]), then, I create a SQL temporary view (called `penguins_view`) from this `penguins` DataFrame, with `createOrReplaceTempView()` method. After these commands, I have now a view called `penguins_view` registered in Spark SQL database, which I can query it, using pure SQL.
+
+```{python}
+from pyspark.sql import SparkSession
+spark = SparkSession.builder.getOrCreate()
+
+path = "../Data/penguins.csv"
+penguins = spark.read\
+  .csv(path, header = True)
+  
+penguins.createOrReplaceTempView('penguins_view')
+```
+
+
+We can see what this `penguins_view` looks like, by giving a simple query (`select * from penguins_view`) to `sql()` method from our Spark Session:
+
+```{python}
+spark.sql('select * from penguins_view').show(5)
+```
+
+Therefore, in the above example, we wrote a simple and pure SQL query, and, executed it inside `pyspark` through this `sql()` method. This means that, this `sql()` method is the bridge between `pyspark` and your SQL database. You give a pure SQL query (inside a string) to this `sql()` method, and, Spark will execute it.
+
+
+
+
+
+
 
