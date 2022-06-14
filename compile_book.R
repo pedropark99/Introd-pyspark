@@ -1,6 +1,6 @@
 
 ### Render book files:
-system("quarto render")
+system2("quarto", args = c("render", "--to html"))
 
 ### Clean Spark Warnings in outputs
 source("clean_outputs.R", encoding = "UTF-8")

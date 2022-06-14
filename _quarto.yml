@@ -20,7 +20,9 @@ book:
 
 bibliography: references.bib
 number-sections: true
-highlight-style: github
 format:
   html:
     theme: cosmo
+  pdf:
+    keep-tex: true
+
