@@ -1,6 +1,15 @@
 
 # Preface {.unnumbered}
 
+```{python}
+#| include: false
+# Commands to set off all LOG information and warnings
+from pyspark import SparkContext
+sc = SparkContext()
+sc.setLogLevel(logLevel = 'OFF')
+```
+
+
 
 ## Introduction
 

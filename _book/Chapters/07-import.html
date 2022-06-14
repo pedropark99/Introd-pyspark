@@ -267,10 +267,10 @@ Bob,32,Developer</code></pre>
 <p>In the above example, I gave a relative path to the file I wanted to read. But you can provide an absolute path<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> to the file, if you want to.</p>
 <p>The <code>people.csv</code> is located at a very specific folder in my Linux computer, so, the absolute path to this file is pretty long as you can see below. But, if I were in my Windows machine, this absolute path would be something like <code>"C:\Users\pedro\Documents\Projects\..."</code>.</p>
 <div class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>path <span class="op">=</span> <span class="st">"/home/pedro/Documents/Projets/Books/Introd-pyspark/Data/people.csv"</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> spark.read.csv(path)</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>df.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>path <span class="op">=</span> <span class="st">"/home/pedro/Documents/Projets/Books/Introd-pyspark/Data/people.csv"</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> spark.read.csv(path)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>df.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-execution_count="3">
 <div class="cell-output cell-output-stdout">
@@ -286,7 +286,7 @@ Bob,32,Developer</code></pre>
 </div>
 <p>If you give an invalid path (that is, a path that does not exist in your computer), you will get a <code>AnalysisException</code>. In the example below, I try to read a file called <code>"weird-file.csv"</code> that (in theory) is located at my current working directory. But when Spark looks inside my current directory, it does not find any file called <code>"weird-file.csv"</code>. As a result, Spark raises a <code>AnalysisException</code> that warns me about this mistake.</p>
 <div class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> spark.read.csv(<span class="st">"weird-file.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> spark.read.csv(<span class="st">"weird-file.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <pre class="{verbatim}"><code>Traceback (most recent call last):
   ...

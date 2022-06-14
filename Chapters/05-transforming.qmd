@@ -1,6 +1,5 @@
----
-title: "Transforming your Spark DataFrame"
----
+
+# Transforming your Spark DataFrame
 
 ## Introduction
 
@@ -187,7 +186,7 @@ transf\
 
 As we saw in the previous section, there are two ways to write logical expressions in `pyspark`: write SQL logical expressions inside a string; or, write python logical expressions using the `col()` function. 
 
-If you choose to write the SQL logical expressions in a string, you need to use the logical operators of SQL in your expression (not the logical operators of python). In the other hand, if you choose to write in the "python" way, than, you need to use the logical operators of python.
+If you choose to write the SQL logical expressions in a string, you need to use the logical operators of SQL in your expression (not the logical operators of python). In the other hand, if you choose to write in the "python" way, then, you need to use the logical operators of python.
 
 The logical operators of SQL are described in the table below:
 
@@ -401,7 +400,7 @@ transf\
   .show()
 ```
 
-However, if you want to remove these values from your DataFrame, than, you can just negate (or invert) the above expression with the `not` keyword, like this:
+However, if you want to remove these values from your DataFrame, then, you can just negate (or invert) the above expression with the `not` keyword, like this:
 
 ```{python}
 transf\
@@ -466,7 +465,7 @@ transf\
   .select(
     'datetime',
     col('transferid').alias('transferID'),  
-    col('user').alias('clientName')
+    transf.user.alias('clientName')
   )\
   .show(5)
 ```
@@ -484,9 +483,9 @@ transf\
 
 ### You can add new columns with `select()`
 
-When I say that `select()` works in the same way as the `SELECT` statement of SQL, it means that you can use `select()` to select columns that do not currently exist in your DataFrame, and add them to the final result. 
+When I said that `select()` works in the same way as the `SELECT` statement of SQL, I also meant that you can use `select()` to select columns that do not currently exist in your DataFrame, and add them to the final result. 
 
-For example, I can select a new column (called `by_1000`) containing the `value` divided by 1000:
+For example, I can select a new column (called `by_1000`) containing `value` divided by 1000, like this:
 
 ```{python}
 transf\
@@ -517,14 +516,14 @@ transf\
 
 Spark try to do its best when guessing which is correct data type for the columns of your DataFrame. But, obviously, Spark can get it wrong, and, you end up deciding by your own which data type to use for a specific column.
 
-While working with your DataFrame, you can use the `cast()` method inside `select()` to change the data type of a specific column. This `cast()` method belongs to the `Column` class, so, you should always use it after a column name, or, a `col()` function:
+To explicit transform to, or, define which is the correct data type of a column, you can use the `cast()` method inside `select()`. This `cast()` method belongs to the `Column` class, so, you should always use it after a column name, or, a `col()` function:
 
 ```{python}
 transf\
   .select(
     'value',
-    col('value').cast('int').alias('value_as_integer'),
-    transf.value.cast('string').alias('value_as_string')
+    col('value').cast('long').alias('value_as_integer'),
+    transf.value.cast('boolean').alias('value_as_boolean')
   )\
   .show(5)
 ```
@@ -537,7 +536,7 @@ To use this `cast()` method, you give the name of the data type (as a string) to
 - `'double'`: correspond to `DoubleType()`;
 - `'date'`: correspond to `DateType()`;
 - `'timestamp'`: correspond to `TimestampType()`;
-- `'bool'`: correspond to `BooleanType()`;
+- `'boolean'`: correspond to `BooleanType()`;
 - `'array'`: correspond to `ArrayType()`;
 - `'dict'`: correspond to `MapType()`;
 
@@ -553,11 +552,11 @@ transf\
   .show(5)
 ```
 
-You will see a lot more examples of formulas and uses of `withColumn()` throughout this book. I just want you to know that `withColumn()` is a method that adds new columns to your DataFrame. The first argument is the name of the new column, and, the second argument is the calculation formula of this new column.
+You will see a lot more examples of formulas and uses of `withColumn()` throughout this book. I just want you to know that `withColumn()` is a method that adds a new column to your DataFrame. The first argument is the name of the new column, and, the second argument is the calculation formula of this new column.
 
 ## Sorting rows of your DataFrame
 
-Spark, or, more specifically, `pyspark`, provides the `orderBy()` DataFrame method to sort rows. To use this method, you give the name of the columns that Spark will use to sort the rows. 
+Spark, or, `pyspark`, provides the `orderBy()` DataFrame method to sort rows. To use this method, you give the name of the columns that Spark will use to sort the rows. 
 
 In the example below, Spark will sort `transf` according to the values in the `value` column. By default, Spark uses an ascending order while sorting your rows.
 
@@ -567,7 +566,7 @@ transf\
   .show(5)
 ```
 
-Just to be clear, you can use the combination between multiple columns to sort your rows. Just give the name of each column (as strings) separated by commas. In the example below, Spark will sort the rows according to `user` column first, than, is going to sort the rows cointained in each `user` according to `value` columnn.
+Just to be clear, you can use the combination between multiple columns to sort your rows. Just give the name of each column (as strings) separated by commas. In the example below, Spark will sort the rows according to `user` column first, then, is going to sort the rows of each `user` according to `value` column.
 
 ```{python}
 transf\
@@ -575,7 +574,7 @@ transf\
   .show(5)
 ```
 
-If you want to use a descending order in a specific column, you need to use the `desc()` method from `Column` class. In the example below, Spark will sort the rows according to `user` column using an ascending order. However, it will use the values from `value` column in a descending order to sort the rows between each `user`.
+If you want to use a descending order in a specific column, you need to use the `desc()` method from `Column` class. In the example below, Spark will sort the rows according to `user` column using an ascending order. However, it will use the values from `value` column in a descending order to sort the rows in each `user`.
 
 ```{python}
 transf\
@@ -583,6 +582,6 @@ transf\
   .show(5)
 ```
 
-
+This means that you can mix ascending orders with descending orders in `orderBy()`. Since the ascending order is the default, if you want to use a descending order in all of the columns, then, you need to apply the `desc()` method to all of them.
 
 

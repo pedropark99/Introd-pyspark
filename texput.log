@@ -1,0 +1,22 @@
+This is XeTeX, Version 3.141592653-2.6-0.999994 (TeX Live 2022) (preloaded format=xetex 2022.5.21)  14 JUN 2022 14:56
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**^^['
+
+*esc
+
+*exit
+
+*'^^[^^[^^[
+! I can't find file `"^^[ esc exit ^^[^^[^^["'.
+<*> '^^[^^[^^[
+              
+(Press Enter to retry, or Control-D to exit)
+Please type another input file name: 
+! Emergency stop.
+<*> 
+    
+End of file on the terminal!
+
+No pages of output.
