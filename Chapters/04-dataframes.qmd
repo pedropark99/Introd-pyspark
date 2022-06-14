@@ -1,14 +1,6 @@
 
 # Introducing Spark DataFrames
 
-```{python}
-#| include: false
-# Commands to set off all LOG information and warnings
-from pyspark import SparkContext
-sc = SparkContext(master = 'local')
-sc.setLogLevel('ERROR')
-```
-
 
 ## Introduction
 
