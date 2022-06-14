@@ -298,8 +298,8 @@ div.csl-indent {
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> spark.createDataFrame(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>22/06/13 16:35:51 WARN Utils: Your hostname, pedro-IdeaPad-3-15ALC6 resolves to a loopback address: 127.0.1.1; using 192.168.0.33 instead (on interface wlp1s0)
-22/06/13 16:35:51 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address</code></pre>
+<pre><code>22/06/14 12:10:04 WARN Utils: Your hostname, pedro-IdeaPad-3-15ALC6 resolves to a loopback address: 127.0.1.1; using 192.168.0.33 instead (on interface wlp1s0)
+22/06/14 12:10:04 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Using Spark's default log4j profile: org/apache/spark/log4j-defaults.properties
@@ -307,7 +307,7 @@ Setting default log level to "WARN".
 To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>22/06/13 16:35:52 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable</code></pre>
+<pre><code>22/06/14 12:10:05 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable</code></pre>
 </div>
 </div>
 <p>In the example below, to create a new DataFrame called <code>big_values</code>, we begin with the <code>df</code> DataFrame, then, we filter its rows where <code>value</code> is greater than 15, then, we select <code>date</code> and <code>value</code> columns, then, we sort the rows based on the <code>value</code> column. So, this set of sequential transformations (filter it, then, select it, then, order it, …) defines what this new <code>big_values</code> DataFrame is.</p>
@@ -353,7 +353,7 @@ To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLeve
 </code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>                                                                                </code></pre>
+<pre><code>[Stage 0:====&gt;                                                    (1 + 11) / 12]                                                                                </code></pre>
 </div>
 </div>
 <p>Another very useful action is the <code>count()</code> method, that gives you the number of rows in a DataFrame. To be able to count the number of rows in a DataFrame, Spark needs to access this DataFrame in the first place. That is why this <code>count()</code> method behaves as an action. Spark will perform the transformations that defines <code>big_values</code> to access the actual rows of this DataFrame and count them.</p>
@@ -1170,9 +1170,68 @@ only showing top 5 rows
 </code></pre>
 </div>
 </div>
+<p>You will see a lot more examples of formulas and uses of <code>withColumn()</code> throughout this book. I just want you to know that <code>withColumn()</code> is a method that adds new columns to your DataFrame. The first argument is the name of the new column, and, the second argument is the calculation formula of this new column.</p>
 </section>
 <section id="sorting-rows-of-your-dataframe" class="level2" data-number="4.8">
 <h2 data-number="4.8" class="anchored" data-anchor-id="sorting-rows-of-your-dataframe"><span class="header-section-number">4.8</span> Sorting rows of your DataFrame</h2>
+<p>Spark, or, more specifically, <code>pyspark</code>, provides the <code>orderBy()</code> DataFrame method to sort rows. To use this method, you give the name of the columns that Spark will use to sort the rows.</p>
+<p>In the example below, Spark will sort <code>transf</code> according to the values in the <code>value</code> column. By default, Spark uses an ascending order while sorting your rows.</p>
+<div class="cell" data-execution_count="37">
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>transf<span class="op">\</span></span>
+<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a>  .orderBy(<span class="st">'value'</span>)<span class="op">\</span></span>
+<span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a>  .show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>+-------------------+--------+---------+----------+---------+-----------+
+|           datetime|    user|    value|transferid|  country|description|
++-------------------+--------+---------+----------+---------+-----------+
+|2018-11-10 02:02:56|    null|     null| 166420322|     null|       null|
+|2018-11-21 19:07:26|Nathália|0.2619445| 115194733|Venezuela|       null|
+|2018-11-25 21:29:42|  Sandra|0.2996283| 114302779|Argentina|       null|
+|2018-11-14 18:42:04|nathalia|0.6452489| 115959375|  Ecuador|       null|
+|2018-11-21 16:31:12| Armando|0.6727713| 114940976|Venezuela|       null|
++-------------------+--------+---------+----------+---------+-----------+
+only showing top 5 rows
+</code></pre>
+</div>
+</div>
+<p>Just to be clear, you can use the combination between multiple columns to sort your rows. Just give the name of each column (as strings) separated by commas. In the example below, Spark will sort the rows according to <code>user</code> column first, than, is going to sort the rows cointained in each <code>user</code> according to <code>value</code> columnn.</p>
+<div class="cell" data-execution_count="38">
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>transf<span class="op">\</span></span>
+<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a>  .orderBy(<span class="st">'user'</span>, <span class="st">'value'</span>)<span class="op">\</span></span>
+<span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a>  .show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>+-------------------+----+--------+----------+---------+-----------+
+|           datetime|user|   value|transferid|  country|description|
++-------------------+----+--------+----------+---------+-----------+
+|2018-11-10 02:02:56|null|    null| 166420322|     null|       null|
+|2018-11-10 11:12:06|null|  170.21| 166420323|     null|       null|
+|2018-11-10 03:12:09|null| 1002.35| 166420324|     null|       null|
+|2018-11-10 00:43:41|null| 1002.35| 166420324|     null|       null|
+|2018-11-30 09:45:35| Ana|3.581695| 114564798|Venezuela|       null|
++-------------------+----+--------+----------+---------+-----------+
+only showing top 5 rows
+</code></pre>
+</div>
+</div>
+<p>If you want to use a descending order in a specific column, you need to use the <code>desc()</code> method from <code>Column</code> class. In the example below, Spark will sort the rows according to <code>user</code> column using an ascending order. However, it will use the values from <code>value</code> column in a descending order to sort the rows between each <code>user</code>.</p>
+<div class="cell" data-execution_count="39">
+<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a>transf<span class="op">\</span></span>
+<span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a>  .orderBy(<span class="st">'user'</span>, col(<span class="st">'value'</span>).desc())<span class="op">\</span></span>
+<span id="cb77-3"><a href="#cb77-3" aria-hidden="true" tabindex="-1"></a>  .show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>+-------------------+----+--------+----------+-------+-----------+
+|           datetime|user|   value|transferid|country|description|
++-------------------+----+--------+----------+-------+-----------+
+|2018-11-10 00:43:41|null| 1002.35| 166420324|   null|       null|
+|2018-11-10 03:12:09|null| 1002.35| 166420324|   null|       null|
+|2018-11-10 11:12:06|null|  170.21| 166420323|   null|       null|
+|2018-11-10 02:02:56|null|    null| 166420322|   null|       null|
+|2018-11-16 06:57:56| Ana|35129.43| 115902710|Ecuador|       null|
++-------------------+----+--------+----------+-------+-----------+
+only showing top 5 rows
+</code></pre>
+</div>
+</div>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography" style="display: none">

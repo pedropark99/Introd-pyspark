@@ -553,11 +553,35 @@ transf\
   .show(5)
 ```
 
-
+You will see a lot more examples of formulas and uses of `withColumn()` throughout this book. I just want you to know that `withColumn()` is a method that adds new columns to your DataFrame. The first argument is the name of the new column, and, the second argument is the calculation formula of this new column.
 
 ## Sorting rows of your DataFrame
 
+Spark, or, more specifically, `pyspark`, provides the `orderBy()` DataFrame method to sort rows. To use this method, you give the name of the columns that Spark will use to sort the rows. 
 
+In the example below, Spark will sort `transf` according to the values in the `value` column. By default, Spark uses an ascending order while sorting your rows.
+
+```{python}
+transf\
+  .orderBy('value')\
+  .show(5)
+```
+
+Just to be clear, you can use the combination between multiple columns to sort your rows. Just give the name of each column (as strings) separated by commas. In the example below, Spark will sort the rows according to `user` column first, than, is going to sort the rows cointained in each `user` according to `value` columnn.
+
+```{python}
+transf\
+  .orderBy('user', 'value')\
+  .show(5)
+```
+
+If you want to use a descending order in a specific column, you need to use the `desc()` method from `Column` class. In the example below, Spark will sort the rows according to `user` column using an ascending order. However, it will use the values from `value` column in a descending order to sort the rows between each `user`.
+
+```{python}
+transf\
+  .orderBy('user', col('value').desc())\
+  .show(5)
+```
 
 
 
