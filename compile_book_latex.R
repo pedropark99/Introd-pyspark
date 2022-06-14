@@ -58,10 +58,10 @@ write_file(str_c(tex_file, collapse = "\n"), name_file)
 new_name <- str_replace_all(name_file, "`", "")
 fs::file_move(name_file, new_name)
 
-
-system(paste("xelatex", shQuote(str_sub(new_name, 1, str_length(new_name) - 4))))
-system(paste("bibtex", shQuote(new_name)))
-system(paste("xelatex", shQuote(new_name)))
+just_name <- str_sub(new_name, 1, str_length(new_name) - 4)
+system(paste("xelatex", shQuote(just_name)))
+system(paste("bibtex", shQuote(just_name)))
+system(paste("xelatex", shQuote(just_name)))
 
 
 ### Delete unnecessary files produced by Latex
