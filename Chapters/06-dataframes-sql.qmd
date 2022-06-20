@@ -1,6 +1,6 @@
 
 
-# Working with SQL in Spark DataFrames
+# Working with SQL in `pyspark`
 
 ## Introduction
 
@@ -12,7 +12,7 @@ In real life jobs at the industry, is very likely that your data will be allocat
 
 As a first example, lets use `pyspark` to create a DataFrame, and, register this DataFrame as a temporary SQL table in our Spark context. This way, we avoid the work to connect to some existing SQL database, and, still get to learn how to use SQL queries in `pyspark`.
 
-In the example below, I am reading a CSV file from my computer called `penguins.csv` (remember that this CSV can be dowloaded from the book repository^[https://github.com/pedropark99/Introd-pyspark/tree/main/Data]), then, I create a SQL temporary view (called `penguins_view`) from this `penguins` DataFrame, with `createOrReplaceTempView()` method. After these commands, I have now a view called `penguins_view` registered in Spark SQL database, which I can query it, using pure SQL.
+In the example below, I am reading a CSV file from my computer called `penguins.csv` (remember that this CSV can be downloaded from the book repository^[https://github.com/pedropark99/Introd-pyspark/tree/main/Data]), then, I create a SQL temporary view (called `penguins_view`) from this `penguins` DataFrame with the `createOrReplaceTempView()` method. 
 
 ```{python}
 from pyspark.sql import SparkSession
@@ -25,15 +25,32 @@ penguins = spark.read\
 penguins.createOrReplaceTempView('penguins_view')
 ```
 
-
-We can see what this `penguins_view` looks like, by giving a simple query (`select * from penguins_view`) to `sql()` method from our Spark Session:
+After these commands, I have now a view called `penguins_view` registered in the Spark SQL context, which I can query it, using pure SQL. We can execute a SQL query by using the `sql()` method from our Spark Session, like in the example below:
 
 ```{python}
 spark.sql('select * from penguins_view').show(5)
 ```
 
-Therefore, in the above example, we wrote a simple and pure SQL query, and, executed it inside `pyspark` through this `sql()` method. This means that, this `sql()` method is the bridge between `pyspark` and your SQL database. You give a pure SQL query (inside a string) to this `sql()` method, and, Spark will execute it.
+This `sql()` method always result in a new Spark DataFrame. That is why I used the `show()` method right after `sql()`, to see what this new Spark DataFrame looked like.
 
+Therefore, in the above example, we wrote a simple and pure SQL query, and, executed it through `pyspark`, by using this `sql()` method. This means that, this `sql()` method is the bridge between `pyspark` and your SQL database. You give a pure SQL query (inside a string) to this `sql()` method, and, Spark will execute it, considering the SQL databases that you are connected with.
+
+Having this in mind, we could use this `sql()` method to create a physical SQL table (instead of a temporary view). We just need to pass the necessary SQL commands that will create this table to be executed by this method. In the example below, we create a new database called `examples`, and, a table called `code_brazil_states`.
+
+```{python}
+spark.sql('create database `examples`')
+spark.sql('use `examples`'
+spark.sql('''
+  create table `code_brazil_states` (
+    `code` int,
+    `state_name` string
+  )
+''')
+spark.sql('insert into `code_brazil_states` values (31, "Minas Gerais")')
+spark.sql('insert into `code_brazil_states` values (15, "Pará")')
+spark.sql('insert into `code_brazil_states` values (41, "Paraná")')
+spark.sql('insert into `code_brazil_states` values (25, "Paraíba")')
+```
 
 
 

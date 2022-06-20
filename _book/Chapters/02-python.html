@@ -183,7 +183,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Chapters/06-dataframes-sql.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Working with SQL in Spark DataFrames</span></a>
+  <a href="../Chapters/06-dataframes-sql.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Working with SQL in <code>pyspark</code></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -251,7 +251,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Hello World!"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>It will be much easier to run this script, if you open the terminal inside the folder where you save the <code>hello.py</code> file. If you do not know how to do this, look at section <a href="01-intro.html#sec-open-terminal"><span>Section&nbsp;3</span></a>. After you opened the terminal inside the folder, just run the <code>python hello.py</code> command. As a result, python will execute <code>hello.py</code>, and, the text <code>Hello World!</code> should be printed to the terminal:</p>
+<p>It will be much easier to run this script, if you open the terminal inside the folder where you save the <code>hello.py</code> file. If you do not know how to do this, look at section <a href="#sec-open-terminal"><span class="quarto-unresolved-ref">sec-open-terminal</span></a>. After you opened the terminal inside the folder, just run the <code>python hello.py</code> command. As a result, python will execute <code>hello.py</code>, and, the text <code>Hello World!</code> should be printed to the terminal:</p>
 <pre class="{terminal}"><code>Terminal$ python hello.py</code></pre>
 <pre><code>Hello World!</code></pre>
 <p>But, if for some reason you could not open the terminal inside the folder, just open a terminal (in any way you can), then, use the <code>cd</code> command (stands for “change directory”) with the path to the folder where you saved <code>hello.py</code>. This way, your terminal will be rooted in this folder.</p>
@@ -389,7 +389,7 @@ NameError: name 'x' is not defined</code></pre>
 <section id="packages" class="level2" data-number="1.6">
 <h2 data-number="1.6" class="anchored" data-anchor-id="packages"><span class="header-section-number">1.6</span> Packages</h2>
 <p>A python package (or a python “library”) is basically a set of functions and classes that provides important functionality to solve a specific problem. And <code>pyspark</code> is one of these many python packages available.</p>
-<p>Python packages are usually published (that is, made available to the public) through the PyPI archive<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>. If a python package is published in PyPI, then, you can easily install it through the <code>pip</code> tool, that we just used in <a href="01-intro.html#sec-install-software"><span>Section&nbsp;4</span></a>.</p>
+<p>Python packages are usually published (that is, made available to the public) through the PyPI archive<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>. If a python package is published in PyPI, then, you can easily install it through the <code>pip</code> tool, that we just used in <a href="#sec-install-software"><span class="quarto-unresolved-ref">sec-install-software</span></a>.</p>
 <p>To use a python package, you always need to: 1) have this package installed on your machine; 2) import this package in your python script. If a package is not installed in your machine, you will face a <code>ModuleNotFoundError</code> as you try to use it, like in the example below. So, if your program produce such an error, is very likely that you are trying to use a package that is not currently installed on your machine. To install it, you may use the <code>pip install &lt;name of the package&gt;</code> command on the terminal of your OS.</p>
 <div class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> a_package</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
