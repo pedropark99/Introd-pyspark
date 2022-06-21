@@ -2,13 +2,15 @@
 # Importing data to Spark {#sec-import-export}
 
 
-## Importing data from different data sources
+## Introduction
 
 Another way of creating Spark DataFrames, is to read (or import) data from a file and convert it to a DataFrame. Spark can read a variety of file formats, including CSV, Parquet, JSON, ORC and Binary files. Furthermore, Spark can connect to other databases and import tables from them, using JDBC connections. We can access the read engines for these different file formats, by using the `read` module from your Spark Session object. 
 
-### Reading data from static files
+## Reading data from static files
 
 Static files are probably the easiest way to transport data from one computer to another. Because you just need to copy and paste this file to this other machine, or download it from the internet. To read any file stored inside your computer, Spark always need to know the path to this file.
+
+Every OS have its own file system. Every file in your computer is stored in a specific address of this file system, and the "path" to this file is the path (or "steps") that your computer needs to follow to reach this specific address, where the file is stored. 
 
 As an example, I have the following CSV file saved in my computer:
 
@@ -18,7 +20,13 @@ Jorge,30,Developer
 Bob,32,Developer
 ```
 
-This CSV was saved in a file called `people.csv`, inside a folder called `Data`. So, to read this file, I gave the path to this CSV file to the `read.csv()` method of my Spark Session, like in the example below:
+This CSV was saved in a file called `people.csv`, inside a folder called `Data`. So, to read this file, Spark needs to know the path to this `people.csv` file. In other words, Spark needs to know where this file is stored in my computer, to be able to read it.
+
+<!-- There are two kinds of paths in a computer, a *relative path*, and, a *absolute path*. An absolute path, is a path that starts from the hard disk of your computer. It is "absolute" because it includes the complete address to your file, and, because of it, is a unique address in your machine. However, a relative path is an address based on some starting point, and, this starting point can be any point in your file system. -->
+
+<!-- To some degree, every absolute path is a relative path, because it has a starting point (which is the hard disk of your computer), and, goes up to your file -->
+
+In my specific case, considering where this `Data` folder is in my file system, a relative path to it would be `"../Data/"`. Having the path to the folder where `people.csv` is stored, I just need to add this file to the path, resulting in `"../Data/people.csv"`. See in the example below, that I gave this path to the `read.csv()` method of my Spark Session. As a result, Spark will visit this address, and, read the file that is stored there:
 
 ```{python}
 from pyspark.sql import SparkSession
@@ -61,15 +69,37 @@ Traceback (most recent call last):
 pyspark.sql.utils.AnalysisException: Path does not exist: file:/home/pedro/Documents/Projects/Books/Introd-pyspark/weird-file.csv
 ```
 
-Even CSV's being a very popular format, is very likely that you will need to read archives in many different formats. The main read engines available in Spark for static files are listed below:
+Every time you face this "Path does not exist" error, it means that Spark did not found the file that you described in the path you gave to `spark.read`. In this case, is very likely that you have a typo or a mistake in your path. Maybe your forgot to add the `.csv` extension to the name of your file. Or maybe you forgot to use the right angled slash (`/`) instead of the left angled slash (`\`).
+
+Sometimes, is useful to list all the files that are stored inside a folder. This way, you can make sure that you are looking at the right folder of your file system. For that, you can use the `listdir()` function from `os` module of python. As an example, I can list all the files that are stored inside of the `Data` folder in this way:
+
+```{python}
+from os import listdir
+listdir("../Data/")
+```
+
+## Reading other file formats
+
+Even CSV's being a very popular format, is very likely that you will need to read archives in many different formats. To read a different file format, you just need to use a different read engine.
+
+In more details, you need to give the path of this file, to a different method of the `read` module of your Spark Session. More specifically, to the method that corresponds to the file format you are interested in.
+
+The main read engines available in Spark for static files are listed below:
 
 - `spark.read.json()`: to read JSON files;
 - `spark.read.csv()`: to read CSV files;
 - `spark.read.parquet()`: to read Apache Parquet files;
 - `spark.read.orc()`: to read ORC (Apache *Optimized Row Columnar* format) files;
 
+So, to read a JSON file called `sales.json` that is stored in my `Data` folder, I can do this:
 
-### Defining import options
+```{python}
+json_data = spark.read.json("../Data/sales.json")
+json_data.show()
+```
+
+
+## Defining import options
 
 While reading and importing your files, Spark will use the default values for the import options defined by the read engine you are using, unless you explicit ask it to use different values. Each read engine has its own read/import options.
 

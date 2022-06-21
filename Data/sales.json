@@ -1,0 +1,5 @@
+{ "timestamp": "2022-02-01T22:10:02","sale_id": 328711,"product_id": 134,"price": 3.12,"units": 1,"product_name": "Milk 1L Mua" }
+{ "timestamp": "2022-02-03T11:42:09","sale_id": 328712,"product_id": 110,"price": 1.22,"units": 3,"product_name": "Coke 350ml" }
+{ "timestamp": "2022-02-03T14:22:15","sale_id": 328713,"product_id": 117,"price": 4.65,"units": 1,"product_name": "Pepsi 2L" }
+{ "timestamp": "2022-02-03T18:33:08","sale_id": 328714,"product_id": 110,"price": 1.22,"units": 1,"product_name": "Coke 350ml" }
+{ "timestamp": "2022-02-04T15:41:36","sale_id": 328715,"product_id": 341,"price": 0.85,"units": 1,"product_name": "Trident Mint" }
