@@ -620,5 +620,6 @@ transf.agg(
 The result of `agg()` is always a new DataFrame. The above example resulted in a DataFrame of one single row, because we are calculating aggregates, that is, a set of single values (or single measures) that summarizes (in some way) the entire DataFrame.
 
 
+
 ### Calculating aggregates per group
 
