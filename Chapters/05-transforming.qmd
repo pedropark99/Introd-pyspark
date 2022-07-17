@@ -619,17 +619,6 @@ transf.agg(
 
 The result of `agg()` is always a new DataFrame. The above example resulted in a DataFrame of one single row, because we are calculating aggregates, that is, a set of single values (or single measures) that summarizes (in some way) the entire DataFrame.
 
-If for some reason, you want to include a constant in your aggregate expression (like multiply the aggregate value by 100), you have to provide this constant inside the function `lit()`. 
-
-For example, lets suppose that the company established a new goal for the semester, that each transfer made should be in average around \$3000. Having this in mind, it might be useful to calculate how much the mean value of each transfer is deviating from this goal, like in the example below:
-
-```{python}
-transf.agg(
-    ((F.mean('value') / 3000) - 1) * 100
-  )\
-  .show()
-```
-
 
 ### Calculating aggregates per group
 
