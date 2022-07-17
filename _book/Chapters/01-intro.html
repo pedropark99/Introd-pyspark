@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-0.9.518">
+<meta name="generator" content="quarto-1.0.28">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -98,7 +98,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -293,43 +293,43 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3 class="anchored" data-anchor-id="opening-a-terminal-on-windows">Opening a terminal on Windows</h3>
 <p>There are some different approaches to do this, but, the one that I find the most useful, is to open a terminal from inside a Windows folder, using the default File Explorer program of Windows. When we use the terminal, we usually want to affect or use a file that is stored inside a folder in our computer, with a terminal command.</p>
 <p>Because of that, when we open a terminal from inside a folder, the terminal opened is already rooted inside the folder where our file is stored. In other words, we already have easy access to the file that we want to affect/use in our command, and we do not have the work to change or adjust directories in this terminal.</p>
-<p>For example, lets suppose that we want to use a terminal command to use a file called <code>hello.py</code>, and, that this <code>hello.py</code> file is stored inside a folder called <code>HelloPython</code>. You can see in <a href="#fig-windows-hello-folder">Figure&nbsp;<span class="quarto-unresolved-ref">fig-windows-hello-folder</span></a>, that this folder is in path <code>C:\Users\pedro\Documents\HelloPython</code>. So, the first step, is to use the File Explorer of Windows, to open this folder, like in <a href="#fig-windows-hello-folder">Figure&nbsp;<span class="quarto-unresolved-ref">fig-windows-hello-folder</span></a>.</p>
+<p>For example, lets suppose that we want to use a terminal command to use a file called <code>hello.py</code>, and, that this <code>hello.py</code> file is stored inside a folder called <code>HelloPython</code>. You can see in <a href="#fig-windows-hello-folder">Figure&nbsp;<span>1</span></a>, that this folder is in path <code>C:\Users\pedro\Documents\HelloPython</code>. So, the first step, is to use the File Explorer of Windows, to open this folder, like in <a href="#fig-windows-hello-folder">Figure&nbsp;<span>1</span></a>.</p>
 <div id="fig-windows-hello-folder" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="../Figures/windows-hello-folder.png" class="img-fluid figure-img"></p>
-<p></p><figcaption aria-hidden="true" class="figure-caption">Figure 1: Opening the <code>HelloPython</code> folder in Windows</figcaption><p></p>
+<p></p><figcaption class="figure-caption">Figure 1: Opening the <code>HelloPython</code> folder in Windows</figcaption><p></p>
 </figure>
 </div>
-<p>After you opened this folder, substitute the path to the folder in the search box with the word “cmd”, like in <a href="#fig-windows-hello-folder2">Figure&nbsp;<span class="quarto-unresolved-ref">fig-windows-hello-folder2</span></a>, and them, press Enter in the keyboard.</p>
+<p>After you opened this folder, substitute the path to the folder in the search box with the word “cmd”, like in <a href="#fig-windows-hello-folder2">Figure&nbsp;<span>2</span></a>, and them, press Enter in the keyboard.</p>
 <div id="fig-windows-hello-folder2" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="../Figures/windows-hello-folder2.png" class="img-fluid figure-img"></p>
-<p></p><figcaption aria-hidden="true" class="figure-caption">Figure 2: Opening a terminal inside a Windows folder - Part 1</figcaption><p></p>
+<p></p><figcaption class="figure-caption">Figure 2: Opening a terminal inside a Windows folder - Part 1</figcaption><p></p>
 </figure>
 </div>
-<p>As a result, a new terminal will open. See in <a href="#fig-windows-terminal">Figure&nbsp;<span class="quarto-unresolved-ref">fig-windows-terminal</span></a>, that this new terminal is already looking to (or is already rooted on) this <code>HelloPython</code> folder. This way, we can easily access the files stored inside this folder, like the <code>hello.py</code> file.</p>
+<p>As a result, a new terminal will open. See in <a href="#fig-windows-terminal">Figure&nbsp;<span>3</span></a>, that this new terminal is already looking to (or is already rooted on) this <code>HelloPython</code> folder. This way, we can easily access the files stored inside this folder, like the <code>hello.py</code> file.</p>
 <div id="fig-windows-terminal" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="../Figures/windows-terminal.png" class="img-fluid figure-img"></p>
-<p></p><figcaption aria-hidden="true" class="figure-caption">Figure 3: Opening a terminal inside a Windows folder - Part 2</figcaption><p></p>
+<p></p><figcaption class="figure-caption">Figure 3: Opening a terminal inside a Windows folder - Part 2</figcaption><p></p>
 </figure>
 </div>
 </section>
 <section id="opening-a-terminal-on-linux" class="level3">
 <h3 class="anchored" data-anchor-id="opening-a-terminal-on-linux">Opening a terminal on Linux</h3>
 <p>Is fairly easy to open a terminal on a Linux distribution. Again, is very useful when you open the terminal from inside the folder you are interested in. Because you will have an easier access to all the files that are stored inside this folder.</p>
-<p>To do this in Linux, you use the built-in File Explorer to open the folder where you want to root your terminal. At the moment, I am using an Ubuntu distribution. I just opened the same <code>HelloPython</code> folder, with the same <code>hello.py</code> file, in the File Explorer of Linux. As shown in <a href="#fig-ubuntu-folder">Figure&nbsp;<span class="quarto-unresolved-ref">fig-ubuntu-folder</span></a>:</p>
+<p>To do this in Linux, you use the built-in File Explorer to open the folder where you want to root your terminal. At the moment, I am using an Ubuntu distribution. I just opened the same <code>HelloPython</code> folder, with the same <code>hello.py</code> file, in the File Explorer of Linux. As shown in <a href="#fig-ubuntu-folder">Figure&nbsp;<span>4</span></a>:</p>
 <div id="fig-ubuntu-folder" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="../Figures/ubuntu-folder.png" class="img-fluid figure-img"></p>
-<p></p><figcaption aria-hidden="true" class="figure-caption">Figure 4: Opening the <code>HelloPython</code> folder in Linux</figcaption><p></p>
+<p></p><figcaption class="figure-caption">Figure 4: Opening the <code>HelloPython</code> folder in Linux</figcaption><p></p>
 </figure>
 </div>
-<p>After you opened the folder, just click with the right button of your mouse, and select the “Open in Terminal” option, and a new terminal should appear on your screen. See in <a href="#fig-ubuntu-folder-terminal">Figure&nbsp;<span class="quarto-unresolved-ref">fig-ubuntu-folder-terminal</span></a>, that the new terminal is already looking to the <code>HelloPython</code> folder, as we expected.</p>
+<p>After you opened the folder, just click with the right button of your mouse, and select the “Open in Terminal” option, and a new terminal should appear on your screen. See in <a href="#fig-ubuntu-folder-terminal">Figure&nbsp;<span>5</span></a>, that the new terminal is already looking to the <code>HelloPython</code> folder, as we expected.</p>
 <div id="fig-ubuntu-folder-terminal" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="../Figures/ubuntu-folder-terminal.png" class="img-fluid figure-img"></p>
-<p></p><figcaption aria-hidden="true" class="figure-caption">Figure 5: Opening the terminal in Linux</figcaption><p></p>
+<p></p><figcaption class="figure-caption">Figure 5: Opening the terminal in Linux</figcaption><p></p>
 </figure>
 </div>
 </section>
@@ -349,7 +349,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </section>
 <section id="install-pyspark" class="level3">
 <h3 class="anchored" data-anchor-id="install-pyspark">Install <code>pyspark</code></h3>
-<p>Installing the <code>pyspark</code> python package is pretty straightforward. Just open a terminal (if you need help to open the terminal check <a href="#sec-open-terminal"><span class="quarto-unresolved-ref">sec-open-terminal</span></a>), and use the <code>pip</code> command to do it:</p>
+<p>Installing the <code>pyspark</code> python package is pretty straightforward. Just open a terminal (if you need help to open the terminal check <a href="#sec-open-terminal"><span>Section&nbsp;3</span></a>), and use the <code>pip</code> command to do it:</p>
 <pre class="{terminal}"><code>Terminal$ pip install pyspark</code></pre>
 <p>If you try to run the above command (inside a terminal of any OS), and a message like <code>pip: command not found</code> appears, this means that you do not have the <code>pip</code> tool installed on your machine. Hence, if you face this kind of message, you need to install <code>pip</code> before you even install <code>pyspark</code>.</p>
 <p>The <code>pip</code> tool is automatically installed with Python on Windows. So, if you face this message (<code>pip: command not found</code>), then, is very likely that you do not have Python correctly installed on your machine. Or maybe, Python is not installed at all in any shape or size in your system. So, you should comeback to previous section, and re install it.</p>
@@ -385,6 +385,24 @@ Terminal$ curl https://bootstrap.pypa.io/get-pip.py | python3</code></pre>
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
   const icon = "";
   const anchorJS = new window.AnchorJS();
   anchorJS.options = {

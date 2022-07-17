@@ -600,7 +600,22 @@ This means that you can mix ascending orders with descending orders in `orderBy(
 
 ## Calculating aggregates
 
-To calculate aggregates of a Spark DataFrame we use the `agg()` method. Inside this method, you should provide a expression that describe what aggregate measure you want to calculate. 
+To calculate aggregates of a Spark DataFrame we have two main paths: we can use some standard DataFrame methods, like `count()` or `sum()`, to calculate a single aggregate; or, we can use the `agg()` method to calculate multiple aggregates at the same time. 
+
+### Using standard DataFrame methods
+
+The DataFrame class provides the following aggregate methods:
+
+- `mean()`: calculate the average value of each numeric column in the DataFrame;
+- `sum()`: return the total sum of a column in the DataFrame;
+- `count()`: count the number of rows in the DataFrame;
+- `max()`: compute the maximum value in a column;
+- `min()`: compute the minimum value in a column;
+
+
+### Using the `agg()` method
+
+Inside this method, you should provide a expression that describe what aggregate measure you want to calculate. 
 
 In most cases, this "aggregate expression" will be composed of functions from the `pyspark.sql.functions` module. So, having familiarity with the functions present in this module will help you to compose the formulas of your aggregations in `agg()`.
 
@@ -617,9 +632,33 @@ transf.agg(
   .show()
 ```
 
-The result of `agg()` is always a new DataFrame. The above example resulted in a DataFrame of one single row, because we are calculating aggregates, that is, a set of single values (or single measures) that summarizes (in some way) the entire DataFrame.
+### Without groups, we calculate a aggregate of the entire DataFrame
+
+When we do not define any group for the input DataFrame, `agg()` always produce a new DataFrame with one single row (like in the above example). This happens because we are calculating aggregates of the entire DataFrame, that is, a set of single values (or single measures) that summarizes (in some way) the entire DataFrame.
+
+In the other hand, when we define groups in a DataFrame, the calculations performed by `agg()` are made inside each group in the DataFrame. In other words, instead of summarizing the entire DataFrame, `agg()` will produce a set of single values that describes (or summarizes) each group in the DataFrame. 
+
+This means that each row in the resulting DataFrame describes a specific group in the original DataFrame, and, `agg()` usually produces a DataFrame with more than one single row when its calculations are performed by group. Because our DataFrames usually have more than one single group.
+
+
+### Defining groups in your DataFrame
+
+But how you define the groups inside your DataFrame? To do this, we use the `groupBy()` method. You just need to provide the name of columns that define (or "mark") your groups. 
+
+In the example below, I am creating a grouped DataFrame per user defined in the `user` column. This means that each distinct value in the `user` column defines a different group in the DataFrame.
+
+```{python}
+transf_per_user = transf.groupBy('user')
+type(transf_per_user)
+```
+
+At first, it appears that nothing has changed. But the `groupBy()` method always returns a new object of class `pyspark.sql.group.GroupedData`, as we can see in the above result. As a consequence, we can no longer use some of the DataFrame methods that we used before, like the `show()` method to see the DataFrame.
+
+That's ok, because we do not want to keep this grouped DataFrame for most the part. This grouped DataFrame is just a passage (or a bridge) to the result we want, which is, to calculate aggregates **per group** of the DataFrame.
 
 
 
-### Calculating aggregates per group
+
+
+
 
