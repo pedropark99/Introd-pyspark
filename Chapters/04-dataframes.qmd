@@ -103,11 +103,11 @@ students.columns
 
 ## Viewing a Spark DataFrame
 
-A key aspect of Spark is its laziness. In other words, for most operations, Spark will only check if your code is correct and if it makes sense. Spark will not actually run or execute the operations you are describing in your code, unless you explicit ask for it with a trigger operation, that is called an "action" (this kind of operation is described in @sec-dataframe-actions).
+A key aspect of Spark is its laziness. In other words, for most operations, Spark will only check if your code is correct and if it makes sense. Spark will not actually run or execute the operations you are describing in your code, unless you explicit ask for it with a trigger operation, which is called an "action" (this kind of operation is described in @sec-dataframe-actions).
 
 You can notice this laziness in the above output. Because when we call for an object that stores a Spark DataFrame (like `df` and `students`), Spark will only calculate and print a summary of the structure of your Spark DataFrame, and not the DataFrame itself.
 
-So how can we actually see our DataFrame? How can we visualize the rows and values that are stored inside of it? We use the `show()` method. With this method, Spark will print the table as pure text, as you can see in the example below:
+So how can we actually see our DataFrame? How can we visualize the rows and values that are stored inside of it? For this, we use the `show()` method. With this method, Spark will print the table as pure text, as you can see in the example below:
 
 ```{python}
 students.show()
@@ -156,7 +156,7 @@ print(s)
 
 The schema of a Spark DataFrame is the combination of column names and the data types associated with each of these columns. Schemas can be set explicitly by you (that is, you can tell Spark how the schema of your DataFrame should look like), or, can be defined automatically by Spark while reading and creating data. You can get a succinct description of a DataFrame schema, by looking inside the object where this DataFrame is stored. 
 
-For example, lets look again to the `df` DataFrame. In the result below, we can see that `df` has three columns (`id`, `value` and `date`). By the description `id: bigint`, we know that `id` is a column of type `bigint`, which translates to the `LongType()` of Spark (we will talk shortly about these data types). Furthermore, by the descriptions `value: double` and `date: date`, we know too that the columns `value` and `date` are of type `double` and `date`, respectively.
+For example, lets look again to the `df` DataFrame. In the result below, we can see that `df` has three columns (`id`, `value` and `date`). By the description `id: bigint`, we know that `id` is a column of type `bigint`, which translates to the `LongType()` of Spark (we will talk shortly about these data types). Furthermore, by the descriptions `value: double` and `date: date`, we know too that the columns `value` and `date` are of type `DoubleType()` and `DateType()`, respectively.
 
 ```{python}
 df

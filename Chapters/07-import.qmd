@@ -38,12 +38,11 @@ df = spark.read.csv(path)
 df.show()
 ```
 
-In the above example, I gave a relative path to the file I wanted to read. But you can provide an absolute path^[That is, the complete path to the file, or, in other words, a path that starts in the root folder of your hard drive.] to the file, if you want to. 
-
-The `people.csv` is located at a very specific folder in my Linux computer, so, the absolute path to this file is pretty long as you can see below. But, if I were in my Windows machine, this absolute path would be something like `"C:\Users\pedro\Documents\Projects\..."`.
+In the above example, I gave a relative path to the file I wanted to read. But you can provide an absolute path^[That is, the complete path to the file, or, in other words, a path that starts in the root folder of your hard drive.] to the file, if you want to. The `people.csv` is located at a very specific folder in my Linux computer, so, the absolute path to this file is pretty long as you can see below. But, if I were in my Windows machine, this absolute path would be something like `"C:\Users\pedro\Documents\Projects\..."`.
 
 ```{python}
 #| eval: false
+# The absolute path to `people.csv`:
 path = "/home/pedro/Documents/Projets/Books/Introd-pyspark/Data/people.csv"
 
 df = spark.read.csv(path)
@@ -71,7 +70,7 @@ pyspark.sql.utils.AnalysisException: Path does not exist: file:/home/pedro/Docum
 
 Every time you face this "Path does not exist" error, it means that Spark did not found the file that you described in the path you gave to `spark.read`. In this case, is very likely that you have a typo or a mistake in your path. Maybe your forgot to add the `.csv` extension to the name of your file. Or maybe you forgot to use the right angled slash (`/`) instead of the left angled slash (`\`).
 
-Sometimes, is useful to list all the files that are stored inside a folder. This way, you can make sure that you are looking at the right folder of your file system. For that, you can use the `listdir()` function from `os` module of python. As an example, I can list all the files that are stored inside of the `Data` folder in this way:
+Sometimes, is useful to list all the files that are stored inside the folder you are trying to access. This way, you can make sure that you are looking at the right folder of your file system. To do that, you can use the `listdir()` function from `os` module of python. As an example, I can list all the files that are stored inside of the `Data` folder in this way:
 
 ```{python}
 from os import listdir
@@ -91,7 +90,7 @@ The main read engines available in Spark for static files are listed below:
 - `spark.read.parquet()`: to read Apache Parquet files;
 - `spark.read.orc()`: to read ORC (Apache *Optimized Row Columnar* format) files;
 
-So, to read a JSON file called `sales.json` that is stored in my `Data` folder, I can do this:
+For example, to read a JSON file called `sales.json` that is stored in my `Data` folder, I can do this:
 
 ```{python}
 json_data = spark.read.json("../Data/sales.json")
@@ -107,19 +106,20 @@ For example, the `spark.read.orc()` engine has a option called `mergeSchema`. Wi
 
 This means that, some import options are specific (or characteristic) of some file formats. For example, the `sep` option (where you define the *separator* character) is used only in the `spark.read.csv()` engine, because you do not have a special character that behaves as the "separator" in the other file formats (ORC, JSON, Parquet...). So it does not make sense to have such option in the other read engines.
 
-In the other hand, some import options can co-exist in multiple read engines. For example, the `spark.read.json()` and `spark.read.csv()` have both an `encoding` option. The encoding is a very important information, and Spark needs it to correct interpret your file. By default, Spark will always assume that your files use the UTF-8 encoding system. Although this may not be true for your specific case, and for these cases you use this `encoding` option to tell Spark which one to use.
+In the other hand, some import options can co-exist in multiple read engines. For example, the `spark.read.json()` and `spark.read.csv()` have both an `encoding` option. The encoding is a very important information, and Spark needs it to correctly interpret your file. By default, Spark will always assume that your files use the UTF-8 encoding system. Although, this may not be true for your specific case, and for these cases you use this `encoding` option to tell Spark which one to use.
 
 In the next sections, I will break down some of the most used import options for each file format. If you want to see the complete list of import options, you can visit the *Data Source Option* section in the specific part of the file format you are using in the Spark SQL Guide^[For example, this *Data Source Option* for Parque files is located at: https://spark.apache.org/docs/latest/sql-data-sources-parquet.html#data-source-option].
 
 ### Import options for CSV files
 
-The most important import options for CSV files are `sep`, `encoding`, `header`.
+<!-- pt-BR -->
+
+The most important import options for CSV files are `sep`, `encoding`, `header` and `locale`.
 
 
 
 
 
-
-### Pulling data from SQL Databases
+## Pulling data from SQL Databases
 
 We can use the `spark.read.jdbc()` method to connect and read data from Databases using JDBC connections. Also, you can read a SQL table from your Spark context by using the `spark.table()` method.

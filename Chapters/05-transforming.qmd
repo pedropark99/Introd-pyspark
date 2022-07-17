@@ -470,6 +470,15 @@ transf\
   .show(5)
 ```
 
+By using this `alias()` method, you can rename multiple columns within a single `select()` call. However, you can use the `withColumnRenamed()` method of a DataFrame to rename a single column. The first argument of this method, is the current name of this column, and, the second argument, is the new name of this column.
+
+```{python}
+transf\
+  .withColumnRenamed('transferid', 'transferID')\
+  .show(5)
+```
+
+
 ### Dropping unnecessary columns
 
 In some cases, your DataFrame just have too many columns and you just want to eliminate a few of them. In a situation like this, you can list the columns you want to drop from your DataFrame, inside the `drop()` method, like this:
@@ -479,6 +488,36 @@ transf\
   .drop('user', 'description')\
   .show(5)
 ```
+
+
+
+### Casting columns to a different data type
+
+Spark try to do its best when guessing which is correct data type for the columns of your DataFrame. But, obviously, Spark can get it wrong, and, you end up deciding by your own which data type to use for a specific column.
+
+To explicit transform to, or, define which is the correct data type of a column, you can use the `cast()` method inside `select()`. This `cast()` method belongs to the `Column` class, so, you should always use it after a column name, or, a `col()` function:
+
+```{python}
+transf\
+  .select(
+    'value',
+    col('value').cast('long').alias('value_as_integer'),
+    transf.value.cast('boolean').alias('value_as_boolean')
+  )\
+  .show(5)
+```
+
+To use this `cast()` method, you give the name of the data type (as a string) to which you want to cast the column. The main available data types to `cast()` are:
+
+- `'string'`: correspond to `StringType()`;
+- `'int'`: correspond to `IntegerType()`;
+- `'long'`: correspond to `LongType()`;
+- `'double'`: correspond to `DoubleType()`;
+- `'date'`: correspond to `DateType()`;
+- `'timestamp'`: correspond to `TimestampType()`;
+- `'boolean'`: correspond to `BooleanType()`;
+- `'array'`: correspond to `ArrayType()`;
+- `'dict'`: correspond to `MapType()`;
 
 
 ### You can add new columns with `select()`
@@ -511,34 +550,6 @@ transf\
   .show(5)
 ```
 
-
-### Casting columns to a different data type
-
-Spark try to do its best when guessing which is correct data type for the columns of your DataFrame. But, obviously, Spark can get it wrong, and, you end up deciding by your own which data type to use for a specific column.
-
-To explicit transform to, or, define which is the correct data type of a column, you can use the `cast()` method inside `select()`. This `cast()` method belongs to the `Column` class, so, you should always use it after a column name, or, a `col()` function:
-
-```{python}
-transf\
-  .select(
-    'value',
-    col('value').cast('long').alias('value_as_integer'),
-    transf.value.cast('boolean').alias('value_as_boolean')
-  )\
-  .show(5)
-```
-
-To use this `cast()` method, you give the name of the data type (as a string) to which you want to cast the column. The main available data types to `cast()` are:
-
-- `'string'`: correspond to `StringType()`;
-- `'int'`: correspond to `IntegerType()`;
-- `'long'`: correspond to `LongType()`;
-- `'double'`: correspond to `DoubleType()`;
-- `'date'`: correspond to `DateType()`;
-- `'timestamp'`: correspond to `TimestampType()`;
-- `'boolean'`: correspond to `BooleanType()`;
-- `'array'`: correspond to `ArrayType()`;
-- `'dict'`: correspond to `MapType()`;
 
 ## Calculating or adding new columns to your DataFrame
 
@@ -586,4 +597,39 @@ transf\
 
 This means that you can mix ascending orders with descending orders in `orderBy()`. Since the ascending order is the default, if you want to use a descending order in all of the columns, then, you need to apply the `desc()` method to all of them.
 
+
+## Calculating aggregates
+
+To calculate aggregates of a Spark DataFrame we use the `agg()` method. Inside this method, you should provide a expression that describe what aggregate measure you want to calculate. 
+
+In most cases, this "aggregate expression" will be composed of functions from the `pyspark.sql.functions` module. So, having familiarity with the functions present in this module will help you to compose the formulas of your aggregations in `agg()`.
+
+In the example below, I am using the `sum()` and `mean()` functions from `pyspark.sql.functions` to calculate the total sum and the total mean of the `value` column in the `transf` DataFrame. I am using the `countDistinct()` function as well to calculate the number of distinct values in the `user` column.
+
+```{python}
+import pyspark.sql.functions as F
+
+transf.agg(
+    F.sum('value').alias('total_value'),
+    F.mean('value').alias('mean_value'),
+    F.countDistinct('user').alias('number_of_distinct_users')
+  )\
+  .show()
+```
+
+The result of `agg()` is always a new DataFrame. The above example resulted in a DataFrame of one single row, because we are calculating aggregates, that is, a set of single values (or single measures) that summarizes (in some way) the entire DataFrame.
+
+If for some reason, you want to include a constant in your aggregate expression (like multiply the aggregate value by 100), you have to provide this constant inside the function `lit()`. 
+
+For example, lets suppose that the company established a new goal for the semester, that each transfer made should be in average around \$3000. Having this in mind, it might be useful to calculate how much the mean value of each transfer is deviating from this goal, like in the example below:
+
+```{python}
+transf.agg(
+    ((F.mean('value') / 3000) - 1) * 100
+  )\
+  .show()
+```
+
+
+### Calculating aggregates per group
 
