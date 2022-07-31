@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.0.28">
+<meta name="generator" content="quarto-99.9.9">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -242,13 +242,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <section id="scripts" class="level2" data-number="1.2">
 <h2 data-number="1.2" class="anchored" data-anchor-id="scripts"><span class="header-section-number">1.2</span> Scripts</h2>
 <p>Python programs are written in plain text files that are saved with the <code>.py</code> extension. After you save these files, they are usually called “scripts”. So a script is just a text file that contains all the commands that make your python program.</p>
-<p>There are many IDEs or programs that help you to write, manage, run and organize this kind of files (like Microsoft Visual Studio Code<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>, PyCharm<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>, Anaconda<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> and RStudio<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>). But, if you do not have any of them installed, you can just create a new plain text file from the built-in Notepad program of your OS (operational system), and, save it with the <code>.py</code> extension.</p>
+<p>There are many IDEs or programs that help you to write, manage, run and organize this kind of files (like Microsoft Visual Studio Code<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>, PyCharm<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>, Anaconda<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> and RStudio<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>). Many of these programs are free to use, and, are easy to install.</p>
+<p>But, if you do not have any of them installed, you can just create a new plain text file from the built-in Notepad program of your OS (operational system), and, save it with the <code>.py</code> extension.</p>
 </section>
 <section id="how-to-run-a-python-program" class="level2" data-number="1.3">
 <h2 data-number="1.3" class="anchored" data-anchor-id="how-to-run-a-python-program"><span class="header-section-number">1.3</span> How to run a python program</h2>
 <p>As you learn to write your Spark applications with <code>pyspark</code>, at some point, you will want to actually execute this <code>pyspark</code> program, to see its result. To do so, you need to execute it as a python program. There are many ways to run a python program, but I will show you the more “standard” way. That is to use the <code>python</code> command inside the terminal of your OS (you need to have python already installed).</p>
 <p>As an example, lets create a simple “Hello world” program. First, open a new text file then save it somewhere in your machine (with the name <code>hello.py</code>). Remember to save the file with the <code>.py</code> extension. Then copy and paste the following command into this file:</p>
+<div class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Hello World!"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <p>It will be much easier to run this script, if you open the terminal inside the folder where you save the <code>hello.py</code> file. If you do not know how to do this, look at section <a href="01-intro.html#sec-open-terminal"><span>Section&nbsp;3</span></a>. After you opened the terminal inside the folder, just run the <code>python hello.py</code> command. As a result, python will execute <code>hello.py</code>, and, the text <code>Hello World!</code> should be printed to the terminal:</p>
 <pre class="{terminal}"><code>Terminal$ python hello.py</code></pre>
 <pre><code>Hello World!</code></pre>
@@ -296,7 +299,9 @@ Terminal$ cd "/usr/pedro/Documents"</code></pre>
 </div>
 </div>
 <p>Remember, an object can store any type of value, or any type of data. For example, it can store a single string, like the object <code>salutation</code> below:</p>
+<div class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>salutation <span class="op">=</span> <span class="st">"Hello! My name is Pedro"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <p>Or, a list of multiple strings:</p>
 <div class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>names <span class="op">=</span> [</span>
@@ -370,12 +375,16 @@ Terminal$ cd "/usr/pedro/Documents"</code></pre>
 </div>
 </div>
 <p>If we go a little further, and, put the print statement as the first expression of the program, we then get a name error. This error warns us that, the object named <code>x</code> is not defined (i.e.&nbsp;it does not exist).</p>
+<div class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(x <span class="op">*</span> <span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <pre class="{verbatim}"><code>Traceback (most recent call last):
   File "&lt;stdin&gt;", line 1, in &lt;module&gt;
 NameError: name 'x' is not defined</code></pre>
+<div class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="dv">1</span></span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="dv">40</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <p>This error occurs, because inside the print statement, we call the name <code>x</code>. But, this is the first expression of the program, and at this point of the program, we did not defined a object called <code>x</code>. We make this definition, after the print statement, with <code>x = 1</code> and <code>x = 40</code>. In other words, at this point, python do not know any object called <code>x</code>.</p>
 </section>
 <section id="packages" class="level2" data-number="1.6">
@@ -383,7 +392,9 @@ NameError: name 'x' is not defined</code></pre>
 <p>A python package (or a python “library”) is basically a set of functions and classes that provides important functionality to solve a specific problem. And <code>pyspark</code> is one of these many python packages available.</p>
 <p>Python packages are usually published (that is, made available to the public) through the PyPI archive<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>. If a python package is published in PyPI, then, you can easily install it through the <code>pip</code> tool, that we just used in <a href="01-intro.html#sec-install-software"><span>Section&nbsp;4</span></a>.</p>
 <p>To use a python package, you always need to: 1) have this package installed on your machine; 2) import this package in your python script. If a package is not installed in your machine, you will face a <code>ModuleNotFoundError</code> as you try to use it, like in the example below. So, if your program produce such an error, is very likely that you are trying to use a package that is not currently installed on your machine. To install it, you may use the <code>pip install &lt;name of the package&gt;</code> command on the terminal of your OS.</p>
+<div class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> a_package</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <pre class="{verbatim}"><code>Traceback (most recent call last):
   File "&lt;stdin&gt;", line 1, in &lt;module&gt;
 ModuleNotFoundError: No module named 'a_package'</code></pre>
@@ -477,11 +488,13 @@ ModuleNotFoundError: No module named 'a_package'</code></pre>
 <p>So, if we have a class called <code>people</code>, and, this class has a method called <code>location()</code>, we can use this <code>location()</code> method by using the dot operator (<code>.</code>) with the name of an object of class <code>people</code>. If an object called <code>x</code> is an instance of <code>people</code> class, then, we can do <code>x.location()</code>.</p>
 <p>But if this object <code>x</code> is of a different class, like <code>int</code>, then we can no longer use the <code>location()</code> method, because this method does not belong to the <code>int</code> class. For example, if your object is from class <code>A</code>, and, you try to use a method of class <code>B</code>, you will get an <code>AttributeError</code>.</p>
 <p>In the example exposed below, I have an object called <code>number</code> of class <code>int</code>, and, I try to use the method <code>startswith()</code> from <code>str</code> class with this object:</p>
+<div class="cell" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>number <span class="op">=</span> <span class="dv">2</span></span>
 <span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="co"># You can see below that, the `x` object have class `int`</span></span>
 <span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(number)</span>
 <span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Trying to use a method from `str` class</span></span>
 <span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>number.startswith(<span class="st">"P"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <pre class="{verbatim}"><code>AttributeError: 'int' object has no attribute 'startswith'</code></pre>
 </section>
 <section id="identifying-classes-and-their-methods" class="level2" data-number="1.8">
@@ -496,7 +509,9 @@ ModuleNotFoundError: No module named 'a_package'</code></pre>
 </div>
 </div>
 <p>If you do not know all the methods that a class have, you can always apply the <code>dir()</code> function over this class to get a list of all available methods. For example, lets suppose you wanted to see all methods from the <code>str</code> class. To do so, you would do this:</p>
+<div class="cell" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="bu">dir</span>(<span class="bu">str</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <pre class="{verbatim}"><code>['__add__', '__class__', '__contains__', '__delattr__', '__dir__',
  '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__',
  '__getitem__', '__getnewargs__', '__gt__', '__hash__', '__init__',

@@ -11,7 +11,9 @@ If you have experience with python, and understands how objects and classes work
 
 Python programs are written in plain text files that are saved with the `.py` extension. After you save these files, they are usually called "scripts". So a script is just a text file that contains all the commands that make your python program.
 
-There are many IDEs or programs that help you to write, manage, run and organize this kind of files (like Microsoft Visual Studio Code[^python-1], PyCharm[^python-2], Anaconda[^python-3] and RStudio[^python-4]). But, if you do not have any of them installed, you can just create a new plain text file from the built-in Notepad program of your OS (operational system), and, save it with the `.py` extension.
+There are many IDEs or programs that help you to write, manage, run and organize this kind of files (like Microsoft Visual Studio Code[^python-1], PyCharm[^python-2], Anaconda[^python-3] and RStudio[^python-4]). Many of these programs are free to use, and, are easy to install. 
+
+But, if you do not have any of them installed, you can just create a new plain text file from the built-in Notepad program of your OS (operational system), and, save it with the `.py` extension.
 
 [^python-1]: https://code.visualstudio.com/
 
