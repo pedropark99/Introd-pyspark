@@ -30,15 +30,15 @@ print(y)
 
 Furthermore, all terminal commands that we expose in this book, will always be: pre-fixed by `Terminal$`; written in black; and, not outlined by a gray rectangle. In the example below, we can easily detect that this command `pip install jupyter` should be inserted in the terminal of the OS (whatever is the terminal that your OS uses), and not in the python interpreter, because this command is prefixed with `Terminal$`.
 
-```{verbatim}
+```{terminal}
+#| eval: false
 Terminal$ pip install jupyter
 ```
 
 Some terminal commands may produce visible results as well. In that case, these results will be right below the respective command, and will not be pre-fixed with `Terminal$`. For example, we can see below that the command `echo "Hello!"` produces the result `"Hello!"`.
 
-```{verbatim}
+```{terminal}
 Terminal$ echo "Hello!"
-"Hello!"
 ```
 
 ### Python objects, functions and methods

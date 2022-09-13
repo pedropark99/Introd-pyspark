@@ -81,7 +81,7 @@ spark = SparkSession.builder.getOrCreate()
 
 After you defined your Spark Session, and saved it in an object called `spark`, you can now access all Spark's functionality through this `spark` object. 
 
-To create our first Spark table we use the `range()` method from the `spark` object. The `range()` method works similarly as the standard python function called `range()`. It basically creates a sequence from 0 to whatever number you want. However, this `range()` method stores this sequence of numbers as rows in a Spark table (or a Spark DataFrame):
+To create our first Spark table we use the `range()` method from the `spark` object. The `range()` method works similarly as the standard python function called `range()`. It basically creates a sequence of numbers, from 0 to $n - 1$. However, this `range()` method stores this sequence of numbers as rows in a Spark table (or a Spark DataFrame):
 
 ```{python}
 #| eval: false
@@ -114,12 +114,27 @@ print(result)
 
 Now that you have written your first Spark application with `pyspark`, you want to execute this application and see its results. To do so, you need send this script to the python interpreter, and to do this you need to: 1) open a terminal inside the folder where you python script is stored; 2) use the python command from the terminal with the name of your python script.
 
-If you do not know how to open a terminal from inside a folder of your computer, you can consult the section @sec-open-terminal of this book, where I teach how to do this. 
+If you do not know how to open a terminal from inside a folder of your computer, you can consult @sec-open-terminal of this book, where I teach you how to do it. 
 
-In my situation, I running Spark on a Ubuntu distribution, and, I saved the `spark-example.py` script inside a folder called `SparkExample`. This folder is located at the path `~/Documentos/Projetos/Livros/Introd-pyspark/SparkExample`. This means that, I need to open a terminal that is rooted inside this `SparkExample`.
+In my current situation, I running Spark on a Ubuntu distribution, and, I saved the `spark-example.py` script inside a folder called `SparkExample`. This folder is located at the path `~/Documentos/Projetos/Livros/Introd-pyspark/SparkExample` of my computer. This means that, I need to open a terminal that is rooted inside this `SparkExample` folder.
 
-You probably have saved your `spark-example.py` file inside a different folder. This means that you need to open the terminal from a different folder. 
+You probably have saved your `spark-example.py` file in a different folder. This means that you need to open the terminal from a different folder. But the process to open it is still the same that is described in @sec-open-terminal.
 
+After I opened a terminal rooted inside the `SparkExample` folder. I just use the `python3` command to access the python interpreter, and, give the name of the python script that I want to execute. In this case, the `spark-example.py` file:
 
+```{terminal}
+Terminal$ python3 spark-example.py
+```
+
+```{r}
+#| echo: false
+path_py <- fs::path_abs("../SparkExample/spark-example.py")
+result <- system2("python3", args = path_py, stdout = TRUE)
+cat(result)
+```
+
+You can see in the above result, that this Spark application produces a sequence of numbers, from 0 to 4, and, returns this sequence as a set of `Row` objects, inside a python list.
+
+Congratulations! You have just run your first Spark application!
 
 

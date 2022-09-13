@@ -14,7 +14,7 @@ Every OS have its own file system. Every file in your computer is stored in a sp
 
 As an example, I have the following CSV file saved in my computer:
 
-```{verbatim}
+```
 name,age,job
 Jorge,30,Developer
 Bob,32,Developer
@@ -62,7 +62,7 @@ If you give an invalid path (that is, a path that does not exist in your compute
 df = spark.read.csv("weird-file.csv")
 ```
 
-```{verbatim}
+```
 Traceback (most recent call last):
   ...
 pyspark.sql.utils.AnalysisException: Path does not exist: file:/home/pedro/Documents/Projects/Books/Introd-pyspark/weird-file.csv

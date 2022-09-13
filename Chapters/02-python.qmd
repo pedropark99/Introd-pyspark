@@ -34,10 +34,10 @@ As an example, lets create a simple "Hello world" program. First, open a new tex
 print("Hello World!")
 ```
 
-It will be much easier to run this script, if you open the terminal inside the folder where you save the `hello.py` file. If you do not know how to do this, look at section @sec-open-terminal. After you opened the terminal inside the folder, just run the `python hello.py` command. As a result, python will execute `hello.py`, and, the text `Hello World!` should be printed to the terminal:
+It will be much easier to run this script, if you open the terminal inside the folder where you save the `hello.py` file. If you do not know how to do this, look at section @sec-open-terminal. After you opened the terminal inside the folder, just run the `python3 hello.py` command. As a result, python will execute `hello.py`, and, the text `Hello World!` should be printed to the terminal:
 
 ```{terminal}
-Terminal$ python hello.py
+Terminal$ python3 hello.py
 ```
 
 ```
@@ -48,7 +48,8 @@ But, if for some reason you could not open the terminal inside the folder, just 
 
 For example, if I saved `hello.py` inside my Documents folder, the path to this folder in Windows would be something like this: `"C:\Users\pedro\Documents"`. On the other hand, this path on Linux would be something like `"/usr/pedro/Documents"`. So the command to change to this directory would be:
 
-```{verbatim}
+```{terminal}
+#| eval: false
 # On Windows:
 Terminal$ cd "C:\Users\pedro\Documents"
 # On Linux:
@@ -172,7 +173,7 @@ If we go a little further, and, put the print statement as the first expression 
 print(x * 4)
 ```
 
-```{verbatim}
+```
 Traceback (most recent call last):
   File "<stdin>", line 1, in <module>
 NameError: name 'x' is not defined
@@ -200,7 +201,7 @@ To use a python package, you always need to: 1) have this package installed on y
 import a_package
 ```
 
-```{verbatim}
+```
 Traceback (most recent call last):
   File "<stdin>", line 1, in <module>
 ModuleNotFoundError: No module named 'a_package'
@@ -297,7 +298,7 @@ type(number)
 number.startswith("P")
 ```
 
-```{verbatim}
+```
 AttributeError: 'int' object has no attribute 'startswith'
 ```
 
@@ -322,7 +323,7 @@ If you do not know all the methods that a class have, you can always apply the `
 dir(str)
 ```
 
-```{verbatim}
+```
 ['__add__', '__class__', '__contains__', '__delattr__', '__dir__',
  '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__',
  '__getitem__', '__getnewargs__', '__gt__', '__hash__', '__init__',

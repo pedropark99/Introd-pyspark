@@ -56,13 +56,10 @@ df = spark.createDataFrame(data)
 Remember that a Spark DataFrame in python is a object of class `pyspark.sql.dataframe.DataFrame` as you can see below. If you try to see what is inside of this kind of object, you will get a small description of the columns present in the DataFrame as a result:
 
 ```{python}
-#| eval: false
+#| eval: true
 type(df)
 ```
 
-```{verbatim}
-<class 'pyspark.sql.dataframe.DataFrame'>
-```
 
 
 ```{python}
