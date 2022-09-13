@@ -135,7 +135,7 @@ In UNIX-like systems, installing `pip` is very easy, because you can use the bui
 ```{terminal}
 # If you are in a Debian like distro of Linux
 # and need to install `pip`, use this command:
-Terminal$ apt install python3-pip
+Terminal$ sudo apt install python3-pip
 # If you are in a Arch-Linux like distro of Linux
 # and need to install `pip`, use this command:
 Terminal$ pacman -S python-pip

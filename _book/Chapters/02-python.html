@@ -252,12 +252,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Hello World!"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>It will be much easier to run this script, if you open the terminal inside the folder where you save the <code>hello.py</code> file. If you do not know how to do this, look at section <a href="01-intro.html#sec-open-terminal"><span>Section&nbsp;3</span></a>. After you opened the terminal inside the folder, just run the <code>python hello.py</code> command. As a result, python will execute <code>hello.py</code>, and, the text <code>Hello World!</code> should be printed to the terminal:</p>
-<pre class="{terminal}"><code>Terminal$ python hello.py</code></pre>
+<p>It will be much easier to run this script, if you open the terminal inside the folder where you save the <code>hello.py</code> file. If you do not know how to do this, look at section <a href="01-intro.html#sec-open-terminal"><span>Section&nbsp;3</span></a>. After you opened the terminal inside the folder, just run the <code>python3 hello.py</code> command. As a result, python will execute <code>hello.py</code>, and, the text <code>Hello World!</code> should be printed to the terminal:</p>
+<pre class="{terminal}"><code>Terminal$ python3 hello.py</code></pre>
 <pre><code>Hello World!</code></pre>
 <p>But, if for some reason you could not open the terminal inside the folder, just open a terminal (in any way you can), then, use the <code>cd</code> command (stands for “change directory”) with the path to the folder where you saved <code>hello.py</code>. This way, your terminal will be rooted in this folder.</p>
 <p>For example, if I saved <code>hello.py</code> inside my Documents folder, the path to this folder in Windows would be something like this: <code>"C:\Users\pedro\Documents"</code>. On the other hand, this path on Linux would be something like <code>"/usr/pedro/Documents"</code>. So the command to change to this directory would be:</p>
-<pre class="{verbatim}"><code># On Windows:
+<pre class="{terminal}"><code>#| eval: false
+# On Windows:
 Terminal$ cd "C:\Users\pedro\Documents"
 # On Linux:
 Terminal$ cd "/usr/pedro/Documents"</code></pre>
@@ -378,7 +379,7 @@ Terminal$ cd "/usr/pedro/Documents"</code></pre>
 <div class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(x <span class="op">*</span> <span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<pre class="{verbatim}"><code>Traceback (most recent call last):
+<pre><code>Traceback (most recent call last):
   File "&lt;stdin&gt;", line 1, in &lt;module&gt;
 NameError: name 'x' is not defined</code></pre>
 <div class="cell" data-execution_count="14">
@@ -395,7 +396,7 @@ NameError: name 'x' is not defined</code></pre>
 <div class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> a_package</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<pre class="{verbatim}"><code>Traceback (most recent call last):
+<pre><code>Traceback (most recent call last):
   File "&lt;stdin&gt;", line 1, in &lt;module&gt;
 ModuleNotFoundError: No module named 'a_package'</code></pre>
 <p>But, if this package is already installed in your machine, then, you can just import it to your script. To do this, you just include an <code>import</code> statement at the start of your python file. For example, if I want to use the <code>DataFrame</code> function from the <code>pandas</code> package:</p>
@@ -495,7 +496,7 @@ ModuleNotFoundError: No module named 'a_package'</code></pre>
 <span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Trying to use a method from `str` class</span></span>
 <span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>number.startswith(<span class="st">"P"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<pre class="{verbatim}"><code>AttributeError: 'int' object has no attribute 'startswith'</code></pre>
+<pre><code>AttributeError: 'int' object has no attribute 'startswith'</code></pre>
 </section>
 <section id="identifying-classes-and-their-methods" class="level2" data-number="1.8">
 <h2 data-number="1.8" class="anchored" data-anchor-id="identifying-classes-and-their-methods"><span class="header-section-number">1.8</span> Identifying classes and their methods</h2>
@@ -512,7 +513,7 @@ ModuleNotFoundError: No module named 'a_package'</code></pre>
 <div class="cell" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="bu">dir</span>(<span class="bu">str</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<pre class="{verbatim}"><code>['__add__', '__class__', '__contains__', '__delattr__', '__dir__',
+<pre><code>['__add__', '__class__', '__contains__', '__delattr__', '__dir__',
  '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__',
  '__getitem__', '__getnewargs__', '__gt__', '__hash__', '__init__',
  '__init_subclass__', '__iter__', '__le__', '__len__', '__lt__', 

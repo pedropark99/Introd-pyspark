@@ -336,16 +336,18 @@ div.csl-indent {
 <p>Now that you have written your first Spark application with <code>pyspark</code>, you want to execute this application and see its results. To do so, you need send this script to the python interpreter, and to do this you need to: 1) open a terminal inside the folder where you python script is stored; 2) use the python command from the terminal with the name of your python script.</p>
 <p>If you do not know how to open a terminal from inside a folder of your computer, you can consult <a href="01-intro.html#sec-open-terminal"><span>Section&nbsp;3</span></a> of this book, where I teach you how to do it.</p>
 <p>In my current situation, I running Spark on a Ubuntu distribution, and, I saved the <code>spark-example.py</code> script inside a folder called <code>SparkExample</code>. This folder is located at the path <code>~/Documentos/Projetos/Livros/Introd-pyspark/SparkExample</code> of my computer. This means that, I need to open a terminal that is rooted inside this <code>SparkExample</code> folder.</p>
-<p>You probably have saved your <code>spark-example.py</code> file in a different folder. This means that you need to open the terminal from a different folder. But the process to open it is still the same that is described in <a href="01-intro.html#sec-open-terminal"><span>Section&nbsp;3</span></a>.</p>
-<p>After I opened a terminal rooted inside the <code>SparkExample</code> folder. I just use the <code>python3</code> command to access the python interpreter, and, give the name of the python script that I want to execute. In this case, the <code>spark-example.py</code> file:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>Terminal$ python3 spark-example.py</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>You probably have saved your <code>spark-example.py</code> file in a different folder of your computer. This means that you need to open the terminal from a different folder.</p>
+<p>After I opened a terminal rooted inside the <code>SparkExample</code> folder. I just use the <code>python3</code> command to access the python interpreter, and, give the name of the python script that I want to execute. In this case, the <code>spark-example.py</code> file. As a result, our first <code>pyspark</code> program will be executed:</p>
+<div class="cell">
+<pre class="terminal cell-code"><code>Terminal$ python3 spark-example.py</code></pre>
+</div>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code>[Row(id=0), Row(id=1), Row(id=2), Row(id=3), Row(id=4)]</code></pre>
 </div>
 </div>
 <p>You can see in the above result, that this Spark application produces a sequence of numbers, from 0 to 4, and, returns this sequence as a set of <code>Row</code> objects, inside a python list.</p>
-<p>Congratulations! You have just run your first Spark application!</p>
+<p>Congratulations! You have just run your first Spark application using <code>pyspark</code>!</p>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography" style="display: none">

@@ -118,9 +118,9 @@ If you do not know how to open a terminal from inside a folder of your computer,
 
 In my current situation, I running Spark on a Ubuntu distribution, and, I saved the `spark-example.py` script inside a folder called `SparkExample`. This folder is located at the path `~/Documentos/Projetos/Livros/Introd-pyspark/SparkExample` of my computer. This means that, I need to open a terminal that is rooted inside this `SparkExample` folder.
 
-You probably have saved your `spark-example.py` file in a different folder. This means that you need to open the terminal from a different folder. But the process to open it is still the same that is described in @sec-open-terminal.
+You probably have saved your `spark-example.py` file in a different folder of your computer. This means that you need to open the terminal from a different folder.
 
-After I opened a terminal rooted inside the `SparkExample` folder. I just use the `python3` command to access the python interpreter, and, give the name of the python script that I want to execute. In this case, the `spark-example.py` file:
+After I opened a terminal rooted inside the `SparkExample` folder. I just use the `python3` command to access the python interpreter, and, give the name of the python script that I want to execute. In this case, the `spark-example.py` file. As a result, our first `pyspark` program will be executed:
 
 ```{terminal}
 Terminal$ python3 spark-example.py
@@ -135,6 +135,6 @@ cat(result)
 
 You can see in the above result, that this Spark application produces a sequence of numbers, from 0 to 4, and, returns this sequence as a set of `Row` objects, inside a python list.
 
-Congratulations! You have just run your first Spark application!
+Congratulations! You have just run your first Spark application using `pyspark`!
 
 
