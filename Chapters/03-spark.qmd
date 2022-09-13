@@ -63,9 +63,11 @@ spark = SparkSession.builder.getOrCreate()
 ```
 
 
-## Running your first Spark application
+## Building your first Spark application
 
-To demonstrate what a `pyspark` program looks like, lets write and run a very simple example of Spark application. This Spark application will build a simple table of 1 column that contains 5 numbers, and then, it will return a list with the first two rows of this table as the result.
+To demonstrate what a `pyspark` program looks like, lets write and run our first example of a Spark application. This Spark application will build a simple table of 1 column that contains 5 numbers, and then, it will return a simple python list containing this five numbers as a result.
+
+### Writing the code
 
 First, create a new blank text file in your computer, and save it somewhere with the name `spark-example.py`. Do not forget to put the `.py` extension in the name. This program we are writing together is a python program, and should be treated as such. With the `.py` extension in the name file, you are stating this fact quite clearly to your computer.
 
@@ -77,15 +79,24 @@ from pyspark.sql import SparkSession
 spark = SparkSession.builder.getOrCreate()
 ```
 
-After you defined your Spark Session, and saved it in an object called `spark`, you can now access all Spark's functionality through this `spark` object. To create the table we use the `range()` method, and to return the first two rows of the resulting table, we use the `take()` method:
+After you defined your Spark Session, and saved it in an object called `spark`, you can now access all Spark's functionality through this `spark` object. 
+
+To create our first Spark table we use the `range()` method from the `spark` object. The `range()` method works similarly as the standard python function called `range()`. It basically creates a sequence from 0 to whatever number you want. However, this `range()` method stores this sequence of numbers as rows in a Spark table (or a Spark DataFrame):
 
 ```{python}
 #| eval: false
 table = spark.range(5)
-table.take(2)
 ```
 
-So, the entire program is just these two parts (or sections) of code. Just copy and paste this code to your python script, then save it.
+After this step, we want to collect all the rows of the resulting table into a python list. And to do that, we use the `collect()` method from the Spark table:
+
+```{python}
+#| eval: false
+result = table.collect()
+print(result)
+```
+
+So, the entire program is composed of these three parts (or sections) of code. You can copy and paste all of this code to your python script, and then, save it:
 
 ```{python}
 #| eval: false
@@ -94,10 +105,21 @@ from pyspark.sql import SparkSession
 spark = SparkSession.builder.getOrCreate()
 
 table = spark.range(5)
-table.take(2)
+result = table.collect()
+print(result)
 ```
 
-Now that you have written your first Spark application with `pyspark`, you want to execute this application and see its results. To do so, you need send this script to the python interpreter, and to do this you need to: 1) copy the path to your python script; and, 2) open a terminal.
+
+### Executing the code
+
+Now that you have written your first Spark application with `pyspark`, you want to execute this application and see its results. To do so, you need send this script to the python interpreter, and to do this you need to: 1) open a terminal inside the folder where you python script is stored; 2) use the python command from the terminal with the name of your python script.
+
+If you do not know how to open a terminal from inside a folder of your computer, you can consult the section @sec-open-terminal of this book, where I teach how to do this. 
+
+In my situation, I running Spark on a Ubuntu distribution, and, I saved the `spark-example.py` script inside a folder called `SparkExample`. This folder is located at the path `~/Documentos/Projetos/Livros/Introd-pyspark/SparkExample`. This means that, I need to open a terminal that is rooted inside this `SparkExample`.
+
+You probably have saved your `spark-example.py` file inside a different folder. This means that you need to open the terminal from a different folder. 
+
 
 
 

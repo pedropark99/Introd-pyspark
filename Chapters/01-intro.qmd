@@ -65,9 +65,11 @@ The next sub-sections will show you how to open a terminal in each one of the OS
 
 ### Opening a terminal on Windows
 
-There are some different approaches to do this, but, the one that I find the most useful, is to open a terminal from inside a Windows folder, using the default File Explorer program of Windows. When we use the terminal, we usually want to affect or use a file that is stored inside a folder in our computer, with a terminal command. 
+There are some different approaches to do this, but, the one that I find the most useful, is to open a terminal from inside a Windows folder, using the default File Explorer program of Windows.
 
-Because of that, when we open a terminal from inside a folder, the terminal opened is already rooted inside the folder where our file is stored. In other words, we already have easy access to the file that we want to affect/use in our command, and we do not have the work to change or adjust directories in this terminal.
+This is very useful, because we normally use terminal commands to affect or use a set of files that are stored inside a specific folder in our computer. 
+
+As a result, when we open a terminal from inside a folder, using the File Explorer, the terminal opened is already rooted inside the folder where our files are stored. In other words, we already have easy access to the file that we want to affect/use in our command, and we do not have the work to change or adjust directories in this terminal.
 
 For example, lets suppose that we want to use a terminal command to use a file called `hello.py`, and, that this `hello.py` file is stored inside a folder called `HelloPython`. You can see in @fig-windows-hello-folder, that this folder is in path `C:\Users\pedro\Documents\HelloPython`. So, the first step, is to use the File Explorer of Windows, to open this folder, like in @fig-windows-hello-folder.
 

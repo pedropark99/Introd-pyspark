@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.0.28">
+<meta name="generator" content="quarto-99.9.9">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -260,8 +260,8 @@ Bob,32,Developer</code></pre>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> spark.read.csv(path)</span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>df.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>22/07/17 11:44:04 WARN Utils: Your hostname, pedro-IdeaPad-3-15ALC6 resolves to a loopback address: 127.0.1.1; using 192.168.0.90 instead (on interface wlp1s0)
-22/07/17 11:44:04 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address</code></pre>
+<pre><code>22/09/12 20:36:30 WARN Utils: Your hostname, pedro-IdeaPad-3-15ALC6 resolves to a loopback address: 127.0.1.1; using 192.168.0.90 instead (on interface wlp1s0)
+22/09/12 20:36:30 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Using Spark's default log4j profile: org/apache/spark/log4j-defaults.properties
@@ -269,7 +269,7 @@ Setting default log level to "WARN".
 To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>22/07/17 11:44:05 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable</code></pre>
+<pre><code>22/09/12 20:36:30 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>+-----+---+---------+
@@ -283,11 +283,13 @@ To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLeve
 </div>
 </div>
 <p>In the above example, I gave a relative path to the file I wanted to read. But you can provide an absolute path<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> to the file, if you want to. The <code>people.csv</code> is located at a very specific folder in my Linux computer, so, the absolute path to this file is pretty long as you can see below. But, if I were in my Windows machine, this absolute path would be something like <code>"C:\Users\pedro\Documents\Projects\..."</code>.</p>
+<div class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The absolute path to `people.csv`:</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>path <span class="op">=</span> <span class="st">"/home/pedro/Documents/Projets/Books/Introd-pyspark/Data/people.csv"</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> spark.read.csv(path)</span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>df.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <div class="cell" data-execution_count="3">
 <div class="cell-output cell-output-stdout">
 <pre><code>+-----+---+---------+
@@ -301,7 +303,9 @@ To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLeve
 </div>
 </div>
 <p>If you give an invalid path (that is, a path that does not exist in your computer), you will get a <code>AnalysisException</code>. In the example below, I try to read a file called <code>"weird-file.csv"</code> that (in theory) is located at my current working directory. But when Spark looks inside my current directory, it does not find any file called <code>"weird-file.csv"</code>. As a result, Spark raises a <code>AnalysisException</code> that warns me about this mistake.</p>
+<div class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> spark.read.csv(<span class="st">"weird-file.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <pre class="{verbatim}"><code>Traceback (most recent call last):
   ...
 pyspark.sql.utils.AnalysisException: Path does not exist: file:/home/pedro/Documents/Projects/Books/Introd-pyspark/weird-file.csv</code></pre>
@@ -311,7 +315,11 @@ pyspark.sql.utils.AnalysisException: Path does not exist: file:/home/pedro/Docum
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> os <span class="im">import</span> listdir</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>listdir(<span class="st">"../Data/"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
-<pre><code>['sales.json', 'people.csv', 'transf_reform.csv', 'penguins.csv']</code></pre>
+<pre><code>['sales.json',
+ 'transf-build',
+ 'people.csv',
+ 'transf_reform.csv',
+ 'penguins.csv']</code></pre>
 </div>
 </div>
 </section>

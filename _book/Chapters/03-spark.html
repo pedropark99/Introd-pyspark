@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.0.28">
+<meta name="generator" content="quarto-99.9.9">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -228,7 +228,11 @@ div.csl-indent {
   <li><a href="#what-is-spark" id="toc-what-is-spark" class="nav-link" data-scroll-target="#what-is-spark"> <span class="header-section-number">2.2</span> What is Spark?</a></li>
   <li><a href="#spark-application" id="toc-spark-application" class="nav-link" data-scroll-target="#spark-application"> <span class="header-section-number">2.3</span> Spark application</a></li>
   <li><a href="#starting-your-spark-session" id="toc-starting-your-spark-session" class="nav-link" data-scroll-target="#starting-your-spark-session"> <span class="header-section-number">2.4</span> Starting your Spark Session</a></li>
-  <li><a href="#running-your-first-spark-application" id="toc-running-your-first-spark-application" class="nav-link" data-scroll-target="#running-your-first-spark-application"> <span class="header-section-number">2.5</span> Running your first Spark application</a></li>
+  <li><a href="#building-your-first-spark-application" id="toc-building-your-first-spark-application" class="nav-link" data-scroll-target="#building-your-first-spark-application"> <span class="header-section-number">2.5</span> Building your first Spark application</a>
+  <ul class="collapse">
+  <li><a href="#writing-the-code" id="toc-writing-the-code" class="nav-link" data-scroll-target="#writing-the-code"> <span class="header-section-number">2.5.1</span> Writing the code</a></li>
+  <li><a href="#executing-the-code" id="toc-executing-the-code" class="nav-link" data-scroll-target="#executing-the-code"> <span class="header-section-number">2.5.2</span> Executing the code</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -292,38 +296,43 @@ div.csl-indent {
 <div class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql <span class="im">import</span> SparkSession</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>spark <span class="op">=</span> SparkSession.builder.getOrCreate()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>22/07/17 11:42:20 WARN Utils: Your hostname, pedro-IdeaPad-3-15ALC6 resolves to a loopback address: 127.0.1.1; using 192.168.0.90 instead (on interface wlp1s0)
-22/07/17 11:42:20 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Using Spark's default log4j profile: org/apache/spark/log4j-defaults.properties
-Setting default log level to "WARN".
-To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>22/07/17 11:42:21 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable</code></pre>
-</div>
 </div>
 </section>
-<section id="running-your-first-spark-application" class="level2" data-number="2.5">
-<h2 data-number="2.5" class="anchored" data-anchor-id="running-your-first-spark-application"><span class="header-section-number">2.5</span> Running your first Spark application</h2>
-<p>To demonstrate what a <code>pyspark</code> program looks like, lets write and run a very simple example of Spark application. This Spark application will build a simple table of 1 column that contains 5 numbers, and then, it will return a list with the first two rows of this table as the result.</p>
+<section id="building-your-first-spark-application" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="building-your-first-spark-application"><span class="header-section-number">2.5</span> Building your first Spark application</h2>
+<p>To demonstrate what a <code>pyspark</code> program looks like, lets write and run our first example of a Spark application. This Spark application will build a simple table of 1 column that contains 5 numbers, and then, it will return a simple python list containing this five numbers as a result.</p>
+<section id="writing-the-code" class="level3" data-number="2.5.1">
+<h3 data-number="2.5.1" class="anchored" data-anchor-id="writing-the-code"><span class="header-section-number">2.5.1</span> Writing the code</h3>
 <p>First, create a new blank text file in your computer, and save it somewhere with the name <code>spark-example.py</code>. Do not forget to put the <code>.py</code> extension in the name. This program we are writing together is a python program, and should be treated as such. With the <code>.py</code> extension in the name file, you are stating this fact quite clearly to your computer.</p>
 <p>After you created and saved the python script (i.e.&nbsp;the text file with the <code>.py</code> extension), you can start writing your <code>pyspark</code> program. As we noted in the previous section, you should always start your <code>pyspark</code> program by defining your Spark Session, with this code:</p>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql <span class="im">import</span> SparkSession</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>spark <span class="op">=</span> SparkSession.builder.getOrCreate()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>After you defined your Spark Session, and saved it in an object called <code>spark</code>, you can now access all Spark’s functionality through this <code>spark</code> object. To create the table we use the <code>range()</code> method, and to return the first two rows of the resulting table, we use the <code>take()</code> method:</p>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>table <span class="op">=</span> spark.<span class="bu">range</span>(<span class="dv">5</span>)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>table.take(<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>So, the entire program is just these two parts (or sections) of code. Just copy and paste this code to your python script, then save it.</p>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The entire program:</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql <span class="im">import</span> SparkSession</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>spark <span class="op">=</span> SparkSession.builder.getOrCreate()</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>table <span class="op">=</span> spark.<span class="bu">range</span>(<span class="dv">5</span>)</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>table.take(<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Now that you have written your first Spark application with <code>pyspark</code>, you want to execute this application and see its results. To do so, you need send this script to the python interpreter, and to do this you need to: 1) copy the path to your python script; and, 2) open a terminal.</p>
+<div class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql <span class="im">import</span> SparkSession</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>spark <span class="op">=</span> SparkSession.builder.getOrCreate()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>After you defined your Spark Session, and saved it in an object called <code>spark</code>, you can now access all Spark’s functionality through this <code>spark</code> object.</p>
+<p>To create our first Spark table we use the <code>range()</code> method from the <code>spark</code> object. The <code>range()</code> method works similarly as the standard python function called <code>range()</code>. It basically creates a sequence from 0 to whatever number you want. However, this <code>range()</code> method stores this sequence of numbers as rows in a Spark table (or a Spark DataFrame):</p>
+<div class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>table <span class="op">=</span> spark.<span class="bu">range</span>(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>After this step, we want to collect all the rows of the resulting table into a python list. And to do that, we use the <code>collect()</code> method from the Spark table:</p>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> table.collect()</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(result)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>So, the entire program is composed of these three parts (or sections) of code. You can copy and paste all of this code to your python script, and then, save it:</p>
+<div class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The entire program:</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql <span class="im">import</span> SparkSession</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>spark <span class="op">=</span> SparkSession.builder.getOrCreate()</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>table <span class="op">=</span> spark.<span class="bu">range</span>(<span class="dv">5</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> table.collect()</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(result)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="executing-the-code" class="level3" data-number="2.5.2">
+<h3 data-number="2.5.2" class="anchored" data-anchor-id="executing-the-code"><span class="header-section-number">2.5.2</span> Executing the code</h3>
+<p>Now that you have written your first Spark application with <code>pyspark</code>, you want to execute this application and see its results. To do so, you need send this script to the python interpreter, and to do this you need to: 1) copy the path to your python script; 2) open a terminal; 3) use the python command from the terminal with the path to your python script.</p>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography" style="display: none">
@@ -337,6 +346,7 @@ Chambers, Bill, and Matei Zaharia. 2018. <em>Spark: The Definitive Guide: Big Da
 Karau, Holden, Andy Konwinski, Patrick Wendell, and Matei Zaharia. 2015. <em>Learning Spark</em>. Sebastopol, CA: O’Reilly Media.
 </div>
 </div>
+</section>
 </section>
 <section class="footnotes footnotes-end-of-document" role="doc-endnotes">
 <hr>

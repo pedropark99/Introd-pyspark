@@ -23,6 +23,6 @@ number-sections: true
 format:
   html:
     theme: cosmo
-  pdf:
-    keep-tex: true
+  # pdf:
+  #   keep-tex: true
 

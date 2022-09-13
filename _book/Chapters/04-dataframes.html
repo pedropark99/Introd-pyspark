@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.0.28">
+<meta name="generator" content="quarto-99.9.9">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -337,8 +337,8 @@ div.csl-indent {
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> spark.createDataFrame(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>22/07/17 11:42:35 WARN Utils: Your hostname, pedro-IdeaPad-3-15ALC6 resolves to a loopback address: 127.0.1.1; using 192.168.0.90 instead (on interface wlp1s0)
-22/07/17 11:42:35 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address</code></pre>
+<pre><code>22/09/12 20:34:42 WARN Utils: Your hostname, pedro-IdeaPad-3-15ALC6 resolves to a loopback address: 127.0.1.1; using 192.168.0.90 instead (on interface wlp1s0)
+22/09/12 20:34:42 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Using Spark's default log4j profile: org/apache/spark/log4j-defaults.properties
@@ -346,11 +346,13 @@ Setting default log level to "WARN".
 To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>22/07/17 11:42:36 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable</code></pre>
+<pre><code>22/09/12 20:34:43 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable</code></pre>
 </div>
 </div>
 <p>Remember that a Spark DataFrame in python is a object of class <code>pyspark.sql.dataframe.DataFrame</code> as you can see below. If you try to see what is inside of this kind of object, you will get a small description of the columns present in the DataFrame as a result:</p>
+<div class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <pre class="{verbatim}"><code>&lt;class 'pyspark.sql.dataframe.DataFrame'&gt;</code></pre>
 <div class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -538,6 +540,7 @@ True</code></pre>
 <p>When Spark creates a new DataFrame, it will automatically guess which schema is appropriate for that DataFrame. In other words, Spark will try to guess which are the appropriate data types for each column. But, this is just a guess, and, sometimes, Spark go way off.</p>
 <p>Because of that, in some cases, you have to tell Spark how exactly you want this DataFrame schema to be like. To do that, you need to build the DataFrame schema by yourself, with <code>StructType()</code> and <code>StructField()</code> functions, alongside with the Spark data types (i.e.&nbsp;<code>StringType()</code>, <code>DoubleType()</code>, <code>IntegerType()</code>, …). Remember, all of these python classes come from the <code>pyspark.sql.types</code> module.</p>
 <p>In the example below, the <code>schema</code> object represents the schema of the <code>registers</code> DataFrame. This DataFrame have three columns (<code>ID</code>, <code>Date</code>, <code>Name</code>) of types <code>IntegerType</code>, <code>DateType</code> and <code>StringType</code>, respectively. See below that I deliver this <code>schema</code> object that I built to <code>spark.createDataFrame()</code>.</p>
+<div class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.types <span class="im">import</span> StructType, StructField</span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.types <span class="im">import</span> DateType, StringType, IntegerType</span>
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datetime <span class="im">import</span> date</span>
@@ -556,6 +559,7 @@ True</code></pre>
 <span id="cb33-16"><a href="#cb33-16" aria-hidden="true" tabindex="-1"></a>])</span>
 <span id="cb33-17"><a href="#cb33-17" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb33-18"><a href="#cb33-18" aria-hidden="true" tabindex="-1"></a>registers <span class="op">=</span> spark.createDataFrame(data, schema <span class="op">=</span> schema)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <p>So to build a DataFrame schema, you build the equivalent <code>StructType()</code> object that represents the schema you want.</p>
 </section>
 <section id="checking-your-dataframe-schema" class="level3" data-number="3.6.3">
