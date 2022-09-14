@@ -81,7 +81,7 @@ spark = SparkSession.builder.getOrCreate()
 
 After you defined your Spark Session, and saved it in an object called `spark`, you can now access all Spark's functionality through this `spark` object. 
 
-To create our first Spark table we use the `range()` method from the `spark` object. The `range()` method works similarly as the standard python function called `range()`. It basically creates a sequence of numbers, from 0 to $n - 1$. However, this `range()` method stores this sequence of numbers as rows in a Spark table (or a Spark DataFrame):
+To create our first Spark table we use the `range()` method from the `spark` object. The `range()` method works similarly as the standard python function called `range()`. It basically creates a sequence of numbers, from 0 to $n - 1$. However, this `range()` method from `spark` stores this sequence of numbers as rows in a Spark table (or a Spark DataFrame):
 
 ```{python}
 #| eval: false
@@ -96,7 +96,7 @@ result = table.collect()
 print(result)
 ```
 
-So, the entire program is composed of these three parts (or sections) of code. You can copy and paste all of this code to your python script, and then, save it:
+So, the entire program is composed of these three parts (or sections) of code. If you need it, the entire program is reproduced below. You can copy and paste all of this code to your python script, and then, save it:
 
 ```{python}
 #| eval: false
@@ -112,7 +112,9 @@ print(result)
 
 ### Executing the code
 
-Now that you have written your first Spark application with `pyspark`, you want to execute this application and see its results. To do so, you need send this script to the python interpreter, and to do this you need to: 1) open a terminal inside the folder where you python script is stored; 2) use the python command from the terminal with the name of your python script.
+Now that you have written your first Spark application with `pyspark`, you want to execute this application and see its results. Yet, to run a `pyspark` program, remember that you need to have the necessary software installed on your machine. I talk about how to install these software at @sec-install-software.
+
+Anyway, to execute this `pyspark` that you wrote, you need send this script to the python interpreter, and to do this you need to: 1) open a terminal inside the folder where you python script is stored; and, 2) use the python command from the terminal with the name of your python script.
 
 If you do not know how to open a terminal from inside a folder of your computer, you can consult @sec-open-terminal of this book, where I teach you how to do it. 
 

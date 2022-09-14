@@ -102,7 +102,7 @@ students.columns
 
 A key aspect of Spark is its laziness. In other words, for most operations, Spark will only check if your code is correct and if it makes sense. Spark will not actually run or execute the operations you are describing in your code, unless you explicit ask for it with a trigger operation, which is called an "action" (this kind of operation is described in @sec-dataframe-actions).
 
-You can notice this laziness in the above output. Because when we call for an object that stores a Spark DataFrame (like `df` and `students`), Spark will only calculate and print a summary of the structure of your Spark DataFrame, and not the DataFrame itself.
+You can notice this laziness in the above outputs. Because when we call for an object that stores a Spark DataFrame (like `df` and `students`), Spark will only calculate and print a summary of the structure of your Spark DataFrame, and not the DataFrame itself.
 
 So how can we actually see our DataFrame? How can we visualize the rows and values that are stored inside of it? For this, we use the `show()` method. With this method, Spark will print the table as pure text, as you can see in the example below:
 
@@ -123,8 +123,8 @@ Each column of your Spark DataFrame is associated with a specific data type. Spa
 
 [^spark-data-types1]: https://spark.apache.org/docs/3.2.1/sql-ref-datatypes.html#content
 
-- `IntegerType`: Represents 4-byte signed integer numbers. The range of numbers is from -2147483648 to 2147483647.
-- `LongType`: Represents 8-byte signed integer numbers. The range of numbers is from -9223372036854775808 to 9223372036854775807.
+- `IntegerType`: Represents 4-byte signed integer numbers. The range of numbers that it can represent is from -2147483648 to 2147483647.
+- `LongType`: Represents 8-byte signed integer numbers. The range of numbers that it can represent is from -9223372036854775808 to 9223372036854775807.
 - `FloatType`: Represents 4-byte single-precision floating point numbers.
 - `DoubleType`: Represents 8-byte double-precision floating point numbers.
 - `StringType`: Represents character string values.
@@ -151,9 +151,9 @@ print(s)
 
 ## The DataFrame Schema
 
-The schema of a Spark DataFrame is the combination of column names and the data types associated with each of these columns. Schemas can be set explicitly by you (that is, you can tell Spark how the schema of your DataFrame should look like), or, can be defined automatically by Spark while reading and creating data. You can get a succinct description of a DataFrame schema, by looking inside the object where this DataFrame is stored. 
+The schema of a Spark DataFrame is the combination of column names and the data types associated with each of these columns. Schemas can be set explicitly by you (that is, you can tell Spark how the schema of your DataFrame should look like), or, it can be defined automatically by Spark while reading or creating data. You can get a succinct description of a DataFrame schema, by looking inside the object where this DataFrame is stored. 
 
-For example, lets look again to the `df` DataFrame. In the result below, we can see that `df` has three columns (`id`, `value` and `date`). By the description `id: bigint`, we know that `id` is a column of type `bigint`, which translates to the `LongType()` of Spark (we will talk shortly about these data types). Furthermore, by the descriptions `value: double` and `date: date`, we know too that the columns `value` and `date` are of type `DoubleType()` and `DateType()`, respectively.
+For example, lets look again to the `df` DataFrame. In the result below, we can see that `df` has three columns (`id`, `value` and `date`). By the description `id: bigint`, we know that `id` is a column of type `bigint`, which translates to the `LongType()` of Spark. Furthermore, by the descriptions `value: double` and `date: date`, we know too that the columns `value` and `date` are of type `DoubleType()` and `DateType()`, respectively.
 
 ```{python}
 df
@@ -205,7 +205,7 @@ for column in schema:
 
 When Spark creates a new DataFrame, it will automatically guess which schema is appropriate for that DataFrame. In other words, Spark will try to guess which are the appropriate data types for each column. But, this is just a guess, and, sometimes, Spark go way off.
 
-Because of that, in some cases, you have to tell Spark how exactly you want this DataFrame schema to be like. To do that, you need to build the DataFrame schema by yourself, with `StructType()` and `StructField()` functions, alongside with the Spark data types (i.e. `StringType()`, `DoubleType()`, `IntegerType()`, ...). Remember, all of these python classes come from the `pyspark.sql.types` module. 
+Because of that, in some cases, you have to tell Spark how exactly you want this DataFrame schema to be like. To do that, you need to build the DataFrame schema by yourself, with `StructType()` and `StructField()` constructors, alongside with the Spark data types (i.e. `StringType()`, `DoubleType()`, `IntegerType()`, ...). Remember, all of these python classes come from the `pyspark.sql.types` module. 
 
 In the example below, the `schema` object represents the schema of the `registers` DataFrame. This DataFrame have three columns (`ID`, `Date`, `Name`) of types `IntegerType`, `DateType` and `StringType`, respectively. See below that I deliver this `schema` object that I built to `spark.createDataFrame()`. 
 
@@ -248,7 +248,7 @@ id_column = schema[0]
 isinstance(id_column.dataType, IntegerType)
 ```
 
-The `id` column is actually from the "big integer" type, or, the `LongType` type (which are 8-byte signed integer).
+This unexpected result happens, because the `id` column is actually from the "big integer" type, or, the `LongType` type (which are 8-byte signed integer). You can see below, that now the test results in true:
 
 ```{python}
 from pyspark.sql.types import LongType
@@ -273,7 +273,7 @@ a_column = col('ID')
 print(a_column)
 ```
 
-You will see some of the methods from this `Column` class across the next chapters, like `desc()`, `alias()` and `cast()`.
+You will see some of the methods from this `Column` class across the next chapters, like `desc()`, `alias()` and `cast()`. For now, just be aware that these class of objects exists, and, that they will be very useful.
 
 
 ## Partitions of a Spark DataFrame

@@ -311,7 +311,7 @@ div.csl-indent {
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>spark <span class="op">=</span> SparkSession.builder.getOrCreate()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>After you defined your Spark Session, and saved it in an object called <code>spark</code>, you can now access all Spark’s functionality through this <code>spark</code> object.</p>
-<p>To create our first Spark table we use the <code>range()</code> method from the <code>spark</code> object. The <code>range()</code> method works similarly as the standard python function called <code>range()</code>. It basically creates a sequence of numbers, from 0 to <span class="math inline">\(n - 1\)</span>. However, this <code>range()</code> method stores this sequence of numbers as rows in a Spark table (or a Spark DataFrame):</p>
+<p>To create our first Spark table we use the <code>range()</code> method from the <code>spark</code> object. The <code>range()</code> method works similarly as the standard python function called <code>range()</code>. It basically creates a sequence of numbers, from 0 to <span class="math inline">\(n - 1\)</span>. However, this <code>range()</code> method from <code>spark</code> stores this sequence of numbers as rows in a Spark table (or a Spark DataFrame):</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>table <span class="op">=</span> spark.<span class="bu">range</span>(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -320,7 +320,7 @@ div.csl-indent {
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> table.collect()</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(result)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>So, the entire program is composed of these three parts (or sections) of code. You can copy and paste all of this code to your python script, and then, save it:</p>
+<p>So, the entire program is composed of these three parts (or sections) of code. If you need it, the entire program is reproduced below. You can copy and paste all of this code to your python script, and then, save it:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The entire program:</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql <span class="im">import</span> SparkSession</span>
@@ -333,7 +333,8 @@ div.csl-indent {
 </section>
 <section id="executing-the-code" class="level3" data-number="2.5.2">
 <h3 data-number="2.5.2" class="anchored" data-anchor-id="executing-the-code"><span class="header-section-number">2.5.2</span> Executing the code</h3>
-<p>Now that you have written your first Spark application with <code>pyspark</code>, you want to execute this application and see its results. To do so, you need send this script to the python interpreter, and to do this you need to: 1) open a terminal inside the folder where you python script is stored; 2) use the python command from the terminal with the name of your python script.</p>
+<p>Now that you have written your first Spark application with <code>pyspark</code>, you want to execute this application and see its results. Yet, to run a <code>pyspark</code> program, remember that you need to have the necessary software installed on your machine. I talk about how to install these software at <a href="01-intro.html#sec-install-software"><span>Section&nbsp;4</span></a>.</p>
+<p>Anyway, to execute this <code>pyspark</code> that you wrote, you need send this script to the python interpreter, and to do this you need to: 1) open a terminal inside the folder where you python script is stored; and, 2) use the python command from the terminal with the name of your python script.</p>
 <p>If you do not know how to open a terminal from inside a folder of your computer, you can consult <a href="01-intro.html#sec-open-terminal"><span>Section&nbsp;3</span></a> of this book, where I teach you how to do it.</p>
 <p>In my current situation, I running Spark on a Ubuntu distribution, and, I saved the <code>spark-example.py</code> script inside a folder called <code>SparkExample</code>. This folder is located at the path <code>~/Documentos/Projetos/Livros/Introd-pyspark/SparkExample</code> of my computer. This means that, I need to open a terminal that is rooted inside this <code>SparkExample</code> folder.</p>
 <p>You probably have saved your <code>spark-example.py</code> file in a different folder of your computer. This means that you need to open the terminal from a different folder.</p>
