@@ -1,12 +1,8 @@
-
 # Introducing Spark DataFrames
-
 
 ## Introduction
 
 In this chapter, you will understand how Spark represents and manages tables (or tabular data). Different programming languages and frameworks use different names to describe a table. But, in Apache Spark, tables are referred as Spark DataFrames.
-
-In `pyspark`, these DataFrames are stored inside python objects of class `pyspark.sql.dataframe.DataFrame`, and all the methods present in this class, are commonly referred as the DataFrame API of Spark. This is the most important API of Spark. Much of your Spark applications will heavily use this API to compose your data transformations and data flows [@chambers2018].
 
 ## Spark DataFrames versus Spark Datasets
 
@@ -31,6 +27,20 @@ If you are running Spark in a 4 nodes cluster (one is the driver node, and the o
 
 ![A Spark DataFrame is distributed across the cluster](../Figures/distributed-df.png){#fig-distributed-df fig-align="center"}
 
+## The `DataFrame` class in `pyspark` {#sec-dataframe-class}
+
+In `pyspark`, every Spark DataFrame is stored inside a python object of class `pyspark.sql.dataframe.DataFrame`. Or more succintly, a object of class `DataFrame`.
+
+Like any python class, the `DataFrame` class comes with multiple methods that are available for every object of this class. This means that you can use any of these methods in any Spark DataFrame that you create through `pyspark`.
+
+As an example, in the code below I expose all the available methods from this `DataFrame` class. First, I am creating a Spark DataFrame with `spark.range(5)`, and, storing it in the object `df5`. After that, I use the `dir()` function to show all the methods that I can use through this `df5` object:
+
+```{python}
+df5 = spark.range(5)
+dir(df5)
+```
+
+All the methods present in this `DataFrame` class, are commonly referred as the DataFrame API of Spark. This is the most important API of Spark. Much of your Spark applications will heavily use this API to compose your data transformations and data flows [@chambers2018].
 
 ## Building a Spark DataFrame
 
@@ -52,15 +62,14 @@ data = [
 df = spark.createDataFrame(data)
 ```
 
-
-Remember that a Spark DataFrame in python is a object of class `pyspark.sql.dataframe.DataFrame` as you can see below. If you try to see what is inside of this kind of object, you will get a small description of the columns present in the DataFrame as a result:
+Remember that a Spark DataFrame in python is a object of class `pyspark.sql.dataframe.DataFrame` as you can see below:
 
 ```{python}
 #| eval: true
 type(df)
 ```
 
-
+If you try to see what is inside of this kind of object, you will get a small description of the columns present in the DataFrame as a result:
 
 ```{python}
 df
@@ -90,12 +99,9 @@ students = spark.createDataFrame(data, columns)
 students
 ```
 
-If you need to, you can easily collect a python list with the column names present in your DataFrame, in the same way you would do in a `pandas` DataFrame. That is, by using the `columns` method of your DataFrame, like this:
+You can also use a method that returns a `DataFrame` object by default. Examples are the `table()` and `range()` methods from your Spark Session, like we used in the @sec-dataframe-class, to create the `df5` object.
 
-```{python}
-students.columns
-```
-
+Other examples are the methods used to import data to `pyspark`. These methods are available in the `spark.read` module, like `spark.read.csv()` and `spark.read.json()`. These methods will be described in more depth in the @sec-import-export.
 
 
 ## Viewing a Spark DataFrame
@@ -116,27 +122,34 @@ By default, this method shows only the top rows of your DataFrame, but you can s
 df.show(2)
 ```
 
+## Getting the name of the columns
+
+If you need to, you can easily collect a python list with the column names present in your DataFrame, in the same way you would do in a `pandas` DataFrame. That is, by using the `columns` method of your DataFrame, like this:
+
+```{python}
+students.columns
+```
 
 ## Spark Data Types
 
-Each column of your Spark DataFrame is associated with a specific data type. Spark supports a number of different data types. You can see the full list at the official documentation page^[spark-data-types1]. For now, we will focus on the most used data types, which are listed below:
+Each column of your Spark DataFrame is associated with a specific data type. Spark supports a number of different data types. You can see the full list at the official documentation page[^04-dataframes-1]. For now, we will focus on the most used data types, which are listed below:
 
-[^spark-data-types1]: https://spark.apache.org/docs/3.2.1/sql-ref-datatypes.html#content
+[^04-dataframes-1]: spark-data-types1
 
-- `IntegerType`: Represents 4-byte signed integer numbers. The range of numbers that it can represent is from -2147483648 to 2147483647.
-- `LongType`: Represents 8-byte signed integer numbers. The range of numbers that it can represent is from -9223372036854775808 to 9223372036854775807.
-- `FloatType`: Represents 4-byte single-precision floating point numbers.
-- `DoubleType`: Represents 8-byte double-precision floating point numbers.
-- `StringType`: Represents character string values.
-- `BooleanType`: Represents boolean values (true or false).
-- `TimestampType`: Represents datetime values, i.e. values that contains fields year, month, day, hour, minute, and second, with the session local time-zone. The timestamp value represents an absolute point in time.
-- `DateType`: Represents date values, i.e. values that contains fields year, month and day, without a time-zone.
+-   `IntegerType`: Represents 4-byte signed integer numbers. The range of numbers that it can represent is from -2147483648 to 2147483647.
+-   `LongType`: Represents 8-byte signed integer numbers. The range of numbers that it can represent is from -9223372036854775808 to 9223372036854775807.
+-   `FloatType`: Represents 4-byte single-precision floating point numbers.
+-   `DoubleType`: Represents 8-byte double-precision floating point numbers.
+-   `StringType`: Represents character string values.
+-   `BooleanType`: Represents boolean values (true or false).
+-   `TimestampType`: Represents datetime values, i.e. values that contains fields year, month, day, hour, minute, and second, with the session local time-zone. The timestamp value represents an absolute point in time.
+-   `DateType`: Represents date values, i.e. values that contains fields year, month and day, without a time-zone.
 
 Besides these more "standard" data types, Spark supports two other complex types, which are `ArrayType` and `MapType`:
 
-- `ArrayType(elementType, containsNull)`: Represents a sequence of elements with the type of `elementType`. `containsNull` is used to indicate if elements in a `ArrayType` value can have `null` values.
+-   `ArrayType(elementType, containsNull)`: Represents a sequence of elements with the type of `elementType`. `containsNull` is used to indicate if elements in a `ArrayType` value can have `null` values.
 
-- `MapType(keyType, valueType, valueContainsNull)`: Represents a set of key-value pairs. The data type of keys is described by `keyType` and the data type of values is described by `valueType`. For a `MapType` value, keys are not allowed to have `null` values. `valueContainsNull` is used to indicate if values of a `MapType` value can have `null` values.
+-   `MapType(keyType, valueType, valueContainsNull)`: Represents a set of key-value pairs. The data type of keys is described by `keyType` and the data type of values is described by `valueType`. For a `MapType` value, keys are not allowed to have `null` values. `valueContainsNull` is used to indicate if values of a `MapType` value can have `null` values.
 
 Each one of these Spark data types have a corresponding python class in `pyspark`, which are stored in the `pyspark.sql.types` module. As a result, to access, lets say, type `StryngType`, we can do this:
 
@@ -146,12 +159,9 @@ s = StringType()
 print(s)
 ```
 
-
-
-
 ## The DataFrame Schema
 
-The schema of a Spark DataFrame is the combination of column names and the data types associated with each of these columns. Schemas can be set explicitly by you (that is, you can tell Spark how the schema of your DataFrame should look like), or, it can be defined automatically by Spark while reading or creating data. You can get a succinct description of a DataFrame schema, by looking inside the object where this DataFrame is stored. 
+The schema of a Spark DataFrame is the combination of column names and the data types associated with each of these columns. Schemas can be set explicitly by you (that is, you can tell Spark how the schema of your DataFrame should look like), or, it can be defined automatically by Spark while reading or creating data. You can get a succinct description of a DataFrame schema, by looking inside the object where this DataFrame is stored.
 
 For example, lets look again to the `df` DataFrame. In the result below, we can see that `df` has three columns (`id`, `value` and `date`). By the description `id: bigint`, we know that `id` is a column of type `bigint`, which translates to the `LongType()` of Spark. Furthermore, by the descriptions `value: double` and `date: date`, we know too that the columns `value` and `date` are of type `DoubleType()` and `DateType()`, respectively.
 
@@ -200,14 +210,13 @@ for column in schema:
   print(column.nullable)
 ```
 
-
 ### Building a DataFrame schema
 
 When Spark creates a new DataFrame, it will automatically guess which schema is appropriate for that DataFrame. In other words, Spark will try to guess which are the appropriate data types for each column. But, this is just a guess, and, sometimes, Spark go way off.
 
-Because of that, in some cases, you have to tell Spark how exactly you want this DataFrame schema to be like. To do that, you need to build the DataFrame schema by yourself, with `StructType()` and `StructField()` constructors, alongside with the Spark data types (i.e. `StringType()`, `DoubleType()`, `IntegerType()`, ...). Remember, all of these python classes come from the `pyspark.sql.types` module. 
+Because of that, in some cases, you have to tell Spark how exactly you want this DataFrame schema to be like. To do that, you need to build the DataFrame schema by yourself, with `StructType()` and `StructField()` constructors, alongside with the Spark data types (i.e. `StringType()`, `DoubleType()`, `IntegerType()`, ...). Remember, all of these python classes come from the `pyspark.sql.types` module.
 
-In the example below, the `schema` object represents the schema of the `registers` DataFrame. This DataFrame have three columns (`ID`, `Date`, `Name`) of types `IntegerType`, `DateType` and `StringType`, respectively. See below that I deliver this `schema` object that I built to `spark.createDataFrame()`. 
+In the example below, the `schema` object represents the schema of the `registers` DataFrame. This DataFrame have three columns (`ID`, `Date`, `Name`) of types `IntegerType`, `DateType` and `StringType`, respectively. See below that I deliver this `schema` object that I built to `spark.createDataFrame()`.
 
 ```{python}
 #| eval: true
@@ -275,9 +284,6 @@ print(a_column)
 
 You will see some of the methods from this `Column` class across the next chapters, like `desc()`, `alias()` and `cast()`. For now, just be aware that these class of objects exists, and, that they will be very useful.
 
-
 ## Partitions of a Spark DataFrame
 
 As we exposed in @fig-distributed-df, a Spark DataFrame is broken into many small parts that are distributed across the cluster. Each one of these parts are considered a DataFrame *partition*.
-
-
