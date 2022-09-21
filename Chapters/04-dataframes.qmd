@@ -42,7 +42,7 @@ dir(df5)
 
 All the methods present in this `DataFrame` class, are commonly referred as the DataFrame API of Spark. This is the most important API of Spark. Much of your Spark applications will heavily use this API to compose your data transformations and data flows [@chambers2018].
 
-## Building a Spark DataFrame
+### Building a Spark DataFrame
 
 There are some different methods to create a Spark DataFrame. For example, because a DataFrame is basically a Dataset of rows, we can build a DataFrame from a collection of `Row`'s, through the `createDataFrame()` method from your Spark Session:
 
@@ -103,12 +103,17 @@ You can also use a method that returns a `DataFrame` object by default. Examples
 
 Other examples are the methods used to import data to `pyspark`. These methods are available in the `spark.read` module, like `spark.read.csv()` and `spark.read.json()`. These methods will be described in more depth in the @sec-import-export.
 
-
-## Viewing a Spark DataFrame
+### Viewing a Spark DataFrame
 
 A key aspect of Spark is its laziness. In other words, for most operations, Spark will only check if your code is correct and if it makes sense. Spark will not actually run or execute the operations you are describing in your code, unless you explicit ask for it with a trigger operation, which is called an "action" (this kind of operation is described in @sec-dataframe-actions).
 
-You can notice this laziness in the above outputs. Because when we call for an object that stores a Spark DataFrame (like `df` and `students`), Spark will only calculate and print a summary of the structure of your Spark DataFrame, and not the DataFrame itself.
+You can notice this laziness in the output below:
+
+```{python}
+students
+```
+
+Because when we call for an object that stores a Spark DataFrame (like `df` and `students`), Spark will only calculate and print a summary of the structure of your Spark DataFrame, and not the DataFrame itself.
 
 So how can we actually see our DataFrame? How can we visualize the rows and values that are stored inside of it? For this, we use the `show()` method. With this method, Spark will print the table as pure text, as you can see in the example below:
 
@@ -122,7 +127,7 @@ By default, this method shows only the top rows of your DataFrame, but you can s
 df.show(2)
 ```
 
-## Getting the name of the columns
+### Getting the name of the columns
 
 If you need to, you can easily collect a python list with the column names present in your DataFrame, in the same way you would do in a `pandas` DataFrame. That is, by using the `columns` method of your DataFrame, like this:
 
@@ -132,9 +137,9 @@ students.columns
 
 ## Spark Data Types
 
-Each column of your Spark DataFrame is associated with a specific data type. Spark supports a number of different data types. You can see the full list at the official documentation page[^04-dataframes-1]. For now, we will focus on the most used data types, which are listed below:
+Each column of your Spark DataFrame is associated with a specific data type. Spark supports a large number of different data types. You can see the full list at the official documentation page[^04-dataframes-1]. For now, we will focus on the most used data types, which are listed below:
 
-[^04-dataframes-1]: spark-data-types1
+[^04-dataframes-1]: The full list is available at the link <https://spark.apache.org/docs/3.3.0/sql-ref-datatypes.html#supported-data-types>
 
 -   `IntegerType`: Represents 4-byte signed integer numbers. The range of numbers that it can represent is from -2147483648 to 2147483647.
 -   `LongType`: Represents 8-byte signed integer numbers. The range of numbers that it can represent is from -9223372036854775808 to 9223372036854775807.
