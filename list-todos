@@ -1,3 +1,4 @@
 TODOS:
+- Maybe, the "Partitions of a Spark DataFrame" section, should be moved to a different chapter;
 - Change "How to run a Python program section", lets just present a first example of Spark program, and show how to run it.
 - When introducing DataFrames, just say cite that, you can create a DataFrame by reading a file, just a simple example, leave the complete discussion of import/export data to a complete different chapter.
