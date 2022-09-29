@@ -1,6 +1,4 @@
-
 # Introducing Apache Spark {#sec-introd-spark}
-
 
 ## Introduction
 
@@ -16,13 +14,15 @@ In essence, `pyspark` is an API to Apache Spark (or simply Spark). In other word
 
 Spark is a multi-language engine for large-scale data processing that supports both single-node machines and clusters of machines [@sparkdoc]. Nowadays, Spark became the de facto standard for structure and manage big data applications.
 
-It has a number of features that its predecessors did not have, like the capacity for in-memory processing and stream processing [@karau2015]. But, the most important feature of all, is that Spark is an **unified platform** for big data processing [@chambers2018]. This means that Spark comes with multiple built-in libraries and tools that deals with different aspects of the work with big data. It has a built-in SQL engine[^spark-1] for performing large-scale data processing; a complete library for scalable machine learning (`MLib`[^spark-2]); a stream processing engine[^spark-3] for streaming analytics; and much more;
+It has a number of features that its predecessors did not have, like the capacity for in-memory processing and stream processing [@karau2015]. But, the most important feature of all, is that Spark is an **unified platform** for big data processing [@chambers2018]. 
 
-[^spark-1]: https://spark.apache.org/sql/
+This means that Spark comes with multiple built-in libraries and tools that deals with different aspects of the work with big data. It has a built-in SQL engine[^03-spark-1] for performing large-scale data processing; a complete library for scalable machine learning (`MLib`[^03-spark-2]); a stream processing engine[^03-spark-3] for streaming analytics; and much more;
 
-[^spark-2]: https://spark.apache.org/docs/latest/ml-guide.html
+[^03-spark-1]: <https://spark.apache.org/sql/>
 
-[^spark-3]: https://spark.apache.org/docs/latest/structured-streaming-programming-guide.html#overview
+[^03-spark-2]: <https://spark.apache.org/docs/latest/ml-guide.html>
+
+[^03-spark-3]: <https://spark.apache.org/docs/latest/structured-streaming-programming-guide.html#overview>
 
 In general, big companies have many different data necessities, and as a result, the engineers and analysts may have to combine and integrate many tools and techniques together, so they can build many different data pipelines to fulfill these necessities. But this approach can create a very serious dependency problem, which imposes a great barrier to support this workflow. This is one of the big reasons why Spark got so successful. It eliminates big part of this problem, by already including almost everything that you might need to use.
 
@@ -30,7 +30,7 @@ In general, big companies have many different data necessities, and as a result,
 
 ## Spark application
 
-Your personal computer can do a lot of things, but, it cannot efficiently deal with huge amounts of data. For this situation, we need several machines working together, adding up their resources to deal with the volume or complexity of the data. Spark is the framework that coordinates the computations across this set of machines [@chambers2018]. Because of this, a relevant part of Spark's structure is deeply connected to distributed computing models. 
+Your personal computer can do a lot of things, but, it cannot efficiently deal with huge amounts of data. For this situation, we need several machines working together, adding up their resources to deal with the volume or complexity of the data. Spark is the framework that coordinates the computations across this set of machines [@chambers2018]. Because of this, a relevant part of Spark's structure is deeply connected to distributed computing models.
 
 You probably do not have a cluster of machines at home. So, while following the examples in this book, you will be running Spark on a single machine (i.e. single node mode). But lets just forget about this detail for a moment.
 
@@ -46,14 +46,13 @@ This structure is represented in @fig-spark-application:
 
 ![Spark application structure on a cluster of computers](../Figures/spark-application.png){#fig-spark-application fig-align="center"}
 
-
 When you run Spark on a cluster of computers, you write the code of your Spark application (i.e. your `pyspark` code) on your (single) local computer, and then, submit this code to the driver node. After that, the driver node takes care of the rest, by starting your application, creating your Spark Session, asking for new worker nodes, sending the tasks to be performed, collecting and compiling the results and giving back these results to you.
 
 However, when you run Spark on your (single) local computer, the process is very similar. But, instead of submitting your code to another computer (which is the driver node), you will submit to your own local computer. In other words, when Spark is running on single-node mode, your computer becomes the driver and the worker node at the same time.
 
 ## Starting your Spark Session
 
-Every Spark application starts with a Spark Session. Basically, the Spark Session is the entry point to your application. This means that, in every `pyspark` program that you write, **you should always start by defining your Spark Session**. We do this, by using the `getOrCreate()` method from `pyspark.sql.SparkSession.builder`. 
+Every Spark application starts with a Spark Session. Basically, the Spark Session is the entry point to your application. This means that, in every `pyspark` program that you write, **you should always start by defining your Spark Session**. We do this, by using the `getOrCreate()` method from `pyspark.sql.SparkSession.builder`.
 
 Just store the result of this method in any python object. Is very common to name this object as `spark`, like in the example below. This way, you can access all the information and methods of Spark from this `spark` object.
 
@@ -61,7 +60,6 @@ Just store the result of this method in any python object. Is very common to nam
 from pyspark.sql import SparkSession
 spark = SparkSession.builder.getOrCreate()
 ```
-
 
 ## Building your first Spark application
 
@@ -79,7 +77,7 @@ from pyspark.sql import SparkSession
 spark = SparkSession.builder.getOrCreate()
 ```
 
-After you defined your Spark Session, and saved it in an object called `spark`, you can now access all Spark's functionality through this `spark` object. 
+After you defined your Spark Session, and saved it in an object called `spark`, you can now access all Spark's functionality through this `spark` object.
 
 To create our first Spark table we use the `range()` method from the `spark` object. The `range()` method works similarly as the standard python function called `range()`. It basically creates a sequence of numbers, from 0 to $n - 1$. However, this `range()` method from `spark` stores this sequence of numbers as rows in a Spark table (or a Spark DataFrame):
 
@@ -109,14 +107,13 @@ result = table.collect()
 print(result)
 ```
 
-
 ### Executing the code
 
 Now that you have written your first Spark application with `pyspark`, you want to execute this application and see its results. Yet, to run a `pyspark` program, remember that you need to have the necessary software installed on your machine. I talk about how to install these software at @sec-install-software.
 
 Anyway, to execute this `pyspark` that you wrote, you need send this script to the python interpreter, and to do this you need to: 1) open a terminal inside the folder where you python script is stored; and, 2) use the python command from the terminal with the name of your python script.
 
-If you do not know how to open a terminal from inside a folder of your computer, you can consult @sec-open-terminal of this book, where I teach you how to do it. 
+If you do not know how to open a terminal from inside a folder of your computer, you can consult @sec-open-terminal of this book, where I teach you how to do it.
 
 In my current situation, I running Spark on a Ubuntu distribution, and, I saved the `spark-example.py` script inside a folder called `SparkExample`. This folder is located at the path `~/Documentos/Projetos/Livros/Introd-pyspark/SparkExample` of my computer. This means that, I need to open a terminal that is rooted inside this `SparkExample` folder.
 
@@ -138,5 +135,3 @@ cat(result)
 You can see in the above result, that this Spark application produces a sequence of numbers, from 0 to 4, and, returns this sequence as a set of `Row` objects, inside a python list.
 
 Congratulations! You have just run your first Spark application using `pyspark`!
-
-
