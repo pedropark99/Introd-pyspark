@@ -176,6 +176,14 @@ In the result below, we can see that `df` has three columns (`id`, `value` and `
 df
 ```
 
+You can also visualize a more complete report of the DataFrame schema by using the `printSchema()` method, like this:
+
+```{python}
+df.printSchema()
+```
+
+
+
 ### Accessing the DataFrame schema
 
 So, by calling the object of your DataFrame (i.e. an object of class `DataFrame`) you can see a small description of the schema of this DataFrame. But, how can you access this schema programmatically? You do this, by using the `schema` method of your DataFrame, like in the example below:
