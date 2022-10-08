@@ -5,18 +5,18 @@
 
 Virtually every data analysis or data pipeline will include some ETL (*Extract, Transform, Load*) process, and the T is an essential part of it. Because, you almost never have an input data, or a initial DataFrame that perfectly fits your needs.
 
-That means, that you almost always have to transform the initial data that you have, to a specific format that you can use in your analysis. In this chapter, you will learn how to apply some of these basic transformations to your Spark DataFrame.
+This means that you always have to transform the initial data that you have, to a specific format that you can use in your analysis. In this chapter, you will learn how to apply some of these basic transformations to your Spark DataFrame.
 
 ## Defining transformations
 
-Spark DataFrames are immutable, meaning that, they cannot be directly changed. But you can use an existing DataFrame to create a new one, based on a set of transformations. In other words, you define a new DataFrame as a transformed version of an older DataFrame.
+Spark DataFrames are **immutable**, meaning that, they cannot be directly changed. But you can use an existing DataFrame to create a new one, based on a set of transformations. In other words, you define a new DataFrame as a transformed version of an older DataFrame.
 
 Basically every `pyspark` program that you write will have such transformations. Spark support many types of transformations, however, in this chapter, we will focus on four basic transformations that you can apply to a DataFrame:
 
 -   Filtering rows;
 -   Sorting rows;
 -   Adding or deleting columns;
--   Calculate aggregates;
+-   Calculating aggregates;
 
 Therefore, when you apply one of the above transformations to an existing DataFrame, you will get a new DataFrame as a result. You usually combine multiple transformations together to get your desired result. As a first example, lets get back to the `df` DataFrame:
 
@@ -48,9 +48,17 @@ big_values = df\
   .orderBy('value')
 ```
 
-Thus, to apply a transformation to an existing DataFrame, we use DataFrame methods such as `select()`, `filter()`, `withColumn()`, `orderBy()` and `agg()`. Remember, these are methods from the python class that defines Apache Spark DataFrame's (i.e. `pyspark.sql.dataframe.DataFrame`). This means that you can apply these transformations only to Spark DataFrames, and no other kind of python object.
+Thus, to apply a transformation to an existing DataFrame, we use DataFrame methods such as `select()`, `filter()`, `orderBy()` and many others. Remember, these are methods from the python class that defines Spark DataFrame's (i.e. the `pyspark.sql.dataframe.DataFrame` class). 
 
-Each one of these methods create a *lazily evaluated transformation*. Once again, we see the **lazy** aspect of Spark doing its work here. All these transformation methods are lazily evaluated, meaning that, Spark will only check if they make sense with the initial DataFrame that you have. Spark will not actually perform these transformations on your initial DataFrame, not untill you trigger these transformations with an **action**.
+This means that you can apply these transformations only to Spark DataFrames, and no other kind of python object. For example, if you try to use the `orderBy()` method in a standard python string (i.e. an object of class `str`), you will get an `AttributeError` error. Because this class of object in python, does not have a `orderBy()` method:
+
+```{python}
+s = "A python string"
+s.orderBy('value')
+```
+
+
+Each one of these DataFrame methods create a *lazily evaluated transformation*. Once again, we see the **lazy** aspect of Spark doing its work here. All these transformation methods are lazily evaluated, meaning that, Spark will only check if they make sense with the initial DataFrame that you have. Spark will not actually perform these transformations on your initial DataFrame, not untill you trigger these transformations with an **action**.
 
 ## Triggering calculations with actions {#sec-dataframe-actions}
 
@@ -464,7 +472,7 @@ Realize in the example above, that the column names can be delivered directly as
 transf\
   .select(
     'datetime',
-    col('transferid').alias('transferID'),  
+    col('transferid').alias('transferID'),
     transf.user.alias('clientName')
   )\
   .show(5)
@@ -569,7 +577,7 @@ You will see a lot more examples of formulas and uses of `withColumn()` througho
 
 ## Sorting rows of your DataFrame
 
-Spark, or, `pyspark`, provides the `orderBy()` DataFrame method to sort rows. To use this method, you give the name of the columns that Spark will use to sort the rows. 
+Spark, or, `pyspark`, provides the `orderBy()` and `sort()` DataFrame method to sort rows. They both work the same way: you just give the name of the columns that Spark will use to sort the rows. 
 
 In the example below, Spark will sort `transf` according to the values in the `value` column. By default, Spark uses an ascending order while sorting your rows.
 

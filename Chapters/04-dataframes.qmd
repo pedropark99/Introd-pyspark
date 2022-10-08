@@ -285,7 +285,7 @@ The `Column` class is used to represent a column in a Spark DataFrame. This mean
 type(df.id)
 ```
 
-You can refer or create a column, by using the `col()` function from `pyspark.sql.functions` module. In other words, the result of this `col()` function is always a object of class `Column`. The code below creates a column called `ID`.
+You can refer or create a column, by using the `col()` and `column()` functions from `pyspark.sql.functions` module. In other words, the result of `col()` or `column()` functions is always a object of class `Column`. The code below creates a column called `ID`.
 
 ```{python}
 from pyspark.sql.functions import col
