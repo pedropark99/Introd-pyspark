@@ -4,6 +4,8 @@
 
 In this chapter, you will understand how Spark represents and manages tables (or tabular data). Different programming languages and frameworks use different names to describe a table. But, in Apache Spark, they are referred as Spark DataFrames.
 
+In `pyspark`, these DataFrames are stored inside python objects of class `pyspark.sql.dataframe.DataFrame`, and all the methods present in this class, are commonly referred as the DataFrame API of Spark. This is the most important API of Spark, because much of your Spark applications will heavily use this API to compose your data transformations and data flows [@chambers2018].
+
 ## Spark DataFrames versus Spark Datasets
 
 Spark have two notions of structured data: DataFrames and Datasets. In summary, a Spark Dataset, is a distributed collection of data [@sparkdoc]. In contrast, a Spark DataFrame is a Spark Dataset organized into named columns [@sparkdoc].
@@ -166,14 +168,20 @@ print(s)
 
 ## The DataFrame Schema
 
-The schema of a Spark DataFrame is the combination of column names and the data types associated with each of these columns. Schemas can be set explicitly by you (that is, you can tell Spark how the schema of your DataFrame should look like), or, they can be automatically defined by Spark while reading or creating your data. 
+The schema of a Spark DataFrame is the combination of column names and the data types associated with each of these columns. Schemas can be set explicitly by you (that is, you can tell Spark how the schema of your DataFrame should look like), or, they can be automatically defined by Spark while reading or creating your data.
 
-You can get a succinct description of a DataFrame schema, by looking inside the object where this DataFrame is stored. For example, lets look again to the `df` DataFrame. 
+You can get a succinct description of a DataFrame schema, by looking inside the object where this DataFrame is stored. For example, lets look again to the `df` DataFrame.
 
 In the result below, we can see that `df` has three columns (`id`, `value` and `date`). By the description `id: bigint`, we know that `id` is a column of type `bigint`, which translates to the `LongType()` of Spark. Furthermore, by the descriptions `value: double` and `date: date`, we know too that the columns `value` and `date` are of type `DoubleType()` and `DateType()`, respectively.
 
 ```{python}
 df
+```
+
+You can also visualize a more complete report of the DataFrame schema by using the `printSchema()` method, like this:
+
+```{python}
+df.printSchema()
 ```
 
 ### Accessing the DataFrame schema
@@ -271,11 +279,9 @@ from pyspark.sql.types import LongType
 isinstance(id_column.dataType, LongType)
 ```
 
-
-
 ## The `Column` class in `pyspark`
 
-As we described in the introduction to this chapter, you will massively use the methods from the `DataFrame` class in your Spark applications to manage, modify and calculate your Spark DataFrames. 
+As we described in the introduction to this chapter, you will massively use the methods from the `DataFrame` class in your Spark applications to manage, modify and calculate your Spark DataFrames.
 
 However, there is one more python class that provides some very useful methods that you will regularly use, which is the `Column` class, or more specifically, the `pyspark.sql.column.Column` class.
 
