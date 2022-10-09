@@ -50,7 +50,53 @@ When you run Spark on a cluster of computers, you write the code of your Spark a
 
 However, when you run Spark on your (single) local computer, the process is very similar. But, instead of submitting your code to another computer (which is the driver node), you will submit to your own local computer. In other words, when Spark is running on single-node mode, your computer becomes the driver and the worker node at the same time.
 
-## Starting your Spark Session
+
+## Spark application versus `pyspark` application
+
+The `pyspark` package is just a tool to write Spark applications using the python programming language. This means, that a `pyspark` application is a Spark application written in python.
+
+With this conception in mind, you can understand that a `pyspark` application is a description of a Spark application. However, at the end, this description is translated into a raw Spark application that will be executed by Spark.
+
+To write a `pyspark` application, you write a python script that uses the `pyspark` library. When you execute this python script with the python interpreter, the application will be automatically converted to Spark code, and will be sent to Spark to be executed across the cluster;
+
+
+## Core parts of a Spark application
+
+In this section, I want to point out the core parts that composes a Spark application. Every `pyspark` program that you write will have these "core parts". In summary, most Spark applications will have three core parts:
+
+1) importing Spark libraries (or packages);
+
+2) an instantiation of a Spark Session. In other words, you define a entry point to your Spark Session, with an object that holds all the information of your Spark Session;
+
+3) a set of transformations and actions over Spark DataFrames;
+
+
+### Spark libraries (or packages)
+
+Spark comes with a lot of functionality installed. But, in order to use it, you have to import most of these functionalities to your session. 
+
+If you write your Spark application through `pyspark`, this means that you have to import specific packages of `pyspark` to your python session.
+
+For example, most of the functions that we use to define our transformations and aggregations comes from the `pyspark.sql.functions` package. 
+
+That is why we usually start our python scripts by importing functions from this package:
+
+```{python}
+from pyspark.sql.functions import sum, col
+sum_expr = sum(col('Value'))
+```
+
+
+Or, importing the entire package with the `import` keyword:
+
+```{python}
+import pyspark.sql.functions as F
+sum_expr = F.sum(F.col('Value'))
+```
+
+
+
+### Starting your Spark Session
 
 Every Spark application starts with a Spark Session. Basically, the Spark Session is the entry point to your application. This means that, in every `pyspark` program that you write, **you should always start by defining your Spark Session**. We do this, by using the `getOrCreate()` method from `pyspark.sql.SparkSession.builder`.
 
