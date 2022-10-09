@@ -35,7 +35,7 @@ In `pyspark`, every Spark DataFrame is stored inside a python object of class `p
 
 Like any python class, the `DataFrame` class comes with multiple methods that are available for every object of this class. This means that you can use any of these methods in any Spark DataFrame that you create through `pyspark`.
 
-As an example, in the code below I expose all the available methods from this `DataFrame` class. First, I am creating a Spark DataFrame with `spark.range(5)`, and, storing it in the object `df5`. After that, I use the `dir()` function to show all the methods that I can use through this `df5` object:
+As an example, in the code below I expose all the available methods from this `DataFrame` class. First, I create a Spark DataFrame with `spark.range(5)`, and, store it in the object `df5`. After that, I use the `dir()` function to show all the methods that I can use through this `df5` object:
 
 ```{python}
 df5 = spark.range(5)
@@ -44,7 +44,7 @@ dir(df5)
 
 All the methods present in this `DataFrame` class, are commonly referred as the DataFrame API of Spark. This is the most important API of Spark. Much of your Spark applications will heavily use this API to compose your data transformations and data flows [@chambers2018].
 
-### Building a Spark DataFrame
+## Building a Spark DataFrame
 
 There are some different methods to create a Spark DataFrame. For example, because a DataFrame is basically a Dataset of rows, we can build a DataFrame from a collection of `Row`'s, through the `createDataFrame()` method from your Spark Session:
 
@@ -103,9 +103,9 @@ students
 
 You can also use a method that returns a `DataFrame` object by default. Examples are the `table()` and `range()` methods from your Spark Session, like we used in the @sec-dataframe-class, to create the `df5` object.
 
-Other examples are the methods used to import data to `pyspark`. These methods are available in the `spark.read` module, like `spark.read.csv()` and `spark.read.json()`. These methods will be described in more depth in the @sec-import-export.
+Other examples are the methods used to read data and import it to `pyspark`. These methods are available in the `spark.read` module, like `spark.read.csv()` and `spark.read.json()`. These methods will be described in more depth in the @sec-import-export.
 
-### Viewing a Spark DataFrame
+## Viewing a Spark DataFrame
 
 A key aspect of Spark is its laziness. In other words, for most operations, Spark will only check if your code is correct and if it makes sense. Spark will not actually run or execute the operations you are describing in your code, unless you explicit ask for it with a trigger operation, which is called an "action" (this kind of operation is described in @sec-dataframe-actions).
 
@@ -129,7 +129,7 @@ By default, this method shows only the top rows of your DataFrame, but you can s
 df.show(2)
 ```
 
-### Getting the name of the columns
+## Getting the name of the columns
 
 If you need to, you can easily collect a python list with the column names present in your DataFrame, in the same way you would do in a `pandas` DataFrame. That is, by using the `columns` method of your DataFrame, like this:
 
@@ -279,27 +279,6 @@ from pyspark.sql.types import LongType
 isinstance(id_column.dataType, LongType)
 ```
 
-## The `Column` class in `pyspark`
-
-As we described in the introduction to this chapter, you will massively use the methods from the `DataFrame` class in your Spark applications to manage, modify and calculate your Spark DataFrames.
-
-However, there is one more python class that provides some very useful methods that you will regularly use, which is the `Column` class, or more specifically, the `pyspark.sql.column.Column` class.
-
-The `Column` class is used to represent a column in a Spark DataFrame. This means that, each column of your Spark DataFrame is a object of class `Column`. We can confirm this statement, by looking at the class of any column from the `df` DataFrame.
-
-```{python}
-type(df.id)
-```
-
-You can refer or create a column, by using the `col()` and `column()` functions from `pyspark.sql.functions` module. In other words, the result of `col()` or `column()` functions is always a object of class `Column`. The code below creates a column called `ID`.
-
-```{python}
-from pyspark.sql.functions import col
-a_column = col('ID')
-print(a_column)
-```
-
-You will see some of the methods from this `Column` class across the next chapters, like `desc()`, `alias()` and `cast()`. For now, just understand that this class of objects exists, and that they will be quite useful on many contexts.
 
 ## Partitions of a Spark DataFrame
 
