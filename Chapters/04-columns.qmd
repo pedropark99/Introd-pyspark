@@ -2,7 +2,7 @@
 
 ## The `Column` class in `pyspark`
 
-As we described in the introduction to this chapter, you will massively use the methods from the `DataFrame` class in your Spark applications to manage, modify and calculate your Spark DataFrames.
+As we described at the introduction of @sec-dataframes-chapter, you will massively use the methods from the `DataFrame` class in your Spark applications to manage, modify and calculate your Spark DataFrames.
 
 However, there is one more python class that provides some very useful methods that you will regularly use, which is the `Column` class, or more specifically, the `pyspark.sql.column.Column` class.
 

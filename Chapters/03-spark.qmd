@@ -16,13 +16,13 @@ Spark is a multi-language engine for large-scale data processing that supports b
 
 It has a number of features that its predecessors did not have, like the capacity for in-memory processing and stream processing [@karau2015]. But, the most important feature of all, is that Spark is an **unified platform** for big data processing [@chambers2018]. 
 
-This means that Spark comes with multiple built-in libraries and tools that deals with different aspects of the work with big data. It has a built-in SQL engine[^03-spark-1] for performing large-scale data processing; a complete library for scalable machine learning (`MLib`[^03-spark-2]); a stream processing engine[^03-spark-3] for streaming analytics; and much more;
+This means that Spark comes with multiple built-in libraries and tools that deals with different aspects of the work with big data. It has a built-in SQL engine[^spark-3-sql] for performing large-scale data processing; a complete library for scalable machine learning (`MLib`[^spark-3-mlib]); a stream processing engine[^spark-3-stream] for streaming analytics; and much more;
 
-[^03-spark-1]: <https://spark.apache.org/sql/>
+[^spark-3-sql]: <https://spark.apache.org/sql/>
 
-[^03-spark-2]: <https://spark.apache.org/docs/latest/ml-guide.html>
+[^spark-3-mlib]: <https://spark.apache.org/docs/latest/ml-guide.html>
 
-[^03-spark-3]: <https://spark.apache.org/docs/latest/structured-streaming-programming-guide.html#overview>
+[^spark-3-stream]: <https://spark.apache.org/docs/latest/structured-streaming-programming-guide.html#overview>
 
 In general, big companies have many different data necessities, and as a result, the engineers and analysts may have to combine and integrate many tools and techniques together, so they can build many different data pipelines to fulfill these necessities. But this approach can create a very serious dependency problem, which imposes a great barrier to support this workflow. This is one of the big reasons why Spark got so successful. It eliminates big part of this problem, by already including almost everything that you might need to use.
 
@@ -53,41 +53,38 @@ However, when you run Spark on your (single) local computer, the process is very
 
 ## Spark application versus `pyspark` application
 
-The `pyspark` package is just a tool to write Spark applications using the python programming language. This means, that a `pyspark` application is a Spark application written in python.
+The `pyspark` package is just a tool to write Spark applications using the python programming language. This means, that every `pyspark` application is a Spark application written in python.
 
-With this conception in mind, you can understand that a `pyspark` application is a description of a Spark application. However, at the end, this description is translated into a raw Spark application that will be executed by Spark.
+With this conception in mind, you can understand that a `pyspark` application is a description of a Spark application. When we compile (or execute) our python program, this description is translated into a raw Spark application that will be executed by Spark.
 
 To write a `pyspark` application, you write a python script that uses the `pyspark` library. When you execute this python script with the python interpreter, the application will be automatically converted to Spark code, and will be sent to Spark to be executed across the cluster;
 
 
-## Core parts of a Spark application
+## Core parts of a `pyspark` program
 
-In this section, I want to point out the core parts that composes a Spark application. Every `pyspark` program that you write will have these "core parts". In summary, most Spark applications will have three core parts:
+In this section, I want to point out the core parts that composes every `pyspark` program. This means that every `pyspark` program that you write will have these "core parts", which are:
 
-1) importing Spark libraries (or packages);
+1) importing the Spark libraries (or packages);
 
-2) an instantiation of a Spark Session. In other words, you define a entry point to your Spark Session, with an object that holds all the information of your Spark Session;
+2) starting your Spark Session;
 
-3) a set of transformations and actions over Spark DataFrames;
+3) defining a set of transformations and actions over Spark DataFrames;
 
 
-### Spark libraries (or packages)
+### Importing the Spark libraries (or packages)
 
-Spark comes with a lot of functionality installed. But, in order to use it, you have to import most of these functionalities to your session. 
+Spark comes with a lot of functionality installed. But, in order to use it in your `pyspark` program, you have to import most of these functionalities to your session. This means that you have to import specific packages (or "modules") of `pyspark` to your python session.
 
-If you write your Spark application through `pyspark`, this means that you have to import specific packages of `pyspark` to your python session.
+For example, most of the functions used to define our transformations and aggregations in Spark DataFrames, comes from the `pyspark.sql.functions` module.
 
-For example, most of the functions that we use to define our transformations and aggregations comes from the `pyspark.sql.functions` package. 
-
-That is why we usually start our python scripts by importing functions from this package:
+That is why we usually start our python scripts by importing functions from this module, like this:
 
 ```{python}
 from pyspark.sql.functions import sum, col
 sum_expr = sum(col('Value'))
 ```
 
-
-Or, importing the entire package with the `import` keyword:
+Or, importing the entire module with the `import` keyword, like this:
 
 ```{python}
 import pyspark.sql.functions as F
@@ -95,10 +92,9 @@ sum_expr = F.sum(F.col('Value'))
 ```
 
 
-
 ### Starting your Spark Session
 
-Every Spark application starts with a Spark Session. Basically, the Spark Session is the entry point to your application. This means that, in every `pyspark` program that you write, **you should always start by defining your Spark Session**. We do this, by using the `getOrCreate()` method from `pyspark.sql.SparkSession.builder`.
+Every Spark application starts with a Spark Session. Basically, the Spark Session is the entry point to your application. This means that, in every `pyspark` program that you write, **you should always start by defining your Spark Session**. We do this, by using the `getOrCreate()` method from `pyspark.sql.SparkSession.builder` module.
 
 Just store the result of this method in any python object. Is very common to name this object as `spark`, like in the example below. This way, you can access all the information and methods of Spark from this `spark` object.
 
@@ -106,6 +102,33 @@ Just store the result of this method in any python object. Is very common to nam
 from pyspark.sql import SparkSession
 spark = SparkSession.builder.getOrCreate()
 ```
+
+
+### Defining a set of transformations and actions
+
+Every `pyspark` program is composed by a set of transformations and actions over a set of Spark DataFrames. 
+
+We will explain Spark DataFrames in more deth on the @sec-dataframes-chapter. For now just understand that they are the basic data sctructure that feed all `pyspark` programs. 
+
+In other words, on every `pyspark` program we are transforming multiple Spark DataFrames to get the result we want. As an example, in the script below we begin with the Spark DataFrame stored in the object `students`, and, apply multiple transformations over it to build the `ar_department` DataFrame. Lastly, we apply the `.show()` action over the `ar_department` DataFrame:
+
+```{python}
+#| eval: false
+from pyspark.sql.functions import col
+# Apply some transformations over
+# the `students` DataFrame:
+ar_department = students\
+  .filter(col('Age') > 22)\
+  .withColumn('IsArDepartment', col('Department') == 'AR')\
+  .orderBy(col('Age').desc())
+  
+  
+# Apply the `.show()` action
+# over the `ar_department` DataFrame:
+ar_department.show()
+```
+
+
 
 ## Building your first Spark application
 
