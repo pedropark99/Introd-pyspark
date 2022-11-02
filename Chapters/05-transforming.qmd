@@ -53,6 +53,7 @@ Thus, to apply a transformation to an existing DataFrame, we use DataFrame metho
 This means that you can apply these transformations only to Spark DataFrames, and no other kind of python object. For example, if you try to use the `orderBy()` method in a standard python string (i.e. an object of class `str`), you will get an `AttributeError` error. Because this class of object in python, does not have a `orderBy()` method:
 
 ```{python}
+#| eval: false
 s = "A python string"
 s.orderBy('value')
 ```
