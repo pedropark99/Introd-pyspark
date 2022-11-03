@@ -212,3 +212,15 @@ cat(result)
 You can see in the above result, that this Spark application produces a sequence of numbers, from 0 to 4, and, returns this sequence as a set of `Row` objects, inside a python list.
 
 Congratulations! You have just run your first Spark application using `pyspark`!
+
+
+## Overview of the main classes/modules in `pyspark`
+
+Before we continue, I would like to give you a brief overview of the main classes/modules that exists in `pyspark`. They are:
+
+- `pyspark.sql.SparkSession`: the `SparkSession` class that defines your Spark Session, or, the entry point to your Spark application;
+- `pyspark.sql.dataframe`: module that defines the `DataFrame` class;
+- `pyspark.sql.column`: module that defines the `Column` class;
+- `pyspark.sq.functions`: module that contains all of the main Spark functions that we use in transformations;
+
+
