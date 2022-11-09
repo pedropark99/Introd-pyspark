@@ -186,7 +186,7 @@ x = 40
 
 This error occurs, because inside the print statement, we call the name `x`. But, this is the first expression of the program, and at this point of the program, we did not defined a object called `x`. We make this definition, after the print statement, with `x = 1` and `x = 40`. In other words, at this point, python do not know any object called `x`.
 
-## Packages
+## Packages (or libraries)
 
 A python package (or a python "library") is basically a set of functions and classes that provides important functionality to solve a specific problem. And `pyspark` is one of these many python packages available.
 

@@ -49,7 +49,7 @@ df5 = spark.range(5)
 dir(df5)
 ```
 
-All the methods present in this `DataFrame` class, are commonly referred as the DataFrame API of Spark. This is the most important API of Spark. Much of your Spark applications will heavily use this API to compose your data transformations and data flows [@chambers2018].
+All the methods present in this `DataFrame` class, are commonly referred as the *DataFrame API of Spark*. This is the most important API of Spark. Much of your Spark applications will heavily use this API to compose your data transformations and data flows [@chambers2018].
 
 ## Building a Spark DataFrame
 
@@ -110,7 +110,7 @@ students
 
 You can also use a method that returns a `DataFrame` object by default. Examples are the `table()` and `range()` methods from your Spark Session, like we used in the @sec-dataframe-class, to create the `df5` object.
 
-Other examples are the methods used to read data and import it to `pyspark`. These methods are available in the `spark.read` module, like `spark.read.csv()` and `spark.read.json()`. These methods will be described in more depth in the @sec-import-export.
+Other examples are the methods used to read data and import it to `pyspark`. These methods are available in the `spark.read` module, like `spark.read.csv()` and `spark.read.json()`. These methods will be described in more depth in @sec-import-export.
 
 ## Viewing a Spark DataFrame
 
