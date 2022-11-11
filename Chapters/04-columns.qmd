@@ -41,12 +41,26 @@ print(a_column)
 ```
 
 
-## Spark expressions usually involves multiple column transformations
+## Columns are strongly related to expressions
 
-Spark DataFrames are immutable data structures. Because of that, we cannot directly modify them. We have to create a new DataFrame as a transformed version of the initial/input DataFrame, to get the result we want. In order to do that, we need to define a sequence of transformations to be applied over the initial/input DataFrame (see @sec-df-defining-transformations for more details).
+Many kinds of transformations that we want to apply over a Spark DataFrame, are usually expressed through expressions, and, expressions in Spark are usually composed by **column transformations**. That is why the `Column` class, and its methods, are so important in Spark.
 
-Sometimes, these transformations are not expressed through (or, they do not involve) the columns of this DataFrame directly. For example, a union or a join between two DataFrames. These two kinds of transformations focus on the two DataFrames that are being merged together, not in the columns present in each one. 
+Columns are so strongly related to expressions that the columns themselves are initially interpreted as expressions. In other words, when I created the column `ID` on the previous section, I created a "column expression". This means that `col("ID")` is just an expression, and as consequence, Spark does not know which are the values of column `ID`, or, where it lives (which is the DataFrame that this column belongs?). For now, Spark just know that we have an `ID` column somewhere, and nothing more.
 
-However, for the most part, the transformations that we define in Spark are usually composed by a set of column transformations.
+Having this concept in mind, I can build different kinds of expressions with this "column expression". For example, I can create a expression that doubles the values of `ID` column:
+
+```{python}
+expr1 = col('ID') * 2
+print(expr1)
+```
+
+Remember, with this expression Spark knows that we want to get a column called `ID` and double its values. But Spark will not perform that action right now. It will only look for this `ID` column, and, perform this mathematical operation when we trigger the evaluatation of this expression through an action (we will talk more about these actions on @sec-dataframe-actions).
+
+Logical expressions follow the same logic. In the example below, I am looking for rows where the value in column `Name` is equal to `'Anne'`, and, the value in column `Grade` is above 6. Again, Spark just checks if this is a valid logical expression, he does not evaluate it until we ask for it with an action: 
+
+```{python}
+expr2 = (col('Name') == 'Anne') & (col('Grade') > 6)
+print(expr2)
+```
 
 You will see some of the methods from this `Column` class across the next chapters, like `desc()`, `alias()` and `cast()`. For now, just understand that this class of objects exists, and that they will be quite useful on many contexts.
