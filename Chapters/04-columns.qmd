@@ -7,24 +7,46 @@
 # To execute the next chunks with success, we need to start a Spark Session
 from pyspark.sql import SparkSession
 spark = SparkSession.builder.getOrCreate()
+from datetime import date
+from pyspark.sql import Row
+
+data = [
+  Row(id = 1, value = 28.3, date = date(2021,1,1)),
+  Row(id = 2, value = 15.8, date = date(2021,1,1)),
+  Row(id = 3, value = 20.1, date = date(2021,1,2)),
+  Row(id = 4, value = 12.6, date = date(2021,1,3))
+]
+
+df = spark.createDataFrame(data)
 ```
 
 As we described at the introduction of @sec-dataframes-chapter, you will massively use the methods from the `DataFrame` class in your Spark applications to manage, modify and calculate your Spark DataFrames.
 
 However, there is one more python class that provides some very useful methods that you will regularly use, which is the `Column` class, or more specifically, the `pyspark.sql.column.Column` class.
 
-The `Column` class is used to represent a column in a Spark DataFrame. This means that, each column of your Spark DataFrame is a object of class `Column`. We can confirm this statement, by looking at the class of any column from the `df` DataFrame.
+The `Column` class is used to represent a column in a Spark DataFrame. This means that, each column of your Spark DataFrame is a object of class `Column`. We can confirm this statement, by taking the `df` DataFrame that we showed at @sec-building-a-dataframe, and look at the class of any column of it:
 
 ```{python}
 type(df.id)
 ```
 
-You can refer or create a column, by using the `col()` and `column()` functions from `pyspark.sql.functions` module. In other words, the result of `col()` or `column()` functions is always a object of class `Column`. The code below creates a column called `ID`.
+## Building a column
+
+You can refer to or create a column, by using the `col()` and `column()` functions from `pyspark.sql.functions` module. In other words, the result of `col()` or `column()` functions is always a object of class `Column`. The code below creates a column called `ID`.
 
 ```{python}
 from pyspark.sql.functions import col
 a_column = col('ID')
 print(a_column)
 ```
+
+
+## Spark expressions usually involves multiple column transformations
+
+Spark DataFrames are immutable data structures. Because of that, we cannot directly modify them. We have to create a new DataFrame as a transformed version of the initial/input DataFrame, to get the result we want. In order to do that, we need to define a sequence of transformations to be applied over the initial/input DataFrame (see @sec-df-defining-transformations for more details).
+
+Sometimes, these transformations are not expressed through (or, they do not involve) the columns of this DataFrame directly. For example, a union or a join between two DataFrames. These two kinds of transformations focus on the two DataFrames that are being merged together, not in the columns present in each one. 
+
+However, for the most part, the transformations that we define in Spark are usually composed by a set of column transformations.
 
 You will see some of the methods from this `Column` class across the next chapters, like `desc()`, `alias()` and `cast()`. For now, just understand that this class of objects exists, and that they will be quite useful on many contexts.

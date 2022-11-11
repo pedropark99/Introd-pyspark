@@ -51,7 +51,7 @@ dir(df5)
 
 All the methods present in this `DataFrame` class, are commonly referred as the *DataFrame API of Spark*. This is the most important API of Spark. Much of your Spark applications will heavily use this API to compose your data transformations and data flows [@chambers2018].
 
-## Building a Spark DataFrame
+## Building a Spark DataFrame {#sec-building-a-dataframe}
 
 There are some different methods to create a Spark DataFrame. For example, because a DataFrame is basically a Dataset of rows, we can build a DataFrame from a collection of `Row`'s, through the `createDataFrame()` method from your Spark Session:
 

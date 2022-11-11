@@ -7,7 +7,7 @@ Virtually every data analysis or data pipeline will include some ETL (*Extract, 
 
 This means that you always have to transform the initial data that you have, to a specific format that you can use in your analysis. In this chapter, you will learn how to apply some of these basic transformations to your Spark DataFrame.
 
-## Defining transformations
+## Defining transformations {#sec-df-defining-transformations}
 
 Spark DataFrames are **immutable**, meaning that, they cannot be directly changed. But you can use an existing DataFrame to create a new one, based on a set of transformations. In other words, you define a new DataFrame as a transformed version of an older DataFrame.
 

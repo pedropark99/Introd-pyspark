@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.258">
+<meta name="generator" content="quarto-1.2.262">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -215,7 +215,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <li><a href="#how-to-run-a-python-program" id="toc-how-to-run-a-python-program" class="nav-link" data-scroll-target="#how-to-run-a-python-program"><span class="toc-section-number">1.3</span>  How to run a python program</a></li>
   <li><a href="#objects" id="toc-objects" class="nav-link" data-scroll-target="#objects"><span class="toc-section-number">1.4</span>  Objects</a></li>
   <li><a href="#expressions" id="toc-expressions" class="nav-link" data-scroll-target="#expressions"><span class="toc-section-number">1.5</span>  Expressions</a></li>
-  <li><a href="#packages" id="toc-packages" class="nav-link" data-scroll-target="#packages"><span class="toc-section-number">1.6</span>  Packages</a></li>
+  <li><a href="#packages-or-libraries" id="toc-packages-or-libraries" class="nav-link" data-scroll-target="#packages-or-libraries"><span class="toc-section-number">1.6</span>  Packages (or libraries)</a></li>
   <li><a href="#methods-versus-functions" id="toc-methods-versus-functions" class="nav-link" data-scroll-target="#methods-versus-functions"><span class="toc-section-number">1.7</span>  Methods versus Functions</a></li>
   <li><a href="#identifying-classes-and-their-methods" id="toc-identifying-classes-and-their-methods" class="nav-link" data-scroll-target="#identifying-classes-and-their-methods"><span class="toc-section-number">1.8</span>  Identifying classes and their methods</a></li>
   </ul>
@@ -258,7 +258,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Hello World!"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>It will be much easier to run this script, if you open the terminal inside the folder where you save the <code>hello.py</code> file. If you do not know how to do this, look at section <a href="01-intro.html#sec-open-terminal"><span>Section&nbsp;3</span></a>. After you opened the terminal inside the folder, just run the <code>python3 hello.py</code> command. As a result, python will execute <code>hello.py</code>, and, the text <code>Hello World!</code> should be printed to the terminal:</p>
+<p>It will be much easier to run this script, if you open the terminal inside the folder where you save the <code>hello.py</code> file. If you do not know how to do this, look at section <a href="#sec-open-terminal"><span class="quarto-unresolved-ref">sec-open-terminal</span></a>. After you opened the terminal inside the folder, just run the <code>python3 hello.py</code> command. As a result, python will execute <code>hello.py</code>, and, the text <code>Hello World!</code> should be printed to the terminal:</p>
 <pre class="{terminal}"><code>Terminal$ python3 hello.py</code></pre>
 <pre><code>Hello World!</code></pre>
 <p>But, if for some reason you could not open the terminal inside the folder, just open a terminal (in any way you can), then, use the <code>cd</code> command (stands for “change directory”) with the path to the folder where you saved <code>hello.py</code>. This way, your terminal will be rooted in this folder.</p>
@@ -394,10 +394,10 @@ NameError: name 'x' is not defined</code></pre>
 </div>
 <p>This error occurs, because inside the print statement, we call the name <code>x</code>. But, this is the first expression of the program, and at this point of the program, we did not defined a object called <code>x</code>. We make this definition, after the print statement, with <code>x = 1</code> and <code>x = 40</code>. In other words, at this point, python do not know any object called <code>x</code>.</p>
 </section>
-<section id="packages" class="level2" data-number="1.6">
-<h2 data-number="1.6" class="anchored" data-anchor-id="packages"><span class="header-section-number">1.6</span> Packages</h2>
+<section id="packages-or-libraries" class="level2" data-number="1.6">
+<h2 data-number="1.6" class="anchored" data-anchor-id="packages-or-libraries"><span class="header-section-number">1.6</span> Packages (or libraries)</h2>
 <p>A python package (or a python “library”) is basically a set of functions and classes that provides important functionality to solve a specific problem. And <code>pyspark</code> is one of these many python packages available.</p>
-<p>Python packages are usually published (that is, made available to the public) through the PyPI archive<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>. If a python package is published in PyPI, then, you can easily install it through the <code>pip</code> tool, that we just used in <a href="01-intro.html#sec-install-software"><span>Section&nbsp;4</span></a>.</p>
+<p>Python packages are usually published (that is, made available to the public) through the PyPI archive<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>. If a python package is published in PyPI, then, you can easily install it through the <code>pip</code> tool, that we just used in <a href="#sec-install-software"><span class="quarto-unresolved-ref">sec-install-software</span></a>.</p>
 <p>To use a python package, you always need to: 1) have this package installed on your machine; 2) import this package in your python script. If a package is not installed in your machine, you will face a <code>ModuleNotFoundError</code> as you try to use it, like in the example below. So, if your program produce such an error, is very likely that you are trying to use a package that is not currently installed on your machine. To install it, you may use the <code>pip install &lt;name of the package&gt;</code> command on the terminal of your OS.</p>
 <div class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> a_package</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>

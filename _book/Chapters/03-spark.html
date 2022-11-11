@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.258">
+<meta name="generator" content="quarto-1.2.262">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -245,6 +245,7 @@ div.csl-indent {
   <li><a href="#writing-the-code" id="toc-writing-the-code" class="nav-link" data-scroll-target="#writing-the-code"><span class="toc-section-number">2.6.1</span>  Writing the code</a></li>
   <li><a href="#executing-the-code" id="toc-executing-the-code" class="nav-link" data-scroll-target="#executing-the-code"><span class="toc-section-number">2.6.2</span>  Executing the code</a></li>
   </ul></li>
+  <li><a href="#overview-of-the-main-classesmodules-in-pyspark" id="toc-overview-of-the-main-classesmodules-in-pyspark" class="nav-link" data-scroll-target="#overview-of-the-main-classesmodules-in-pyspark"><span class="toc-section-number">2.7</span>  Overview of the main classes/modules in <code>pyspark</code></a></li>
   </ul>
 </nav>
     </div>
@@ -277,23 +278,23 @@ div.csl-indent {
 </section>
 <section id="what-is-spark" class="level2" data-number="2.2">
 <h2 data-number="2.2" class="anchored" data-anchor-id="what-is-spark"><span class="header-section-number">2.2</span> What is Spark?</h2>
-<p>Spark is a multi-language engine for large-scale data processing that supports both single-node machines and clusters of machines <span class="citation" data-cites="sparkdoc">(<a href="references.html#ref-sparkdoc" role="doc-biblioref"><em>Apache Spark Official Documentation</em> 2022</a>)</span>. Nowadays, Spark became the de facto standard for structure and manage big data applications.</p>
-<p>It has a number of features that its predecessors did not have, like the capacity for in-memory processing and stream processing <span class="citation" data-cites="karau2015">(<a href="references.html#ref-karau2015" role="doc-biblioref">Karau et al. 2015</a>)</span>. But, the most important feature of all, is that Spark is an <strong>unified platform</strong> for big data processing <span class="citation" data-cites="chambers2018">(<a href="references.html#ref-chambers2018" role="doc-biblioref">Chambers and Zaharia 2018</a>)</span>.</p>
+<p>Spark is a multi-language engine for large-scale data processing that supports both single-node machines and clusters of machines <span class="citation" data-cites="sparkdoc">(<a href="#ref-sparkdoc" role="doc-biblioref"><em>Apache Spark Official Documentation</em> 2022</a>)</span>. Nowadays, Spark became the de facto standard for structure and manage big data applications.</p>
+<p>It has a number of features that its predecessors did not have, like the capacity for in-memory processing and stream processing <span class="citation" data-cites="karau2015">(<a href="#ref-karau2015" role="doc-biblioref">Karau et al. 2015</a>)</span>. But, the most important feature of all, is that Spark is an <strong>unified platform</strong> for big data processing <span class="citation" data-cites="chambers2018">(<a href="#ref-chambers2018" role="doc-biblioref">Chambers and Zaharia 2018</a>)</span>.</p>
 <p>This means that Spark comes with multiple built-in libraries and tools that deals with different aspects of the work with big data. It has a built-in SQL engine<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> for performing large-scale data processing; a complete library for scalable machine learning (<code>MLib</code><a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>); a stream processing engine<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> for streaming analytics; and much more;</p>
 <p>In general, big companies have many different data necessities, and as a result, the engineers and analysts may have to combine and integrate many tools and techniques together, so they can build many different data pipelines to fulfill these necessities. But this approach can create a very serious dependency problem, which imposes a great barrier to support this workflow. This is one of the big reasons why Spark got so successful. It eliminates big part of this problem, by already including almost everything that you might need to use.</p>
 <blockquote class="blockquote">
-<p>Spark is designed to cover a wide range of workloads that previously required separate distributed systems … By supporting these workloads in the same engine, Spark makes it easy and inexpensive to combine different processing types, which is often necessary in production data analysis pipelines. In addition, it reduces the management burden of maintaining separate tools <span class="citation" data-cites="karau2015">(<a href="references.html#ref-karau2015" role="doc-biblioref">Karau et al. 2015</a>)</span>.</p>
+<p>Spark is designed to cover a wide range of workloads that previously required separate distributed systems … By supporting these workloads in the same engine, Spark makes it easy and inexpensive to combine different processing types, which is often necessary in production data analysis pipelines. In addition, it reduces the management burden of maintaining separate tools <span class="citation" data-cites="karau2015">(<a href="#ref-karau2015" role="doc-biblioref">Karau et al. 2015</a>)</span>.</p>
 </blockquote>
 </section>
 <section id="spark-application" class="level2" data-number="2.3">
 <h2 data-number="2.3" class="anchored" data-anchor-id="spark-application"><span class="header-section-number">2.3</span> Spark application</h2>
-<p>Your personal computer can do a lot of things, but, it cannot efficiently deal with huge amounts of data. For this situation, we need several machines working together, adding up their resources to deal with the volume or complexity of the data. Spark is the framework that coordinates the computations across this set of machines <span class="citation" data-cites="chambers2018">(<a href="references.html#ref-chambers2018" role="doc-biblioref">Chambers and Zaharia 2018</a>)</span>. Because of this, a relevant part of Spark’s structure is deeply connected to distributed computing models.</p>
+<p>Your personal computer can do a lot of things, but, it cannot efficiently deal with huge amounts of data. For this situation, we need several machines working together, adding up their resources to deal with the volume or complexity of the data. Spark is the framework that coordinates the computations across this set of machines <span class="citation" data-cites="chambers2018">(<a href="#ref-chambers2018" role="doc-biblioref">Chambers and Zaharia 2018</a>)</span>. Because of this, a relevant part of Spark’s structure is deeply connected to distributed computing models.</p>
 <p>You probably do not have a cluster of machines at home. So, while following the examples in this book, you will be running Spark on a single machine (i.e.&nbsp;single node mode). But lets just forget about this detail for a moment.</p>
 <p>In every Spark application, you always have a single machine behaving as the driver node, and multiple machines behaving as the worker nodes. The driver node is responsible for managing the Spark application, i.e.&nbsp;asking for resources, distributing tasks to the workers, collecting and compiling the results, …. The worker nodes are responsible for executing the tasks that are assigned to them, and they need to send the results of these tasks back to the driver node.</p>
-<p>Every Spark application is distributed into two different and independent processes: 1) a driver process; 2) and a set of executor processes <span class="citation" data-cites="chambers2018">(<a href="references.html#ref-chambers2018" role="doc-biblioref">Chambers and Zaharia 2018</a>)</span>. The driver process, or, the driver program, is where your application starts, and it is executed by the driver node. This driver program is responsible for: 1) maintaining information about your Spark Application; 2) responding to a user’s program or input; 3) and analyzing, distributing, and scheduling work across the executors <span class="citation" data-cites="chambers2018">(<a href="references.html#ref-chambers2018" role="doc-biblioref">Chambers and Zaharia 2018</a>)</span>.</p>
+<p>Every Spark application is distributed into two different and independent processes: 1) a driver process; 2) and a set of executor processes <span class="citation" data-cites="chambers2018">(<a href="#ref-chambers2018" role="doc-biblioref">Chambers and Zaharia 2018</a>)</span>. The driver process, or, the driver program, is where your application starts, and it is executed by the driver node. This driver program is responsible for: 1) maintaining information about your Spark Application; 2) responding to a user’s program or input; 3) and analyzing, distributing, and scheduling work across the executors <span class="citation" data-cites="chambers2018">(<a href="#ref-chambers2018" role="doc-biblioref">Chambers and Zaharia 2018</a>)</span>.</p>
 <p>Every time a Spark application starts, the driver process has to communicate with the cluster manager, to acquire workers to perform the necessary tasks. In other words, the cluster manager decides if Spark can use some of the resources (i.e.&nbsp;some of the machines) of the cluster. If the cluster manager allow Spark to use the nodes it needs, the driver program will break the application into many small tasks, and will assign these tasks to the worker nodes.</p>
 <p>The executor processes, are the processes that take place within each one of the worker nodes. Each executor process is composed of a set of tasks, and the worker node is responsible for performing and executing these tasks that were assigned to him, by the driver program. After executing these tasks, the worker node will send the results back to the driver node (or the driver program). If they need, the worker nodes can communicate with each other, while performing its tasks.</p>
-<p>This structure is represented in <a href="#fig-spark-application">Figure&nbsp;<span>2.1</span></a>:</p>
+<p>This structure is represented in <a href="#fig-spark-application">Figure&nbsp;<span class="quarto-unresolved-ref">fig-spark-application</span></a>:</p>
 <div id="fig-spark-application" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="../Figures/spark-application.png" class="img-fluid figure-img"></p>
@@ -344,7 +345,7 @@ div.csl-indent {
 <section id="defining-a-set-of-transformations-and-actions" class="level3" data-number="2.5.3">
 <h3 data-number="2.5.3" class="anchored" data-anchor-id="defining-a-set-of-transformations-and-actions"><span class="header-section-number">2.5.3</span> Defining a set of transformations and actions</h3>
 <p>Every <code>pyspark</code> program is composed by a set of transformations and actions over a set of Spark DataFrames.</p>
-<p>We will explain Spark DataFrames in more deth on the <a href="04-dataframes.html"><span>Chapter&nbsp;3</span></a>. For now just understand that they are the basic data sctructure that feed all <code>pyspark</code> programs.</p>
+<p>We will explain Spark DataFrames in more deth on the <a href="#sec-dataframes-chapter"><span class="quarto-unresolved-ref">sec-dataframes-chapter</span></a>. For now just understand that they are the basic data sctructure that feed all <code>pyspark</code> programs.</p>
 <p>In other words, on every <code>pyspark</code> program we are transforming multiple Spark DataFrames to get the result we want. As an example, in the script below we begin with the Spark DataFrame stored in the object <code>students</code>, and, apply multiple transformations over it to build the <code>ar_department</code> DataFrame. Lastly, we apply the <code>.show()</code> action over the <code>ar_department</code> DataFrame:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> col</span>
@@ -396,9 +397,9 @@ div.csl-indent {
 </section>
 <section id="executing-the-code" class="level3" data-number="2.6.2">
 <h3 data-number="2.6.2" class="anchored" data-anchor-id="executing-the-code"><span class="header-section-number">2.6.2</span> Executing the code</h3>
-<p>Now that you have written your first Spark application with <code>pyspark</code>, you want to execute this application and see its results. Yet, to run a <code>pyspark</code> program, remember that you need to have the necessary software installed on your machine. I talk about how to install these software at <a href="01-intro.html#sec-install-software"><span>Section&nbsp;4</span></a>.</p>
+<p>Now that you have written your first Spark application with <code>pyspark</code>, you want to execute this application and see its results. Yet, to run a <code>pyspark</code> program, remember that you need to have the necessary software installed on your machine. I talk about how to install these software at <a href="#sec-install-software"><span class="quarto-unresolved-ref">sec-install-software</span></a>.</p>
 <p>Anyway, to execute this <code>pyspark</code> that you wrote, you need send this script to the python interpreter, and to do this you need to: 1) open a terminal inside the folder where you python script is stored; and, 2) use the python command from the terminal with the name of your python script.</p>
-<p>If you do not know how to open a terminal from inside a folder of your computer, you can consult <a href="01-intro.html#sec-open-terminal"><span>Section&nbsp;3</span></a> of this book, where I teach you how to do it.</p>
+<p>If you do not know how to open a terminal from inside a folder of your computer, you can consult <a href="#sec-open-terminal"><span class="quarto-unresolved-ref">sec-open-terminal</span></a> of this book, where I teach you how to do it.</p>
 <p>In my current situation, I running Spark on a Ubuntu distribution, and, I saved the <code>spark-example.py</code> script inside a folder called <code>SparkExample</code>. This folder is located at the path <code>~/Documentos/Projetos/Livros/Introd-pyspark/SparkExample</code> of my computer. This means that, I need to open a terminal that is rooted inside this <code>SparkExample</code> folder.</p>
 <p>You probably have saved your <code>spark-example.py</code> file in a different folder of your computer. This means that you need to open the terminal from a different folder.</p>
 <p>After I opened a terminal rooted inside the <code>SparkExample</code> folder. I just use the <code>python3</code> command to access the python interpreter, and, give the name of the python script that I want to execute. In this case, the <code>spark-example.py</code> file. As a result, our first <code>pyspark</code> program will be executed:</p>
@@ -406,15 +407,28 @@ div.csl-indent {
 <pre class="terminal cell-code"><code>Terminal$ python3 spark-example.py</code></pre>
 </div>
 <div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>22/11/02 20:24:01 WARN Utils: Your hostname, pedro-dev resolves to a loopback address: 127.0.1.1; using 192.168.0.90 instead (on interface wlp1s0) 22/11/02 20:24:01 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address 22/11/02 20:24:02 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable 22/11/02 20:24:02 WARN Utils: Service 'SparkUI' could not bind on port 4040. Attempting port 4041. [Row(id=0), Row(id=1), Row(id=2), Row(id=3), Row(id=4)]</code></pre>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in system2("python3", args = path_py, stdout = TRUE): execução do
+comando '"python3" E:/Users/pedro/Documents/Projetos/Livros/Introd-pyspark/
+SparkExample/spark-example.py' teve status 9009</code></pre>
 </div>
 </div>
 <p>You can see in the above result, that this Spark application produces a sequence of numbers, from 0 to 4, and, returns this sequence as a set of <code>Row</code> objects, inside a python list.</p>
 <p>Congratulations! You have just run your first Spark application using <code>pyspark</code>!</p>
+</section>
+</section>
+<section id="overview-of-the-main-classesmodules-in-pyspark" class="level2" data-number="2.7">
+<h2 data-number="2.7" class="anchored" data-anchor-id="overview-of-the-main-classesmodules-in-pyspark"><span class="header-section-number">2.7</span> Overview of the main classes/modules in <code>pyspark</code></h2>
+<p>Before we continue, I would like to give you a brief overview of the main classes/modules that exists in <code>pyspark</code>. They are:</p>
+<ul>
+<li><code>pyspark.sql.SparkSession</code>: the <code>SparkSession</code> class that defines your Spark Session, or, the entry point to your Spark application;</li>
+<li><code>pyspark.sql.dataframe</code>: module that defines the <code>DataFrame</code> class;</li>
+<li><code>pyspark.sql.column</code>: module that defines the <code>Column</code> class;</li>
+<li><code>pyspark.sq.functions</code>: module that contains all of the main Spark functions that we use in transformations;</li>
+</ul>
 
 
-<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography" style="display: none">
+<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
 <div id="ref-sparkdoc" class="csl-entry" role="doc-biblioentry">
 <em>Apache Spark Official Documentation</em>. 2022. Documentation for Apache Spark 3.2.1; Available at: https://spark.apache.org/docs/latest/.
 </div>
@@ -425,7 +439,6 @@ Chambers, Bill, and Matei Zaharia. 2018. <em>Spark: The Definitive Guide: Big Da
 Karau, Holden, Andy Konwinski, Patrick Wendell, and Matei Zaharia. 2015. <em>Learning Spark</em>. Sebastopol, CA: O’Reilly Media.
 </div>
 </div>
-</section>
 </section>
 <section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
 <hr>
