@@ -286,7 +286,14 @@ from pyspark.sql.types import LongType
 isinstance(id_column.dataType, LongType)
 ```
 
-
 ## Partitions of a Spark DataFrame
 
-As we exposed in @fig-distributed-df, a Spark DataFrame is broken into many small parts that are distributed across the cluster. Each one of these parts are considered a DataFrame *partition*.
+A Spark DataFrame is always broken into many small pieces, and, these pieces are always spread across the cluster of machines. Each one of these small pieces of the total data are considered a DataFrame *partition*.
+
+For the most part, you do not manipulate these partitions manually or individually [@karau2015], because Spark automatically do this job for you.
+
+As we exposed in @fig-distributed-df, each node of the cluster will hold a piece of the total DataFrame. If we translate this distribution into a "partition" distribution, this means that each node of the cluster can hold one or multiple partitions of the Spark DataFrame. The figure below demonstrates this notion:
+
+![Partitions of a DataFrame](../Figures/paritions-df.png){#fig-partitions-df fig-align="center"}
+
+If the Spark DataFrame is not big, each node of the cluster will probably store just a single partition of this DataFrame. In contrast, depending on the complexity and size of the DataFrame, Spark will split this DataFrame into more partitions that there are nodes in the cluster. In this case, each node of the cluster will hold more than 1 partition of the total DataFrame.

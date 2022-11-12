@@ -30,7 +30,7 @@ The `Column` class is used to represent a column in a Spark DataFrame. This mean
 type(df.id)
 ```
 
-## Building a column
+## Building a column object
 
 You can refer to or create a column, by using the `col()` and `column()` functions from `pyspark.sql.functions` module. These functions receive a string input with the name of the column you want to create/refer to.
 
@@ -60,7 +60,7 @@ These ideas relates a lot to the **lazy aspect** of Spark that we talked about i
 This is handy, because we can store our expressions in variables, and, use it latter, in multiple parts of our code. For example, I can keep building and merging a column with different kinds of operators, to build a more complex expression. In the example below, I create a expression that doubles the values of `ID` column:
 
 ```{python}
-expr1 = col('ID') * 2
+expr1 = id_column * 2
 print(expr1)
 ```
 

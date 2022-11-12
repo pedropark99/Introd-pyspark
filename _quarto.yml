@@ -15,8 +15,8 @@ book:
     - Chapters/04-dataframes.qmd
     - Chapters/04-columns.qmd
     - Chapters/05-transforming.qmd
-    - Chapters/06-dataframes-sql.qmd
     - Chapters/07-import.qmd
+    - Chapters/06-dataframes-sql.qmd
     - Chapters/references.qmd
 
 bibliography: references.bib

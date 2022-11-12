@@ -215,7 +215,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#building-a-column" id="toc-building-a-column" class="nav-link active" data-scroll-target="#building-a-column"><span class="toc-section-number">4.1</span>  Building a column</a></li>
+  <li><a href="#building-a-column-object" id="toc-building-a-column-object" class="nav-link active" data-scroll-target="#building-a-column-object"><span class="toc-section-number">4.1</span>  Building a column object</a></li>
   <li><a href="#columns-are-strongly-related-to-expressions" id="toc-columns-are-strongly-related-to-expressions" class="nav-link" data-scroll-target="#columns-are-strongly-related-to-expressions"><span class="toc-section-number">4.2</span>  Columns are strongly related to expressions</a></li>
   <li><a href="#some-key-column-methods" id="toc-some-key-column-methods" class="nav-link" data-scroll-target="#some-key-column-methods"><span class="toc-section-number">4.3</span>  Some key column methods</a></li>
   </ul>
@@ -246,12 +246,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The <code>Column</code> class is used to represent a column in a Spark DataFrame. This means that, each column of your Spark DataFrame is a object of class <code>Column</code>. We can confirm this statement, by taking the <code>df</code> DataFrame that we showed at <a href="04-dataframes.html#sec-building-a-dataframe"><span>Section&nbsp;3.4</span></a>, and look at the class of any column of it:</p>
 <div class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(df.<span class="bu">id</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="14">
+<div class="cell-output cell-output-display" data-execution_count="2">
 <pre><code>pyspark.sql.column.Column</code></pre>
 </div>
 </div>
-<section id="building-a-column" class="level2" data-number="4.1">
-<h2 data-number="4.1" class="anchored" data-anchor-id="building-a-column"><span class="header-section-number">4.1</span> Building a column</h2>
+<section id="building-a-column-object" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="building-a-column-object"><span class="header-section-number">4.1</span> Building a column object</h2>
 <p>You can refer to or create a column, by using the <code>col()</code> and <code>column()</code> functions from <code>pyspark.sql.functions</code> module. These functions receive a string input with the name of the column you want to create/refer to.</p>
 <p>Their result is always a object of class <code>Column</code>. For example, the code below creates a column called <code>ID</code>:</p>
 <div class="cell" data-execution_count="3">
@@ -269,7 +269,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Columns in Spark are so strongly related to expressions that the columns themselves are initially interpreted as expressions. If we look at the column <code>id</code> from <code>df</code> DataFrame, Spark will bring a expression as a result, and not the values hold by this column.</p>
 <div class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>df.<span class="bu">id</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="16">
+<div class="cell-output cell-output-display" data-execution_count="4">
 <pre><code>Column&lt;'id'&gt;</code></pre>
 </div>
 </div>
@@ -277,7 +277,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>These ideas relates a lot to the <strong>lazy aspect</strong> of Spark that we talked about in <a href="04-dataframes.html#sec-viewing-a-dataframe"><span>Section&nbsp;3.5</span></a>. Spark will not perform any heavy calculation, or show you the actual results/values from you code, until you trigger the calculations with an action (we will talk more about these actions on <a href="05-transforming.html#sec-dataframe-actions"><span>Section&nbsp;5.3</span></a>). As a result, when you access a column, Spark will only deliver a expression that represents that column, and not the actual values of that column.</p>
 <p>This is handy, because we can store our expressions in variables, and, use it latter, in multiple parts of our code. For example, I can keep building and merging a column with different kinds of operators, to build a more complex expression. In the example below, I create a expression that doubles the values of <code>ID</code> column:</p>
 <div class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>expr1 <span class="op">=</span> col(<span class="st">'ID'</span>) <span class="op">*</span> <span class="dv">2</span></span>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>expr1 <span class="op">=</span> id_column <span class="op">*</span> <span class="dv">2</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(expr1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Column&lt;'(ID * 2)'&gt;</code></pre>

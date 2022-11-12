@@ -276,7 +276,7 @@ list(lengths)
 
 In contrast, a python method is a function registered inside a python class. In other words, this function **belongs to the class itself**, and cannot be used outside of it. To use a method, you need to have an instance of the class where it is registered.
 
-For example, the `startswith()` method belongs to the `str` class (this class is used to represent strings in python). So to use this method, we need to have an instance ot this class saved in a object that we can access. Note in the example below, that we access the `startswith()` method through the `name` object. This means that, `startswith()` is a function. But, we cannot use it without an object of class `str`, like `name`.
+For example, the `startswith()` method belongs to the `str` class (this class is used to represent strings in python). So to use this method, we need to have an instance of this class saved in a object that we can access. Note in the example below, that we access the `startswith()` method through the `name` object. This means that, `startswith()` is a function. But, we cannot use it without an object of class `str`, like `name`.
 
 ```{python}
 name = "Pedro"

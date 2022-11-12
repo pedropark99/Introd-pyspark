@@ -4,13 +4,19 @@
 
 ## Introduction
 
-As we discussed in @sec-introd-spark, Spark is a **multi-language** engine for large-scale data processing. This means that we can build our Spark application using many different languages (like Java, Scala, Python and R). And Spark have some tools that allow us to mix these different languages with pure SQL in our application. We will focus on these tools in this chapter.
+As we discussed in @sec-introd-spark, Spark is a **multi-language** engine for large-scale data processing. This means that we can build our Spark application using many different languages (like Java, Scala, Python and R). Furthermore, you can also use the Spark SQL module of Spark to translate all of your transformations into pure SQL queries.
+
+Spark SQL is a Spark module for structured data processing [@spark-doc]. Because Spark SQL is a structured module of Spark, you can use it to translate all transformations that you build with the DataFrame API, which is the main structured API of Spark.
+
+This means that all transformations exposed throughout this book, can be translated into a SQL query in Spark. However, this also means that the Spark SQL module does not handle the transformations produced by the unstructured APIs of Spark, i.e. the Dataset API. Since the Dataset API is not available in `pyspark`, it is not covered in this book.
+
+Due to the multi-language nature of Spark, you can mix python code that uses the DataFrame API with pure SQL queries to build your transformations. We will focus on this exchange between Python and SQL in this chapter.
 
 ## Creating SQL Tables in Spark
 
-In real life jobs at the industry, is very likely that your data will be allocated inside a SQL database. Spark can connect to external SQL databases through JDBC/ODBC connections, or, read tables from Apache Hive.
+In real life jobs at the industry, is very likely that your data will be allocated inside a SQL database. Spark can connect to a external SQL database through JDBC/ODBC connections, or, read tables from Apache Hive. This way, you sent you SQL queries to this external database.
 
-As a first example, lets use `pyspark` to create a DataFrame, and, register this DataFrame as a temporary SQL table in our Spark context. This way, we avoid the work to connect to some existing SQL database, and, still get to learn how to use SQL queries in `pyspark`.
+However, to expose a more simplified example, we will use `pyspark` to create a simple temporary SQL table in our Spark context, and use this temporary SQL table in our examples of SQL queries. This way, we avoid the work to connect to some existing SQL database, and, still get to learn how to use SQL queries in `pyspark`.
 
 In the example below, I am reading a CSV file from my computer called `penguins.csv` (remember that this CSV can be downloaded from the book repository^[https://github.com/pedropark99/Introd-pyspark/tree/main/Data]), then, I create a SQL temporary view (called `penguins_view`) from this `penguins` DataFrame with the `createOrReplaceTempView()` method. 
 
