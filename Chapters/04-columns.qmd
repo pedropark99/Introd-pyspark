@@ -32,29 +32,39 @@ type(df.id)
 
 ## Building a column
 
-You can refer to or create a column, by using the `col()` and `column()` functions from `pyspark.sql.functions` module. In other words, the result of `col()` or `column()` functions is always a object of class `Column`. The code below creates a column called `ID`.
+You can refer to or create a column, by using the `col()` and `column()` functions from `pyspark.sql.functions` module. These functions receive a string input with the name of the column you want to create/refer to.
+
+Their result is always a object of class `Column`. For example, the code below creates a column called `ID`:
 
 ```{python}
 from pyspark.sql.functions import col
-a_column = col('ID')
-print(a_column)
+id_column = col('ID')
+print(id_column)
 ```
 
 
 ## Columns are strongly related to expressions
 
-Many kinds of transformations that we want to apply over a Spark DataFrame, are usually expressed through expressions, and, expressions in Spark are usually composed by **column transformations**. That is why the `Column` class, and its methods, are so important in Spark.
+Many kinds of transformations that we want to apply over a Spark DataFrame, are usually described through expressions, and, expressions in Spark are usually composed by **column transformations**. That is why the `Column` class, and its methods, are so important in Spark.
 
-Columns are so strongly related to expressions that the columns themselves are initially interpreted as expressions. In other words, when I created the column `ID` on the previous section, I created a "column expression". This means that `col("ID")` is just an expression, and as consequence, Spark does not know which are the values of column `ID`, or, where it lives (which is the DataFrame that this column belongs?). For now, Spark just know that we have an `ID` column somewhere, and nothing more.
+Columns in Spark are so strongly related to expressions that the columns themselves are initially interpreted as expressions. If we look at the column `id` from `df` DataFrame, Spark will bring a expression as a result, and not the values hold by this column.
 
-Having this concept in mind, I can build different kinds of expressions with this "column expression". For example, I can create a expression that doubles the values of `ID` column:
+```{python}
+df.id
+```
+
+Having these ideas in mind, when I created the column `ID` on the previous section, I created a "column expression". This means that `col("ID")` is just an expression, and as consequence, Spark does not know which are the values of column `ID`, or, where it lives (which is the DataFrame that this column belongs?). For now, Spark is not interested in these informations, it just knows that we have an expression referring to column called `ID`.
+
+These ideas relates a lot to the **lazy aspect** of Spark that we talked about in @sec-viewing-a-dataframe. Spark will not perform any heavy calculation, or show you the actual results/values from you code, until you trigger the calculations with an action (we will talk more about these actions on @sec-dataframe-actions). As a result, when you access a column, Spark will only deliver a expression that represents that column, and not the actual values of that column.
+
+This is handy, because we can store our expressions in variables, and, use it latter, in multiple parts of our code. For example, I can keep building and merging a column with different kinds of operators, to build a more complex expression. In the example below, I create a expression that doubles the values of `ID` column:
 
 ```{python}
 expr1 = col('ID') * 2
 print(expr1)
 ```
 
-Remember, with this expression Spark knows that we want to get a column called `ID` and double its values. But Spark will not perform that action right now. It will only look for this `ID` column, and, perform this mathematical operation when we trigger the evaluatation of this expression through an action (we will talk more about these actions on @sec-dataframe-actions).
+Remember, with this expression Spark knows that we want to get a column called `ID` somewhere, and double its values. But Spark will not perform that action right now.
 
 Logical expressions follow the same logic. In the example below, I am looking for rows where the value in column `Name` is equal to `'Anne'`, and, the value in column `Grade` is above 6. Again, Spark just checks if this is a valid logical expression, he does not evaluate it until we ask for it with an action: 
 
@@ -63,4 +73,20 @@ expr2 = (col('Name') == 'Anne') & (col('Grade') > 6)
 print(expr2)
 ```
 
-You will see some of the methods from this `Column` class across the next chapters, like `desc()`, `alias()` and `cast()`. For now, just understand that this class of objects exists, and that they will be quite useful on many contexts.
+## Some key column methods 
+
+Because many transformations that we want to apply over our DataFrames are expressed as column transformations, the methods from the `Column` class will be quite useful on many different contexts. You will see many of these methods across the next chapters, like `desc()`, `alias()` and `cast()`.
+
+But since they are so important in Spark, lets just give you a brief overview of some of the most popular methods from the `Column` class (these methods will be described in more detail in later chapters):
+
+- `desc()` and `asc()`: methods to order the values of the column in a descending or ascending order (respectively);
+- `cast()` and `astype()`: method to cast (or convert) the values of the column to a specific data type;
+- `alias()`: method to rename a column;
+- `substr()`: method that returns a new column with the sub string of each value;
+- `isNull()` and `isNotNull()`: logical methods to test if each value in the column is a null value or not;
+- `startswith()` and `endswith()`: logical methods to search for values that starts with or ends with a specific pattern;
+- `like()` and `rlike()`: logical methods to search for a specific pattern or regular expression in the values of the column;
+- `isin()`: logical method to test if each value in the column is some of the listed values;
+
+
+

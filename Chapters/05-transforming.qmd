@@ -510,7 +510,7 @@ transf\
 
 Spark try to do its best when guessing which is correct data type for the columns of your DataFrame. But, obviously, Spark can get it wrong, and, you end up deciding by your own which data type to use for a specific column.
 
-To explicit transform to, or, define which is the correct data type of a column, you can use the `cast()` method inside `select()`. This `cast()` method is very similar to the `CAST` keyword in SQL, and belongs to the `Column` class, so, you should always use it after a column name, or, a `col()` function:
+To explicit transform a column to a specific data type, you can use `cast()` or `astype()` methods inside `select()`. The `astype()` method is just an alias to `cast()`. This `cast()` method is very similar to the `CAST` keyword in SQL, and belongs to the `Column` class, so, you should always use it after a column name, or, a `col()` function:
 
 ```{python}
 transf\
@@ -522,7 +522,7 @@ transf\
   .show(5)
 ```
 
-To use this `cast()` method, you give the name of the data type (as a string) to which you want to cast the column. The main available data types to `cast()` are:
+To use `cast()` or `astype()` methods, you give the name of the data type (as a string) to which you want to cast the column. The main available data types to `cast()` or `astype()` are:
 
 - `'string'`: correspond to `StringType()`;
 - `'int'`: correspond to `IntegerType()`;
@@ -692,7 +692,7 @@ transf_per_user\
 Remember that, by using standard DataFrame methods (like `max()` in the example above) we can calculate only a single aggregate value. But, with `agg()` we can calculate more than one aggregate value at the same time. Since our `transf_per_user` object is a **grouped** DataFrame, `agg()` will calculate these aggregates per group.
 
 As an example, if I apply `agg()` with the exact same expressions exposed on @sec-agg-method with the `transf_per_user` DataFrame, instead of a DataFrame with one single row, I get a new DataFrame with nine rows. In each row, I have the total and mean values for a specific user in the input DataFrame.
- 
+
 ```{python}
 transf_per_user\
   .agg(
