@@ -216,11 +216,12 @@ Congratulations! You have just run your first Spark application using `pyspark`!
 
 ## Overview of the main classes/modules in `pyspark`
 
-Before we continue, I would like to give you a brief overview of the main classes/modules that exists in `pyspark`. They are:
+Before we continue, I want to give you a very brief overview of the main classes/modules that exists in `pyspark`. They are:
 
 - `pyspark.sql.SparkSession`: the `SparkSession` class that defines your Spark Session, or, the entry point to your Spark application;
 - `pyspark.sql.dataframe`: module that defines the `DataFrame` class;
 - `pyspark.sql.column`: module that defines the `Column` class;
+- `pyspark.sql.types`: module that contains all data types of Spark;
 - `pyspark.sq.functions`: module that contains all of the main Spark functions that we use in transformations;
 
 

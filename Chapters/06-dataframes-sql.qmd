@@ -1,12 +1,10 @@
-
-
 # Working with SQL in `pyspark`
 
 ## Introduction
 
 As we discussed in @sec-introd-spark, Spark is a **multi-language** engine for large-scale data processing. This means that we can build our Spark application using many different languages (like Java, Scala, Python and R). Furthermore, you can also use the Spark SQL module of Spark to translate all of your transformations into pure SQL queries.
 
-Spark SQL is a Spark module for structured data processing [@spark-doc]. Because Spark SQL is a structured module of Spark, you can use it to translate all transformations that you build with the DataFrame API, which is the main structured API of Spark.
+Spark SQL is a Spark module for structured data processing [@sparkdoc]. Because Spark SQL is a structured module of Spark, you can use it to translate all transformations that you build with the DataFrame API, which is the main structured API of Spark.
 
 This means that all transformations exposed throughout this book, can be translated into a SQL query in Spark. However, this also means that the Spark SQL module does not handle the transformations produced by the unstructured APIs of Spark, i.e. the Dataset API. Since the Dataset API is not available in `pyspark`, it is not covered in this book.
 
@@ -18,7 +16,9 @@ In real life jobs at the industry, is very likely that your data will be allocat
 
 However, to expose a more simplified example, we will use `pyspark` to create a simple temporary SQL table in our Spark context, and use this temporary SQL table in our examples of SQL queries. This way, we avoid the work to connect to some existing SQL database, and, still get to learn how to use SQL queries in `pyspark`.
 
-In the example below, I am reading a CSV file from my computer called `penguins.csv` (remember that this CSV can be downloaded from the book repository^[https://github.com/pedropark99/Introd-pyspark/tree/main/Data]), then, I create a SQL temporary view (called `penguins_view`) from this `penguins` DataFrame with the `createOrReplaceTempView()` method. 
+In the example below, I am reading a CSV file from my computer called `penguins.csv` (remember that this CSV can be downloaded from the book repository[^06-dataframes-sql-1]), then, I create a SQL temporary view (called `penguins_view`) from this `penguins` DataFrame with the `createOrReplaceTempView()` method.
+
+[^06-dataframes-sql-1]: https://github.com/pedropark99/Introd-pyspark/tree/main/Data
 
 ```{python}
 from pyspark.sql import SparkSession
@@ -58,10 +58,3 @@ spark.sql('insert into `code_brazil_states` values (15, "Pará")')
 spark.sql('insert into `code_brazil_states` values (41, "Paraná")')
 spark.sql('insert into `code_brazil_states` values (25, "Paraíba")')
 ```
-
-
-
-
-
-
-

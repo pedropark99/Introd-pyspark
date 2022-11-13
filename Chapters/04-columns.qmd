@@ -53,7 +53,7 @@ Columns in Spark are so strongly related to expressions that the columns themsel
 df.id
 ```
 
-Having these ideas in mind, when I created the column `ID` on the previous section, I created a "column expression". This means that `col("ID")` is just an expression, and as consequence, Spark does not know which are the values of column `ID`, or, where it lives (which is the DataFrame that this column belongs?). For now, Spark is not interested in these informations, it just knows that we have an expression referring to column called `ID`.
+Having these ideas in mind, when I created the column `ID` on the previous section, I created a "column expression". This means that `col("ID")` is just an expression, and as consequence, Spark does not know which are the values of column `ID`, or, where it lives (which is the DataFrame that this column belongs?). For now, Spark is not interested in this information, it just knows that we have an expression referring to a column called `ID`.
 
 These ideas relates a lot to the **lazy aspect** of Spark that we talked about in @sec-viewing-a-dataframe. Spark will not perform any heavy calculation, or show you the actual results/values from you code, until you trigger the calculations with an action (we will talk more about these actions on @sec-dataframe-actions). As a result, when you access a column, Spark will only deliver a expression that represents that column, and not the actual values of that column.
 
@@ -80,7 +80,7 @@ Because many transformations that we want to apply over our DataFrames are expre
 But since they are so important in Spark, lets just give you a brief overview of some of the most popular methods from the `Column` class (these methods will be described in more detail in later chapters):
 
 - `desc()` and `asc()`: methods to order the values of the column in a descending or ascending order (respectively);
-- `cast()` and `astype()`: method to cast (or convert) the values of the column to a specific data type;
+- `cast()` and `astype()`: methods to cast (or convert) the values of the column to a specific data type;
 - `alias()`: method to rename a column;
 - `substr()`: method that returns a new column with the sub string of each value;
 - `isNull()` and `isNotNull()`: logical methods to test if each value in the column is a null value or not;

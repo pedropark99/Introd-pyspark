@@ -292,8 +292,10 @@ A Spark DataFrame is always broken into many small pieces, and, these pieces are
 
 For the most part, you do not manipulate these partitions manually or individually [@karau2015], because Spark automatically do this job for you.
 
-As we exposed in @fig-distributed-df, each node of the cluster will hold a piece of the total DataFrame. If we translate this distribution into a "partition" distribution, this means that each node of the cluster can hold one or multiple partitions of the Spark DataFrame. The figure below demonstrates this notion:
+As we exposed in @fig-distributed-df, each node of the cluster will hold a piece of the total DataFrame. If we translate this distribution into a "partition" distribution, this means that each node of the cluster can hold one or multiple partitions of the Spark DataFrame. 
 
-![Partitions of a DataFrame](../Figures/paritions-df.png){#fig-partitions-df fig-align="center"}
+If we sum all partitions present in a node of the cluster, we get a chunk of the total DataFrame. The figure below demonstrates this notion:
+
+![Partitions of a DataFrame](../Figures/partitions-df.png){#fig-partitions-df fig-align="center"}
 
 If the Spark DataFrame is not big, each node of the cluster will probably store just a single partition of this DataFrame. In contrast, depending on the complexity and size of the DataFrame, Spark will split this DataFrame into more partitions that there are nodes in the cluster. In this case, each node of the cluster will hold more than 1 partition of the total DataFrame.

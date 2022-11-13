@@ -83,6 +83,25 @@ code span.st { color: #4070a0; } /* String */
 code span.va { color: #19177c; } /* Variable */
 code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
 </style>
 
 
@@ -266,7 +285,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <section id="introduction" class="level2" data-number="7.1">
 <h2 data-number="7.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">7.1</span> Introduction</h2>
 <p>As we discussed in <a href="03-spark.html"><span>Chapter&nbsp;2</span></a>, Spark is a <strong>multi-language</strong> engine for large-scale data processing. This means that we can build our Spark application using many different languages (like Java, Scala, Python and R). Furthermore, you can also use the Spark SQL module of Spark to translate all of your transformations into pure SQL queries.</p>
-<p>Spark SQL is a Spark module for structured data processing <span class="citation" data-cites="spark-doc">(<a href="references.html#ref-spark-doc" role="doc-biblioref"><strong>spark-doc?</strong></a>)</span>. Because Spark SQL is a structured module of Spark, you can use it to translate all transformations that you build with the DataFrame API, which is the main structured API of Spark.</p>
+<p>Spark SQL is a Spark module for structured data processing <span class="citation" data-cites="sparkdoc">(<a href="references.html#ref-sparkdoc" role="doc-biblioref"><em>Apache Spark Official Documentation</em> 2022</a>)</span>. Because Spark SQL is a structured module of Spark, you can use it to translate all transformations that you build with the DataFrame API, which is the main structured API of Spark.</p>
 <p>This means that all transformations exposed throughout this book, can be translated into a SQL query in Spark. However, this also means that the Spark SQL module does not handle the transformations produced by the unstructured APIs of Spark, i.e.&nbsp;the Dataset API. Since the Dataset API is not available in <code>pyspark</code>, it is not covered in this book.</p>
 <p>Due to the multi-language nature of Spark, you can mix python code that uses the DataFrame API with pure SQL queries to build your transformations. We will focus on this exchange between Python and SQL in this chapter.</p>
 </section>
@@ -285,15 +304,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>penguins.createOrReplaceTempView(<span class="st">'penguins_view'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>22/11/13 17:43:58 WARN Utils: Your hostname, pedro-dev resolves to a loopback address: 127.0.1.1; using 192.168.0.90 instead (on interface wlp1s0)
-22/11/13 17:43:58 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address</code></pre>
+<pre><code>22/11/13 19:39:26 WARN Utils: Your hostname, pedro-dev resolves to a loopback address: 127.0.1.1; using 192.168.0.90 instead (on interface wlp1s0)
+22/11/13 19:39:26 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Setting default log level to "WARN".
 To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>22/11/13 17:43:58 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable</code></pre>
+<pre><code>22/11/13 19:39:27 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable</code></pre>
 </div>
 </div>
 <p>After these commands, I have now a view called <code>penguins_view</code> registered in the Spark SQL context, which I can query it, using pure SQL. We can execute a SQL query by using the <code>sql()</code> method from our Spark Session, like in the example below:</p>
@@ -332,6 +351,11 @@ only showing top 5 rows
 </div>
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography" style="display: none">
+<div id="ref-sparkdoc" class="csl-entry" role="doc-biblioentry">
+<em>Apache Spark Official Documentation</em>. 2022. Documentation for Apache Spark 3.2.1; Available at: https://spark.apache.org/docs/latest/.
+</div>
+</div>
 </section>
 <section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
 <hr>

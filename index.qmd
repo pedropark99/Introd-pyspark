@@ -4,6 +4,8 @@
 
 Welcome! This is the initial page for the "Open Access" HTML version of the book "Introduction to `pyspark`", written by [Pedro Duarte Faria](https://pedro-faria.netlify.app/). This book provides an introduction to [`pyspark`](https://spark.apache.org/docs/latest/api/python/), which is a python API to [Apache Spark](https://spark.apache.org/).
 
+This book is still under construction. This means that not all chapters are ready yet, and some of the contents of the book might change in the close future.
+
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)

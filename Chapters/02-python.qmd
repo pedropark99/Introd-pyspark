@@ -194,22 +194,31 @@ Python packages are usually published (that is, made available to the public) th
 
 [^python-5]: https://pypi.org/
 
-To use a python package, you always need to: 1) have this package installed on your machine; 2) import this package in your python script. If a package is not installed in your machine, you will face a `ModuleNotFoundError` as you try to use it, like in the example below. So, if your program produce such an error, is very likely that you are trying to use a package that is not currently installed on your machine. To install it, you may use the `pip install <name of the package>` command on the terminal of your OS.
+To use a python package, you always need to: 1) have this package installed on your machine; 2) import this package in your python script. If a package is not installed in your machine, you will face a `ModuleNotFoundError` as you try to use it, like in the example below. 
 
 ```{python}
 #| eval: false
-import a_package
+import pandas
 ```
 
 ```
 Traceback (most recent call last):
   File "<stdin>", line 1, in <module>
-ModuleNotFoundError: No module named 'a_package'
+ModuleNotFoundError: No module named 'pandas'
+```
+
+If your program produce this error, is very likely that you are trying to use a package that is not currently installed on your machine. To install it, you may use the `pip install <name of the package>` command on the terminal of your OS.
+
+```{terminal}
+#| eval: false
+pip install pandas
 ```
 
 But, if this package is already installed in your machine, then, you can just import it to your script. To do this, you just include an `import` statement at the start of your python file. For example, if I want to use the `DataFrame` function from the `pandas` package:
 
 ```{python}
+# Now that I installed the `pandas` package with `pip`
+# this `import` statement works without any errors:
 import pandas
 
 df = pandas.DataFrame([
@@ -248,9 +257,35 @@ df = DataFrame([
 print(df)
 ```
 
-Some packages may be very big, and includes many different functions and classes. As the size of the package becomes bigger and bigger, developers tend to divide this package in may "modules". In other words, the many functions and classes that are available in a python package, are usually organized in "modules". 
+Just to be clear, you can import multiple functions from the package, by listing them. Or, if you prefer, you can import all components of the package (or module/sub-module) by using the star shortcut (`*`):
 
-As an example, the famous `flask` package is a fairly big package, that contains many functionalities. Because of it, the package is organized in a number of modules, such as `cli`, `globals`, `views` and `sessions`. To access the functions available in each one of these modules, you use the dot operator.
+```{python}
+# Import `search()`, `match()` and `compile()` functions:
+from re import search, match, compile
+# Import all functions from the `os` package
+from os import *
+```
+
+
+Some packages may be very big, and includes many different functions and classes. As the size of the package becomes bigger and bigger, developers tend to divide this package in many "modules". In other words, the functions and classes of this python package are usually organized in "modules". 
+
+As an example, the `pyspark` package is a fairly large package, that contains many classes and functions. Because of it, the package is organized in a number of modules, such as `sql` (to access Spark SQL), `pandas` (to access the Pandas API of Spark), `ml` (to access Spark MLib).
+
+To access the functions available in each one of these modules, you use the dot operator between the name of the package and the name of the module. For example, to import all components from the `sql` and `pandas` modules of `pyspark`, you would do this:
+
+```{python}
+#| eval: false
+from pyspark.sql import *
+from pyspark.pandas import *
+```
+
+Going further, we can have sub-modules (or modules inside a module) too. As an example, the `sql` module of `pyspark` have the `functions` and `window` sub-modules. To access these sub-modules, you use the dot operator again: 
+
+```{python}
+# Importing `functions` and `window` sub-modules:
+import pyspark.sql.functions as F
+import pyspark.sql.window as W
+```
 
 
 
@@ -274,7 +309,7 @@ list(lengths)
 ```
 
 
-In contrast, a python method is a function registered inside a python class. In other words, this function **belongs to the class itself**, and cannot be used outside of it. To use a method, you need to have an instance of the class where it is registered.
+In contrast, a python method is a function registered inside a python class. In other words, this function **belongs to the class itself**, and cannot be used outside of it. This means that, in order to use a method, you need to have an instance of the class where it is registered.
 
 For example, the `startswith()` method belongs to the `str` class (this class is used to represent strings in python). So to use this method, we need to have an instance of this class saved in a object that we can access. Note in the example below, that we access the `startswith()` method through the `name` object. This means that, `startswith()` is a function. But, we cannot use it without an object of class `str`, like `name`.
 
@@ -282,6 +317,8 @@ For example, the `startswith()` method belongs to the `str` class (this class is
 name = "Pedro"
 name.startswith("P")
 ```
+
+Note in the example above, that we access any class method in the same way that we would access a sub-module/module of a package. That is, by using the dot operator (`.`).
 
 So, if we have a class called `people`, and, this class has a method called `location()`, we can use this `location()` method by using the dot operator (`.`) with the name of an object of class `people`. If an object called `x` is an instance of `people` class, then, we can do `x.location()`. 
 
@@ -307,7 +344,7 @@ AttributeError: 'int' object has no attribute 'startswith'
 
 ## Identifying classes and their methods
 
-Over the next chapters, you will realize that the `pyspark` API does not have many standard python functions. So most of its functionality resides in class methods. As a result, the capability of understanding the objects that you have in your python program, and, identifying its classes and methods will be crucial while you are developing and debugging your Spark applications.
+Over the next chapters, you will realize that `pyspark` programs tend to use more methods than standard functions. So most of the functionality of `pyspark` resides in class methods. As a result, the capability of understanding the objects that you have in your python program, and, identifying its classes and methods will be crucial while you are developing and debugging your Spark applications.
 
 Every existing object in python represents an instance of a class. In other words, every object in python is associated to a given class. You can always identify the class of an object, by applying the `type()` function over this object. In the example below, we can see that, the `name` object is an instance of the `str` class.
 
