@@ -534,7 +534,7 @@ pip install pandas</code></pre>
 <pre><code>[5, 4, 3]</code></pre>
 </div>
 </div>
-<p>In contrast, a python method is a function registered inside a python class. In other words, this function <strong>belongs to the class itself</strong>, and cannot be used outside of it. To use a method, you need to have an instance of the class where it is registered.</p>
+<p>In contrast, a python method is a function registered inside a python class. In other words, this function <strong>belongs to the class itself</strong>, and cannot be used outside of it. This means that, in order to use a method, you need to have an instance of the class where it is registered.</p>
 <p>For example, the <code>startswith()</code> method belongs to the <code>str</code> class (this class is used to represent strings in python). So to use this method, we need to have an instance of this class saved in a object that we can access. Note in the example below, that we access the <code>startswith()</code> method through the <code>name</code> object. This means that, <code>startswith()</code> is a function. But, we cannot use it without an object of class <code>str</code>, like <code>name</code>.</p>
 <div class="cell" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>name <span class="op">=</span> <span class="st">"Pedro"</span></span>
@@ -543,6 +543,7 @@ pip install pandas</code></pre>
 <pre><code>True</code></pre>
 </div>
 </div>
+<p>Note in the example above, that we access any class method in the same way that we would access a sub-module/module of a package. That is, by using the dot operator (<code>.</code>).</p>
 <p>So, if we have a class called <code>people</code>, and, this class has a method called <code>location()</code>, we can use this <code>location()</code> method by using the dot operator (<code>.</code>) with the name of an object of class <code>people</code>. If an object called <code>x</code> is an instance of <code>people</code> class, then, we can do <code>x.location()</code>.</p>
 <p>But if this object <code>x</code> is of a different class, like <code>int</code>, then we can no longer use the <code>location()</code> method, because this method does not belong to the <code>int</code> class. For example, if your object is from class <code>A</code>, and, you try to use a method of class <code>B</code>, you will get an <code>AttributeError</code>.</p>
 <p>In the example exposed below, I have an object called <code>number</code> of class <code>int</code>, and, I try to use the method <code>startswith()</code> from <code>str</code> class with this object:</p>

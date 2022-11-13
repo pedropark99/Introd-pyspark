@@ -339,15 +339,15 @@ div.csl-indent {
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> spark.createDataFrame(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>22/11/13 17:43:25 WARN Utils: Your hostname, pedro-dev resolves to a loopback address: 127.0.1.1; using 192.168.0.90 instead (on interface wlp1s0)
-22/11/13 17:43:25 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address</code></pre>
+<pre><code>22/11/13 20:33:41 WARN Utils: Your hostname, pedro-dev resolves to a loopback address: 127.0.1.1; using 192.168.0.90 instead (on interface wlp1s0)
+22/11/13 20:33:41 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Setting default log level to "WARN".
 To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>22/11/13 17:43:26 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable</code></pre>
+<pre><code>22/11/13 20:33:42 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable</code></pre>
 </div>
 </div>
 <p>In the example below, to create a new DataFrame called <code>big_values</code>, we begin with the <code>df</code> DataFrame, then, we filter its rows where <code>value</code> is greater than 15, then, we select <code>date</code> and <code>value</code> columns, then, we sort the rows based on the <code>value</code> column. So, this set of sequential transformations (filter it, then, select it, then, order it, …) defines what this new <code>big_values</code> DataFrame is.</p>
@@ -1350,7 +1350,7 @@ only showing top 5 rows
 <div class="sourceCode cell-code" id="cb86"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a>transf_per_user <span class="op">=</span> transf.groupBy(<span class="st">'user'</span>)</span>
 <span id="cb86-2"><a href="#cb86-2" aria-hidden="true" tabindex="-1"></a>transf_per_user</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="39">
-<pre><code>&lt;pyspark.sql.group.GroupedData at 0x7f0e59c73490&gt;</code></pre>
+<pre><code>&lt;pyspark.sql.group.GroupedData at 0x7f31b0168220&gt;</code></pre>
 </div>
 </div>
 <p>At first, it appears that nothing has changed. But the <code>groupBy()</code> method always returns a new object of class <code>pyspark.sql.group.GroupedData</code>. As a consequence, we can no longer use some of the DataFrame methods that we used before, like the <code>show()</code> method to see the DataFrame.</p>

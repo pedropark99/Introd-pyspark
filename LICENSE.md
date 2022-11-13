@@ -1,5 +1,5 @@
 Attribution 4.0 International
-
+Copyright (c) 2023 Pedro Duarte Faria
 =======================================================================
 
 Creative Commons Corporation ("Creative Commons") is not a law firm and

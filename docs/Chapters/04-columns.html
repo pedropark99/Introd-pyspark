@@ -296,7 +296,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code>Column&lt;'id'&gt;</code></pre>
 </div>
 </div>
-<p>Having these ideas in mind, when I created the column <code>ID</code> on the previous section, I created a “column expression”. This means that <code>col("ID")</code> is just an expression, and as consequence, Spark does not know which are the values of column <code>ID</code>, or, where it lives (which is the DataFrame that this column belongs?). For now, Spark is not interested in these informations, it just knows that we have an expression referring to column called <code>ID</code>.</p>
+<p>Having these ideas in mind, when I created the column <code>ID</code> on the previous section, I created a “column expression”. This means that <code>col("ID")</code> is just an expression, and as consequence, Spark does not know which are the values of column <code>ID</code>, or, where it lives (which is the DataFrame that this column belongs?). For now, Spark is not interested in this information, it just knows that we have an expression referring to a column called <code>ID</code>.</p>
 <p>These ideas relates a lot to the <strong>lazy aspect</strong> of Spark that we talked about in <a href="04-dataframes.html#sec-viewing-a-dataframe"><span>Section&nbsp;3.5</span></a>. Spark will not perform any heavy calculation, or show you the actual results/values from you code, until you trigger the calculations with an action (we will talk more about these actions on <a href="05-transforming.html#sec-dataframe-actions"><span>Section&nbsp;5.3</span></a>). As a result, when you access a column, Spark will only deliver a expression that represents that column, and not the actual values of that column.</p>
 <p>This is handy, because we can store our expressions in variables, and, use it latter, in multiple parts of our code. For example, I can keep building and merging a column with different kinds of operators, to build a more complex expression. In the example below, I create a expression that doubles the values of <code>ID</code> column:</p>
 <div class="cell" data-execution_count="5">
@@ -322,7 +322,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>But since they are so important in Spark, lets just give you a brief overview of some of the most popular methods from the <code>Column</code> class (these methods will be described in more detail in later chapters):</p>
 <ul>
 <li><code>desc()</code> and <code>asc()</code>: methods to order the values of the column in a descending or ascending order (respectively);</li>
-<li><code>cast()</code> and <code>astype()</code>: method to cast (or convert) the values of the column to a specific data type;</li>
+<li><code>cast()</code> and <code>astype()</code>: methods to cast (or convert) the values of the column to a specific data type;</li>
 <li><code>alias()</code>: method to rename a column;</li>
 <li><code>substr()</code>: method that returns a new column with the sub string of each value;</li>
 <li><code>isNull()</code> and <code>isNotNull()</code>: logical methods to test if each value in the column is a null value or not;</li>

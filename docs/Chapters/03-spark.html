@@ -436,7 +436,7 @@ div.csl-indent {
 </div>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
-<pre><code>22/11/13 17:42:51 WARN Utils: Your hostname, pedro-dev resolves to a loopback address: 127.0.1.1; using 192.168.0.90 instead (on interface wlp1s0) 22/11/13 17:42:51 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address 22/11/13 17:42:52 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable 22/11/13 17:42:52 WARN Utils: Service 'SparkUI' could not bind on port 4040. Attempting port 4041. [Row(id=0), Row(id=1), Row(id=2), Row(id=3), Row(id=4)]</code></pre>
+<pre><code>22/11/13 20:33:07 WARN Utils: Your hostname, pedro-dev resolves to a loopback address: 127.0.1.1; using 192.168.0.90 instead (on interface wlp1s0) 22/11/13 20:33:07 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address 22/11/13 20:33:08 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable 22/11/13 20:33:09 WARN Utils: Service 'SparkUI' could not bind on port 4040. Attempting port 4041. [Row(id=0), Row(id=1), Row(id=2), Row(id=3), Row(id=4)]</code></pre>
 </div>
 </div>
 <p>You can see in the above result, that this Spark application produces a sequence of numbers, from 0 to 4, and, returns this sequence as a set of <code>Row</code> objects, inside a python list.</p>
@@ -445,11 +445,12 @@ div.csl-indent {
 </section>
 <section id="overview-of-the-main-classesmodules-in-pyspark" class="level2" data-number="2.7">
 <h2 data-number="2.7" class="anchored" data-anchor-id="overview-of-the-main-classesmodules-in-pyspark"><span class="header-section-number">2.7</span> Overview of the main classes/modules in <code>pyspark</code></h2>
-<p>Before we continue, I would like to give you a brief overview of the main classes/modules that exists in <code>pyspark</code>. They are:</p>
+<p>Before we continue, I want to give you a very brief overview of the main classes/modules that exists in <code>pyspark</code>. They are:</p>
 <ul>
 <li><code>pyspark.sql.SparkSession</code>: the <code>SparkSession</code> class that defines your Spark Session, or, the entry point to your Spark application;</li>
 <li><code>pyspark.sql.dataframe</code>: module that defines the <code>DataFrame</code> class;</li>
 <li><code>pyspark.sql.column</code>: module that defines the <code>Column</code> class;</li>
+<li><code>pyspark.sql.types</code>: module that contains all data types of Spark;</li>
 <li><code>pyspark.sq.functions</code>: module that contains all of the main Spark functions that we use in transformations;</li>
 </ul>
 
