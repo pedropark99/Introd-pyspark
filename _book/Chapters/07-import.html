@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Introduction to pyspark - 7&nbsp; Importing data to Spark</title>
+<title>Introduction to pyspark - 6&nbsp; Importing data to Spark</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -93,8 +93,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../Chapters/references.html" rel="next">
-<link href="../Chapters/06-dataframes-sql.html" rel="prev">
+<link href="../Chapters/06-dataframes-sql.html" rel="next">
+<link href="../Chapters/05-transforming.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -105,11 +105,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
-  "location": "sidebar",
+  "location": "navbar",
   "copy-button": false,
   "collapse-after": 3,
-  "panel-placement": "start",
-  "type": "textbox",
+  "panel-placement": "end",
+  "type": "overlay",
   "limit": 20,
   "language": {
     "search-no-results-text": "No results",
@@ -124,16 +124,45 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   }
 }</script>
 
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
 
-<body class="nav-sidebar floating">
+<body class="nav-sidebar floating nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Introduction to <code>pyspark</code></span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="https://pedro-faria.netlify.app/">
+ <span class="menu-text">Visit the author’s blog</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/pedropark99/Introd-pyspark"><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Importing data to Spark</span></h1>
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Importing data to Spark</span></h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -141,14 +170,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
-    <div class="sidebar-title mb-0 py-0">
-      <a href="../">Introduction to <code>pyspark</code></a> 
-    </div>
-      </div>
       <div class="mt-2 flex-shrink-0 align-items-center">
         <div class="sidebar-search">
         <div id="quarto-search" class="" title="Search"></div>
@@ -158,7 +182,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../index.html" class="sidebar-item-text sidebar-link">Welcome!</a>
+  <a href="../index.html" class="sidebar-item-text sidebar-link">About this website</a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -193,12 +217,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Chapters/06-dataframes-sql.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Working with SQL in <code>pyspark</code></span></a>
+  <a href="../Chapters/07-import.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Importing data to Spark</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Chapters/07-import.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Importing data to Spark</span></a>
+  <a href="../Chapters/06-dataframes-sql.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Working with SQL in <code>pyspark</code></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -215,14 +239,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="toc-section-number">7.1</span>  Introduction</a></li>
-  <li><a href="#reading-data-from-static-files" id="toc-reading-data-from-static-files" class="nav-link" data-scroll-target="#reading-data-from-static-files"><span class="toc-section-number">7.2</span>  Reading data from static files</a></li>
-  <li><a href="#reading-other-file-formats" id="toc-reading-other-file-formats" class="nav-link" data-scroll-target="#reading-other-file-formats"><span class="toc-section-number">7.3</span>  Reading other file formats</a></li>
-  <li><a href="#defining-import-options" id="toc-defining-import-options" class="nav-link" data-scroll-target="#defining-import-options"><span class="toc-section-number">7.4</span>  Defining import options</a>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="toc-section-number">6.1</span>  Introduction</a></li>
+  <li><a href="#reading-from-other-static-file-formats" id="toc-reading-from-other-static-file-formats" class="nav-link" data-scroll-target="#reading-from-other-static-file-formats"><span class="toc-section-number">6.2</span>  Reading from other static file formats</a>
   <ul class="collapse">
-  <li><a href="#import-options-for-csv-files" id="toc-import-options-for-csv-files" class="nav-link" data-scroll-target="#import-options-for-csv-files"><span class="toc-section-number">7.4.1</span>  Import options for CSV files</a></li>
+  <li><a href="#a-first-example-with-a-csv-file" id="toc-a-first-example-with-a-csv-file" class="nav-link" data-scroll-target="#a-first-example-with-a-csv-file"><span class="toc-section-number">6.2.1</span>  A first example with a CSV file</a></li>
+  <li><a href="#reading-from-other-static-file-formats-json-parquet-orc" id="toc-reading-from-other-static-file-formats-json-parquet-orc" class="nav-link" data-scroll-target="#reading-from-other-static-file-formats-json-parquet-orc"><span class="toc-section-number">6.2.2</span>  Reading from other static file formats (JSON, Parquet, ORC)</a></li>
   </ul></li>
-  <li><a href="#pulling-data-from-sql-databases" id="toc-pulling-data-from-sql-databases" class="nav-link" data-scroll-target="#pulling-data-from-sql-databases"><span class="toc-section-number">7.5</span>  Pulling data from SQL Databases</a></li>
+  <li><a href="#defining-import-options" id="toc-defining-import-options" class="nav-link" data-scroll-target="#defining-import-options"><span class="toc-section-number">6.3</span>  Defining import options</a>
+  <ul class="collapse">
+  <li><a href="#import-options-for-csv-files" id="toc-import-options-for-csv-files" class="nav-link" data-scroll-target="#import-options-for-csv-files"><span class="toc-section-number">6.3.1</span>  Import options for CSV files</a></li>
+  </ul></li>
+  <li><a href="#pulling-data-from-sql-databases" id="toc-pulling-data-from-sql-databases" class="nav-link" data-scroll-target="#pulling-data-from-sql-databases"><span class="toc-section-number">6.4</span>  Pulling data from SQL Databases</a></li>
   </ul>
 </nav>
     </div>
@@ -231,7 +258,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span id="sec-import-export" class="quarto-section-identifier d-none d-lg-block"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Importing data to Spark</span></span></h1>
+<h1 class="title"><span id="sec-import-export" class="quarto-section-identifier d-none d-lg-block"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Importing data to Spark</span></span></h1>
 </div>
 
 
@@ -246,19 +273,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </header>
 
-<section id="introduction" class="level2" data-number="7.1">
-<h2 data-number="7.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">7.1</span> Introduction</h2>
+<section id="introduction" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">6.1</span> Introduction</h2>
 <p>Another way of creating Spark DataFrames, is to read (or import) data from a file and convert it to a DataFrame. Spark can read a variety of file formats, including CSV, Parquet, JSON, ORC and Binary files. Furthermore, Spark can connect to other databases and import tables from them, using JDBC connections. We can access the read engines for these different file formats, by using the <code>read</code> module from your Spark Session object.</p>
 </section>
-<section id="reading-data-from-static-files" class="level2" data-number="7.2">
-<h2 data-number="7.2" class="anchored" data-anchor-id="reading-data-from-static-files"><span class="header-section-number">7.2</span> Reading data from static files</h2>
-<p>Static files are probably the easiest way to transport data from one computer to another. Because you just need to copy and paste this file to this other machine, or download it from the internet. To read any file stored inside your computer, Spark always need to know the path to this file.</p>
-<p>Every OS have its own file system. Every file in your computer is stored in a specific address of this file system, and the “path” to this file is the path (or “steps”) that your computer needs to follow to reach this specific address, where the file is stored.</p>
+<section id="reading-from-other-static-file-formats" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="reading-from-other-static-file-formats"><span class="header-section-number">6.2</span> Reading from other static file formats</h2>
+<p>Static files are probably the easiest way to transport data from one computer to another. Because you just need to copy and paste this file to this other machine, or download it from the internet. To read any static file stored inside your computer, <strong>Spark always need to know the file path to this file</strong>.</p>
+<p>Every OS have its own file system, and every file in your computer is stored in a specific address of this file system. The “path” to this file is the path (or “steps”) that your computer needs to follow to reach this specific address, where the file is stored.</p>
+<section id="a-first-example-with-a-csv-file" class="level3" data-number="6.2.1">
+<h3 data-number="6.2.1" class="anchored" data-anchor-id="a-first-example-with-a-csv-file"><span class="header-section-number">6.2.1</span> A first example with a CSV file</h3>
 <p>As an example, I have the following CSV file saved in my computer:</p>
 <pre><code>name,age,job
 Jorge,30,Developer
 Bob,32,Developer</code></pre>
-<p>This CSV was saved in a file called <code>people.csv</code>, inside a folder called <code>Data</code>. So, to read this file, Spark needs to know the path to this <code>people.csv</code> file. In other words, Spark needs to know where this file is stored in my computer, to be able to read it.</p>
+<p>This CSV was saved in a file called <code>people.csv</code>, inside a folder called <code>Data</code>. So, to read this static file, Spark needs to know the path to this <code>people.csv</code> file. In other words, Spark needs to know where this file is stored in my computer, to be able to read it.</p>
 <!-- There are two kinds of paths in a computer, a *relative path*, and, a *absolute path*. An absolute path, is a path that starts from the hard disk of your computer. It is "absolute" because it includes the complete address to your file, and, because of it, is a unique address in your machine. However, a relative path is an address based on some starting point, and, this starting point can be any point in your file system. -->
 <!-- To some degree, every absolute path is a relative path, because it has a starting point (which is the hard disk of your computer), and, goes up to your file -->
 <p>In my specific case, considering where this <code>Data</code> folder is in my file system, a relative path to it would be <code>"../Data/"</code>. Having the path to the folder where <code>people.csv</code> is stored, I just need to add this file to the path, resulting in <code>"../Data/people.csv"</code>. See in the example below, that I gave this path to the <code>read.csv()</code> method of my Spark Session. As a result, Spark will visit this address, and, read the file that is stored there:</p>
@@ -271,15 +300,15 @@ Bob,32,Developer</code></pre>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> spark.read.csv(path)</span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>df.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>22/11/12 10:38:26 WARN Utils: Your hostname, pedro-dev resolves to a loopback address: 127.0.1.1; using 192.168.0.90 instead (on interface wlp1s0)
-22/11/12 10:38:26 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address</code></pre>
+<pre><code>22/11/13 17:43:45 WARN Utils: Your hostname, pedro-dev resolves to a loopback address: 127.0.1.1; using 192.168.0.90 instead (on interface wlp1s0)
+22/11/13 17:43:45 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Setting default log level to "WARN".
 To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>22/11/12 10:38:27 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable</code></pre>
+<pre><code>22/11/13 17:43:46 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>+-----+---+---------+
@@ -319,7 +348,7 @@ To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLeve
 <pre><code>Traceback (most recent call last):
   ...
 pyspark.sql.utils.AnalysisException: Path does not exist: file:/home/pedro/Documents/Projects/Books/Introd-pyspark/weird-file.csv</code></pre>
-<p>Every time you face this “Path does not exist” error, it means that Spark did not found the file that you described in the path you gave to <code>spark.read</code>. In this case, is very likely that you have a typo or a mistake in your path. Maybe your forgot to add the <code>.csv</code> extension to the name of your file. Or maybe you forgot to use the right angled slash (<code>/</code>) instead of the left angled slash (<code>\</code>).</p>
+<p>Every time you face this “Path does not exist” error, it means that Spark did not found the file that you described in the path you gave to <code>spark.read</code>. In this case, is very likely that you have a typo or a mistake in your path. Maybe your forgot to add the <code>.csv</code> extension to the name of your file. Or maybe you forgot to use the right angled slash (<code>/</code>) instead of the left angled slash (<code>\</code>). Or maybe, you gave the path to folder <span class="math inline">\(x\)</span>, when in fact, you wanted to reach the folder <span class="math inline">\(y\)</span>.</p>
 <p>Sometimes, is useful to list all the files that are stored inside the folder you are trying to access. This way, you can make sure that you are looking at the right folder of your file system. To do that, you can use the <code>listdir()</code> function from <code>os</code> module of python. As an example, I can list all the files that are stored inside of the <code>Data</code> folder in this way:</p>
 <div class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> os <span class="im">import</span> listdir</span>
@@ -333,8 +362,8 @@ pyspark.sql.utils.AnalysisException: Path does not exist: file:/home/pedro/Docum
 </div>
 </div>
 </section>
-<section id="reading-other-file-formats" class="level2" data-number="7.3">
-<h2 data-number="7.3" class="anchored" data-anchor-id="reading-other-file-formats"><span class="header-section-number">7.3</span> Reading other file formats</h2>
+<section id="reading-from-other-static-file-formats-json-parquet-orc" class="level3" data-number="6.2.2">
+<h3 data-number="6.2.2" class="anchored" data-anchor-id="reading-from-other-static-file-formats-json-parquet-orc"><span class="header-section-number">6.2.2</span> Reading from other static file formats (JSON, Parquet, ORC)</h3>
 <p>Even CSV’s being a very popular format, is very likely that you will need to read archives in many different formats. To read a different file format, you just need to use a different read engine.</p>
 <p>In more details, you need to give the path of this file, to a different method of the <code>read</code> module of your Spark Session. More specifically, to the method that corresponds to the file format you are interested in.</p>
 <p>The main read engines available in Spark for static files are listed below:</p>
@@ -362,21 +391,22 @@ pyspark.sql.utils.AnalysisException: Path does not exist: file:/home/pedro/Docum
 </div>
 </div>
 </section>
-<section id="defining-import-options" class="level2" data-number="7.4">
-<h2 data-number="7.4" class="anchored" data-anchor-id="defining-import-options"><span class="header-section-number">7.4</span> Defining import options</h2>
-<p>While reading and importing your files, Spark will use the default values for the import options defined by the read engine you are using, unless you explicit ask it to use different values. Each read engine has its own read/import options.</p>
+</section>
+<section id="defining-import-options" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="defining-import-options"><span class="header-section-number">6.3</span> Defining import options</h2>
+<p>While reading and importing data from any type of data source, Spark will always use the default values for each import option defined by the read engine you are using, unless you explicit ask it to use a different value. Each read engine has its own read/import options.</p>
 <p>For example, the <code>spark.read.orc()</code> engine has a option called <code>mergeSchema</code>. With this option, you can ask Spark to merge the schemas collected from all the ORC part-files. In contrast, the <code>spark.read.csv()</code> engine does not have such option. Because this functionality of “merging schemas” does not make sense with CSV files.</p>
-<p>This means that, some import options are specific (or characteristic) of some file formats. For example, the <code>sep</code> option (where you define the <em>separator</em> character) is used only in the <code>spark.read.csv()</code> engine, because you do not have a special character that behaves as the “separator” in the other file formats (ORC, JSON, Parquet…). So it does not make sense to have such option in the other read engines.</p>
+<p>This means that, some import options are specific (or characteristic) of some file formats. For example, the <code>sep</code> option (where you define the <em>separator</em> character) is used only in the <code>spark.read.csv()</code> engine. Because you do not have a special character that behaves as the “separator” in the other file formats (like ORC, JSON, Parquet…). So it does not make sense to have such option in the other read engines.</p>
 <p>In the other hand, some import options can co-exist in multiple read engines. For example, the <code>spark.read.json()</code> and <code>spark.read.csv()</code> have both an <code>encoding</code> option. The encoding is a very important information, and Spark needs it to correctly interpret your file. By default, Spark will always assume that your files use the UTF-8 encoding system. Although, this may not be true for your specific case, and for these cases you use this <code>encoding</code> option to tell Spark which one to use.</p>
 <p>In the next sections, I will break down some of the most used import options for each file format. If you want to see the complete list of import options, you can visit the <em>Data Source Option</em> section in the specific part of the file format you are using in the Spark SQL Guide<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>.</p>
-<section id="import-options-for-csv-files" class="level3" data-number="7.4.1">
-<h3 data-number="7.4.1" class="anchored" data-anchor-id="import-options-for-csv-files"><span class="header-section-number">7.4.1</span> Import options for CSV files</h3>
+<section id="import-options-for-csv-files" class="level3" data-number="6.3.1">
+<h3 data-number="6.3.1" class="anchored" data-anchor-id="import-options-for-csv-files"><span class="header-section-number">6.3.1</span> Import options for CSV files</h3>
 <!-- pt-BR -->
 <p>The most important import options for CSV files are <code>sep</code>, <code>encoding</code>, <code>header</code> and <code>locale</code>.</p>
 </section>
 </section>
-<section id="pulling-data-from-sql-databases" class="level2" data-number="7.5">
-<h2 data-number="7.5" class="anchored" data-anchor-id="pulling-data-from-sql-databases"><span class="header-section-number">7.5</span> Pulling data from SQL Databases</h2>
+<section id="pulling-data-from-sql-databases" class="level2" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="pulling-data-from-sql-databases"><span class="header-section-number">6.4</span> Pulling data from SQL Databases</h2>
 <p>We can use the <code>spark.read.jdbc()</code> method to connect and read data from Databases using JDBC connections. Also, you can read a SQL table from your Spark context by using the <code>spark.table()</code> method.</p>
 
 
@@ -385,7 +415,7 @@ pyspark.sql.utils.AnalysisException: Path does not exist: file:/home/pedro/Docum
 <hr>
 <ol>
 <li id="fn1"><p>That is, the complete path to the file, or, in other words, a path that starts in the root folder of your hard drive.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2"><p>For example, this <em>Data Source Option</em> for Parque files is located at: https://spark.apache.org/docs/latest/sql-data-sources-parquet.html#data-source-option<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>For example, this <em>Data Source Option</em> for Parquet files is located at: https://spark.apache.org/docs/latest/sql-data-sources-parquet.html#data-source-option<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section>
 
@@ -525,13 +555,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../Chapters/06-dataframes-sql.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Working with SQL in <code>pyspark</code></span></span>
+      <a href="../Chapters/05-transforming.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Transforming your Spark DataFrame</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../Chapters/references.html" class="pagination-link">
-        <span class="nav-page-text">References</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../Chapters/06-dataframes-sql.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Working with SQL in <code>pyspark</code></span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

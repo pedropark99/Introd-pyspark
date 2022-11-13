@@ -8,6 +8,7 @@ calc_y <- function(distance, angle, direction = 1L){
   distance * sin(angle) * direction
 }
 
+cover_main_color <- "#164E80"
 
 colors <- c(
   "#d90429", "#ef233c",

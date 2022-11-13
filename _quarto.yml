@@ -6,7 +6,17 @@ project:
 book:
   title: "Introduction to `pyspark`"
   author: "Pedro Duarte Faria"
-  date: "2022-04-24"
+  date: "today"
+  navbar: 
+    background: "#164e80"
+    left: 
+      - text: "Visit the author's blog"
+        href: "https://pedro-faria.netlify.app/"
+    right: 
+      - icon: github
+        href: "https://github.com/pedropark99/Introd-pyspark"
+  edition: "First edition"
+  cover-image: "Cover/cover1.png"
   chapters:
     - index.qmd
     - Chapters/01-intro.qmd
@@ -23,7 +33,9 @@ bibliography: references.bib
 number-sections: true
 format:
   html:
-    theme: cosmo
+    theme: 
+      - cosmo
+      - theme.scss
   # pdf:
   #   keep-tex: true
 

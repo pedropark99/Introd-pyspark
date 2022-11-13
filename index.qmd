@@ -1,8 +1,8 @@
 
 
-# Welcome! {.unnumbered}
+# About this website {.unnumbered}
 
-Hello! This is the initial page! This book provides an introduction to `pyspark`, but, because `pyspark` is a python API to Apache Spark, this book is about Apache Spark too.
+Welcome! This is the initial page for the "Open Access" HTML version of the book "Introduction to `pyspark`", written by [Pedro Duarte Faria](https://pedro-faria.netlify.app/). This book provides an introduction to [`pyspark`](https://spark.apache.org/docs/latest/api/python/), which is a python API to [Apache Spark](https://spark.apache.org/).
 
 
 ```{r setup, include=FALSE}

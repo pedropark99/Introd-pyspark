@@ -1,7 +1,7 @@
 {
-  "hash": "dc90c1a2e9e1ece10b3e80a316b724e4",
+  "hash": "11084c0f224c91938c0831265717ac34",
   "result": {
-    "markdown": "\n\n# Welcome! {.unnumbered}\n\nHello! This is the initial page! This book provides an introduction to `pyspark`, but, because `pyspark` is a python API to Apache Spark, this book is about Apache Spark too.\n\n\n\n\n",
+    "markdown": "\n\n# About this website {.unnumbered}\n\nWelcome! This is the initial page for the \"Open Access\" HTML version of the book \"Introduction to `pyspark`\", written by [Pedro Duarte Faria](https://pedro-faria.netlify.app/). This book provides an introduction to [`pyspark`](https://spark.apache.org/docs/latest/api/python/), which is a python API to [Apache Spark](https://spark.apache.org/).\n\n\n\n\n",
     "supporting": [],
     "filters": [
       "rmarkdown/pagebreak.lua"
