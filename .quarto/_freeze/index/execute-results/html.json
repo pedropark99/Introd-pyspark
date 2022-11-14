@@ -1,7 +1,7 @@
 {
-  "hash": "616ca49010d108c37cd8edcce1f5bfa9",
+  "hash": "1d7a8a137dd23ac4d63a7e6ebd892d7c",
   "result": {
-    "markdown": "\n\n# About this website {.unnumbered}\n\nWelcome! This is the initial page for the \"Open Access\" HTML version of the book \"Introduction to `pyspark`\", written by [Pedro Duarte Faria](https://pedro-faria.netlify.app/). This book provides an introduction to [`pyspark`](https://spark.apache.org/docs/latest/api/python/), which is a python API to [Apache Spark](https://spark.apache.org/).\n\nThis book is still under active construction. This means that not all chapters are ready yet, and some of the contents of the book might change in the close future.\n\n\n\n\n",
+    "markdown": "\n\n# About this website {.unnumbered}\n\nWelcome! This is the initial page for the \"Open Access\" HTML version of the book \"Introduction to `pyspark`\", written by [Pedro Duarte Faria](https://pedro-faria.netlify.app/). This book provides an introduction to [`pyspark`](https://spark.apache.org/docs/latest/api/python/), which is a python API to [Apache Spark](https://spark.apache.org/).\n\nThis book is still under active construction. This means that not all chapters are ready yet, and some of its current contents might change in the close future. This book is licensed by the [CC-BY 4.0 Creative Commons Attribution 4.0 International Public License](https://creativecommons.org/licenses/by/4.0/).\n\n<a rel=\"license\" href=\"http://creativecommons.org/licenses/by/4.0/\"><img alt=\"Creative Commons License\" style=\"border-width:0\" src=\"https://i.creativecommons.org/l/by/4.0/88x31.png\" /></a>\n\n\n\n\n",
     "supporting": [],
     "filters": [
       "rmarkdown/pagebreak.lua"
