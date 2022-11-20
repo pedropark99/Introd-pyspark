@@ -240,7 +240,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
    
   <ul>
   <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="toc-section-number">6.1</span>  Introduction</a></li>
-  <li><a href="#reading-from-other-static-file-formats" id="toc-reading-from-other-static-file-formats" class="nav-link" data-scroll-target="#reading-from-other-static-file-formats"><span class="toc-section-number">6.2</span>  Reading from other static file formats</a></li>
+  <li><a href="#reading-data-from-static-files" id="toc-reading-data-from-static-files" class="nav-link" data-scroll-target="#reading-data-from-static-files"><span class="toc-section-number">6.2</span>  Reading data from static files</a></li>
   <li><a href="#a-first-example-with-a-csv-file" id="toc-a-first-example-with-a-csv-file" class="nav-link" data-scroll-target="#a-first-example-with-a-csv-file"><span class="toc-section-number">6.3</span>  A first example with a CSV file</a></li>
   <li><a href="#defining-import-options" id="toc-defining-import-options" class="nav-link" data-scroll-target="#defining-import-options"><span class="toc-section-number">6.4</span>  Defining import options</a>
   <ul class="collapse">
@@ -273,13 +273,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2 data-number="6.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">6.1</span> Introduction</h2>
 <p>Another way of creating Spark DataFrames, is to read (or import) data from a file and convert it to a DataFrame. Spark can read a variety of file formats, including CSV, Parquet, JSON, ORC and Binary files. Furthermore, Spark can connect to other databases and import tables from them, using JDBC connections. We can access the read engines for these different file formats, by using the <code>read</code> module from your Spark Session object.</p>
 </section>
-<section id="reading-from-other-static-file-formats" class="level2" data-number="6.2">
-<h2 data-number="6.2" class="anchored" data-anchor-id="reading-from-other-static-file-formats"><span class="header-section-number">6.2</span> Reading from other static file formats</h2>
+<section id="reading-data-from-static-files" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="reading-data-from-static-files"><span class="header-section-number">6.2</span> Reading data from static files</h2>
 <p>Static files are probably the easiest way to transport data from one computer to another. Because you just need to copy and paste this file to this other machine, or download it from the internet.</p>
 <p>But in order to Spark read any static file stored inside your computer, <strong>it always need to know the file path to this file</strong>.</p>
 <p>Every OS have its own file system, and every file in your computer is stored in a specific address of this file system. The “path” to this file is the path (or “steps”) that your computer needs to follow to reach this specific address, where the file is stored.</p>
 <p>To read any static file in Spark, you use one of the available “read engines”, which are in the <code>spark.read</code> module of your Spark Session. This means that, each read engine in this module is responsible for reading a specific file format.</p>
-<p>If you want to read a CSV file for example, you use the <code>spark.read.csv()</code> engine. In contrast, if you want to read a JSON file, than, you use the <code>spark.read.json()</code> engine instead. But no matter what read engine you use, you always give the path to your file to any of these “read engines”.</p>
+<p>If you want to read a CSV file for example, you use the <code>spark.read.csv()</code> engine. In contrast, if you want to read a JSON file, you use the <code>spark.read.json()</code> engine instead. But no matter what read engine you use, you always give the path to your file to any of these “read engines”.</p>
 <p>The main read engines available in Spark for static files are:</p>
 <ul>
 <li><code>spark.read.json()</code>: to read JSON files;</li>
@@ -366,12 +366,13 @@ pyspark.sql.utils.AnalysisException: Path does not exist: file:/home/pedro/Docum
 <div class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> os <span class="im">import</span> listdir</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>listdir(<span class="st">"../Data/"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="17">
+<div class="cell-output cell-output-display" data-execution_count="5">
 <pre><code>['people.csv',
  'penguins.csv',
  'transf_reform.csv',
  'transf-build',
- 'sales.json']</code></pre>
+ 'sales.json',
+ 'books.txt']</code></pre>
 </div>
 </div>
 </section>
@@ -383,6 +384,7 @@ pyspark.sql.utils.AnalysisException: Path does not exist: file:/home/pedro/Docum
 <p>In the other hand, some import options can co-exist in multiple read engines. For example, the <code>spark.read.json()</code> and <code>spark.read.csv()</code> have both an <code>encoding</code> option. The encoding is a very important information, and Spark needs it to correctly interpret your file. By default, Spark will always assume that your files use the UTF-8 encoding system. Although, this may not be true for your specific case, and for these cases you use this <code>encoding</code> option to tell Spark which one to use.</p>
 <p>In the next sections, I will break down some of the most used import options for each file format. If you want to see the complete list of import options, you can visit the <em>Data Source Option</em> section in the specific part of the file format you are using in the Spark SQL Guide<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>.</p>
 <p>To define, or, set a specific import option, you use the <code>option()</code> method from a <code>DataFrameReader</code> object. To produce this kind of object, you use the <code>spark.read</code> module, like in the example below. Each call to the <code>option()</code> method is used to set a single import option.</p>
+<p>Notice that the “read engine” of Spark (i.e.&nbsp;<code>csv()</code>) is the last method called at this chain (or sequence) of steps. In other words, you start by creating a <code>DataFrameReader</code> object, then, set the import options, and lastly, you define which “read engine” you want to use.</p>
 <div class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Creating a `DataFrameReader` object:</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>df_reader <span class="op">=</span> spark.read</span>
@@ -395,7 +397,7 @@ pyspark.sql.utils.AnalysisException: Path does not exist: file:/home/pedro/Docum
 <span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>my_data <span class="op">=</span> df_reader<span class="op">\</span></span>
 <span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  .csv(<span class="st">"../Data/a-csv-file.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Or you can just merge all calls together like this:</p>
+<p>If you prefer, you can also merge all these calls together like this:</p>
 <div class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>spark.read\ <span class="co"># a `DataFrameReader` object</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  .option(<span class="st">"sep"</span>, <span class="st">"$"</span>)\ <span class="co"># Setting the `sep` option</span></span>
@@ -437,7 +439,7 @@ pyspark.sql.utils.AnalysisException: Path does not exist: file:/home/pedro/Docum
 </code></pre>
 </div>
 </div>
-<p>This is usually the standard adopted by countries that uses commas to define decimal houses in real numbers. In other words, in some countries, the number <code>3.45</code> is usually written as <code>3,45</code>.</p>
+<p>This is usually the standard adopted by countries that use a comma to define decimal places in real numbers. In other words, in some countries, the number <code>3.45</code> is usually written as <code>3,45</code>.</p>
 <p>Anyway, we know now that the <code>transf_reform.csv</code> file uses a different separator character, so, to correctly read this CSV file into Spark, we need to set the <code>sep</code> import option. Since this file comes with the column names in the first line, I also set the <code>header</code> import option to read this first line as the column names as well.</p>
 <div class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>transf <span class="op">=</span> spark.read<span class="op">\</span></span>
@@ -457,6 +459,28 @@ pyspark.sql.utils.AnalysisException: Path does not exist: file:/home/pedro/Docum
 |2018-12-06T21:41:27Z|     Ana|1408.261| 116262934|Germany|       null|
 +--------------------+--------+--------+----------+-------+-----------+
 only showing top 5 rows
+</code></pre>
+</div>
+</div>
+</section>
+<section id="setting-the-encoding" class="level4" data-number="6.4.1.2">
+<h4 data-number="6.4.1.2" class="anchored" data-anchor-id="setting-the-encoding"><span class="header-section-number">6.4.1.2</span> Setting the encoding</h4>
+<div class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>books <span class="op">=</span> spark.read<span class="op">\</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  .option(<span class="st">"sep"</span>, <span class="st">";"</span>)<span class="op">\</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  .csv(<span class="st">"../Data/books.txt"</span>)</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>books.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>+--------------------+
+|                 _c0|
++--------------------+
+|  Title,Author,Price|
+|O Hobbit,J. R. R....|
+|Matemática para E...|
+|Microeconomia: um...|
+|A Luneta Âmbar,Ph...|
++--------------------+
 </code></pre>
 </div>
 </div>
