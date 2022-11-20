@@ -1,3 +1,2 @@
 TODOS:
-- "Partitions" of a DataFrame is useful for explaining the difference between narrow and wide transformations (but, this difference does not need to be in the DataFrame chapter, maybe this is a more advanced topic);
-- Maybe, the "Partitions of a Spark DataFrame" section, should be moved to a different chapter;
+- Maybe the section for pulling data from sql databases whould be in another chapter;

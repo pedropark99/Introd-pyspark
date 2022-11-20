@@ -1,6 +1,12 @@
 
 # Importing data to Spark {#sec-import-export}
 
+```{python}
+#| include: false
+from pyspark.sql import SparkSession
+spark = SparkSession.builder.getOrCreate()
+```
+
 
 ## Introduction
 
@@ -8,11 +14,33 @@ Another way of creating Spark DataFrames, is to read (or import) data from a fil
 
 ## Reading from other static file formats
 
-Static files are probably the easiest way to transport data from one computer to another. Because you just need to copy and paste this file to this other machine, or download it from the internet. To read any static file stored inside your computer, **Spark always need to know the file path to this file**.
+Static files are probably the easiest way to transport data from one computer to another. Because you just need to copy and paste this file to this other machine, or download it from the internet. 
+
+But in order to Spark read any static file stored inside your computer, **it always need to know the file path to this file**.
 
 Every OS have its own file system, and every file in your computer is stored in a specific address of this file system. The "path" to this file is the path (or "steps") that your computer needs to follow to reach this specific address, where the file is stored. 
 
-### A first example with a CSV file
+To read any static file in Spark, you use one of the available "read engines", which are in the `spark.read` module of your Spark Session. This means that, each read engine in this module is responsible for reading a specific file format.
+
+If you want to read a CSV file for example, you use the `spark.read.csv()` engine. In contrast, if you want to read a JSON file, than, you use the `spark.read.json()` engine instead. But no matter what read engine you use, you always give the path to your file to any of these "read engines".
+
+
+The main read engines available in Spark for static files are:
+
+- `spark.read.json()`: to read JSON files;
+- `spark.read.csv()`: to read CSV files;
+- `spark.read.parquet()`: to read Apache Parquet files;
+- `spark.read.orc()`: to read ORC (Apache *Optimized Row Columnar* format) files;
+
+For example, to read a JSON file called `sales.json` that is stored in my `Data` folder, I can do this:
+
+```{python}
+json_data = spark.read.json("../Data/sales.json")
+json_data.show()
+```
+
+
+## A first example with a CSV file
 
 As an example, I have the following CSV file saved in my computer:
 
@@ -80,25 +108,6 @@ listdir("../Data/")
 ```
 
 
-### Reading from other static file formats (JSON, Parquet, ORC)
-
-Even CSV's being a very popular format, is very likely that you will need to read archives in many different formats. To read a different file format, you just need to use a different read engine.
-
-In more details, you need to give the path of this file, to a different method of the `read` module of your Spark Session. More specifically, to the method that corresponds to the file format you are interested in.
-
-The main read engines available in Spark for static files are listed below:
-
-- `spark.read.json()`: to read JSON files;
-- `spark.read.csv()`: to read CSV files;
-- `spark.read.parquet()`: to read Apache Parquet files;
-- `spark.read.orc()`: to read ORC (Apache *Optimized Row Columnar* format) files;
-
-For example, to read a JSON file called `sales.json` that is stored in my `Data` folder, I can do this:
-
-```{python}
-json_data = spark.read.json("../Data/sales.json")
-json_data.show()
-```
 
 
 ## Defining import options
@@ -113,16 +122,73 @@ In the other hand, some import options can co-exist in multiple read engines. Fo
 
 In the next sections, I will break down some of the most used import options for each file format. If you want to see the complete list of import options, you can visit the *Data Source Option* section in the specific part of the file format you are using in the Spark SQL Guide^[For example, this *Data Source Option* for Parquet  files is located at: https://spark.apache.org/docs/latest/sql-data-sources-parquet.html#data-source-option].
 
+To define, or, set a specific import option, you use the `option()` method from a `DataFrameReader` object. To produce this kind of object, you use the `spark.read` module, like in the example below. Each call to the `option()` method is used to set a single import option.
+
+```{python}
+#| eval: false
+# Creating a `DataFrameReader` object:
+df_reader = spark.read
+# Setting the import options:
+df_reader = df_reader\
+  .option("sep", "$")\
+  .option("locale", "pt-BR")
+  
+# Setting the "read engine" to be used with `.csv()`:
+my_data = df_reader\
+  .csv("../Data/a-csv-file.csv")
+```
+
+Or you can just merge all calls together like this:
+
+```{python}
+#| eval: false
+spark.read\ # a `DataFrameReader` object
+  .option("sep", "$")\ # Setting the `sep` option
+  .option("locale", "pt-BR")\ # Setting the `locale` option
+  .csv("../Data/a-csv-file.csv") # The "read engine" to be used
+```
+
+
 ### Import options for CSV files
 
 <!-- pt-BR -->
 
-The most important import options for CSV files are `sep`, `encoding`, `header` and `locale`.
+The most important import options for CSV files are `sep`, `encoding`, `header` and `locale`. There are multiple other import options that can be useful to import your CSV files. You can read more about them in the official documentation for Spark^[https://spark.apache.org/docs/latest/sql-data-sources-csv.html].
+
+Lets give you a brief description of each option:
+
+- `sep`: sets the separator character for each field and value in the CSV file (defaults to `","`);
+- `encoding`: sets the character encoding of the CSV file (defaults to `"UTF-8"`);
+- `header`: boolean (defaults to `False`), should Spark consider the first line of the file as the header (i.e. the name of the columns) ?
+- `locale`: sets the language locale of the file, as a IETF BCP 47 language tag (defaults to `"en-US"`);
+
+#### Setting the separator character
+
+In this section, we will use the `transf_reform.csv` file to demonstrate how to set the separator character of a CSV file. This file, contains some data of transfers made in a fictitious bank.
+
+Lets use the `peek_file()` function defined below to get a quick peek at the first 5 lines of this file. If you look closely to these lines, you can identify that this CSV files uses the `";"` character to separate fields and values, and not the american standard `","` character.
+
+```{python}
+def peek_file(path, n_lines = 5):
+  with open(path) as file:
+    for i in range(n_lines):
+      print(next(file))
+  
+peek_file("../Data/transf_reform.csv")
+```
 
 
+This is usually the standard adopted by countries that uses commas to define decimal houses in real numbers. In other words, in some countries, the number `3.45` is usually written as `3,45`.
+
+Anyway, we know now that the `transf_reform.csv` file uses a different separator character, so, to correctly read this CSV file into Spark, we need to set the `sep` import option. Since this file comes with the column names in the first line, I also set the `header` import option to read this first line as the column names as well.
+
+```{python}
+transf = spark.read\
+  .option("sep", ";")\
+  .option("header", True)\
+  .csv("../Data/transf_reform.csv")
+  
+transf.show(5)
+```
 
 
-
-## Pulling data from SQL Databases
-
-We can use the `spark.read.jdbc()` method to connect and read data from Databases using JDBC connections. Also, you can read a SQL table from your Spark context by using the `spark.table()` method.
