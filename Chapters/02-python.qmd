@@ -48,8 +48,7 @@ But, if for some reason you could not open the terminal inside the folder, just 
 
 For example, if I saved `hello.py` inside my Documents folder, the path to this folder in Windows would be something like this: `"C:\Users\pedro\Documents"`. On the other hand, this path on Linux would be something like `"/usr/pedro/Documents"`. So the command to change to this directory would be:
 
-```{terminal}
-#| eval: false
+```{terminal, eval = FALSE}
 # On Windows:
 Terminal$ cd "C:\Users\pedro\Documents"
 # On Linux:
@@ -209,8 +208,7 @@ ModuleNotFoundError: No module named 'pandas'
 
 If your program produce this error, is very likely that you are trying to use a package that is not currently installed on your machine. To install it, you may use the `pip install <name of the package>` command on the terminal of your OS.
 
-```{terminal}
-#| eval: false
+```{terminal, eval = FALSE}
 pip install pandas
 ```
 

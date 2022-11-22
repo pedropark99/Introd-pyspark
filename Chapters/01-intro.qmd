@@ -1,4 +1,6 @@
 
+
+
 # Preface {.unnumbered}
 
 
@@ -30,8 +32,7 @@ print(y)
 
 Furthermore, all terminal commands that we expose in this book, will always be: pre-fixed by `Terminal$`; written in black; and, not outlined by a gray rectangle. In the example below, we can easily detect that this command `pip install jupyter` should be inserted in the terminal of the OS (whatever is the terminal that your OS uses), and not in the python interpreter, because this command is prefixed with `Terminal$`.
 
-```{terminal}
-#| eval: false
+```{terminal, eval = FALSE}
 Terminal$ pip install jupyter
 ```
 
@@ -113,8 +114,8 @@ Install and manage `Spark` in Windows is a little harder than in a UNIX-like mac
 
 To install python on Windows, you can download the executable files at the official Python website^[https://www.python.org/downloads/]. But, if you are on Linux, you can install python with the package manager, by opening a terminal and running the following command:
 
-```{terminal}
-sudo apt-get install python3
+```{terminal, eval = FALSE}
+Terminal$ sudo apt-get install python3
 ```
 
 
@@ -122,7 +123,7 @@ sudo apt-get install python3
 
 Installing the `pyspark` python package is pretty straightforward. Just open a terminal (if you need help to open the terminal check @sec-open-terminal), and use the `pip` command to do it:
 
-```{terminal}
+```{terminal, eval = FALSE}
 Terminal$ pip install pyspark
 ```
 
@@ -132,7 +133,7 @@ The `pip` tool is automatically installed with Python on Windows. So, if you fac
 
 In UNIX-like systems, installing `pip` is very easy, because you can use the built-in package manager to do this for you. In Debian like distros (e.g. Ubuntu), you use the `apt` tool, and, in Arch-Linux like distros (e.g. Arch Linux, Manjaro) you would use the `pacman` tool. Both possibilities are exposed below:
 
-```{terminal}
+```{terminal, eval = FALSE}
 # If you are in a Debian like distro of Linux
 # and need to install `pip`, use this command:
 Terminal$ sudo apt install python3-pip
@@ -143,7 +144,7 @@ Terminal$ pacman -S python-pip
 
 But, if you are running in MacOs, is best to use the `get-pip.py` method to do install `pip`^[See the following discussion: https://stackoverflow.com/questions/17271319/how-do-i-install-pip-on-macos-or-os-x]. To use this method, try to run the command below on the terminal. After you installed pip, run the same `pip` command we showed earlier to install `pyspark`.
 
-```{terminal}
+```{terminal, eval = FALSE}
 # To install `pip` on a MacOs:
 Terminal$ curl https://bootstrap.pypa.io/get-pip.py | python3
 ```
