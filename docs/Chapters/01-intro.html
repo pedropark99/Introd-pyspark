@@ -302,8 +302,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 <p>Furthermore, all terminal commands that we expose in this book, will always be: pre-fixed by <code>Terminal$</code>; written in black; and, not outlined by a gray rectangle. In the example below, we can easily detect that this command <code>pip install jupyter</code> should be inserted in the terminal of the OS (whatever is the terminal that your OS uses), and not in the python interpreter, because this command is prefixed with <code>Terminal$</code>.</p>
-<pre class="{terminal}"><code>#| eval: false
-Terminal$ pip install jupyter</code></pre>
+<p><code>{terminal, eval = FALSE} Terminal$ pip install jupyter</code></p>
 <p>Some terminal commands may produce visible results as well. In that case, these results will be right below the respective command, and will not be pre-fixed with <code>Terminal$</code>. For example, we can see below that the command <code>echo "Hello!"</code> produces the result <code>"Hello!"</code>.</p>
 <pre class="{terminal}"><code>Terminal$ echo "Hello!"</code></pre>
 </section>
@@ -380,24 +379,18 @@ Terminal$ pip install jupyter</code></pre>
 <section id="install-python" class="level3">
 <h3 class="anchored" data-anchor-id="install-python">Install python</h3>
 <p>To install python on Windows, you can download the executable files at the official Python website<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>. But, if you are on Linux, you can install python with the package manager, by opening a terminal and running the following command:</p>
-<pre class="{terminal}"><code>sudo apt-get install python3</code></pre>
+<p><code>{terminal, eval = FALSE} Terminal$ sudo apt-get install python3</code></p>
 </section>
 <section id="install-pyspark" class="level3">
 <h3 class="anchored" data-anchor-id="install-pyspark">Install <code>pyspark</code></h3>
 <p>Installing the <code>pyspark</code> python package is pretty straightforward. Just open a terminal (if you need help to open the terminal check <a href="#sec-open-terminal"><span>Section&nbsp;3</span></a>), and use the <code>pip</code> command to do it:</p>
-<pre class="{terminal}"><code>Terminal$ pip install pyspark</code></pre>
+<p><code>{terminal, eval = FALSE} Terminal$ pip install pyspark</code></p>
 <p>If you try to run the above command (inside a terminal of any OS), and a message like <code>pip: command not found</code> appears, this means that you do not have the <code>pip</code> tool installed on your machine. Hence, if you face this kind of message, you need to install <code>pip</code> before you even install <code>pyspark</code>.</p>
 <p>The <code>pip</code> tool is automatically installed with Python on Windows. So, if you face this message (<code>pip: command not found</code>), then, is very likely that you do not have Python correctly installed on your machine. Or maybe, Python is not installed at all in any shape or size in your system. So, you should comeback to previous section, and re install it.</p>
 <p>In UNIX-like systems, installing <code>pip</code> is very easy, because you can use the built-in package manager to do this for you. In Debian like distros (e.g.&nbsp;Ubuntu), you use the <code>apt</code> tool, and, in Arch-Linux like distros (e.g.&nbsp;Arch Linux, Manjaro) you would use the <code>pacman</code> tool. Both possibilities are exposed below:</p>
-<pre class="{terminal}"><code># If you are in a Debian like distro of Linux
-# and need to install `pip`, use this command:
-Terminal$ sudo apt install python3-pip
-# If you are in a Arch-Linux like distro of Linux
-# and need to install `pip`, use this command:
-Terminal$ pacman -S python-pip</code></pre>
+<p><code>{terminal, eval = FALSE} # If you are in a Debian like distro of Linux # and need to install `pip`, use this command: Terminal$ sudo apt install python3-pip # If you are in a Arch-Linux like distro of Linux # and need to install `pip`, use this command: Terminal$ pacman -S python-pip</code></p>
 <p>But, if you are running in MacOs, is best to use the <code>get-pip.py</code> method to do install <code>pip</code><a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>. To use this method, try to run the command below on the terminal. After you installed pip, run the same <code>pip</code> command we showed earlier to install <code>pyspark</code>.</p>
-<pre class="{terminal}"><code># To install `pip` on a MacOs:
-Terminal$ curl https://bootstrap.pypa.io/get-pip.py | python3</code></pre>
+<p><code>{terminal, eval = FALSE} # To install `pip` on a MacOs: Terminal$ curl https://bootstrap.pypa.io/get-pip.py | python3</code></p>
 <p>After you correctly installed <code>pip</code>, try to execute the first command again, to install the <code>pyspark</code> package on your machine.</p>
 </section>
 <section id="install-spark" class="level3">
