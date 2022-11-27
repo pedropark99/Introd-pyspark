@@ -15,13 +15,13 @@ There are many IDEs or programs that help you to write, manage, run and organize
 
 But, if you do not have any of them installed, you can just create a new plain text file from the built-in Notepad program of your OS (operational system), and, save it with the `.py` extension.
 
-[^python-1]: https://code.visualstudio.com/
+[^python-1]: <https://code.visualstudio.com/>
 
-[^python-2]: https://www.jetbrains.com/pycharm/
+[^python-2]: <https://www.jetbrains.com/pycharm/>
 
-[^python-3]: https://www.anaconda.com/products/distribution
+[^python-3]: <https://www.anaconda.com/products/distribution>
 
-[^python-4]: https://www.rstudio.com/
+[^python-4]: <https://www.rstudio.com/>
 
 ## How to run a python program
 
@@ -191,7 +191,7 @@ A python package (or a python "library") is basically a set of functions and cla
 
 Python packages are usually published (that is, made available to the public) through the PyPI archive[^python-5]. If a python package is published in PyPI, then, you can easily install it through the `pip` tool, that we just used in @sec-install-software.
 
-[^python-5]: https://pypi.org/
+[^python-5]: <https://pypi.org/>
 
 To use a python package, you always need to: 1) have this package installed on your machine; 2) import this package in your python script. If a package is not installed in your machine, you will face a `ModuleNotFoundError` as you try to use it, like in the example below. 
 

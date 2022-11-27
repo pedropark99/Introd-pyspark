@@ -18,7 +18,7 @@ However, to expose a more simplified example, we will use `pyspark` to create a 
 
 In the example below, I am reading a CSV file from my computer called `penguins.csv` (remember that this CSV can be downloaded from the book repository[^06-dataframes-sql-1]), then, I create a SQL temporary view (called `penguins_view`) from this `penguins` DataFrame with the `createOrReplaceTempView()` method.
 
-[^06-dataframes-sql-1]: https://github.com/pedropark99/Introd-pyspark/tree/main/Data
+[^06-dataframes-sql-1]: <https://github.com/pedropark99/Introd-pyspark/tree/main/Data>
 
 ```{python}
 from pyspark.sql import SparkSession

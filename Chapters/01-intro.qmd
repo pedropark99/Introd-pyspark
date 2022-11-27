@@ -10,7 +10,7 @@ In essence, `pyspark` is a python package that provides an API for Apache Spark.
 
 This book, also contains a small introduction to key python concepts that are important to understand how `pyspark` is organized and how it works in practice, and, since we will be using Spark under the hood, is very important to understand a little bit of how Spark works, so, we provide a small introduction to Spark as well.
 
-Big part of the knowledge exposed here is extracted from a lot of practical experience of the author, working with `pyspark` to analyze big data at platforms such as Databricks^[https://databricks.com/].
+Big part of the knowledge exposed here is extracted from a lot of practical experience of the author, working with `pyspark` to analyze big data at platforms such as Databricks^[<https://databricks.com/>].
 
 
 
@@ -101,7 +101,7 @@ After you opened the folder, just click with the right button of your mouse, and
 
 ### Opening a terminal in MacOs
 
-Unfortunately, I do not have a Mac machine in my possession, so I cannot easily show you how to open a terminal in MacOs. But there a lot of articles available in the internet discussing how to open a terminal in MacOs. For example, there is a article from the support of Apple^[https://support.apple.com/en-ie/guide/terminal/apd5265185d-f365-44cb-8b09-71a064a42125/mac], or this other article from iDownloadBlog^[https://www.idownloadblog.com/2019/04/19/ways-open-terminal-mac/].
+Unfortunately, I do not have a Mac machine in my possession, so I cannot easily show you how to open a terminal in MacOs. But there a lot of articles available in the internet discussing how to open a terminal in MacOs. For example, there is a article from the support of Apple^[<https://support.apple.com/en-ie/guide/terminal/apd5265185d-f365-44cb-8b09-71a064a42125/mac>], or this other article from iDownloadBlog^[<https://www.idownloadblog.com/2019/04/19/ways-open-terminal-mac/>].
 
 
 ## First step: install the necessary software {#sec-install-software}
@@ -112,7 +112,7 @@ Install and manage `Spark` in Windows is a little harder than in a UNIX-like mac
 
 ### Install python
 
-To install python on Windows, you can download the executable files at the official Python website^[https://www.python.org/downloads/]. But, if you are on Linux, you can install python with the package manager, by opening a terminal and running the following command:
+To install python on Windows, you can download the executable files at the official Python website^[<https://www.python.org/downloads/>]. But, if you are on Linux, you can install python with the package manager, by opening a terminal and running the following command:
 
 ```{terminal, eval = FALSE}
 Terminal$ sudo apt-get install python3
@@ -142,7 +142,7 @@ Terminal$ sudo apt install python3-pip
 Terminal$ pacman -S python-pip
 ```
 
-But, if you are running in MacOs, is best to use the `get-pip.py` method to do install `pip`^[See the following discussion: https://stackoverflow.com/questions/17271319/how-do-i-install-pip-on-macos-or-os-x]. To use this method, try to run the command below on the terminal. After you installed pip, run the same `pip` command we showed earlier to install `pyspark`.
+But, if you are running in MacOs, is best to use the `get-pip.py` method to do install `pip`^[See the following discussion: <https://stackoverflow.com/questions/17271319/how-do-i-install-pip-on-macos-or-os-x>]. To use this method, try to run the command below on the terminal. After you installed pip, run the same `pip` command we showed earlier to install `pyspark`.
 
 ```{terminal, eval = FALSE}
 # To install `pip` on a MacOs:

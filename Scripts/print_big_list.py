@@ -5,9 +5,9 @@ def print_big_list(x, cut = 30):
     print(x)
   else:
     text = str(x)
-    print_text(text, cut)
+    print_text(text)
     
-def print_text(x, cut):
+def print_text(x):
   words = x.split(', ')
   n = len(words)
   lengths = [len(word) for word in words]

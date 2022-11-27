@@ -1,0 +1,5 @@
+Titulo,Autor,Preco
+O Hobbit,J. R. R. Tolkien,40.72
+Matemática para Economistas,Carl P. Simon e Lawrence Blume,139.74
+Microeconomia: uma Abordagem Moderna,Hal R. Varian,141.2
+A Luneta Âmbar,Philip Pullman,42.89

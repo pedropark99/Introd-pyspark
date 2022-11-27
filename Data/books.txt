@@ -1,5 +1,5 @@
-Title,Author,Price
-O Hobbit,J. R. R. Tolkien,40.72
-MatemÃ¡tica para Economistas,Carl P. Simon e Lawrence Blume,139.74
-Microeconomia: uma Abordagem Moderna,Hal R. Varian,141.2
-A Luneta Ã‚mbar,Philip Pullman,42.89
+"Title","Author","Price"
+"O Hobbit","J. R. R. Tolkien",40.72
+"Matemática para Economistas","Carl P. Simon and Lawrence Blume",139.74
+"Microeconomia: uma Abordagem Moderna","Hal R. Varian",141.2
+"A Luneta Âmbar","Philip Pullman",42.89

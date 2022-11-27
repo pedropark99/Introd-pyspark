@@ -225,7 +225,7 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Chapters/04-columns.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">The <code>Column</code> class in <code>pyspark</code></span></a>
+  <a href="../Chapters/04-columns.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Introducing the <code>Column</code> class</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -304,20 +304,24 @@ div.csl-indent {
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>penguins.createOrReplaceTempView(<span class="st">'penguins_view'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>22/11/21 21:48:09 WARN Utils: Your hostname, pedro-dev resolves to a loopback address: 127.0.1.1; using 192.168.0.90 instead (on interface wlp1s0)
-22/11/21 21:48:09 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address</code></pre>
+<pre><code>22/11/27 16:54:19 WARN Utils: Your hostname, pedro-dev resolves to a loopback address: 127.0.1.1; using 192.168.0.90 instead (on interface wlp1s0)
+22/11/27 16:54:19 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Setting default log level to "WARN".
 To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>22/11/21 21:48:10 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable</code></pre>
+<pre><code>22/11/27 16:54:19 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>22/11/27 16:54:20 WARN Utils: Service 'SparkUI' could not bind on port 4040. Attempting port 4041.
+22/11/27 16:54:20 WARN Utils: Service 'SparkUI' could not bind on port 4041. Attempting port 4042.</code></pre>
 </div>
 </div>
 <p>After these commands, I have now a view called <code>penguins_view</code> registered in the Spark SQL context, which I can query it, using pure SQL. We can execute a SQL query by using the <code>sql()</code> method from our Spark Session, like in the example below:</p>
 <div class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>spark.sql(<span class="st">'select * from penguins_view'</span>).show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>spark.sql(<span class="st">'select * from penguins_view'</span>).show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>+-------+---------+--------------+-------------+-----------------+-----------+------+----+
 |species|   island|bill_length_mm|bill_depth_mm|flipper_length_mm|body_mass_g|   sex|year|
@@ -336,18 +340,18 @@ only showing top 5 rows
 <p>Therefore, in the above example, we wrote a simple and pure SQL query, and, executed it through <code>pyspark</code>, by using this <code>sql()</code> method. This means that, this <code>sql()</code> method is the bridge between <code>pyspark</code> and your SQL database. You give a pure SQL query (inside a string) to this <code>sql()</code> method, and, Spark will execute it, considering the SQL databases that you are connected with.</p>
 <p>Having this in mind, we could use this <code>sql()</code> method to create a physical SQL table (instead of a temporary view). We just need to pass the necessary SQL commands that will create this table to be executed by this method. In the example below, we create a new database called <code>examples</code>, and, a table called <code>code_brazil_states</code>.</p>
 <div class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>spark.sql(<span class="st">'create database `examples`'</span>)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>spark.sql(<span class="st">'use `examples`'</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>spark.sql(<span class="st">'''</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="st">  create table `code_brazil_states` (</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="st">    `code` int,</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="st">    `state_name` string</span></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="st">  )</span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="st">'''</span>)</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>spark.sql(<span class="st">'insert into `code_brazil_states` values (31, "Minas Gerais")'</span>)</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>spark.sql(<span class="st">'insert into `code_brazil_states` values (15, "Pará")'</span>)</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>spark.sql(<span class="st">'insert into `code_brazil_states` values (41, "Paraná")'</span>)</span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>spark.sql(<span class="st">'insert into `code_brazil_states` values (25, "Paraíba")'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>spark.sql(<span class="st">'create database `examples`'</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>spark.sql(<span class="st">'use `examples`'</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>spark.sql(<span class="st">'''</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="st">  create table `code_brazil_states` (</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="st">    `code` int,</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="st">    `state_name` string</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="st">  )</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="st">'''</span>)</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>spark.sql(<span class="st">'insert into `code_brazil_states` values (31, "Minas Gerais")'</span>)</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>spark.sql(<span class="st">'insert into `code_brazil_states` values (15, "Pará")'</span>)</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>spark.sql(<span class="st">'insert into `code_brazil_states` values (41, "Paraná")'</span>)</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>spark.sql(<span class="st">'insert into `code_brazil_states` values (25, "Paraíba")'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 
@@ -360,7 +364,7 @@ only showing top 5 rows
 <section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
 <hr>
 <ol>
-<li id="fn1"><p>https://github.com/pedropark99/Introd-pyspark/tree/main/Data<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1"><p><a href="https://github.com/pedropark99/Introd-pyspark/tree/main/Data" class="uri">https://github.com/pedropark99/Introd-pyspark/tree/main/Data</a><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section>
 

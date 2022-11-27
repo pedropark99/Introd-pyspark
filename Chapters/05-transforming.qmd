@@ -142,7 +142,7 @@ To filter specific rows of a DataFrame, `pyspark` offers two equivalent methods 
 
 To demonstrate some of the examples in this and some of the next sections, we will use a different DataFrame, called `transf`. With the code below, you can import the data from `trans_reform.csv` to create this DataFrame in your Spark Session. Remember that, this CSV file is freely available to download at the repository of this book[^transforming-1].
 
-[^transforming-1]: https://github.com/pedropark99/Introd-pyspark/tree/main/Data
+[^transforming-1]: <https://github.com/pedropark99/Introd-pyspark/tree/main/Data>
 
 ```{python}
 #| cache: true
@@ -578,7 +578,7 @@ transf\
   .show(5)
 ```
 
-A lot of the times we use the functions from `pyspark.sql.functions` module to produce such formulas used by `withColumn()`. You can checkout the complete list of functions present in this module, by visiting the official documentation of `pyspark`^[https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql.html#functions].
+A lot of the times we use the functions from `pyspark.sql.functions` module to produce such formulas used by `withColumn()`. You can checkout the complete list of functions present in this module, by visiting the official documentation of `pyspark`^[<https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql.html#functions>].
 
 You will see a lot more examples of formulas and uses of `withColumn()` throughout this book. For now, I just want you to know that `withColumn()` is a method that adds a new column to your DataFrame. The first argument is the name of the new column, and, the second argument is the calculation formula of this new column.
 
