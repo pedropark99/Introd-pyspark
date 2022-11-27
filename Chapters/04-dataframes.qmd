@@ -36,6 +36,23 @@ If you are running Spark in a 4 nodes cluster (one is the driver node, and the o
 
 ![A Spark DataFrame is distributed across the cluster](../Figures/distributed-df.png){#fig-distributed-df fig-align="center"}
 
+
+## Partitions of a Spark DataFrame
+
+A Spark DataFrame is always broken into many small pieces, and, these pieces are always spread across the cluster of machines. Each one of these small pieces of the total data are considered a DataFrame *partition*.
+
+For the most part, you do not manipulate these partitions manually or individually [@karau2015], because Spark automatically do this job for you.
+
+As we exposed in @fig-distributed-df, each node of the cluster will hold a piece of the total DataFrame. If we translate this distribution into a "partition" distribution, this means that each node of the cluster can hold one or multiple partitions of the Spark DataFrame. 
+
+If we sum all partitions present in a node of the cluster, we get a chunk of the total DataFrame. The figure below demonstrates this notion:
+
+![Partitions of a DataFrame](../Figures/partitions-df.png){#fig-partitions-df fig-align="center"}
+
+If the Spark DataFrame is not big, each node of the cluster will probably store just a single partition of this DataFrame. In contrast, depending on the complexity and size of the DataFrame, Spark will split this DataFrame into more partitions that there are nodes in the cluster. In this case, each node of the cluster will hold more than 1 partition of the total DataFrame.
+
+
+
 ## The `DataFrame` class in `pyspark` {#sec-dataframe-class}
 
 In `pyspark`, every Spark DataFrame is stored inside a python object of class `pyspark.sql.dataframe.DataFrame`. Or more succintly, a object of class `DataFrame`.
@@ -45,9 +62,28 @@ Like any python class, the `DataFrame` class comes with multiple methods that ar
 As an example, in the code below I expose all the available methods from this `DataFrame` class. First, I create a Spark DataFrame with `spark.range(5)`, and, store it in the object `df5`. After that, I use the `dir()` function to show all the methods that I can use through this `df5` object:
 
 ```{python}
-df5 = spark.range(5)
-dir(df5)
+#| include: false
+import sys 
+import os
+sys.path.append(os.path.abspath("./../Scripts/"))
+from print_big_list import print_big_list
 ```
+
+
+```{python}
+#| eval: false
+df5 = spark.range(5)
+available_methods = dir(df5)
+print(available_methods)
+```
+
+```{python}
+#| echo: false
+df5 = spark.range(5)
+available_methods = dir(df5)
+print_big_list(available_methods)
+```
+
 
 All the methods present in this `DataFrame` class, are commonly referred as the *DataFrame API of Spark*. This is the most important API of Spark. Much of your Spark applications will heavily use this API to compose your data transformations and data flows [@chambers2018].
 
@@ -286,16 +322,3 @@ from pyspark.sql.types import LongType
 isinstance(id_column.dataType, LongType)
 ```
 
-## Partitions of a Spark DataFrame
-
-A Spark DataFrame is always broken into many small pieces, and, these pieces are always spread across the cluster of machines. Each one of these small pieces of the total data are considered a DataFrame *partition*.
-
-For the most part, you do not manipulate these partitions manually or individually [@karau2015], because Spark automatically do this job for you.
-
-As we exposed in @fig-distributed-df, each node of the cluster will hold a piece of the total DataFrame. If we translate this distribution into a "partition" distribution, this means that each node of the cluster can hold one or multiple partitions of the Spark DataFrame. 
-
-If we sum all partitions present in a node of the cluster, we get a chunk of the total DataFrame. The figure below demonstrates this notion:
-
-![Partitions of a DataFrame](../Figures/partitions-df.png){#fig-partitions-df fig-align="center"}
-
-If the Spark DataFrame is not big, each node of the cluster will probably store just a single partition of this DataFrame. In contrast, depending on the complexity and size of the DataFrame, Spark will split this DataFrame into more partitions that there are nodes in the cluster. In this case, each node of the cluster will hold more than 1 partition of the total DataFrame.

@@ -260,18 +260,18 @@ div.csl-indent {
   <ul>
   <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="toc-section-number">3.1</span>  Introduction</a></li>
   <li><a href="#spark-dataframes-versus-spark-datasets" id="toc-spark-dataframes-versus-spark-datasets" class="nav-link" data-scroll-target="#spark-dataframes-versus-spark-datasets"><span class="toc-section-number">3.2</span>  Spark DataFrames versus Spark Datasets</a></li>
-  <li><a href="#sec-dataframe-class" id="toc-sec-dataframe-class" class="nav-link" data-scroll-target="#sec-dataframe-class"><span class="toc-section-number">3.3</span>  The <code>DataFrame</code> class in <code>pyspark</code></a></li>
-  <li><a href="#sec-building-a-dataframe" id="toc-sec-building-a-dataframe" class="nav-link" data-scroll-target="#sec-building-a-dataframe"><span class="toc-section-number">3.4</span>  Building a Spark DataFrame</a></li>
-  <li><a href="#sec-viewing-a-dataframe" id="toc-sec-viewing-a-dataframe" class="nav-link" data-scroll-target="#sec-viewing-a-dataframe"><span class="toc-section-number">3.5</span>  Viewing a Spark DataFrame</a></li>
-  <li><a href="#getting-the-name-of-the-columns" id="toc-getting-the-name-of-the-columns" class="nav-link" data-scroll-target="#getting-the-name-of-the-columns"><span class="toc-section-number">3.6</span>  Getting the name of the columns</a></li>
-  <li><a href="#spark-data-types" id="toc-spark-data-types" class="nav-link" data-scroll-target="#spark-data-types"><span class="toc-section-number">3.7</span>  Spark Data Types</a></li>
-  <li><a href="#the-dataframe-schema" id="toc-the-dataframe-schema" class="nav-link" data-scroll-target="#the-dataframe-schema"><span class="toc-section-number">3.8</span>  The DataFrame Schema</a>
+  <li><a href="#partitions-of-a-spark-dataframe" id="toc-partitions-of-a-spark-dataframe" class="nav-link" data-scroll-target="#partitions-of-a-spark-dataframe"><span class="toc-section-number">3.3</span>  Partitions of a Spark DataFrame</a></li>
+  <li><a href="#sec-dataframe-class" id="toc-sec-dataframe-class" class="nav-link" data-scroll-target="#sec-dataframe-class"><span class="toc-section-number">3.4</span>  The <code>DataFrame</code> class in <code>pyspark</code></a></li>
+  <li><a href="#sec-building-a-dataframe" id="toc-sec-building-a-dataframe" class="nav-link" data-scroll-target="#sec-building-a-dataframe"><span class="toc-section-number">3.5</span>  Building a Spark DataFrame</a></li>
+  <li><a href="#sec-viewing-a-dataframe" id="toc-sec-viewing-a-dataframe" class="nav-link" data-scroll-target="#sec-viewing-a-dataframe"><span class="toc-section-number">3.6</span>  Viewing a Spark DataFrame</a></li>
+  <li><a href="#getting-the-name-of-the-columns" id="toc-getting-the-name-of-the-columns" class="nav-link" data-scroll-target="#getting-the-name-of-the-columns"><span class="toc-section-number">3.7</span>  Getting the name of the columns</a></li>
+  <li><a href="#spark-data-types" id="toc-spark-data-types" class="nav-link" data-scroll-target="#spark-data-types"><span class="toc-section-number">3.8</span>  Spark Data Types</a></li>
+  <li><a href="#the-dataframe-schema" id="toc-the-dataframe-schema" class="nav-link" data-scroll-target="#the-dataframe-schema"><span class="toc-section-number">3.9</span>  The DataFrame Schema</a>
   <ul class="collapse">
-  <li><a href="#accessing-the-dataframe-schema" id="toc-accessing-the-dataframe-schema" class="nav-link" data-scroll-target="#accessing-the-dataframe-schema"><span class="toc-section-number">3.8.1</span>  Accessing the DataFrame schema</a></li>
-  <li><a href="#building-a-dataframe-schema" id="toc-building-a-dataframe-schema" class="nav-link" data-scroll-target="#building-a-dataframe-schema"><span class="toc-section-number">3.8.2</span>  Building a DataFrame schema</a></li>
-  <li><a href="#checking-your-dataframe-schema" id="toc-checking-your-dataframe-schema" class="nav-link" data-scroll-target="#checking-your-dataframe-schema"><span class="toc-section-number">3.8.3</span>  Checking your DataFrame schema</a></li>
+  <li><a href="#accessing-the-dataframe-schema" id="toc-accessing-the-dataframe-schema" class="nav-link" data-scroll-target="#accessing-the-dataframe-schema"><span class="toc-section-number">3.9.1</span>  Accessing the DataFrame schema</a></li>
+  <li><a href="#building-a-dataframe-schema" id="toc-building-a-dataframe-schema" class="nav-link" data-scroll-target="#building-a-dataframe-schema"><span class="toc-section-number">3.9.2</span>  Building a DataFrame schema</a></li>
+  <li><a href="#checking-your-dataframe-schema" id="toc-checking-your-dataframe-schema" class="nav-link" data-scroll-target="#checking-your-dataframe-schema"><span class="toc-section-number">3.9.3</span>  Checking your DataFrame schema</a></li>
   </ul></li>
-  <li><a href="#partitions-of-a-spark-dataframe" id="toc-partitions-of-a-spark-dataframe" class="nav-link" data-scroll-target="#partitions-of-a-spark-dataframe"><span class="toc-section-number">3.9</span>  Partitions of a Spark DataFrame</a></li>
   </ul>
 </nav>
     </div>
@@ -355,167 +355,77 @@ div.csl-indent {
 </figure>
 </div>
 </section>
-<section id="sec-dataframe-class" class="level2" data-number="3.3">
-<h2 data-number="3.3" class="anchored" data-anchor-id="sec-dataframe-class"><span class="header-section-number">3.3</span> The <code>DataFrame</code> class in <code>pyspark</code></h2>
+<section id="partitions-of-a-spark-dataframe" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="partitions-of-a-spark-dataframe"><span class="header-section-number">3.3</span> Partitions of a Spark DataFrame</h2>
+<p>A Spark DataFrame is always broken into many small pieces, and, these pieces are always spread across the cluster of machines. Each one of these small pieces of the total data are considered a DataFrame <em>partition</em>.</p>
+<p>For the most part, you do not manipulate these partitions manually or individually <span class="citation" data-cites="karau2015">(<a href="references.html#ref-karau2015" role="doc-biblioref">Karau et al. 2015</a>)</span>, because Spark automatically do this job for you.</p>
+<p>As we exposed in <a href="#fig-distributed-df">Figure&nbsp;<span>3.1</span></a>, each node of the cluster will hold a piece of the total DataFrame. If we translate this distribution into a “partition” distribution, this means that each node of the cluster can hold one or multiple partitions of the Spark DataFrame.</p>
+<p>If we sum all partitions present in a node of the cluster, we get a chunk of the total DataFrame. The figure below demonstrates this notion:</p>
+<div id="fig-partitions-df" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="../Figures/partitions-df.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;3.2: Partitions of a DataFrame</figcaption><p></p>
+</figure>
+</div>
+<p>If the Spark DataFrame is not big, each node of the cluster will probably store just a single partition of this DataFrame. In contrast, depending on the complexity and size of the DataFrame, Spark will split this DataFrame into more partitions that there are nodes in the cluster. In this case, each node of the cluster will hold more than 1 partition of the total DataFrame.</p>
+</section>
+<section id="sec-dataframe-class" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="sec-dataframe-class"><span class="header-section-number">3.4</span> The <code>DataFrame</code> class in <code>pyspark</code></h2>
 <p>In <code>pyspark</code>, every Spark DataFrame is stored inside a python object of class <code>pyspark.sql.dataframe.DataFrame</code>. Or more succintly, a object of class <code>DataFrame</code>.</p>
 <p>Like any python class, the <code>DataFrame</code> class comes with multiple methods that are available for every object of this class. This means that you can use any of these methods in any Spark DataFrame that you create through <code>pyspark</code>.</p>
 <p>As an example, in the code below I expose all the available methods from this <code>DataFrame</code> class. First, I create a Spark DataFrame with <code>spark.range(5)</code>, and, store it in the object <code>df5</code>. After that, I use the <code>dir()</code> function to show all the methods that I can use through this <code>df5</code> object:</p>
-<div class="cell" data-execution_count="2">
+<div class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>df5 <span class="op">=</span> spark.<span class="bu">range</span>(<span class="dv">5</span>)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">dir</span>(df5)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="2">
-<pre><code>['__class__',
- '__delattr__',
- '__dict__',
- '__dir__',
- '__doc__',
- '__eq__',
- '__format__',
- '__ge__',
- '__getattr__',
- '__getattribute__',
- '__getitem__',
- '__gt__',
- '__hash__',
- '__init__',
- '__init_subclass__',
- '__le__',
- '__lt__',
- '__module__',
- '__ne__',
- '__new__',
- '__reduce__',
- '__reduce_ex__',
- '__repr__',
- '__setattr__',
- '__sizeof__',
- '__str__',
- '__subclasshook__',
- '__weakref__',
- '_collect_as_arrow',
- '_jcols',
- '_jdf',
- '_jmap',
- '_joinAsOf',
- '_jseq',
- '_lazy_rdd',
- '_repr_html_',
- '_sc',
- '_schema',
- '_session',
- '_sort_cols',
- '_sql_ctx',
- '_support_repr_html',
- '_to_corrected_pandas_type',
- 'agg',
- 'alias',
- 'approxQuantile',
- 'cache',
- 'checkpoint',
- 'coalesce',
- 'colRegex',
- 'collect',
- 'columns',
- 'corr',
- 'count',
- 'cov',
- 'createGlobalTempView',
- 'createOrReplaceGlobalTempView',
- 'createOrReplaceTempView',
- 'createTempView',
- 'crossJoin',
- 'crosstab',
- 'cube',
- 'describe',
- 'distinct',
- 'drop',
- 'dropDuplicates',
- 'drop_duplicates',
- 'dropna',
- 'dtypes',
- 'exceptAll',
- 'explain',
- 'fillna',
- 'filter',
- 'first',
- 'foreach',
- 'foreachPartition',
- 'freqItems',
- 'groupBy',
- 'groupby',
- 'head',
- 'hint',
- 'inputFiles',
- 'intersect',
- 'intersectAll',
- 'isEmpty',
- 'isLocal',
- 'isStreaming',
- 'is_cached',
- 'join',
- 'limit',
- 'localCheckpoint',
- 'mapInArrow',
- 'mapInPandas',
- 'na',
- 'observe',
- 'orderBy',
- 'pandas_api',
- 'persist',
- 'printSchema',
- 'randomSplit',
- 'rdd',
- 'registerTempTable',
- 'repartition',
- 'repartitionByRange',
- 'replace',
- 'rollup',
- 'sameSemantics',
- 'sample',
- 'sampleBy',
- 'schema',
- 'select',
- 'selectExpr',
- 'semanticHash',
- 'show',
- 'sort',
- 'sortWithinPartitions',
- 'sparkSession',
- 'sql_ctx',
- 'stat',
- 'storageLevel',
- 'subtract',
- 'summary',
- 'tail',
- 'take',
- 'toDF',
- 'toJSON',
- 'toLocalIterator',
- 'toPandas',
- 'to_koalas',
- 'to_pandas_on_spark',
- 'transform',
- 'union',
- 'unionAll',
- 'unionByName',
- 'unpersist',
- 'where',
- 'withColumn',
- 'withColumnRenamed',
- 'withColumns',
- 'withMetadata',
- 'withWatermark',
- 'write',
- 'writeStream',
- 'writeTo']</code></pre>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>available_methods <span class="op">=</span> <span class="bu">dir</span>(df5)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(available_methods)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="4">
+<div class="cell-output cell-output-stdout">
+<pre><code>['__class__', '__delattr__', '__dict__', '__dir__',
+'__doc__', '__eq__', '__format__', '__ge__',
+'__getattr__', '__getattribute__', '__getitem__', '__gt__',
+'__hash__', '__init__', '__init_subclass__', '__le__',
+'__lt__', '__module__', '__ne__', '__new__',
+'__reduce__', '__reduce_ex__', '__repr__', '__setattr__',
+'__sizeof__', '__str__', '__subclasshook__', '__weakref__',
+'_collect_as_arrow', '_jcols', '_jdf', '_jmap',
+'_joinAsOf', '_jseq', '_lazy_rdd', '_repr_html_',
+'_sc', '_schema', '_session', '_sort_cols',
+'_sql_ctx', '_support_repr_html', '_to_corrected_pandas_type', 'agg',
+'alias', 'approxQuantile', 'cache', 'checkpoint',
+'coalesce', 'colRegex', 'collect', 'columns',
+'corr', 'count', 'cov', 'createGlobalTempView',
+'createOrReplaceGlobalTempView', 'createOrReplaceTempView', 'createTempView', 'crossJoin',
+'crosstab', 'cube', 'describe', 'distinct',
+'drop', 'dropDuplicates', 'drop_duplicates', 'dropna',
+'dtypes', 'exceptAll', 'explain', 'fillna',
+'filter', 'first', 'foreach', 'foreachPartition',
+'freqItems', 'groupBy', 'groupby', 'head',
+'hint', 'inputFiles', 'intersect', 'intersectAll',
+'isEmpty', 'isLocal', 'isStreaming', 'is_cached',
+'join', 'limit', 'localCheckpoint', 'mapInArrow',
+'mapInPandas', 'na', 'observe', 'orderBy',
+'pandas_api', 'persist', 'printSchema', 'randomSplit',
+'rdd', 'registerTempTable', 'repartition', 'repartitionByRange',
+'replace', 'rollup', 'sameSemantics', 'sample',
+'sampleBy', 'schema', 'select', 'selectExpr',
+'semanticHash', 'show', 'sort', 'sortWithinPartitions',
+'sparkSession', 'sql_ctx', 'stat', 'storageLevel',
+'subtract', 'summary', 'tail', 'take',
+'toDF', 'toJSON', 'toLocalIterator', 'toPandas',
+'to_koalas', 'to_pandas_on_spark', 'transform', 'union',
+'unionAll', 'unionByName', 'unpersist', 'where',
+'withColumn', 'withColumnRenamed', 'withColumns', 'withMetadata',
+'withWatermark', 'write', 'writeStream', 'writeTo'],
+</code></pre>
 </div>
 </div>
 <p>All the methods present in this <code>DataFrame</code> class, are commonly referred as the <em>DataFrame API of Spark</em>. This is the most important API of Spark. Much of your Spark applications will heavily use this API to compose your data transformations and data flows <span class="citation" data-cites="chambers2018">(<a href="references.html#ref-chambers2018" role="doc-biblioref">Chambers and Zaharia 2018</a>)</span>.</p>
 </section>
-<section id="sec-building-a-dataframe" class="level2" data-number="3.4">
-<h2 data-number="3.4" class="anchored" data-anchor-id="sec-building-a-dataframe"><span class="header-section-number">3.4</span> Building a Spark DataFrame</h2>
+<section id="sec-building-a-dataframe" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="sec-building-a-dataframe"><span class="header-section-number">3.5</span> Building a Spark DataFrame</h2>
 <p>There are some different methods to create a Spark DataFrame. For example, because a DataFrame is basically a Dataset of rows, we can build a DataFrame from a collection of <code>Row</code>’s, through the <code>createDataFrame()</code> method from your Spark Session:</p>
-<div class="cell" data-execution_count="3">
+<div class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql <span class="im">import</span> SparkSession</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>spark <span class="op">=</span> SparkSession.builder.getOrCreate()</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datetime <span class="im">import</span> date</span>
@@ -531,22 +441,22 @@ div.csl-indent {
 <span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> spark.createDataFrame(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Remember that a Spark DataFrame in python is a object of class <code>pyspark.sql.dataframe.DataFrame</code> as you can see below:</p>
-<div class="cell" data-execution_count="4">
+<div class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="4">
+<div class="cell-output cell-output-display" data-execution_count="7">
 <pre><code>pyspark.sql.dataframe.DataFrame</code></pre>
 </div>
 </div>
 <p>If you try to see what is inside of this kind of object, you will get a small description of the columns present in the DataFrame as a result:</p>
-<div class="cell" data-execution_count="5">
+<div class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="5">
+<div class="cell-output cell-output-display" data-execution_count="8">
 <pre><code>DataFrame[id: bigint, value: double, date: date]</code></pre>
 </div>
 </div>
 <p>So, in the above example, we use the <code>Row()</code> constructor (from <code>pyspark.sql</code> module) to build 4 rows. The <code>createDataFrame()</code> method, stack these 4 rows together to form our new DataFrame <code>df</code>. The result is a Spark DataFrame with 4 rows and 3 columns (<code>id</code>, <code>value</code> and <code>date</code>).</p>
 <p>But you can use different methods to create the same Spark DataFrame. As another example, with the code below, we are creating a DataFrame called <code>students</code>. To do this, we create two python lists (<code>data</code> and <code>columns</code>), then, deliver these lists to <code>createDataFrame()</code> method. Each element of <code>data</code> is a python <code>tuple</code> that represents a row in the <code>students</code> DataFrame. And each element of <code>columns</code> represent the name of a column present in this new DataFrame.</p>
-<div class="cell" data-execution_count="6">
+<div class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> [</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  (<span class="dv">12114</span>, <span class="st">'Anne'</span>, <span class="dv">21</span>, <span class="fl">1.56</span>, <span class="dv">8</span>, <span class="dv">9</span>, <span class="dv">10</span>, <span class="dv">9</span>, <span class="st">'Economics'</span>, <span class="st">'SC'</span>),</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  (<span class="dv">13007</span>, <span class="st">'Adrian'</span>, <span class="dv">23</span>, <span class="fl">1.82</span>, <span class="dv">6</span>, <span class="dv">6</span>, <span class="dv">8</span>, <span class="dv">7</span>, <span class="st">'Economics'</span>, <span class="st">'SC'</span>),</span>
@@ -563,26 +473,26 @@ div.csl-indent {
 <span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>students <span class="op">=</span> spark.createDataFrame(data, columns)</span>
 <span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>students</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="6">
+<div class="cell-output cell-output-display" data-execution_count="9">
 <pre><code>DataFrame[StudentID: bigint, Name: string, Age: bigint, Height: double, Score1: bigint, Score2: bigint, Score3: bigint, Score4: bigint, Course: string, Department: string]</code></pre>
 </div>
 </div>
-<p>You can also use a method that returns a <code>DataFrame</code> object by default. Examples are the <code>table()</code> and <code>range()</code> methods from your Spark Session, like we used in the <a href="#sec-dataframe-class"><span>Section&nbsp;3.3</span></a>, to create the <code>df5</code> object.</p>
+<p>You can also use a method that returns a <code>DataFrame</code> object by default. Examples are the <code>table()</code> and <code>range()</code> methods from your Spark Session, like we used in the <a href="#sec-dataframe-class"><span>Section&nbsp;3.4</span></a>, to create the <code>df5</code> object.</p>
 <p>Other examples are the methods used to read data and import it to <code>pyspark</code>. These methods are available in the <code>spark.read</code> module, like <code>spark.read.csv()</code> and <code>spark.read.json()</code>. These methods will be described in more depth in <a href="07-import.html"><span>Chapter&nbsp;6</span></a>.</p>
 </section>
-<section id="sec-viewing-a-dataframe" class="level2" data-number="3.5">
-<h2 data-number="3.5" class="anchored" data-anchor-id="sec-viewing-a-dataframe"><span class="header-section-number">3.5</span> Viewing a Spark DataFrame</h2>
+<section id="sec-viewing-a-dataframe" class="level2" data-number="3.6">
+<h2 data-number="3.6" class="anchored" data-anchor-id="sec-viewing-a-dataframe"><span class="header-section-number">3.6</span> Viewing a Spark DataFrame</h2>
 <p>A key aspect of Spark is its laziness. In other words, for most operations, Spark will only check if your code is correct and if it makes sense. Spark will not actually run or execute the operations you are describing in your code, unless you explicit ask for it with a trigger operation, which is called an “action” (this kind of operation is described in <a href="05-transforming.html#sec-dataframe-actions"><span>Section&nbsp;5.3</span></a>).</p>
 <p>You can notice this laziness in the output below:</p>
-<div class="cell" data-execution_count="7">
+<div class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>students</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="7">
+<div class="cell-output cell-output-display" data-execution_count="10">
 <pre><code>DataFrame[StudentID: bigint, Name: string, Age: bigint, Height: double, Score1: bigint, Score2: bigint, Score3: bigint, Score4: bigint, Course: string, Department: string]</code></pre>
 </div>
 </div>
 <p>Because when we call for an object that stores a Spark DataFrame (like <code>df</code> and <code>students</code>), Spark will only calculate and print a summary of the structure of your Spark DataFrame, and not the DataFrame itself.</p>
 <p>So how can we actually see our DataFrame? How can we visualize the rows and values that are stored inside of it? For this, we use the <code>show()</code> method. With this method, Spark will print the table as pure text, as you can see in the example below:</p>
-<div class="cell" data-execution_count="8">
+<div class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>students.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>[Stage 0:&gt;                                                          (0 + 1) / 1]</code></pre>
@@ -605,7 +515,7 @@ div.csl-indent {
 </div>
 </div>
 <p>By default, this method shows only the top rows of your DataFrame, but you can specify how much rows exactly you want to see, by using <code>show(n)</code>, where <code>n</code> is the number of rows. For example, I can visualize only the first 2 rows of <code>df</code> like this:</p>
-<div class="cell" data-execution_count="9">
+<div class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>df.show(<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>+---+-----+----------+
@@ -619,12 +529,12 @@ only showing top 2 rows
 </div>
 </div>
 </section>
-<section id="getting-the-name-of-the-columns" class="level2" data-number="3.6">
-<h2 data-number="3.6" class="anchored" data-anchor-id="getting-the-name-of-the-columns"><span class="header-section-number">3.6</span> Getting the name of the columns</h2>
+<section id="getting-the-name-of-the-columns" class="level2" data-number="3.7">
+<h2 data-number="3.7" class="anchored" data-anchor-id="getting-the-name-of-the-columns"><span class="header-section-number">3.7</span> Getting the name of the columns</h2>
 <p>If you need to, you can easily collect a python list with the column names present in your DataFrame, in the same way you would do in a <code>pandas</code> DataFrame. That is, by using the <code>columns</code> method of your DataFrame, like this:</p>
-<div class="cell" data-execution_count="10">
+<div class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>students.columns</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="10">
+<div class="cell-output cell-output-display" data-execution_count="13">
 <pre><code>['StudentID',
  'Name',
  'Age',
@@ -638,8 +548,8 @@ only showing top 2 rows
 </div>
 </div>
 </section>
-<section id="spark-data-types" class="level2" data-number="3.7">
-<h2 data-number="3.7" class="anchored" data-anchor-id="spark-data-types"><span class="header-section-number">3.7</span> Spark Data Types</h2>
+<section id="spark-data-types" class="level2" data-number="3.8">
+<h2 data-number="3.8" class="anchored" data-anchor-id="spark-data-types"><span class="header-section-number">3.8</span> Spark Data Types</h2>
 <p>Each column of your Spark DataFrame is associated with a specific data type. Spark supports a large number of different data types. You can see the full list at the official documentation page<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. For now, we will focus on the most used data types, which are listed below:</p>
 <ul>
 <li><code>IntegerType</code>: Represents 4-byte signed integer numbers. The range of numbers that it can represent is from -2147483648 to 2147483647.</li>
@@ -657,7 +567,7 @@ only showing top 2 rows
 <li><p><code>MapType(keyType, valueType, valueContainsNull)</code>: Represents a set of key-value pairs. The data type of keys is described by <code>keyType</code> and the data type of values is described by <code>valueType</code>. For a <code>MapType</code> value, keys are not allowed to have <code>null</code> values. <code>valueContainsNull</code> is used to indicate if values of a <code>MapType</code> value can have <code>null</code> values.</p></li>
 </ul>
 <p>Each one of these Spark data types have a corresponding python class in <code>pyspark</code>, which are stored in the <code>pyspark.sql.types</code> module. As a result, to access, lets say, type <code>StryngType</code>, we can do this:</p>
-<div class="cell" data-execution_count="11">
+<div class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.types <span class="im">import</span> StringType</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>s <span class="op">=</span> StringType()</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(s)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -666,19 +576,19 @@ only showing top 2 rows
 </div>
 </div>
 </section>
-<section id="the-dataframe-schema" class="level2" data-number="3.8">
-<h2 data-number="3.8" class="anchored" data-anchor-id="the-dataframe-schema"><span class="header-section-number">3.8</span> The DataFrame Schema</h2>
+<section id="the-dataframe-schema" class="level2" data-number="3.9">
+<h2 data-number="3.9" class="anchored" data-anchor-id="the-dataframe-schema"><span class="header-section-number">3.9</span> The DataFrame Schema</h2>
 <p>The schema of a Spark DataFrame is the combination of column names and the data types associated with each of these columns. Schemas can be set explicitly by you (that is, you can tell Spark how the schema of your DataFrame should look like), or, they can be automatically defined by Spark while reading or creating your data.</p>
 <p>You can get a succinct description of a DataFrame schema, by looking inside the object where this DataFrame is stored. For example, lets look again to the <code>df</code> DataFrame.</p>
 <p>In the result below, we can see that <code>df</code> has three columns (<code>id</code>, <code>value</code> and <code>date</code>). By the description <code>id: bigint</code>, we know that <code>id</code> is a column of type <code>bigint</code>, which translates to the <code>LongType()</code> of Spark. Furthermore, by the descriptions <code>value: double</code> and <code>date: date</code>, we know too that the columns <code>value</code> and <code>date</code> are of type <code>DoubleType()</code> and <code>DateType()</code>, respectively.</p>
-<div class="cell" data-execution_count="12">
+<div class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="12">
+<div class="cell-output cell-output-display" data-execution_count="15">
 <pre><code>DataFrame[id: bigint, value: double, date: date]</code></pre>
 </div>
 </div>
 <p>You can also visualize a more complete report of the DataFrame schema by using the <code>printSchema()</code> method, like this:</p>
-<div class="cell" data-execution_count="13">
+<div class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>df.printSchema()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>root
@@ -688,18 +598,18 @@ only showing top 2 rows
 </code></pre>
 </div>
 </div>
-<section id="accessing-the-dataframe-schema" class="level3" data-number="3.8.1">
-<h3 data-number="3.8.1" class="anchored" data-anchor-id="accessing-the-dataframe-schema"><span class="header-section-number">3.8.1</span> Accessing the DataFrame schema</h3>
+<section id="accessing-the-dataframe-schema" class="level3" data-number="3.9.1">
+<h3 data-number="3.9.1" class="anchored" data-anchor-id="accessing-the-dataframe-schema"><span class="header-section-number">3.9.1</span> Accessing the DataFrame schema</h3>
 <p>So, by calling the object of your DataFrame (i.e.&nbsp;an object of class <code>DataFrame</code>) you can see a small description of the schema of this DataFrame. But, how can you access this schema programmatically? You do this, by using the <code>schema</code> method of your DataFrame, like in the example below:</p>
-<div class="cell" data-execution_count="14">
+<div class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>df.schema</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="14">
+<div class="cell-output cell-output-display" data-execution_count="17">
 <pre><code>StructType([StructField('id', LongType(), True), StructField('value', DoubleType(), True), StructField('date', DateType(), True)])</code></pre>
 </div>
 </div>
 <p>The result of the <code>schema</code> method, is a <code>StructType()</code> object, that contains some information about each column of your DataFrame. More specifically, a <code>StructType()</code> object is filled with multiple <code>StructField()</code> objects. Each <code>StructField()</code> object stores the name and the type of a column, and a boolean value (<code>True</code> or <code>False</code>) that indicates if this column can contain any null value inside of it.</p>
 <p>You can use a <code>for</code> loop to iterate through this <code>StructType()</code> and get the information of each column separately.</p>
-<div class="cell" data-execution_count="15">
+<div class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>schema <span class="op">=</span> df.schema</span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> column <span class="kw">in</span> schema:</span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="bu">print</span>(column)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -710,7 +620,7 @@ StructField('date', DateType(), True)</code></pre>
 </div>
 </div>
 <p>You can access just the data type of each column by using the <code>dataType</code> method of each <code>StructField()</code> object.</p>
-<div class="cell" data-execution_count="16">
+<div class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> column <span class="kw">in</span> schema:</span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  datatype <span class="op">=</span> column.dataType</span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="bu">print</span>(datatype)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -721,7 +631,7 @@ DateType()</code></pre>
 </div>
 </div>
 <p>And you can do the same for column names and the boolean value (that indicates if the column can contain “null” values), by using the <code>name</code> and <code>nullable</code> methods, respectively.</p>
-<div class="cell" data-execution_count="17">
+<div class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Accessing the name of each column</span></span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> column <span class="kw">in</span> schema:</span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="bu">print</span>(column.name)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -731,7 +641,7 @@ value
 date</code></pre>
 </div>
 </div>
-<div class="cell" data-execution_count="18">
+<div class="cell" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Accessing the boolean value that indicates</span></span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="co"># if the column can contain null values</span></span>
 <span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> column <span class="kw">in</span> schema:</span>
@@ -743,12 +653,12 @@ True</code></pre>
 </div>
 </div>
 </section>
-<section id="building-a-dataframe-schema" class="level3" data-number="3.8.2">
-<h3 data-number="3.8.2" class="anchored" data-anchor-id="building-a-dataframe-schema"><span class="header-section-number">3.8.2</span> Building a DataFrame schema</h3>
+<section id="building-a-dataframe-schema" class="level3" data-number="3.9.2">
+<h3 data-number="3.9.2" class="anchored" data-anchor-id="building-a-dataframe-schema"><span class="header-section-number">3.9.2</span> Building a DataFrame schema</h3>
 <p>When Spark creates a new DataFrame, it will automatically guess which schema is appropriate for that DataFrame. In other words, Spark will try to guess which are the appropriate data types for each column. But, this is just a guess, and, sometimes, Spark go way off.</p>
 <p>Because of that, in some cases, you have to tell Spark how exactly you want this DataFrame schema to be like. To do that, you need to build the DataFrame schema by yourself, with <code>StructType()</code> and <code>StructField()</code> constructors, alongside with the Spark data types (i.e.&nbsp;<code>StringType()</code>, <code>DoubleType()</code>, <code>IntegerType()</code>, …). Remember, all of these python classes come from the <code>pyspark.sql.types</code> module.</p>
 <p>In the example below, the <code>schema</code> object represents the schema of the <code>registers</code> DataFrame. This DataFrame have three columns (<code>ID</code>, <code>Date</code>, <code>Name</code>) of types <code>IntegerType</code>, <code>DateType</code> and <code>StringType</code>, respectively. See below that I deliver this <code>schema</code> object that I built to <code>spark.createDataFrame()</code>.</p>
-<div class="cell" data-execution_count="19">
+<div class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.types <span class="im">import</span> StructType, StructField</span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.types <span class="im">import</span> DateType, StringType, IntegerType</span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datetime <span class="im">import</span> date</span>
@@ -770,43 +680,28 @@ True</code></pre>
 </div>
 <p>Having this example in mind, to build a DataFrame schema from scratch, you have to build the equivalent <code>StructType()</code> object that represents the schema you want.</p>
 </section>
-<section id="checking-your-dataframe-schema" class="level3" data-number="3.8.3">
-<h3 data-number="3.8.3" class="anchored" data-anchor-id="checking-your-dataframe-schema"><span class="header-section-number">3.8.3</span> Checking your DataFrame schema</h3>
+<section id="checking-your-dataframe-schema" class="level3" data-number="3.9.3">
+<h3 data-number="3.9.3" class="anchored" data-anchor-id="checking-your-dataframe-schema"><span class="header-section-number">3.9.3</span> Checking your DataFrame schema</h3>
 <p>In some cases, you need to include in your <code>pyspark</code> program, some checks that certifies that your Spark DataFrame have the expected schema. In other words, you want to take actions if your DataFrame have a different schema that might cause a problem in your program.</p>
 <p>To check if a specific column of your DataFrame is associated with the data type <span class="math inline">\(x\)</span>, you have to use the DataFrame schema to check if the respective column is an “instance” of the python class that represents that data type <span class="math inline">\(x\)</span>. Lets use the <code>df</code> DataFrame as an example.</p>
 <p>Suppose you wanted to check if the <code>id</code> column is of type <code>IntegerType</code>. To do this check, we use the python built-in function <code>isinstance()</code> with the python class that represents the Spark <code>IntegerType</code> data type. But, you can see in the result below, that the <code>id</code> column is not of type <code>IntegerType</code>.</p>
-<div class="cell" data-execution_count="20">
+<div class="cell" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.types <span class="im">import</span> IntegerType</span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>schema <span class="op">=</span> df.schema</span>
 <span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>id_column <span class="op">=</span> schema[<span class="dv">0</span>]</span>
 <span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a><span class="bu">isinstance</span>(id_column.dataType, IntegerType)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="20">
+<div class="cell-output cell-output-display" data-execution_count="23">
 <pre><code>False</code></pre>
 </div>
 </div>
 <p>This unexpected result happens, because the <code>id</code> column is actually from the “big integer” type, or, the <code>LongType</code> (which are 8-byte signed integer). You can see below, that now the test results in true:</p>
-<div class="cell" data-execution_count="21">
+<div class="cell" data-execution_count="23">
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.types <span class="im">import</span> LongType</span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="bu">isinstance</span>(id_column.dataType, LongType)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="21">
+<div class="cell-output cell-output-display" data-execution_count="24">
 <pre><code>True</code></pre>
 </div>
 </div>
-</section>
-</section>
-<section id="partitions-of-a-spark-dataframe" class="level2" data-number="3.9">
-<h2 data-number="3.9" class="anchored" data-anchor-id="partitions-of-a-spark-dataframe"><span class="header-section-number">3.9</span> Partitions of a Spark DataFrame</h2>
-<p>A Spark DataFrame is always broken into many small pieces, and, these pieces are always spread across the cluster of machines. Each one of these small pieces of the total data are considered a DataFrame <em>partition</em>.</p>
-<p>For the most part, you do not manipulate these partitions manually or individually <span class="citation" data-cites="karau2015">(<a href="references.html#ref-karau2015" role="doc-biblioref">Karau et al. 2015</a>)</span>, because Spark automatically do this job for you.</p>
-<p>As we exposed in <a href="#fig-distributed-df">Figure&nbsp;<span>3.1</span></a>, each node of the cluster will hold a piece of the total DataFrame. If we translate this distribution into a “partition” distribution, this means that each node of the cluster can hold one or multiple partitions of the Spark DataFrame.</p>
-<p>If we sum all partitions present in a node of the cluster, we get a chunk of the total DataFrame. The figure below demonstrates this notion:</p>
-<div id="fig-partitions-df" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="../Figures/partitions-df.png" class="img-fluid figure-img"></p>
-<p></p><figcaption class="figure-caption">Figure&nbsp;3.2: Partitions of a DataFrame</figcaption><p></p>
-</figure>
-</div>
-<p>If the Spark DataFrame is not big, each node of the cluster will probably store just a single partition of this DataFrame. In contrast, depending on the complexity and size of the DataFrame, Spark will split this DataFrame into more partitions that there are nodes in the cluster. In this case, each node of the cluster will hold more than 1 partition of the total DataFrame.</p>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography" style="display: none">
@@ -820,6 +715,7 @@ Chambers, Bill, and Matei Zaharia. 2018. <em>Spark: The Definitive Guide: Big Da
 Karau, Holden, Andy Konwinski, Patrick Wendell, and Matei Zaharia. 2015. <em>Learning Spark: Lightning-Fast Data Analytics</em>. Sebastopol, CA: O’Reilly Media.
 </div>
 </div>
+</section>
 </section>
 <section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
 <hr>
