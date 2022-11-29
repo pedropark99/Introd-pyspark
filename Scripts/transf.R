@@ -1,5 +1,4 @@
 library(tidyverse)
-library(fs)
 
 names <- c(
   "Anne Frank", "Michael Scott", "Pam Beesly", "Jim Halpert",
@@ -137,4 +136,23 @@ transf <- transf %>%
   )
 
 
-write_csv2(transf, "Data/transf.csv")
+set.seed(888)
+msgs <- c(
+  "408 Request Timeout",
+  "408 Request Timeout",
+  "408 Request Timeout",
+  "408 Request Timeout",
+  "500 Server Unavailable",
+  "500 Server Unavailable"
+)
+random_index <- sample(seq_len(n), size = length(msgs))
+transf$transferLog <- NA_character_
+transf$transferLog[random_index] <- msgs
+
+transf <- transf %>% 
+  select(
+    1:6, transferLog,
+    everything()
+  )
+
+write_delim(transf, "Data/transf.csv", delim = ";", na = "")

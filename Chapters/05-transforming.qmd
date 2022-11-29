@@ -138,41 +138,59 @@ A classic example of wide operation is a grouped aggregation. For example, lets 
 
 ## Filtering rows of your DataFrame
 
-To filter specific rows of a DataFrame, `pyspark` offers two equivalent methods called `where()` and `filter()`. In other words, they both do the same thing, and work in the same way. You should give to these methods, a logical expression that translates what you want to filter.
+To filter specific rows of a DataFrame, `pyspark` offers two equivalent DataFrame methods called `where()` and `filter()`. In other words, they both do the same thing, and work in the same way. These methods receives a logical expression that translates what you want to filter as input.
 
-To demonstrate some of the examples in this and some of the next sections, we will use a different DataFrame, called `transf`. With the code below, you can import the data from `trans_reform.csv` to create this DataFrame in your Spark Session. Remember that, this CSV file is freely available to download at the repository of this book[^transforming-1].
+To demonstrate some of the next examples in this chapter, we will use a different DataFrame called `transf`. With the code below, you can import the data from `transf.csv` to recreate this DataFrame in your Spark Session. Remember that, this CSV file is freely available to download at the repository of this book[^transforming-1].
 
 [^transforming-1]: <https://github.com/pedropark99/Introd-pyspark/tree/main/Data>
 
 ```{python}
 #| cache: true
 from pyspark.sql.types import StructType, StructField
-from pyspark.sql.types import DoubleType, StringType, IntegerType, TimestampType
-path = "../Data/transf_reform.csv"
+from pyspark.sql.types import DoubleType, StringType
+from pyspark.sql.types import LongType, TimestampType, DateType
+path = "../Data/transf.csv"
 schema = StructType([
-  StructField('datetime', TimestampType(), False),
-  StructField('user', StringType(), True),
-  StructField('value', DoubleType(), True),
-  StructField('transferid', IntegerType(), False),
-  StructField('country', StringType(), True),
-  StructField('description', StringType(), True)
+  StructField('dateTransfer', DateType(), False),
+  StructField('datetimeTransfer', TimestampType(), False),
+  StructField('clientNumber', LongType(), False),
+  StructField('transferValue', DoubleType(), False),
+  StructField('transferCurrency', StringType(), False),
+  StructField('transferID', LongType(), False),
+  StructField('transferLog', StringType(), False),
+  StructField('destinationBankNumber', LongType(), False),
+  StructField('destinationBankBranch', LongType(), False),
+  StructField('destinationBankAccount', StringType(), False)
 ])
 
 transf = spark.read\
   .csv(path, schema = schema, sep = ";", header = True)
 ```
 
-This `transf` DataFrame contains bank transfer records from a fictitious bank. Column `datetime` presents the date and time when the transfer occurred; `user` is the bank user that did the transfer; `value` presents the value that was transferred; `transferid` is an unique ID for the transfer; `country` show us the target country of the transfer; and `description` store some description of this transfer if needed.
+This `transf` DataFrame contains bank transfer records from a fictitious bank. Before I show you the actual data of this DataFrame, is useful to give you a quick description of each column that it contains:
+
+- `dateTransfer`: the date when the transfer occurred;
+- `datetimeTransfer`: the date and time when the transfer occurred;
+- `clientNumber` the unique number that identifies a client of the bank;
+- `transferValue`: the nominal value that was transferred;
+- `transferCurrency`: the currency of the nominal value transferred;
+- `transferID`: an unique ID for the transfer;
+- `transferLog`: store any error message that may have appeared during the execution of the transfer;
+- `destinationBankNumber`: the transfer destination bank number;
+- `destinationBankBranch`: the transfer destination branch number;
+- `destinationBankAccount`: the transfer destination account number;
+
+Now, to see the actual data of this DataFrame, we can use the `show()` action as usual.
 
 ```{python}
 transf.show(5)
 ```
 
-As a first example, lets suppose you wanted to inspect all the rows where `value` is less than 1000. To do so, you can use the following code:
+As a first example, lets suppose you wanted to inspect all the rows where `transferValue` is less than 1000. To do so, you can use the following code:
 
 ```{python}
 transf\
-  .filter("value < 1000")\
+  .filter("transferValue < 1000")\
   .show(5)
 ```
 
@@ -182,7 +200,7 @@ Writing simple SQL logical expression inside a string is the most easy and "clea
 from pyspark.sql.functions import col
 
 transf\
-  .filter(col("value") < 1000)\
+  .filter(col("transferValue") < 1000)\
   .show(5)
 ```
 
@@ -193,7 +211,7 @@ You still have a more verbose alternative, that does not require the `col()` fun
 # This will give you the exact
 # same result of the examples above
 transf\
-  .filter(transf.value < 1000)
+  .filter(transf.transferValue < 1000)
 ```
 
 ### Logical operators available
@@ -208,8 +226,8 @@ The logical operators of SQL are described in the table below:
 |----------|----------------------|---------------------------------------------------------|
 | \<       |`x < y`               |is `x` less than `y`?                                    |
 | \>       |`x > y`               |is `x` greater than `y`?                                 |
-| \<=      |`x <= y`              |is `x` less or equal than `y`?                           |
-| \>=      |`x >= y`              |is `x` greater or equal than `y`?                        |
+| \<=      |`x <= y`              |is `x` less than or equal to `y`?                        |
+| \>=      |`x >= y`              |is `x` greater than or equal to `y`?                     |
 | ==       |`x == y`              |is `x` equal to `y`?                                     |
 | !=       |`x != y`              |is `x` not equal to `y`?                                 |
 | in       |`x in y`              |is `x` one of the values listed in `y`?                  |
@@ -226,8 +244,8 @@ And, the logical operators of python are described in the table below:
 |----------|----------------------|---------------------------------------------------------|
 | \<       |`x < y`               |is `x` less than `y`?                                    |
 | \>       |`x > y`               |is `x` greater than `y`?                                 |
-| \<=      |`x <= y`              |is `x` less or equal than `y`?                           |
-| \>=      |`x >= y`              |is `x` greater or equal than `y`?                        |
+| \<=      |`x <= y`              |is `x` less than or equal to `y`?                        |
+| \>=      |`x >= y`              |is `x` greater than or equal to `y`?                     |
 | ==       |`x == y`              |is `x` equal to `y`?                                     |
 | !=       |`x != y`              |is `x` not equal to `y`?                                 |
 | &        |`x & y`               |both logical expressions `x` and `y` are true?           |
@@ -240,16 +258,18 @@ And, the logical operators of python are described in the table below:
 
 Sometimes, you need to write more complex logical expressions to correctly describe the rows you are interested in. That is, when you combine multiple logical expressions together.
 
-As an example, lets suppose you wanted all the rows in `transf` DataFrame, where `value` is smaller than 1000, and, the `country` is Brazil, and, `user` is Eduardo. These conditions are dependent, that is, they are connected to each other. That is why I used the `and` keyword in the example below, to connect these three conditions together.
+As an example, lets suppose you wanted all the rows in `transf` DataFrame from client of number 1297 where the transfer value is smaller than 1000, and the date of the transfer is after 20 of February 2022. These conditions are dependent, that is, they are connected to each other (the client number, the transfer value and the date of the transfer). That is why I used the `and` keyword between each condition in the example below (i.e. to connect these three conditions together).
 
 ```{python}
 condition = '''
-  value < 1000 and country == 'Brazil' and user == 'Eduardo'
+  transferValue < 1000
+  and clientNumber == 1297 
+  and dateTransfer > '2022-02-20'
 '''
 
 transf\
   .filter(condition)\
-  .show(5)
+  .show()
 ```
 
 I could translate this logical expression into the "pythonic" way (using the `col()` function). However, I would have to surround each individual expression by parentheses, and, use the `&` operator to substitute the `and` keyword.
@@ -257,9 +277,11 @@ I could translate this logical expression into the "pythonic" way (using the `co
 ```{python}
 transf\
   .filter(
-    (col('value') < 1000) & (col('country') == 'Brazil') & (col('user') == 'Eduardo')
+    (col('transferValue') < 1000) &
+    (col('clientNumber') == 1297) &
+    (col('dateTransfer') > '2022-02-20')
   )\
-  .show(5)
+  .show()
 ```
 
 This a **very important detail**, because is very easy to forget it. When building your complex logical expressions, if you are using the `col()` function, always **remember to surround each expression by a pair of parentheses**. Otherwise, you will get a very confusing and useless error message, like this:
@@ -268,22 +290,16 @@ This a **very important detail**, because is very easy to forget it. When buildi
 #| eval: false
 transf\
   .filter(
-    col('value') < 1000 & col('country') == 'Brazil' & col('user') == 'Eduardo'
+    col('transferValue') < 1000 &
+    col('clientNumber') == 1297 &
+    col('dateTransfer') > '2022-02-20'
   )\
   .show(5)
 ```
 
 
 ```
-Traceback (most recent call last):
-  File "<stdin>", line 3, in <module>
-  File "/usr/local/spark/python/pyspark/sql/column.py", line 111, in _
-    njc = getattr(self._jc, name)(jc)
-  File "/usr/local/spark/python/lib/py4j-0.10.9.3-src.zip/py4j/java_gateway.py", line 1321, in __call__
-  File "/usr/local/spark/python/pyspark/sql/utils.py", line 111, in deco
-    return f(*a, **kw)
-  File "/usr/local/spark/python/lib/py4j-0.10.9.3-src.zip/py4j/protocol.py", line 330, in get_return_value
-py4j.protocol.Py4JError: An error occurred while calling o89.and. Trace:
+Py4JError: An error occurred while calling o216.and. Trace:
 py4j.Py4JException: Method and([class java.lang.Integer]) does not exist
 	at py4j.reflection.ReflectionEngine.getMethod(ReflectionEngine.java:318)
 	at py4j.reflection.ReflectionEngine.getMethod(ReflectionEngine.java:326)
@@ -292,14 +308,16 @@ py4j.Py4JException: Method and([class java.lang.Integer]) does not exist
 	at py4j.commands.CallCommand.execute(CallCommand.java:79)
 	at py4j.ClientServerConnection.waitForCommands(ClientServerConnection.java:182)
 	at py4j.ClientServerConnection.run(ClientServerConnection.java:106)
-	at java.lang.Thread.run(Thread.java:748)
+	at java.base/java.lang.Thread.run(Thread.java:829)
 ```
 
-In the above examples, we have logical expressions that are dependent on each other. But, lets suppose these conditions were independent. In this case, we would use the `or` keyword, instead of `and`. Now, Spark will look for every row of `transf` where `value` is smaller than 1000, or, `country` is Brazil, or, `user` is Eduardo.
+In the above examples, we have logical expressions that are dependent on each other. But, lets suppose these conditions were independent. In this case, we would use the `or` keyword, instead of `and`. Now, Spark will look for every row of `transf` where `transferValue` is smaller than 1000, or, `clientNumber` is equal to 1297, or, `dateTransfer` is greater than 20 of February 2022.
 
 ```{python}
 condition = '''
-  value < 1000 or country == 'Brazil' or user == 'Eduardo'
+  transferValue < 1000
+  or clientNumber == 1297 
+  or dateTransfer > '2022-02-20'
 '''
 
 transf\
@@ -312,17 +330,20 @@ To translate this expression into the pythonic way, we have to substitute the `o
 ```{python}
 transf\
   .filter(
-    (col('value') < 1000) | (col('country') == 'Brazil') | (col('user') == 'Eduardo')
+    (col('transferValue') < 1000) |
+    (col('clientNumber') == 1297) |
+    (col('dateTransfer') > '2022-02-20')
   )\
   .show(5)
 ```
 
 
-You can increase the complexity of your logical expressions by mixing dependent expressions with independent expressions. For example, to filter all the rows where `country` is Germany, and, `user` is either Eduardo or Ana, you would have the following code:
+You can increase the complexity of your logical expressions by mixing dependent expressions with independent expressions. For example, to filter all the rows where `dateTransfer` is greater than or equal to 01 of October 2022, and `clientNumber` is either 2727 or 5188, you would have the following code:
 
 ```{python}
 condition = '''
-  (user == 'Eduardo' or user == 'Ana') and country == 'Germany'
+  (clientNumber == 2727 or clientNumber == 5188)
+  and dateTransfer >= '2022-10-01'
 '''
 
 transf\
@@ -330,12 +351,17 @@ transf\
   .show(5)
 ```
 
-If you investigate the above condition carefully, maybe, you will identify that this condition could be rewritten in a simpler format, by using the `in` keyword. This way, Spark will look for all the rows where `user` is equal to one of the listed values (Eduardo and Ana), and, that `country` is Germany.
+If you investigate the above condition carefully, maybe, you will identify that this condition could be rewritten in a simpler format, by using the `in` keyword. This way, Spark will look for all the rows where `clientNumber` is equal to one of the listed values (2727 or 5188), and, that `dateTransfer` is greater than or equal to 01 of October 2022.
 
 ```{python}
 condition = '''
-  user in ('Eduardo', 'Ana') and country == 'Germany'
+  clientNumber in (2727, 5188)
+  and dateTransfer >= '2022-10-01'
 '''
+
+transf\
+  .filter(condition)\
+  .show(5)
 ```
 
 
@@ -343,11 +369,11 @@ condition = '''
 
 Python does have a `in` keyword just like SQL, but, this keyword does not work as expected in `pyspark`. To write a logical expression, using the pythonic way, that filters the rows where a column is equal to one of the listed values, you can use the `isin()` method. 
 
-This method belongs to the `Column` class, so, you should always use `isin()` after a column name or a `col()` function. In the example below, we are filtering the rows where `user` is Eduardo or Júlio Cesar:
+This method belongs to the `Column` class, so, you should always use `isin()` after a column name or a `col()` function. In the example below, we are filtering the rows where `destinationBankNumber` is 290 or 666:
 
 ```{python}
 transf\
-  .filter(col('user').isin('Eduardo', 'Júlio Cesar'))\
+  .filter(col('destinationBankNumber').isin(290, 666))\
   .show(5)
 ```
 
@@ -357,11 +383,11 @@ transf\
 
 In some cases, is easier to describe what rows you **do not want** in your filter. In this case, you want to negate (or invert) your logical expression. For this, SQL provides the `not` keyword, that you place before the logical expression you want to negate.
 
-For example, we can filter all the rows of `transf` where `user` is not equal to Ana. Remember, the methods `filter()` and `where()` are equivalents or synonymous (they both mean the same thing).
+For example, we can filter all the rows of `transf` where `clientNumber` is not equal to 3284. Remember, the methods `filter()` and `where()` are equivalents or synonymous (they both mean the same thing).
 
 ```{python}
 condition = '''
-  not user == 'Ana'
+  not clientNumber == 3284
 '''
 
 transf\
@@ -373,22 +399,22 @@ To translate this expression to the pythonic way, we use the `~` operator. Howev
 
 ```{python}
 transf\
-  .where(~(col('user') == 'Ana'))\
+  .where(~(col('clientNumber') == 3284))\
   .show(5)
 ```
 
-If you forget to do this, Spark will think you are negating just the column (e.g. `~col('user')`), and not the entire expression. That would not make sense, and, as a result, Spark would throw an error:
+If you forget to add the parentheses, Spark will think you are negating just the column (e.g. `~col('clientNumber')`), and not the entire expression. That would not make sense, and, as a result, Spark would throw an error:
 
 ```{python}
 #| eval: false
 transf\
-  .where(~col('user') == 'Ana')\
+  .where(~col('clientNumber') == 3284)\
   .show(5)
 ```
 
 ```
-AnalysisException: cannot resolve '(NOT user)' due to data type mismatch: argument 1 requires boolean type, however, 'user' is of string type.;
-'Filter (NOT user#25 = Ana)
+AnalysisException: cannot resolve '(NOT clientNumber)' due to data type mismatch: argument 1 requires boolean type, however, 'clientNumber' is of bigint type.;
+'Filter (NOT clientNumber#210L = 3284)
 ```
 
 Because the `~` operator is a little discrete and can go unnoticed, I sometimes use a different approach to negate my logical expressions. I make the entire expression equal to `False`. This way, I get all the rows where that particular expression is `False`. This makes my intention more visible in the code, but, is harder to write it.
@@ -397,7 +423,7 @@ Because the `~` operator is a little discrete and can go unnoticed, I sometimes 
 # Filter all the rows where `user` is not equal to
 # Ana or Eduardo.
 transf\
-  .where( (col('user').isin('Ana', 'Eduardo')) == False )\
+  .where( (col('clientNumber').isin(2727, 5188)) == False )\
   .show(5)
 ```
 
@@ -410,15 +436,15 @@ Because this is a special kind of value in Spark, with a special meaning (the "a
 
 ```{python}
 transf\
-  .where('user is null')\
-  .show()
+  .where('transferLog is null')\
+  .show(5)
 ```
 
 However, if you want to remove these values from your DataFrame, then, you can just negate (or invert) the above expression with the `not` keyword, like this:
 
 ```{python}
 transf\
-  .where('not user is null')\
+  .where('not transferLog is null')\
   .show(5)
 ```
 
@@ -427,7 +453,7 @@ The `is` and `not` keywords in SQL have a special relation. Because you can crea
 ```{python}
 #| eval: false
 transf\
-  .where('user is not null')\
+  .where('transferLog is not null')\
   .show(5)
 ```
 
@@ -437,23 +463,23 @@ When we translate the above examples to the "pythonic" way, many people tend to 
 
 ```{python}
 transf\
-  .where(col('user') == None)\
-  .show()
+  .where(col('transferLog') == None)\
+  .show(5)
 ```
 
 The correct way to do this in `pyspark`, is to use the `isNull()` method from the `Column` class.
 
 ```{python}
 transf\
-  .where(col('user').isNull())\
-  .show()
+  .where(col('transferLog').isNull())\
+  .show(5)
 ```
 
 If you want to eliminate the `null` values, just use the inverse method `isNotNull()`.
 
 ```{python}
 transf\
-  .where(col('user').isNotNull())\
+  .where(col('transferLog').isNotNull())\
   .show(5)
 ```
 
@@ -467,7 +493,10 @@ The `select()` method works very similarly to the `SELECT` statement of SQL. You
 
 ```{python}
 transf\
-  .select('transferid', 'datetime', 'user', 'value')\
+  .select(
+    'transferID', 'datetimeTransfer',
+    'clientNumber', 'transferValue'
+  )\
   .show(5)
 ```
 
@@ -478,9 +507,9 @@ Realize in the example above, that the column names can be delivered directly as
 ```{python}
 transf\
   .select(
-    'datetime',
-    col('transferid').alias('transferID'),
-    transf.user.alias('clientName')
+    'datetimeTransfer',
+    col('transferID').alias('ID_of_transfer'),
+    transf.clientNumber.alias('clientID')
   )\
   .show(5)
 ```
@@ -489,7 +518,7 @@ By using this `alias()` method, you can rename multiple columns within a single 
 
 ```{python}
 transf\
-  .withColumnRenamed('transferid', 'transferID')\
+  .withColumnRenamed('clientNumber', 'clientID')\
   .show(5)
 ```
 
@@ -500,7 +529,7 @@ In some cases, your DataFrame just have too many columns and you just want to el
 
 ```{python}
 transf\
-  .drop('user', 'description')\
+  .drop('dateTransfer', 'clientNumber')\
   .show(5)
 ```
 
@@ -515,9 +544,9 @@ To explicit transform a column to a specific data type, you can use `cast()` or 
 ```{python}
 transf\
   .select(
-    'value',
-    col('value').cast('long').alias('value_as_integer'),
-    transf.value.cast('boolean').alias('value_as_boolean')
+    'transferValue',
+    col('transferValue').cast('long').alias('value_as_integer'),
+    transf.transferValue.cast('boolean').alias('value_as_boolean')
   )\
   .show(5)
 ```
@@ -544,13 +573,13 @@ For example, I can select a new column (called `by_1000`) containing `value` div
 ```{python}
 transf\
   .select(
-    'value',
-    (col('value') / 1000).alias('by_1000')
+    'transferValue',
+    (col('transferValue') / 1000).alias('by_1000')
   )\
   .show(5)
 ```
 
-This `by_1000` column do not exist in `transf` DataFrame. It was calculated and added to the final result by `select()`. The formula `col('value') / 1000` is the equation that defines what this `by_1000` column is, or, how it should be calculated. 
+This `by_1000` column do not exist in `transf` DataFrame. It was calculated and added to the final result by `select()`. The formula `col('transferValue') / 1000` is the equation that defines what this `by_1000` column is, or, how it should be calculated. 
 
 Besides that, `select()` provides a useful shortcut to reference all the columns of your DataFrame. That is, the star symbol (`*`) from the `SELECT` statement in SQL. This shortcut is very useful when you want to maintain all columns, and, add a new column, at the same time.
 
@@ -560,7 +589,7 @@ In the example below, we are adding the same `by_1000` column, however, we are b
 transf\
   .select(
     '*',
-    (col('value') / 1000).alias('by_1000')
+    (col('transferValue') / 1000).alias('by_1000')
   )\
   .show(5)
 ```
@@ -574,7 +603,7 @@ This method has two arguments. First, is the name of the new column. Second, is 
 
 ```{python}
 transf\
-  .withColumn('by_1000', col('value') / 1000)\
+  .withColumn('by_1000', col('transferValue') / 1000)\
   .show(5)
 ```
 
@@ -586,27 +615,27 @@ You will see a lot more examples of formulas and uses of `withColumn()` througho
 
 Spark, or, `pyspark`, provides the `orderBy()` and `sort()` DataFrame method to sort rows. They both work the same way: you just give the name of the columns that Spark will use to sort the rows. 
 
-In the example below, Spark will sort `transf` according to the values in the `value` column. By default, Spark uses an ascending order while sorting your rows.
+In the example below, Spark will sort `transf` according to the values in the `transferValue` column. By default, Spark uses an ascending order while sorting your rows.
 
 ```{python}
 transf\
-  .orderBy('value')\
+  .orderBy('transferValue')\
   .show(5)
 ```
 
-Just to be clear, you can use the combination between multiple columns to sort your rows. Just give the name of each column (as strings) separated by commas. In the example below, Spark will sort the rows according to `user` column first, then, is going to sort the rows of each `user` according to `value` column.
+Just to be clear, you can use the combination between multiple columns to sort your rows. Just give the name of each column (as strings) separated by commas. In the example below, Spark will sort the rows according to `clientNumber` column first, then, is going to sort the rows of each `clientNumber` according to `transferValue` column.
 
 ```{python}
 transf\
-  .orderBy('user', 'value')\
+  .orderBy('clientNumber', 'transferValue')\
   .show(5)
 ```
 
-If you want to use a descending order in a specific column, you need to use the `desc()` method from `Column` class. In the example below, Spark will sort the rows according to `user` column using an ascending order. However, it will use the values from `value` column in a descending order to sort the rows in each `user`.
+If you want to use a descending order in a specific column, you need to use the `desc()` method from `Column` class. In the example below, Spark will sort the rows according to `clientNumber` column using an ascending order. However, it will use the values from `transferValue` column in a descending order to sort the rows in each `clientNumber`.
 
 ```{python}
 transf\
-  .orderBy('user', col('value').desc())\
+  .orderBy('clientNumber', col('transferValue').desc())\
   .show(5)
 ```
 
@@ -619,7 +648,7 @@ To calculate aggregates of a Spark DataFrame we have two main paths: 1) we can u
 
 ### Using standard DataFrame methods
 
-The Spark DataFrame class by itself provides a single aggregate method, which is `count()`. With this method, you can find out how many rows your DataFrame have. In the example below, we can see that `transf` have 20010 rows.
+The Spark DataFrame class by itself provides a single aggregate method, which is `count()`. With this method, you can find out how many rows your DataFrame have. In the example below, we can see that `transf` have 2421 rows.
 
 ```{python}
 transf.count()
@@ -642,15 +671,15 @@ With the `agg()` method, we can calculate many different aggregates at the same 
 
 In most cases, this "aggregate expression" will be composed of functions from the `pyspark.sql.functions` module. So, having familiarity with the functions present in this module will help you to compose the formulas of your aggregations in `agg()`.
 
-In the example below, I am using the `sum()` and `mean()` functions from `pyspark.sql.functions` to calculate the total sum and the total mean of the `value` column in the `transf` DataFrame. I am also using the `countDistinct()` function to calculate the number of distinct values in the `user` column.
+In the example below, I am using the `sum()` and `mean()` functions from `pyspark.sql.functions` to calculate the total sum and the total mean of the `transferValue` column in the `transf` DataFrame. I am also using the `countDistinct()` function to calculate the number of distinct values in the `clientNumber` column.
 
 ```{python}
 import pyspark.sql.functions as F
 
 transf.agg(
-    F.sum('value').alias('total_value'),
-    F.mean('value').alias('mean_value'),
-    F.countDistinct('user').alias('number_of_distinct_users')
+    F.sum('transferValue').alias('total_value'),
+    F.mean('transferValue').alias('mean_value'),
+    F.countDistinct('clientNumber').alias('number_of_clients')
   )\
   .show()
 ```
@@ -670,11 +699,11 @@ But how you define the groups inside your DataFrame? To do this, we use the `gro
 
 These methods, produce a **grouped** DataFrame as a result, or, in more technical words, a object of class `pyspark.sql.group.GroupedData`. You just need to provide, inside this `groupby()` method, the name of the columns that define (or "mark") your groups.
 
-In the example below, I am creating a grouped DataFrame per user defined in the `user` column. This means that each distinct value in the `user` column defines a different group in the DataFrame.
+In the example below, I am creating a grouped DataFrame per client defined in the `clientNumber` column. This means that each distinct value in the `clientNumber` column defines a different group in the DataFrame.
 
 ```{python}
-transf_per_user = transf.groupBy('user')
-transf_per_user
+transf_per_client = transf.groupBy('clientNumber')
+transf_per_client
 ```
 
 At first, it appears that nothing has changed. But the `groupBy()` method always returns a new object of class `pyspark.sql.group.GroupedData`. As a consequence, we can no longer use some of the DataFrame methods that we used before, like the `show()` method to see the DataFrame.
@@ -684,22 +713,22 @@ That's ok, because we usually do not want to keep this grouped DataFrame for muc
 As an example, I can use the `max()` method, to find out which is the highest value that each user have tranfered, like this:
 
 ```{python}
-transf_per_user\
-  .max('value')\
-  .show()
+transf_per_client\
+  .max('transferValue')\
+  .show(5)
 ```
 
-Remember that, by using standard DataFrame methods (like `max()` in the example above) we can calculate only a single aggregate value. But, with `agg()` we can calculate more than one aggregate value at the same time. Since our `transf_per_user` object is a **grouped** DataFrame, `agg()` will calculate these aggregates per group.
+Remember that, by using standard DataFrame methods (like `max()` in the example above) we can calculate only a single aggregate value. But, with `agg()` we can calculate more than one aggregate value at the same time. Since our `transf_per_client` object is a **grouped** DataFrame, `agg()` will calculate these aggregates per group.
 
-As an example, if I apply `agg()` with the exact same expressions exposed on @sec-agg-method with the `transf_per_user` DataFrame, instead of a DataFrame with one single row, I get a new DataFrame with nine rows. In each row, I have the total and mean values for a specific user in the input DataFrame.
+As an example, if I apply `agg()` with the exact same expressions exposed on @sec-agg-method with the `transf_per_client` DataFrame, instead of a DataFrame with one single row, I get a new DataFrame with nine rows. In each row, I have the total and mean values for a specific user in the input DataFrame.
 
 ```{python}
-transf_per_user\
+transf_per_client\
   .agg(
-    F.sum('value').alias('total_value'),
-    F.mean('value').alias('mean_value')
+    F.sum('transferValue').alias('total_value'),
+    F.mean('transferValue').alias('mean_value')
   )\
-  .show()
+  .show(5)
 ```
 
 
