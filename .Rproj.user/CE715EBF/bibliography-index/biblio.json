@@ -71,7 +71,41 @@
             },
             "publisher": "O’Reilly Media",
             "publisher-place": "Sebastopol, CA",
-            "title": "Learning spark",
+            "title": "Learning spark: Lightning-fast data analytics",
+            "title-short": "Learning spark",
+            "type": "book"
+        },
+        {
+            "author": [
+                {
+                    "family": "Damji",
+                    "given": "Jules"
+                },
+                {
+                    "family": "Wenig",
+                    "given": "Brooke"
+                },
+                {
+                    "family": "Das",
+                    "given": "Tathagata"
+                },
+                {
+                    "family": "Lee",
+                    "given": "Denny"
+                }
+            ],
+            "id": "damji2020",
+            "issued": {
+                "date-parts": [
+                    [
+                        2020
+                    ]
+                ]
+            },
+            "publisher": "O’Reilly Media",
+            "publisher-place": "Sebastopol, CA",
+            "title": "Learning spark: Lightning-fast data analytics",
+            "title-short": "Learning spark",
             "type": "book"
         },
         {

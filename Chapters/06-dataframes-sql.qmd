@@ -12,9 +12,9 @@ Due to the multi-language nature of Spark, you can mix python code that uses the
 
 ## Creating SQL Tables in Spark
 
-In real life jobs at the industry, is very likely that your data will be allocated inside a SQL database. Spark can connect to a external SQL database through JDBC/ODBC connections, or, read tables from Apache Hive. This way, you sent you SQL queries to this external database.
+In real life jobs at the industry, is very likely that your data will be allocated inside a SQL-like database. Spark can connect to a external SQL database through JDBC/ODBC connections, or, read tables from Apache Hive. This way, you sent you SQL queries to this external database.
 
-However, to expose a more simplified example, we will use `pyspark` to create a simple temporary SQL table in our Spark context, and use this temporary SQL table in our examples of SQL queries. This way, we avoid the work to connect to some existing SQL database, and, still get to learn how to use SQL queries in `pyspark`.
+However, to expose more simplified examples throughout this chapter, we will use `pyspark` to create a simple temporary SQL table in our Spark context, and use this temporary SQL table in our examples of SQL queries. This way, we avoid the work to connect to some existing SQL database, and, still get to learn how to use SQL queries in `pyspark`.
 
 In the example below, I am reading a CSV file from my computer called `penguins.csv` (remember that this CSV can be downloaded from the book repository[^06-dataframes-sql-1]), then, I create a SQL temporary view (called `penguins_view`) from this `penguins` DataFrame with the `createOrReplaceTempView()` method.
 
@@ -31,13 +31,13 @@ penguins = spark.read\
 penguins.createOrReplaceTempView('penguins_view')
 ```
 
-After these commands, I have now a view called `penguins_view` registered in the Spark SQL context, which I can query it, using pure SQL. We can execute a SQL query by using the `sql()` method from our Spark Session, like in the example below:
+After these commands, I have now a SQL view called `penguins_view` registered in my the Spark SQL context, which I can query it, using pure SQL. To execute a SQL query, you can use the `sql()` method from your Spark Session, like in the example below:
 
 ```{python}
 spark.sql('select * from penguins_view').show(5)
 ```
 
-This `sql()` method always result in a new Spark DataFrame. That is why I used the `show()` method right after `sql()`, to see what this new Spark DataFrame looked like.
+This `sql()` method receives a SQL query inside a string, and always outputs a new Spark DataFrame as a result. That is why I used the `show()` method right after `sql()`, to see what this new Spark DataFrame looked like.
 
 Therefore, in the above example, we wrote a simple and pure SQL query, and, executed it through `pyspark`, by using this `sql()` method. This means that, this `sql()` method is the bridge between `pyspark` and your SQL database. You give a pure SQL query (inside a string) to this `sql()` method, and, Spark will execute it, considering the SQL databases that you are connected with.
 
@@ -58,3 +58,26 @@ spark.sql('insert into `code_brazil_states` values (15, "Pará")')
 spark.sql('insert into `code_brazil_states` values (41, "Paraná")')
 spark.sql('insert into `code_brazil_states` values (25, "Paraíba")')
 ```
+
+We can see now this new physical SQL table using a simple query like this:
+
+```{python}
+spark\
+  .sql('select * from examples.code_brazil_states')\ 
+  .show()
+```
+
+
+## Selecting Spark SQL tables
+
+In Spark, tables registered in our SQL Spark Context are called Spark SQL tables. To access any of these tables, you have to query it through a SQL query, as you would normally do in any SQL database. However, it can be quite annoying to type a "select * from" kind of query every time you want to use a Spark SQL table.
+
+That is why Spark offers a shortcut to us, which is the `table()` method of your Spark session. In other words, the code `spark.table("table_name")` is a shortcut to `spark.sql('select * from table_name')`. For example, we could rewrite the previous query as:
+
+```{python}
+spark\
+  .table('examples.code_brazil_states')\ 
+  .show()
+```
+
+

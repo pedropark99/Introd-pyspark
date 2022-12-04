@@ -40,7 +40,7 @@ json_data.show()
 ```
 
 
-## A first example with a CSV file
+## An example with a CSV file
 
 As an example, I have the following CSV file saved in my computer:
 
