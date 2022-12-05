@@ -1,0 +1,42 @@
+# Tools for string manipulation {#sec-string-tools}
+
+```{python}
+#| include: false
+# To execute the next chunks with success, we need to start a Spark Session
+from pyspark.sql import SparkSession
+spark = SparkSession.builder.getOrCreate()
+```
+
+Many of the world data is represented (or stored) as text (or string variables). That is why is so important to know the tools available to process and transform this kind of data.
+
+Most of the functionality available in Spark to process text data comes from the `functions` module in `pyspark.sql` module. With the code below, we are importing this module, so we can use it in the next examples troughout the chapter.
+
+```{python}
+import pyspark.sql.functions as F
+```
+
+For brevity reasons, I'm import the module with the alias `F`. This means that I can access any function available in this module, by using `F.name_of_function()`.This useful, not only because `F` is short and easy to type, but because it helps us to identify which specific function we are using.
+
+For example, the code `re.split()` tells us that we are using the `split()` function from `re` module. In contrast, in the code `F.split()`, we are using the `split()` function from `pyspark.sql.functions` module instead. These two `split()` functions work with very different types of objects, and produce very different types of outputs, altough they both perform similar jobs.
+
+
+## Changing the letters case in a string
+
+Probably the most basic string transformation that exists is to change the case of the letters (or characters) that compose the string. That is, to raise specific letters to upper-case, and reduce some other letters to lower-case.
+
+As a first example, we
+
+
+## Extracting a substring
+
+
+## Calculating string length
+
+In Spark, you can use the `length()` function to get the length (i.e. the number of characters) of a string.
+
+
+
+
+
+
+
