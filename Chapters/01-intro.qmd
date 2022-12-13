@@ -13,6 +13,22 @@ This book, also contains a small introduction to key python concepts that are im
 Big part of the knowledge exposed here is extracted from a lot of practical experience of the author, working with `pyspark` to analyze big data at platforms such as Databricks^[<https://databricks.com/>].
 
 
+## About the author
+
+Pedro Duarte Faria have a bachelor degree in Economics from Federal University of Ouro Preto - Brazil. Currently, he is a Data Analyst at Take Blip, and an Associate Developer for Apache Spark 3.0 certified by Databricks.
+
+The author have more than 3 years of experience in the data analysis market. He developed data pipelines, reports and analysis for research institutions and some of the largest companies in the brazilian financial sector, such as the BMG Bank, Sodexo and Pan Bank, besides dealing with databases that go beyond the billion rows.
+
+Furthermore, Pedro have given several lectures and courses about the R language, inside graduate centers (such as PPEA-UFOP^[<https://ppea.ufop.br/>]), in addition to federal and state organizations (such as FJP-MG^[<http://fjp.mg.gov.br/>]). As researcher, he have experience in the field of Science, Technology and Innovation Economics.
+
+
+Personal Website: <https://pedro-faria.netlify.app/>
+
+Twitter: [\@PedroPark9](https://twitter.com/PedroPark9)
+
+Mastodon: [\@pedropark99\@fosstodon.org](https://fosstodon.org/@pedropark99)
+
+
 
 
 ## Some conventions of this book
