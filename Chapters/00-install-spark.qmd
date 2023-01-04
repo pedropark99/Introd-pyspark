@@ -6,43 +6,27 @@ In order to build and run any Spark application through `pyspark`, you have to i
 
 The process of installation is kind of similar in all three OS's. But some steps work differently in each OS. Currently, I (the author of this book) does have access to a macOS machine, and because of that, I will not describe the installation process of Spark on this platform. If you have access to a macOS machine, and are willing to describe the installation process, I would be happy to review a PR with such content.
 
-## First step: Download Apache Spark
 
-First, you need to download Apache Spark from the [official website for the project](https://spark.apache.org/downloads)^[<https://spark.apache.org/downloads>]. Currently, the Apache Spark does not offers installers or package programs to install the software for you. In other words,  is available only as a TAR file (`.tgz`).
 
-We usually install external software on Windows by using installers (i.e. executable files - `.exe`) that perform all the necessary steps to install the software in your machine. However, currently, the Apache Spark project does not offers such installers. This means that you have to install it yourself.
-
-When you download Apache Spark from the official website, you will get all files of the program inside a TAR file (`.tgz`).
-
-## Next steps
+## What are the steps?
 
 In short, the next steps for installing Spark are:
 
-1. Extract all files from the TAR file (`.tgz`);
-2. Configure Java SDK;
+1. Install Java;
+2. Download and extract Apache Spark;
 3. Set a few environment variables;
 
 These steps are simple, but they work differently depending on what operating system you are currently in. As a result, the next sections describes these steps for each operating system. 
 
 
 ## On Windows
-### Extract the files from the TAR file
-
-After you downloaded Spark to your machine, you need to extract all files from the TAR file (`.tgz`) to a specific location of your computer. It can be anywhere, just choose a place. As an example, I will extract the files to a folder called `Spark` at my hard disk `C:/`. 
-
-To extract these files, you can use very popular UI tools like [7zip](https://7-zip.org/)^[<https://7-zip.org/>] or [WinRAR](https://www.win-rar.com/)^[<https://www.win-rar.com/>]. But, I will use the `tar` command line tool from the terminal to do this.
-
-```{terminal, eval = FALSE}
-Terminal$ tar -x -f spark-3.3.1-bin-hadoop3.tgz
-Terminal$ mv spark-3.3.1-bin-hadoop3 C:/Spark/spark-3.3.1-bin-hadoop3
-```
 
 
-### Install Java SDK
+### Install Java
 
 Apache Spark is written in Scala, which is a fairly modern programming language that have powerful interoperability with the Java programming language. Because of this characteristic, some of the functionalities of Spark require you to have Java installed in your machine. 
 
-In other words, you must have Java installed and configured to use Spark. You do not have it, Spark will likely fail when you try to start it. However, since Java is a very popular tecnology across the world, is possible that you already have it installed in your machine. To check if Java is already installed, you can run the following command in your OS terminal:
+In other words, you must have Java installed and configured to use Spark. If you do not have Java, Spark will likely fail when you try to start it. However, since Java is a very popular tecnology across the world, is possible that you already have it installed in your machine. To check if Java is already installed, you can run the following command in your OS terminal:
 
 ```{terminal, eval = FALSE}
 Terminal$ java -version
@@ -56,4 +40,24 @@ Java(TM) SE Runtime Environment (build 1.8.0_331-b09)
 Java HotSpot(TM) Client VM (build 25.331-b09, mixed mode, sharing)
 ```
 
-But, if something different comes in your terminal, than, you do not have Java installed. So, to fix this, [download Java from the official website](https://www.java.com/download/)^[<https://www.java.com/pt-BR/download/>], and install it.
+But, if something different comes up in your terminal, than, you do not have Java installed. To fix this, [download Java from the official website](https://www.java.com/download/)^[<https://www.java.com/download/>], and install it.
+
+
+### Download Apache Spark
+
+First, you need to download Apache Spark from the [official website for the project](https://spark.apache.org/downloads)^[<https://spark.apache.org/downloads>]. Currently, the Apache Spark does not offers installers or package programs to install the software for you. In other words,  is available only as a TAR file (`.tgz`).
+
+We usually install external software on Windows by using installers (i.e. executable files - `.exe`) that perform all the necessary steps to install the software in your machine. However, currently, the Apache Spark project does not offers such installers. This means that you have to install it yourself.
+
+When you download Apache Spark from the official website, you will get all files of the program inside a TAR file (`.tgz`).
+
+### Extract the files from the TAR file
+
+After you downloaded Spark to your machine, you need to extract all files from the TAR file (`.tgz`) to a specific location of your computer. It can be anywhere, just choose a place. As an example, I will extract the files to a folder called `Spark` at my hard disk `C:/`. 
+
+To extract these files, you can use very popular UI tools like [7zip](https://7-zip.org/)^[<https://7-zip.org/>] or [WinRAR](https://www.win-rar.com/)^[<https://www.win-rar.com/>]. But, I will use the `tar` command line tool from the terminal to do this.
+
+```{terminal, eval = FALSE}
+Terminal$ tar -x -f spark-3.3.1-bin-hadoop3.tgz
+Terminal$ mv spark-3.3.1-bin-hadoop3 C:/Spark/spark-3.3.1-bin-hadoop3
+```
