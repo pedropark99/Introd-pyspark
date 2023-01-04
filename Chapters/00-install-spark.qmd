@@ -47,13 +47,7 @@ But, if something different comes up in your terminal, than, you do not have Jav
 
 ### Install Python
 
-To install Python on Windows, you can just download and execute the installer available at the [official website of the project](https://www.python.org/downloads/)^[<https://www.python.org/downloads/>].
-
-However, if you develop software and packages on Windows, is possible that you have [MSYS2](https://www.msys2.org/)^[<https://www.msys2.org/>] installed on your Windows machine. If this is your case, than I recommend you to use MSYS2 to install Python with the following command at the MSYS2 shell:
-
-```{terminal, eval = FALSE}
-MYSYS2$ pacman -S python-pip
-```
+You can easily install Python on Windows, by downloading the installer available at the [official website of the language](https://www.python.org/downloads/)^[<https://www.python.org/downloads/>], and executing it.
 
 
 ### Install `pyspark`
