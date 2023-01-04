@@ -19,18 +19,41 @@ When you download Apache Spark from the official website, you will get all files
 In short, the next steps for installing Spark are:
 
 1. Extract all files from the TAR file (`.tgz`);
-2. Install Java Runtime and SDK;
+2. Configure Java SDK;
 3. Set a few environment variables;
 
 These steps are simple, but they work differently depending on what operating system you are currently in. As a result, the next sections describes these steps for each operating system. 
 
 
 ## On Windows
+### Extract the files from the TAR file
 
 After you downloaded Spark to your machine, you need to extract all files from the TAR file (`.tgz`) to a specific location of your computer. It can be anywhere, just choose a place. As an example, I will extract the files to a folder called `Spark` at my hard disk `C:/`. 
 
-To extract these files, you can use very popular UI tools like [7zip](<https://7-zip.org/>)^[<https://7-zip.org/>] or [WinRAR](<https://www.win-rar.com/>)^[<https://www.win-rar.com/>]. But, I will use the `tar` command line tool from the terminal to do this.
+To extract these files, you can use very popular UI tools like [7zip](https://7-zip.org/)^[<https://7-zip.org/>] or [WinRAR](https://www.win-rar.com/)^[<https://www.win-rar.com/>]. But, I will use the `tar` command line tool from the terminal to do this.
 
 ```{terminal, eval = FALSE}
+Terminal$ tar -x -f spark-3.3.1-bin-hadoop3.tgz
+Terminal$ mv spark-3.3.1-bin-hadoop3 C:/Spark/spark-3.3.1-bin-hadoop3
+```
+
+
+### Install Java SDK
+
+Apache Spark is written in Scala, which is a fairly modern programming language that have powerful interoperability with the Java programming language. Because of this characteristic, some of the functionalities of Spark require you to have Java installed in your machine. 
+
+In other words, you must have Java installed and configured to use Spark. You do not have it, Spark will likely fail when you try to start it. However, since Java is a very popular tecnology across the world, is possible that you already have it installed in your machine. To check if Java is already installed, you can run the following command in your OS terminal:
+
+```{terminal, eval = FALSE}
+Terminal$ java -version
+```
+
+If the above command outputs something similar to the text exposed below, than, you already have Java installed in your machine, and you can proceed to the next step.
 
 ```
+java version "1.8.0_331"
+Java(TM) SE Runtime Environment (build 1.8.0_331-b09)
+Java HotSpot(TM) Client VM (build 25.331-b09, mixed mode, sharing)
+```
+
+But, if something different comes in your terminal, than, you do not have Java installed. So, to fix this, [download Java from the official website](https://www.java.com/download/)^[<https://www.java.com/pt-BR/download/>], and install it.
