@@ -105,3 +105,12 @@ Terminal$ mv spark-3.3.1-bin-hadoop3 C:/Spark/spark-3.3.1-bin-hadoop3
 ### Set environment variables
 
 Apache Spark will always look for three different environment variables in your system: `SPARK_HOME`, `PYSPARK_HOME` and `JAVA_HOME`. This means that you must have these three environment variables defined and correctly configured in your machine.
+
+
+You can use Python itself to find the path to the executable of the Python compiler. Just the run the following Python code:
+
+```{python}
+#| eval: false
+import sys
+sys.executable
+```
