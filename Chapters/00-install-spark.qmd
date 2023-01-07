@@ -117,15 +117,8 @@ During the process of scheduling and running your Spark application, Spark will 
 
 <!-- We need Java SDK not Java Runtime -->
 <!-- Download at https://www.oracle.com/java/technologies/downloads/ -->
-You can easily find the location of Java, by running the following command below on the terminal. You see by the result below, that my Java installation is inside a folder called 
+The Java SDK that I have on my machine is installed at the folder `C:\Program Files\Java\jdk-19`. This might be not your case, and you may find the "jdk" folder for Java at a different location.
 
-```{terminal, eval = FALSE}
-Terminal$ whereis java
-```
-
-```
-java: C:/Program Files (x86)/Common Files/Oracle/Java/javapath_target_1409750/java.exe
-```
 
 Seconde, lets set the variable `PYSPARK_PYTHON`. This variable must contain the path to the home of the python binary that you want to use while launching `pyspark`. ou can use Python itself to find the path to the executable of the Python compiler. Just the run the following Python code:
 
