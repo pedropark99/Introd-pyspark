@@ -116,6 +116,7 @@ During the process of scheduling and running your Spark application, Spark will 
 
 
 <!-- We need Java SDK not Java Runtime -->
+<!-- Download at https://www.oracle.com/java/technologies/downloads/ -->
 You can easily find the location of Java, by running the following command below on the terminal. You see by the result below, that my Java installation is inside a folder called 
 
 ```{terminal, eval = FALSE}
