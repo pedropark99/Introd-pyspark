@@ -5,6 +5,8 @@
 # To execute the next chunks with success, we need to start a Spark Session
 from pyspark.sql import SparkSession
 spark = SparkSession.builder.getOrCreate()
+sc = spark.sparkContext
+sc.setLogLevel("OFF")
 ```
 
 Many of the world data is represented (or stored) as text (or string variables). That is why is so important to know the tools available to process and transform this kind of data.

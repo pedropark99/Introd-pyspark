@@ -3,6 +3,16 @@
 
 ## Introduction
 
+```{python}
+#| include: false
+# To execute the next chunks with success, we need to start a Spark Session
+from pyspark.sql import SparkSession
+spark = SparkSession.builder.getOrCreate()
+sc = spark.sparkContext
+sc.setLogLevel("OFF")
+```
+
+
 Virtually every data analysis or data pipeline will include some ETL (*Extract, Transform, Load*) process, and the T is an essential part of it. Because, you almost never have an input data, or a initial DataFrame that perfectly fits your needs.
 
 This means that you always have to transform the initial data that you have, to a specific format that you can use in your analysis. In this chapter, you will learn how to apply some of these basic transformations to your Spark DataFrame.
