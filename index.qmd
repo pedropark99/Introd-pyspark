@@ -12,8 +12,8 @@ This book is still under active construction. This means that not all chapters a
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 
-if (Sys.info()["sysname"] == "Windows") {
-  py_path <- "C:/Users/pedro/AppData/Local/Programs/Python/Python39/python.exe"
-  reticulate::use_python(py_path)
-}
+# if (Sys.info()["sysname"] == "Windows") {
+#   py_path <- "C:/Users/pedro/AppData/Local/Programs/Python/Python311/python.exe"
+#   reticulate::use_python(py_path)
+# }
 ```

@@ -1,6 +1,5 @@
----
-title: How to install Spark and `pyspark`
----
+
+# How to install Spark and `pyspark` {.appendix}
 
 In order to build and run any Spark application through `pyspark`, you have to install Apache Spark in your computer. Apache Spark is available to all three major operating systems in the market today (macOS, Windows and Linux). 
 
@@ -23,11 +22,11 @@ The next sections describes these steps for each operating system.
 
 ## On Windows
 
-### Install Java
+### Install Java SDK
 
-Apache Spark is written in Scala, which is a fairly modern programming language that have powerful interoperability with the Java programming language. Because of this characteristic, some of the functionalities of Spark require you to have Java installed in your machine. 
+Apache Spark is written in Scala, which is a fairly modern programming language that have powerful interoperability with the Java programming language. Because of this characteristic, some of the functionalities of Spark require you to have Java SDK (*Software Development Kit*) installed in your machine. 
 
-In other words, you must have Java installed to use Spark. If you do not have Java, Spark will likely fail when you try to start it. However, since Java is a very popular tecnology across the world, is possible that you already have it installed in your machine. To check if Java is already installed, you can run the following command in your OS terminal:
+In other words, you must have Java SDK installed to use Spark. If you do not have Java SDK, Spark will likely fail when you try to start it. However, since Java is a very popular tecnology across the world, is possible that you already have it installed in your machine. To check if Java is already installed, you can run the following command in your OS terminal:
 
 ```{terminal}
 #| eval: false
@@ -42,7 +41,7 @@ Java(TM) SE Runtime Environment (build 19.0.1+10-21)
 Java HotSpot(TM) 64-Bit Server VM (build 19.0.1+10-21, mixed mode, sharing)
 ```
 
-But, if something different comes up in your terminal, than, is likely that you do not have Java installed. To fix this, [download Java from the official website](https://www.java.com/download/)^[<https://www.java.com/download/>], and install it.
+But, if something different comes up in your terminal, than, is likely that you do not have Java installed. To fix this, [download Java from the official website](https://www.oracle.com/java/technologies/downloads/)^[<https://www.oracle.com/java/technologies/downloads/>], and install it.
 
 
 ### Install Python
@@ -67,17 +66,16 @@ The `pip` tool is automatically installed with Python on Windows. So, if you fac
 
 ### Download and extract the files of Apache Spark
 
-First, you need to download Apache Spark from the [official website for the project](https://spark.apache.org/downloads)^[<https://spark.apache.org/downloads>]. Currently, the Apache Spark does not offers installers or package programs to install the software for you. In other words,  is available only as a TAR file (`.tgz`).
+First, you need to download Apache Spark from the [official website of the project](https://spark.apache.org/downloads)^[<https://spark.apache.org/downloads>]. Currently, the Apache Spark does not offers installers or package programs to install the software for you.
 
 We usually install external software on Windows by using installers (i.e. executable files - `.exe`) that perform all the necessary steps to install the software in your machine. However, currently, the Apache Spark project does not offers such installers. This means that you have to install it yourself.
 
-When you download Apache Spark from the official website, you will get all files of the program inside a TAR file (`.tgz`).
+When you download Apache Spark from the official website, you will get all files of the program compacted inside a TAR file (`.tgz`), which is similar to a ZIP file (`.zip`). After you downloaded Spark to your machine, you need to extract all files from the TAR file (`.tgz`) to a specific location of your computer. It can be anywhere, just choose a place. As an example, I will extract the files to a folder called `Spark` directly at my hard disk `C:/`. 
 
-After you downloaded Spark to your machine, you need to extract all files from the TAR file (`.tgz`) to a specific location of your computer. It can be anywhere, just choose a place. As an example, I will extract the files to a folder called `Spark` at my hard disk `C:/`. 
+To extract these files, you can use very popular UI tools like [7zip](https://7-zip.org/)^[<https://7-zip.org/>] or [WinRAR](https://www.win-rar.com/)^[<https://www.win-rar.com/>]. However, if you use a modern version of Windows, there is a `tar` command line tool available at the terminal that you can use to do this process in a programatic fashion. As an example, I can extract and move all files of Spark with these commands:
 
-To extract these files, you can use very popular UI tools like [7zip](https://7-zip.org/)^[<https://7-zip.org/>] or [WinRAR](https://www.win-rar.com/)^[<https://www.win-rar.com/>]. However, if you use a modern version of Windows, there is a `tar` command line tool available at the terminal that you can use to do this process in a programatic fashion.
-
-```{terminal, eval = FALSE}
+```{terminal}
+#| eval: false
 Terminal$ tar -x -f spark-3.3.1-bin-hadoop3.tgz
 Terminal$ mv spark-3.3.1-bin-hadoop3 C:/Spark/spark-3.3.1-bin-hadoop3
 ```
@@ -88,36 +86,56 @@ Terminal$ mv spark-3.3.1-bin-hadoop3 C:/Spark/spark-3.3.1-bin-hadoop3
 <!-- test if `HADOOP_HOME` variable and winutils.exe is really necessary -->
 <!-- test if `PYSPARK_PYTHON` is really necessary -->
 
-Apache Spark will always look for three different environment variables in your system: `SPARK_HOME` and `JAVA_HOME`. This means that you must have these two environment variables defined and correctly configured in your machine. To configure an environment variable on Windows, I recommend you to use the menu that you can find by searching for "environment variables" in the Windows search box. Figures @fig-windows-env1, @fig-windows-env2 and @fig-windows-env3 show the path to this menu on Windows:
+Apache Spark will always look for two specific environment variables in your system: `SPARK_HOME` and `JAVA_HOME`. This means that you must have these two environment variables defined and correctly configured in your machine. To configure an environment variable on Windows, I recommend you to use the menu that you can find by searching for "environment variables" in the Windows search box. At @fig-windows-envs you can see the path to this menu on Windows:
+
+<!-- These multi-figures in sequence need to have a new line between each of them
+if they do not have these new lines, an error in crossref will occur -->
+
+::: {#fig-windows-envs}
 
 ![Path to Windows Environment Variables Menu - Part 1](../Figures/windows-environment-variables1.png){#fig-windows-env1}
+
 ![Path to Windows Environment Variables Menu - Part 2](../Figures/windows-environment-variables2.png){#fig-windows-env2}
+
 ![Path to Windows Environment Variables Menu - Part 3](../Figures/windows-environment-variables3.png){#fig-windows-env3}
+
+Path to Windows Environment Variables Menu
+:::
+
 
 During the process of scheduling and running your Spark application, Spark will execute a set of scripts located at the home directory of Spark itself. Spark does this by looking for a environment variable called `SPARK_HOME` in your system. If you do not have this variable configured, Spark will not be able to locate its home directory, and as a consequence, it throws an runtime error.
 
-In other words, you need to set a variable with name `SPARK_HOME` in your system. Its value should be the path to the home (or "root") directory where you installed (or unzipped) the Spark files. In my case I unzipped the files into a folder called `C:/Spark/spark-3.3.1-bin-hadoop3`, and that is the folder that I going to use in `SPARK_HOME`:
+In other words, you need to set a variable with name `SPARK_HOME` in your system. Its value should be the path to the home (or "root") directory where you installed (or unzipped) the Spark files. In my case I unzipped the files into a folder called `C:/Spark/spark-3.3.1-bin-hadoop3`, and that is the folder that I going to use in `SPARK_HOME`, as you can see at @fig-spark-home-env:
 
-![Setting the `SPARK_HOME` environment variable](../Figures/windows-environment-variables4.png)
+![Setting the `SPARK_HOME` environment variable](../Figures/windows-environment-variables4.png){#fig-spark-home-env}
 
 
 <!-- We need Java SDK not Java Runtime -->
 <!-- Download at https://www.oracle.com/java/technologies/downloads/ -->
-Now, a lot Spark functionality is closely related to Java SDK, and to find it, Spark will look for a environment variable called `JAVA_HOME`. On my machine, I have Java SDK installed at the folder `C:\Program Files\Java\jdk-19`. This might be not your case, and you may find the "jdk" folder for Java at a different location of your computer. Just find where it is, and use this path while setting this `JAVA_HOME` variable, like I did:
+Now, a lot Spark functionality is closely related to Java SDK, and to find it, Spark will look for a environment variable called `JAVA_HOME`. On my machine, I have Java SDK installed at the folder `C:\Program Files\Java\jdk-19`. This might be not your case, and you may find the "jdk" folder for Java at a different location of your computer. Just find where it is, and use this path while setting this `JAVA_HOME` variable, like I did at @fig-java-home-env:
 
-![Setting the `JAVA_HOME` environment variable](../Figures/windows-environment-variables5.png)
+![Setting the `JAVA_HOME` environment variable](../Figures/windows-environment-variables5.png){#fig-java-home-env}
 
 With these two environment variables setted, you should be able to start and use Spark already. Just open a brand new terminal, and type the `spark` command. An interactive Spark Session will initiate after this command, and give you a command prompt where you can start coding the Spark application you want to execute.
 
 
 
-Seconde, lets set the variable `PYSPARK_PYTHON`. This variable must contain the path to the home of the python binary that you want to use while launching `pyspark`. ou can use Python itself to find the path to the executable of the Python compiler. Just the run the following Python code:
+
+<!--
+### Further configurations
+
+With `SPARK_HOME` and `JAVA_HOME` variables configured, you should be able to start and use Spark already. But, you might need some more steps to correctly use Spark. An important info to use `pyspark` is the location (in your computer) of the Python interpreter. Spark might not know where your Python interpreter is located. Or maybe, you have multiple Python interpreters installed in your machine.
+
+You can explicit tell Spark where is the Python interpreter that you want to use by setting the variable `PYSPARK_PYTHON`. This variable must contain the path to the home of the Python folder that contains the Python interpreter that you want to use while launching `pyspark`. If you are lazy like me, you can use Python itself to find the path to the executable of the Python interpreter. Just the run the following Python code:
 
 ```{python}
 #| eval: false
 import sys
 sys.executable
 ```
+-->
+
+
 
 
 
@@ -125,7 +143,7 @@ sys.executable
 
 ### Install `pyspark`
 
-In UNIX-like systems, installing `pip` is very easy, because you can use the built-in package manager to do this for you. In Debian like distros (e.g. Ubuntu), you use the `apt` tool, and, in Arch-Linux like distros (e.g. Arch Linux, Manjaro) you would use the `pacman` tool. Both possibilities are exposed below:
+In Linux systems, installing `pip` is very easy, because you can use the built-in package manager to do this for you. In Debian like distros (e.g. Ubuntu), you use the `apt` tool, and, in Arch-Linux like distros (e.g. Arch Linux, Manjaro) you would use the `pacman` tool. Both possibilities are exposed below:
 
 ```{terminal, eval = FALSE}
 # If you are in a Debian like distro of Linux

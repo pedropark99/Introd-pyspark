@@ -28,6 +28,7 @@ book:
     - Chapters/05-transforming.qmd
     - Chapters/07-import.qmd
     - Chapters/06-dataframes-sql.qmd
+    - Chapters/00-install-spark.qmd
     - Chapters/references.qmd
 
 bibliography: references.bib
