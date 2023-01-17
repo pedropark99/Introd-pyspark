@@ -20,9 +20,15 @@ In the example below, I am reading a CSV file from my computer called `penguins.
 
 [^06-dataframes-sql-1]: <https://github.com/pedropark99/Introd-pyspark/tree/main/Data>
 
+<!-- To use SPARK SQL we need to set this "spark.sql.catalogImplementation" option to "hive" 
+See: <https://stackoverflow.com/questions/50914102/why-do-i-get-a-hive-support-is-required-to-create-hive-table-as-select-error> -->
+
 ```{python}
 from pyspark.sql import SparkSession
-spark = SparkSession.builder.getOrCreate()
+spark = SparkSession\
+  .builder\
+  .config("spark.sql.catalogImplementation","hive")\
+  .getOrCreate()
 
 path = "../Data/penguins.csv"
 penguins = spark.read\
@@ -44,9 +50,14 @@ Therefore, in the above example, we wrote a simple and pure SQL query, and, exec
 Having this in mind, we could use this `sql()` method to create a physical SQL table (instead of a temporary view). We just need to pass the necessary SQL commands that will create this table to be executed by this method. In the example below, we create a new database called `examples`, and, a table called `code_brazil_states`.
 
 ```{python}
-#| eval: false
+#| include: false
+spark.sql('drop database if exists `examples` cascade')
+```
+
+
+```{python}
 spark.sql('create database `examples`')
-spark.sql('use `examples`'
+spark.sql('use `examples`')
 spark.sql('''
   create table `code_brazil_states` (
     `code` int,
@@ -63,7 +74,7 @@ We can see now this new physical SQL table using a simple query like this:
 
 ```{python}
 spark\
-  .sql('select * from examples.code_brazil_states')\ 
+  .sql('select * from examples.code_brazil_states')\
   .show()
 ```
 
@@ -76,7 +87,7 @@ That is why Spark offers a shortcut to us, which is the `table()` method of your
 
 ```{python}
 spark\
-  .table('examples.code_brazil_states')\ 
+  .table('examples.code_brazil_states')\
   .show()
 ```
 
