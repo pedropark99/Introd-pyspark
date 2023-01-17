@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.258">
+<meta name="generator" content="quarto-1.2.280">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -229,6 +229,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <a href="../Chapters/references.html" class="sidebar-item-text sidebar-link">References</a>
   </div>
 </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">Appendices</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Chapters/00-install-spark.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">How to install Spark and <code>pyspark</code></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
     </ul>
     </div>
 </nav>
@@ -239,6 +254,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
    
   <ul>
   <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#about-the-author" id="toc-about-the-author" class="nav-link" data-scroll-target="#about-the-author">About the author</a></li>
   <li><a href="#some-conventions-of-this-book" id="toc-some-conventions-of-this-book" class="nav-link" data-scroll-target="#some-conventions-of-this-book">Some conventions of this book</a>
   <ul class="collapse">
   <li><a href="#python-code-and-terminal-commands" id="toc-python-code-and-terminal-commands" class="nav-link" data-scroll-target="#python-code-and-terminal-commands">Python code and terminal commands</a></li>
@@ -285,6 +301,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>In essence, <code>pyspark</code> is a python package that provides an API for Apache Spark. In other words, with <code>pyspark</code> you are able to use the python language to write Spark applications and run them on a Spark cluster in a scalable and elegant way. This book focus on teaching the fundamentals of <code>pyspark</code>, and how to use it for big data analysis.</p>
 <p>This book, also contains a small introduction to key python concepts that are important to understand how <code>pyspark</code> is organized and how it works in practice, and, since we will be using Spark under the hood, is very important to understand a little bit of how Spark works, so, we provide a small introduction to Spark as well.</p>
 <p>Big part of the knowledge exposed here is extracted from a lot of practical experience of the author, working with <code>pyspark</code> to analyze big data at platforms such as Databricks<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.</p>
+</section>
+<section id="about-the-author" class="level2">
+<h2 class="anchored" data-anchor-id="about-the-author">About the author</h2>
+<p>Pedro Duarte Faria have a bachelor degree in Economics from Federal University of Ouro Preto - Brazil. Currently, he is a Data Analyst at Take Blip, and an Associate Developer for Apache Spark 3.0 certified by Databricks.</p>
+<p>The author have more than 3 years of experience in the data analysis market. He developed data pipelines, reports and analysis for research institutions and some of the largest companies in the brazilian financial sector, such as the BMG Bank, Sodexo and Pan Bank, besides dealing with databases that go beyond the billion rows.</p>
+<p>Furthermore, Pedro have given several lectures and courses about the R language, inside graduate centers (such as PPEA-UFOP<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>), in addition to federal and state organizations (such as FJP-MG<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>). As researcher, he have experience in the field of Science, Technology and Innovation Economics.</p>
+<p>Personal Website: <a href="https://pedro-faria.netlify.app/" class="uri">https://pedro-faria.netlify.app/</a></p>
+<p>Twitter: <a href="https://twitter.com/PedroPark9">@PedroPark9</a></p>
+<p>Mastodon: <a href="https://fosstodon.org/@pedropark99">@pedropark99@fosstodon.org</a></p>
 </section>
 <section id="some-conventions-of-this-book" class="level2">
 <h2 class="anchored" data-anchor-id="some-conventions-of-this-book">Some conventions of this book</h2>
@@ -369,7 +394,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </section>
 <section id="opening-a-terminal-in-macos" class="level3">
 <h3 class="anchored" data-anchor-id="opening-a-terminal-in-macos">Opening a terminal in MacOs</h3>
-<p>Unfortunately, I do not have a Mac machine in my possession, so I cannot easily show you how to open a terminal in MacOs. But there a lot of articles available in the internet discussing how to open a terminal in MacOs. For example, there is a article from the support of Apple<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>, or this other article from iDownloadBlog<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>.</p>
+<p>Unfortunately, I do not have a Mac machine in my possession, so I cannot easily show you how to open a terminal in MacOs. But there a lot of articles available in the internet discussing how to open a terminal in MacOs. For example, there is a article from the support of Apple<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>, or this other article from iDownloadBlog<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>.</p>
 </section>
 </section>
 <section id="sec-install-software" class="level2">
@@ -378,18 +403,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Install and manage <code>Spark</code> in Windows is a little harder than in a UNIX-like machine. But it’s perfectly ok if you do not have a UNIX machine. A Windows machine will do it just fine. Just for referencing, the examples showed throughout this book were executed in a Linux machine (more specifically, in Ubuntu).</p>
 <section id="install-python" class="level3">
 <h3 class="anchored" data-anchor-id="install-python">Install python</h3>
-<p>To install python on Windows, you can download the executable files at the official Python website<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>. But, if you are on Linux, you can install python with the package manager, by opening a terminal and running the following command:</p>
+<p>To install python on Windows, you can download the executable files at the official Python website<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a>. But, if you are on Linux, you can install python with the package manager, by opening a terminal and running the following command:</p>
 <p><code>{terminal, eval = FALSE} Terminal$ sudo apt-get install python3</code></p>
 </section>
 <section id="install-pyspark" class="level3">
 <h3 class="anchored" data-anchor-id="install-pyspark">Install <code>pyspark</code></h3>
-<p>Installing the <code>pyspark</code> python package is pretty straightforward. Just open a terminal (if you need help to open the terminal check <a href="#sec-open-terminal"><span>Section&nbsp;3</span></a>), and use the <code>pip</code> command to do it:</p>
+<p>Installing the <code>pyspark</code> python package is pretty straightforward. Just open a terminal (if you need help to open the terminal check <a href="#sec-open-terminal"><span>Section&nbsp;4</span></a>), and use the <code>pip</code> command to do it:</p>
 <p><code>{terminal, eval = FALSE} Terminal$ pip install pyspark</code></p>
 <p>If you try to run the above command (inside a terminal of any OS), and a message like <code>pip: command not found</code> appears, this means that you do not have the <code>pip</code> tool installed on your machine. Hence, if you face this kind of message, you need to install <code>pip</code> before you even install <code>pyspark</code>.</p>
 <p>The <code>pip</code> tool is automatically installed with Python on Windows. So, if you face this message (<code>pip: command not found</code>), then, is very likely that you do not have Python correctly installed on your machine. Or maybe, Python is not installed at all in any shape or size in your system. So, you should comeback to previous section, and re install it.</p>
 <p>In UNIX-like systems, installing <code>pip</code> is very easy, because you can use the built-in package manager to do this for you. In Debian like distros (e.g.&nbsp;Ubuntu), you use the <code>apt</code> tool, and, in Arch-Linux like distros (e.g.&nbsp;Arch Linux, Manjaro) you would use the <code>pacman</code> tool. Both possibilities are exposed below:</p>
 <p><code>{terminal, eval = FALSE} # If you are in a Debian like distro of Linux # and need to install `pip`, use this command: Terminal$ sudo apt install python3-pip # If you are in a Arch-Linux like distro of Linux # and need to install `pip`, use this command: Terminal$ pacman -S python-pip</code></p>
-<p>But, if you are running in MacOs, is best to use the <code>get-pip.py</code> method to do install <code>pip</code><a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>. To use this method, try to run the command below on the terminal. After you installed pip, run the same <code>pip</code> command we showed earlier to install <code>pyspark</code>.</p>
+<p>But, if you are running in MacOs, is best to use the <code>get-pip.py</code> method to do install <code>pip</code><a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a>. To use this method, try to run the command below on the terminal. After you installed pip, run the same <code>pip</code> command we showed earlier to install <code>pyspark</code>.</p>
 <p><code>{terminal, eval = FALSE} # To install `pip` on a MacOs: Terminal$ curl https://bootstrap.pypa.io/get-pip.py | python3</code></p>
 <p>After you correctly installed <code>pip</code>, try to execute the first command again, to install the <code>pyspark</code> package on your machine.</p>
 </section>
@@ -403,10 +428,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <hr>
 <ol>
 <li id="fn1"><p><a href="https://databricks.com/" class="uri">https://databricks.com/</a><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2"><p><a href="https://support.apple.com/en-ie/guide/terminal/apd5265185d-f365-44cb-8b09-71a064a42125/mac" class="uri">https://support.apple.com/en-ie/guide/terminal/apd5265185d-f365-44cb-8b09-71a064a42125/mac</a><a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn3"><p><a href="https://www.idownloadblog.com/2019/04/19/ways-open-terminal-mac/" class="uri">https://www.idownloadblog.com/2019/04/19/ways-open-terminal-mac/</a><a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn4"><p><a href="https://www.python.org/downloads/" class="uri">https://www.python.org/downloads/</a><a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn5"><p>See the following discussion: <a href="https://stackoverflow.com/questions/17271319/how-do-i-install-pip-on-macos-or-os-x" class="uri">https://stackoverflow.com/questions/17271319/how-do-i-install-pip-on-macos-or-os-x</a><a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p><a href="https://ppea.ufop.br/" class="uri">https://ppea.ufop.br/</a><a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p><a href="http://fjp.mg.gov.br/" class="uri">http://fjp.mg.gov.br/</a><a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p><a href="https://support.apple.com/en-ie/guide/terminal/apd5265185d-f365-44cb-8b09-71a064a42125/mac" class="uri">https://support.apple.com/en-ie/guide/terminal/apd5265185d-f365-44cb-8b09-71a064a42125/mac</a><a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p><a href="https://www.idownloadblog.com/2019/04/19/ways-open-terminal-mac/" class="uri">https://www.idownloadblog.com/2019/04/19/ways-open-terminal-mac/</a><a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6"><p><a href="https://www.python.org/downloads/" class="uri">https://www.python.org/downloads/</a><a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn7"><p>See the following discussion: <a href="https://stackoverflow.com/questions/17271319/how-do-i-install-pip-on-macos-or-os-x" class="uri">https://stackoverflow.com/questions/17271319/how-do-i-install-pip-on-macos-or-os-x</a><a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section>
 
