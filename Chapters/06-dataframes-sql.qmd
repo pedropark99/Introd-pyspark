@@ -4,32 +4,52 @@
 
 As we discussed in @sec-introd-spark, Spark is a **multi-language** engine for large-scale data processing. This means that we can build our Spark application using many different languages (like Java, Scala, Python and R). Furthermore, you can also use the Spark SQL module of Spark to translate all of your transformations into pure SQL queries.
 
-Spark SQL is a Spark module for structured data processing [@sparkdoc]. Because Spark SQL is a structured module of Spark, you can use it to translate all transformations that you build with the DataFrame API, which is the main structured API of Spark.
+In more details, Spark SQL is a Spark module for structured data processing [@sparkdoc]. As a result, you can use it to translate all transformations that you build with the DataFrame API, which is the main structured API of Spark. This means that virtually all transformations exposed throughout this book, can be translated into a SQL query in Spark.
 
-This means that all transformations exposed throughout this book, can be translated into a SQL query in Spark. However, this also means that the Spark SQL module does not handle the transformations produced by the unstructured APIs of Spark, i.e. the Dataset API. Since the Dataset API is not available in `pyspark`, it is not covered in this book.
+However, this also means that the Spark SQL module does not handle the transformations produced by the unstructured APIs of Spark, i.e. the Dataset API. Since the Dataset API is not available in `pyspark`, it is not covered in this book.
 
 Due to the multi-language nature of Spark, you can mix python code that uses the DataFrame API with pure SQL queries to build your transformations. We will focus on this exchange between Python and SQL in this chapter.
 
 ## Creating SQL Tables in Spark
 
-In real life jobs at the industry, is very likely that your data will be allocated inside a SQL-like database. Spark can connect to a external SQL database through JDBC/ODBC connections, or, read tables from Apache Hive. This way, you sent you SQL queries to this external database.
+In real life jobs at the industry, is very likely that your data will be allocated inside a SQL-like database. Spark can connect to a external SQL database through JDBC/ODBC connections, or, read tables from Apache Hive. This way, you can sent your SQL queries to this external database.
 
 However, to expose more simplified examples throughout this chapter, we will use `pyspark` to create a simple temporary SQL table in our Spark context, and use this temporary SQL table in our examples of SQL queries. This way, we avoid the work to connect to some existing SQL database, and, still get to learn how to use SQL queries in `pyspark`.
 
-In the example below, I am reading a CSV file from my computer called `penguins.csv` (remember that this CSV can be downloaded from the book repository[^06-dataframes-sql-1]), then, I create a SQL temporary view (called `penguins_view`) from this `penguins` DataFrame with the `createOrReplaceTempView()` method.
+First, lets create our Spark Session. You can see below that I used the `config()` method to set a specific option of the session called `spark.sql.catalogImplementation`, to the value `"hive"`. 
 
-[^06-dataframes-sql-1]: <https://github.com/pedropark99/Introd-pyspark/tree/main/Data>
+Spark usually complain with a `AnalysisException` error when you try to create SQL tables with this option undefined (or not configured). Since we will be creating SQL tables during the examples of this chpater, is nice to set this option right at the start of your script if you decide to follow the examples[^06-dataframes-sql-1].
 
-<!-- To use SPARK SQL we need to set this "spark.sql.catalogImplementation" option to "hive" 
-See: <https://stackoverflow.com/questions/50914102/why-do-i-get-a-hive-support-is-required-to-create-hive-table-as-select-error> -->
+[^06-dataframes-sql-1]: You can learn more about this specific issue by looking at this StackOverflow post: <https://stackoverflow.com/questions/50914102/why-do-i-get-a-hive-support-is-required-to-create-hive-table-as-select-error>.
 
 ```{python}
+#| eval: false
+from pyspark.sql import SparkSession
+spark = SparkSession\
+  .builder\
+  .config("spark.sql.catalogImplementation","hive")\
+  .getOrCreate()
+```
+
+```{python}
+#| include: false
 from pyspark.sql import SparkSession
 spark = SparkSession\
   .builder\
   .config("spark.sql.catalogImplementation","hive")\
   .getOrCreate()
 
+sc = spark.sparkContext
+sc.setLogLevel("OFF")
+```
+
+
+In the example below, I am reading a CSV file from my computer called `penguins.csv` (remember that this CSV can be downloaded from the book repository[^06-dataframes-sql-2]), then, I create a SQL temporary view (called `penguins_view`) from this `penguins` DataFrame with the `createOrReplaceTempView()` method.
+
+
+[^06-dataframes-sql-2]: <https://github.com/pedropark99/Introd-pyspark/tree/main/Data>
+
+```{python}
 path = "../Data/penguins.csv"
 penguins = spark.read\
   .csv(path, header = True)

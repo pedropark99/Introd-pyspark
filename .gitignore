@@ -11,3 +11,5 @@ Chapters/metastore_db
 
 derby.log
 Chapters/derby.log
+
+Chapters/spark-warehouse

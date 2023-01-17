@@ -301,45 +301,34 @@ div.csl-indent {
 <section id="introduction" class="level2" data-number="7.1">
 <h2 data-number="7.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">7.1</span> Introduction</h2>
 <p>As we discussed in <a href="03-spark.html"><span>Chapter&nbsp;2</span></a>, Spark is a <strong>multi-language</strong> engine for large-scale data processing. This means that we can build our Spark application using many different languages (like Java, Scala, Python and R). Furthermore, you can also use the Spark SQL module of Spark to translate all of your transformations into pure SQL queries.</p>
-<p>Spark SQL is a Spark module for structured data processing <span class="citation" data-cites="sparkdoc">(<a href="references.html#ref-sparkdoc" role="doc-biblioref"><em>Apache Spark Official Documentation</em> 2022</a>)</span>. Because Spark SQL is a structured module of Spark, you can use it to translate all transformations that you build with the DataFrame API, which is the main structured API of Spark.</p>
-<p>This means that all transformations exposed throughout this book, can be translated into a SQL query in Spark. However, this also means that the Spark SQL module does not handle the transformations produced by the unstructured APIs of Spark, i.e.&nbsp;the Dataset API. Since the Dataset API is not available in <code>pyspark</code>, it is not covered in this book.</p>
+<p>In more details, Spark SQL is a Spark module for structured data processing <span class="citation" data-cites="sparkdoc">(<a href="references.html#ref-sparkdoc" role="doc-biblioref"><em>Apache Spark Official Documentation</em> 2022</a>)</span>. As a result, you can use it to translate all transformations that you build with the DataFrame API, which is the main structured API of Spark. This means that virtually all transformations exposed throughout this book, can be translated into a SQL query in Spark.</p>
+<p>However, this also means that the Spark SQL module does not handle the transformations produced by the unstructured APIs of Spark, i.e.&nbsp;the Dataset API. Since the Dataset API is not available in <code>pyspark</code>, it is not covered in this book.</p>
 <p>Due to the multi-language nature of Spark, you can mix python code that uses the DataFrame API with pure SQL queries to build your transformations. We will focus on this exchange between Python and SQL in this chapter.</p>
 </section>
 <section id="creating-sql-tables-in-spark" class="level2" data-number="7.2">
 <h2 data-number="7.2" class="anchored" data-anchor-id="creating-sql-tables-in-spark"><span class="header-section-number">7.2</span> Creating SQL Tables in Spark</h2>
-<p>In real life jobs at the industry, is very likely that your data will be allocated inside a SQL-like database. Spark can connect to a external SQL database through JDBC/ODBC connections, or, read tables from Apache Hive. This way, you sent you SQL queries to this external database.</p>
+<p>In real life jobs at the industry, is very likely that your data will be allocated inside a SQL-like database. Spark can connect to a external SQL database through JDBC/ODBC connections, or, read tables from Apache Hive. This way, you can sent your SQL queries to this external database.</p>
 <p>However, to expose more simplified examples throughout this chapter, we will use <code>pyspark</code> to create a simple temporary SQL table in our Spark context, and use this temporary SQL table in our examples of SQL queries. This way, we avoid the work to connect to some existing SQL database, and, still get to learn how to use SQL queries in <code>pyspark</code>.</p>
-<p>In the example below, I am reading a CSV file from my computer called <code>penguins.csv</code> (remember that this CSV can be downloaded from the book repository<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>), then, I create a SQL temporary view (called <code>penguins_view</code>) from this <code>penguins</code> DataFrame with the <code>createOrReplaceTempView()</code> method.</p>
-
-<!-- To use SPARK SQL we need to set this "spark.sql.catalogImplementation" option to "hive" 
-See: <https://stackoverflow.com/questions/50914102/why-do-i-get-a-hive-support-is-required-to-create-hive-table-as-select-error> -->
+<p>First, lets create our Spark Session. You can see below that I used the <code>config()</code> method to set a specific option of the session called <code>spark.sql.catalogImplementation</code>, to the value <code>"hive"</code>.</p>
+<p>Spark usually complain with a <code>AnalysisException</code> error when you try to create SQL tables with this option undefined (or not configured). Since we will be creating SQL tables during the examples of this chpater, is nice to set this option right at the start of your script if you decide to follow the examples<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.</p>
 <div class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql <span class="im">import</span> SparkSession</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>spark <span class="op">=</span> SparkSession<span class="op">\</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  .builder<span class="op">\</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  .config(<span class="st">"spark.sql.catalogImplementation"</span>,<span class="st">"hive"</span>)<span class="op">\</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  .getOrCreate()</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>path <span class="op">=</span> <span class="st">"../Data/penguins.csv"</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> spark.read<span class="op">\</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  .csv(path, header <span class="op">=</span> <span class="va">True</span>)</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>penguins.createOrReplaceTempView(<span class="st">'penguins_view'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>23/01/17 19:18:51 WARN Utils: Your hostname, pedro-dev resolves to a loopback address: 127.0.1.1; using 192.168.0.90 instead (on interface wlp1s0)
-23/01/17 19:18:51 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address</code></pre>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  .getOrCreate()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Setting default log level to "WARN".
-To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>23/01/17 19:18:52 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable</code></pre>
-</div>
+<p>In the example below, I am reading a CSV file from my computer called <code>penguins.csv</code> (remember that this CSV can be downloaded from the book repository<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>), then, I create a SQL temporary view (called <code>penguins_view</code>) from this <code>penguins</code> DataFrame with the <code>createOrReplaceTempView()</code> method.</p>
+<div class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>path <span class="op">=</span> <span class="st">"../Data/penguins.csv"</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> spark.read<span class="op">\</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  .csv(path, header <span class="op">=</span> <span class="va">True</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>penguins.createOrReplaceTempView(<span class="st">'penguins_view'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>After these commands, I have now a SQL view called <code>penguins_view</code> registered in my the Spark SQL context, which I can query it, using pure SQL. To execute a SQL query, you can use the <code>sql()</code> method from your Spark Session, like in the example below:</p>
-<div class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>spark.sql(<span class="st">'select * from penguins_view'</span>).show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>spark.sql(<span class="st">'select * from penguins_view'</span>).show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>+-------+---------+--------------+-------------+-----------------+-----------+------+----+
 |species|   island|bill_length_mm|bill_depth_mm|flipper_length_mm|body_mass_g|   sex|year|
@@ -357,54 +346,36 @@ only showing top 5 rows
 <p>This <code>sql()</code> method receives a SQL query inside a string, and always outputs a new Spark DataFrame as a result. That is why I used the <code>show()</code> method right after <code>sql()</code>, to see what this new Spark DataFrame looked like.</p>
 <p>Therefore, in the above example, we wrote a simple and pure SQL query, and, executed it through <code>pyspark</code>, by using this <code>sql()</code> method. This means that, this <code>sql()</code> method is the bridge between <code>pyspark</code> and your SQL database. You give a pure SQL query (inside a string) to this <code>sql()</code> method, and, Spark will execute it, considering the SQL databases that you are connected with.</p>
 <p>Having this in mind, we could use this <code>sql()</code> method to create a physical SQL table (instead of a temporary view). We just need to pass the necessary SQL commands that will create this table to be executed by this method. In the example below, we create a new database called <code>examples</code>, and, a table called <code>code_brazil_states</code>.</p>
-<div class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>spark.sql(<span class="st">'create database `examples`'</span>)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>spark.sql(<span class="st">'use `examples`'</span>)</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>spark.sql(<span class="st">'''</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="st">  create table `code_brazil_states` (</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="st">    `code` int,</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="st">    `state_name` string</span></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="st">  )</span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="st">'''</span>)</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>spark.sql(<span class="st">'insert into `code_brazil_states` values (31, "Minas Gerais")'</span>)</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>spark.sql(<span class="st">'insert into `code_brazil_states` values (15, "Pará")'</span>)</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>spark.sql(<span class="st">'insert into `code_brazil_states` values (41, "Paraná")'</span>)</span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>spark.sql(<span class="st">'insert into `code_brazil_states` values (25, "Paraíba")'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>23/01/17 19:19:01 WARN ObjectStore: Failed to get database examples, returning NoSuchObjectException
-23/01/17 19:19:01 WARN ObjectStore: Failed to get database examples, returning NoSuchObjectException
-23/01/17 19:19:01 WARN ObjectStore: Failed to get database global_temp, returning NoSuchObjectException
-23/01/17 19:19:01 WARN ObjectStore: Failed to get database examples, returning NoSuchObjectException</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>23/01/17 19:19:01 WARN ResolveSessionCatalog: A Hive serde table will be created as there is no table provider specified. You can set spark.sql.legacy.createHiveTableByDefault to false so that native data source table will be created instead.</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>23/01/17 19:19:01 WARN SessionState: METASTORE_FILTER_HOOK will be ignored, since hive.security.authorization.manager is set to instance of HiveAuthorizerFactory.</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>23/01/17 19:19:01 WARN HiveConf: HiveConf of name hive.internal.ss.authz.settings.applied.marker does not exist
-23/01/17 19:19:01 WARN HiveConf: HiveConf of name hive.stats.jdbc.timeout does not exist
-23/01/17 19:19:01 WARN HiveConf: HiveConf of name hive.stats.retries.wait does not exist
-23/01/17 19:19:01 WARN HiveMetaStore: Location: file:/home/pedro/Documentos/Projetos/Livros/Introd-pyspark/Chapters/spark-warehouse/examples.db/code_brazil_states specified for non-external table:code_brazil_states</code></pre>
-</div>
-<div class="cell-output cell-output-display" data-execution_count="4">
+<div class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>spark.sql(<span class="st">'create database `examples`'</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>spark.sql(<span class="st">'use `examples`'</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>spark.sql(<span class="st">'''</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="st">  create table `code_brazil_states` (</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="st">    `code` int,</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="st">    `state_name` string</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="st">  )</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="st">'''</span>)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>spark.sql(<span class="st">'insert into `code_brazil_states` values (31, "Minas Gerais")'</span>)</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>spark.sql(<span class="st">'insert into `code_brazil_states` values (15, "Pará")'</span>)</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>spark.sql(<span class="st">'insert into `code_brazil_states` values (41, "Paraná")'</span>)</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>spark.sql(<span class="st">'insert into `code_brazil_states` values (25, "Paraíba")'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="5">
 <pre><code>DataFrame[]</code></pre>
 </div>
 </div>
 <p>We can see now this new physical SQL table using a simple query like this:</p>
-<div class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>spark<span class="op">\</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  .sql(<span class="st">'select * from examples.code_brazil_states'</span>)<span class="op">\</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  .show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>spark<span class="op">\</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  .sql(<span class="st">'select * from examples.code_brazil_states'</span>)<span class="op">\</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  .show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>+----+------------+
 |code|  state_name|
 +----+------------+
 |  41|      Paraná|
+|  25|     Paraíba|
 |  31|Minas Gerais|
 |  15|        Pará|
-|  25|     Paraíba|
 +----+------------+
 </code></pre>
 </div>
@@ -414,18 +385,18 @@ only showing top 5 rows
 <h2 data-number="7.3" class="anchored" data-anchor-id="selecting-spark-sql-tables"><span class="header-section-number">7.3</span> Selecting Spark SQL tables</h2>
 <p>In Spark, tables registered in our SQL Spark Context are called Spark SQL tables. To access any of these tables, you have to query it through a SQL query, as you would normally do in any SQL database. However, it can be quite annoying to type a “select * from” kind of query every time you want to use a Spark SQL table.</p>
 <p>That is why Spark offers a shortcut to us, which is the <code>table()</code> method of your Spark session. In other words, the code <code>spark.table("table_name")</code> is a shortcut to <code>spark.sql('select * from table_name')</code>. For example, we could rewrite the previous query as:</p>
-<div class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>spark<span class="op">\</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  .table(<span class="st">'examples.code_brazil_states'</span>)<span class="op">\</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  .show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>spark<span class="op">\</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  .table(<span class="st">'examples.code_brazil_states'</span>)<span class="op">\</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  .show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>+----+------------+
 |code|  state_name|
 +----+------------+
 |  41|      Paraná|
+|  25|     Paraíba|
 |  31|Minas Gerais|
 |  15|        Pará|
-|  25|     Paraíba|
 +----+------------+
 </code></pre>
 </div>
@@ -441,7 +412,8 @@ only showing top 5 rows
 <section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
 <hr>
 <ol>
-<li id="fn1"><p><a href="https://github.com/pedropark99/Introd-pyspark/tree/main/Data" class="uri">https://github.com/pedropark99/Introd-pyspark/tree/main/Data</a><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1"><p>You can learn more about this specific issue by looking at this StackOverflow post: <a href="https://stackoverflow.com/questions/50914102/why-do-i-get-a-hive-support-is-required-to-create-hive-table-as-select-error" class="uri">https://stackoverflow.com/questions/50914102/why-do-i-get-a-hive-support-is-required-to-create-hive-table-as-select-error</a>.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p><a href="https://github.com/pedropark99/Introd-pyspark/tree/main/Data" class="uri">https://github.com/pedropark99/Introd-pyspark/tree/main/Data</a><a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section>
 
