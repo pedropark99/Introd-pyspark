@@ -16,7 +16,9 @@ In real life jobs at the industry, is very likely that your data will be allocat
 
 However, to expose more simplified examples throughout this chapter, we will use `pyspark` to create a simple temporary SQL table in our Spark context, and use this temporary SQL table in our examples of SQL queries. This way, we avoid the work to connect to some existing SQL database, and, still get to learn how to use SQL queries in `pyspark`.
 
-First, lets create our Spark Session. You can see below that I used the `config()` method to set a specific option of the session called `spark.sql.catalogImplementation`, to the value `"hive"`. 
+First, lets create our Spark Session. You can see below that I used the `config()` method to set a specific option of the session called `spark.sql.catalogImplementation`, to the value `"hive"`. This option controls the implementation of the Spark SQL Catalog, which is a core part of the SQL functionality of Spark [^06-dataframes-sql-catalog].
+
+[^06-dataframes-sql-catalog]: There are some very good materials explaining what is the Spark SQL Catalog, and which is the purpose of it. For a soft introduction, I recommend Sarfaraz Hussain post: <https://medium.com/@sarfarazhussain211/metastore-in-apache-spark-9286097180a4>. For a more technical introduction, see <https://jaceklaskowski.gitbooks.io/mastering-spark-sql/content/spark-sql-Catalog.html>.
 
 Spark usually complain with a `AnalysisException` error when you try to create SQL tables with this option undefined (or not configured). Since we will be creating SQL tables during the examples of this chpater, is nice to set this option right at the start of your script if you decide to follow the examples[^06-dataframes-sql-1].
 
@@ -42,6 +44,30 @@ spark = SparkSession\
 sc = spark.sparkContext
 sc.setLogLevel("OFF")
 ```
+
+## `TABLEs` versus `VIEWs`
+
+To run a complete SQL query over any Spark DataFrame, you must register this DataFrame in the Spark SQL Catalog of your Spark Session. You can register a Spark DataFrame into this catalog as a physical SQL `TABLE`, or, as a SQL `VIEW`. 
+
+If you are familiar with SQL in other platforms, you probably already heard of these two types (`TABLE` or `VIEW`) of tables. But if not, we will explain each one in this section. Is worth pointing out that choosing between these two types **does not affect** your code, or your transformations in any way. It just affect the way that Spark SQL stores the table/DataFrame itself.
+
+### `VIEWs` are stored as queries
+
+When you register a DataFrame as a SQL `VIEW`, the query to produce this DataFrame is stored, not the DataFrame itself. As a consequence, when you call (or access) this SQL `VIEW` inside your SQL queries (for example, with a `SELECT * FROM` statement), Spark SQL will automatically build this SQL `VIEW` "on the fly" (or "on runtime"), by running the query necessary to build the initial DataFrame that you stored inside this `VIEW`.
+
+In other words, when you create a SQL `VIEW`, Spark SQL do not store any physical data or rows of the table/DataFrame. It just stores the SQL query necessary to build your table/DataFrame, or, for temporary SQL `VIEWs`, a memory pointer to the Spark DataFrame that you stored in this `VIEW`. In some sense, you can interpret any SQL `VIEWs` as an abbreviation to a previously stored SQL query.
+
+Bearing these characteristics in mind, for most "use case scenarios", SQL `VIEWs` are easier to manage inside your data pipelines. Because you do not have update them. Since they are calculated "on the fly", a SQL `VIEW` will always translate the most recent version of the data.
+
+### TABLEs are stored as actual tables/DataFrames
+
+In the other hand, SQL `TABLEs` are the "opposite" of SQL `VIEWs`. That is, SQL `TABLEs` are stored as physical tables inside the SQL database. In this way, all rows of your table are stored inside the data warehouse of Spark SQL. 
+
+Because of these characteristics, SQL `TABLEs` are usually faster to read, load and transform. But, as a collateral effect, you have to physically update the data inside this `TABLE`.
+
+## Temporary versus Persistent sources
+
+Spark SQL have two ways notions of storing a SQL `TABLE`  as we usually know in SQL databases. You can convert any Spark DataFrame into a 
 
 
 In the example below, I am reading a CSV file from my computer called `penguins.csv` (remember that this CSV can be downloaded from the book repository[^06-dataframes-sql-2]), then, I create a SQL temporary view (called `penguins_view`) from this `penguins` DataFrame with the `createOrReplaceTempView()` method.

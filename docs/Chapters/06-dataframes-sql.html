@@ -274,7 +274,13 @@ div.csl-indent {
   <ul>
   <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="toc-section-number">7.1</span>  Introduction</a></li>
   <li><a href="#creating-sql-tables-in-spark" id="toc-creating-sql-tables-in-spark" class="nav-link" data-scroll-target="#creating-sql-tables-in-spark"><span class="toc-section-number">7.2</span>  Creating SQL Tables in Spark</a></li>
-  <li><a href="#selecting-spark-sql-tables" id="toc-selecting-spark-sql-tables" class="nav-link" data-scroll-target="#selecting-spark-sql-tables"><span class="toc-section-number">7.3</span>  Selecting Spark SQL tables</a></li>
+  <li><a href="#tables-versus-views" id="toc-tables-versus-views" class="nav-link" data-scroll-target="#tables-versus-views"><span class="toc-section-number">7.3</span>  <code>TABLEs</code> versus <code>VIEWs</code></a>
+  <ul class="collapse">
+  <li><a href="#views-are-stored-as-queries" id="toc-views-are-stored-as-queries" class="nav-link" data-scroll-target="#views-are-stored-as-queries"><span class="toc-section-number">7.3.1</span>  <code>VIEWs</code> are stored as queries</a></li>
+  <li><a href="#tables-are-stored-as-actual-tablesdataframes" id="toc-tables-are-stored-as-actual-tablesdataframes" class="nav-link" data-scroll-target="#tables-are-stored-as-actual-tablesdataframes"><span class="toc-section-number">7.3.2</span>  TABLEs are stored as actual tables/DataFrames</a></li>
+  </ul></li>
+  <li><a href="#temporary-versus-persistent-sources" id="toc-temporary-versus-persistent-sources" class="nav-link" data-scroll-target="#temporary-versus-persistent-sources"><span class="toc-section-number">7.4</span>  Temporary versus Persistent sources</a></li>
+  <li><a href="#selecting-spark-sql-tables" id="toc-selecting-spark-sql-tables" class="nav-link" data-scroll-target="#selecting-spark-sql-tables"><span class="toc-section-number">7.5</span>  Selecting Spark SQL tables</a></li>
   </ul>
 </nav>
     </div>
@@ -309,8 +315,8 @@ div.csl-indent {
 <h2 data-number="7.2" class="anchored" data-anchor-id="creating-sql-tables-in-spark"><span class="header-section-number">7.2</span> Creating SQL Tables in Spark</h2>
 <p>In real life jobs at the industry, is very likely that your data will be allocated inside a SQL-like database. Spark can connect to a external SQL database through JDBC/ODBC connections, or, read tables from Apache Hive. This way, you can sent your SQL queries to this external database.</p>
 <p>However, to expose more simplified examples throughout this chapter, we will use <code>pyspark</code> to create a simple temporary SQL table in our Spark context, and use this temporary SQL table in our examples of SQL queries. This way, we avoid the work to connect to some existing SQL database, and, still get to learn how to use SQL queries in <code>pyspark</code>.</p>
-<p>First, lets create our Spark Session. You can see below that I used the <code>config()</code> method to set a specific option of the session called <code>spark.sql.catalogImplementation</code>, to the value <code>"hive"</code>.</p>
-<p>Spark usually complain with a <code>AnalysisException</code> error when you try to create SQL tables with this option undefined (or not configured). Since we will be creating SQL tables during the examples of this chpater, is nice to set this option right at the start of your script if you decide to follow the examples<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.</p>
+<p>First, lets create our Spark Session. You can see below that I used the <code>config()</code> method to set a specific option of the session called <code>spark.sql.catalogImplementation</code>, to the value <code>"hive"</code>. This option controls the implementation of the Spark SQL Catalog, which is a core part of the SQL functionality of Spark <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.</p>
+<p>Spark usually complain with a <code>AnalysisException</code> error when you try to create SQL tables with this option undefined (or not configured). Since we will be creating SQL tables during the examples of this chpater, is nice to set this option right at the start of your script if you decide to follow the examples<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>.</p>
 <div class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql <span class="im">import</span> SparkSession</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>spark <span class="op">=</span> SparkSession<span class="op">\</span></span>
@@ -318,7 +324,27 @@ div.csl-indent {
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  .config(<span class="st">"spark.sql.catalogImplementation"</span>,<span class="st">"hive"</span>)<span class="op">\</span></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  .getOrCreate()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>In the example below, I am reading a CSV file from my computer called <code>penguins.csv</code> (remember that this CSV can be downloaded from the book repository<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>), then, I create a SQL temporary view (called <code>penguins_view</code>) from this <code>penguins</code> DataFrame with the <code>createOrReplaceTempView()</code> method.</p>
+</section>
+<section id="tables-versus-views" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="tables-versus-views"><span class="header-section-number">7.3</span> <code>TABLEs</code> versus <code>VIEWs</code></h2>
+<p>To run a complete SQL query over any Spark DataFrame, you must register this DataFrame in the Spark SQL Catalog of your Spark Session. You can register a Spark DataFrame into this catalog as a physical SQL <code>TABLE</code>, or, as a SQL <code>VIEW</code>.</p>
+<p>If you are familiar with SQL in other platforms, you probably already heard of these two types (<code>TABLE</code> or <code>VIEW</code>) of tables. But if not, we will explain each one in this section. Is worth pointing out that choosing between these two types <strong>does not affect</strong> your code, or your transformations in any way. It just affect the way that Spark SQL stores the table/DataFrame itself.</p>
+<section id="views-are-stored-as-queries" class="level3" data-number="7.3.1">
+<h3 data-number="7.3.1" class="anchored" data-anchor-id="views-are-stored-as-queries"><span class="header-section-number">7.3.1</span> <code>VIEWs</code> are stored as queries</h3>
+<p>When you register a DataFrame as a SQL <code>VIEW</code>, the query to produce this DataFrame is stored, not the DataFrame itself. As a consequence, when you call (or access) this SQL <code>VIEW</code> inside your SQL queries (for example, with a <code>SELECT * FROM</code> statement), Spark SQL will automatically build this SQL <code>VIEW</code> “on the fly” (or “on runtime”), by running the query necessary to build the initial DataFrame that you stored inside this <code>VIEW</code>.</p>
+<p>In other words, when you create a SQL <code>VIEW</code>, Spark SQL do not store any physical data or rows of the table/DataFrame. It just stores the SQL query necessary to build your table/DataFrame, or, for temporary SQL <code>VIEWs</code>, a memory pointer to the Spark DataFrame that you stored in this <code>VIEW</code>. In some sense, you can interpret any SQL <code>VIEWs</code> as an abbreviation to a previously stored SQL query.</p>
+<p>Bearing these characteristics in mind, for most “use case scenarios”, SQL <code>VIEWs</code> are easier to manage inside your data pipelines. Because you do not have update them. Since they are calculated “on the fly”, a SQL <code>VIEW</code> will always translate the most recent version of the data.</p>
+</section>
+<section id="tables-are-stored-as-actual-tablesdataframes" class="level3" data-number="7.3.2">
+<h3 data-number="7.3.2" class="anchored" data-anchor-id="tables-are-stored-as-actual-tablesdataframes"><span class="header-section-number">7.3.2</span> TABLEs are stored as actual tables/DataFrames</h3>
+<p>In the other hand, SQL <code>TABLEs</code> are the “opposite” of SQL <code>VIEWs</code>. That is, SQL <code>TABLEs</code> are stored as physical tables inside the SQL database. In this way, all rows of your table are stored inside the data warehouse of Spark SQL.</p>
+<p>Because of these characteristics, SQL <code>TABLEs</code> are usually faster to read, load and transform. But, as a collateral effect, you have to physically update the data inside this <code>TABLE</code>.</p>
+</section>
+</section>
+<section id="temporary-versus-persistent-sources" class="level2" data-number="7.4">
+<h2 data-number="7.4" class="anchored" data-anchor-id="temporary-versus-persistent-sources"><span class="header-section-number">7.4</span> Temporary versus Persistent sources</h2>
+<p>Spark SQL have two ways notions of storing a SQL <code>TABLE</code> as we usually know in SQL databases. You can convert any Spark DataFrame into a</p>
+<p>In the example below, I am reading a CSV file from my computer called <code>penguins.csv</code> (remember that this CSV can be downloaded from the book repository<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>), then, I create a SQL temporary view (called <code>penguins_view</code>) from this <code>penguins</code> DataFrame with the <code>createOrReplaceTempView()</code> method.</p>
 <div class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>path <span class="op">=</span> <span class="st">"../Data/penguins.csv"</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> spark.read<span class="op">\</span></span>
@@ -372,8 +398,8 @@ only showing top 5 rows
 <pre><code>+----+------------+
 |code|  state_name|
 +----+------------+
-|  31|Minas Gerais|
 |  41|      Paraná|
+|  31|Minas Gerais|
 |  15|        Pará|
 |  25|     Paraíba|
 +----+------------+
@@ -381,8 +407,8 @@ only showing top 5 rows
 </div>
 </div>
 </section>
-<section id="selecting-spark-sql-tables" class="level2" data-number="7.3">
-<h2 data-number="7.3" class="anchored" data-anchor-id="selecting-spark-sql-tables"><span class="header-section-number">7.3</span> Selecting Spark SQL tables</h2>
+<section id="selecting-spark-sql-tables" class="level2" data-number="7.5">
+<h2 data-number="7.5" class="anchored" data-anchor-id="selecting-spark-sql-tables"><span class="header-section-number">7.5</span> Selecting Spark SQL tables</h2>
 <p>In Spark, tables registered in our SQL Spark Context are called Spark SQL tables. To access any of these tables, you have to query it through a SQL query, as you would normally do in any SQL database. However, it can be quite annoying to type a “select * from” kind of query every time you want to use a Spark SQL table.</p>
 <p>That is why Spark offers a shortcut to us, which is the <code>table()</code> method of your Spark session. In other words, the code <code>spark.table("table_name")</code> is a shortcut to <code>spark.sql('select * from table_name')</code>. For example, we could rewrite the previous query as:</p>
 <div class="cell" data-execution_count="8">
@@ -393,8 +419,8 @@ only showing top 5 rows
 <pre><code>+----+------------+
 |code|  state_name|
 +----+------------+
-|  31|Minas Gerais|
 |  41|      Paraná|
+|  31|Minas Gerais|
 |  15|        Pará|
 |  25|     Paraíba|
 +----+------------+
@@ -412,8 +438,9 @@ only showing top 5 rows
 <section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
 <hr>
 <ol>
-<li id="fn1"><p>You can learn more about this specific issue by looking at this StackOverflow post: <a href="https://stackoverflow.com/questions/50914102/why-do-i-get-a-hive-support-is-required-to-create-hive-table-as-select-error" class="uri">https://stackoverflow.com/questions/50914102/why-do-i-get-a-hive-support-is-required-to-create-hive-table-as-select-error</a>.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2"><p><a href="https://github.com/pedropark99/Introd-pyspark/tree/main/Data" class="uri">https://github.com/pedropark99/Introd-pyspark/tree/main/Data</a><a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1"><p>There are some very good materials explaining what is the Spark SQL Catalog, and which is the purpose of it. For a soft introduction, I recommend Sarfaraz Hussain post: <a href="https://medium.com/@sarfarazhussain211/metastore-in-apache-spark-9286097180a4" class="uri">https://medium.com/@sarfarazhussain211/metastore-in-apache-spark-9286097180a4</a>. For a more technical introduction, see <a href="https://jaceklaskowski.gitbooks.io/mastering-spark-sql/content/spark-sql-Catalog.html" class="uri">https://jaceklaskowski.gitbooks.io/mastering-spark-sql/content/spark-sql-Catalog.html</a>.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>You can learn more about this specific issue by looking at this StackOverflow post: <a href="https://stackoverflow.com/questions/50914102/why-do-i-get-a-hive-support-is-required-to-create-hive-table-as-select-error" class="uri">https://stackoverflow.com/questions/50914102/why-do-i-get-a-hive-support-is-required-to-create-hive-table-as-select-error</a>.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p><a href="https://github.com/pedropark99/Introd-pyspark/tree/main/Data" class="uri">https://github.com/pedropark99/Introd-pyspark/tree/main/Data</a><a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section>
 
