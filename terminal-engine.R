@@ -1,6 +1,6 @@
 
 
-knitr::knit_engines$set(terminal = function(options){
+knitr::knit_engines$set(terminal = function(options) {
   code <- paste(options$code, collapse = "\n")
   code_to_run <- stringr::str_replace(
     code, "^Terminal\\$ ", ""
