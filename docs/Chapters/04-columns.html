@@ -254,7 +254,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
    
   <ul>
   <li><a href="#building-a-column-object" id="toc-building-a-column-object" class="nav-link active" data-scroll-target="#building-a-column-object"><span class="toc-section-number">4.1</span>  Building a column object</a></li>
-  <li><a href="#columns-are-strongly-related-to-expressions" id="toc-columns-are-strongly-related-to-expressions" class="nav-link" data-scroll-target="#columns-are-strongly-related-to-expressions"><span class="toc-section-number">4.2</span>  Columns are strongly related to expressions</a></li>
+  <li><a href="#sec-columns-related-expressions" id="toc-sec-columns-related-expressions" class="nav-link" data-scroll-target="#sec-columns-related-expressions"><span class="toc-section-number">4.2</span>  Columns are strongly related to expressions</a></li>
   <li><a href="#some-key-column-methods" id="toc-some-key-column-methods" class="nav-link" data-scroll-target="#some-key-column-methods"><span class="toc-section-number">4.3</span>  Some key column methods</a></li>
   </ul>
 </nav>
@@ -301,8 +301,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 </section>
-<section id="columns-are-strongly-related-to-expressions" class="level2" data-number="4.2">
-<h2 data-number="4.2" class="anchored" data-anchor-id="columns-are-strongly-related-to-expressions"><span class="header-section-number">4.2</span> Columns are strongly related to expressions</h2>
+<section id="sec-columns-related-expressions" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="sec-columns-related-expressions"><span class="header-section-number">4.2</span> Columns are strongly related to expressions</h2>
 <p>Many kinds of transformations that we want to apply over a Spark DataFrame, are usually described through expressions, and, these expressions in Spark are mainly composed by <strong>column transformations</strong>. That is why the <code>Column</code> class, and its methods, are so important in Spark.</p>
 <p>Columns in Spark are so strongly related to expressions that the columns themselves are initially interpreted as expressions. If we look again at the column <code>id</code> from <code>df</code> DataFrame, Spark will bring a expression as a result, and not the values hold by this column.</p>
 <div class="cell" data-execution_count="4">

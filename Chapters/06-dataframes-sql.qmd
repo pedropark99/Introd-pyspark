@@ -266,7 +266,7 @@ That is why Spark offers a shortcut to us, which is the `table()` method of your
 ```{python}
 spark\
   .table('penguins_view')\
-  .show()
+  .show(5)
 ```
 
 
@@ -276,8 +276,26 @@ As I noted at @sec-columns-related-expressions, columns of a Spark DataFrame are
 
 This is no different for SQL expressions. A SQL expression is basically any expression you would use on the `SELECT` statement of your SQL query. As you probably guessed, since these expresisons are used on the `SELECT` statement, you can use them to transform columns of a Spark DataFrame.
 
-There are many column transformations that are particularly verbose and hard to write in `pyspark`. But you can use a SQL expression in your favor, to translate this transformation into a more short and concise form. Virtually every expression you write in `pyspark` can be translated into a SQL expression.
+There are many column transformations that are particularly verbose and expensive to write in `pyspark`. But you can use a SQL expression in your favor, to translate this transformation into a more short and concise form. Virtually every expression you write in `pyspark` can be translated into a SQL expression.
 
+To execute a SQL expression, you give this expression inside a string to the `expr()` function from the `pyspark.sql.functions` module. Since expressions are used to transform columns, you usually use `expr()` inside a `withColumn()` method.
+
+```{python}
+from pyspark.sql.functions import expr
+
+spark\
+  .table('penguins_view')\
+  .withColumn(
+    'specie_island',
+    expr("CONCAT(species, island)")
+  )\
+  .withColumn(
+    'sex_short',
+    expr("CASE WHEN sex == 'male' THEN 'M' ELSE 'F' END")
+  )\
+  .select('specie_island', 'sex_short')\
+  .show(5)
+```
 
 
 
