@@ -45,7 +45,7 @@ print(id_column)
 ```
 
 
-## Columns are strongly related to expressions
+## Columns are strongly related to expressions {#sec-columns-related-expressions}
 
 Many kinds of transformations that we want to apply over a Spark DataFrame, are usually described through expressions, and, these expressions in Spark are mainly composed by **column transformations**. That is why the `Column` class, and its methods, are so important in Spark.
 
