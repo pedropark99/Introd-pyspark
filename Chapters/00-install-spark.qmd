@@ -91,6 +91,8 @@ Apache Spark will always look for two specific environment variables in your sys
 <!-- These multi-figures in sequence need to have a new line between each of them
 if they do not have these new lines, an error in crossref will occur -->
 
+::::: {.content-hidden when-format="pdf"}
+
 ::: {#fig-windows-envs}
 
 ![Path to Windows Environment Variables Menu - Part 1](../Figures/windows-environment-variables1.png){#fig-windows-env1}
@@ -102,6 +104,23 @@ if they do not have these new lines, an error in crossref will occur -->
 Path to Windows Environment Variables Menu
 :::
 
+:::::
+
+
+::::: {.content-visible when-format="pdf"}
+
+::: {#fig-windows-envs}
+
+![Path to Windows Environment Variables Menu - Part 1](../Figures/windows-environment-variables1.png){#fig-windows-env1, fig-env="subfigure"}
+
+![Path to Windows Environment Variables Menu - Part 2](../Figures/windows-environment-variables2.png){#fig-windows-env2, fig-env="subfigure"}
+
+![Path to Windows Environment Variables Menu - Part 3](../Figures/windows-environment-variables3.png){#fig-windows-env3, fig-env="subfigure"}
+
+Path to Windows Environment Variables Menu
+:::
+
+:::::
 
 During the process of scheduling and running your Spark application, Spark will execute a set of scripts located at the home directory of Spark itself. Spark does this by looking for a environment variable called `SPARK_HOME` in your system. If you do not have this variable configured, Spark will not be able to locate its home directory, and as a consequence, it throws an runtime error.
 

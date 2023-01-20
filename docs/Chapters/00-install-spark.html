@@ -282,6 +282,7 @@ Terminal$ mv spark-3.3.1-bin-hadoop3 C:/Spark/spark-3.3.1-bin-hadoop3</code></pr
 <p>Apache Spark will always look for two specific environment variables in your system: <code>SPARK_HOME</code> and <code>JAVA_HOME</code>. This means that you must have these two environment variables defined and correctly configured in your machine. To configure an environment variable on Windows, I recommend you to use the menu that you can find by searching for “environment variables” in the Windows search box. At <a href="#fig-windows-envs">Figure&nbsp;<span>A.1</span></a> you can see the path to this menu on Windows:</p>
 <!-- These multi-figures in sequence need to have a new line between each of them
 if they do not have these new lines, an error in crossref will occur -->
+<div>
 <div id="fig-windows-envs" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <div id="fig-windows-env1" class="quarto-figure quarto-figure-center anchored">
@@ -304,6 +305,7 @@ if they do not have these new lines, an error in crossref will occur -->
 </div>
 <p></p><figcaption class="figure-caption">Figure&nbsp;A.1: Path to Windows Environment Variables Menu</figcaption><p></p>
 </figure>
+</div>
 </div>
 <p>During the process of scheduling and running your Spark application, Spark will execute a set of scripts located at the home directory of Spark itself. Spark does this by looking for a environment variable called <code>SPARK_HOME</code> in your system. If you do not have this variable configured, Spark will not be able to locate its home directory, and as a consequence, it throws an runtime error.</p>
 <p>In other words, you need to set a variable with name <code>SPARK_HOME</code> in your system. Its value should be the path to the home (or “root”) directory where you installed (or unzipped) the Spark files. In my case I unzipped the files into a folder called <code>C:/Spark/spark-3.3.1-bin-hadoop3</code>, and that is the folder that I going to use in <code>SPARK_HOME</code>, as you can see at <a href="#fig-spark-home-env">Figure&nbsp;<span>A.2</span></a>:</p>
