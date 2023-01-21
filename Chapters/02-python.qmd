@@ -189,7 +189,7 @@ This error occurs, because inside the print statement, we call the name `x`. But
 
 A python package (or a python "library") is basically a set of functions and classes that provides important functionality to solve a specific problem. And `pyspark` is one of these many python packages available.
 
-Python packages are usually published (that is, made available to the public) through the PyPI archive[^python-5]. If a python package is published in PyPI, then, you can easily install it through the `pip` tool, that we just used in @sec-install-software.
+Python packages are usually published (that is, made available to the public) through the PyPI archive[^python-5]. If a python package is published in PyPI, then, you can easily install it through the `pip` tool, that we just used in @sec-install-spark.
 
 [^python-5]: <https://pypi.org/>
 

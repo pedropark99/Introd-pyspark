@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Introduction to pyspark - Appendix A — How to install Spark and pyspark</title>
+<title>Introduction to pyspark - Appendix B — How to install Spark and pyspark</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,7 +30,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../Chapters/references.html" rel="prev">
+<link href="../Chapters/00-terminal.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -97,7 +97,7 @@ ul.task-list li input[type="checkbox"] {
     </nav>
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title">Appendix A — How to install Spark and <code>pyspark</code></h1>
+      <h1 class="quarto-secondary-nav-title">Appendix B — How to install Spark and <code>pyspark</code></h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -175,7 +175,12 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Chapters/00-install-spark.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">How to install Spark and <code>pyspark</code></span></a>
+  <a href="../Chapters/00-terminal.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Opening the terminal of your OS</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Chapters/00-install-spark.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">How to install Spark and <code>pyspark</code></span></a>
   </div>
 </li>
       </ul>
@@ -189,18 +194,18 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#what-are-the-steps" id="toc-what-are-the-steps" class="nav-link active" data-scroll-target="#what-are-the-steps"><span class="toc-section-number">A.1</span>  What are the steps?</a></li>
-  <li><a href="#on-windows" id="toc-on-windows" class="nav-link" data-scroll-target="#on-windows"><span class="toc-section-number">A.2</span>  On Windows</a>
+  <li><a href="#what-are-the-steps" id="toc-what-are-the-steps" class="nav-link active" data-scroll-target="#what-are-the-steps"><span class="toc-section-number">B.1</span>  What are the steps?</a></li>
+  <li><a href="#on-windows" id="toc-on-windows" class="nav-link" data-scroll-target="#on-windows"><span class="toc-section-number">B.2</span>  On Windows</a>
   <ul class="collapse">
-  <li><a href="#install-java-sdk" id="toc-install-java-sdk" class="nav-link" data-scroll-target="#install-java-sdk"><span class="toc-section-number">A.2.1</span>  Install Java SDK</a></li>
-  <li><a href="#install-python" id="toc-install-python" class="nav-link" data-scroll-target="#install-python"><span class="toc-section-number">A.2.2</span>  Install Python</a></li>
-  <li><a href="#install-pyspark" id="toc-install-pyspark" class="nav-link" data-scroll-target="#install-pyspark"><span class="toc-section-number">A.2.3</span>  Install <code>pyspark</code></a></li>
-  <li><a href="#download-and-extract-the-files-of-apache-spark" id="toc-download-and-extract-the-files-of-apache-spark" class="nav-link" data-scroll-target="#download-and-extract-the-files-of-apache-spark"><span class="toc-section-number">A.2.4</span>  Download and extract the files of Apache Spark</a></li>
-  <li><a href="#set-environment-variables" id="toc-set-environment-variables" class="nav-link" data-scroll-target="#set-environment-variables"><span class="toc-section-number">A.2.5</span>  Set environment variables</a></li>
+  <li><a href="#install-java-sdk" id="toc-install-java-sdk" class="nav-link" data-scroll-target="#install-java-sdk"><span class="toc-section-number">B.2.1</span>  Install Java SDK</a></li>
+  <li><a href="#install-python" id="toc-install-python" class="nav-link" data-scroll-target="#install-python"><span class="toc-section-number">B.2.2</span>  Install Python</a></li>
+  <li><a href="#install-pyspark" id="toc-install-pyspark" class="nav-link" data-scroll-target="#install-pyspark"><span class="toc-section-number">B.2.3</span>  Install <code>pyspark</code></a></li>
+  <li><a href="#download-and-extract-the-files-of-apache-spark" id="toc-download-and-extract-the-files-of-apache-spark" class="nav-link" data-scroll-target="#download-and-extract-the-files-of-apache-spark"><span class="toc-section-number">B.2.4</span>  Download and extract the files of Apache Spark</a></li>
+  <li><a href="#set-environment-variables" id="toc-set-environment-variables" class="nav-link" data-scroll-target="#set-environment-variables"><span class="toc-section-number">B.2.5</span>  Set environment variables</a></li>
   </ul></li>
-  <li><a href="#on-linux" id="toc-on-linux" class="nav-link" data-scroll-target="#on-linux"><span class="toc-section-number">A.3</span>  On Linux</a>
+  <li><a href="#on-linux" id="toc-on-linux" class="nav-link" data-scroll-target="#on-linux"><span class="toc-section-number">B.3</span>  On Linux</a>
   <ul class="collapse">
-  <li><a href="#install-pyspark-1" id="toc-install-pyspark-1" class="nav-link" data-scroll-target="#install-pyspark-1"><span class="toc-section-number">A.3.1</span>  Install <code>pyspark</code></a></li>
+  <li><a href="#install-pyspark-1" id="toc-install-pyspark-1" class="nav-link" data-scroll-target="#install-pyspark-1"><span class="toc-section-number">B.3.1</span>  Install <code>pyspark</code></a></li>
   </ul></li>
   </ul>
 </nav>
@@ -210,7 +215,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block">Appendix A — How to install Spark and <code>pyspark</code></h1>
+<h1 class="title"><span id="sec-install-spark" class="quarto-section-identifier d-none d-lg-block">Appendix B — How to install Spark and <code>pyspark</code></span></h1>
 </div>
 
 
@@ -227,8 +232,8 @@ ul.task-list li input[type="checkbox"] {
 
 <p>In order to build and run any Spark application through <code>pyspark</code>, you have to install Apache Spark in your computer. Apache Spark is available to all three major operating systems in the market today (macOS, Windows and Linux).</p>
 <p>The process of installation is kind of similar in all three OS’s. But some steps work differently in each OS. Currently, I (the author of this book) do not have access to a macOS machine, and because of that, I will not describe the installation process of Spark on this platform here. If you have access to a macOS machine, and are willing to describe this installation process, I would be happy to review a PR with such content.</p>
-<section id="what-are-the-steps" class="level2" data-number="A.1">
-<h2 data-number="A.1" class="anchored" data-anchor-id="what-are-the-steps"><span class="header-section-number">A.1</span> What are the steps?</h2>
+<section id="what-are-the-steps" class="level2" data-number="B.1">
+<h2 data-number="B.1" class="anchored" data-anchor-id="what-are-the-steps"><span class="header-section-number">B.1</span> What are the steps?</h2>
 <p>In short, the next steps for installing Spark are:</p>
 <ol type="1">
 <li>Install Java;</li>
@@ -239,10 +244,10 @@ ul.task-list li input[type="checkbox"] {
 </ol>
 <p>The next sections describes these steps for each operating system.</p>
 </section>
-<section id="on-windows" class="level2" data-number="A.2">
-<h2 data-number="A.2" class="anchored" data-anchor-id="on-windows"><span class="header-section-number">A.2</span> On Windows</h2>
-<section id="install-java-sdk" class="level3" data-number="A.2.1">
-<h3 data-number="A.2.1" class="anchored" data-anchor-id="install-java-sdk"><span class="header-section-number">A.2.1</span> Install Java SDK</h3>
+<section id="on-windows" class="level2" data-number="B.2">
+<h2 data-number="B.2" class="anchored" data-anchor-id="on-windows"><span class="header-section-number">B.2</span> On Windows</h2>
+<section id="install-java-sdk" class="level3" data-number="B.2.1">
+<h3 data-number="B.2.1" class="anchored" data-anchor-id="install-java-sdk"><span class="header-section-number">B.2.1</span> Install Java SDK</h3>
 <p>Apache Spark is written in Scala, which is a fairly modern programming language that have powerful interoperability with the Java programming language. Because of this characteristic, some of the functionalities of Spark require you to have Java SDK (<em>Software Development Kit</em>) installed in your machine.</p>
 <p>In other words, you must have Java SDK installed to use Spark. If you do not have Java SDK, Spark will likely fail when you try to start it. However, since Java is a very popular tecnology across the world, is possible that you already have it installed in your machine. To check if Java is already installed, you can run the following command in your OS terminal:</p>
 <pre class="{terminal}"><code>#| eval: false
@@ -253,20 +258,20 @@ Java(TM) SE Runtime Environment (build 19.0.1+10-21)
 Java HotSpot(TM) 64-Bit Server VM (build 19.0.1+10-21, mixed mode, sharing)</code></pre>
 <p>But, if something different comes up in your terminal, than, is likely that you do not have Java installed. To fix this, <a href="https://www.oracle.com/java/technologies/downloads/">download Java from the official website</a><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>, and install it.</p>
 </section>
-<section id="install-python" class="level3" data-number="A.2.2">
-<h3 data-number="A.2.2" class="anchored" data-anchor-id="install-python"><span class="header-section-number">A.2.2</span> Install Python</h3>
+<section id="install-python" class="level3" data-number="B.2.2">
+<h3 data-number="B.2.2" class="anchored" data-anchor-id="install-python"><span class="header-section-number">B.2.2</span> Install Python</h3>
 <p>You can easily install Python on Windows, by downloading the installer available at the <a href="https://www.python.org/downloads/">official website of the language</a><a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>, and executing it.</p>
 </section>
-<section id="install-pyspark" class="level3" data-number="A.2.3">
-<h3 data-number="A.2.3" class="anchored" data-anchor-id="install-pyspark"><span class="header-section-number">A.2.3</span> Install <code>pyspark</code></h3>
-<p>Installing the <code>pyspark</code> python package is pretty straightforward. Just open a terminal (if you need help to open the terminal check <a href="01-intro.html#sec-open-terminal"><span>Section&nbsp;4</span></a>), and use the <code>pip</code> command to do it:</p>
+<section id="install-pyspark" class="level3" data-number="B.2.3">
+<h3 data-number="B.2.3" class="anchored" data-anchor-id="install-pyspark"><span class="header-section-number">B.2.3</span> Install <code>pyspark</code></h3>
+<p>Installing the <code>pyspark</code> python package is pretty straightforward. Just open a terminal (if you need help to open the terminal check <a href="00-terminal.html"><span>Appendix&nbsp;A</span></a>), and use the <code>pip</code> command to do it:</p>
 <pre class="{terminal}"><code>#| eval: false
 Terminal$ pip install pyspark</code></pre>
 <p>If you try to run the above command (inside a terminal of any OS), and a message like <code>pip: command not found</code> appears, this means that you do not have the <code>pip</code> tool installed on your machine. Hence, if you face this kind of message, you need to install <code>pip</code> before you even install <code>pyspark</code>.</p>
 <p>The <code>pip</code> tool is automatically installed with Python on Windows. So, if you face this message (<code>pip: command not found</code>), then, is very likely that you do not have Python correctly installed on your machine. Or maybe, Python is not installed at all in any shape or size in your system. So, you should comeback to previous section, and re install it.</p>
 </section>
-<section id="download-and-extract-the-files-of-apache-spark" class="level3" data-number="A.2.4">
-<h3 data-number="A.2.4" class="anchored" data-anchor-id="download-and-extract-the-files-of-apache-spark"><span class="header-section-number">A.2.4</span> Download and extract the files of Apache Spark</h3>
+<section id="download-and-extract-the-files-of-apache-spark" class="level3" data-number="B.2.4">
+<h3 data-number="B.2.4" class="anchored" data-anchor-id="download-and-extract-the-files-of-apache-spark"><span class="header-section-number">B.2.4</span> Download and extract the files of Apache Spark</h3>
 <p>First, you need to download Apache Spark from the <a href="https://spark.apache.org/downloads">official website of the project</a><a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>. Currently, the Apache Spark does not offers installers or package programs to install the software for you.</p>
 <p>We usually install external software on Windows by using installers (i.e.&nbsp;executable files - <code>.exe</code>) that perform all the necessary steps to install the software in your machine. However, currently, the Apache Spark project does not offers such installers. This means that you have to install it yourself.</p>
 <p>When you download Apache Spark from the official website, you will get all files of the program compacted inside a TAR file (<code>.tgz</code>), which is similar to a ZIP file (<code>.zip</code>). After you downloaded Spark to your machine, you need to extract all files from the TAR file (<code>.tgz</code>) to a specific location of your computer. It can be anywhere, just choose a place. As an example, I will extract the files to a folder called <code>Spark</code> directly at my hard disk <code>C:/</code>.</p>
@@ -275,11 +280,11 @@ Terminal$ pip install pyspark</code></pre>
 Terminal$ tar -x -f spark-3.3.1-bin-hadoop3.tgz
 Terminal$ mv spark-3.3.1-bin-hadoop3 C:/Spark/spark-3.3.1-bin-hadoop3</code></pre>
 </section>
-<section id="set-environment-variables" class="level3" data-number="A.2.5">
-<h3 data-number="A.2.5" class="anchored" data-anchor-id="set-environment-variables"><span class="header-section-number">A.2.5</span> Set environment variables</h3>
+<section id="set-environment-variables" class="level3" data-number="B.2.5">
+<h3 data-number="B.2.5" class="anchored" data-anchor-id="set-environment-variables"><span class="header-section-number">B.2.5</span> Set environment variables</h3>
 <!-- test if `HADOOP_HOME` variable and winutils.exe is really necessary -->
 <!-- test if `PYSPARK_PYTHON` is really necessary -->
-<p>Apache Spark will always look for two specific environment variables in your system: <code>SPARK_HOME</code> and <code>JAVA_HOME</code>. This means that you must have these two environment variables defined and correctly configured in your machine. To configure an environment variable on Windows, I recommend you to use the menu that you can find by searching for “environment variables” in the Windows search box. At <a href="#fig-windows-envs">Figure&nbsp;<span>A.1</span></a> you can see the path to this menu on Windows:</p>
+<p>Apache Spark will always look for two specific environment variables in your system: <code>SPARK_HOME</code> and <code>JAVA_HOME</code>. This means that you must have these two environment variables defined and correctly configured in your machine. To configure an environment variable on Windows, I recommend you to use the menu that you can find by searching for “environment variables” in the Windows search box. At <a href="#fig-windows-envs">Figure&nbsp;<span>B.1</span></a> you can see the path to this menu on Windows:</p>
 <!-- These multi-figures in sequence need to have a new line between each of them
 if they do not have these new lines, an error in crossref will occur -->
 <div>
@@ -303,25 +308,25 @@ if they do not have these new lines, an error in crossref will occur -->
 <p></p><figcaption class="figure-caption">(c) Path to Windows Environment Variables Menu - Part 3</figcaption><p></p>
 </figure>
 </div>
-<p></p><figcaption class="figure-caption">Figure&nbsp;A.1: Path to Windows Environment Variables Menu</figcaption><p></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;B.1: Path to Windows Environment Variables Menu</figcaption><p></p>
 </figure>
 </div>
 </div>
 <p>During the process of scheduling and running your Spark application, Spark will execute a set of scripts located at the home directory of Spark itself. Spark does this by looking for a environment variable called <code>SPARK_HOME</code> in your system. If you do not have this variable configured, Spark will not be able to locate its home directory, and as a consequence, it throws an runtime error.</p>
-<p>In other words, you need to set a variable with name <code>SPARK_HOME</code> in your system. Its value should be the path to the home (or “root”) directory where you installed (or unzipped) the Spark files. In my case I unzipped the files into a folder called <code>C:/Spark/spark-3.3.1-bin-hadoop3</code>, and that is the folder that I going to use in <code>SPARK_HOME</code>, as you can see at <a href="#fig-spark-home-env">Figure&nbsp;<span>A.2</span></a>:</p>
+<p>In other words, you need to set a variable with name <code>SPARK_HOME</code> in your system. Its value should be the path to the home (or “root”) directory where you installed (or unzipped) the Spark files. In my case I unzipped the files into a folder called <code>C:/Spark/spark-3.3.1-bin-hadoop3</code>, and that is the folder that I going to use in <code>SPARK_HOME</code>, as you can see at <a href="#fig-spark-home-env">Figure&nbsp;<span>B.2</span></a>:</p>
 <div id="fig-spark-home-env" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="../Figures/windows-environment-variables4.png" class="img-fluid figure-img"></p>
-<p></p><figcaption class="figure-caption">Figure&nbsp;A.2: Setting the <code>SPARK_HOME</code> environment variable</figcaption><p></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;B.2: Setting the <code>SPARK_HOME</code> environment variable</figcaption><p></p>
 </figure>
 </div>
 <!-- We need Java SDK not Java Runtime -->
 <!-- Download at https://www.oracle.com/java/technologies/downloads/ -->
-<p>Now, a lot Spark functionality is closely related to Java SDK, and to find it, Spark will look for a environment variable called <code>JAVA_HOME</code>. On my machine, I have Java SDK installed at the folder <code>C:\Program Files\Java\jdk-19</code>. This might be not your case, and you may find the “jdk” folder for Java at a different location of your computer. Just find where it is, and use this path while setting this <code>JAVA_HOME</code> variable, like I did at <a href="#fig-java-home-env">Figure&nbsp;<span>A.3</span></a>:</p>
+<p>Now, a lot Spark functionality is closely related to Java SDK, and to find it, Spark will look for a environment variable called <code>JAVA_HOME</code>. On my machine, I have Java SDK installed at the folder <code>C:\Program Files\Java\jdk-19</code>. This might be not your case, and you may find the “jdk” folder for Java at a different location of your computer. Just find where it is, and use this path while setting this <code>JAVA_HOME</code> variable, like I did at <a href="#fig-java-home-env">Figure&nbsp;<span>B.3</span></a>:</p>
 <div id="fig-java-home-env" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="../Figures/windows-environment-variables5.png" class="img-fluid figure-img"></p>
-<p></p><figcaption class="figure-caption">Figure&nbsp;A.3: Setting the <code>JAVA_HOME</code> environment variable</figcaption><p></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;B.3: Setting the <code>JAVA_HOME</code> environment variable</figcaption><p></p>
 </figure>
 </div>
 <p>With these two environment variables setted, you should be able to start and use Spark already. Just open a brand new terminal, and type the <code>spark</code> command. An interactive Spark Session will initiate after this command, and give you a command prompt where you can start coding the Spark application you want to execute.</p>
@@ -344,10 +349,10 @@ sys.executable
 -->
 </section>
 </section>
-<section id="on-linux" class="level2" data-number="A.3">
-<h2 data-number="A.3" class="anchored" data-anchor-id="on-linux"><span class="header-section-number">A.3</span> On Linux</h2>
-<section id="install-pyspark-1" class="level3" data-number="A.3.1">
-<h3 data-number="A.3.1" class="anchored" data-anchor-id="install-pyspark-1"><span class="header-section-number">A.3.1</span> Install <code>pyspark</code></h3>
+<section id="on-linux" class="level2" data-number="B.3">
+<h2 data-number="B.3" class="anchored" data-anchor-id="on-linux"><span class="header-section-number">B.3</span> On Linux</h2>
+<section id="install-pyspark-1" class="level3" data-number="B.3.1">
+<h3 data-number="B.3.1" class="anchored" data-anchor-id="install-pyspark-1"><span class="header-section-number">B.3.1</span> Install <code>pyspark</code></h3>
 <p>In Linux systems, installing <code>pip</code> is very easy, because you can use the built-in package manager to do this for you. In Debian like distros (e.g.&nbsp;Ubuntu), you use the <code>apt</code> tool, and, in Arch-Linux like distros (e.g.&nbsp;Arch Linux, Manjaro) you would use the <code>pacman</code> tool. Both possibilities are exposed below:</p>
 <p><code>{terminal, eval = FALSE} # If you are in a Debian like distro of Linux # and need to install `pip`, use this command: Terminal$ sudo apt install python3-pip # If you are in a Arch-Linux like distro of Linux # and need to install `pip`, use this command: Terminal$ pacman -S python-pip</code></p>
 
@@ -501,8 +506,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../Chapters/references.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">References</span>
+      <a href="../Chapters/00-terminal.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Opening the terminal of your OS</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

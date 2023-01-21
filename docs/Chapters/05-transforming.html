@@ -258,7 +258,12 @@ div.csl-indent {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Chapters/00-install-spark.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">How to install Spark and <code>pyspark</code></span></a>
+  <a href="../Chapters/00-terminal.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Opening the terminal of your OS</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Chapters/00-install-spark.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">How to install Spark and <code>pyspark</code></span></a>
   </div>
 </li>
       </ul>
@@ -1394,7 +1399,7 @@ only showing top 5 rows
 <div class="sourceCode cell-code" id="cb84"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a>transf_per_client <span class="op">=</span> transf.groupBy(<span class="st">'clientNumber'</span>)</span>
 <span id="cb84-2"><a href="#cb84-2" aria-hidden="true" tabindex="-1"></a>transf_per_client</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="40">
-<pre><code>&lt;pyspark.sql.group.GroupedData at 0x7fb050761150&gt;</code></pre>
+<pre><code>&lt;pyspark.sql.group.GroupedData at 0x7f11d843fb80&gt;</code></pre>
 </div>
 </div>
 <p>At first, it appears that nothing has changed. But the <code>groupBy()</code> method always returns a new object of class <code>pyspark.sql.group.GroupedData</code>. As a consequence, we can no longer use some of the DataFrame methods that we used before, like the <code>show()</code> method to see the DataFrame.</p>

@@ -188,7 +188,7 @@ print(result)
 
 ### Executing the code
 
-Now that you have written your first Spark application with `pyspark`, you want to execute this application and see its results. Yet, to run a `pyspark` program, remember that you need to have the necessary software installed on your machine. I talk about how to install these software at @sec-install-software.
+Now that you have written your first Spark application with `pyspark`, you want to execute this application and see its results. Yet, to run a `pyspark` program, remember that you need to have the necessary software installed on your machine. I talk about how to install these software at @sec-install-spark.
 
 Anyway, to execute this `pyspark` that you wrote, you need send this script to the python interpreter, and to do this you need to: 1) open a terminal inside the folder where you python script is stored; and, 2) use the python command from the terminal with the name of your python script.
 
