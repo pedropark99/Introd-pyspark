@@ -123,7 +123,7 @@ WHERE value > 20
 spark.sql(sql_query).show()
 ```
 
-You could also save a specific SQL query as a persistent SQL query, with a normal `CREATE VIEW` statement through the `sql()` method. In the example below, I am saving the simple query that I showed at the beginning of this chapter inside a `VIEW` called `list_of_codes`.
+You could also save a specific SQL query as a persistent SQL `VIEW`, with a normal `CREATE VIEW` statement through the `sql()` method. In the example below, I am saving the simple query that I showed at the beginning of this chapter inside a `VIEW` called `list_of_codes`.
 
 ```{python}
 sql_query = '''
@@ -223,16 +223,18 @@ spark\
 
 ### Spark SQL Catalog is the bridge between SQL and `pyspark`
 
-Remember, to run SQL queries over any Spark DataFrame, you have to register this DataFrame into the Spark SQL Catalog. Because of it, this Spark SQL Catalog works almost as the bridge that connects the python objects that hold your Spark DataFrames to the Spark SQL context. Without it, Spark SQL will not find your Spark DataFrames. As a result, it can not run any SQL query over it.
+Remember, to run SQL queries over any Spark DataFrame, you must register this DataFrame into the Spark SQL Catalog. Because of it, this Spark SQL Catalog works almost as the bridge that connects the python objects that hold your Spark DataFrames to the Spark SQL context. Without it, Spark SQL will not find your Spark DataFrames. As a result, it can not run any SQL query over it.
 
-The methods `saveAsTable()`, `createTempView` and `createOrReplaceTempView()` are the main methods to register your Spark DataFrame into this Spark SQL Catalog. This means that you have to use one of these methods before you run any SQL query over your Spark DataFrame.
+The methods `saveAsTable()`, `createTempView()` and `createOrReplaceTempView()` are the main methods to register your Spark DataFrame into this Spark SQL Catalog. This means that you have to use one of these methods before you run any SQL query over your Spark DataFrame.
 
 
 ### Temporary versus Persistent sources
 
 When you register any Spark DataFrame as a SQL `TABLE`, it becomes a persistent source. Because the contents, the data, the rows of the table are stored on disk, inside a database, and can be accessed any time, even after you close or restart your computer (or your Spark Session). In other words, it becomes "persistent" as in the sense of "it does not die".
 
-However, with methods `createTempView` and `createOrReplaceTempView()` you register your Spark DataFrame as a temporary SQL `VIEW`. This means that the life (or time of existence) of this `VIEW` is tied to your Spark Session. In other words, it will exist in your Spark SQL Catalog only for the duration of your Spark Session. When you close your Spark Session, this `VIEW` just dies. When you start a new Spark Session it does not exist anymore. As a result, you have to register your DataFrame again at the catalog to use it one more time.
+As another example, when you save a specific SQL query as a SQL `VIEW` with the `CREATE VIEW` statement, this SQL `VIEW` is saved inside the database. As a consequence, it becomes a persistent source as well, and can be accessed and reused in other Spark Sessions, unless you explicit drop (or "remove") this SQL `VIEW` with a `DROP VIEW` statement.
+
+However, with methods `createTempView()` and `createOrReplaceTempView()` you register your Spark DataFrame as a temporary SQL `VIEW`. This means that the life (or time of existence) of this `VIEW` is tied to your Spark Session. In other words, it will exist in your Spark SQL Catalog only for the duration of your Spark Session. When you close your Spark Session, this `VIEW` just dies. When you start a new Spark Session it does not exist anymore. As a result, you have to register your DataFrame again at the catalog to use it one more time.
 
 
 ## The `penguins` table
@@ -259,7 +261,7 @@ spark.sql('SELECT * FROM penguins_view').show(5)
 
 ## Selecting Spark SQL tables
 
-An obvious way to access any SQL `TABLE` or `VIEW` registered in your Spark SQL context, is to select it, through a simple `SELECT * FROM` statement, like we saw in the previous examples. However, it can be quite annoying to type "SELECT * FROM" every time you want to use a Spark SQL table.
+An obvious way to access any SQL `TABLE` or `VIEW` registered in your Spark SQL context, is to select it, through a simple `SELECT * FROM` statement, like we saw in the previous examples. However, it can be quite annoying to type "SELECT * FROM" every time you want to use a SQL `TABLE` or `VIEW` in Spark SQL.
 
 That is why Spark offers a shortcut to us, which is the `table()` method of your Spark session. In other words, the code `spark.table("table_name")` is a shortcut to `spark.sql("SELECT * FROM table_name")`. They both mean the same thing. For example, we could access `penguins_view` as:
 
@@ -272,13 +274,13 @@ spark\
 
 ## Executing SQL expressions
 
-As I noted at @sec-columns-related-expressions, columns of a Spark DataFrame are closely related to expressions. As a result, you usually use and execute expressions in Spark when you want to transform (or mutate) columns of a Spark DataFrame.
+As I noted at @sec-columns-related-expressions, columns of a Spark DataFrame (or objects of class `Column`) are closely related to expressions. As a result, you usually use and execute expressions in Spark when you want to transform (or mutate) columns of a Spark DataFrame.
 
-This is no different for SQL expressions. A SQL expression is basically any expression you would use on the `SELECT` statement of your SQL query. As you probably guessed, since these expresisons are used on the `SELECT` statement, you can use them to transform columns of a Spark DataFrame.
+This is no different for SQL expressions. A SQL expression is basically any expression you would use on the `SELECT` statement of your SQL query. As you can probably guess, since they are used in the `SELECT` statement, these expressions are used to transform columns of a Spark DataFrame.
 
-There are many column transformations that are particularly verbose and expensive to write in `pyspark`. But you can use a SQL expression in your favor, to translate this transformation into a more short and concise form. Virtually every expression you write in `pyspark` can be translated into a SQL expression.
+There are many column transformations that are particularly verbose and expensive to write in "pure" `pyspark`. But you can use a SQL expression in your favor, to translate this transformation into a more short and concise form. Virtually every expression you write in `pyspark` can be translated into a SQL expression.
 
-To execute a SQL expression, you give this expression inside a string to the `expr()` function from the `pyspark.sql.functions` module. Since expressions are used to transform columns, you usually use `expr()` inside a `withColumn()` method.
+To execute a SQL expression, you give this expression inside a string to the `expr()` function from the `pyspark.sql.functions` module. Since expressions are used to transform columns, you usually use `expr()` inside a `withColumn()` or `select()` method.
 
 ```{python}
 from pyspark.sql.functions import expr
