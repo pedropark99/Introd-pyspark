@@ -48,7 +48,8 @@ But, if for some reason you could not open the terminal inside the folder, just 
 
 For example, if I saved `hello.py` inside my Documents folder, the path to this folder in Windows would be something like this: `"C:\Users\pedro\Documents"`. On the other hand, this path on Linux would be something like `"/usr/pedro/Documents"`. So the command to change to this directory would be:
 
-```{terminal, eval = FALSE}
+```{terminal}
+#| eval: false
 # On Windows:
 Terminal$ cd "C:\Users\pedro\Documents"
 # On Linux:

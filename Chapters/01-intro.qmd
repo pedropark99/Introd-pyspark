@@ -76,4 +76,4 @@ In cases like this, I will always point out the specific OS of each one of the c
 
 ## Install the necessary software
 
-If you want to follow the examples shown in this book, you must have Apache Spark and `pyspark` installed on your machine. If you do not know how to do this, you can consult the contents of @sec-install-spark. This appendix give a tutorial with step-to-step on how to install these tools on Linux and Windows.
+If you want to follow the examples shown throughout this book, you must have Apache Spark and `pyspark` installed on your machine. If you do not know how to do this, you can consult the contents of @sec-install-spark. This appendix give you a tutorial with step-to-step on how to install these tools on Linux and Windows.
