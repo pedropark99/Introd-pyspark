@@ -28,11 +28,11 @@ df = spark.createDataFrame(data)
 
 As we discussed in @sec-introd-spark, Spark is a **multi-language** engine for large-scale data processing. This means that we can build our Spark application using many different languages (like Java, Scala, Python and R). Furthermore, you can also use the Spark SQL module of Spark to translate all of your transformations into pure SQL queries.
 
-In more details, Spark SQL is a Spark module for structured data processing [@sparkdoc]. As a result, you can use it to translate all transformations that you build with the DataFrame API, which is the main structured API of Spark. This means that virtually all transformations exposed throughout this book, can be translated into a SQL query in Spark.
+In more details, Spark SQL is a Spark module for structured data processing [@sparkdoc]. In other words, it is a module to work with Spark DataFrames, using SQL. This also means, that you can translate all transformations that you build with the DataFrame API, into a SQL query in Spark.
 
 However, this also means that the Spark SQL module does not handle the transformations produced by the unstructured APIs of Spark, i.e. the Dataset API. Since the Dataset API is not available in `pyspark`, it is not covered in this book.
 
-Due to the multi-language nature of Spark, you can mix python code that uses the DataFrame API with pure SQL queries to build your transformations. We will focus on this exchange between Python and SQL in this chapter.
+In essence, you can mix python code with SQL queries very easily in Spark, and virtually all transformations exposed throughout this book, can be translated into a SQL query using this module of Spark. We will focus a lot on this exchange between Python and SQL in this chapter.
 
 ## The `sql()` method as the main entrypoint
 
@@ -145,7 +145,7 @@ spark.sql("SELECT * FROM list_of_codes").show()
 
 
 
-#### TABLEs are stored as physical tables
+#### `TABLEs` are stored as physical tables
 
 In the other hand, SQL `TABLEs` are the "opposite" of SQL `VIEWs`. That is, SQL `TABLEs` are stored as physical tables inside the SQL database. In other words, each one of the rows of your table are stored inside the SQL database. 
 
@@ -225,6 +225,18 @@ spark\
 
 Remember, to run SQL queries over any Spark DataFrame, you must register this DataFrame into the Spark SQL Catalog. Because of it, this Spark SQL Catalog works almost as the bridge that connects the python objects that hold your Spark DataFrames to the Spark SQL context. Without it, Spark SQL will not find your Spark DataFrames. As a result, it can not run any SQL query over it.
 
+When you try to use a DataFrame that is not currently registered at the Spark SQL Catalog, Spark will automatically raise a `AnalysisException`, like in the example below:
+
+```python
+spark\
+  .sql("SELECT * FROM this.does_not_exist")\
+  .show()
+```
+
+```
+AnalysisException: Table or view not found
+```
+
 The methods `saveAsTable()`, `createTempView()` and `createOrReplaceTempView()` are the main methods to register your Spark DataFrame into this Spark SQL Catalog. This means that you have to use one of these methods before you run any SQL query over your Spark DataFrame.
 
 
@@ -234,7 +246,7 @@ When you register any Spark DataFrame as a SQL `TABLE`, it becomes a persistent 
 
 As another example, when you save a specific SQL query as a SQL `VIEW` with the `CREATE VIEW` statement, this SQL `VIEW` is saved inside the database. As a consequence, it becomes a persistent source as well, and can be accessed and reused in other Spark Sessions, unless you explicit drop (or "remove") this SQL `VIEW` with a `DROP VIEW` statement.
 
-However, with methods `createTempView()` and `createOrReplaceTempView()` you register your Spark DataFrame as a temporary SQL `VIEW`. This means that the life (or time of existence) of this `VIEW` is tied to your Spark Session. In other words, it will exist in your Spark SQL Catalog only for the duration of your Spark Session. When you close your Spark Session, this `VIEW` just dies. When you start a new Spark Session it does not exist anymore. As a result, you have to register your DataFrame again at the catalog to use it one more time.
+However, with methods like `createTempView()` and `createOrReplaceTempView()` you register your Spark DataFrame as a *temporary* SQL `VIEW`. This means that the life (or time of existence) of this `VIEW` is tied to your Spark Session. In other words, it will exist in your Spark SQL Catalog only for the duration of your Spark Session. When you close your Spark Session, this `VIEW` just dies. When you start a new Spark Session it does not exist anymore. As a result, you have to register your DataFrame again at the catalog to use it one more time.
 
 
 ## The `penguins` table
@@ -259,7 +271,7 @@ spark.sql('SELECT * FROM penguins_view').show(5)
 ```
 
 
-## Selecting Spark SQL tables
+## Selecting your Spark DataFrames
 
 An obvious way to access any SQL `TABLE` or `VIEW` registered in your Spark SQL context, is to select it, through a simple `SELECT * FROM` statement, like we saw in the previous examples. However, it can be quite annoying to type "SELECT * FROM" every time you want to use a SQL `TABLE` or `VIEW` in Spark SQL.
 
@@ -271,6 +283,20 @@ spark\
   .show(5)
 ```
 
+
+## Every DataFrame transformation in Python can be translated into SQL
+
+
+### DataFrame methods are usually translated into SQL keywords
+
+When you translate the methods from the python `DataFrame` class (like `orderBy()`, `select()` and `where()`) into their equivalents in Spark SQL, you usually get SQL keywords (like `ORDER BY`, `SELECT` and `WHERE`).
+
+### Spark functions are usually translated into SQL functions
+
+
+Every function from the `pyspark.sql.functions` module you might use to describe your transformations in python, can be directly used in Spark SQL. In other words, every Spark function that is accesible in python, is also accesible in Spark SQL.
+
+When you translate these python functions into SQL, they usually become a pure SQL function with the same name. 
 
 ## Executing SQL expressions
 

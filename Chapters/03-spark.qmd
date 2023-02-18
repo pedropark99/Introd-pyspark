@@ -118,9 +118,9 @@ spark = SparkSession.builder.getOrCreate()
 
 Every `pyspark` program is composed by a set of transformations and actions over a set of Spark DataFrames. 
 
-We will explain Spark DataFrames in more deth on the @sec-dataframes-chapter. For now just understand that they are the basic data sctructure that feed all `pyspark` programs. 
+We will explain Spark DataFrames in more deth on the @sec-dataframes-chapter. For now just understand that they are the basic data sctructure that feed all `pyspark` programs. In other words, on every `pyspark` program we are transforming multiple Spark DataFrames to get the result we want.
 
-In other words, on every `pyspark` program we are transforming multiple Spark DataFrames to get the result we want. As an example, in the script below we begin with the Spark DataFrame stored in the object `students`, and, apply multiple transformations over it to build the `ar_department` DataFrame. Lastly, we apply the `.show()` action over the `ar_department` DataFrame:
+As an example, in the script below we begin with the Spark DataFrame stored in the object `students`, and, apply multiple transformations over it to build the `ar_department` DataFrame. Lastly, we apply the `.show()` action over the `ar_department` DataFrame:
 
 ```{python}
 #| eval: false
@@ -218,7 +218,7 @@ Congratulations! You have just run your first Spark application using `pyspark`!
 
 ## Overview of the main classes/modules in `pyspark`
 
-Before we continue, I want to give you a very brief overview of the main classes/modules that exists in `pyspark`. They are:
+Before we continue, I want to give you a very brief overview of the main python classes/modules that exists in `pyspark`. They are:
 
 - `pyspark.sql.SparkSession`: the `SparkSession` class that defines your Spark Session, or, the entry point to your Spark application;
 - `pyspark.sql.dataframe`: module that defines the `DataFrame` class;

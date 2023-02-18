@@ -1,7 +1,7 @@
 
 # Opening the terminal of your OS  {.appendix, #sec-open-terminal}
 
-Every OS comes with a terminal (or a command prompt). A terminal is usually just a black screen where you can send commands to be executed by your OS. The  @fig-terminal-simple-shot shows a print screen of the terminal in Ubuntu. The terminal on Windows is very similar to this.
+Every operating system (OS) comes with a terminal (or a command prompt). A terminal is usually just a black screen where you can send commands to be executed by your OS. As an example,  @fig-terminal-simple-shot shows a print screen of the terminal in Ubuntu Linux. The terminal on Windows is very similar to this.
 
 ![A terminal on Ubuntu](./../Figures/terminal-simple-shot.png){#fig-terminal-simple-shot}
 
