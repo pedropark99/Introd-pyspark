@@ -41,7 +41,7 @@ In Spark, you can use the `length()` function to get the length (i.e. the number
 
 To match grouping expressions use `$1`, `$2`, `$3`, etc...
 ```python
-regexp_extract()
+regexp_extract(teste, '^([a-z]+)', '$1')
 ```
 
 
