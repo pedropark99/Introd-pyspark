@@ -216,14 +216,34 @@ You can see in the above result, that this Spark application produces a sequence
 Congratulations! You have just run your first Spark application using `pyspark`!
 
 
-## Overview of the main classes/modules in `pyspark`
+## Overview of `pyspark`
 
-Before we continue, I want to give you a very brief overview of the main python classes/modules that exists in `pyspark`. They are:
+Before we continue, I want to give you a very brief overview of the main parts of `pyspark` that are the most useful and most important to know of.
+
+### Main python modules
+
+The main python modules that exists in `pyspark` are:
 
 - `pyspark.sql.SparkSession`: the `SparkSession` class that defines your Spark Session, or, the entry point to your Spark application;
 - `pyspark.sql.dataframe`: module that defines the `DataFrame` class;
 - `pyspark.sql.column`: module that defines the `Column` class;
 - `pyspark.sql.types`: module that contains all data types of Spark;
 - `pyspark.sq.functions`: module that contains all of the main Spark functions that we use in transformations;
+- `pyspark.sq.functions`: module that contains all of the main Spark functions that we use in transformations;
+- `pyspark.sql.window`: module that defines the `Window` class, which is responsible for defining windows in a Spark DataFrame;
 
+### Main python classes
 
+The main python classes that exists in `pyspark` are:
+
+- `DataFrame`: represents a Spark DataFrame, and it is the main data structure in `pyspark`. In essence, they represent a collection of datasets into named columns;
+
+- `Column`: represents a column in a Spark DataFrame;
+
+- `GroupedData`: represents a grouped Spark DataFrame (result of `DataFrame.groupby()`);
+
+- `Window`: describes a window in a Spark DataFrame;
+
+- `DataFrameReader` and `DataFrameWriter`: classes responsible for reading data from a data source into a Spark DataFrame, and writing data from a Spark DataFrame into a data source;
+
+- `DataFrameNaFunctions`: class that stores all main methods for dealing with null values (i.e. missing data);
