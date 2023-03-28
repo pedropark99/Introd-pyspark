@@ -229,7 +229,6 @@ The main python modules that exists in `pyspark` are:
 - `pyspark.sql.column`: module that defines the `Column` class;
 - `pyspark.sql.types`: module that contains all data types of Spark;
 - `pyspark.sq.functions`: module that contains all of the main Spark functions that we use in transformations;
-- `pyspark.sq.functions`: module that contains all of the main Spark functions that we use in transformations;
 - `pyspark.sql.window`: module that defines the `Window` class, which is responsible for defining windows in a Spark DataFrame;
 
 ### Main python classes

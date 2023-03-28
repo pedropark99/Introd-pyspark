@@ -460,7 +460,7 @@ div.csl-indent {
 </div>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
-<pre><code>23/03/27 22:52:07 WARN Utils: Your hostname, pedro-dev resolves to a loopback address: 127.0.1.1; using 192.168.0.90 instead (on interface wlp1s0) 23/03/27 22:52:07 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address 23/03/27 22:52:08 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable 23/03/27 22:52:08 WARN Utils: Service 'SparkUI' could not bind on port 4040. Attempting port 4041. 23/03/27 22:52:08 WARN Utils: Service 'SparkUI' could not bind on port 4041. Attempting port 4042. [Row(id=0), Row(id=1), Row(id=2), Row(id=3), Row(id=4)]</code></pre>
+<pre><code>23/03/27 23:13:09 WARN Utils: Your hostname, pedro-dev resolves to a loopback address: 127.0.1.1; using 192.168.0.90 instead (on interface wlp1s0) 23/03/27 23:13:09 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address 23/03/27 23:13:10 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable 23/03/27 23:13:11 WARN Utils: Service 'SparkUI' could not bind on port 4040. Attempting port 4041. [Row(id=0), Row(id=1), Row(id=2), Row(id=3), Row(id=4)]</code></pre>
 </div>
 </div>
 <p>You can see in the above result, that this Spark application produces a sequence of numbers, from 0 to 4, and, returns this sequence as a set of <code>Row</code> objects, inside a python list.</p>
@@ -478,7 +478,6 @@ div.csl-indent {
 <li><code>pyspark.sql.dataframe</code>: module that defines the <code>DataFrame</code> class;</li>
 <li><code>pyspark.sql.column</code>: module that defines the <code>Column</code> class;</li>
 <li><code>pyspark.sql.types</code>: module that contains all data types of Spark;</li>
-<li><code>pyspark.sq.functions</code>: module that contains all of the main Spark functions that we use in transformations;</li>
 <li><code>pyspark.sq.functions</code>: module that contains all of the main Spark functions that we use in transformations;</li>
 <li><code>pyspark.sql.window</code>: module that defines the <code>Window</code> class, which is responsible for defining windows in a Spark DataFrame;</li>
 </ul>
