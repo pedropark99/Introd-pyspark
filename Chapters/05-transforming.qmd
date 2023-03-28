@@ -186,11 +186,31 @@ url = 'https://raw.githubusercontent.com/'
 url = url + 'pedropark99/Introd-pyspark/'
 url = url + 'main/Data/transf.csv'
 
-transf = pd.read_csv(url, sep = ';')
+transf_pd = pd.read_csv(
+  url, sep = ';',
+  dtype = str,
+  keep_default_na = False
+)
+
+transf_pd['transferValue'] = transf_pd['transferValue'].astype('float')
+
+columns_to_int = [
+  'clientNumber',
+  'transferID',
+  'destinationBankNumber',
+  'destinationBankBranch'
+]
+for column in columns_to_int:
+  transf_pd[column] = transf_pd[column].astype('int')
 
 from pyspark.sql import SparkSession
+from pyspark.sql.functions import col
 spark = SparkSession.builder.getOrCreate()
-transf = spark.createDataFrame(transf)
+transf = spark.createDataFrame(transf_pd)\
+  .withColumn('dateTransfer', col('dateTransfer').cast('date'))\
+  .withColumn('datetimeTransfer', col('datetimeTransfer').cast('timestamp'))
+
+transf
 ```
 
 This `transf` DataFrame contains bank transfer records from a fictitious bank. Before I show you the actual data of this DataFrame, is useful to give you a quick description of each column that it contains:

@@ -230,10 +230,10 @@ peek_file("../Data/user-events.json", n_lines=3)
 Date variables are usually interpreted by Spark as string variables. In other words, Spark usually do not convert data that contains dates to the date type of Spark. In order to Spark
 
 ```{python}
-#| eval: false
+#| eval: true
 from pyspark.sql.types import StructType, StructField
 from pyspark.sql.types import DateType, StringType, TimestampType
-spark.conf.set("spark.sql.legacy.timeParserPolicy","LEGACY")
+
 schema = StructType([
   StructField('dateOfEvent', DateType(), True),
   StructField('timeOfEvent', TimestampType(), True),
@@ -242,8 +242,8 @@ schema = StructType([
 ])
 
 user_events = spark.read\
-  .option("dateFormat", "dd/mm/YYYY")\
-  .option("timestampFormat", "dd/mm/YYYY HH:mm:ss")\
+  .option("dateFormat", "d/M/y")\
+  .option("timestampFormat", "d/M/y k:m:s")\
   .json("../Data/user-events.json", schema = schema)
   
 user_events.show()

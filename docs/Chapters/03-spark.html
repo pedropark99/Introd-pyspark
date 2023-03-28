@@ -293,7 +293,11 @@ div.csl-indent {
   <li><a href="#writing-the-code" id="toc-writing-the-code" class="nav-link" data-scroll-target="#writing-the-code"><span class="toc-section-number">2.6.1</span>  Writing the code</a></li>
   <li><a href="#executing-the-code" id="toc-executing-the-code" class="nav-link" data-scroll-target="#executing-the-code"><span class="toc-section-number">2.6.2</span>  Executing the code</a></li>
   </ul></li>
-  <li><a href="#overview-of-the-main-classesmodules-in-pyspark" id="toc-overview-of-the-main-classesmodules-in-pyspark" class="nav-link" data-scroll-target="#overview-of-the-main-classesmodules-in-pyspark"><span class="toc-section-number">2.7</span>  Overview of the main classes/modules in <code>pyspark</code></a></li>
+  <li><a href="#overview-of-pyspark" id="toc-overview-of-pyspark" class="nav-link" data-scroll-target="#overview-of-pyspark"><span class="toc-section-number">2.7</span>  Overview of <code>pyspark</code></a>
+  <ul class="collapse">
+  <li><a href="#main-python-modules" id="toc-main-python-modules" class="nav-link" data-scroll-target="#main-python-modules"><span class="toc-section-number">2.7.1</span>  Main python modules</a></li>
+  <li><a href="#main-python-classes" id="toc-main-python-classes" class="nav-link" data-scroll-target="#main-python-classes"><span class="toc-section-number">2.7.2</span>  Main python classes</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -393,8 +397,8 @@ div.csl-indent {
 <section id="defining-a-set-of-transformations-and-actions" class="level3" data-number="2.5.3">
 <h3 data-number="2.5.3" class="anchored" data-anchor-id="defining-a-set-of-transformations-and-actions"><span class="header-section-number">2.5.3</span> Defining a set of transformations and actions</h3>
 <p>Every <code>pyspark</code> program is composed by a set of transformations and actions over a set of Spark DataFrames.</p>
-<p>We will explain Spark DataFrames in more deth on the <a href="04-dataframes.html"><span>Chapter&nbsp;3</span></a>. For now just understand that they are the basic data sctructure that feed all <code>pyspark</code> programs.</p>
-<p>In other words, on every <code>pyspark</code> program we are transforming multiple Spark DataFrames to get the result we want. As an example, in the script below we begin with the Spark DataFrame stored in the object <code>students</code>, and, apply multiple transformations over it to build the <code>ar_department</code> DataFrame. Lastly, we apply the <code>.show()</code> action over the <code>ar_department</code> DataFrame:</p>
+<p>We will explain Spark DataFrames in more deth on the <a href="04-dataframes.html"><span>Chapter&nbsp;3</span></a>. For now just understand that they are the basic data sctructure that feed all <code>pyspark</code> programs. In other words, on every <code>pyspark</code> program we are transforming multiple Spark DataFrames to get the result we want.</p>
+<p>As an example, in the script below we begin with the Spark DataFrame stored in the object <code>students</code>, and, apply multiple transformations over it to build the <code>ar_department</code> DataFrame. Lastly, we apply the <code>.show()</code> action over the <code>ar_department</code> DataFrame:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> col</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply some transformations over</span></span>
@@ -456,22 +460,39 @@ div.csl-indent {
 </div>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
-<pre><code>23/01/20 22:24:19 WARN Utils: Your hostname, pedro-dev resolves to a loopback address: 127.0.1.1; using 192.168.0.90 instead (on interface wlp1s0) 23/01/20 22:24:19 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address 23/01/20 22:24:20 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable 23/01/20 22:24:20 WARN Utils: Service 'SparkUI' could not bind on port 4040. Attempting port 4041. [Row(id=0), Row(id=1), Row(id=2), Row(id=3), Row(id=4)]</code></pre>
+<pre><code>23/03/27 22:52:07 WARN Utils: Your hostname, pedro-dev resolves to a loopback address: 127.0.1.1; using 192.168.0.90 instead (on interface wlp1s0) 23/03/27 22:52:07 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address 23/03/27 22:52:08 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable 23/03/27 22:52:08 WARN Utils: Service 'SparkUI' could not bind on port 4040. Attempting port 4041. 23/03/27 22:52:08 WARN Utils: Service 'SparkUI' could not bind on port 4041. Attempting port 4042. [Row(id=0), Row(id=1), Row(id=2), Row(id=3), Row(id=4)]</code></pre>
 </div>
 </div>
 <p>You can see in the above result, that this Spark application produces a sequence of numbers, from 0 to 4, and, returns this sequence as a set of <code>Row</code> objects, inside a python list.</p>
 <p>Congratulations! You have just run your first Spark application using <code>pyspark</code>!</p>
 </section>
 </section>
-<section id="overview-of-the-main-classesmodules-in-pyspark" class="level2" data-number="2.7">
-<h2 data-number="2.7" class="anchored" data-anchor-id="overview-of-the-main-classesmodules-in-pyspark"><span class="header-section-number">2.7</span> Overview of the main classes/modules in <code>pyspark</code></h2>
-<p>Before we continue, I want to give you a very brief overview of the main classes/modules that exists in <code>pyspark</code>. They are:</p>
+<section id="overview-of-pyspark" class="level2" data-number="2.7">
+<h2 data-number="2.7" class="anchored" data-anchor-id="overview-of-pyspark"><span class="header-section-number">2.7</span> Overview of <code>pyspark</code></h2>
+<p>Before we continue, I want to give you a very brief overview of the main parts of <code>pyspark</code> that are the most useful and most important to know of.</p>
+<section id="main-python-modules" class="level3" data-number="2.7.1">
+<h3 data-number="2.7.1" class="anchored" data-anchor-id="main-python-modules"><span class="header-section-number">2.7.1</span> Main python modules</h3>
+<p>The main python modules that exists in <code>pyspark</code> are:</p>
 <ul>
 <li><code>pyspark.sql.SparkSession</code>: the <code>SparkSession</code> class that defines your Spark Session, or, the entry point to your Spark application;</li>
 <li><code>pyspark.sql.dataframe</code>: module that defines the <code>DataFrame</code> class;</li>
 <li><code>pyspark.sql.column</code>: module that defines the <code>Column</code> class;</li>
 <li><code>pyspark.sql.types</code>: module that contains all data types of Spark;</li>
 <li><code>pyspark.sq.functions</code>: module that contains all of the main Spark functions that we use in transformations;</li>
+<li><code>pyspark.sq.functions</code>: module that contains all of the main Spark functions that we use in transformations;</li>
+<li><code>pyspark.sql.window</code>: module that defines the <code>Window</code> class, which is responsible for defining windows in a Spark DataFrame;</li>
+</ul>
+</section>
+<section id="main-python-classes" class="level3" data-number="2.7.2">
+<h3 data-number="2.7.2" class="anchored" data-anchor-id="main-python-classes"><span class="header-section-number">2.7.2</span> Main python classes</h3>
+<p>The main python classes that exists in <code>pyspark</code> are:</p>
+<ul>
+<li><p><code>DataFrame</code>: represents a Spark DataFrame, and it is the main data structure in <code>pyspark</code>. In essence, they represent a collection of datasets into named columns;</p></li>
+<li><p><code>Column</code>: represents a column in a Spark DataFrame;</p></li>
+<li><p><code>GroupedData</code>: represents a grouped Spark DataFrame (result of <code>DataFrame.groupby()</code>);</p></li>
+<li><p><code>Window</code>: describes a window in a Spark DataFrame;</p></li>
+<li><p><code>DataFrameReader</code> and <code>DataFrameWriter</code>: classes responsible for reading data from a data source into a Spark DataFrame, and writing data from a Spark DataFrame into a data source;</p></li>
+<li><p><code>DataFrameNaFunctions</code>: class that stores all main methods for dealing with null values (i.e.&nbsp;missing data);</p></li>
 </ul>
 
 
@@ -486,6 +507,7 @@ Chambers, Bill, and Matei Zaharia. 2018. <em>Spark: The Definitive Guide: Big Da
 Karau, Holden, Andy Konwinski, Patrick Wendell, and Matei Zaharia. 2015. <em>Learning Spark: Lightning-Fast Data Analytics</em>. Sebastopol, CA: O’Reilly Media.
 </div>
 </div>
+</section>
 </section>
 <section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
 <hr>

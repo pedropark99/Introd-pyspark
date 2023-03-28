@@ -384,7 +384,7 @@ pyspark.sql.utils.AnalysisException: Path does not exist: file:/home/pedro/Docum
 <div class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> os <span class="im">import</span> listdir</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>listdir(<span class="st">"../Data/"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="5">
+<div class="cell-output cell-output-display" data-execution_count="27">
 <pre><code>['accounts.csv',
  'user-events.json',
  'transf.csv',
@@ -540,7 +540,7 @@ only showing top 5 rows
 <div class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.types <span class="im">import</span> StructType, StructField</span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.types <span class="im">import</span> DateType, StringType, TimestampType</span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>spark.conf.<span class="bu">set</span>(<span class="st">"spark.sql.legacy.timeParserPolicy"</span>,<span class="st">"LEGACY"</span>)</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>schema <span class="op">=</span> StructType([</span>
 <span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  StructField(<span class="st">'dateOfEvent'</span>, DateType(), <span class="va">True</span>),</span>
 <span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>  StructField(<span class="st">'timeOfEvent'</span>, TimestampType(), <span class="va">True</span>),</span>
@@ -549,11 +549,21 @@ only showing top 5 rows
 <span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>])</span>
 <span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>user_events <span class="op">=</span> spark.read<span class="op">\</span></span>
-<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>  .option(<span class="st">"dateFormat"</span>, <span class="st">"dd/mm/YYYY"</span>)<span class="op">\</span></span>
-<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>  .option(<span class="st">"timestampFormat"</span>, <span class="st">"dd/mm/YYYY HH:mm:ss"</span>)<span class="op">\</span></span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>  .option(<span class="st">"dateFormat"</span>, <span class="st">"d/M/y"</span>)<span class="op">\</span></span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>  .option(<span class="st">"timestampFormat"</span>, <span class="st">"d/M/y k:m:s"</span>)<span class="op">\</span></span>
 <span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>  .json(<span class="st">"../Data/user-events.json"</span>, schema <span class="op">=</span> schema)</span>
 <span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>user_events.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>+-----------+-------------------+--------------------+--------------------+
+|dateOfEvent|        timeOfEvent|              userId|         nameOfEvent|
++-----------+-------------------+--------------------+--------------------+
+| 2022-06-15|2022-06-15 14:33:10|b902e51e-d043-4a6...|               entry|
+| 2022-06-15|2022-06-15 14:40:08|b902e51e-d043-4a6...|         click: shop|
+| 2022-06-15|2022-06-15 15:48:41|b902e51e-d043-4a6...|select: payment-m...|
++-----------+-------------------+--------------------+--------------------+
+</code></pre>
+</div>
 </div>
 
 
