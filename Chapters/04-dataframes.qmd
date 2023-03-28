@@ -87,7 +87,7 @@ print_big_list(available_methods)
 ```
 
 
-All the methods present in this `DataFrame` class, are commonly referred as the *DataFrame API of Spark*. This is the most important API of Spark. Much of your Spark applications will heavily use this API to compose your data transformations and data flows [@chambers2018].
+All the methods present in this `DataFrame` class, are commonly referred as the *DataFrame API of Spark*. Remember, this is the most important API of Spark. Because much of your Spark applications will heavily use this API to compose your data transformations and data flows [@chambers2018].
 
 ## Building a Spark DataFrame {#sec-building-a-dataframe}
 
@@ -124,7 +124,11 @@ df
 
 So, in the above example, we use the `Row()` constructor (from `pyspark.sql` module) to build 4 rows. The `createDataFrame()` method, stack these 4 rows together to form our new DataFrame `df`. The result is a Spark DataFrame with 4 rows and 3 columns (`id`, `value` and `date`).
 
-But you can use different methods to create the same Spark DataFrame. As another example, with the code below, we are creating a DataFrame called `students`. To do this, we create two python lists (`data` and `columns`), then, deliver these lists to `createDataFrame()` method. Each element of `data` is a python `tuple` that represents a row in the `students` DataFrame. And each element of `columns` represent the name of a column present in this new DataFrame.
+But you can use different methods to create the same Spark DataFrame. As another example, with the code below, we are creating a DataFrame called `students` from two different python lists (`data` and `columns`).
+
+The first list (`data`) is a list of rows. Each row is represent by a python tuple, which contains the values in each column. But the secont list (`columns`) contains the names for each column in the DataFrame.
+
+To create the `students` DataFrame we deliver these two lists to `createDataFrame()` method:
 
 ```{python}
 
@@ -231,7 +235,9 @@ df.printSchema()
 
 ### Accessing the DataFrame schema
 
-So, by calling the object of your DataFrame (i.e. an object of class `DataFrame`) you can see a small description of the schema of this DataFrame. But, how can you access this schema programmatically? You do this, by using the `schema` method of your DataFrame, like in the example below:
+So, by calling the object of your DataFrame (i.e. an object of class `DataFrame`) you can see a small description of the schema of this DataFrame. But, how can you access this schema programmatically?
+
+You do this, by using the `schema` method of your DataFrame, like in the example below:
 
 ```{python}
 df.schema
@@ -239,7 +245,7 @@ df.schema
 
 The result of the `schema` method, is a `StructType()` object, that contains some information about each column of your DataFrame. More specifically, a `StructType()` object is filled with multiple `StructField()` objects. Each `StructField()` object stores the name and the type of a column, and a boolean value (`True` or `False`) that indicates if this column can contain any null value inside of it.
 
-You can use a `for` loop to iterate through this `StructType()` and get the information of each column separately.
+You can use a `for` loop to iterate through this `StructType()` and get the information about each column separately.
 
 ```{python}
 schema = df.schema
@@ -276,7 +282,9 @@ When Spark creates a new DataFrame, it will automatically guess which schema is 
 
 Because of that, in some cases, you have to tell Spark how exactly you want this DataFrame schema to be like. To do that, you need to build the DataFrame schema by yourself, with `StructType()` and `StructField()` constructors, alongside with the Spark data types (i.e. `StringType()`, `DoubleType()`, `IntegerType()`, ...). Remember, all of these python classes come from the `pyspark.sql.types` module.
 
-In the example below, the `schema` object represents the schema of the `registers` DataFrame. This DataFrame have three columns (`ID`, `Date`, `Name`) of types `IntegerType`, `DateType` and `StringType`, respectively. See below that I deliver this `schema` object that I built to `spark.createDataFrame()`.
+In the example below, the `schema` object represents the schema of the `registers` DataFrame. This DataFrame have three columns (`ID`, `Date`, `Name`) of types `IntegerType`, `DateType` and `StringType`, respectively.
+
+You can see below that I deliver this `schema` object that I built to `spark.createDataFrame()`. Now `spark.createDataFrame()` will follow the schema I described in this `schema` object when building the `registers` DataFrame.
 
 ```{python}
 #| eval: true
@@ -300,7 +308,7 @@ schema = StructType([
 registers = spark.createDataFrame(data, schema = schema)
 ```
 
-Having this example in mind, to build a DataFrame schema from scratch, you have to build the equivalent `StructType()` object that represents the schema you want.
+Having this example in mind, in order to build a DataFrame schema from scratch, you have to build the equivalent `StructType()` object that represents the schema you want.
 
 ### Checking your DataFrame schema
 

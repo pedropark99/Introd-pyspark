@@ -26,7 +26,9 @@ As we described at the introduction of @sec-dataframes-chapter, you will massive
 
 However, there is one more python class that provides some very useful methods that you will regularly use, which is the `Column` class, or more specifically, the `pyspark.sql.column.Column` class.
 
-The `Column` class is used to represent a column in a Spark DataFrame. This means that, each column of your Spark DataFrame is a object of class `Column`. We can confirm this statement, by taking the `df` DataFrame that we showed at @sec-building-a-dataframe, and look at the class of any column of it. Like the `id` column:
+The `Column` class is used to represent a column in a Spark DataFrame. This means that, each column of your Spark DataFrame is a object of class `Column`.
+
+We can confirm this statement, by taking the `df` DataFrame that we showed at @sec-building-a-dataframe, and look at the class of any column of it. Like the `id` column:
 
 ```{python}
 type(df.id)
@@ -47,7 +49,7 @@ print(id_column)
 
 ## Columns are strongly related to expressions {#sec-columns-related-expressions}
 
-Many kinds of transformations that we want to apply over a Spark DataFrame, are usually described through expressions, and, these expressions in Spark are mainly composed by **column transformations**. That is why the `Column` class, and its methods, are so important in Spark.
+Many kinds of transformations that we want to apply over a Spark DataFrame, are usually described through expressions, and, these expressions in Spark are mainly composed by **column transformations**. That is why the `Column` class, and its methods, are so important in Apache Spark.
 
 Columns in Spark are so strongly related to expressions that the columns themselves are initially interpreted as expressions. If we look again at the column `id` from `df` DataFrame, Spark will bring a expression as a result, and not the values hold by this column.
 
@@ -59,7 +61,7 @@ Having these ideas in mind, when I created the column `ID` on the previous secti
 
 These ideas relates a lot to the **lazy aspect** of Spark that we talked about in @sec-viewing-a-dataframe. Spark will not perform any heavy calculation, or show you the actual results/values from you code, until you trigger the calculations with an action (we will talk more about these "actions" on @sec-dataframe-actions). As a result, when you access a column, Spark will only deliver a expression that represents that column, and not the actual values of that column.
 
-This is handy, because we can store our expressions in variables, and, use it latter, in multiple parts of our code. For example, I can keep building and merging a column with different kinds of operators, to build a more complex expression. In the example below, I create a expression that doubles the values of `ID` column:
+This is handy, because we can store our expressions in variables, and, reuse it latter, in multiple parts of our code. For example, I can keep building and merging a column with different kinds of operators, to build a more complex expression. In the example below, I create a expression that doubles the values of `ID` column:
 
 ```{python}
 expr1 = id_column * 2
@@ -68,7 +70,9 @@ print(expr1)
 
 Remember, with this expression, Spark knows that we want to get a column called `ID` somewhere, and double its values. But Spark will not perform that action right now.
 
-Logical expressions follow the same logic. In the example below, I am looking for rows where the value in column `Name` is equal to `'Anne'`, and, the value in column `Grade` is above 6. Again, Spark just checks if this is a valid logical expression, he does not evaluate it until we ask for it with an action: 
+Logical expressions follow the same logic. In the example below, I am looking for rows where the value in column `Name` is equal to `'Anne'`, and, the value in column `Grade` is above 6.
+
+Again, Spark just checks if this is a valid logical expression. For now, Spark does not want to know where are these `Name` and `Grade` columns. Spark does not evaluate the expression, until we ask for it with an action:
 
 ```{python}
 expr2 = (col('Name') == 'Anne') & (col('Grade') > 6)

@@ -118,7 +118,7 @@ first_row = big_values.take(n)
 print(first_row)
 ```
 
-The last action would be the `write()` method, but we will explain this method latter, in the @sec-import-export.
+The last action would be the `write` method of a Spark DataFrame, but we will explain this method latter at @sec-import-export.
 
 ## Understanding narrow and wide transformations
 
@@ -144,15 +144,16 @@ When this kind of transformation happens, each worker node of the cluster needs 
 
 Partition shuffles are a very popular topic in Apache Spark, because they can be a serious source of inefficiency in your Spark application [@chambers2018]. In more details, when these shuffles happens, Spark needs to write data back to the hard disk of the computer, and this is not a very fast operation. It does not mean that wide transformations are bad or slow, just that the shuffles they are producing can be a problem.
 
-A classic example of wide operation is a grouped aggregation. For example, lets suppose we had a DataFrame with the daily sales of multiple stores spread across the country, and, we wanted to calculate the total sales per city/region. To calculate the total sales of a specific city, like São Paulo, Spark would need to find all the rows that corresponds to this city, before adding the values, and these rows can be spread across multiple partitions of the cluster.
+A classic example of wide operation is a grouped aggregation. For example, lets suppose we had a DataFrame with the daily sales of multiple stores spread across the country, and, we wanted to calculate the total sales per city/region. To calculate the total sales of a specific city, like "São Paulo", Spark would need to find all the rows that corresponds to this city, before adding the values, and these rows can be spread across multiple partitions of the cluster.
 
-## Filtering rows of your DataFrame
 
-To filter specific rows of a DataFrame, `pyspark` offers two equivalent DataFrame methods called `where()` and `filter()`. In other words, they both do the same thing, and work in the same way. These methods receives a logical expression that translates what you want to filter as input.
+## The `transf` DataFrame
 
-To demonstrate some of the next examples in this chapter, we will use a different DataFrame called `transf`. With the code below, you can import the data from `transf.csv` to recreate this DataFrame in your Spark Session. Remember that, this CSV file is freely available to download at the repository of this book[^transforming-1].
+To demonstrate some of the next examples in this chapter, we will use a different DataFrame called `transf`. The data that represents this DataFrame is freely available as a CSV file. You can download this CSV at the repository of this book[^transforming-1].
 
 [^transforming-1]: <https://github.com/pedropark99/Introd-pyspark/tree/main/Data>
+
+With the code below, you can import the data from the `transf.csv` CSV file, to recreate the `transf` DataFrame in your Spark Session:
 
 ```{python}
 #| cache: true
@@ -177,6 +178,21 @@ transf = spark.read\
   .csv(path, schema = schema, sep = ";", header = True)
 ```
 
+You could also use the `pandas` library to read the DataFrame directly from GitHub, without having to manually download the file:
+
+```{python}
+import pandas as pd
+url = 'https://raw.githubusercontent.com/'
+url = url + 'pedropark99/Introd-pyspark/'
+url = url + 'main/Data/transf.csv'
+
+transf = pd.read_csv(url, sep = ';')
+
+from pyspark.sql import SparkSession
+spark = SparkSession.builder.getOrCreate()
+transf = spark.createDataFrame(transf)
+```
+
 This `transf` DataFrame contains bank transfer records from a fictitious bank. Before I show you the actual data of this DataFrame, is useful to give you a quick description of each column that it contains:
 
 - `dateTransfer`: the date when the transfer occurred;
@@ -196,7 +212,13 @@ Now, to see the actual data of this DataFrame, we can use the `show()` action as
 transf.show(5)
 ```
 
-As a first example, lets suppose you wanted to inspect all the rows where `transferValue` is less than 1000. To do so, you can use the following code:
+
+
+## Filtering rows of your DataFrame
+
+To filter specific rows of a DataFrame, `pyspark` offers two equivalent DataFrame methods called `where()` and `filter()`. In other words, they both do the same thing, and work in the same way. These methods receives as input a logical expression that translates what you want to filter.
+
+As a first example, lets suppose you wanted to inspect all the rows from the `transf` DataFrame where `transferValue` is less than 1000. To do so, you can use the following code:
 
 ```{python}
 transf\
@@ -204,7 +226,7 @@ transf\
   .show(5)
 ```
 
-Writing simple SQL logical expression inside a string is the most easy and "clean" way to create a filter expression in `pyspark`. However, you could write the same exact expression in a more "pythonic" way, using the `col()` function from `pyspark.sql.functions`.
+Writing simple SQL logical expression inside a string is the most easy and "clean" way to create a filter expression in `pyspark`. However, you could also write the same exact expression in a more "pythonic" way, using the `col()` function from `pyspark.sql.functions` module.
 
 ```{python}
 from pyspark.sql.functions import col
@@ -226,9 +248,9 @@ transf\
 
 ### Logical operators available
 
-As we saw in the previous section, there are two ways to write logical expressions in `pyspark`: write SQL logical expressions inside a string; or, write python logical expressions using the `col()` function. 
+As we saw in the previous section, there are two ways to write logical expressions in `pyspark`: 1) write a SQL logical expression inside a string; 2) or, write a python logical expression using the `col()` function. 
 
-If you choose to write the SQL logical expressions in a string, you need to use the logical operators of SQL in your expression (not the logical operators of python). In the other hand, if you choose to write in the "python" way, then, you need to use the logical operators of python.
+If you choose to write a SQL logical expressions in a string, you need to use the logical operators of SQL in your expression (not the logical operators of python). In the other hand, if you choose to write in the "python" way, then, you need to use the logical operators of python instead.
 
 The logical operators of SQL are described in the table below:
 
@@ -294,7 +316,7 @@ transf\
   .show()
 ```
 
-This a **very important detail**, because is very easy to forget it. When building your complex logical expressions, if you are using the `col()` function, always **remember to surround each expression by a pair of parentheses**. Otherwise, you will get a very confusing and useless error message, like this:
+This a **very important detail**, because it is very easy to forget. When building your complex logical expressions in the "python" way, always **remember to surround each expression by a pair of parentheses**. Otherwise, you will get a very confusing and useless error message, like this:
 
 ```{python}
 #| eval: false
@@ -348,7 +370,7 @@ transf\
 ```
 
 
-You can increase the complexity of your logical expressions by mixing dependent expressions with independent expressions. For example, to filter all the rows where `dateTransfer` is greater than or equal to 01 of October 2022, and `clientNumber` is either 2727 or 5188, you would have the following code:
+You can also increase the complexity of your logical expressions by mixing dependent expressions with independent expressions. For example, to filter all the rows where `dateTransfer` is greater than or equal to 01 of October 2022, and `clientNumber` is either 2727 or 5188, you would have the following code:
 
 ```{python}
 condition = '''
@@ -391,7 +413,7 @@ transf\
 
 <!-- Describe the ~ operator -->
 
-In some cases, is easier to describe what rows you **do not want** in your filter. In this case, you want to negate (or invert) your logical expression. For this, SQL provides the `not` keyword, that you place before the logical expression you want to negate.
+In some cases, is easier to describe what rows you **do not want** in your filter. That is, you want to negate (or invert) your logical expression. For this, SQL provides the `not` keyword, that you place before the logical expression you want to negate.
 
 For example, we can filter all the rows of `transf` where `clientNumber` is not equal to 3284. Remember, the methods `filter()` and `where()` are equivalents or synonymous (they both mean the same thing).
 
@@ -430,15 +452,15 @@ AnalysisException: cannot resolve '(NOT clientNumber)' due to data type mismatch
 Because the `~` operator is a little discrete and can go unnoticed, I sometimes use a different approach to negate my logical expressions. I make the entire expression equal to `False`. This way, I get all the rows where that particular expression is `False`. This makes my intention more visible in the code, but, is harder to write it.
 
 ```{python}
-# Filter all the rows where `user` is not equal to
-# Ana or Eduardo.
+# Filter all the rows where `clientNumber` is not equal to
+# 2727 or 5188.
 transf\
   .where( (col('clientNumber').isin(2727, 5188)) == False )\
   .show(5)
 ```
 
 
-### Filtering `null` values
+### Filtering `null` values (i.e. missing data)
 
 Sometimes, the `null` values play an important role in your filter. You either want to collect all these `null` values, so you can investigate why they are null in the first place, or, you want to completely eliminate them from your DataFrame.
 
@@ -494,8 +516,62 @@ transf\
 ```
 
 
+### Filtering dates and datetimes in your DataFrame
 
-## Selecting specific columns of your DataFrame
+Just as a quick side note, when you want to filter rows of your DataFrame that fits into a particular date, you can easily write this particular date as a single string, like in the example below:
+
+```{python}
+transf\
+  .where(col('dateTransfer') == '2022-07-02')
+```
+
+When filtering datetimes you can also write the datetimes as strings, like this:
+
+```{python}
+transf\
+    .where(col('datetimeTransfer') > '2022-07-02 03:30:00')
+```
+
+However, is a better practice to write these particular values using the built-in `date` and `datetime` classes of python, like this:
+
+```{python}
+from datetime import date, datetime
+
+d = date(2022,2,7)
+dt = datetime(2022,2,7,3,30,0)
+
+# Filter all rows where `dateTransfer`
+# is equal to "2022-07-02"
+transf\
+    .where(col('dateTransfer') == d)
+
+# Filter all rows where `datetimeTransfer`
+# is greater than "2022-07-02 03:30:00"
+transf\
+    .where(col('datetimeTransfer') > dt)
+```
+
+When you translate the above expressions to SQL, you can also write the date and datetime values as strings. However, is also a good idea to use the `CAST()` function to convert these string values into the correct data type before the actual filter. like this:
+
+```{python}
+condition_d = '''
+dateTransfer == CAST("2022-07-02" AS DATE)
+'''
+
+condition_dt = '''
+dateTransfer > CAST("2022-07-02 03:30:00" AS TIMESTAMP)
+'''
+
+# Filter all rows where `dateTransfer`
+# is equal to "2022-07-02"
+transf.where(condition_d)
+
+# Filter all rows where `datetimeTransfer`
+# is greater than "2022-07-02 03:30:00"
+transf.where(condition_dt)
+```
+
+## Managing the columns of your DataFrame
 
 Sometimes, you need manage or transform the columns you have. For example, you might need to change the order of these columns, or, to delete/rename some of them. To do this, you can use the `select()` and `drop()` methods of your DataFrame. 
 
@@ -512,7 +588,9 @@ transf\
 
 ### Renaming your columns
 
-Realize in the example above, that the column names can be delivered directly as strings to `select()`. This makes life pretty easy, but, it does not give you extra options. You may want to rename some of the columns, and, to do this, you need to use the `alias()` method from `Column` class. Since this is a method from `Column` class, you need to use it after a `col()` function, or, after a column name.
+Realize in the example above, that the column names can be delivered directly as strings to `select()`. This makes life pretty easy, but, it does not give you extra options.
+
+For example, you might want to rename some of the columns, and, to do this, you need to use the `alias()` method from `Column` class. Since this is a method from `Column` class, you need to use it after a `col()` or `column()` function, or, after a column name using the dot operator.
 
 ```{python}
 transf\
@@ -549,7 +627,7 @@ transf\
 
 Spark try to do its best when guessing which is correct data type for the columns of your DataFrame. But, obviously, Spark can get it wrong, and, you end up deciding by your own which data type to use for a specific column.
 
-To explicit transform a column to a specific data type, you can use `cast()` or `astype()` methods inside `select()`. The `astype()` method is just an alias to `cast()`. This `cast()` method is very similar to the `CAST` keyword in SQL, and belongs to the `Column` class, so, you should always use it after a column name, or, a `col()` function:
+To explicit transform a column to a specific data type, you can use `cast()` or `astype()` methods inside `select()`. The `astype()` method is just an alias to `cast()`. This `cast()` method is very similar to the `CAST()` function in SQL, and belongs to the `Column` class, so, you should always use it after a column name with the dot operator, or, a `col()`/`column()` function:
 
 ```{python}
 transf\
