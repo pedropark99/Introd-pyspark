@@ -331,8 +331,8 @@ WITH top_5 AS (
     SELECT *
     FROM penguins_view
     WHERE sex == 'female'
-    LIMIT 5
     ORDER BY body_mass_g DESC
+    LIMIT 5
 )
 
 SELECT *
@@ -340,7 +340,7 @@ FROM top_5
 ORDER BY bill_length
 ```
 
-Again, to execute the above SQL query inside `pyspark` we need to give this query as a string to the sql() method of our Spark Session, like this:
+Again, to execute the above SQL query inside `pyspark` we need to give this query as a string to the `sql()` method of our Spark Session, like this:
 
 ```{python}
 query = '''
@@ -348,8 +348,8 @@ WITH top_5 AS (
     SELECT *
     FROM penguins_view
     WHERE sex == 'female'
-    LIMIT 5
     ORDER BY body_mass_g DESC
+    LIMIT 5
 )
 
 SELECT *
@@ -360,8 +360,8 @@ ORDER BY bill_length
 spark.sql(query).show()
 ```
 
-### Spark functions are usually translated into SQL functions
 
+### Spark functions are usually translated into SQL functions
 
 Every function from the `pyspark.sql.functions` module you might use to describe your transformations in python, can be directly used in Spark SQL. In other words, every Spark function that is accesible in python, is also accesible in Spark SQL.
 
