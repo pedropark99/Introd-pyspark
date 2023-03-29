@@ -541,15 +541,16 @@ transf\
 Just as a quick side note, when you want to filter rows of your DataFrame that fits into a particular date, you can easily write this particular date as a single string, like in the example below:
 
 ```{python}
-transf\
+df_0702 = transf\
   .where(col('dateTransfer') == '2022-07-02')
 ```
 
 When filtering datetimes you can also write the datetimes as strings, like this:
 
 ```{python}
-transf\
-    .where(col('datetimeTransfer') > '2022-07-02 03:30:00')
+later_0330_pm = transf.where(
+    col('datetimeTransfer') > '2022-07-02 03:30:00'
+)
 ```
 
 However, is a better practice to write these particular values using the built-in `date` and `datetime` classes of python, like this:
@@ -562,13 +563,15 @@ dt = datetime(2022,2,7,3,30,0)
 
 # Filter all rows where `dateTransfer`
 # is equal to "2022-07-02"
-transf\
-    .where(col('dateTransfer') == d)
+df_0702 = transf.where(
+    col('dateTransfer') == d
+)
 
 # Filter all rows where `datetimeTransfer`
 # is greater than "2022-07-02 03:30:00"
-transf\
-    .where(col('datetimeTransfer') > dt)
+later_0330_pm = transf.where(
+    col('datetimeTransfer') > dt
+)
 ```
 
 When you translate the above expressions to SQL, you can also write the date and datetime values as strings. However, is also a good idea to use the `CAST()` function to convert these string values into the correct data type before the actual filter. like this:
@@ -584,12 +587,14 @@ dateTransfer > CAST("2022-07-02 03:30:00" AS TIMESTAMP)
 
 # Filter all rows where `dateTransfer`
 # is equal to "2022-07-02"
-transf.where(condition_d)
+df_0702 = transf.where(condition_d)
 
 # Filter all rows where `datetimeTransfer`
 # is greater than "2022-07-02 03:30:00"
-transf.where(condition_dt)
+later_0330_pm = transf.where(condition_dt)
 ```
+
+In other words, with the SQL expression `CAST("2022-07-02 03:30:00" AS TIMESTAMP)` we are telling Spark to convert the literal string `"2022-07-02 03:30:00"` into an actual timestamp value.
 
 ## Managing the columns of your DataFrame
 
