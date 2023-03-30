@@ -474,7 +474,7 @@ For example, if I needed to get the top 5 penguins with the biggest body mass at
 ```{python}
 from pyspark.sql.functions import col
 top_5 = penguins\
-    .filter(col('sex') == 'female')\
+    .where(col('sex') == 'female')\
     .orderBy(col('body_mass_g').desc())\
     .limit(5)
 
