@@ -95,6 +95,8 @@ USE `dummy`;
 ^^^
 ```
 
+In the example above, Spark complains with a `ParseException`, however, there is nothing wrong about the SQL statements in the query above. In other words, the case above results in a `ParseException` error solely because it contains two different SQL statements. There is nothing wrong with the semantics of the SQL statements written above. Both are perfectly fine and valid SQL statements.
+
 In other words, the `spark.sql()` method will try first to parse the input query that you gave. If it finds multiple SQL statements inside this input string, the method will automatically raise the above error.
 
 Now, be aware that some SQL queries can take multiple lines, but, **still be considered a single SQL statement**. A query started by a `WITH` clause is usually a good example of a SQL query that can group multiple `SELECT` statements, but still be considered a single SQL statement:
