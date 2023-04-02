@@ -647,7 +647,7 @@ df2.show(5)
 
 This is very handy. Because for every new python function from the `pyspark.sql.functions` module, that you learn how to use, you automatically learn how to use in Spark SQL as well, because is the same function, with the basically the same name and arguments.
 
-As an example, I could easily translate the above transformations that use the `to_date()` and `regexp_extract()` python functions, using the following SQL query (that I could easily execute trough the `sql()` Spark Session method):
+As an example, I could easily translate the above transformations that use the `to_date()` and `regexp_extract()` python functions, into the following SQL query (that I could easily execute trough the `sql()` Spark Session method):
 
 ```sql
 SELECT 
