@@ -28,13 +28,19 @@ Over the next examples in this chapter, we will use the `logs` DataFrame, which 
 
 [^logs-download]: <https://github.com/pedropark99/Introd-pyspark/tree/main/Data>
 
+Each line of this JSON file contains a message that was recorded by the logger of a fictitious system. Each log message have three main parts, which are: 1) the type of message (warning - `WARN`, information - `INFO`, error - `ERROR`); 2) timestamp of the event; 3) the content of the message. In the example below, we have an example of message:
 
+> \[INFO\]: 2022-09-05 03:35:01.43 Looking for workers at South America region;
+
+To import `logs.json` file into a Spark DataFrame, I can use the following code:
 
 ```{python}
 path = './../Data/logs.json'
 logs = spark.read.json(path)
-logs.show()
+logs.show(5)
 ```
+
+
 
 
 ## Changing the case of letters in a string
