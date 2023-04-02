@@ -573,7 +573,7 @@ later_0330_pm = transf.where(
 )
 ```
 
-When you translate the above expressions to SQL, you can also write the date and datetime values as strings. However, is also a good idea to use the `CAST()` function to convert these string values into the correct data type before the actual filter. like this:
+When you translate the above expressions to SQL, you can also write the date and datetime values as strings. However, is also a good idea to use the `CAST()` SQL function to convert these string values into the correct data type before the actual filter. like this:
 
 ```{python}
 condition_d = '''
@@ -594,6 +594,27 @@ later_0330_pm = transf.where(condition_dt)
 ```
 
 In other words, with the SQL expression `CAST("2022-07-02 03:30:00" AS TIMESTAMP)` we are telling Spark to convert the literal string `"2022-07-02 03:30:00"` into an actual timestamp value.
+
+### Using a particular pattern or a regex
+
+In Spark, you can also use a particular pattern or a regex to filter the rows of a DataFrame, by using the `Column` methods `like()` and `rlike()`. Since they are column methods, you must use them after a column name or after a `col()` function.
+
+In essence, the `like()` method is the `pyspark` equivalent of the `LIKE` SQL operator. As a result, this `like()` method expects a SQL pattern as input. This means that you can use the SQL metacharacters `%` (to match any number of characters) and `_` (to match exactly one character) inside this pattern.
+
+```{python}
+transf\
+  .where(col('transferCurrency').like('british%'))\
+  .show(5)
+```
+
+Although the style of pattern matching used by `like()` being very powerful, you might need to use more powerful and flexible tools. In those cases, you can use the `rlike()` method, which accepts a regex (*Regular Expression*) as input. In the example below, I am filtering rows where `destinationBankAccount` starts by the characters `54`.
+
+```{python}
+regex = '^54([0-9]{3})-[0-9]$'
+transf\
+  .where(col('destinationBankAccount').rlike(regex))\
+  .show(5)
+```
 
 ## Managing the columns of your DataFrame
 
