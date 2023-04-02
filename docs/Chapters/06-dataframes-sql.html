@@ -293,9 +293,9 @@ div.csl-indent {
   <li><a href="#every-dataframe-transformation-in-python-can-be-translated-into-sql" id="toc-every-dataframe-transformation-in-python-can-be-translated-into-sql" class="nav-link" data-scroll-target="#every-dataframe-transformation-in-python-can-be-translated-into-sql"><span class="toc-section-number">7.6</span>  Every DataFrame transformation in Python can be translated into SQL</a>
   <ul class="collapse">
   <li><a href="#dataframe-methods-are-usually-translated-into-sql-keywords" id="toc-dataframe-methods-are-usually-translated-into-sql-keywords" class="nav-link" data-scroll-target="#dataframe-methods-are-usually-translated-into-sql-keywords"><span class="toc-section-number">7.6.1</span>  DataFrame methods are usually translated into SQL keywords</a></li>
-  <li><a href="#spark-functions-are-usually-translated-into-sql-functions" id="toc-spark-functions-are-usually-translated-into-sql-functions" class="nav-link" data-scroll-target="#spark-functions-are-usually-translated-into-sql-functions"><span class="toc-section-number">7.6.2</span>  Spark functions are usually translated into SQL functions</a></li>
+  <li><a href="#executing-sql-expressions" id="toc-executing-sql-expressions" class="nav-link" data-scroll-target="#executing-sql-expressions"><span class="toc-section-number">7.6.2</span>  Executing SQL expressions</a></li>
+  <li><a href="#spark-functions-are-usually-translated-into-sql-functions" id="toc-spark-functions-are-usually-translated-into-sql-functions" class="nav-link" data-scroll-target="#spark-functions-are-usually-translated-into-sql-functions"><span class="toc-section-number">7.6.3</span>  Spark functions are usually translated into SQL functions</a></li>
   </ul></li>
-  <li><a href="#executing-sql-expressions" id="toc-executing-sql-expressions" class="nav-link" data-scroll-target="#executing-sql-expressions"><span class="toc-section-number">7.7</span>  Executing SQL expressions</a></li>
   </ul>
 </nav>
     </div>
@@ -529,7 +529,7 @@ USE `dummy`;
 <span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="st">'''</span></span>
 <span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>spark.sql(sql_query)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="65">
+<div class="cell-output cell-output-display" data-execution_count="34">
 <pre><code>DataFrame[]</code></pre>
 </div>
 </div>
@@ -612,7 +612,7 @@ USE `dummy`;
 <div class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>df.write.saveAsTable(<span class="st">'example_table'</span>, mode <span class="op">=</span> <span class="st">"ignore"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>In addition, <code>write.saveAsTable()</code> offers two more different modes, which are <code>mode = "overwrite"</code> and <code>mode = "append"</code>. When you use one these two modes, Spark will always save your data, no matter if the SQL table you are trying to save into already exist or not. In essence, these two modes control whether Spark will delete or keep previous rows of the SQL table intact, before it saves the new data.</p>
+<p>In addition, <code>write.saveAsTable()</code> offers two more different modes, which are <code>mode = "overwrite"</code> and <code>mode = "append"</code>. When you use one these two modes, Spark <strong>will always save your data</strong>, no matter if the SQL table you are trying to save into already exist or not. In essence, these two modes control whether Spark will delete or keep previous rows of the SQL table intact, before it saves any new data.</p>
 <p>When you use <code>mode = "overwrite"</code>, Spark will automatically rewrite/replace the entire table with the current data of your DataFrame. In contrast, when you use <code>mode = "append"</code>, Spark will just append (or insert, or add) this data into the table. The subfigures at <a href="#fig-save-table-modes">Figure&nbsp;<span>7.1</span></a> demonstrates these two modes visually.</p>
 <div id="fig-save-table-modes" class="quarto-layout-panel">
 <figure class="figure">
@@ -714,6 +714,8 @@ only showing top 5 rows
 </section>
 <section id="every-dataframe-transformation-in-python-can-be-translated-into-sql" class="level2" data-number="7.6">
 <h2 data-number="7.6" class="anchored" data-anchor-id="every-dataframe-transformation-in-python-can-be-translated-into-sql"><span class="header-section-number">7.6</span> Every DataFrame transformation in Python can be translated into SQL</h2>
+<p>All DataFrame API transformations that you write in Python (using <code>pyspark</code>) can be translated into SQL queries/expressions using the Spark SQL module. Since the DataFrame API is a core part of <code>pyspark</code>, the majority of python code you write with <code>pyspark</code> can be translated into SQL queries (if you wanto to).</p>
+<p>Is worth pointing out, that, no matter which language you choose (Python or SQL), they are both further compiled to the same base instructions. The end result is that the Python code you write and his SQL translated version <strong>will perform the same</strong> (they have the same efficiency), because they are compiled to the same instructions before being executed by Spark.</p>
 <section id="dataframe-methods-are-usually-translated-into-sql-keywords" class="level3" data-number="7.6.1">
 <h3 data-number="7.6.1" class="anchored" data-anchor-id="dataframe-methods-are-usually-translated-into-sql-keywords"><span class="header-section-number">7.6.1</span> DataFrame methods are usually translated into SQL keywords</h3>
 <p>When you translate the methods from the python <code>DataFrame</code> class (like <code>orderBy()</code>, <code>select()</code> and <code>where()</code>) into their equivalents in Spark SQL, you usually get SQL keywords (like <code>ORDER BY</code>, <code>SELECT</code> and <code>WHERE</code>).</p>
@@ -741,7 +743,7 @@ only showing top 5 rows
 </code></pre>
 </div>
 </div>
-<p>But I could as well translate the above python code to the following SQL query:</p>
+<p>I could translate the above python code to the following SQL query:</p>
 <div class="sourceCode" id="cb37"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="kw">WITH</span> top_5 <span class="kw">AS</span> (</span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">SELECT</span> <span class="op">*</span></span>
 <span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">FROM</span> penguins_view</span>
@@ -771,23 +773,17 @@ only showing top 5 rows
 <span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb38-15"><a href="#cb38-15" aria-hidden="true" tabindex="-1"></a><span class="co"># The same result of the example above</span></span>
 <span id="cb38-16"><a href="#cb38-16" aria-hidden="true" tabindex="-1"></a>spark.sql(query)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="71">
+<div class="cell-output cell-output-display" data-execution_count="40">
 <pre><code>DataFrame[species: string, island: string, bill_length_mm: string, bill_depth_mm: string, flipper_length_mm: string, body_mass_g: string, sex: string, year: string]</code></pre>
 </div>
 </div>
 </section>
-<section id="spark-functions-are-usually-translated-into-sql-functions" class="level3" data-number="7.6.2">
-<h3 data-number="7.6.2" class="anchored" data-anchor-id="spark-functions-are-usually-translated-into-sql-functions"><span class="header-section-number">7.6.2</span> Spark functions are usually translated into SQL functions</h3>
-<p>Every function from the <code>pyspark.sql.functions</code> module you might use to describe your transformations in python, can be directly used in Spark SQL. In other words, every Spark function that is accesible in python, is also accesible in Spark SQL.</p>
-<p>When you translate these python functions into SQL, they usually become a pure SQL function with the same name.</p>
-</section>
-</section>
-<section id="executing-sql-expressions" class="level2" data-number="7.7">
-<h2 data-number="7.7" class="anchored" data-anchor-id="executing-sql-expressions"><span class="header-section-number">7.7</span> Executing SQL expressions</h2>
+<section id="executing-sql-expressions" class="level3" data-number="7.6.2">
+<h3 data-number="7.6.2" class="anchored" data-anchor-id="executing-sql-expressions"><span class="header-section-number">7.6.2</span> Executing SQL expressions</h3>
 <p>As I noted at <a href="04-columns.html#sec-columns-related-expressions"><span>Section&nbsp;4.2</span></a>, columns of a Spark DataFrame (or objects of class <code>Column</code>) are closely related to expressions. As a result, you usually use and execute expressions in Spark when you want to transform (or mutate) columns of a Spark DataFrame.</p>
 <p>This is no different for SQL expressions. A SQL expression is basically any expression you would use on the <code>SELECT</code> statement of your SQL query. As you can probably guess, since they are used in the <code>SELECT</code> statement, these expressions are used to transform columns of a Spark DataFrame.</p>
-<p>There are many column transformations that are particularly verbose and expensive to write in “pure” <code>pyspark</code>. But you can use a SQL expression in your favor, to translate this transformation into a more short and concise form. Virtually every expression you write in <code>pyspark</code> can be translated into a SQL expression.</p>
-<p>To execute a SQL expression, you give this expression inside a string to the <code>expr()</code> function from the <code>pyspark.sql.functions</code> module. Since expressions are used to transform columns, you usually use <code>expr()</code> inside a <code>withColumn()</code> or <code>select()</code> method.</p>
+<p>There are many column transformations that are particularly verbose and expensive to write in “pure” <code>pyspark</code>. But you can use a SQL expression in your favor, to translate this transformation into a more short and concise form. Virtually any expression you write in <code>pyspark</code> can be translated into a SQL expression.</p>
+<p>To execute a SQL expression, you give this expression inside a string to the <code>expr()</code> function from the <code>pyspark.sql.functions</code> module. Since expressions are used to transform columns, you normally use the <code>expr()</code> function inside a <code>withColumn()</code> or a <code>select()</code> DataFrame method, like in the example below:</p>
 <div class="cell" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> expr</span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -795,7 +791,7 @@ only showing top 5 rows
 <span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>  .table(<span class="st">'penguins_view'</span>)<span class="op">\</span></span>
 <span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>  .withColumn(</span>
 <span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'specie_island'</span>,</span>
-<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>    expr(<span class="st">"CONCAT(species, island)"</span>)</span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>    expr(<span class="st">"CONCAT(species, '_', island)"</span>)</span>
 <span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>  )<span class="op">\</span></span>
 <span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>  .withColumn(</span>
 <span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">'sex_short'</span>,</span>
@@ -804,19 +800,103 @@ only showing top 5 rows
 <span id="cb40-13"><a href="#cb40-13" aria-hidden="true" tabindex="-1"></a>  .select(<span class="st">'specie_island'</span>, <span class="st">'sex_short'</span>)<span class="op">\</span></span>
 <span id="cb40-14"><a href="#cb40-14" aria-hidden="true" tabindex="-1"></a>  .show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>+---------------+---------+
-|  specie_island|sex_short|
-+---------------+---------+
-|AdelieTorgersen|        M|
-|AdelieTorgersen|        F|
-|AdelieTorgersen|        F|
-|AdelieTorgersen|        F|
-|AdelieTorgersen|        F|
-+---------------+---------+
+<pre><code>+----------------+---------+
+|   specie_island|sex_short|
++----------------+---------+
+|Adelie_Torgersen|        M|
+|Adelie_Torgersen|        F|
+|Adelie_Torgersen|        F|
+|Adelie_Torgersen|        F|
+|Adelie_Torgersen|        F|
++----------------+---------+
 only showing top 5 rows
 </code></pre>
 </div>
 </div>
+<p>I particulaly like to write these “if-else” or “case-when” statements using a pure <code>CASE WHEN</code> SQL statement inside the <code>expr()</code> function. By using this strategy you usually get a more simple statement that translates the intention of your code in a cleaner way. But if I wrote the exact same <code>CASE WHEN</code> statement above using pure <code>pyspark</code> functions, I would end up with a shorter (but “less clean”) statement using the <code>when()</code> and <code>otherwise()</code> functions:</p>
+<div class="cell" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> when</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>spark<span class="op">\</span></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>  .table(<span class="st">'penguins_view'</span>)<span class="op">\</span></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>  .withColumn(</span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'sex_short'</span>,</span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>    when(col(<span class="st">"sex"</span>) <span class="op">==</span> <span class="st">'male'</span>, <span class="st">'M'</span>)<span class="op">\</span></span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>      .otherwise(<span class="st">'F'</span>)</span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>  )<span class="op">\</span></span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>  .select(<span class="st">'sex_short'</span>)<span class="op">\</span></span>
+<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a>  .show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>+---------+
+|sex_short|
++---------+
+|        M|
+|        F|
+|        F|
+|        F|
+|        F|
++---------+
+only showing top 5 rows
+</code></pre>
+</div>
+</div>
+</section>
+<section id="spark-functions-are-usually-translated-into-sql-functions" class="level3" data-number="7.6.3">
+<h3 data-number="7.6.3" class="anchored" data-anchor-id="spark-functions-are-usually-translated-into-sql-functions"><span class="header-section-number">7.6.3</span> Spark functions are usually translated into SQL functions</h3>
+<p>Every function from the <code>pyspark.sql.functions</code> module you might use to describe your transformations in python, can be directly used in Spark SQL. In other words, every Spark function that is accesible in python, is also accesible in Spark SQL.</p>
+<p>When you translate these python functions into SQL, they usually become a pure SQL function with the same name. For example, if I wanted to use the <code>regexp_extract()</code> python function, from the <code>pyspark.sql.functions</code> module in Spark SQL, I just use the <code>REGEXP_EXTRACT()</code> SQL function. The same occurs to any other function, like the <code>to_date()</code> function for example.</p>
+<div class="cell" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> to_date, regexp_extract</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="co"># `df1` and `df2` are both equal. Because they both</span></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a><span class="co"># use the same `to_date()` and `regexp_extract()` functions</span></span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>df1 <span class="op">=</span> (spark</span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>  .table(<span class="st">'penguins_view'</span>)</span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>  .withColumn(</span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">'extract_number'</span>,</span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a>    regexp_extract(<span class="st">'bill_length_mm'</span>, <span class="st">'[0-9]+'</span>, <span class="dv">0</span>)</span>
+<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a>  .withColumn(<span class="st">'date'</span>, to_date(<span class="st">'year'</span>, <span class="st">'y'</span>))</span>
+<span id="cb44-11"><a href="#cb44-11" aria-hidden="true" tabindex="-1"></a>  .select(</span>
+<span id="cb44-12"><a href="#cb44-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">'bill_length_mm'</span>, <span class="st">'year'</span>,</span>
+<span id="cb44-13"><a href="#cb44-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">'extract_number'</span>, <span class="st">'date'</span></span>
+<span id="cb44-14"><a href="#cb44-14" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb44-15"><a href="#cb44-15" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb44-16"><a href="#cb44-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-17"><a href="#cb44-17" aria-hidden="true" tabindex="-1"></a>df2 <span class="op">=</span> (spark</span>
+<span id="cb44-18"><a href="#cb44-18" aria-hidden="true" tabindex="-1"></a>  .table(<span class="st">'penguins_view'</span>)</span>
+<span id="cb44-19"><a href="#cb44-19" aria-hidden="true" tabindex="-1"></a>  .withColumn(</span>
+<span id="cb44-20"><a href="#cb44-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">'extract_number'</span>,</span>
+<span id="cb44-21"><a href="#cb44-21" aria-hidden="true" tabindex="-1"></a>    expr(<span class="st">"REGEXP_EXTRACT(bill_length_mm, '[0-9]+', 0)"</span>)</span>
+<span id="cb44-22"><a href="#cb44-22" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb44-23"><a href="#cb44-23" aria-hidden="true" tabindex="-1"></a>  .withColumn(<span class="st">'date'</span>, expr(<span class="st">"TO_DATE(year, 'y')"</span>))</span>
+<span id="cb44-24"><a href="#cb44-24" aria-hidden="true" tabindex="-1"></a>  .select(</span>
+<span id="cb44-25"><a href="#cb44-25" aria-hidden="true" tabindex="-1"></a>    <span class="st">'bill_length_mm'</span>, <span class="st">'year'</span>,</span>
+<span id="cb44-26"><a href="#cb44-26" aria-hidden="true" tabindex="-1"></a>    <span class="st">'extract_number'</span>, <span class="st">'date'</span></span>
+<span id="cb44-27"><a href="#cb44-27" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb44-28"><a href="#cb44-28" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb44-29"><a href="#cb44-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-30"><a href="#cb44-30" aria-hidden="true" tabindex="-1"></a>df2.show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>+--------------+----+--------------+----------+
+|bill_length_mm|year|extract_number|      date|
++--------------+----+--------------+----------+
+|          39.1|2007|            39|2007-01-01|
+|          39.5|2007|            39|2007-01-01|
+|          40.3|2007|            40|2007-01-01|
+|          null|2007|          null|2007-01-01|
+|          36.7|2007|            36|2007-01-01|
++--------------+----+--------------+----------+
+only showing top 5 rows
+</code></pre>
+</div>
+</div>
+<p>This is very handy. Because for every new python function from the <code>pyspark.sql.functions</code> module, that you learn how to use, you automatically learn how to use in Spark SQL as well, because is the same function, with the basically the same name and arguments.</p>
+<p>As an example, I could easily translate the above transformations that use the <code>to_date()</code> and <code>regexp_extract()</code> python functions, using the following SQL query (that I could easily execute trough the <code>sql()</code> Spark Session method):</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> </span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>  bill_length_mm, <span class="dt">year</span>,</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>  REGEXP_EXTRACT(bill_length_mm, <span class="st">'[0-9]+'</span>, <span class="dv">0</span>) <span class="kw">AS</span> extract_number,</span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">TO_DATE</span>(<span class="dt">year</span>, <span class="st">'y'</span>) <span class="kw">AS</span> <span class="dt">date</span></span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> penguins_view</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography" style="display: none">
@@ -824,6 +904,7 @@ only showing top 5 rows
 <em>Apache Spark Official Documentation</em>. 2022. Documentation for Apache Spark 3.2.1; Available at: https://spark.apache.org/docs/latest/.
 </div>
 </div>
+</section>
 </section>
 <section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
 <hr>
