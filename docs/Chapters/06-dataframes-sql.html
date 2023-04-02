@@ -379,8 +379,9 @@ Syntax error at or near 'USE': extra input 'USE'(line 3, pos 0)
 CREATE DATABASE `dummy`;
 USE `dummy`;
 ^^^</code></pre>
-<p>In other words, the <code>spark.sql()</code> method will try first to parse the input query that you gave. If it finds multiple SQL statements inside this input string, the method will automatically raise the above error.</p>
-<p>Now, be aware that some SQL queries can take multiple lines, but, <strong>still be considered a single SQL statement</strong>. A query started by a <code>WITH</code> clause is usually a good example of a SQL query that can group multiple <code>SELECT</code> statements, but still be considered a single SQL statement:</p>
+<p>In the example above, Spark complains with a <code>ParseException</code>, indicating that we have a sytax error in our query. However, there is nothing wrong about the above SQL statements. They are both correct and valid SQL statements, both semantically and syntactically. In other words, the case above results in a <code>ParseException</code> error solely because it contains two different SQL statements.</p>
+<p>In essence, the <code>spark.sql()</code> method always expect a single SQL statement as input, and, therefore, it will try to parse this input query as a single SQL statement. If it finds multiple SQL statements inside this input string, the method will automatically raise the above error.</p>
+<p>Now, be aware that some SQL queries can take multiple lines, but, <strong>still be considered a single SQL statement</strong>. A query started by a <code>WITH</code> clause is usually a good example of a SQL query that can group multiple <code>SELECT</code> statements, but still be considered a single SQL statement as a whole:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- The query below would execute</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co">-- perfectly fine inside spark.sql():</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="kw">WITH</span> table1 <span class="kw">AS</span> (</span>
@@ -497,8 +498,8 @@ USE `dummy`;
 </div>
 </div>
 <p>So you use the <code>createTempView()</code> or <code>createOrReplaceTempView()</code> methods when you want to make a Spark DataFrame created in <code>pyspark</code> (that is, a python object), available to Spark SQL.</p>
-<p>Besides that, you also have the option to create a temporary <code>VIEW</code>s by using pure SQL statements trough the <code>sql()</code> method. However, when you create a temporary <code>VIEW</code> using pure SQL, you can only use, inside this <code>VIEW</code>, objects and SQL queries that are already stored inside you Spark SQL Context.</p>
-<p>That is, you cannot make a Spark DataFrame stored in a python object, available to Spark SQL, by using a pure SQL inside the <code>sql()</code> method. To do this, you have to use the DataFrame methods <code>createTempView()</code> and <code>createOrReplaceTempView()</code>.</p>
+<p>Besides that, you also have the option to create a temporary <code>VIEW</code> by using pure SQL statements trough the <code>sql()</code> method. However, when you create a temporary <code>VIEW</code> using pure SQL, you can only use (inside this <code>VIEW</code>) native SQL objects that are already stored inside your Spark SQL Context.</p>
+<p>This means that you cannot make a Spark DataFrame created in python available to Spark SQL, by using a pure SQL inside the <code>sql()</code> method. To do this, you have to use the DataFrame methods <code>createTempView()</code> and <code>createOrReplaceTempView()</code>.</p>
 <p>As an example, the query below uses pure SQL statements to creates the <code>active_brazilian_users</code> temporary <code>VIEW</code>, which selects an existing SQL table called <code>hubspot.user_mails</code>:</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">TEMPORARY</span> <span class="kw">VIEW</span> active_brazilian_users <span class="kw">AS</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span></span>
@@ -528,7 +529,7 @@ USE `dummy`;
 <span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="st">'''</span></span>
 <span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>spark.sql(sql_query)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="17">
+<div class="cell-output cell-output-display" data-execution_count="65">
 <pre><code>DataFrame[]</code></pre>
 </div>
 </div>
@@ -561,8 +562,6 @@ USE `dummy`;
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># To save the `df` DataFrame as a SQL TABLE:</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>df.write.saveAsTable(<span class="st">'example_table'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>There are other arguments that you might want to use in this <code>write.saveAsTable()</code> method, like the <code>mode</code> argument. This argument controls if you want to rewrite/replace the entire table with the current data of your DataFrame (<code>mode = 'overwrite'</code>), or, if you just want to append (or insert) this data into the table (<code>mode = 'append'</code>).</p>
-<p>You can see the full list of arguments and their description by <a href="https://spark.apache.org/docs/3.1.2/api/python/reference/api/pyspark.sql.DataFrameWriter.saveAsTable">looking at the documentation</a><a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a>.</p>
 <p>As you expect, after we registered the DataFrame as a SQL table, we can now run any SQL query over <code>example_table</code>, like in the example below:</p>
 <div class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>spark.sql(<span class="st">"SELECT SUM(value) FROM example_table"</span>).show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -572,7 +571,7 @@ USE `dummy`;
 +----------+
 |      76.8|
 +----------+</code></pre>
-<p>You can also use pure SQL queries to create a empty SQL <code>TABLE</code> from scratch, and then, feed this table with data by using <code>INSERT INTO</code> statements. In the example below, we create a new database called <code>examples</code>, and, inside of it, a table called <code>code_brazil_states</code>. Then, we use multiple <code>INSERT INTO</code> statements to populate this table with few rows of data.</p>
+<p>You can also use pure SQL queries to create an empty SQL <code>TABLE</code> from scratch, and then, feed this table with data by using <code>INSERT INTO</code> statements. In the example below, we create a new database called <code>examples</code>, and, inside of it, a table called <code>code_brazil_states</code>. Then, we use multiple <code>INSERT INTO</code> statements to populate this table with few rows of data.</p>
 <div class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>all_statements <span class="op">=</span> <span class="st">'''CREATE DATABASE `examples`;</span></span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="st">USE `examples`;</span></span>
@@ -601,6 +600,47 @@ USE `dummy`;
 |  25|     Paraíba|
 +----+------------+</code></pre>
 </section>
+<section id="the-different-save-modes" class="level4" data-number="7.3.1.6">
+<h4 data-number="7.3.1.6" class="anchored" data-anchor-id="the-different-save-modes"><span class="header-section-number">7.3.1.6</span> The different save “modes”</h4>
+<p>There are other arguments that you might want to use in the <code>write.saveAsTable()</code> method, like the <code>mode</code> argument. This argument controls how Spark will save your data into the database. By default, <code>write.saveAsTable()</code> uses the <code>mode = "error"</code> by default. In this mode, Spark will look if the table you referenced already exists, before it saves your data.</p>
+<p>Let’s get back to the code we showed before (which is reproduced below). In this code, we asked Spark to save our data into a table called <code>"example_table"</code>. Spark will look if a table with this name already exists. If it does, then, Spark will raise an error that will stop the process (i.e.&nbsp;no data is saved).</p>
+<div class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>df.write.saveAsTable(<span class="st">'example_table'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Raising an error when you do not want to accidentaly affect a SQL table that already exist, is a good practice. But, you might want to not raise an error in this situation. In case like this, you might want to just ignore the operation, and get on with your life. For cases like this, <code>write.saveAsTable()</code> offers the <code>mode = "ignore"</code>.</p>
+<p>So, in the code example below, we are trying to save the <code>df</code> DataFrame into a table called <code>example_table</code>. But if this <code>example_table</code> already exist, Spark will just silently ignore this operation, and will not save any data.</p>
+<div class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>df.write.saveAsTable(<span class="st">'example_table'</span>, mode <span class="op">=</span> <span class="st">"ignore"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>In addition, <code>write.saveAsTable()</code> offers two more different modes, which are <code>mode = "overwrite"</code> and <code>mode = "append"</code>. When you use one these two modes, Spark will always save your data, no matter if the SQL table you are trying to save into already exist or not. In essence, these two modes control whether Spark will delete or keep previous rows of the SQL table intact, before it saves the new data.</p>
+<p>When you use <code>mode = "overwrite"</code>, Spark will automatically rewrite/replace the entire table with the current data of your DataFrame. In contrast, when you use <code>mode = "append"</code>, Spark will just append (or insert, or add) this data into the table. The subfigures at <a href="#fig-save-table-modes">Figure&nbsp;<span>7.1</span></a> demonstrates these two modes visually.</p>
+<div id="fig-save-table-modes" class="quarto-layout-panel">
+<figure class="figure">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 100.0%;justify-content: center;">
+<div id="fig-mode-overwrite" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="./../Figures/table-save-modes-overwrite.png" class="img-fluid figure-img" data-ref-parent="fig-save-table-modes"></p>
+<p></p><figcaption class="figure-caption">(a) Mode overwrite</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 100.0%;justify-content: center;">
+<div id="fig-mode-append" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="./../Figures/table-save-modes-append.png" class="img-fluid figure-img" data-ref-parent="fig-save-table-modes"></p>
+<p></p><figcaption class="figure-caption">(b) Mode append</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p></p><figcaption class="figure-caption">Figure&nbsp;7.1: How Spark saves your data with different “save modes”</figcaption><p></p>
+</figure>
+</div>
+<p>You can see the full list of arguments of <code>write.SaveAsTable()</code>, and their description by <a href="https://spark.apache.org/docs/3.1.2/api/python/reference/api/pyspark.sql.DataFrameWriter.saveAsTable">looking at the documentation</a><a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a>.</p>
+</section>
 </section>
 <section id="sec-temp-persist" class="level3" data-number="7.3.2">
 <h3 data-number="7.3.2" class="anchored" data-anchor-id="sec-temp-persist"><span class="header-section-number">7.3.2</span> Temporary versus Persistent sources</h3>
@@ -612,9 +652,9 @@ USE `dummy`;
 <h3 data-number="7.3.3" class="anchored" data-anchor-id="spark-sql-catalog-is-the-bridge-between-sql-and-pyspark"><span class="header-section-number">7.3.3</span> Spark SQL Catalog is the bridge between SQL and <code>pyspark</code></h3>
 <p>Remember, to run SQL queries over any Spark DataFrame, you must register this DataFrame into the Spark SQL Catalog. Because of it, this Spark SQL Catalog works almost as the bridge that connects the python objects that hold your Spark DataFrames to the Spark SQL context. Without it, Spark SQL will not find your Spark DataFrames. As a result, it can not run any SQL query over it.</p>
 <p>When you try to use a DataFrame that is not currently registered at the Spark SQL Catalog, Spark will automatically raise a <code>AnalysisException</code>, like in the example below:</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>spark<span class="op">\</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  .sql(<span class="st">"SELECT * FROM this.does_not_exist"</span>)<span class="op">\</span></span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  .show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>spark<span class="op">\</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  .sql(<span class="st">"SELECT * FROM this.does_not_exist"</span>)<span class="op">\</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  .show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <pre><code>AnalysisException: Table or view not found</code></pre>
 <p>The methods <code>saveAsTable()</code>, <code>createTempView()</code> and <code>createOrReplaceTempView()</code> are the main methods to register your Spark DataFrame into this Spark SQL Catalog. This means that you have to use one of these methods before you run any SQL query over your Spark DataFrame.</p>
 </section>
@@ -624,16 +664,16 @@ USE `dummy`;
 <p>Over the next examples in this chapter, we will explore the <code>penguins</code> DataFrame. This is the <code>penguins</code> dataset from the <a href="https://allisonhorst.github.io/palmerpenguins/"><code>palmerpenguins</code> R library</a>. It stores data of multiple measurements of penguin species from the islands in Palmer Archipelago.</p>
 <p>These measurements include size (flipper length, body mass, bill dimensions) and sex, and they were collected by researchers of the Antarctica LTER program, a member of the Long Term Ecological Research Network. If you want to understand more about each field/column present in this dataset, I recommend you to read the <a href="https://allisonhorst.github.io/palmerpenguins/reference/penguins.html">official documentation of this dataset</a><a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a>.</p>
 <p>To get this data, you can download the CSV file called <code>penguins.csv</code> (remember that this CSV can be downloaded from the book repository<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a>). In the code below, I am reading this CSV file and creating a Spark DataFrame with its data. Then, I register this Spark DataFrame as a SQL temporary view (called <code>penguins_view</code>) using the <code>createOrReplaceTempView()</code> method.</p>
-<div class="cell" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>path <span class="op">=</span> <span class="st">"../Data/penguins.csv"</span></span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> spark.read<span class="op">\</span></span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  .csv(path, header <span class="op">=</span> <span class="va">True</span>)</span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>penguins.createOrReplaceTempView(<span class="st">'penguins_view'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>path <span class="op">=</span> <span class="st">"../Data/penguins.csv"</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> spark.read<span class="op">\</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  .csv(path, header <span class="op">=</span> <span class="va">True</span>)</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>penguins.createOrReplaceTempView(<span class="st">'penguins_view'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>After these commands, I have now a SQL view called <code>penguins_view</code> registered in my Spark SQL context, which I can query it, using pure SQL:</p>
-<div class="cell" data-execution_count="16">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>spark.sql(<span class="st">'SELECT * FROM penguins_view'</span>).show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>spark.sql(<span class="st">'SELECT * FROM penguins_view'</span>).show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>+-------+---------+--------------+-------------+-----------------+-----------+------+----+
 |species|   island|bill_length_mm|bill_depth_mm|flipper_length_mm|body_mass_g|   sex|year|
@@ -653,10 +693,10 @@ only showing top 5 rows
 <h2 data-number="7.5" class="anchored" data-anchor-id="selecting-your-spark-dataframes"><span class="header-section-number">7.5</span> Selecting your Spark DataFrames</h2>
 <p>An obvious way to access any SQL <code>TABLE</code> or <code>VIEW</code> registered in your Spark SQL context, is to select it, through a simple <code>SELECT * FROM</code> statement, like we saw in the previous examples. However, it can be quite annoying to type “SELECT * FROM” every time you want to use a SQL <code>TABLE</code> or <code>VIEW</code> in Spark SQL.</p>
 <p>That is why Spark offers a shortcut to us, which is the <code>table()</code> method of your Spark session. In other words, the code <code>spark.table("table_name")</code> is a shortcut to <code>spark.sql("SELECT * FROM table_name")</code>. They both mean the same thing. For example, we could access <code>penguins_view</code> as:</p>
-<div class="cell" data-execution_count="17">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>spark<span class="op">\</span></span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  .table(<span class="st">'penguins_view'</span>)<span class="op">\</span></span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  .show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>spark<span class="op">\</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  .table(<span class="st">'penguins_view'</span>)<span class="op">\</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  .show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>+-------+---------+--------------+-------------+-----------------+-----------+------+----+
 |species|   island|bill_length_mm|bill_depth_mm|flipper_length_mm|body_mass_g|   sex|year|
@@ -678,16 +718,16 @@ only showing top 5 rows
 <h3 data-number="7.6.1" class="anchored" data-anchor-id="dataframe-methods-are-usually-translated-into-sql-keywords"><span class="header-section-number">7.6.1</span> DataFrame methods are usually translated into SQL keywords</h3>
 <p>When you translate the methods from the python <code>DataFrame</code> class (like <code>orderBy()</code>, <code>select()</code> and <code>where()</code>) into their equivalents in Spark SQL, you usually get SQL keywords (like <code>ORDER BY</code>, <code>SELECT</code> and <code>WHERE</code>).</p>
 <p>For example, if I needed to get the top 5 penguins with the biggest body mass at <code>penguins_view</code>, that had sex equal to <code>"female"</code>, and, ordered by bill length, I could run the following python code:</p>
-<div class="cell" data-execution_count="18">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> col</span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>top_5 <span class="op">=</span> penguins<span class="op">\</span></span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>    .where(col(<span class="st">'sex'</span>) <span class="op">==</span> <span class="st">'female'</span>)<span class="op">\</span></span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>    .orderBy(col(<span class="st">'body_mass_g'</span>).desc())<span class="op">\</span></span>
-<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>    .limit(<span class="dv">5</span>)</span>
-<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>top_5<span class="op">\</span></span>
-<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>    .orderBy(<span class="st">'bill_length_mm'</span>)<span class="op">\</span></span>
-<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>    .show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> col</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>top_5 <span class="op">=</span> penguins<span class="op">\</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>    .where(col(<span class="st">'sex'</span>) <span class="op">==</span> <span class="st">'female'</span>)<span class="op">\</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>    .orderBy(col(<span class="st">'body_mass_g'</span>).desc())<span class="op">\</span></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>    .limit(<span class="dv">5</span>)</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>top_5<span class="op">\</span></span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>    .orderBy(<span class="st">'bill_length_mm'</span>)<span class="op">\</span></span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>    .show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>+-------+------+--------------+-------------+-----------------+-----------+------+----+
 |species|island|bill_length_mm|bill_depth_mm|flipper_length_mm|body_mass_g|   sex|year|
@@ -702,36 +742,36 @@ only showing top 5 rows
 </div>
 </div>
 <p>But I could as well translate the above python code to the following SQL query:</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="kw">WITH</span> top_5 <span class="kw">AS</span> (</span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">SELECT</span> <span class="op">*</span></span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">FROM</span> penguins_view</span>
-<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">WHERE</span> sex <span class="op">==</span> <span class="st">'female'</span></span>
-<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">ORDER</span> <span class="kw">BY</span> body_mass_g <span class="kw">DESC</span></span>
-<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">LIMIT</span> <span class="dv">5</span></span>
-<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span></span>
-<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> top_5</span>
-<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> bill_length_mm</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="kw">WITH</span> top_5 <span class="kw">AS</span> (</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">SELECT</span> <span class="op">*</span></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">FROM</span> penguins_view</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">WHERE</span> sex <span class="op">==</span> <span class="st">'female'</span></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">ORDER</span> <span class="kw">BY</span> body_mass_g <span class="kw">DESC</span></span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">LIMIT</span> <span class="dv">5</span></span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span></span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> top_5</span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> bill_length_mm</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Again, to execute the above SQL query inside <code>pyspark</code> we need to give this query as a string to the <code>sql()</code> method of our Spark Session, like this:</p>
-<div class="cell" data-execution_count="19">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>query <span class="op">=</span> <span class="st">'''</span></span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="st">WITH top_5 AS (</span></span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="st">    SELECT *</span></span>
-<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a><span class="st">    FROM penguins_view</span></span>
-<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a><span class="st">    WHERE sex == 'female'</span></span>
-<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a><span class="st">    ORDER BY body_mass_g DESC</span></span>
-<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a><span class="st">    LIMIT 5</span></span>
-<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a><span class="st">)</span></span>
-<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT *</span></span>
-<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a><span class="st">FROM top_5</span></span>
-<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a><span class="st">ORDER BY bill_length_mm</span></span>
-<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a><span class="st">'''</span></span>
-<span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-15"><a href="#cb36-15" aria-hidden="true" tabindex="-1"></a><span class="co"># The same result of the example above</span></span>
-<span id="cb36-16"><a href="#cb36-16" aria-hidden="true" tabindex="-1"></a>spark.sql(query)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="23">
+<div class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>query <span class="op">=</span> <span class="st">'''</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="st">WITH top_5 AS (</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="st">    SELECT *</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="st">    FROM penguins_view</span></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a><span class="st">    WHERE sex == 'female'</span></span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a><span class="st">    ORDER BY body_mass_g DESC</span></span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a><span class="st">    LIMIT 5</span></span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a><span class="st">)</span></span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT *</span></span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a><span class="st">FROM top_5</span></span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a><span class="st">ORDER BY bill_length_mm</span></span>
+<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a><span class="st">'''</span></span>
+<span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-15"><a href="#cb38-15" aria-hidden="true" tabindex="-1"></a><span class="co"># The same result of the example above</span></span>
+<span id="cb38-16"><a href="#cb38-16" aria-hidden="true" tabindex="-1"></a>spark.sql(query)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="71">
 <pre><code>DataFrame[species: string, island: string, bill_length_mm: string, bill_depth_mm: string, flipper_length_mm: string, body_mass_g: string, sex: string, year: string]</code></pre>
 </div>
 </div>
@@ -748,21 +788,21 @@ only showing top 5 rows
 <p>This is no different for SQL expressions. A SQL expression is basically any expression you would use on the <code>SELECT</code> statement of your SQL query. As you can probably guess, since they are used in the <code>SELECT</code> statement, these expressions are used to transform columns of a Spark DataFrame.</p>
 <p>There are many column transformations that are particularly verbose and expensive to write in “pure” <code>pyspark</code>. But you can use a SQL expression in your favor, to translate this transformation into a more short and concise form. Virtually every expression you write in <code>pyspark</code> can be translated into a SQL expression.</p>
 <p>To execute a SQL expression, you give this expression inside a string to the <code>expr()</code> function from the <code>pyspark.sql.functions</code> module. Since expressions are used to transform columns, you usually use <code>expr()</code> inside a <code>withColumn()</code> or <code>select()</code> method.</p>
-<div class="cell" data-execution_count="20">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> expr</span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>spark<span class="op">\</span></span>
-<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>  .table(<span class="st">'penguins_view'</span>)<span class="op">\</span></span>
-<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>  .withColumn(</span>
-<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'specie_island'</span>,</span>
-<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>    expr(<span class="st">"CONCAT(species, island)"</span>)</span>
-<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>  )<span class="op">\</span></span>
-<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>  .withColumn(</span>
-<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">'sex_short'</span>,</span>
-<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>    expr(<span class="st">"CASE WHEN sex == 'male' THEN 'M' ELSE 'F' END"</span>)</span>
-<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>  )<span class="op">\</span></span>
-<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a>  .select(<span class="st">'specie_island'</span>, <span class="st">'sex_short'</span>)<span class="op">\</span></span>
-<span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a>  .show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> expr</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>spark<span class="op">\</span></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>  .table(<span class="st">'penguins_view'</span>)<span class="op">\</span></span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>  .withColumn(</span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'specie_island'</span>,</span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>    expr(<span class="st">"CONCAT(species, island)"</span>)</span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>  )<span class="op">\</span></span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>  .withColumn(</span>
+<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">'sex_short'</span>,</span>
+<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a>    expr(<span class="st">"CASE WHEN sex == 'male' THEN 'M' ELSE 'F' END"</span>)</span>
+<span id="cb40-12"><a href="#cb40-12" aria-hidden="true" tabindex="-1"></a>  )<span class="op">\</span></span>
+<span id="cb40-13"><a href="#cb40-13" aria-hidden="true" tabindex="-1"></a>  .select(<span class="st">'specie_island'</span>, <span class="st">'sex_short'</span>)<span class="op">\</span></span>
+<span id="cb40-14"><a href="#cb40-14" aria-hidden="true" tabindex="-1"></a>  .show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>+---------------+---------+
 |  specie_island|sex_short|

@@ -181,6 +181,7 @@ transf = spark.read\
 You could also use the `pandas` library to read the DataFrame directly from GitHub, without having to manually download the file:
 
 ```{python}
+#| eval: false
 import pandas as pd
 url = 'https://raw.githubusercontent.com/'
 url = url + 'pedropark99/Introd-pyspark/'
@@ -209,8 +210,6 @@ spark = SparkSession.builder.getOrCreate()
 transf = spark.createDataFrame(transf_pd)\
   .withColumn('dateTransfer', col('dateTransfer').cast('date'))\
   .withColumn('datetimeTransfer', col('datetimeTransfer').cast('timestamp'))
-
-transf
 ```
 
 This `transf` DataFrame contains bank transfer records from a fictitious bank. Before I show you the actual data of this DataFrame, is useful to give you a quick description of each column that it contains:

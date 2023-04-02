@@ -95,11 +95,11 @@ USE `dummy`;
 ^^^
 ```
 
-In the example above, Spark complains with a `ParseException`, however, there is nothing wrong about the SQL statements in the query above. In other words, the case above results in a `ParseException` error solely because it contains two different SQL statements. There is nothing wrong with the semantics of the SQL statements written above. Both are perfectly fine and valid SQL statements.
+In the example above, Spark complains with a `ParseException`, indicating that we have a sytax error in our query. However, there is nothing wrong about the above SQL statements. They are both correct and valid SQL statements, both semantically and syntactically. In other words, the case above results in a `ParseException` error solely because it contains two different SQL statements.
 
-In other words, the `spark.sql()` method will try first to parse the input query that you gave. If it finds multiple SQL statements inside this input string, the method will automatically raise the above error.
+In essence, the `spark.sql()` method always expect a single SQL statement as input, and, therefore, it will try to parse this input query as a single SQL statement. If it finds multiple SQL statements inside this input string, the method will automatically raise the above error.
 
-Now, be aware that some SQL queries can take multiple lines, but, **still be considered a single SQL statement**. A query started by a `WITH` clause is usually a good example of a SQL query that can group multiple `SELECT` statements, but still be considered a single SQL statement:
+Now, be aware that some SQL queries can take multiple lines, but, **still be considered a single SQL statement**. A query started by a `WITH` clause is usually a good example of a SQL query that can group multiple `SELECT` statements, but still be considered a single SQL statement as a whole:
 
 ```sql
 -- The query below would execute
@@ -257,9 +257,9 @@ spark.sql(sql_query).show()
 
 So you use the `createTempView()` or `createOrReplaceTempView()` methods when you want to make a Spark DataFrame created in `pyspark` (that is, a python object), available to Spark SQL.
 
-Besides that, you also have the option to create a temporary `VIEW`s by using pure SQL statements trough the `sql()` method. However, when you create a temporary `VIEW` using pure SQL, you can only use, inside this `VIEW`, objects and SQL queries that are already stored inside you Spark SQL Context.
+Besides that, you also have the option to create a temporary `VIEW` by using pure SQL statements trough the `sql()` method. However, when you create a temporary `VIEW` using pure SQL, you can only use (inside this `VIEW`) native SQL objects that are already stored inside your Spark SQL Context.
 
-That is, you cannot make a Spark DataFrame stored in a python object, available to Spark SQL, by using a pure SQL inside the `sql()` method. To do this, you have to use the DataFrame methods `createTempView()` and `createOrReplaceTempView()`.
+This means that you cannot make a Spark DataFrame created in python available to Spark SQL, by using a pure SQL inside the `sql()` method. To do this, you have to use the DataFrame methods `createTempView()` and `createOrReplaceTempView()`.
 
 As an example, the query below uses pure SQL statements to creates the `active_brazilian_users` temporary `VIEW`, which selects an existing SQL table called `hubspot.user_mails`:
 
@@ -328,10 +328,6 @@ In `pyspark`, you can register a Spark DataFrame as a SQL `TABLE` with the `writ
 df.write.saveAsTable('example_table')
 ```
 
-There are other arguments that you might want to use in this `write.saveAsTable()` method, like the `mode` argument. This argument controls if you want to rewrite/replace the entire table with the current data of your DataFrame (`mode = 'overwrite'`), or, if you just want to append (or insert) this data into the table (`mode = 'append'`).
-
-You can see the full list of arguments and their description by [looking at the documentation](<https://spark.apache.org/docs/3.1.2/api/python/reference/api/pyspark.sql.DataFrameWriter.saveAsTable>)^[<https://spark.apache.org/docs/3.1.2/api/python/reference/api/pyspark.sql.DataFrameWriter.saveAsTable>].
-
 As you expect, after we registered the DataFrame as a SQL table, we can now run any SQL query over `example_table`, like in the example below:
 
 ```{python}
@@ -347,7 +343,7 @@ spark.sql("SELECT SUM(value) FROM example_table").show()
 +----------+
 ```
 
-You can also use pure SQL queries to create a empty SQL `TABLE` from scratch, and then, feed this table with data by using `INSERT INTO` statements. In the example below, we create a new database called `examples`, and, inside of it, a table called `code_brazil_states`. Then, we use multiple `INSERT INTO` statements to populate this table with few rows of data.
+You can also use pure SQL queries to create an empty SQL `TABLE` from scratch, and then, feed this table with data by using `INSERT INTO` statements. In the example below, we create a new database called `examples`, and, inside of it, a table called `code_brazil_states`. Then, we use multiple `INSERT INTO` statements to populate this table with few rows of data.
 
 ```{python}
 #| include: false
@@ -390,6 +386,44 @@ spark\
 |  25|     Paraíba|
 +----+------------+
 ```
+
+#### The different save "modes"
+
+There are other arguments that you might want to use in the `write.saveAsTable()` method, like the `mode` argument. This argument controls how Spark will save your data into the database. By default, `write.saveAsTable()` uses the `mode = "error"` by default. In this mode, Spark will look if the table you referenced already exists, before it saves your data.
+
+Let's get back to the code we showed before (which is reproduced below). In this code, we asked Spark to save our data into a table called `"example_table"`. Spark will look if a table with this name already exists. If it does, then, Spark will raise an error that will stop the process (i.e. no data is saved).
+
+```{python}
+#| eval: false
+df.write.saveAsTable('example_table')
+```
+
+Raising an error when you do not want to accidentaly affect a SQL table that already exist, is a good practice. But, you might want to not raise an error in this situation. In case like this, you might want to just ignore the operation, and get on with your life. For cases like this, `write.saveAsTable()` offers the `mode = "ignore"`.
+
+So, in the code example below, we are trying to save the `df` DataFrame into a table called `example_table`. But if this `example_table` already exist, Spark will just silently ignore this operation, and will not save any data.
+
+```{python}
+#| eval: false
+df.write.saveAsTable('example_table', mode = "ignore")
+```
+
+In addition, `write.saveAsTable()` offers two more different modes, which are `mode = "overwrite"` and `mode = "append"`. When you use one these two modes, Spark **will always save your data**, no matter if the SQL table you are trying to save into already exist or not. In essence, these two modes control whether Spark will delete or keep previous rows of the SQL table intact, before it saves any new data.
+
+When you use `mode = "overwrite"`, Spark will automatically rewrite/replace the entire table with the current data of your DataFrame. In contrast, when you use `mode = "append"`, Spark will just append (or insert, or add) this data into the table. The subfigures at @fig-save-table-modes demonstrates these two modes visually.
+
+::: {#fig-save-table-modes layout-nrow=2}
+
+![Mode overwrite](./../Figures/table-save-modes-overwrite.png){#fig-mode-overwrite}
+
+![Mode append](./../Figures/table-save-modes-append.png){#fig-mode-append}
+
+How Spark saves your data with different "save modes"
+:::
+
+
+You can see the full list of arguments of `write.SaveAsTable()`, and their description by [looking at the documentation](<https://spark.apache.org/docs/3.1.2/api/python/reference/api/pyspark.sql.DataFrameWriter.saveAsTable>)^[<https://spark.apache.org/docs/3.1.2/api/python/reference/api/pyspark.sql.DataFrameWriter.saveAsTable>].
+
+
 
 ### Temporary versus Persistent sources {#sec-temp-persist}
 

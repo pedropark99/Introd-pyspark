@@ -6,11 +6,10 @@ Introd-pyspark.pdf
 
 /.quarto/
 
-metastore_db
-Chapters/metastore_db
-
 derby.log
 Chapters/derby.log
 
 spark-warehouse
 Chapters/spark-warehouse
+metastore_db
+Chapters/metastore_db
