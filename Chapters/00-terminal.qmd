@@ -1,5 +1,5 @@
 
-# Opening the terminal of your OS  {.appendix, #sec-open-terminal}
+# Opening the terminal of your OS  {#sec-open-terminal .appendix}
 
 Every operating system (OS) comes with a terminal (or a command prompt). A terminal is usually just a black screen where you can send commands to be executed by your OS. As an example,  @fig-terminal-simple-shot shows a print screen of the terminal in Ubuntu Linux. The terminal on Windows is very similar to this.
 

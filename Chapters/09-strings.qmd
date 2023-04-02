@@ -22,11 +22,27 @@ For brevity reasons, I am importing the module with the alias `F`. This means th
 For example, the code `re.split()` tells us that we are using the `split()` function from `re` module. In contrast, in the code `F.split()`, we are using the `split()` function from `pyspark.sql.functions` module instead. These two `split()` functions work with very different types of objects, and produce very different types of outputs, altough they both perform similar jobs.
 
 
+## The `logs` DataFrame
+
+Over the next examples in this chapter, we will use the `logs` DataFrame, which contains various log messages registered at a fictitious IP adress. The data that represents this DataFrame is freely available trough the `logs.json` file, which you can download from the official repository of this book[^logs-download].
+
+[^logs-download]: <https://github.com/pedropark99/Introd-pyspark/tree/main/Data>
+
+
+
+```{python}
+path = './../Data/logs.json'
+logs = spark.read.json(path)
+logs.show()
+```
+
+
 ## Changing the case of letters in a string
 
-Probably the most basic string transformation that exists is to change the case of the letters (or characters) that compose the string. That is, to raise specific letters to upper-case, or reduce them to lower-case.
+Probably the most basic string transformation that exists is to change the case of the letters (or characters) that compose the string. That is, to raise specific letters to upper-case, or reduce them to lower-case, and vice-versa.
 
-As a first example, we
+As a first example, lets go back to the `logs` DataFrame.
+
 
 
 ## Extracting a substring

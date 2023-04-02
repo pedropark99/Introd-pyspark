@@ -13,3 +13,6 @@ spark-warehouse
 Chapters/spark-warehouse
 metastore_db
 Chapters/metastore_db
+
+Chapters/*.html
+Chapters/*/*

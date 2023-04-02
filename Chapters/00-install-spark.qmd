@@ -1,5 +1,5 @@
 
-# How to install Spark and `pyspark` {.appendix, #sec-install-spark}
+# How to install Spark and `pyspark` {#sec-install-spark .appendix}
 
 In order to build and run any Spark application through `pyspark`, you have to install Apache Spark in your computer. Apache Spark is available to all three major operating systems in the market today (macOS, Windows and Linux). 
 
