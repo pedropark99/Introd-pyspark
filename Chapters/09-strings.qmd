@@ -36,8 +36,9 @@ To import `logs.json` file into a Spark DataFrame, I can use the following code:
 
 ```{python}
 path = './../Data/logs.json'
+n_truncate = 60
 logs = spark.read.json(path)
-logs.show(5)
+logs.show(5, truncate = n_truncate)
 ```
 
 
@@ -47,16 +48,117 @@ logs.show(5)
 
 Probably the most basic string transformation that exists is to change the case of the letters (or characters) that compose the string. That is, to raise specific letters to upper-case, or reduce them to lower-case, and vice-versa.
 
-As a first example, lets go back to the `logs` DataFrame.
+As a first example, lets go back to the `logs` DataFrame, and try to change all messages in this DataFrame to lower case, upper case and title case, by using the `lower()`, `upper()`, and `initcap()` functions from the `pyspark.sql.functions` module.
 
+```{python}
+from pyspark.sql.functions import (
+    lower,
+    upper,
+    initcap
+)
 
+m = logs.select('message')
+# Change to lower case:
+m.withColumn('message', lower('message'))\
+    .show(5, truncate = n_truncate)
+```
 
-## Extracting a substring
+```{python}
+# Change to upper case:
+m.withColumn('message', upper('message'))\
+    .show(5, truncate = n_truncate)
+```
+
+```{python}
+# Change to title case
+# (first letter of each word is upper case):
+m.withColumn('message', initcap('message'))\
+    .show(5, truncate = n_truncate)
+```
 
 
 ## Calculating string length
 
-In Spark, you can use the `length()` function to get the length (i.e. the number of characters) of a string.
+In Spark, you can use the `length()` function to get the length (i.e. the number of characters) of a string. In the example below, we can see that the first log message is 74 characters long, while the second log message have 112 characters.
+
+```{python}
+from pyspark.sql.functions import length
+logs\
+    .withColumn('length', length('message'))\
+    .show(5)
+```
+
+
+
+## Extracting substrings
+
+There are five main functions that we can use in order to extract substrings of a string, which are:
+
+- `substring()` and `substr()`: extract a single substring based on a start position and the length (number of characters) of the collected substring;^[Uses a one based index, and not zero based index.];
+- `substring_index()`: extract a single substring based on a single delimiter;
+- `split()`: extract one or multiple substrings based on commom delimiter;
+- `regexp_extract()`: extract a single substring based on a regular expression;
+
+The `substring()` and `substr()` functions they both work the same way. However, they come from different places. The `substring()` function comes from the `spark.sql.functions` module, while the `substr()` function is actually a method from the `Column` class.
+
+One interesting aspect of these functions, is that they both use a one-based index, instead of a zero-based index. This means that the first character in the full string is identified by the index 1, instead of the index 0.
+
+```{python}
+from pyspark.sql.functions import col, substring
+# `df1` and `df2` are equal, because
+# they both mean the same thing
+df1 = (logs
+    .withColumn('sub', col('message').substr(1, 5))
+)
+
+df2 = (logs
+    .withColumn('sub', substring('message', 1, 5))
+)
+
+df2.show(5)
+```
+
+Now, the `substring_index()` function works very differently. It looks for a character that represents a delimiter of the string, then, it cuts the hole string into two separate parts from this "delimiter character". You choose if want to collect the substring which is to the left of the "delimiter character", or, the substring which is is to the right.
+
+As an example, let's look at the 11th log message present in the `logs` DataFrame. I used the `collect()` DataFrame method to collect this message into a raw python string, so we can see the full message.
+
+```{python}
+from pyspark.sql.functions import monotonically_increasing_id
+
+log11 = (
+    logs
+    .withColumn(
+        'row_id',
+        monotonically_increasing_id()
+    )
+    .where(col('row_id') == 10)
+)
+
+message = log11.collect()[0]['message']
+print(message)
+```
+
+```{python}
+from pyspark.sql.functions import substring_index
+substrings = log11\
+    .withColumn(
+        'sub_left',
+        substring_index('message', ',', 1)
+    )\
+    .withColumn(
+        'sub_right',
+        substring_index('message', ',', -1)
+    )
+
+substrings = substrings.collect()
+to_left = substrings[0]['sub_left']
+to_right = substrings[0]['sub_right']
+
+print(to_left)
+print(to_right)
+```
+
+## Concatenating multiple strings together
 
 
 ## Using regex
@@ -66,6 +168,7 @@ To match grouping expressions use `$1`, `$2`, `$3`, etc...
 regexp_extract(teste, '^([a-z]+)', '$1')
 ```
 
+If you need to extract multiple groups together, be sure to add a whitespace between each one, like `"$1 $2 $3"`. Because if write like`"$1$2$3"` is not going to work.
 
 
 
