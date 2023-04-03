@@ -36,7 +36,7 @@ To import `logs.json` file into a Spark DataFrame, I can use the following code:
 
 ```{python}
 path = './../Data/logs.json'
-n_truncate = 60
+n_truncate = 50
 logs = spark.read.json(path)
 logs.show(5, truncate = n_truncate)
 ```
@@ -89,6 +89,28 @@ logs\
 ```
 
 
+## Trimming and remove spaces from strings
+
+The process of removing unnecessary spaces from strings is usually called "trimming". In Spark, we have three functions that do this process, which are:
+
+- `trim()`: removes spaces from both sides of the string;
+- `ltrim()`: removes spaces from the left side of the string;
+- `rtrim()`: removes spaces from the right side of the string;
+
+
+```{python}
+from pyspark.sql.functions import (
+    trim, rtrim, ltrim
+)
+
+logs\
+    .select('ip')\
+    .withColumn('ip_trim', trim('ip'))\
+    .withColumn('ip_ltrim', ltrim('ip'))\
+    .withColumn('ip_rtrim', rtrim('ip'))\
+    .show(5)
+```
+
 
 ## Extracting substrings
 
@@ -99,64 +121,128 @@ There are five main functions that we can use in order to extract substrings of 
 - `split()`: extract one or multiple substrings based on commom delimiter;
 - `regexp_extract()`: extract a single substring based on a regular expression;
 
+
+### A substring based on a start position and length
+
 The `substring()` and `substr()` functions they both work the same way. However, they come from different places. The `substring()` function comes from the `spark.sql.functions` module, while the `substr()` function is actually a method from the `Column` class.
 
 One interesting aspect of these functions, is that they both use a one-based index, instead of a zero-based index. This means that the first character in the full string is identified by the index 1, instead of the index 0.
+
+In the example below, we are extracting the substring that starts at the second character (index 2) and ends at the sixth character (index 6) in the string.
 
 ```{python}
 from pyspark.sql.functions import col, substring
 # `df1` and `df2` are equal, because
 # they both mean the same thing
 df1 = (logs
-    .withColumn('sub', col('message').substr(1, 5))
+    .withColumn('sub', col('message').substr(2, 5))
 )
 
 df2 = (logs
-    .withColumn('sub', substring('message', 1, 5))
+    .withColumn('sub', substring('message', 2, 5))
 )
 
 df2.show(5)
 ```
 
-Now, the `substring_index()` function works very differently. It looks for a character that represents a delimiter of the string, then, it cuts the hole string into two separate parts from this "delimiter character". You choose if want to collect the substring which is to the left of the "delimiter character", or, the substring which is is to the right.
 
-As an example, let's look at the 11th log message present in the `logs` DataFrame. I used the `collect()` DataFrame method to collect this message into a raw python string, so we can see the full message.
+### A substring based on a delimiter
+
+The `substring_index()` function works very differently. It collects the substring formed between the start of the string, and the nth occurrence of a particular character.
+
+For example, if you ask `substring_index()` to search for the 3rd occurrence of the character `$` in your string, the function will return to you the substring formed by all characters that are between the start of the string until the 3rd occurrence of this character `$`. You can also ask `substring_index()` to read backwards. That is, to start the search on the end of the string, and move backwards in the string until it gets to the 3rd occurrence of this character `$`.
+
+As an example, let's look at the 10th log message present in the `logs` DataFrame. I used the `collect()` DataFrame method to collect this message into a raw python string, so we can see the full message.
 
 ```{python}
 from pyspark.sql.functions import monotonically_increasing_id
 
-log11 = (
+mes_10th = (
     logs
     .withColumn(
         'row_id',
         monotonically_increasing_id()
     )
-    .where(col('row_id') == 10)
+    .where(col('row_id') == 9)
 )
 
-message = log11.collect()[0]['message']
+message = mes_10th.collect()[0]['message']
 print(message)
 ```
 
+We can see that this log message is listing a set of libraries that were installed somewhere. Suppose you want to collect the first and the last libraries in this list. How would you do it?
+
+A good start to this objective, is to isolate the list of libraries from the rest of the message. In other words, there is a bunch of characters in the start of the log message, that we do not care about. So let's get rid of them.
+
+If you look closely to the message, you can see that the character `:` appears twice whithin the message. One close to the start of the string, and another time right before the start of the list of the libraries. We can use this character as our first delimiter, to collect the third substring that it creates within the total string, which is the substring that contains the list of libraries.
+
+This first stage is presented visually at @fig-substring-delimiter1.
+
+![The first stage of subsetting](./../Figures/substring-delimiter1.png){#fig-substring-delimiter1}
+
+Now that we identified the substrings produced by the "delimiter character", we just need to understand better which index we need to use in `substring_index()` to get this third substring that we want. The @fig-substring-delimiter2 presents in a visual manner how the count system of `substring_index()` works.
+
+When you use a positive index, `substring_index()` will count the occurrences of the delimiter character from left to right. But, when you use a negative index, the opposite happens. That is, `substring_index()` counts the occurrences of the delimiter character from right to left.
+
+![The count system of `substring_index()`](./../Figures/substring-delimiter2.png){#fig-substring-delimiter2}
+
+The index 1 represents the first substring that is before the the 1st occurence of the delimiter (`[INFO]`). The index 2 represents everything that is before the 2nd occurence of the delimiter (`[INFO]: 2022-09-05 04:02.09.05 Libraries installed`). Etcetera.
+
+In contrast, the index -1 represents everything that is after the 1st occurence of the delimiter, couting from right to left (`pandas, flask, numpy, spark_map, pyspark`). The index -2 represents everything that is after the 2nd occurence of the delimiter (`2022-09-05 04:02.09.05 Libraries installed: pandas, flask, numpy, spark_map, pyspark`). Again, couting from right to left .
+
+Having all these informations in mind, we can conclude that the following code fit our first objective. Note that I applied the `trim()` function over the result of `substring_index()`, to ensure that the result substring does not contain any unnecessary spaces at both ends.
+
 ```{python}
 from pyspark.sql.functions import substring_index
-substrings = log11\
+mes_10th = mes_10th\
     .withColumn(
-        'sub_left',
-        substring_index('message', ',', 1)
-    )\
-    .withColumn(
-        'sub_right',
-        substring_index('message', ',', -1)
+        'list_of_libraries',
+        trim(substring_index('message', ':', -1))
     )
 
-substrings = substrings.collect()
-to_left = substrings[0]['sub_left']
-to_right = substrings[0]['sub_right']
-
-print(to_left)
-print(to_right)
+mes_10th.select('list_of_libraries')\
+    .show(truncate = n_truncate)
 ```
+
+
+### Forming an array of substrings
+
+Now is a good time to introduce the `split()` function, because we can use it to extract the first and the last library from the list libraries of stored at the `mes_10th` DataFrame. Basically, this function also uses a delimiter character to cut the total string into multiple pieces, and store these pieces in a array of substrings. With this strategy, we can now access each substring (or each piece of the total string) individually.
+
+If we look again at the string that we stored at the `list_of_libraries` column, we have a list of libraries, separated by a comma. 
+
+```{python}
+mes_10th\
+    .select('list_of_libraries')\
+    .show(truncate = n_truncate)
+```
+
+
+The comma character (`,`) plays an important role in this string, by separating each value in the list. But we can use this comma character as the delimiter inside `split()`, to get an array of substrings. Each element of this array is one of the many libraries in the list.
+
+```{python}
+from pyspark.sql.functions import split
+mes_10th = mes_10th\
+    .withColumn(
+        'array_of_libraries',
+        split('list_of_libraries', ',')
+    )
+
+mes_10th\
+    .select('array_of_libraries')\
+    .show(truncate = n_truncate)
+```
+
+By having this array of substring, we can very easily select a specific element in this array, by using the `getItem()` column method, or, by using the open brackets as you would normally use to select an element in a python list. You just need to give the index of the element you want to select, like in the example below that we select the first and the last libraries in the array.
+
+```{python}
+mes_10th\
+    .withColumn('library_1', col('array_of_libraries')[0])\
+    .withColumn('library_5', col('array_of_libraries').getItem(4))\
+    .select('library_1', 'library_5')\
+    .show(truncate = n_truncate)
+```
+
 
 ## Concatenating multiple strings together
 

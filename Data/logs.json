@@ -1,16 +1,16 @@
-{ "message": "[INFO]: 2022-09-05 03:35:01.43 Looking for workers at South America region" , "ip": "1.0.104.27"}
-{ "message": "[WARN]: 2022-09-05 03:35.58.007 Workers are unavailable at your region. Waiting 5 minutes before trying again..." , "ip": "1.0.104.27"}
-{ "message": "[INFO]: 2022-09-05 03:40:59.054 Looking for workers at South America region" , "ip": "1.0.104.27"}
-{ "message": "[INFO]: 2022-09-05 03:42:24 3 Workers were acquired at IPs: 1.0.102.15, 1.0.102.24, 1.0.102.53" , "ip": "1.0.104.27"}
-{ "message": "[INFO]: 2022-09-05 03:42.37 Initializing instances in the cluster" , "ip": "1.0.104.27"}
+{ "message": "[INFO]: 2022-09-05 03:35:01.43 Looking for workers at South America region" , "ip": "  1.0.104.27  "}
+{ "message": "[WARN]: 2022-09-05 03:35.58.007 Workers are unavailable at your region. Waiting 5 minutes before trying again..." , "ip": "  1.0.104.27  "}
+{ "message": "[INFO]: 2022-09-05 03:40:59.054 Looking for workers at South America region" , "ip": "  1.0.104.27  "}
+{ "message": "[INFO]: 2022-09-05 03:42:24 3 Workers were acquired at IPs: 1.0.102.15, 1.0.102.24, 1.0.102.53" , "ip": "  1.0.104.27  "}
+{ "message": "[INFO]: 2022-09-05 03:42.37 Initializing instances in the cluster" , "ip": "  1.0.104.27  "}
 { "message": "[WARN]: 2022-09-05 03:52.02.98 Library \"pandas\" was not located at the local sources. Searching for the library in outside sources..." , "ip": "1.0.104.27"}
-{ "message": "[INFO]: 2022-09-05 04:00.33.210 Library \"pandas\" was succesfully located at pip servers", "ip": "1.0.104.27"}
-{ "message": "[INFO]: 2022-09-05 04:01.15 All cluster instances were started, and libraries were installed succesfully", "ip": "1.0.104.27"}
-{ "message": "[INFO]: 2022-09-05 04:01.35.022 Making API request for Azure to register logs", "ip": "1.0.104.27"}
-{ "message": "[INFO]: 2022-09-05 04:02.09.05 Libraries installed: pandas, flask, numpy, spark_map, pyspark", "ip": "1.0.104.27"}
-{ "message": "[INFO]: 2022-09-05 04:02.09.05 The following users logged into the system: pedro.on@gmail.com, maicon@gmail.com, arthur87@gmail.com", "ip": "1.0.104.27"}
-{ "message": "[INFO]: 2022-09-05 04:02.09.05 An event with value \"2022-09-05 04:01:58|pedro.on@gmail.com|On premisse|I was not able to complete the request\" was registered by onpremisse@mswasdq.yh", "ip": "1.0.104.27"}
-{ "message": "[ERROR]: 2022-09-05 04:02.12 A task referenced a table called `monitoring.messages_received`, but this table was not found in your Spark SQL context", "ip": "1.0.104.27"}
-{ "message": "[ERROR]: 2022-09-05 04:02.34.111 Error message - pyspark.sql.utils.AnalysisException: Table or view not found: monitoring.messages_received; 'UnresolvedRelation [monitoring.messages_received], [], false", "ip": "1.0.104.27"}
-{ "message": "[ERROR]: 2022-09-05 04:02.34.678 Traceback (most recent call last): File \"<stdin>\", line 1, in <module>; File \"/opt/spark/python/pyspark/sql/session.py\", line 1055, in table;  return DataFrame(self._jsparkSession.table(tableName), self); File \"/opt/spark/python/lib/py4j-0.10.9.5-src.zip/py4j/java_gateway.py\", line 1321, in __call__; File \"/opt/spark/python/pyspark/sql/utils.py\", line 196, in deco;  raise converted from None", "ip": "1.0.104.27"}
-{ "message": "[ERROR]: 2022-09-05 04:02.35.14 Quitting activity after facing a non-recoverable error", "ip": "1.0.104.27"}
+{ "message": "[INFO]: 2022-09-05 04:00.33.210 Library \"pandas\" was succesfully located at pip servers", "ip": "  1.0.104.27  "}
+{ "message": "[INFO]: 2022-09-05 04:01.15 All cluster instances were started, and libraries were installed succesfully", "ip": "  1.0.104.27  "}
+{ "message": "[INFO]: 2022-09-05 04:01.35.022 Making API request for Azure to register logs", "ip": "  1.0.104.27  "}
+{ "message": "[INFO]: 2022-09-05 04:02.09.05 Libraries installed: pandas, flask, numpy, spark_map, pyspark", "ip": "  1.0.104.27  "}
+{ "message": "[INFO]: 2022-09-05 04:02.09.05 The following users logged into the system: pedro.on@gmail.com, maicon@gmail.com, arthur87@gmail.com", "ip": "  1.0.104.27  "}
+{ "message": "[INFO]: 2022-09-05 04:02.09.05 An event with value \"2022-09-05 04:01:58|pedro.on@gmail.com|On premisse|I was not able to complete the request\" was registered by onpremisse@mswasdq.yh", "ip": "  1.0.104.27  "}
+{ "message": "[ERROR]: 2022-09-05 04:02.12 A task referenced a table called `monitoring.messages_received`, but this table was not found in your Spark SQL context", "ip": "  1.0.104.27  "}
+{ "message": "[ERROR]: 2022-09-05 04:02.34.111 Error message - pyspark.sql.utils.AnalysisException: Table or view not found: monitoring.messages_received; 'UnresolvedRelation [monitoring.messages_received], [], false", "ip": "  1.0.104.27  "}
+{ "message": "[ERROR]: 2022-09-05 04:02.34.678 Traceback (most recent call last): File \"<stdin>\", line 1, in <module>; File \"/opt/spark/python/pyspark/sql/session.py\", line 1055, in table;  return DataFrame(self._jsparkSession.table(tableName), self); File \"/opt/spark/python/lib/py4j-0.10.9.5-src.zip/py4j/java_gateway.py\", line 1321, in __call__; File \"/opt/spark/python/pyspark/sql/utils.py\", line 196, in deco;  raise converted from None", "ip": "  1.0.104.27  "}
+{ "message": "[ERROR]: 2022-09-05 04:02.35.14 Quitting activity after facing a non-recoverable error", "ip": "  1.0.104.27  "}
