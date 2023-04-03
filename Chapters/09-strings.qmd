@@ -145,6 +145,10 @@ The `substring()` and `substr()` functions they both work the same way. However,
 
 One interesting aspect of these functions, is that they both use a one-based index, instead of a zero-based index. This means that the first character in the full string is identified by the index 1, instead of the index 0.
 
+The first argument in both function is the index that identifies the start of the substring. If you set this argument to, let's say, 4, it means that the substring you want to extract starts at the 4th character in the input string.
+
+The second argument is the amount of characters in the substring, or, in other words, it's length. For example, if you set this argument to 6, it means that the function will extract the substring that is formed by walking $6 - 1 = 5$ characters ahead from the start position you specified at the first argument. We can also interpret this as: the function will walk ahead on the string, from the start position, until it gets a substring that is 6 characters long.
+
 In the example below, we are extracting the substring that starts at the second character (index 2) and ends at the sixth character (index 6) in the string.
 
 ```{python}
