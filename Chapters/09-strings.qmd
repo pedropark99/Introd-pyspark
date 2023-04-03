@@ -9,17 +9,9 @@ sc = spark.sparkContext
 sc.setLogLevel("OFF")
 ```
 
-Many of the world's data is represented (or stored) as text (or string variables). That is why is so important to know the tools available to process and transform this kind of data.
+Many of the world's data is represented (or stored) as text (or string variables). As a consequence, is very important to know the tools available to process and transform this kind of data, in any platform you use. In this chapter, we will focus on these tools.
 
-Most of the functionality available in Spark to process text data comes from the functions of `pyspark.sql.functions` module. With the code below, we are importing this module, so we can use it in the next examples troughout the chapter.
-
-```{python}
-import pyspark.sql.functions as F
-```
-
-For brevity reasons, I am importing the module with the alias `F`. This means that I can access any function available in this module, by using `F.name_of_function()`.This useful, not only because `F` is short and easy to type, but because it helps us to identify which specific function we are using.
-
-For example, the code `re.split()` tells us that we are using the `split()` function from `re` module. In contrast, in the code `F.split()`, we are using the `split()` function from `pyspark.sql.functions` module instead. These two `split()` functions work with very different types of objects, and produce very different types of outputs, altough they both perform similar jobs.
+Most of the functionality available in `pyspark` to process text data comes from functions available at the `pyspark.sql.functions` module. This means that processing and transforming text data in Spark usually involves applying a function on a column of a Spark DataFrame (by using DataFrame methods such as `withColumn()` and `select()`).
 
 
 ## The `logs` DataFrame
@@ -36,12 +28,14 @@ To import `logs.json` file into a Spark DataFrame, I can use the following code:
 
 ```{python}
 path = './../Data/logs.json'
-n_truncate = 50
 logs = spark.read.json(path)
+n_truncate = 50
 logs.show(5, truncate = n_truncate)
 ```
 
+By default, when we use the `show()` action to see the contents of our Spark DataFrame, Spark will always truncate (or cut) any value in the DataFrame that is more than 20 characters long. Since the logs messages in the `logs.json` file are usually much longer than 20 characters, I am using the `truncate` argument of `show()` in the example above, to avoid this behaviour.
 
+By setting this argument to 50, I am asking Spark to truncate (or cut) values at the 50th character (instead of the 20th). By doing this, you (reader) can actually see a much more significant part of the logs messages in the result above.
 
 
 ## Changing the case of letters in a string
@@ -89,7 +83,7 @@ logs\
 ```
 
 
-## Trimming and remove spaces from strings
+## Trimming or removing spaces from strings
 
 The process of removing unnecessary spaces from strings is usually called "trimming". In Spark, we have three functions that do this process, which are:
 
@@ -111,15 +105,38 @@ logs\
     .show(5)
 ```
 
+For the most part, I tend to remove these unnecessary strings when I want to: 1) tidy the values; 2) avoid weird and confusing mistakes in filters on my DataFrame. The second case is worth describing in more details.
+
+Let's suppose you wanted to filter all rows from the `logs` DataFrame where `ip` is equal to the `1.0.104.27` IP adress. However, you can see in the result above, that I get nothing. Not a single row of result.
+
+```{python}
+from pyspark.sql.functions import col
+logs.filter(col('ip') == "1.0.104.27")\
+    .show(5)
+```
+
+But if you see the result of the previous example (where we appliead the three versions of "trim functions"), you know that this IP adress `1.0.104.27` exists in the DataFrame. You know that the filter above should find values for this IP adress. So why it did not find any rows?
+
+The answer is these annoying (and hidden) spaces on both sides of the values from the `ip` column. If we remove these unnecessary spaces from the values of the `ip` column, we suddenly find the rows that we were looking for.
+
+```{python}
+logs.filter(trim(col('ip')) == "1.0.104.27")\
+    .show(5)
+```
+
 
 ## Extracting substrings
 
 There are five main functions that we can use in order to extract substrings of a string, which are:
 
-- `substring()` and `substr()`: extract a single substring based on a start position and the length (number of characters) of the collected substring;^[Uses a one based index, and not zero based index.];
-- `substring_index()`: extract a single substring based on a single delimiter;
+- `substring()` and `substr()`: extract a single substring based on a start position and the length (number of characters) of the collected substring[^index-one];
+- `substring_index()`: extract a single substring based on a single delimiter[^index-one];
 - `split()`: extract one or multiple substrings based on commom delimiter;
 - `regexp_extract()`: extract a single substring based on a regular expression;
+
+[^index-one]: These functions uses a one based index, and not zero based index.
+
+You can obviously extract a substring that matches a particular regex (regular expression) by using the `regexp_extract()` function. However, I will describe this function, and the regex functionality available in `pyspark` at @sec-regex, or, more specifically, at @sec-regexp-extract. For now, just understand that you can also use regex to extract substrings from your text data.
 
 
 ### A substring based on a start position and length
@@ -218,7 +235,12 @@ mes_10th\
 ```
 
 
-The comma character (`,`) plays an important role in this string, by separating each value in the list. But we can use this comma character as the delimiter inside `split()`, to get an array of substrings. Each element of this array is one of the many libraries in the list.
+The comma character (`,`) plays an important role in this string, by separating each value in the list. And we can use this comma character as the delimiter inside `split()`, to get an array of substrings. Each element of this array is one of the many libraries in the list. The @fig-string-split presents this process visually.
+
+![Building an array of substrings with `split()`](./../Figures/string-split.png){#fig-string-split}
+
+
+The code to make this process is very straightforward. In the example below, the column `array_of_libraries` becomes a column of data type `ArrayType(StringType)`, that is, an array of string values.
 
 ```{python}
 from pyspark.sql.functions import split
@@ -233,7 +255,9 @@ mes_10th\
     .show(truncate = n_truncate)
 ```
 
-By having this array of substring, we can very easily select a specific element in this array, by using the `getItem()` column method, or, by using the open brackets as you would normally use to select an element in a python list. You just need to give the index of the element you want to select, like in the example below that we select the first and the last libraries in the array.
+By having this array of substring, we can very easily select a specific element in this array, by using the `getItem()` column method, or, by using the open brackets as you would normally use to select an element in a python list.
+
+You just need to give the index of the element you want to select, like in the example below that we select the first and the fifth libraries in the array.
 
 ```{python}
 mes_10th\
@@ -244,11 +268,24 @@ mes_10th\
 ```
 
 
+
 ## Concatenating multiple strings together
 
-`concat()` and `concat_ws()`, and a `collapse()` ?
+Sometimes, we need to concatenate multiple strings together, to form a single and longer string. To do this process, Spark offers two main functions, which are: `concat()` and `concat_ws()`. Both of these functions receives a list of columns as input, and will perform the same task, which is to concatenate the values of each column in the list, sequentially.
 
-## Using regex
+However, the `concat_ws()` function have an extra argument called `sep`, where you can define a string to be used as the separator (or the "delimiter") between the values of each column in the list. In some way, this `sep` argument and the `concat_ws()` function works very similarly to the [`join()` string method of python](https://docs.python.org/3/library/stdtypes.html#str.join)[^string-join-py].
+
+[^string-join-py]: <https://docs.python.org/3/library/stdtypes.html#str.join>
+
+
+
+
+<!-- 
+
+## Introducing regular expressions {#sec-regex}
+
+
+### Extracting substrings with `regexp_extract()` {#sec-regexp-extract}
 
 To match grouping expressions use `$1`, `$2`, `$3`, etc...
 ```python
@@ -257,5 +294,5 @@ regexp_extract(teste, '^([a-z]+)', '$1')
 
 If you need to extract multiple groups together, be sure to add a whitespace between each one, like `"$1 $2 $3"`. Because if write like`"$1$2$3"` is not going to work.
 
-
+ -->
 

@@ -3,7 +3,7 @@
 { "message": "[INFO]: 2022-09-05 03:40:59.054 Looking for workers at South America region" , "ip": "  1.0.104.27  "}
 { "message": "[INFO]: 2022-09-05 03:42:24 3 Workers were acquired at IPs: 1.0.102.15, 1.0.102.24, 1.0.102.53" , "ip": "  1.0.104.27  "}
 { "message": "[INFO]: 2022-09-05 03:42.37 Initializing instances in the cluster" , "ip": "  1.0.104.27  "}
-{ "message": "[WARN]: 2022-09-05 03:52.02.98 Library \"pandas\" was not located at the local sources. Searching for the library in outside sources..." , "ip": "1.0.104.27"}
+{ "message": "[WARN]: 2022-09-05 03:52.02.98 Library \"pandas\" was not located at the local sources. Searching for the library in outside sources..." , "ip": "  1.0.104.27  "}
 { "message": "[INFO]: 2022-09-05 04:00.33.210 Library \"pandas\" was succesfully located at pip servers", "ip": "  1.0.104.27  "}
 { "message": "[INFO]: 2022-09-05 04:01.15 All cluster instances were started, and libraries were installed succesfully", "ip": "  1.0.104.27  "}
 { "message": "[INFO]: 2022-09-05 04:01.35.022 Making API request for Azure to register logs", "ip": "  1.0.104.27  "}
