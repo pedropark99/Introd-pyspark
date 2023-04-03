@@ -246,6 +246,7 @@ mes_10th\
 
 ## Concatenating multiple strings together
 
+`concat()` and `concat_ws()`, and a `collapse()` ?
 
 ## Using regex
 
