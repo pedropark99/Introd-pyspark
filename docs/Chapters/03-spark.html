@@ -460,7 +460,7 @@ div.csl-indent {
 </div>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
-<pre><code>23/04/02 13:50:57 WARN Utils: Your hostname, pedro-dev resolves to a loopback address: 127.0.1.1; using 10.0.0.112 instead (on interface wlp1s0) 23/04/02 13:50:57 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address 23/04/02 13:50:58 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable 23/04/02 13:50:58 WARN Utils: Service 'SparkUI' could not bind on port 4040. Attempting port 4041. [Row(id=0), Row(id=1), Row(id=2), Row(id=3), Row(id=4)]</code></pre>
+<pre><code>23/04/03 19:54:07 WARN Utils: Your hostname, pedro-dev resolves to a loopback address: 127.0.1.1; using 192.168.0.90 instead (on interface wlp1s0) 23/04/03 19:54:07 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address 23/04/03 19:54:08 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable 23/04/03 19:54:08 WARN Utils: Service 'SparkUI' could not bind on port 4040. Attempting port 4041. [Row(id=0), Row(id=1), Row(id=2), Row(id=3), Row(id=4)]</code></pre>
 </div>
 </div>
 <p>You can see in the above result, that this Spark application produces a sequence of numbers, from 0 to 4, and, returns this sequence as a set of <code>Row</code> objects, inside a python list.</p>

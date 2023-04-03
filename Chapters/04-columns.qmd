@@ -93,15 +93,15 @@ sales = spark.read.json(path)
 sales.show(5)
 ```
 
-If you look at this batch... there is no indication that these sales come from the 4th store. In other words, this information is not present in the data, is just in your mind. It certainly is a very bad idea to leave this data as is, whithout any identification of the source for this data. So, you might want to add some labels and new columns to this batch of data, that can easily identify the store that originated these sales.
+If you look at this batch... there is no indication that these sales come from the 4th store. In other words, this information is not present in the data, is just in your mind. It certainly is a very bad idea to leave this data as is, whithout any identification of the source of it. So, you might want to add some labels and new columns to this batch of data, that can easily identify the store that originated these sales.
 
-For example, we could add two new columns to this `sales` DataFrame. One for the number that identifies the store (4), and, another to keep the store address. But, how can we do this? The answer is: by forcing Spark to interpret the values as literal values, instead of a expression.
+For example, we could add two new columns to this `sales` DataFrame. One for the number that identifies the store (4), and, another to keep the store address. Considering that all rows in this batch comes from the 4th store, we should add two "constant" columns, meaning that these columns should have a constant value across all rows in this batch. But, how can we do this? How can we create a "constant" column? The answer is: by forcing Spark to interpret the values as literal values, instead of a expression.
 
 In other words, I can not use the `col()` function to create these two new columns. Because this `col()` function receives a column name as input. **It interprets our input as an expression that refers to a column name**. This function does not accept some sort of description of the actual values that this column should store.
 
 
 
-## Passing a literal (or a constant) value to Spark
+## Passing a literal (or a constant) value to Spark {#sec-literal-values}
 
 So how do we force Spark to interpret a value as a literal (or constant) value, rather than a expression? To do this, you must write this value inside the `lit()` (short for "literal") function from the `pyspark.sql.functions` module.
 

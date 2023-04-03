@@ -261,7 +261,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <li><a href="#building-a-column-object" id="toc-building-a-column-object" class="nav-link active" data-scroll-target="#building-a-column-object"><span class="toc-section-number">4.1</span>  Building a column object</a></li>
   <li><a href="#sec-columns-related-expressions" id="toc-sec-columns-related-expressions" class="nav-link" data-scroll-target="#sec-columns-related-expressions"><span class="toc-section-number">4.2</span>  Columns are strongly related to expressions</a></li>
   <li><a href="#literal-values-versus-expressions" id="toc-literal-values-versus-expressions" class="nav-link" data-scroll-target="#literal-values-versus-expressions"><span class="toc-section-number">4.3</span>  Literal values versus expressions</a></li>
-  <li><a href="#passing-a-literal-or-a-constant-value-to-spark" id="toc-passing-a-literal-or-a-constant-value-to-spark" class="nav-link" data-scroll-target="#passing-a-literal-or-a-constant-value-to-spark"><span class="toc-section-number">4.4</span>  Passing a literal (or a constant) value to Spark</a></li>
+  <li><a href="#sec-literal-values" id="toc-sec-literal-values" class="nav-link" data-scroll-target="#sec-literal-values"><span class="toc-section-number">4.4</span>  Passing a literal (or a constant) value to Spark</a></li>
   <li><a href="#some-key-column-methods" id="toc-some-key-column-methods" class="nav-link" data-scroll-target="#some-key-column-methods"><span class="toc-section-number">4.5</span>  Some key column methods</a></li>
   </ul>
 </nav>
@@ -292,7 +292,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>We can confirm this statement, by taking the <code>df</code> DataFrame that we showed at <a href="04-dataframes.html#sec-building-a-dataframe"><span>Section&nbsp;3.5</span></a>, and look at the class of any column of it. Like the <code>id</code> column:</p>
 <div class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(df.<span class="bu">id</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="36">
+<div class="cell-output cell-output-display" data-execution_count="2">
 <pre><code>pyspark.sql.column.Column</code></pre>
 </div>
 </div>
@@ -315,7 +315,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Columns in Spark are so strongly related to expressions that the columns themselves are initially interpreted as expressions. If we look again at the column <code>id</code> from <code>df</code> DataFrame, Spark will bring a expression as a result, and not the values hold by this column.</p>
 <div class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>df.<span class="bu">id</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="38">
+<div class="cell-output cell-output-display" data-execution_count="4">
 <pre><code>Column&lt;'id'&gt;</code></pre>
 </div>
 </div>
@@ -361,12 +361,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </code></pre>
 </div>
 </div>
-<p>If you look at this batch… there is no indication that these sales come from the 4th store. In other words, this information is not present in the data, is just in your mind. It certainly is a very bad idea to leave this data as is, whithout any identification of the source for this data. So, you might want to add some labels and new columns to this batch of data, that can easily identify the store that originated these sales.</p>
-<p>For example, we could add two new columns to this <code>sales</code> DataFrame. One for the number that identifies the store (4), and, another to keep the store address. But, how can we do this? The answer is: by forcing Spark to interpret the values as literal values, instead of a expression.</p>
+<p>If you look at this batch… there is no indication that these sales come from the 4th store. In other words, this information is not present in the data, is just in your mind. It certainly is a very bad idea to leave this data as is, whithout any identification of the source of it. So, you might want to add some labels and new columns to this batch of data, that can easily identify the store that originated these sales.</p>
+<p>For example, we could add two new columns to this <code>sales</code> DataFrame. One for the number that identifies the store (4), and, another to keep the store address. Considering that all rows in this batch comes from the 4th store, we should add two “constant” columns, meaning that these columns should have a constant value across all rows in this batch. But, how can we do this? How can we create a “constant” column? The answer is: by forcing Spark to interpret the values as literal values, instead of a expression.</p>
 <p>In other words, I can not use the <code>col()</code> function to create these two new columns. Because this <code>col()</code> function receives a column name as input. <strong>It interprets our input as an expression that refers to a column name</strong>. This function does not accept some sort of description of the actual values that this column should store.</p>
 </section>
-<section id="passing-a-literal-or-a-constant-value-to-spark" class="level2" data-number="4.4">
-<h2 data-number="4.4" class="anchored" data-anchor-id="passing-a-literal-or-a-constant-value-to-spark"><span class="header-section-number">4.4</span> Passing a literal (or a constant) value to Spark</h2>
+<section id="sec-literal-values" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="sec-literal-values"><span class="header-section-number">4.4</span> Passing a literal (or a constant) value to Spark</h2>
 <p>So how do we force Spark to interpret a value as a literal (or constant) value, rather than a expression? To do this, you must write this value inside the <code>lit()</code> (short for “literal”) function from the <code>pyspark.sql.functions</code> module.</p>
 <p>In other words, when you write in your code the statement <code>lit(4)</code>, Spark understand that you want to create a new column which is filled with 4’s. In other words, this new column is filled with the constant integer 4.</p>
 <p>With the code below, I am creating two new columns (called <code>store_number</code> and <code>store_address</code>), and adding them to the <code>sales</code> DataFrame.</p>

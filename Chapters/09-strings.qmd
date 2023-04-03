@@ -277,10 +277,51 @@ However, the `concat_ws()` function have an extra argument called `sep`, where y
 
 [^string-join-py]: <https://docs.python.org/3/library/stdtypes.html#str.join>
 
+Let's comeback to the `penguins` DataFrame to demonstrate the use of these functions:
+```{python}
+path = "../Data/penguins.csv"
+penguins = spark.read\
+    .csv(path, header = True)
+
+penguins.select('species', 'island', 'sex')\
+    .show(5)
+```
+
+Suppose you wanted to concatenate the values of the columns `species`, `island` and `sex` together, and, store these new values on a separate column. All you need to do is to list these columns inside the `concat()` or `concat_ws()` function.
+
+If you look at the example below, you can see that I also used the `lit()` function to add a underline character (`_`) between the values of each column. This is more verbose, because if you needed to concatenate 10 columns together, and still add a "delimiter character" (like the underline) between the values of each column, you would have to write `lit('_')` for 9 times on the list.
+
+In contrast, the `concat_ws()` offers a much more succinct way of expressing this same operation. Because the first argument of `concat_ws()` is the character to be used as the delimiter between each column, and, after that, we have the list of columns to be concatenated.
+```{python}
+from pyspark.sql.functions import (
+    concat,
+    concat_ws,
+    lit
+)
+
+penguins\
+    .withColumn(
+        'using_concat',
+        concat(
+            'species', lit('_'), 'island',
+            lit('_'), 'sex')
+    )\
+    .withColumn(
+        'using_concat_ws',
+        concat_ws(
+            '_', # The delimiter character
+            'species', 'island', 'sex' # The list of columns
+        )
+    )\
+    .select('using_concat', 'using_concat_ws')\
+    .show(5, truncate = n_truncate)
+```
 
 
+If you look closely to the result above, you can also see, that `concat()` and `concat_ws()` functions deal with null values in different ways. If `concat()` finds a null value for a particular row, in any of the listed columns to be concatenated, the end result of the process is a null value for that particular row. 
 
-<!-- 
+On the other hand, `concat_ws()` will try to concatenate as many values as he can. If he does find a null value, he just ignores this null value and go on to the next column, until it hits the last column in the list.
+
 
 ## Introducing regular expressions {#sec-regex}
 
@@ -294,5 +335,4 @@ regexp_extract(teste, '^([a-z]+)', '$1')
 
 If you need to extract multiple groups together, be sure to add a whitespace between each one, like `"$1 $2 $3"`. Because if write like`"$1$2$3"` is not going to work.
 
- -->
 
