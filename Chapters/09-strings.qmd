@@ -237,9 +237,9 @@ By having this array of substring, we can very easily select a specific element 
 
 ```{python}
 mes_10th\
-    .withColumn('library_1', col('array_of_libraries')[0])\
-    .withColumn('library_5', col('array_of_libraries').getItem(4))\
-    .select('library_1', 'library_5')\
+    .withColumn('lib_1', col('array_of_libraries')[0])\
+    .withColumn('lib_5', col('array_of_libraries').getItem(4))\
+    .select('lib_1', 'lib_5')\
     .show(truncate = n_truncate)
 ```
 
