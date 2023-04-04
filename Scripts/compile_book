@@ -4,6 +4,7 @@ import os
 
 from print_big_dataframe import print_dataframe
 from print_big_list import print_big_list
+from print_big_text import print_big_text
 
 
 def read_file(path):
@@ -91,15 +92,16 @@ for i in range(len(chunks_begin)):
 def truncate_chunks(chunk, n_chars = 80):
     chunk_type = chunk['chunk_type']
     if chunk_type == 'DataFrame':
-        chunk['chunk_content'] = print_dataframe(chunk['chunk_content'])
+        chunk['chunk_content'] = print_dataframe(chunk['chunk_content'], n_chars)
         return chunk
     elif chunk_type == 'DataFrame description':
-        chunk['chunk_content'] = print_big_list(chunk['chunk_content'])
+        chunk['chunk_content'] = print_big_list(chunk['chunk_content'], n_chars)
         return chunk
     elif chunk_type == 'list':
-        chunk['chunk_content'] = print_big_list(chunk['chunk_content'])
+        chunk['chunk_content'] = print_big_list(chunk['chunk_content'], n_chars)
         return chunk
     else:
+        chunk['chunk_content'] = print_big_text(chunk['chunk_content'], n_chars)
         return chunk
 
 

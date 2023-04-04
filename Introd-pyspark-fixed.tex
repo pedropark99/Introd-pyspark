@@ -3375,7 +3375,8 @@ py4j.Py4JException: Method and([class java.lang.Integer]) does not exist
     at py4j.Gateway.invoke(Gateway.java:274)
     at py4j.commands.AbstractCommand.invokeMethod(AbstractCommand.java:132)
     at py4j.commands.CallCommand.execute(CallCommand.java:79)
-    at py4j.ClientServerConnection.waitForCommands(ClientServerConnection.java:182)
+    at py4j.ClientServerConnection.waitForCommands(ClientServerConnection.java:1
+82)
     at py4j.ClientServerConnection.run(ClientServerConnection.java:106)
     at java.base/java.lang.Thread.run(Thread.java:829)
 \end{verbatim}
@@ -3640,7 +3641,8 @@ result, Spark would throw an error:
 \end{Shaded}
 
 \begin{verbatim}
-AnalysisException: cannot resolve '(NOT clientNumber)' due to data type mismatch: argument 1 requires boolean type, however, 'clientNumber' is of bigint type.;
+AnalysisException: cannot resolve '(NOT clientNumber)' due to data type mismatch
+: argument 1 requires boolean type, however, 'clientNumber' is of bigint type.;
 'Filter (NOT clientNumber#210L = 3284)
 \end{verbatim}
 
@@ -4920,7 +4922,8 @@ inside my current directory, it does not find any file called
 \begin{verbatim}
 Traceback (most recent call last):
   ...
-pyspark.sql.utils.AnalysisException: Path does not exist: file:/home/pedro/Documents/Projects/Books/Introd-pyspark/weird-file.csv
+pyspark.sql.utils.AnalysisException: Path does not exist: file:/home/pedro/Docum
+ents/Projects/Books/Introd-pyspark/weird-file.csv
 \end{verbatim}
 
 Every time you face this ``Path does not exist'' error, it means that
@@ -5403,7 +5406,8 @@ Traceback (most recent call last):
   File "<stdin>", line 1, in <module>
   File "/opt/spark/python/pyspark/sql/session.py", line 1034, in sql
     return DataFrame(self._jsparkSession.sql(sqlQuery), self)
-  File "/opt/spark/python/lib/py4j-0.10.9.5-src.zip/py4j/java_gateway.py", line 1321, in __call__
+  File "/opt/spark/python/lib/py4j-0.10.9.5-src.zip/py4j/java_gateway.py", line 
+1321, in __call__
   File "/opt/spark/python/pyspark/sql/utils.py", line 196, in deco
     raise converted from None
 pyspark.sql.utils.ParseException: 

@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999994 (TeX Live 2022) (preloaded format=xelatex 2023.1.19)  4 APR 2023 20:02
+This is XeTeX, Version 3.141592653-2.6-0.999994 (TeX Live 2022) (preloaded format=xelatex 2023.1.19)  4 APR 2023 20:25
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1483,19 +1483,14 @@ File: Chapters/../Figures/wide-transformations.png Graphic file (type bmp)
 <Chapters/../Figures/wide-transformations.png>
  [54] [55] [56] [57] [58] [59] [60] [61] [62] [63]
 LaTeX Font Info:    Font shape `TU/Inconsolata(0)/b/n' will be
-(Font)              scaled to size 11.74438pt on input line 3523.
+(Font)              scaled to size 11.74438pt on input line 3524.
  [64] [65]
-Overfull \hbox (53.26973pt too wide) in paragraph at lines 3628--3633
+Overfull \hbox (53.26973pt too wide) in paragraph at lines 3629--3634
 []\TU/TimesNewRoman(0)/m/n/10.95 If you forget to add the parentheses, Spark will think you are negating just the column (e.g. \TU/Inconsolata(0)/m/n/10.95 ~col([]clientNumber[])\TU/TimesNewRoman(0)/m/n/10.95 ),
  []
 
-[66]
-Overfull \hbox (369.49811pt too wide) in paragraph at lines 3643--3643
-[]\TU/Inconsolata(0)/m/n/10.95 AnalysisException: cannot resolve '(NOT clientNumber)' due to data type mismatch: argument 1 requires boolean type, however, 'clientNumber' is of bigint type.;[] 
- []
-
-[67] [68] [69] [70] [71] [72] [73] [74] [75] [76] [77] [78] [79] [80] [81]
-Overfull \hbox (17.16273pt too wide) in paragraph at lines 4584--4588
+[66] [67] [68] [69] [70] [71] [72] [73] [74] [75] [76] [77] [78] [79] [80] [81]
+Overfull \hbox (17.16273pt too wide) in paragraph at lines 4586--4590
 []\TU/TimesNewRoman(0)/m/n/10.95 In most cases, this “aggregate expression” will be composed of functions from the \TU/Inconsolata(0)/m/n/10.95 pyspark.sql.functions
  []
 
@@ -1503,41 +1498,31 @@ Overfull \hbox (17.16273pt too wide) in paragraph at lines 4584--4588
 chapter 6.
 [86
 
-] [87] [88]
-Overfull \hbox (235.53883pt too wide) in paragraph at lines 4923--4923
-[]\TU/Inconsolata(0)/m/n/10.95 pyspark.sql.utils.AnalysisException: Path does not exist: file:/home/pedro/Documents/Projects/Books/Introd-pyspark/weird-file.csv[] 
- []
-
-[89]
+] [87] [88] [89]
 LaTeX Font Info:    Font shape `TU/TimesNewRoman(0)/m/it' will be
-(Font)              scaled to size 9.0pt on input line 4999.
+(Font)              scaled to size 9.0pt on input line 5002.
  [90] [91] [92] [93] [94] [95]
 chapter 7.
 [96
 
-] [97]
-Overfull \hbox (60.49883pt too wide) in paragraph at lines 5406--5406
-[]  \TU/Inconsolata(0)/m/n/10.95 File "/opt/spark/python/lib/py4j-0.10.9.5-src.zip/py4j/java_gateway.py", line 1321, in __call__[] 
- []
-
-[98] [99] [100] [101] [102] [103] [104] [105] [106]
-Underfull \hbox (badness 1215) in paragraph at lines 5942--5946
+] [97] [98] [99] [100] [101] [102] [103] [104] [105] [106]
+Underfull \hbox (badness 1215) in paragraph at lines 5946--5950
 []\TU/TimesNewRoman(0)/m/n/10.95 So, in the code example below, we are trying to save the \TU/Inconsolata(0)/m/n/10.95 df \TU/TimesNewRoman(0)/m/n/10.95 DataFrame into a table called
  []
 
 File: Chapters/./../Figures/table-save-modes-overwrite.png Graphic file (type bmp)
 <Chapters/./../Figures/table-save-modes-overwrite.png>
 
-Overfull \hbox (5.48369pt too wide) in paragraph at lines 5974--5979
+Overfull \hbox (5.48369pt too wide) in paragraph at lines 5978--5983
  [][] 
  []
 
 LaTeX Font Info:    Font shape `TU/TimesNewRoman(0)/m/n' will be
-(Font)              scaled to size 10.0pt on input line 5982.
+(Font)              scaled to size 10.0pt on input line 5986.
 File: Chapters/./../Figures/table-save-modes-append.png Graphic file (type bmp)
 <Chapters/./../Figures/table-save-modes-append.png>
 
-Overfull \hbox (5.48369pt too wide) in paragraph at lines 5989--5994
+Overfull \hbox (5.48369pt too wide) in paragraph at lines 5993--5998
  [][] 
  []
 
@@ -1557,17 +1542,17 @@ File: Chapters/./../Figures/substring-delimiter2.png Graphic file (type bmp)
 File: Chapters/./../Figures/string-split.png Graphic file (type bmp)
 <Chapters/./../Figures/string-split.png>
 
-Underfull \hbox (badness 1708) in paragraph at lines 7059--7062
+Underfull \hbox (badness 1708) in paragraph at lines 7063--7066
 []\TU/TimesNewRoman(0)/m/n/10.95 The code to make this process is very straightforward. In the example below, the column
  []
 
 
-Underfull \hbox (badness 1005) in paragraph at lines 7059--7062
+Underfull \hbox (badness 1005) in paragraph at lines 7063--7066
 \TU/Inconsolata(0)/m/n/10.95 array_of_libraries \TU/TimesNewRoman(0)/m/n/10.95 becomes a column of data type \TU/Inconsolata(0)/m/n/10.95 ArrayType(StringType)\TU/TimesNewRoman(0)/m/n/10.95 , that is, an ar-
  []
 
 [127] [128] [129] [130]
-Underfull \hbox (badness 1331) in paragraph at lines 7326--7330
+Underfull \hbox (badness 1331) in paragraph at lines 7330--7334
 \TU/TimesNewRoman(0)/m/n/10.95 When you write an invalid regular expression in your code, Spark usually complains with a
  []
 
@@ -1575,12 +1560,12 @@ Underfull \hbox (badness 1331) in paragraph at lines 7326--7330
 File: Chapters/./../Figures/substring-capturing-groups.png Graphic file (type bmp)
 <Chapters/./../Figures/substring-capturing-groups.png>
  [135]
-Overfull \hbox (34.9114pt too wide) in paragraph at lines 7574--7580
+Overfull \hbox (34.9114pt too wide) in paragraph at lines 7578--7584
 []\TU/TimesNewRoman(0)/m/n/10.95 As a first example, lets go back to the regular expression we used at Section [][]8.7.3[][]: \TU/Inconsolata(0)/m/n/10.95 \\[(INFO|ERROR|WARN)\\]:\TU/TimesNewRoman(0)/m/n/10.95 .
  []
 
 [136] [137] [138] [139]
-Overfull \hbox (6.88588pt too wide) in paragraph at lines 7795--7799
+Overfull \hbox (6.88588pt too wide) in paragraph at lines 7799--7803
 []\TU/TimesNewRoman(0)/m/n/10.95 A possible regular expression candidate for it would be \TU/Inconsolata(0)/m/n/10.95 "[0-9]{2}:[0-9]{2}:[0-9]{2}([.][0-9]+)?"\TU/TimesNewRoman(0)/m/n/10.95 .
  []
 
@@ -1612,7 +1597,7 @@ chapter B.
 File: Chapters/../Figures/windows-environment-variables1.png Graphic file (type bmp)
 <Chapters/../Figures/windows-environment-variables1.png>
 
-Overfull \hbox (26.55864pt too wide) in paragraph at lines 8208--8210
+Overfull \hbox (26.55864pt too wide) in paragraph at lines 8212--8214
  [][]\TU/TimesNewRoman(0)/m/n/10.95 {#fig- 
  []
 
@@ -1621,12 +1606,12 @@ File: Chapters/../Figures/windows-environment-variables2.png Graphic file (type 
 File: Chapters/../Figures/windows-environment-variables3.png Graphic file (type bmp)
 <Chapters/../Figures/windows-environment-variables3.png>
 
-Overfull \hbox (26.54532pt too wide) in paragraph at lines 8214--8216
+Overfull \hbox (26.54532pt too wide) in paragraph at lines 8218--8220
  [][]\TU/TimesNewRoman(0)/m/n/10.95 {#fig- 
  []
 
 
-LaTeX Warning: Float too large for page by 633.89229pt on input line 8222.
+LaTeX Warning: Float too large for page by 633.89229pt on input line 8226.
 
 File: Chapters/../Figures/windows-environment-variables4.png Graphic file (type bmp)
 <Chapters/../Figures/windows-environment-variables4.png>
@@ -1635,10 +1620,10 @@ File: Chapters/../Figures/windows-environment-variables5.png Graphic file (type 
 <Chapters/../Figures/windows-environment-variables5.png>
  [151] [152] (./Introd-pyspark-fixed.aux) ) 
 Here is how much of TeX's memory you used:
- 37292 strings out of 478759
- 789180 string characters out of 5850173
+ 37293 strings out of 478759
+ 789197 string characters out of 5850173
  1867991 words of memory out of 5000000
- 56729 multiletter control sequences out of 15000+600000
+ 56730 multiletter control sequences out of 15000+600000
  521839 words of font info for 128 fonts, out of 8000000 for 9000
  16 hyphenation exceptions out of 8191
  108i,9n,122p,10615b,1029s stack positions out of 10000i,1000n,20000p,200000b,200000s
