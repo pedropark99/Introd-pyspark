@@ -132,7 +132,7 @@ There are five main functions that we can use in order to extract substrings of 
 - `substring()` and `substr()`: extract a single substring based on a start position and the length (number of characters) of the collected substring[^index-one];
 - `substring_index()`: extract a single substring based on a single delimiter[^index-one];
 - `split()`: extract one or multiple substrings based on commom delimiter;
-- `regexp_extract()`: extract a single substring based on a regular expression;
+- `regexp_extract()`: extracts substrings from a given string that match a specified regular expression pattern;
 
 [^index-one]: These functions uses a one based index, and not zero based index.
 
@@ -251,7 +251,7 @@ from pyspark.sql.functions import split
 mes_10th = mes_10th\
     .withColumn(
         'array_of_libraries',
-        split('list_of_libraries', ',')
+        split('list_of_libraries', ', ')
     )
 
 mes_10th\
@@ -329,8 +329,184 @@ On the other hand, `concat_ws()` will try to concatenate as many values as he ca
 
 ## Introducing regular expressions {#sec-regex}
 
+Spark also provides some basic regex (*regular expressions*) functionality. Most of this functionality is available trough two functions that comes from the `pyspark.sql.functions` module, which are:
+
+- `regexp_replace()`: replaces all occurrences of a specified regular expression pattern in a given string with a replacement string.;
+- `regexp_extract()`: extracts substrings from a given string that match a specified regular expression pattern;
+
+There is also a column method that provides an useful way of testing if the values of a column matchs a regular expression or not, which is the `rlike()` column method. So I can use the `rlike()` method in conjunction with the `filter()` or `where()` DataFrame methods, to find all values that fit (or match) a particular regular expression.
+
+### The Java regular expression standard
+
+At this point, is worth remembering a basic fact about Apache Spark that we introduced at @sec-introd-spark. Apache Spark is written in Scala, which is a modern programming language deeply connected with the Java programming language. One of the many consequences from this fact, is that all regular expression functionality available in Apache Spark is based on the Java `java.util.regex` package.
+
+This means that you should always write regular expressions on your `pyspark` code that follows the Java regular expression syntax, and not the Python regular expression syntax, which is based on the python module `re`.
+
+Although this detail is important, these two flavors of regular expressions (Python syntax versus Java syntax) are very, very similar. So, for the most part, you should not see any difference between these two syntaxes.
+
+If for some reason, you need to consult the full list of all metacharacters available in the Java regular expression standard, you can always check the Java documentation for the `java.util.regex` package. More specifically, the [documentation for the `java.util.regex.Pattern` class](https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html)[^java-regex-doc].
+
+[^java-regex-doc]: <https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html>
+
+The following list gives you a quick description of a small fraction of the available metacharacters in the Java syntax, and, as a result, metacharacters that you can use in `pyspark`:
+
+- `.` : Matches any single character;
+- `*` : Matches zero or more occurrences of the preceding character or pattern;
+- `+` : Matches one or more occurrences of the preceding character or pattern;
+- `?` : Matches zero or one occurrence of the preceding character or pattern;
+- `|` : Matches either the expression before or after the |;
+- `[]` : Matches any single character within the brackets;
+- `\d` : Matches any digit character;
+- `\b` : Matches a word boundary character;
+- `\w` : Matches any word character. Equivalente to the "\b([a-zA-Z_0-9]+)\b" regular expression;
+- `\s` : Matches any whitespace character;
+- `()` : Groups a series of pattern elements to a single element;
+
+
+### Using an invalid regular expression
+
+When you write an invalid regular expression in your code, Spark usually complains with a `java.util.regex.PatternSyntaxException` runtime error. The code presented below is an example of code that produces such error.
+
+In this example, the regular expression `\b([a-z]` is invalid because it is missing a closing parenthesis. If you try to execute this code, Spark will raise a  with the message "Unclosed group near index 7". This error message indicates that there is a syntax error in the regular expression, due to an unclosed group (i.e., a missing closing parenthesis).
+
+```python
+from pyspark.sql.functions import col
+weird_regex = '\b([a-z]'
+logs\
+    .filter(col('message').rlike(weird_regex))\
+    .show(5)
+```
+
+```
+Py4JJavaError: An error occurred while calling o261.showString.
+:   java.util.regex.PatternSyntaxException: Unclosed group near index 7
+([a-z]
+```
+
+
+To avoid these runtime errors, due to invalid regular expressions, is always a good idea to test your regular expressions, before you use them in your `pyspark` code. You can easily test your regular expressions by using online tools, such as the [Regex101 website](https://regex101.com/)[^regex101].
+
+[^regex101]: <https://regex101.com/>
+
+### Replacing occurrences of a particular regular expression
+
+One of the most essential actions with regular expression is to find text that fits into a particular regular expression, and, rewriting this text into a different format, or, even removing it completely from the string.
+
+The `regexp_replace()` function (from the `pyspark.sql.functions` module) is the function that allows you to perform this kind of operation on string values of a column in a Spark DataFrame.
+
+This function replaces all occurrences of a specified regular expression pattern in a given string with a replacement string, and it takes three different arguments:
+
+- The input column name or expression that contains the string values to be modified;
+- The regular expression pattern to search for within the input string values;
+- The replacement string that will replace all occurrences of the matched pattern in the input string values;
+
+As an example, lets suppose we want to remove completely the type of the message in all log messages present in the `logs` DataFrame. To that, we first need to get a regular expression capable of identifying all possibilities for these types.
+
+A potential candidate would be the regular expression `'\\[(INFO|ERROR|WARN)\\]: '`, so lets give it a shot. Since we are trying to **remove** this particular part from all log messages, we should replace this part of the string by an empty string (`''`), like in the example below:
+
+```{python}
+from pyspark.sql.functions import regexp_replace
+
+type_regex = '\\[(INFO|ERROR|WARN)\\]: '
+
+logs\
+    .withColumn(
+        'without_type',
+        regexp_replace('message', type_regex, '')
+    )\
+    .select('message', 'without_type')\
+    .show(truncate = 30)
+```
+
+Is useful to remind that this `regexp_replace()` function searches for **all occurrences** of the regular expression on the input string values, and replaces all of these occurrences by the input replacement string that you gave. However, if the function does not find any matchs for your regular expression inside a particular value in the column, then, the function simply returns this value intact.
+
+
 
 ### Extracting substrings with `regexp_extract()` {#sec-regexp-extract}
+
+
+
+
+The `regexp_extract()` function in PySpark is a string manipulation function that extracts substrings from a given string that match a specified regular expression pattern.
+
+The function takes three arguments:
+
+- The input column name or expression that contains the string to be searched;
+- The regular expression pattern to search for within the input string;
+- The index of the capturing group within the regular expression pattern that corresponds to the substring to extract;
+
+Here's an example usage:
+
+```python
+from pyspark.sql.functions import regexp_extract
+
+# Create a PySpark DataFrame with a column called "text"
+df = spark.createDataFrame([('John Smith 123 Main St.'],), ['text'])
+
+# Extract the name from the "text" column
+df = df.withColumn('name', regexp_extract('text', '(\w+)\s\w+\s\d+\s\w+\.\s*', 1))
+
+# Show the result
+df.show()
+```
+
+In the above example, the regexp_extract() function searches for a regular expression pattern that matches a person's name followed by their address. The capturing group (\w+) extracts the name from the input string. The resulting DataFrame would look like this:
+
+
+This function can be useful for extracting specific information from structured text data in PySpark. Note that if the capturing group index is invalid or if there is no match for the regular expression pattern in the input string, the function returns a null value.
+
+### How to use groupings on `pyspark`
+
+One of the many awesome functionalities of regular expressions, is the capability of enclosing parts of a regular expression inside groups. This process of capturing parts of a regular expression inside a group, is usually called of "grouping".
+
+Ok, but, what is this group thing? You create a group inside a regular expression by enclosing a particular section of your regular expression inside a pair of parentheses. A group is created with the regular expression that is written inside this pair of of parentheses.
+
+A group inside a regular expression is used to capture a specific part of the matched string. This means that the actual part of the input string that is matched by the regular expression that is inside this pair of parentheses, is captured (or cached, or saved) by the group, and, can be reused later.
+
+So, remember, to use groupings in a regular expression, you need to enclose the part of the pattern that you want to capture in parentheses `()`. Each set of parentheses creates a new capturing group. This means that you can create multiple groups inside a single regular expression, and, than, reuse the substrings captured by all of these multiple groups. Awesome, right?
+
+In addition to capturing groups, regular expressions can also have non-capturing groups. A non-capturing group is defined using (?:...). It is used to group a pattern without capturing it. Non-capturing groups are often used to apply a quantifier to a group without capturing the group itself.
+
+Here's an example of how to use a group inside a regular expression in Python:
+
+python
+Copy code
+import re
+
+# Define a regular expression with a capturing group
+regex = r"(\d{3})-(\d{2})-(\d{4})"
+
+# Match the regular expression against a string
+text = "My social security number is 123-45-6789."
+match = re.search(regex, text)
+
+# Access the captured groups
+ssn = match.group(0)  # "123-45-6789"
+group1 = match.group(1)  # "123"
+group2 = match.group(2)  # "45"
+group3 = match.group(3)  # "6789"
+In the above example, the regular expression r"(\d{3})-(\d{2})-(\d{4})" contains three capturing groups, each enclosed in parentheses. When the regular expression is matched against the string "My social security number is 123-45-6789.", the first capturing group matches "123", the second capturing group matches "45", and the third capturing group matches "6789".
+
+We can access the captured groups using the group() method of the Match object returned by re.search(). In this example, match.group(0) returns the entire matched string "123-45-6789", match.group(1) returns "123", match.group(2) returns "45", and match.group(3) returns "6789".
+
+
+
+
+
+```{python}
+from pyspark.sql.functions import regexp_replace
+
+type_regex = '\\[(INFO|ERROR|WARN)\\]: '
+
+logs\
+    .withColumn(
+        'without_type',
+        regexp_replace('message', type_regex, '$1')
+    )\
+    .select('message', 'without_type')\
+    .show(truncate = 30)
+```
+
 
 To match grouping expressions use `$1`, `$2`, `$3`, etc...
 ```python
@@ -338,5 +514,3 @@ regexp_extract(teste, '^([a-z]+)', '$1')
 ```
 
 If you need to extract multiple groups together, be sure to add a whitespace between each one, like `"$1 $2 $3"`. Because if write like`"$1$2$3"` is not going to work.
-
-
