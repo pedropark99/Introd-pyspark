@@ -16,3 +16,5 @@ Chapters/metastore_db
 
 Chapters/*.html
 Chapters/*/*
+
+Scripts/__pycache__/
