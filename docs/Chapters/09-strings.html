@@ -298,7 +298,7 @@ div.csl-indent {
   <ul class="collapse">
   <li><a href="#the-java-regular-expression-standard" id="toc-the-java-regular-expression-standard" class="nav-link" data-scroll-target="#the-java-regular-expression-standard"><span class="toc-section-number">8.7.1</span>  The Java regular expression standard</a></li>
   <li><a href="#using-an-invalid-regular-expression" id="toc-using-an-invalid-regular-expression" class="nav-link" data-scroll-target="#using-an-invalid-regular-expression"><span class="toc-section-number">8.7.2</span>  Using an invalid regular expression</a></li>
-  <li><a href="#replacing-occurrences-of-a-particular-regular-expression-with-regexp_replace" id="toc-replacing-occurrences-of-a-particular-regular-expression-with-regexp_replace" class="nav-link" data-scroll-target="#replacing-occurrences-of-a-particular-regular-expression-with-regexp_replace"><span class="toc-section-number">8.7.3</span>  Replacing occurrences of a particular regular expression with <code>regexp_replace()</code></a></li>
+  <li><a href="#sec-regexp-replace" id="toc-sec-regexp-replace" class="nav-link" data-scroll-target="#sec-regexp-replace"><span class="toc-section-number">8.7.3</span>  Replacing occurrences of a particular regular expression with <code>regexp_replace()</code></a></li>
   <li><a href="#introducing-capturing-groups-on-pyspark" id="toc-introducing-capturing-groups-on-pyspark" class="nav-link" data-scroll-target="#introducing-capturing-groups-on-pyspark"><span class="toc-section-number">8.7.4</span>  Introducing capturing groups on <code>pyspark</code></a></li>
   <li><a href="#sec-regexp-extract" id="toc-sec-regexp-extract" class="nav-link" data-scroll-target="#sec-regexp-extract"><span class="toc-section-number">8.7.5</span>  Extracting substrings with <code>regexp_extract()</code></a></li>
   <li><a href="#identifying-values-that-match-a-particular-regular-expression-with-rlike" id="toc-identifying-values-that-match-a-particular-regular-expression-with-rlike" class="nav-link" data-scroll-target="#identifying-values-that-match-a-particular-regular-expression-with-rlike"><span class="toc-section-number">8.7.6</span>  Identifying values that match a particular regular expression with <code>rlike()</code></a></li>
@@ -346,10 +346,10 @@ div.csl-indent {
 |            ip|                                           message|
 +--------------+--------------------------------------------------+
 |  1.0.104.27  |[INFO]: 2022-09-05 03:35:01.43 Looking for work...|
-|  1.0.104.27  |[WARN]: 2022-09-05 03:35.58.007 Workers are una...|
+|  1.0.104.27  |[WARN]: 2022-09-05 03:35:58.007 Workers are una...|
 |  1.0.104.27  |[INFO]: 2022-09-05 03:40:59.054 Looking for wor...|
 |  1.0.104.27  |[INFO]: 2022-09-05 03:42:24 3 Workers were acqu...|
-|  1.0.104.27  |[INFO]: 2022-09-05 03:42.37 Initializing instan...|
+|  1.0.104.27  |[INFO]: 2022-09-05 03:42:37 Initializing instan...|
 +--------------+--------------------------------------------------+
 only showing top 5 rows
 </code></pre>
@@ -378,10 +378,10 @@ only showing top 5 rows
 |                                           message|
 +--------------------------------------------------+
 |[info]: 2022-09-05 03:35:01.43 looking for work...|
-|[warn]: 2022-09-05 03:35.58.007 workers are una...|
+|[warn]: 2022-09-05 03:35:58.007 workers are una...|
 |[info]: 2022-09-05 03:40:59.054 looking for wor...|
 |[info]: 2022-09-05 03:42:24 3 workers were acqu...|
-|[info]: 2022-09-05 03:42.37 initializing instan...|
+|[info]: 2022-09-05 03:42:37 initializing instan...|
 +--------------------------------------------------+
 only showing top 5 rows
 </code></pre>
@@ -396,10 +396,10 @@ only showing top 5 rows
 |                                           message|
 +--------------------------------------------------+
 |[INFO]: 2022-09-05 03:35:01.43 LOOKING FOR WORK...|
-|[WARN]: 2022-09-05 03:35.58.007 WORKERS ARE UNA...|
+|[WARN]: 2022-09-05 03:35:58.007 WORKERS ARE UNA...|
 |[INFO]: 2022-09-05 03:40:59.054 LOOKING FOR WOR...|
 |[INFO]: 2022-09-05 03:42:24 3 WORKERS WERE ACQU...|
-|[INFO]: 2022-09-05 03:42.37 INITIALIZING INSTAN...|
+|[INFO]: 2022-09-05 03:42:37 INITIALIZING INSTAN...|
 +--------------------------------------------------+
 only showing top 5 rows
 </code></pre>
@@ -415,10 +415,10 @@ only showing top 5 rows
 |                                           message|
 +--------------------------------------------------+
 |[info]: 2022-09-05 03:35:01.43 Looking For Work...|
-|[warn]: 2022-09-05 03:35.58.007 Workers Are Una...|
+|[warn]: 2022-09-05 03:35:58.007 Workers Are Una...|
 |[info]: 2022-09-05 03:40:59.054 Looking For Wor...|
 |[info]: 2022-09-05 03:42:24 3 Workers Were Acqu...|
-|[info]: 2022-09-05 03:42.37 Initializing Instan...|
+|[info]: 2022-09-05 03:42:37 Initializing Instan...|
 +--------------------------------------------------+
 only showing top 5 rows
 </code></pre>
@@ -587,7 +587,7 @@ only showing top 5 rows
 <span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>message <span class="op">=</span> mes_10th.collect()[<span class="dv">0</span>][<span class="st">'message'</span>]</span>
 <span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(message)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[INFO]: 2022-09-05 04:02.09.05 Libraries installed: pandas, flask, numpy, spark_map, pyspark</code></pre>
+<pre><code>[INFO]: 2022-09-05 04:02:09.05 Libraries installed: pandas, flask, numpy, spark_map, pyspark</code></pre>
 </div>
 </div>
 <p>We can see that this log message is listing a set of libraries that were installed somewhere. Suppose you want to collect the first and the last libraries in this list. How would you do it?</p>
@@ -807,8 +807,8 @@ only showing top 5 rows
 ([a-z]</code></pre>
 <p>To avoid these runtime errors, due to invalid regular expressions, is always a good idea to test your regular expressions, before you use them in your <code>pyspark</code> code. You can easily test your regular expressions by using online tools, such as the <a href="https://regex101.com/">Regex101 website</a><a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a>.</p>
 </section>
-<section id="replacing-occurrences-of-a-particular-regular-expression-with-regexp_replace" class="level3" data-number="8.7.3">
-<h3 data-number="8.7.3" class="anchored" data-anchor-id="replacing-occurrences-of-a-particular-regular-expression-with-regexp_replace"><span class="header-section-number">8.7.3</span> Replacing occurrences of a particular regular expression with <code>regexp_replace()</code></h3>
+<section id="sec-regexp-replace" class="level3" data-number="8.7.3">
+<h3 data-number="8.7.3" class="anchored" data-anchor-id="sec-regexp-replace"><span class="header-section-number">8.7.3</span> Replacing occurrences of a particular regular expression with <code>regexp_replace()</code></h3>
 <p>One of the most essential actions with regular expression is to find text that fits into a particular regular expression, and, rewriting this text into a different format, or, even removing it completely from the string.</p>
 <p>The <code>regexp_replace()</code> function (from the <code>pyspark.sql.functions</code> module) is the function that allows you to perform this kind of operation on string values of a column in a Spark DataFrame.</p>
 <p>This function replaces all occurrences of a specified regular expression pattern in a given string with a replacement string, and it takes three different arguments:</p>
@@ -836,21 +836,21 @@ only showing top 5 rows
 |                       message|                  without_type|
 +------------------------------+------------------------------+
 |[INFO]: 2022-09-05 03:35:01...|2022-09-05 03:35:01.43 Look...|
-|[WARN]: 2022-09-05 03:35.58...|2022-09-05 03:35.58.007 Wor...|
+|[WARN]: 2022-09-05 03:35:58...|2022-09-05 03:35:58.007 Wor...|
 |[INFO]: 2022-09-05 03:40:59...|2022-09-05 03:40:59.054 Loo...|
 |[INFO]: 2022-09-05 03:42:24...|2022-09-05 03:42:24 3 Worke...|
-|[INFO]: 2022-09-05 03:42.37...|2022-09-05 03:42.37 Initial...|
-|[WARN]: 2022-09-05 03:52.02...|2022-09-05 03:52.02.98 Libr...|
-|[INFO]: 2022-09-05 04:00.33...|2022-09-05 04:00.33.210 Lib...|
-|[INFO]: 2022-09-05 04:01.15...|2022-09-05 04:01.15 All clu...|
-|[INFO]: 2022-09-05 04:01.35...|2022-09-05 04:01.35.022 Mak...|
-|[INFO]: 2022-09-05 04:02.09...|2022-09-05 04:02.09.05 Libr...|
-|[INFO]: 2022-09-05 04:02.09...|2022-09-05 04:02.09.05 The ...|
-|[INFO]: 2022-09-05 04:02.09...|2022-09-05 04:02.09.05 An e...|
-|[ERROR]: 2022-09-05 04:02.1...|2022-09-05 04:02.12 A task ...|
-|[ERROR]: 2022-09-05 04:02.3...|2022-09-05 04:02.34.111 Err...|
-|[ERROR]: 2022-09-05 04:02.3...|2022-09-05 04:02.34.678 Tra...|
-|[ERROR]: 2022-09-05 04:02.3...|2022-09-05 04:02.35.14 Quit...|
+|[INFO]: 2022-09-05 03:42:37...|2022-09-05 03:42:37 Initial...|
+|[WARN]: 2022-09-05 03:52:02...|2022-09-05 03:52:02.98 Libr...|
+|[INFO]: 2022-09-05 04:00:33...|2022-09-05 04:00:33.210 Lib...|
+|[INFO]: 2022-09-05 04:01:15...|2022-09-05 04:01:15 All clu...|
+|[INFO]: 2022-09-05 04:01:35...|2022-09-05 04:01:35.022 Mak...|
+|[INFO]: 2022-09-05 04:02:09...|2022-09-05 04:02:09.05 Libr...|
+|[INFO]: 2022-09-05 04:02:09...|2022-09-05 04:02:09.05 The ...|
+|[INFO]: 2022-09-05 04:02:09...|2022-09-05 04:02:09.05 An e...|
+|[ERROR]: 2022-09-05 04:02:1...|2022-09-05 04:02:12 A task ...|
+|[ERROR]: 2022-09-05 04:02:3...|2022-09-05 04:02:34.111 Err...|
+|[ERROR]: 2022-09-05 04:02:3...|2022-09-05 04:02:34.678 Tra...|
+|[ERROR]: 2022-09-05 04:02:3...|2022-09-05 04:02:35.14 Quit...|
 +------------------------------+------------------------------+
 </code></pre>
 </div>
@@ -860,6 +860,7 @@ only showing top 5 rows
 <section id="introducing-capturing-groups-on-pyspark" class="level3" data-number="8.7.4">
 <h3 data-number="8.7.4" class="anchored" data-anchor-id="introducing-capturing-groups-on-pyspark"><span class="header-section-number">8.7.4</span> Introducing capturing groups on <code>pyspark</code></h3>
 <p>One of the many awesome functionalities of regular expressions, is the capability of enclosing parts of a regular expression inside groups, and actually store (or cache) the substring matched by this group. This process of grouping parts of a regular expression inside a group, and capturing substrings with them, is usually called of “grouping and capturing”.</p>
+<p>Is worth pointing out that this capturing groups functionality is available both in <code>regexp_replace()</code> and <code>regexp_extract()</code>.</p>
 <section id="what-is-a-capturing-group" class="level4" data-number="8.7.4.1">
 <h4 data-number="8.7.4.1" class="anchored" data-anchor-id="what-is-a-capturing-group"><span class="header-section-number">8.7.4.1</span> What is a capturing group ?</h4>
 <p>Ok, but, what is this group thing? You create a group inside a regular expression by enclosing a particular section of your regular expression inside a pair of parentheses. The regular expression that is written inside this pair of of parentheses represents a capturing group.</p>
@@ -898,45 +899,46 @@ only showing top 5 rows
 </section>
 <section id="how-can-we-use-capturing-groups-in-pyspark" class="level4" data-number="8.7.4.2">
 <h4 data-number="8.7.4.2" class="anchored" data-anchor-id="how-can-we-use-capturing-groups-in-pyspark"><span class="header-section-number">8.7.4.2</span> How can we use capturing groups in <code>pyspark</code> ?</h4>
+<p>Ok, now that we understood what capturing groups is, how can we use them in <code>pypspark</code>? First, remember, capturing groups will be available to you, only if you enclose a part of your regular expression in a pair of parentheses. So the first part is to make sure that the capturing groups are present in your regular expressions.</p>
+<p>After that, you can access the substring matched by the capturing group, by using the reference index that identifies this capturing group you want to use. In pure Python, we used the <code>group()</code> method with the group index (like 1, 2, etc.) to access these values.</p>
+<p>But in <code>pyspark</code>, we access these groups by using a special pattern formed by the group index preceded by a dollar sign (<code>$</code>). That is, the text <code>$1</code> references the first capturing group, <code>$2</code> references the second capturing group, etc.</p>
+<p>As a first example, lets go back to the regular expression we used at <a href="#sec-regexp-replace"><span>Section&nbsp;8.7.3</span></a>: <code>\\[(INFO|ERROR|WARN)\\]:</code>. This regular expression contains one capturing group, which captures the type label of the log message: <code>(INFO|ERROR|WARN)</code>.</p>
+<p>If we use the special pattern <code>$1</code> to reference this capturing group inside of <code>regexp_replace()</code>, what is going to happen is: <code>regexp_replace()</code> will replace all occurrences of the input regular expression found on the input string, by the substring matched by the first capturing group. See in the example below:</p>
 <div class="cell" data-execution_count="20">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> regexp_replace</span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>type_regex <span class="op">=</span> <span class="st">'</span><span class="ch">\\</span><span class="st">[(INFO|ERROR|WARN)</span><span class="ch">\\</span><span class="st">]: '</span></span>
-<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>logs<span class="op">\</span></span>
-<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>    .withColumn(</span>
-<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>        <span class="st">'without_type'</span>,</span>
-<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>        regexp_replace(<span class="st">'message'</span>, type_regex, <span class="st">'$1'</span>)</span>
-<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>    )<span class="op">\</span></span>
-<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>    .select(<span class="st">'message'</span>, <span class="st">'without_type'</span>)<span class="op">\</span></span>
-<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>    .show(truncate <span class="op">=</span> <span class="dv">30</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>logs<span class="op">\</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>    .withColumn(</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>        <span class="st">'using_groups'</span>,</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>        regexp_replace(<span class="st">'message'</span>, type_regex, <span class="st">'Type Label -&gt; $1 | '</span>)</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>    )<span class="op">\</span></span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>    .select(<span class="st">'message'</span>, <span class="st">'using_groups'</span>)<span class="op">\</span></span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>    .show(truncate <span class="op">=</span> <span class="dv">30</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>+------------------------------+------------------------------+
-|                       message|                  without_type|
+|                       message|                  using_groups|
 +------------------------------+------------------------------+
-|[INFO]: 2022-09-05 03:35:01...|INFO2022-09-05 03:35:01.43 ...|
-|[WARN]: 2022-09-05 03:35.58...|WARN2022-09-05 03:35.58.007...|
-|[INFO]: 2022-09-05 03:40:59...|INFO2022-09-05 03:40:59.054...|
-|[INFO]: 2022-09-05 03:42:24...|INFO2022-09-05 03:42:24 3 W...|
-|[INFO]: 2022-09-05 03:42.37...|INFO2022-09-05 03:42.37 Ini...|
-|[WARN]: 2022-09-05 03:52.02...|WARN2022-09-05 03:52.02.98 ...|
-|[INFO]: 2022-09-05 04:00.33...|INFO2022-09-05 04:00.33.210...|
-|[INFO]: 2022-09-05 04:01.15...|INFO2022-09-05 04:01.15 All...|
-|[INFO]: 2022-09-05 04:01.35...|INFO2022-09-05 04:01.35.022...|
-|[INFO]: 2022-09-05 04:02.09...|INFO2022-09-05 04:02.09.05 ...|
-|[INFO]: 2022-09-05 04:02.09...|INFO2022-09-05 04:02.09.05 ...|
-|[INFO]: 2022-09-05 04:02.09...|INFO2022-09-05 04:02.09.05 ...|
-|[ERROR]: 2022-09-05 04:02.1...|ERROR2022-09-05 04:02.12 A ...|
-|[ERROR]: 2022-09-05 04:02.3...|ERROR2022-09-05 04:02.34.11...|
-|[ERROR]: 2022-09-05 04:02.3...|ERROR2022-09-05 04:02.34.67...|
-|[ERROR]: 2022-09-05 04:02.3...|ERROR2022-09-05 04:02.35.14...|
+|[INFO]: 2022-09-05 03:35:01...|Type Label -&gt; INFO | 2022-0...|
+|[WARN]: 2022-09-05 03:35:58...|Type Label -&gt; WARN | 2022-0...|
+|[INFO]: 2022-09-05 03:40:59...|Type Label -&gt; INFO | 2022-0...|
+|[INFO]: 2022-09-05 03:42:24...|Type Label -&gt; INFO | 2022-0...|
+|[INFO]: 2022-09-05 03:42:37...|Type Label -&gt; INFO | 2022-0...|
+|[WARN]: 2022-09-05 03:52:02...|Type Label -&gt; WARN | 2022-0...|
+|[INFO]: 2022-09-05 04:00:33...|Type Label -&gt; INFO | 2022-0...|
+|[INFO]: 2022-09-05 04:01:15...|Type Label -&gt; INFO | 2022-0...|
+|[INFO]: 2022-09-05 04:01:35...|Type Label -&gt; INFO | 2022-0...|
+|[INFO]: 2022-09-05 04:02:09...|Type Label -&gt; INFO | 2022-0...|
+|[INFO]: 2022-09-05 04:02:09...|Type Label -&gt; INFO | 2022-0...|
+|[INFO]: 2022-09-05 04:02:09...|Type Label -&gt; INFO | 2022-0...|
+|[ERROR]: 2022-09-05 04:02:1...|Type Label -&gt; ERROR | 2022-...|
+|[ERROR]: 2022-09-05 04:02:3...|Type Label -&gt; ERROR | 2022-...|
+|[ERROR]: 2022-09-05 04:02:3...|Type Label -&gt; ERROR | 2022-...|
+|[ERROR]: 2022-09-05 04:02:3...|Type Label -&gt; ERROR | 2022-...|
 +------------------------------+------------------------------+
 </code></pre>
 </div>
 </div>
-<p>To match grouping expressions use <code>$1</code>, <code>$2</code>, <code>$3</code>, etc…</p>
-<div class="sourceCode" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>regexp_extract(teste, <span class="st">'^([a-z]+)'</span>, <span class="st">'$1'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>If you need to extract multiple groups together, be sure to add a whitespace between each one, like <code>"$1 $2 $3"</code>. Because if write like<code>"$1$2$3"</code> is not going to work.</p>
+<p>In essence, you can reuse the substrings matched by the capturing groups, by using the special patterns <code>$1</code>, <code>$2</code>, <code>$3</code>, etc. This means that you can reuse the substrings captured by multiple groups at the same time inside <code>regexp_replace()</code> and <code>regexp_extract()</code>. For example, if we use the replacement string <code>"$1, $2, $3"</code> inside <code>regexp_replace()</code>, we would get the substrings matched by the first, second and third capturing groups, separated by commas.</p>
+<p>However, is also good to emphasize a small limitation that this system has. When you need to reuse the substrings captured by multiple groups together, is important that you make sure to add some amount of space (or some delimiter character) between each group reference, like <code>"$1 $2 $3"</code>.</p>
+<p>Because if you write these group references one close to each other (like in <code>"$1$2$3"</code>), it is not going to work. In other words, Spark will not understand that you are trying to access a capturing group. It will interpret the text <code>"$1$2$3"</code> as the literal value <code>"$1$2$3"</code>, and not as a special pattern that references multiple capturing groups in the regular expression.</p>
 </section>
 </section>
 <section id="sec-regexp-extract" class="level3" data-number="8.7.5">
@@ -948,19 +950,84 @@ only showing top 5 rows
 <li>The regular expression pattern to search for within the input string;</li>
 <li>The index of the capturing group within the regular expression pattern that corresponds to the substring to extract;</li>
 </ul>
-<p>Here’s an example usage:</p>
-<div class="sourceCode" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> regexp_extract</span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a PySpark DataFrame with a column called "text"</span></span>
-<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> spark.createDataFrame([(<span class="st">'John Smith 123 Main St.'</span>],), [<span class="st">'text'</span>])</span>
-<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract the name from the "text" column</span></span>
-<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.withColumn(<span class="st">'name'</span>, regexp_extract(<span class="st">'text'</span>, <span class="st">'(\w+)\s\w+\s\d+\s\w+\.\s*'</span>, <span class="dv">1</span>))</span>
-<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Show the result</span></span>
-<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>df.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>In the above example, the regexp_extract() function searches for a regular expression pattern that matches a person’s name followed by their address. The capturing group (\w+) extracts the name from the input string. The resulting DataFrame would look like this:</p>
-<p>This function can be useful for extracting specific information from structured text data in PySpark. Note that if the capturing group index is invalid or if there is no match for the regular expression pattern in the input string, the function returns a null value.</p>
+<p>You may (or may not) use capturing groups inside of <code>regexp_replace()</code>. However, on the other hand, the <code>regexp_extract()</code> function <strong>is based on</strong> the capturing groups functionality. As a consequence, when you use <code>regexp_extract()</code>, you must give a regular expression that <strong>contains some capturing group</strong>. Because otherwise, the <code>regexp_extract()</code> function becomes useless.</p>
+<p>In other words, the <code>regexp_extract()</code> function extracts substrings that are matched by the capturing groups present in your input regular expression. If you want, for example, to use <code>regexp_extract()</code> to extract the substring matched by a entire regular expression, then, you just need to surround this entire regular expression by a pair of parentheses. This way you transform this entire regular expression in a capturing group, and, therefore, you can extract the substring matched by this group.</p>
+<p>As an example, lets go back again to the regular expression we used in the <code>logs</code> DataFrame: <code>\\[(INFO|ERROR|WARN)\\]:</code>. We can extract the type of log message label, by using the index 1 to reference the first (and only) capturing group in this regular expression.</p>
+<div class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> regexp_extract</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>logs<span class="op">\</span></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>    .withColumn(</span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>        <span class="st">'message_type'</span>,</span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>        regexp_extract(<span class="st">'message'</span>, type_regex, <span class="dv">1</span>)</span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>    )<span class="op">\</span></span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>    .select(<span class="st">'message'</span>, <span class="st">'message_type'</span>)<span class="op">\</span></span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>    .show(truncate <span class="op">=</span> <span class="dv">30</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>+------------------------------+------------+
+|                       message|message_type|
++------------------------------+------------+
+|[INFO]: 2022-09-05 03:35:01...|        INFO|
+|[WARN]: 2022-09-05 03:35:58...|        WARN|
+|[INFO]: 2022-09-05 03:40:59...|        INFO|
+|[INFO]: 2022-09-05 03:42:24...|        INFO|
+|[INFO]: 2022-09-05 03:42:37...|        INFO|
+|[WARN]: 2022-09-05 03:52:02...|        WARN|
+|[INFO]: 2022-09-05 04:00:33...|        INFO|
+|[INFO]: 2022-09-05 04:01:15...|        INFO|
+|[INFO]: 2022-09-05 04:01:35...|        INFO|
+|[INFO]: 2022-09-05 04:02:09...|        INFO|
+|[INFO]: 2022-09-05 04:02:09...|        INFO|
+|[INFO]: 2022-09-05 04:02:09...|        INFO|
+|[ERROR]: 2022-09-05 04:02:1...|       ERROR|
+|[ERROR]: 2022-09-05 04:02:3...|       ERROR|
+|[ERROR]: 2022-09-05 04:02:3...|       ERROR|
+|[ERROR]: 2022-09-05 04:02:3...|       ERROR|
++------------------------------+------------+
+</code></pre>
+</div>
+</div>
+<p>As another example, lets suppose we wanted to extract not only the type of the log message, but also, the timestamp and the content of the message, and store these different elements in separate columns.</p>
+<p>To do that, we could build a more complete regular expression. An expression capable of matching the entire log message, and, at the same time, capture each of these different elements inside a different capturing group. The code below is an example that produces such regular expression, and applies it over the <code>logs</code> DataFrame.</p>
+<div class="cell" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>type_regex <span class="op">=</span> <span class="vs">r'\[(INFO|ERROR|WARN)\]: '</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>date_regex <span class="op">=</span> <span class="vs">r'\d</span><span class="sc">{4}</span><span class="vs">-\d</span><span class="sc">{2}</span><span class="vs">-\d</span><span class="sc">{2}</span><span class="vs">'</span></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>time_regex <span class="op">=</span> <span class="vs">r' \d</span><span class="sc">{2}</span><span class="vs">:\d</span><span class="sc">{2}</span><span class="vs">:\d</span><span class="sc">{2}</span><span class="vs">([.]\d+)?'</span></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>timestamp_regex <span class="op">=</span> date_regex <span class="op">+</span> time_regex</span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>timestamp_regex <span class="op">=</span> <span class="vs">r'('</span> <span class="op">+</span> timestamp_regex <span class="op">+</span> <span class="vs">r')'</span></span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>regex <span class="op">=</span> type_regex <span class="op">+</span> timestamp_regex <span class="op">+</span> <span class="vs">r'(.+)$'</span></span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>logs<span class="op">\</span></span>
+<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a>    .withColumn(</span>
+<span id="cb42-12"><a href="#cb42-12" aria-hidden="true" tabindex="-1"></a>        <span class="st">'message_type'</span>,</span>
+<span id="cb42-13"><a href="#cb42-13" aria-hidden="true" tabindex="-1"></a>        regexp_extract(<span class="st">'message'</span>, regex, <span class="dv">1</span>)</span>
+<span id="cb42-14"><a href="#cb42-14" aria-hidden="true" tabindex="-1"></a>    )<span class="op">\</span></span>
+<span id="cb42-15"><a href="#cb42-15" aria-hidden="true" tabindex="-1"></a>    .withColumn(</span>
+<span id="cb42-16"><a href="#cb42-16" aria-hidden="true" tabindex="-1"></a>        <span class="st">'timestamp'</span>,</span>
+<span id="cb42-17"><a href="#cb42-17" aria-hidden="true" tabindex="-1"></a>        regexp_extract(<span class="st">'message'</span>, regex, <span class="dv">2</span>)</span>
+<span id="cb42-18"><a href="#cb42-18" aria-hidden="true" tabindex="-1"></a>    )<span class="op">\</span></span>
+<span id="cb42-19"><a href="#cb42-19" aria-hidden="true" tabindex="-1"></a>    .withColumn(</span>
+<span id="cb42-20"><a href="#cb42-20" aria-hidden="true" tabindex="-1"></a>        <span class="st">'message_content'</span>,</span>
+<span id="cb42-21"><a href="#cb42-21" aria-hidden="true" tabindex="-1"></a>        regexp_extract(<span class="st">'message'</span>, regex, <span class="dv">4</span>)</span>
+<span id="cb42-22"><a href="#cb42-22" aria-hidden="true" tabindex="-1"></a>    )<span class="op">\</span></span>
+<span id="cb42-23"><a href="#cb42-23" aria-hidden="true" tabindex="-1"></a>    .select(<span class="st">'message_type'</span>, <span class="st">'timestamp'</span>, <span class="st">'message_content'</span>)<span class="op">\</span></span>
+<span id="cb42-24"><a href="#cb42-24" aria-hidden="true" tabindex="-1"></a>    .show(<span class="dv">5</span>, truncate <span class="op">=</span> <span class="dv">30</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>+------------+-----------------------+------------------------------+
+|message_type|              timestamp|               message_content|
++------------+-----------------------+------------------------------+
+|        INFO| 2022-09-05 03:35:01.43| Looking for workers at Sou...|
+|        WARN|2022-09-05 03:35:58.007| Workers are unavailable at...|
+|        INFO|2022-09-05 03:40:59.054| Looking for workers at Sou...|
+|        INFO|    2022-09-05 03:42:24| 3 Workers were acquired at...|
+|        INFO|    2022-09-05 03:42:37| Initializing instances in ...|
++------------+-----------------------+------------------------------+
+only showing top 5 rows
+</code></pre>
+</div>
+</div>
 </section>
 <section id="identifying-values-that-match-a-particular-regular-expression-with-rlike" class="level3" data-number="8.7.6">
 <h3 data-number="8.7.6" class="anchored" data-anchor-id="identifying-values-that-match-a-particular-regular-expression-with-rlike"><span class="header-section-number">8.7.6</span> Identifying values that match a particular regular expression with <code>rlike()</code></h3>
@@ -973,26 +1040,26 @@ only showing top 5 rows
 <li><code>([.][0-9]+)?</code>: Matches an optional decimal point followed by one or more digits.</li>
 </ul>
 <p>If we apply this pattern over all log messages stored in the <code>logs</code> DataFrame, we would find that all logs messages matches this particular regular expression. Because all log messages contains a timestamp value at the start of the message:</p>
-<div class="cell" data-execution_count="21">
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> col</span>
-<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>pattern <span class="op">=</span> <span class="st">"[0-9]</span><span class="sc">{2}</span><span class="st">:[0-9]</span><span class="sc">{2}</span><span class="st">:[0-9]</span><span class="sc">{2}</span><span class="st">([.][0-9]+)?"</span></span>
-<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>logs<span class="op">\</span></span>
-<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>    .withColumn(</span>
-<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>        <span class="st">'does_it_match?'</span>,</span>
-<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>        col(<span class="st">"message"</span>).rlike(pattern)</span>
-<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>    )<span class="op">\</span></span>
-<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>    .select(<span class="st">'message'</span>, <span class="st">'does_it_match?'</span>)<span class="op">\</span></span>
-<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>    .show(<span class="dv">5</span>, truncate <span class="op">=</span> n_truncate)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> col</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>pattern <span class="op">=</span> <span class="st">"[0-9]</span><span class="sc">{2}</span><span class="st">:[0-9]</span><span class="sc">{2}</span><span class="st">:[0-9]</span><span class="sc">{2}</span><span class="st">([.][0-9]+)?"</span></span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>logs<span class="op">\</span></span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>    .withColumn(</span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>        <span class="st">'does_it_match?'</span>,</span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>        col(<span class="st">"message"</span>).rlike(pattern)</span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a>    )<span class="op">\</span></span>
+<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a>    .select(<span class="st">'message'</span>, <span class="st">'does_it_match?'</span>)<span class="op">\</span></span>
+<span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a>    .show(<span class="dv">5</span>, truncate <span class="op">=</span> n_truncate)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>+--------------------------------------------------+--------------+
 |                                           message|does_it_match?|
 +--------------------------------------------------+--------------+
 |[INFO]: 2022-09-05 03:35:01.43 Looking for work...|          true|
-|[WARN]: 2022-09-05 03:35.58.007 Workers are una...|         false|
+|[WARN]: 2022-09-05 03:35:58.007 Workers are una...|          true|
 |[INFO]: 2022-09-05 03:40:59.054 Looking for wor...|          true|
 |[INFO]: 2022-09-05 03:42:24 3 Workers were acqu...|          true|
-|[INFO]: 2022-09-05 03:42.37 Initializing instan...|         false|
+|[INFO]: 2022-09-05 03:42:37 Initializing instan...|          true|
 +--------------------------------------------------+--------------+
 only showing top 5 rows
 </code></pre>
