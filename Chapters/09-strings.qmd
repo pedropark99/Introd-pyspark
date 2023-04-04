@@ -455,6 +455,11 @@ In the above example, the regexp_extract() function searches for a regular expre
 
 This function can be useful for extracting specific information from structured text data in PySpark. Note that if the capturing group index is invalid or if there is no match for the regular expression pattern in the input string, the function returns a null value.
 
+
+### Identifying values that match a particular regular expression with `rlike()`
+
+
+
 ### Introducing capturing groups on `pyspark`
 
 One of the many awesome functionalities of regular expressions, is the capability of enclosing parts of a regular expression inside groups, and actually storing (or caching) the substring matched by this grouped. This process of grouping parts of a regular expression inside a group, is usually called of "grouping and capturing".
@@ -497,7 +502,7 @@ In the above example, the regular expression `r"(\d{3})-(\d{2})-(\d{4})"` contai
 
 In Python, we can access the captured groups using the `group()` method of the `Match` object returned by `re.search()`. In this example, `match.group(1)` returns the captured substring of the first capturing group (which is `"123"`), `match.group(2)` returns second `"45"`, and `match.group(3)` returns `"6789"`.
 
-#### How can we use groupings in `pyspark` ?
+#### How can we use capturing groups in `pyspark` ?
 
 
 
