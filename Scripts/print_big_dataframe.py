@@ -15,7 +15,7 @@ df = '''+------------+-------------------+------------+-------------+-----------
 # https://stackoverflow.com/questions/1218933/can-i-redirect-the-stdout-into-some-sort-of-string-buffer
 # with io.StringIO() as buf, redirect_stdout(buf):    
 #     output = buf.getvalue()
-def get_substring_index(text, substring):
+def get_substring_indexes(text, substring):
     indexes = list()
     for i in range(len(text)):
         char = text[i]
@@ -23,11 +23,11 @@ def get_substring_index(text, substring):
             indexes.append(i)
     return indexes
 
-def print_dataframe(text, n_chars = 80):
+def print_dataframe_two_blocks(text, n_chars = 80):
     text = text.split('\n')
     first_line = text[0]
     trunc_area = first_line[0:n_chars]
-    column_seps = get_substring_index(trunc_area, '+')
+    column_seps = get_substring_indexes(trunc_area, '+')
     max_char = max(column_seps)
     first_block = list()
     second_block = list()
@@ -47,6 +47,60 @@ def print_dataframe(text, n_chars = 80):
     return None
 
 
+def get_columns_names(text):
+    column_names = text.split('|')
+    column_names = [name.strip() for name in column_names]
+    column_names = list(filter(lambda name: name != '', column_names))
+    return column_names
+
+def get_columns_in_range(text, max_index):
+    truncated_text = text[0:max_index]
+    column_names = truncated_text.split('|')
+    column_names = [name.strip() for name in column_names]
+    column_names = list(filter(lambda name: name != '', column_names))
+    return column_names
+
+
+def create_remainder_message(columns, max_index, n_chars):
+    all_columns = get_columns_names(columns)
+    columns_in_range = get_columns_in_range(columns, max_index)
+    remaning_columns = list()
+    for column in all_columns:
+        if column not in columns_in_range:
+            remaning_columns.append(column)
+
+    n = len(remaning_columns)
+    if n > 0:
+        columns = ', '.join(remaning_columns)
+        message = f"... with {n} more columns: {columns}"
+    else:
+        message = None
+
+    if len(message) > n_chars:
+        # Insert a break line
+        commas = get_substring_indexes(message, ',')
+        last_comma = max(filter(lambda x: x <= n_chars, commas))
+        message = [
+            message[:last_comma],
+            message[(last_comma + 1):]
+        ]
+        message = '\n   '.join(message)
+
+    return message
+
+
+def print_dataframe(text, n_chars = 80):
+    text = text.split('\n')
+    first_line = text[0]
+    column_seps = get_substring_indexes(first_line, '+')
+
+    max_index = max(filter(lambda x: x <= n_chars, column_seps))
+    remainder_message = create_remainder_message(text[1], max_index, n_chars)
+
+    return remainder_message
+
+# … with 336,766 more rows, 9 more variables: flight <int>, tailnum <chr>,
 
 t = print_dataframe(df)
+
 print(t)
