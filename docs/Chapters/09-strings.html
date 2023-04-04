@@ -83,6 +83,25 @@ code span.st { color: #4070a0; } /* String */
 code span.va { color: #19177c; } /* Variable */
 code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
 </style>
 
 
@@ -279,9 +298,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <ul class="collapse">
   <li><a href="#the-java-regular-expression-standard" id="toc-the-java-regular-expression-standard" class="nav-link" data-scroll-target="#the-java-regular-expression-standard"><span class="toc-section-number">8.7.1</span>  The Java regular expression standard</a></li>
   <li><a href="#using-an-invalid-regular-expression" id="toc-using-an-invalid-regular-expression" class="nav-link" data-scroll-target="#using-an-invalid-regular-expression"><span class="toc-section-number">8.7.2</span>  Using an invalid regular expression</a></li>
-  <li><a href="#replacing-occurrences-of-a-particular-regular-expression" id="toc-replacing-occurrences-of-a-particular-regular-expression" class="nav-link" data-scroll-target="#replacing-occurrences-of-a-particular-regular-expression"><span class="toc-section-number">8.7.3</span>  Replacing occurrences of a particular regular expression</a></li>
+  <li><a href="#replacing-occurrences-of-a-particular-regular-expression-with-regexp_replace" id="toc-replacing-occurrences-of-a-particular-regular-expression-with-regexp_replace" class="nav-link" data-scroll-target="#replacing-occurrences-of-a-particular-regular-expression-with-regexp_replace"><span class="toc-section-number">8.7.3</span>  Replacing occurrences of a particular regular expression with <code>regexp_replace()</code></a></li>
   <li><a href="#sec-regexp-extract" id="toc-sec-regexp-extract" class="nav-link" data-scroll-target="#sec-regexp-extract"><span class="toc-section-number">8.7.4</span>  Extracting substrings with <code>regexp_extract()</code></a></li>
-  <li><a href="#how-to-use-grouping-on-pyspark" id="toc-how-to-use-grouping-on-pyspark" class="nav-link" data-scroll-target="#how-to-use-grouping-on-pyspark"><span class="toc-section-number">8.7.5</span>  How to use grouping on pyspark</a></li>
+  <li><a href="#introducing-capturing-groups-on-pyspark" id="toc-introducing-capturing-groups-on-pyspark" class="nav-link" data-scroll-target="#introducing-capturing-groups-on-pyspark"><span class="toc-section-number">8.7.5</span>  Introducing capturing groups on <code>pyspark</code></a></li>
   </ul></li>
   </ul>
 </nav>
@@ -776,12 +795,12 @@ only showing top 5 rows
 <span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>    .<span class="bu">filter</span>(col(<span class="st">'message'</span>).rlike(weird_regex))<span class="op">\</span></span>
 <span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>    .show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <pre><code>Py4JJavaError: An error occurred while calling o261.showString.
-: ... java.util.regex.PatternSyntaxException: Unclosed group near index 7
+:   java.util.regex.PatternSyntaxException: Unclosed group near index 7
 ([a-z]</code></pre>
-<p>To avoid these runtime errors due to invalid regular expressions, is always a good idea to test your regular expressions, before you use them in your <code>pyspark</code> code. You can easily test your regular expressions by using online tools, such as the <a href="https://regex101.com/">Regex101 website</a><a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a>.</p>
+<p>To avoid these runtime errors, due to invalid regular expressions, is always a good idea to test your regular expressions, before you use them in your <code>pyspark</code> code. You can easily test your regular expressions by using online tools, such as the <a href="https://regex101.com/">Regex101 website</a><a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a>.</p>
 </section>
-<section id="replacing-occurrences-of-a-particular-regular-expression" class="level3" data-number="8.7.3">
-<h3 data-number="8.7.3" class="anchored" data-anchor-id="replacing-occurrences-of-a-particular-regular-expression"><span class="header-section-number">8.7.3</span> Replacing occurrences of a particular regular expression</h3>
+<section id="replacing-occurrences-of-a-particular-regular-expression-with-regexp_replace" class="level3" data-number="8.7.3">
+<h3 data-number="8.7.3" class="anchored" data-anchor-id="replacing-occurrences-of-a-particular-regular-expression-with-regexp_replace"><span class="header-section-number">8.7.3</span> Replacing occurrences of a particular regular expression with <code>regexp_replace()</code></h3>
 <p>One of the most essential actions with regular expression is to find text that fits into a particular regular expression, and, rewriting this text into a different format, or, even removing it completely from the string.</p>
 <p>The <code>regexp_replace()</code> function (from the <code>pyspark.sql.functions</code> module) is the function that allows you to perform this kind of operation on string values of a column in a Spark DataFrame.</p>
 <p>This function replaces all occurrences of a specified regular expression pattern in a given string with a replacement string, and it takes three different arguments:</p>
@@ -853,20 +872,53 @@ only showing top 5 rows
 <p>In the above example, the regexp_extract() function searches for a regular expression pattern that matches a person’s name followed by their address. The capturing group (+) extracts the name from the input string. The resulting DataFrame would look like this:</p>
 <p>This function can be useful for extracting specific information from structured text data in PySpark. Note that if the capturing group index is invalid or if there is no match for the regular expression pattern in the input string, the function returns a null value.</p>
 </section>
-<section id="how-to-use-grouping-on-pyspark" class="level3" data-number="8.7.5">
-<h3 data-number="8.7.5" class="anchored" data-anchor-id="how-to-use-grouping-on-pyspark"><span class="header-section-number">8.7.5</span> How to use grouping on pyspark</h3>
+<section id="introducing-capturing-groups-on-pyspark" class="level3" data-number="8.7.5">
+<h3 data-number="8.7.5" class="anchored" data-anchor-id="introducing-capturing-groups-on-pyspark"><span class="header-section-number">8.7.5</span> Introducing capturing groups on <code>pyspark</code></h3>
+<p>One of the many awesome functionalities of regular expressions, is the capability of enclosing parts of a regular expression inside groups, and actually storing (or caching) the substring matched by this grouped. This process of grouping parts of a regular expression inside a group, is usually called of “grouping and capturing”.</p>
+<section id="what-is-a-capturing-group" class="level4" data-number="8.7.5.1">
+<h4 data-number="8.7.5.1" class="anchored" data-anchor-id="what-is-a-capturing-group"><span class="header-section-number">8.7.5.1</span> What is a capturing group ?</h4>
+<p>Ok, but, what is this group thing? You create a group inside a regular expression by enclosing a particular section of your regular expression inside a pair of parentheses. A group is created with the regular expression that is written inside this pair of of parentheses.</p>
+<p>A group inside a regular expression is used to capture a specific part of the matched string. This means that the actual part of the input string that is matched by the regular expression that is inside this pair of parentheses, is captured (or cached, or saved) by the group, and, can be reused later.</p>
+<blockquote class="blockquote">
+<p>Besides grouping part of a regular expression together, parentheses also create a numbered capturing group. It stores the part of the string matched by the part of the regular expression inside the parentheses. …. The regex “Set(Value)?” matches “Set” or “SetValue”. In the first case, the first (and only) capturing group remains empty. In the second case, the first capturing group matches “Value”. <span class="citation" data-cites="regexinfo">(<a href="references.html#ref-regexinfo" role="doc-biblioref">Goyvaerts 2023</a>)</span>.</p>
+</blockquote>
+<p>So, remember, to use groupings in a regular expression, you need to enclose the part of the pattern that you want to capture in parentheses <code>()</code>. Each set of parentheses creates a new capturing group. This means that you can create multiple groups inside a single regular expression, and, then, reuse latter the substrings captured by all of these multiple groups. Awesome, right?</p>
+<p>Each new group (that is, each pair of parentheses) that you create in your regular expression have a different index. That means that the first group is identified by the index 1, the second group, by the index 2, the third group, by the index 3, and goes on.</p>
+<!-- In addition to capturing groups, regular expressions can also have a non-capturing group. A non-capturing group is defined using `(?:value)`. It is used to group a pattern without capturing it. In other words, a non-capturing groups is a group that does store (or cache, or capture) the substring matched by the regular expression it holds. These non-capturing groups are often used to apply a quantifier to a group without capturing the group itself. -->
+<p>Just to quickly demonstrate these capturing groups, here is a quick example, in pure Python:</p>
 <div class="cell" data-execution_count="19">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> regexp_replace</span>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> re</span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>type_regex <span class="op">=</span> <span class="st">'</span><span class="ch">\\</span><span class="st">[(INFO|ERROR|WARN)</span><span class="ch">\\</span><span class="st">]: '</span></span>
-<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>logs<span class="op">\</span></span>
-<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>    .withColumn(</span>
-<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>        <span class="st">'without_type'</span>,</span>
-<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>        regexp_replace(<span class="st">'message'</span>, type_regex, <span class="st">'$1'</span>)</span>
-<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>    )<span class="op">\</span></span>
-<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>    .select(<span class="st">'message'</span>, <span class="st">'without_type'</span>)<span class="op">\</span></span>
-<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>    .show(truncate <span class="op">=</span> <span class="dv">30</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="co"># A regular expression that contains</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="co"># three different capturing groups</span></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>regex <span class="op">=</span> <span class="vs">r"(\d</span><span class="sc">{3}</span><span class="vs">)-(\d</span><span class="sc">{2}</span><span class="vs">)-(\d</span><span class="sc">{4}</span><span class="vs">)"</span></span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Match the regular expression against a string</span></span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>text <span class="op">=</span> <span class="st">"My social security number is 123-45-6789."</span></span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>match <span class="op">=</span> re.search(regex, text)</span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Access the captured groups</span></span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>group1 <span class="op">=</span> match.group(<span class="dv">1</span>)  <span class="co"># "123"</span></span>
+<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a>group2 <span class="op">=</span> match.group(<span class="dv">2</span>)  <span class="co"># "45"</span></span>
+<span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a>group3 <span class="op">=</span> match.group(<span class="dv">3</span>)  <span class="co"># "6789"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>In the above example, the regular expression <code>r"(\d{3})-(\d{2})-(\d{4})"</code> contains three capturing groups, each enclosed in parentheses. When the regular expression is matched against the string <code>"My social security number is 123-45-6789."</code>, the first capturing group matches the substring <code>"123"</code>, the second capturing group matches <code>"45"</code>, and the third capturing group matches <code>"6789"</code>.</p>
+<p>In Python, we can access the captured groups using the <code>group()</code> method of the <code>Match</code> object returned by <code>re.search()</code>. In this example, <code>match.group(1)</code> returns the captured substring of the first capturing group (which is <code>"123"</code>), <code>match.group(2)</code> returns second <code>"45"</code>, and <code>match.group(3)</code> returns <code>"6789"</code>.</p>
+</section>
+<section id="how-can-we-use-groupings-in-pyspark" class="level4" data-number="8.7.5.2">
+<h4 data-number="8.7.5.2" class="anchored" data-anchor-id="how-can-we-use-groupings-in-pyspark"><span class="header-section-number">8.7.5.2</span> How can we use groupings in <code>pyspark</code> ?</h4>
+<div class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> regexp_replace</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>type_regex <span class="op">=</span> <span class="st">'</span><span class="ch">\\</span><span class="st">[(INFO|ERROR|WARN)</span><span class="ch">\\</span><span class="st">]: '</span></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>logs<span class="op">\</span></span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>    .withColumn(</span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>        <span class="st">'without_type'</span>,</span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>        regexp_replace(<span class="st">'message'</span>, type_regex, <span class="st">'$1'</span>)</span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a>    )<span class="op">\</span></span>
+<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a>    .select(<span class="st">'message'</span>, <span class="st">'without_type'</span>)<span class="op">\</span></span>
+<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a>    .show(truncate <span class="op">=</span> <span class="dv">30</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>+------------------------------+------------------------------+
 |                       message|                  without_type|
@@ -892,10 +944,16 @@ only showing top 5 rows
 </div>
 </div>
 <p>To match grouping expressions use <code>$1</code>, <code>$2</code>, <code>$3</code>, etc…</p>
-<div class="sourceCode" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>regexp_extract(teste, <span class="st">'^([a-z]+)'</span>, <span class="st">'$1'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>regexp_extract(teste, <span class="st">'^([a-z]+)'</span>, <span class="st">'$1'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>If you need to extract multiple groups together, be sure to add a whitespace between each one, like <code>"$1 $2 $3"</code>. Because if write like<code>"$1$2$3"</code> is not going to work.</p>
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography" style="display: none">
+<div id="ref-regexinfo" class="csl-entry" role="doc-biblioentry">
+Goyvaerts, Jan. 2023. <span>“Regular-Expressions.info.”</span> <a href="https://www.regular-expressions.info/">https://www.regular-expressions.info/</a>.
+</div>
+</div>
+</section>
 </section>
 </section>
 <section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">

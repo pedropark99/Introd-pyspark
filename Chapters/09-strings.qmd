@@ -388,7 +388,7 @@ To avoid these runtime errors, due to invalid regular expressions, is always a g
 
 [^regex101]: <https://regex101.com/>
 
-### Replacing occurrences of a particular regular expression
+### Replacing occurrences of a particular regular expression with `regexp_replace()`
 
 One of the most essential actions with regular expression is to find text that fits into a particular regular expression, and, rewriting this text into a different format, or, even removing it completely from the string.
 
@@ -455,25 +455,31 @@ In the above example, the regexp_extract() function searches for a regular expre
 
 This function can be useful for extracting specific information from structured text data in PySpark. Note that if the capturing group index is invalid or if there is no match for the regular expression pattern in the input string, the function returns a null value.
 
-### How to use groupings on `pyspark`
+### Introducing capturing groups on `pyspark`
 
-One of the many awesome functionalities of regular expressions, is the capability of enclosing parts of a regular expression inside groups. This process of capturing parts of a regular expression inside a group, is usually called of "grouping".
+One of the many awesome functionalities of regular expressions, is the capability of enclosing parts of a regular expression inside groups, and actually storing (or caching) the substring matched by this grouped. This process of grouping parts of a regular expression inside a group, is usually called of "grouping and capturing".
+
+#### What is a capturing group ?
 
 Ok, but, what is this group thing? You create a group inside a regular expression by enclosing a particular section of your regular expression inside a pair of parentheses. A group is created with the regular expression that is written inside this pair of of parentheses.
 
 A group inside a regular expression is used to capture a specific part of the matched string. This means that the actual part of the input string that is matched by the regular expression that is inside this pair of parentheses, is captured (or cached, or saved) by the group, and, can be reused later.
 
-So, remember, to use groupings in a regular expression, you need to enclose the part of the pattern that you want to capture in parentheses `()`. Each set of parentheses creates a new capturing group. This means that you can create multiple groups inside a single regular expression, and, than, reuse the substrings captured by all of these multiple groups. Awesome, right?
+> Besides grouping part of a regular expression together, parentheses also create a numbered capturing group. It stores the part of the string matched by the part of the regular expression inside the parentheses. .... The regex "Set(Value)?" matches "Set" or "SetValue". In the first case, the first (and only) capturing group remains empty. In the second case, the first capturing group matches "Value". [@regexinfo].
 
-In addition to capturing groups, regular expressions can also have non-capturing groups. A non-capturing group is defined using (?:...). It is used to group a pattern without capturing it. Non-capturing groups are often used to apply a quantifier to a group without capturing the group itself.
+So, remember, to use groupings in a regular expression, you need to enclose the part of the pattern that you want to capture in parentheses `()`. Each set of parentheses creates a new capturing group. This means that you can create multiple groups inside a single regular expression, and, then, reuse latter the substrings captured by all of these multiple groups. Awesome, right?
 
-Here's an example of how to use a group inside a regular expression in Python:
+Each new group (that is, each pair of parentheses) that you create in your regular expression have a different index. That means that the first group is identified by the index 1, the second group, by the index 2, the third group, by the index 3, and goes on.
 
-python
-Copy code
+<!-- In addition to capturing groups, regular expressions can also have a non-capturing group. A non-capturing group is defined using `(?:value)`. It is used to group a pattern without capturing it. In other words, a non-capturing groups is a group that does store (or cache, or capture) the substring matched by the regular expression it holds. These non-capturing groups are often used to apply a quantifier to a group without capturing the group itself. -->
+
+Just to quickly demonstrate these capturing groups, here is a quick example, in pure Python:
+
+```{python}
 import re
 
-# Define a regular expression with a capturing group
+# A regular expression that contains
+# three different capturing groups
 regex = r"(\d{3})-(\d{2})-(\d{4})"
 
 # Match the regular expression against a string
@@ -481,15 +487,17 @@ text = "My social security number is 123-45-6789."
 match = re.search(regex, text)
 
 # Access the captured groups
-ssn = match.group(0)  # "123-45-6789"
 group1 = match.group(1)  # "123"
 group2 = match.group(2)  # "45"
 group3 = match.group(3)  # "6789"
-In the above example, the regular expression r"(\d{3})-(\d{2})-(\d{4})" contains three capturing groups, each enclosed in parentheses. When the regular expression is matched against the string "My social security number is 123-45-6789.", the first capturing group matches "123", the second capturing group matches "45", and the third capturing group matches "6789".
-
-We can access the captured groups using the group() method of the Match object returned by re.search(). In this example, match.group(0) returns the entire matched string "123-45-6789", match.group(1) returns "123", match.group(2) returns "45", and match.group(3) returns "6789".
+```
 
 
+In the above example, the regular expression `r"(\d{3})-(\d{2})-(\d{4})"` contains three capturing groups, each enclosed in parentheses. When the regular expression is matched against the string `"My social security number is 123-45-6789."`, the first capturing group matches the substring `"123"`, the second capturing group matches `"45"`, and the third capturing group matches `"6789"`.
+
+In Python, we can access the captured groups using the `group()` method of the `Match` object returned by `re.search()`. In this example, `match.group(1)` returns the captured substring of the first capturing group (which is `"123"`), `match.group(2)` returns second `"45"`, and `match.group(3)` returns `"6789"`.
+
+#### How can we use groupings in `pyspark` ?
 
 
 
@@ -509,6 +517,8 @@ logs\
 
 
 To match grouping expressions use `$1`, `$2`, `$3`, etc...
+
+
 ```python
 regexp_extract(teste, '^([a-z]+)', '$1')
 ```
