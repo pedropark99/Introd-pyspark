@@ -1,0 +1,69 @@
+import re
+import os
+
+def read_file(path):
+    with open(path, 'r') as file:
+        file_contents = file.read()
+    return file_contents
+
+#os.system("quarto render . --to pdf")
+
+
+files = os.listdir('.')
+tex_path = list(filter(lambda x: x.endswith('.tex'), files))[0]
+
+tex_file = read_file(tex_path)
+tex_file = tex_file.split('\n')
+
+
+def find_substring(lines, substring):
+    positions = list()
+    for i in range(len(lines)):
+        if substring in lines[i]:
+            positions.append(i)
+
+    return positions
+
+
+def get_chunk_content(chunk_text):
+    regex = r'\\begin{verbatim}\n|\n\\end{verbatim}'
+    content = re.sub(regex, '', chunk_text)
+    return content
+
+
+def detect_chunk_type(content):
+    df_regex = r'^[+]--'
+    list_regex = r'^\['
+
+    if re.match(df_regex, content):
+        return 'DataFrame'
+    elif re.match(list_regex, content):
+        return 'list'
+    else:
+        return 'str'
+
+
+chunks_begin = find_substring(tex_file, '\\begin{verbatim}')
+chunks_end = find_substring(tex_file, '\\end{verbatim}')
+
+if len(chunks_begin) != len(chunks_end):
+    raise Exception('Quantidade de inícios de chunks está diferente do número de finais de chunks!')
+
+
+chunks = list()
+for i in range(len(chunks_begin)):
+    begin = chunks_begin[i]
+    end = chunks_end[i] + 1
+    chunk_text = '\n'.join(tex_file[begin:end])
+    chunk_content = get_chunk_content(chunk_text)
+    chunk_type = detect_chunk_type(chunk_content)
+    chunks.append({
+        'chunk_begin': begin, 'chunk_end': end,
+        'chunk_content': chunk_content,
+        'chunk_type': chunk_type
+    })
+
+
+
+text_chunks = list(filter(lambda x: x['chunk_type'] == 'str', chunks))
+print(text_chunks)

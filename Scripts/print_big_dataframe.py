@@ -23,25 +23,6 @@ def get_substring_indexes(text, substring):
             indexes.append(i)
     return indexes
 
-def print_dataframe_two_blocks(text, n_chars = 80):
-    text = text.split('\n')
-    first_line = text[0]
-    trunc_area = first_line[0:n_chars]
-    column_seps = get_substring_indexes(trunc_area, '+')
-    max_char = max(column_seps)
-    first_block = list()
-    second_block = list()
-    for i in range(len(text)):
-        line = text[i]
-        n = len(line)
-        first_block.append(line[0:max_char])
-        second_block.append(line[(max_char+1):n])
-
-    first_block = '\n'.join(first_block)
-    second_block = '\n'.join(second_block)
-
-
-    return None
 
 
 def get_columns_names(text):
@@ -86,6 +67,51 @@ def create_remainder_message(columns, max_index, n_chars):
     return message
 
 
+def add_column_delimiter(lines):
+    for i in range(len(lines)):
+        line = lines[i]
+        n = len(line)
+        if line[n - 1] == '-':
+            line = line + '+'
+        else:
+            line = line + '|'
+
+        lines[i] = line
+
+    return lines
+
+
+
+
+
+
+
+def print_dataframe_two_blocks(text, n_chars = 80):
+    text = text.split('\n')
+    first_line = text[0]
+    trunc_area = first_line[0:n_chars]
+    column_seps = get_substring_indexes(trunc_area, '+')
+    max_char = max(column_seps)
+    first_block = list()
+    second_block = list()
+    for i in range(len(text)):
+        line = text[i]
+        n = len(line)
+        first_block.append(line[0:max_char])
+        second_block.append(line[(max_char+1):n])
+
+    first_block = add_column_delimiter(first_block)
+
+    dataframe = first_block + [''] + second_block
+    dataframe = '\n'.join(dataframe)
+
+    return dataframe
+
+
+
+
+
+
 def print_dataframe(text, n_chars = 80):
     text = text.split('\n')
     first_line = text[0]
@@ -111,8 +137,8 @@ def print_dataframe(text, n_chars = 80):
 
     return truncated_block
 
-# … with 336,766 more rows, 9 more variables: flight <int>, tailnum <chr>,
 
-t = print_dataframe(df)
+
+t = print_dataframe_two_blocks(df)
 
 print(t)
