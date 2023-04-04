@@ -498,6 +498,59 @@ spark\
 ```
 
 
+## Executing SQL expressions
+
+As I noted at @sec-columns-related-expressions, columns of a Spark DataFrame (or objects of class `Column`) are closely related to expressions. As a result, you usually use and execute expressions in Spark when you want to transform (or mutate) columns of a Spark DataFrame.
+
+This is no different for SQL expressions. A SQL expression is basically any expression you would use on the `SELECT` statement of your SQL query. As you can probably guess, since they are used in the `SELECT` statement, these expressions are used to transform columns of a Spark DataFrame.
+
+There are many column transformations that are particularly verbose and expensive to write in "pure" `pyspark`. But you can use a SQL expression in your favor, to translate this transformation into a more short and concise form. Virtually any expression you write in `pyspark` can be translated into a SQL expression.
+
+To execute a SQL expression, you give this expression inside a string to the `expr()` function from the `pyspark.sql.functions` module. Since expressions are used to transform columns, you normally use the `expr()` function inside a `withColumn()` or a `select()` DataFrame method, like in the example below:
+
+```{python}
+from pyspark.sql.functions import expr
+
+spark\
+  .table('penguins_view')\
+  .withColumn(
+    'specie_island',
+    expr("CONCAT(species, '_', island)")
+  )\
+  .withColumn(
+    'sex_short',
+    expr("CASE WHEN sex == 'male' THEN 'M' ELSE 'F' END")
+  )\
+  .select('specie_island', 'sex_short')\
+  .show(5)
+```
+
+I particulaly like to write "if-else" or "case-when" statements using a pure `CASE WHEN` SQL statement inside the `expr()` function. By using this strategy you usually get a more simple statement that translates the intention of your code in a cleaner way. But if I wrote the exact same `CASE WHEN` statement above using pure `pyspark` functions, I would end up with a shorter (but "less clean") statement using the `when()` and `otherwise()` functions:
+
+```{python}
+from pyspark.sql.functions import (
+  when, col,
+  concat, lit
+)
+
+spark\
+  .table('penguins_view')\
+  .withColumn(
+    'specie_island',
+    concat('species', lit('_'), 'island')
+  )\
+  .withColumn(
+    'sex_short',
+    when(col("sex") == 'male', 'M')\
+      .otherwise('F')
+  )\
+  .select('specie_island', 'sex_short')\
+  .show(5)
+```
+
+
+
+
 ## Every DataFrame transformation in Python can be translated into SQL
 
 All DataFrame API transformations that you write in Python (using `pyspark`) can be translated into SQL queries/expressions using the Spark SQL module. Since the DataFrame API is a core part of `pyspark`, the majority of python code you write with `pyspark` can be translated into SQL queries (if you wanto to).
@@ -560,50 +613,6 @@ ORDER BY bill_length_mm
 spark.sql(query)
 ```
 
-
-
-### Executing SQL expressions
-
-As I noted at @sec-columns-related-expressions, columns of a Spark DataFrame (or objects of class `Column`) are closely related to expressions. As a result, you usually use and execute expressions in Spark when you want to transform (or mutate) columns of a Spark DataFrame.
-
-This is no different for SQL expressions. A SQL expression is basically any expression you would use on the `SELECT` statement of your SQL query. As you can probably guess, since they are used in the `SELECT` statement, these expressions are used to transform columns of a Spark DataFrame.
-
-There are many column transformations that are particularly verbose and expensive to write in "pure" `pyspark`. But you can use a SQL expression in your favor, to translate this transformation into a more short and concise form. Virtually any expression you write in `pyspark` can be translated into a SQL expression.
-
-To execute a SQL expression, you give this expression inside a string to the `expr()` function from the `pyspark.sql.functions` module. Since expressions are used to transform columns, you normally use the `expr()` function inside a `withColumn()` or a `select()` DataFrame method, like in the example below:
-
-```{python}
-from pyspark.sql.functions import expr
-
-spark\
-  .table('penguins_view')\
-  .withColumn(
-    'specie_island',
-    expr("CONCAT(species, '_', island)")
-  )\
-  .withColumn(
-    'sex_short',
-    expr("CASE WHEN sex == 'male' THEN 'M' ELSE 'F' END")
-  )\
-  .select('specie_island', 'sex_short')\
-  .show(5)
-```
-
-I particulaly like to write these "if-else" or "case-when" statements using a pure `CASE WHEN` SQL statement inside the `expr()` function. By using this strategy you usually get a more simple statement that translates the intention of your code in a cleaner way. But if I wrote the exact same `CASE WHEN` statement above using pure `pyspark` functions, I would end up with a shorter (but "less clean") statement using the `when()` and `otherwise()` functions:
-
-```{python}
-from pyspark.sql.functions import when
-
-spark\
-  .table('penguins_view')\
-  .withColumn(
-    'sex_short',
-    when(col("sex") == 'male', 'M')\
-      .otherwise('F')
-  )\
-  .select('sex_short')\
-  .show(5)
-```
 
 
 ### Spark functions are usually translated into SQL functions
