@@ -41,6 +41,4 @@ format:
     theme: 
       - cosmo
       - theme.scss
-  pdf:
-    keep-tex: true
 
