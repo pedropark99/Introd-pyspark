@@ -299,8 +299,9 @@ div.csl-indent {
   <li><a href="#the-java-regular-expression-standard" id="toc-the-java-regular-expression-standard" class="nav-link" data-scroll-target="#the-java-regular-expression-standard"><span class="toc-section-number">8.7.1</span>  The Java regular expression standard</a></li>
   <li><a href="#using-an-invalid-regular-expression" id="toc-using-an-invalid-regular-expression" class="nav-link" data-scroll-target="#using-an-invalid-regular-expression"><span class="toc-section-number">8.7.2</span>  Using an invalid regular expression</a></li>
   <li><a href="#replacing-occurrences-of-a-particular-regular-expression-with-regexp_replace" id="toc-replacing-occurrences-of-a-particular-regular-expression-with-regexp_replace" class="nav-link" data-scroll-target="#replacing-occurrences-of-a-particular-regular-expression-with-regexp_replace"><span class="toc-section-number">8.7.3</span>  Replacing occurrences of a particular regular expression with <code>regexp_replace()</code></a></li>
-  <li><a href="#sec-regexp-extract" id="toc-sec-regexp-extract" class="nav-link" data-scroll-target="#sec-regexp-extract"><span class="toc-section-number">8.7.4</span>  Extracting substrings with <code>regexp_extract()</code></a></li>
-  <li><a href="#introducing-capturing-groups-on-pyspark" id="toc-introducing-capturing-groups-on-pyspark" class="nav-link" data-scroll-target="#introducing-capturing-groups-on-pyspark"><span class="toc-section-number">8.7.5</span>  Introducing capturing groups on <code>pyspark</code></a></li>
+  <li><a href="#introducing-capturing-groups-on-pyspark" id="toc-introducing-capturing-groups-on-pyspark" class="nav-link" data-scroll-target="#introducing-capturing-groups-on-pyspark"><span class="toc-section-number">8.7.4</span>  Introducing capturing groups on <code>pyspark</code></a></li>
+  <li><a href="#sec-regexp-extract" id="toc-sec-regexp-extract" class="nav-link" data-scroll-target="#sec-regexp-extract"><span class="toc-section-number">8.7.5</span>  Extracting substrings with <code>regexp_extract()</code></a></li>
+  <li><a href="#identifying-values-that-match-a-particular-regular-expression-with-rlike" id="toc-identifying-values-that-match-a-particular-regular-expression-with-rlike" class="nav-link" data-scroll-target="#identifying-values-that-match-a-particular-regular-expression-with-rlike"><span class="toc-section-number">8.7.6</span>  Identifying values that match a particular regular expression with <code>rlike()</code></a></li>
   </ul></li>
   </ul>
 </nav>
@@ -523,13 +524,13 @@ only showing top 5 rows
 <li><code>split()</code>: extract one or multiple substrings based on commom delimiter;</li>
 <li><code>regexp_extract()</code>: extracts substrings from a given string that match a specified regular expression pattern;</li>
 </ul>
-<p>You can obviously extract a substring that matches a particular regex (regular expression) by using the <code>regexp_extract()</code> function. However, I will describe this function, and the regex functionality available in <code>pyspark</code> at <a href="#sec-regex"><span>Section&nbsp;8.7</span></a>, or, more specifically, at <a href="#sec-regexp-extract"><span>Section&nbsp;8.7.4</span></a>. For now, just understand that you can also use regex to extract substrings from your text data.</p>
+<p>You can obviously extract a substring that matches a particular regex (regular expression) by using the <code>regexp_extract()</code> function. However, I will describe this function, and the regex functionality available in <code>pyspark</code> at <a href="#sec-regex"><span>Section&nbsp;8.7</span></a>, or, more specifically, at <a href="#sec-regexp-extract"><span>Section&nbsp;8.7.5</span></a>. For now, just understand that you can also use regex to extract substrings from your text data.</p>
 <section id="a-substring-based-on-a-start-position-and-length" class="level3" data-number="8.5.1">
 <h3 data-number="8.5.1" class="anchored" data-anchor-id="a-substring-based-on-a-start-position-and-length"><span class="header-section-number">8.5.1</span> A substring based on a start position and length</h3>
 <p>The <code>substring()</code> and <code>substr()</code> functions they both work the same way. However, they come from different places. The <code>substring()</code> function comes from the <code>spark.sql.functions</code> module, while the <code>substr()</code> function is actually a method from the <code>Column</code> class.</p>
 <p>One interesting aspect of these functions, is that they both use a one-based index, instead of a zero-based index. This means that the first character in the full string is identified by the index 1, instead of the index 0.</p>
 <p>The first argument in both function is the index that identifies the start of the substring. If you set this argument to, let’s say, 4, it means that the substring you want to extract starts at the 4th character in the input string.</p>
-<p>The second argument is the amount of characters in the substring, or, in other words, it’s length. For example, if you set this argument to 6, it means that the function will extract the substring that is formed by walking <span class="math inline">\(6 - 1 = 5\)</span> characters ahead from the start position you specified at the first argument. We can also interpret this as: the function will walk ahead on the string, from the start position, until it gets a substring that is 6 characters long.</p>
+<p>The second argument is the amount of characters in the substring, or, in other words, it’s length. For example, if you set this argument to 10, it means that the function will extract the substring that is formed by walking <span class="math inline">\(10 - 1 = 9\)</span> characters ahead from the start position you specified at the first argument. We can also interpret this as: the function will walk ahead on the string, from the start position, until it gets a substring that is 10 characters long.</p>
 <p>In the example below, we are extracting the substring that starts at the second character (index 2) and ends at the sixth character (index 6) in the string.</p>
 <div class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> col, substring</span>
@@ -558,6 +559,13 @@ only showing top 5 rows
 </code></pre>
 </div>
 </div>
+<p>Just to be very clear on how <code>substring()</code> and <code>substr()</code> both works. The <a href="#fig-substring-start-length">Figure&nbsp;<span>8.1</span></a> illustrates the result of the above code.</p>
+<div id="fig-substring-start-length" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="./../Figures/substring-start-length.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;8.1: How <code>substring()</code> and <code>substr()</code> works</figcaption><p></p>
+</figure>
+</div>
 </section>
 <section id="a-substring-based-on-a-delimiter" class="level3" data-number="8.5.2">
 <h3 data-number="8.5.2" class="anchored" data-anchor-id="a-substring-based-on-a-delimiter"><span class="header-section-number">8.5.2</span> A substring based on a delimiter</h3>
@@ -585,23 +593,23 @@ only showing top 5 rows
 <p>We can see that this log message is listing a set of libraries that were installed somewhere. Suppose you want to collect the first and the last libraries in this list. How would you do it?</p>
 <p>A good start to this objective, is to isolate the list of libraries from the rest of the message. In other words, there is a bunch of characters in the start of the log message, that we do not care about. So let’s get rid of them.</p>
 <p>If you look closely to the message, you can see that the character <code>:</code> appears twice whithin the message. One close to the start of the string, and another time right before the start of the list of the libraries. We can use this character as our first delimiter, to collect the third substring that it creates within the total string, which is the substring that contains the list of libraries.</p>
-<p>This first stage is presented visually at <a href="#fig-substring-delimiter1">Figure&nbsp;<span>8.1</span></a>.</p>
+<p>This first stage is presented visually at <a href="#fig-substring-delimiter1">Figure&nbsp;<span>8.2</span></a>.</p>
 <div id="fig-substring-delimiter1" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="./../Figures/substring-delimiter1.png" class="img-fluid figure-img"></p>
-<p></p><figcaption class="figure-caption">Figure&nbsp;8.1: The first stage of subsetting</figcaption><p></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;8.2: The first stage of subsetting</figcaption><p></p>
 </figure>
 </div>
-<p>Now that we identified the substrings produced by the “delimiter character”, we just need to understand better which index we need to use in <code>substring_index()</code> to get this third substring that we want. The <a href="#fig-substring-delimiter2">Figure&nbsp;<span>8.2</span></a> presents in a visual manner how the count system of <code>substring_index()</code> works.</p>
+<p>Now that we identified the substrings produced by the “delimiter character”, we just need to understand better which index we need to use in <code>substring_index()</code> to get this third substring that we want. The <a href="#fig-substring-delimiter2">Figure&nbsp;<span>8.3</span></a> presents in a visual manner how the count system of <code>substring_index()</code> works.</p>
 <p>When you use a positive index, <code>substring_index()</code> will count the occurrences of the delimiter character from left to right. But, when you use a negative index, the opposite happens. That is, <code>substring_index()</code> counts the occurrences of the delimiter character from right to left.</p>
 <div id="fig-substring-delimiter2" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="./../Figures/substring-delimiter2.png" class="img-fluid figure-img"></p>
-<p></p><figcaption class="figure-caption">Figure&nbsp;8.2: The count system of <code>substring_index()</code></figcaption><p></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;8.3: The count system of <code>substring_index()</code></figcaption><p></p>
 </figure>
 </div>
-<p>The index 1 represents the first substring that is before the the 1st occurence of the delimiter (<code>[INFO]</code>). The index 2 represents everything that is before the 2nd occurence of the delimiter (<code>[INFO]: 2022-09-05 04:02.09.05 Libraries installed</code>). Etcetera.</p>
-<p>In contrast, the index -1 represents everything that is after the 1st occurence of the delimiter, couting from right to left (<code>pandas, flask, numpy, spark_map, pyspark</code>). The index -2 represents everything that is after the 2nd occurence of the delimiter (<code>2022-09-05 04:02.09.05 Libraries installed: pandas, flask, numpy, spark_map, pyspark</code>). Again, couting from right to left .</p>
+<p>The index 1 represents the first substring that is before the the 1st occurence of the delimiter (<code>[INFO]</code>). The index 2 represents everything that is before the 2nd occurence of the delimiter (<code>[INFO]: 2022-09-05 04:02.09.05 Libraries installed</code>). etc.</p>
+<p>In contrast, the index -1 represents everything that is after the 1st occurence of the delimiter, couting from right to left (<code>pandas, flask, numpy, spark_map, pyspark</code>). The index -2 represents everything that is after the 2nd occurence of the delimiter (<code>2022-09-05 04:02.09.05 Libraries installed: pandas, flask, numpy, spark_map, pyspark</code>). Again, couting from right to left.</p>
 <p>Having all these informations in mind, we can conclude that the following code fit our first objective. Note that I applied the <code>trim()</code> function over the result of <code>substring_index()</code>, to ensure that the result substring does not contain any unnecessary spaces at both ends.</p>
 <div class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> substring_index</span>
@@ -640,11 +648,11 @@ only showing top 5 rows
 </code></pre>
 </div>
 </div>
-<p>The comma character (<code>,</code>) plays an important role in this string, by separating each value in the list. And we can use this comma character as the delimiter inside <code>split()</code>, to get an array of substrings. Each element of this array is one of the many libraries in the list. The <a href="#fig-string-split">Figure&nbsp;<span>8.3</span></a> presents this process visually.</p>
+<p>The comma character (<code>,</code>) plays an important role in this string, by separating each value in the list. And we can use this comma character as the delimiter inside <code>split()</code>, to get an array of substrings. Each element of this array is one of the many libraries in the list. The <a href="#fig-string-split">Figure&nbsp;<span>8.4</span></a> presents this process visually.</p>
 <div id="fig-string-split" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="./../Figures/string-split.png" class="img-fluid figure-img"></p>
-<p></p><figcaption class="figure-caption">Figure&nbsp;8.3: Building an array of substrings with <code>split()</code></figcaption><p></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;8.4: Building an array of substrings with <code>split()</code></figcaption><p></p>
 </figure>
 </div>
 <p>The code to make this process is very straightforward. In the example below, the column <code>array_of_libraries</code> becomes a column of data type <code>ArrayType(StringType)</code>, that is, an array of string values.</p>
@@ -763,7 +771,7 @@ only showing top 5 rows
 <li><code>regexp_replace()</code>: replaces all occurrences of a specified regular expression pattern in a given string with a replacement string.;</li>
 <li><code>regexp_extract()</code>: extracts substrings from a given string that match a specified regular expression pattern;</li>
 </ul>
-<p>There is also a column method that provides an useful way of testing if the values of a column matchs a regular expression or not, which is the <code>rlike()</code> column method. So I can use the <code>rlike()</code> method in conjunction with the <code>filter()</code> or <code>where()</code> DataFrame methods, to find all values that fit (or match) a particular regular expression.</p>
+<p>There is also a column method that provides an useful way of testing if the values of a column matchs a regular expression or not, which is the <code>rlike()</code> column method. You can use the <code>rlike()</code> method in conjunction with the <code>filter()</code> or <code>where()</code> DataFrame methods, to find all values that fit (or match) a particular regular expression, like we demonstrated at <a href="05-transforming.html#sec-filter-regex-pattern"><span>Section&nbsp;5.6.7</span></a>.</p>
 <section id="the-java-regular-expression-standard" class="level3" data-number="8.7.1">
 <h3 data-number="8.7.1" class="anchored" data-anchor-id="the-java-regular-expression-standard"><span class="header-section-number">8.7.1</span> The Java regular expression standard</h3>
 <p>At this point, is worth remembering a basic fact about Apache Spark that we introduced at <a href="03-spark.html"><span>Chapter&nbsp;2</span></a>. Apache Spark is written in Scala, which is a modern programming language deeply connected with the Java programming language. One of the many consequences from this fact, is that all regular expression functionality available in Apache Spark is based on the Java <code>java.util.regex</code> package.</p>
@@ -776,11 +784,11 @@ only showing top 5 rows
 <li><code>*</code> : Matches zero or more occurrences of the preceding character or pattern;</li>
 <li><code>+</code> : Matches one or more occurrences of the preceding character or pattern;</li>
 <li><code>?</code> : Matches zero or one occurrence of the preceding character or pattern;</li>
-<li><code>|</code> : Matches either the expression before or after the |;</li>
+<li><code>|</code> : Matches either the expression before or after the <code>|</code>;</li>
 <li><code>[]</code> : Matches any single character within the brackets;</li>
 <li><code>\d</code> : Matches any digit character;</li>
 <li><code>\b</code> : Matches a word boundary character;</li>
-<li><code>\w</code> : Matches any word character. Equivalente to the “[a-zA-Z_0-9]+) regular expression;</li>
+<li><code>\w</code> : Matches any word character. Equivalente to the <code>"\b([a-zA-Z_0-9]+)\b"</code> regular expression;</li>
 <li><code>\s</code> : Matches any whitespace character;</li>
 <li><code>()</code> : Groups a series of pattern elements to a single element;</li>
 </ul>
@@ -849,76 +857,59 @@ only showing top 5 rows
 </div>
 <p>Is useful to remind that this <code>regexp_replace()</code> function searches for <strong>all occurrences</strong> of the regular expression on the input string values, and replaces all of these occurrences by the input replacement string that you gave. However, if the function does not find any matchs for your regular expression inside a particular value in the column, then, the function simply returns this value intact.</p>
 </section>
-<section id="sec-regexp-extract" class="level3" data-number="8.7.4">
-<h3 data-number="8.7.4" class="anchored" data-anchor-id="sec-regexp-extract"><span class="header-section-number">8.7.4</span> Extracting substrings with <code>regexp_extract()</code></h3>
-<p>The <code>regexp_extract()</code> function in PySpark is a string manipulation function that extracts substrings from a given string that match a specified regular expression pattern.</p>
-<p>The function takes three arguments:</p>
-<ul>
-<li>The input column name or expression that contains the string to be searched;</li>
-<li>The regular expression pattern to search for within the input string;</li>
-<li>The index of the capturing group within the regular expression pattern that corresponds to the substring to extract;</li>
-</ul>
-<p>Here’s an example usage:</p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> regexp_extract</span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a PySpark DataFrame with a column called "text"</span></span>
-<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> spark.createDataFrame([(<span class="st">'John Smith 123 Main St.'</span>],), [<span class="st">'text'</span>])</span>
-<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract the name from the "text" column</span></span>
-<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.withColumn(<span class="st">'name'</span>, regexp_extract(<span class="st">'text'</span>, <span class="st">'(\w+)\s\w+\s\d+\s\w+\.\s*'</span>, <span class="dv">1</span>))</span>
-<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Show the result</span></span>
-<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>df.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>In the above example, the regexp_extract() function searches for a regular expression pattern that matches a person’s name followed by their address. The capturing group (+) extracts the name from the input string. The resulting DataFrame would look like this:</p>
-<p>This function can be useful for extracting specific information from structured text data in PySpark. Note that if the capturing group index is invalid or if there is no match for the regular expression pattern in the input string, the function returns a null value.</p>
-</section>
-<section id="introducing-capturing-groups-on-pyspark" class="level3" data-number="8.7.5">
-<h3 data-number="8.7.5" class="anchored" data-anchor-id="introducing-capturing-groups-on-pyspark"><span class="header-section-number">8.7.5</span> Introducing capturing groups on <code>pyspark</code></h3>
-<p>One of the many awesome functionalities of regular expressions, is the capability of enclosing parts of a regular expression inside groups, and actually storing (or caching) the substring matched by this grouped. This process of grouping parts of a regular expression inside a group, is usually called of “grouping and capturing”.</p>
-<section id="what-is-a-capturing-group" class="level4" data-number="8.7.5.1">
-<h4 data-number="8.7.5.1" class="anchored" data-anchor-id="what-is-a-capturing-group"><span class="header-section-number">8.7.5.1</span> What is a capturing group ?</h4>
-<p>Ok, but, what is this group thing? You create a group inside a regular expression by enclosing a particular section of your regular expression inside a pair of parentheses. A group is created with the regular expression that is written inside this pair of of parentheses.</p>
-<p>A group inside a regular expression is used to capture a specific part of the matched string. This means that the actual part of the input string that is matched by the regular expression that is inside this pair of parentheses, is captured (or cached, or saved) by the group, and, can be reused later.</p>
+<section id="introducing-capturing-groups-on-pyspark" class="level3" data-number="8.7.4">
+<h3 data-number="8.7.4" class="anchored" data-anchor-id="introducing-capturing-groups-on-pyspark"><span class="header-section-number">8.7.4</span> Introducing capturing groups on <code>pyspark</code></h3>
+<p>One of the many awesome functionalities of regular expressions, is the capability of enclosing parts of a regular expression inside groups, and actually store (or cache) the substring matched by this group. This process of grouping parts of a regular expression inside a group, and capturing substrings with them, is usually called of “grouping and capturing”.</p>
+<section id="what-is-a-capturing-group" class="level4" data-number="8.7.4.1">
+<h4 data-number="8.7.4.1" class="anchored" data-anchor-id="what-is-a-capturing-group"><span class="header-section-number">8.7.4.1</span> What is a capturing group ?</h4>
+<p>Ok, but, what is this group thing? You create a group inside a regular expression by enclosing a particular section of your regular expression inside a pair of parentheses. The regular expression that is written inside this pair of of parentheses represents a capturing group.</p>
+<p>A capturing group inside a regular expression is used to capture a specific part of the matched string. This means that the actual part of the input string that is matched by the regular expression that is inside this pair of parentheses, is captured (or cached, or saved) by the group, and, can be reused later.</p>
 <blockquote class="blockquote">
 <p>Besides grouping part of a regular expression together, parentheses also create a numbered capturing group. It stores the part of the string matched by the part of the regular expression inside the parentheses. …. The regex “Set(Value)?” matches “Set” or “SetValue”. In the first case, the first (and only) capturing group remains empty. In the second case, the first capturing group matches “Value”. <span class="citation" data-cites="regexinfo">(<a href="references.html#ref-regexinfo" role="doc-biblioref">Goyvaerts 2023</a>)</span>.</p>
 </blockquote>
-<p>So, remember, to use groupings in a regular expression, you need to enclose the part of the pattern that you want to capture in parentheses <code>()</code>. Each set of parentheses creates a new capturing group. This means that you can create multiple groups inside a single regular expression, and, then, reuse latter the substrings captured by all of these multiple groups. Awesome, right?</p>
-<p>Each new group (that is, each pair of parentheses) that you create in your regular expression have a different index. That means that the first group is identified by the index 1, the second group, by the index 2, the third group, by the index 3, and goes on.</p>
+<p>So, remember, to use capturing groups in a regular expression, you must enclose the part of the pattern that you want to capture in parentheses <code>()</code>. Each set of parentheses creates a new capturing group. This means that you can create multiple groups inside a single regular expression, and, then, reuse latter the substrings captured by all of these multiple groups. Awesome, right?</p>
+<p>Each new group (that is, each pair of parentheses) that you create in your regular expression have a different index. That means that the first group is identified by the index 1, the second group, by the index 2, the third group, by the index 3, etc.</p>
 <!-- In addition to capturing groups, regular expressions can also have a non-capturing group. A non-capturing group is defined using `(?:value)`. It is used to group a pattern without capturing it. In other words, a non-capturing groups is a group that does store (or cache, or capture) the substring matched by the regular expression it holds. These non-capturing groups are often used to apply a quantifier to a group without capturing the group itself. -->
 <p>Just to quickly demonstrate these capturing groups, here is a quick example, in pure Python:</p>
 <div class="cell" data-execution_count="19">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> re</span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="co"># A regular expression that contains</span></span>
-<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="co"># three different capturing groups</span></span>
-<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>regex <span class="op">=</span> <span class="vs">r"(\d</span><span class="sc">{3}</span><span class="vs">)-(\d</span><span class="sc">{2}</span><span class="vs">)-(\d</span><span class="sc">{4}</span><span class="vs">)"</span></span>
-<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Match the regular expression against a string</span></span>
-<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>text <span class="op">=</span> <span class="st">"My social security number is 123-45-6789."</span></span>
-<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>match <span class="op">=</span> re.search(regex, text)</span>
-<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Access the captured groups</span></span>
-<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>group1 <span class="op">=</span> match.group(<span class="dv">1</span>)  <span class="co"># "123"</span></span>
-<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a>group2 <span class="op">=</span> match.group(<span class="dv">2</span>)  <span class="co"># "45"</span></span>
-<span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a>group3 <span class="op">=</span> match.group(<span class="dv">3</span>)  <span class="co"># "6789"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> re</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="co"># A regular expression that contains</span></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a><span class="co"># three different capturing groups</span></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>regex <span class="op">=</span> <span class="vs">r"(\d</span><span class="sc">{3}</span><span class="vs">)-(\d</span><span class="sc">{2}</span><span class="vs">)-(\d</span><span class="sc">{4}</span><span class="vs">)"</span></span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Match the regular expression against a string</span></span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>text <span class="op">=</span> <span class="st">"My social security number is 123-45-6789."</span></span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>match <span class="op">=</span> re.search(regex, text)</span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Access the captured groups</span></span>
+<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a>group1 <span class="op">=</span> match.group(<span class="dv">1</span>)  <span class="co"># "123"</span></span>
+<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a>group2 <span class="op">=</span> match.group(<span class="dv">2</span>)  <span class="co"># "45"</span></span>
+<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a>group3 <span class="op">=</span> match.group(<span class="dv">3</span>)  <span class="co"># "6789"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>In the above example, the regular expression <code>r"(\d{3})-(\d{2})-(\d{4})"</code> contains three capturing groups, each enclosed in parentheses. When the regular expression is matched against the string <code>"My social security number is 123-45-6789."</code>, the first capturing group matches the substring <code>"123"</code>, the second capturing group matches <code>"45"</code>, and the third capturing group matches <code>"6789"</code>.</p>
+<div id="fig-substring-capturing-groups" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="./../Figures/substring-capturing-groups.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;8.5: Example of capturing groups</figcaption><p></p>
+</figure>
+</div>
 <p>In Python, we can access the captured groups using the <code>group()</code> method of the <code>Match</code> object returned by <code>re.search()</code>. In this example, <code>match.group(1)</code> returns the captured substring of the first capturing group (which is <code>"123"</code>), <code>match.group(2)</code> returns second <code>"45"</code>, and <code>match.group(3)</code> returns <code>"6789"</code>.</p>
 </section>
-<section id="how-can-we-use-groupings-in-pyspark" class="level4" data-number="8.7.5.2">
-<h4 data-number="8.7.5.2" class="anchored" data-anchor-id="how-can-we-use-groupings-in-pyspark"><span class="header-section-number">8.7.5.2</span> How can we use groupings in <code>pyspark</code> ?</h4>
+<section id="how-can-we-use-capturing-groups-in-pyspark" class="level4" data-number="8.7.4.2">
+<h4 data-number="8.7.4.2" class="anchored" data-anchor-id="how-can-we-use-capturing-groups-in-pyspark"><span class="header-section-number">8.7.4.2</span> How can we use capturing groups in <code>pyspark</code> ?</h4>
 <div class="cell" data-execution_count="20">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> regexp_replace</span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>type_regex <span class="op">=</span> <span class="st">'</span><span class="ch">\\</span><span class="st">[(INFO|ERROR|WARN)</span><span class="ch">\\</span><span class="st">]: '</span></span>
-<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>logs<span class="op">\</span></span>
-<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>    .withColumn(</span>
-<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>        <span class="st">'without_type'</span>,</span>
-<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>        regexp_replace(<span class="st">'message'</span>, type_regex, <span class="st">'$1'</span>)</span>
-<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a>    )<span class="op">\</span></span>
-<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a>    .select(<span class="st">'message'</span>, <span class="st">'without_type'</span>)<span class="op">\</span></span>
-<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a>    .show(truncate <span class="op">=</span> <span class="dv">30</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> regexp_replace</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>type_regex <span class="op">=</span> <span class="st">'</span><span class="ch">\\</span><span class="st">[(INFO|ERROR|WARN)</span><span class="ch">\\</span><span class="st">]: '</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>logs<span class="op">\</span></span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>    .withColumn(</span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>        <span class="st">'without_type'</span>,</span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>        regexp_replace(<span class="st">'message'</span>, type_regex, <span class="st">'$1'</span>)</span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>    )<span class="op">\</span></span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>    .select(<span class="st">'message'</span>, <span class="st">'without_type'</span>)<span class="op">\</span></span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>    .show(truncate <span class="op">=</span> <span class="dv">30</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>+------------------------------+------------------------------+
 |                       message|                  without_type|
@@ -944,8 +935,69 @@ only showing top 5 rows
 </div>
 </div>
 <p>To match grouping expressions use <code>$1</code>, <code>$2</code>, <code>$3</code>, etc…</p>
-<div class="sourceCode" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>regexp_extract(teste, <span class="st">'^([a-z]+)'</span>, <span class="st">'$1'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>regexp_extract(teste, <span class="st">'^([a-z]+)'</span>, <span class="st">'$1'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>If you need to extract multiple groups together, be sure to add a whitespace between each one, like <code>"$1 $2 $3"</code>. Because if write like<code>"$1$2$3"</code> is not going to work.</p>
+</section>
+</section>
+<section id="sec-regexp-extract" class="level3" data-number="8.7.5">
+<h3 data-number="8.7.5" class="anchored" data-anchor-id="sec-regexp-extract"><span class="header-section-number">8.7.5</span> Extracting substrings with <code>regexp_extract()</code></h3>
+<p>Another very useful regular expression activity is to extract a substring from a given string that match a specified regular expression pattern. The <code>regexp_extract()</code> function is the main method used to do this process.</p>
+<p>This function takes three arguments, which are:</p>
+<ul>
+<li>The input column name or expression that contains the string to be searched;</li>
+<li>The regular expression pattern to search for within the input string;</li>
+<li>The index of the capturing group within the regular expression pattern that corresponds to the substring to extract;</li>
+</ul>
+<p>Here’s an example usage:</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> regexp_extract</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a PySpark DataFrame with a column called "text"</span></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> spark.createDataFrame([(<span class="st">'John Smith 123 Main St.'</span>],), [<span class="st">'text'</span>])</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract the name from the "text" column</span></span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.withColumn(<span class="st">'name'</span>, regexp_extract(<span class="st">'text'</span>, <span class="st">'(\w+)\s\w+\s\d+\s\w+\.\s*'</span>, <span class="dv">1</span>))</span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Show the result</span></span>
+<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>df.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>In the above example, the regexp_extract() function searches for a regular expression pattern that matches a person’s name followed by their address. The capturing group (\w+) extracts the name from the input string. The resulting DataFrame would look like this:</p>
+<p>This function can be useful for extracting specific information from structured text data in PySpark. Note that if the capturing group index is invalid or if there is no match for the regular expression pattern in the input string, the function returns a null value.</p>
+</section>
+<section id="identifying-values-that-match-a-particular-regular-expression-with-rlike" class="level3" data-number="8.7.6">
+<h3 data-number="8.7.6" class="anchored" data-anchor-id="identifying-values-that-match-a-particular-regular-expression-with-rlike"><span class="header-section-number">8.7.6</span> Identifying values that match a particular regular expression with <code>rlike()</code></h3>
+<p>The <code>rlike()</code> column method is used to check if the a string value in a column matches a specified regular expression. We briefly introduced this methd at <a href="05-transforming.html#sec-filter-regex-pattern"><span>Section&nbsp;5.6.7</span></a>. This method has only one input, which is the regular expression you want to apply over the column values.</p>
+<p>As an example, lets suppose you wanted to identify timestamp values inside your strings. You could use a regular expression pattern to find which text values had these kinds of values inside them.</p>
+<p>A possible regular expression candidate for it would be <code>"[0-9]{2}:[0-9]{2}:[0-9]{2}([.][0-9]+)?"</code>. This regex matches timestamp values in the format “hh:mm:ss.sss”. This pattern consists of the following building blocks, or, elements:</p>
+<ul>
+<li><code>[0-9]{2}</code>: Matches any two digits from 0 to 9.</li>
+<li><code>:</code>: Matches a colon character.</li>
+<li><code>([.][0-9]+)?</code>: Matches an optional decimal point followed by one or more digits.</li>
+</ul>
+<p>If we apply this pattern over all log messages stored in the <code>logs</code> DataFrame, we would find that all logs messages matches this particular regular expression. Because all log messages contains a timestamp value at the start of the message:</p>
+<div class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> col</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>pattern <span class="op">=</span> <span class="st">"[0-9]</span><span class="sc">{2}</span><span class="st">:[0-9]</span><span class="sc">{2}</span><span class="st">:[0-9]</span><span class="sc">{2}</span><span class="st">([.][0-9]+)?"</span></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>logs<span class="op">\</span></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>    .withColumn(</span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>        <span class="st">'does_it_match?'</span>,</span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>        col(<span class="st">"message"</span>).rlike(pattern)</span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>    )<span class="op">\</span></span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>    .select(<span class="st">'message'</span>, <span class="st">'does_it_match?'</span>)<span class="op">\</span></span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>    .show(<span class="dv">5</span>, truncate <span class="op">=</span> n_truncate)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>+--------------------------------------------------+--------------+
+|                                           message|does_it_match?|
++--------------------------------------------------+--------------+
+|[INFO]: 2022-09-05 03:35:01.43 Looking for work...|          true|
+|[WARN]: 2022-09-05 03:35.58.007 Workers are una...|         false|
+|[INFO]: 2022-09-05 03:40:59.054 Looking for wor...|          true|
+|[INFO]: 2022-09-05 03:42:24 3 Workers were acqu...|          true|
+|[INFO]: 2022-09-05 03:42.37 Initializing instan...|         false|
++--------------------------------------------------+--------------+
+only showing top 5 rows
+</code></pre>
+</div>
+</div>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography" style="display: none">
@@ -953,7 +1005,6 @@ only showing top 5 rows
 Goyvaerts, Jan. 2023. <span>“Regular-Expressions.info.”</span> <a href="https://www.regular-expressions.info/">https://www.regular-expressions.info/</a>.
 </div>
 </div>
-</section>
 </section>
 </section>
 <section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">

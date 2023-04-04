@@ -595,7 +595,7 @@ later_0330_pm = transf.where(condition_dt)
 
 In other words, with the SQL expression `CAST("2022-07-02 03:30:00" AS TIMESTAMP)` we are telling Spark to convert the literal string `"2022-07-02 03:30:00"` into an actual timestamp value.
 
-### Using a particular pattern or a regex
+### Using a particular pattern or a regex {#sec-filter-regex-pattern}
 
 In Spark, you can also use a particular pattern or a regex to filter the rows of a DataFrame, by using the `Column` methods `like()` and `rlike()`. Since they are column methods, you must use them after a column name or after a `col()` function.
 

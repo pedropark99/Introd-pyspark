@@ -295,7 +295,7 @@ div.csl-indent {
   <li><a href="#negating-logical-conditions" id="toc-negating-logical-conditions" class="nav-link" data-scroll-target="#negating-logical-conditions"><span class="toc-section-number">5.6.4</span>  Negating logical conditions</a></li>
   <li><a href="#filtering-null-values-i.e.-missing-data" id="toc-filtering-null-values-i.e.-missing-data" class="nav-link" data-scroll-target="#filtering-null-values-i.e.-missing-data"><span class="toc-section-number">5.6.5</span>  Filtering <code>null</code> values (i.e.&nbsp;missing data)</a></li>
   <li><a href="#filtering-dates-and-datetimes-in-your-dataframe" id="toc-filtering-dates-and-datetimes-in-your-dataframe" class="nav-link" data-scroll-target="#filtering-dates-and-datetimes-in-your-dataframe"><span class="toc-section-number">5.6.6</span>  Filtering dates and datetimes in your DataFrame</a></li>
-  <li><a href="#using-a-particular-pattern-or-a-regex" id="toc-using-a-particular-pattern-or-a-regex" class="nav-link" data-scroll-target="#using-a-particular-pattern-or-a-regex"><span class="toc-section-number">5.6.7</span>  Using a particular pattern or a regex</a></li>
+  <li><a href="#sec-filter-regex-pattern" id="toc-sec-filter-regex-pattern" class="nav-link" data-scroll-target="#sec-filter-regex-pattern"><span class="toc-section-number">5.6.7</span>  Using a particular pattern or a regex</a></li>
   </ul></li>
   <li><a href="#managing-the-columns-of-your-dataframe" id="toc-managing-the-columns-of-your-dataframe" class="nav-link" data-scroll-target="#managing-the-columns-of-your-dataframe"><span class="toc-section-number">5.7</span>  Managing the columns of your DataFrame</a>
   <ul class="collapse">
@@ -1163,8 +1163,8 @@ only showing top 5 rows
 </div>
 <p>In other words, with the SQL expression <code>CAST("2022-07-02 03:30:00" AS TIMESTAMP)</code> we are telling Spark to convert the literal string <code>"2022-07-02 03:30:00"</code> into an actual timestamp value.</p>
 </section>
-<section id="using-a-particular-pattern-or-a-regex" class="level3" data-number="5.6.7">
-<h3 data-number="5.6.7" class="anchored" data-anchor-id="using-a-particular-pattern-or-a-regex"><span class="header-section-number">5.6.7</span> Using a particular pattern or a regex</h3>
+<section id="sec-filter-regex-pattern" class="level3" data-number="5.6.7">
+<h3 data-number="5.6.7" class="anchored" data-anchor-id="sec-filter-regex-pattern"><span class="header-section-number">5.6.7</span> Using a particular pattern or a regex</h3>
 <p>In Spark, you can also use a particular pattern or a regex to filter the rows of a DataFrame, by using the <code>Column</code> methods <code>like()</code> and <code>rlike()</code>. Since they are column methods, you must use them after a column name or after a <code>col()</code> function.</p>
 <p>In essence, the <code>like()</code> method is the <code>pyspark</code> equivalent of the <code>LIKE</code> SQL operator. As a result, this <code>like()</code> method expects a SQL pattern as input. This means that you can use the SQL metacharacters <code>%</code> (to match any number of characters) and <code>_</code> (to match exactly one character) inside this pattern.</p>
 <div class="cell" data-execution_count="37">
@@ -1538,7 +1538,7 @@ only showing top 5 rows
 <div class="sourceCode cell-code" id="cb93"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a>transf_per_client <span class="op">=</span> transf.groupBy(<span class="st">'clientNumber'</span>)</span>
 <span id="cb93-2"><a href="#cb93-2" aria-hidden="true" tabindex="-1"></a>transf_per_client</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="46">
-<pre><code>&lt;pyspark.sql.group.GroupedData at 0x7fd33438cbb0&gt;</code></pre>
+<pre><code>&lt;pyspark.sql.group.GroupedData at 0x7fd9a8430c40&gt;</code></pre>
 </div>
 </div>
 <p>At first, it appears that nothing has changed. But the <code>groupBy()</code> method always returns a new object of class <code>pyspark.sql.group.GroupedData</code>. As a consequence, we can no longer use some of the DataFrame methods that we used before, like the <code>show()</code> method to see the DataFrame.</p>
