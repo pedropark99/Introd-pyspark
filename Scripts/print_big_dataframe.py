@@ -52,7 +52,7 @@ def create_remainder_message(columns, max_index, n_chars):
         columns = ', '.join(remaning_columns)
         message = f"... with {n} more columns: {columns}"
     else:
-        message = None
+        return None
 
     if len(message) > n_chars:
         # Insert a break line
@@ -87,15 +87,19 @@ def add_column_delimiter(lines):
 
 
 def print_dataframe_two_blocks(text, n_chars = 80):
-    text = text.split('\n')
-    first_line = text[0]
+    lines = text.split('\n')
+    first_line = lines[0]
+    
+    if len(first_line) <= n_chars:
+        return text
+    
     trunc_area = first_line[0:n_chars]
     column_seps = get_substring_indexes(trunc_area, '+')
     max_char = max(column_seps)
     first_block = list()
     second_block = list()
-    for i in range(len(text)):
-        line = text[i]
+    for i in range(len(lines)):
+        line = lines[i]
         n = len(line)
         first_block.append(line[0:max_char])
         second_block.append(line[(max_char+1):n])
@@ -113,16 +117,23 @@ def print_dataframe_two_blocks(text, n_chars = 80):
 
 
 def print_dataframe(text, n_chars = 80):
-    text = text.split('\n')
-    first_line = text[0]
-    column_seps = get_substring_indexes(first_line, '+')
+    lines = text.split('\n')
+    first_line = lines[0]
 
+    if len(first_line) <= n_chars:
+        return text
+
+    column_seps = get_substring_indexes(first_line, '+')
     max_index = max(filter(lambda x: x <= n_chars, column_seps))
-    remainder_message = create_remainder_message(text[1], max_index, n_chars)
+    remainder_message = create_remainder_message(lines[1], max_index, n_chars)
 
     truncated_block = list()
-    for i in range(len(text)):
-        line = text[i]
+    for i in range(len(lines)):
+        line = lines[i]
+        if 'only showing top' in line:
+            truncated_block.append(line)
+            continue
+
         truncated_line = line[0:max_index]
 
         if truncated_line[max_index - 1] == '-':
@@ -132,6 +143,7 @@ def print_dataframe(text, n_chars = 80):
 
         truncated_block.append(truncated_line)
 
+
     truncated_block.append(remainder_message)
     truncated_block = '\n'.join(truncated_block)
 
@@ -139,6 +151,6 @@ def print_dataframe(text, n_chars = 80):
 
 
 
-t = print_dataframe_two_blocks(df)
+# t = print_dataframe_two_blocks(df)
 
-print(t)
+# print(t)

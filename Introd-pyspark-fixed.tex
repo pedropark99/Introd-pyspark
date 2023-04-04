@@ -21,7 +21,7 @@
   \defaultfontfeatures{Scale=MatchLowercase}
   \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
   \setmainfont[]{Times New Roman}
-  \setmonofont[]{Inconsolata Regular}
+  \setmonofont[]{Inconsolata}
 \fi
 % Use upquote if available, for straight quotes in verbatim environments
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
@@ -216,7 +216,7 @@
 
 \begin{document}
 \maketitle
-\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[breakable, interior hidden, borderline west={3pt}{0pt}{shadecolor}, boxrule=0pt, enhanced, sharp corners, frame hidden]}{\end{tcolorbox}}\fi
+\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[enhanced, borderline west={3pt}{0pt}{shadecolor}, boxrule=0pt, frame hidden, sharp corners, breakable, interior hidden]}{\end{tcolorbox}}\fi
 
 \renewcommand*\contentsname{Table of contents}
 {
@@ -646,7 +646,8 @@ Or a dict containing the description of a product:
 \end{Shaded}
 
 \begin{verbatim}
-{'name': 'Coca Cola', 'volume': '2 litters', 'price': 2.52, 'group': 'non-alcoholic drinks', 'department': 'drinks'}
+{'name': 'Coca Cola', 'volume': '2 litters', 'price': 2.52
+, 'group': 'non-alcoholic drinks', 'department': 'drinks'}
 \end{verbatim}
 
 And many other things\ldots{}
@@ -1738,7 +1739,8 @@ can use through this \texttt{df5} object:
 'alias', 'approxQuantile', 'cache', 'checkpoint',
 'coalesce', 'colRegex', 'collect', 'columns',
 'corr', 'count', 'cov', 'createGlobalTempView',
-'createOrReplaceGlobalTempView', 'createOrReplaceTempView', 'createTempView', 'crossJoin',
+'createOrReplaceGlobalTempView', 'createOrReplaceTempView', 'createTempView'
+, 'crossJoin',
 'crosstab', 'cube', 'describe', 'distinct',
 'drop', 'dropDuplicates', 'drop_duplicates', 'dropna',
 'dtypes', 'exceptAll', 'explain', 'fillna',
@@ -1861,7 +1863,9 @@ To create the \texttt{students} DataFrame we deliver these two lists to
 \end{Shaded}
 
 \begin{verbatim}
-DataFrame[StudentID: bigint, Name: string, Age: bigint, Height: double, Score1: bigint, Score2: bigint, Score3: bigint, Score4: bigint, Course: string, Department: string]
+DataFrame[StudentID: bigint, Name: string, Age: bigint, Height: double
+, Score1: bigint, Score2: bigint, Score3: bigint, Score4: bigint, Course: string
+, Department: string]
 \end{verbatim}
 
 You can also use a method that returns a \texttt{DataFrame} object by
@@ -1894,7 +1898,9 @@ You can notice this laziness in the output below:
 \end{Shaded}
 
 \begin{verbatim}
-DataFrame[StudentID: bigint, Name: string, Age: bigint, Height: double, Score1: bigint, Score2: bigint, Score3: bigint, Score4: bigint, Course: string, Department: string]
+DataFrame[StudentID: bigint, Name: string, Age: bigint, Height: double
+, Score1: bigint, Score2: bigint, Score3: bigint, Score4: bigint, Course: string
+, Department: string]
 \end{verbatim}
 
 Because when we call for an object that stores a Spark DataFrame (like
@@ -1914,11 +1920,7 @@ pure text, as you can see in the example below:
 \end{Shaded}
 
 \begin{verbatim}
-[Stage 0:>                                                          (0 + 1) / 1]
-\end{verbatim}
-
-\begin{verbatim}
-                                                                                
+[Stage 0:>                                                          (0 + 1) / 1]                                                                                
 \end{verbatim}
 
 \begin{verbatim}
@@ -2126,7 +2128,8 @@ in the example below:
 \end{Shaded}
 
 \begin{verbatim}
-StructType([StructField('id', LongType(), True), StructField('value', DoubleType(), True), StructField('date', DateType(), True)])
+StructType([StructField('id', LongType(), True), StructField('value'
+, DoubleType(), True), StructField('date', DateType(), True)])
 \end{verbatim}
 
 The result of the \texttt{schema} method, is a \texttt{StructType()}
@@ -2836,7 +2839,8 @@ access with python. More specifically, you get a python list full of
 \end{Shaded}
 
 \begin{verbatim}
-[Row(date=datetime.date(2021, 1, 1), value=15.8), Row(date=datetime.date(2021, 1, 2), value=20.1), Row(date=datetime.date(2021, 1, 1), value=28.3)]
+[Row(date=datetime.date(2021, 1, 1), value=15.8), Row(date=datetime.date(2021, 1
+, 2), value=20.1), Row(date=datetime.date(2021, 1, 1), value=28.3)]
 \end{verbatim}
 
 The \texttt{take()} method is very similar to \texttt{collect()}. But
@@ -3065,16 +3069,18 @@ Now, to see the actual data of this DataFrame, we can use the
 \end{Shaded}
 
 \begin{verbatim}
-+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
-|dateTransfer|   datetimeTransfer|clientNumber|transferValue|transferCurrency|transferID|transferLog|destinationBankNumber|destinationBankBranch|destinationBankAccount|
-+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
-|  2022-12-31|2022-12-31 14:00:24|        5516|      7794.31|          zing ƒ|  20223563|       null|                   33|                 4078|               72424-2|
-|  2022-12-31|2022-12-31 10:32:07|        4965|       7919.0|          zing ƒ|  20223562|       null|                  421|                 1979|               36441-5|
-|  2022-12-31|2022-12-31 07:37:02|        4608|       5603.0|        dollar $|  20223561|       null|                  666|                 4425|               41323-1|
-|  2022-12-31|2022-12-31 07:35:05|        1121|      4365.22|        dollar $|  20223560|       null|                  666|                 2400|               74120-4|
-|  2022-12-31|2022-12-31 02:53:44|        1121|       4620.0|        dollar $|  20223559|       null|                  421|                 1100|               39830-0|
-+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
++------------+-------------------+------------+-------------+----------------+
+|dateTransfer|   datetimeTransfer|clientNumber|transferValue|transferCurrency|
++------------+-------------------+------------+-------------+----------------+
+|  2022-12-31|2022-12-31 14:00:24|        5516|      7794.31|          zing ƒ|
+|  2022-12-31|2022-12-31 10:32:07|        4965|       7919.0|          zing ƒ|
+|  2022-12-31|2022-12-31 07:37:02|        4608|       5603.0|        dollar $|
+|  2022-12-31|2022-12-31 07:35:05|        1121|      4365.22|        dollar $|
+|  2022-12-31|2022-12-31 02:53:44|        1121|       4620.0|        dollar $|
++------------+-------------------+------------+-------------+----------------+
 only showing top 5 rows
+... with 5 more columns: transferID, transferLog, destinationBankNumber
+    destinationBankBranch, destinationBankAccount
 \end{verbatim}
 
 \hypertarget{filtering-rows-of-your-dataframe}{%
@@ -3100,16 +3106,18 @@ the \texttt{transf} DataFrame where \texttt{transferValue} is less than
 \end{Shaded}
 
 \begin{verbatim}
-+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
-|dateTransfer|   datetimeTransfer|clientNumber|transferValue|transferCurrency|transferID|transferLog|destinationBankNumber|destinationBankBranch|destinationBankAccount|
-+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
-|  2022-12-18|2022-12-18 08:45:30|        1297|       142.66|        dollar $|  20223467|       null|                  421|                 5420|               43088-1|
-|  2022-12-13|2022-12-13 20:44:23|        5516|       992.15|        dollar $|  20223442|       null|                   33|                 5420|               41609-8|
-|  2022-11-24|2022-11-24 20:01:39|        1945|       174.64|        dollar $|  20223319|       null|                  421|                 2400|               34025-8|
-|  2022-11-07|2022-11-07 16:35:57|        4862|       570.69|        dollar $|  20223212|       null|                  290|                 5420|               51165-3|
-|  2022-11-04|2022-11-04 20:00:34|        1297|        854.0|        dollar $|  20223194|       null|                  421|                 4078|               43478-6|
-+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
++------------+-------------------+------------+-------------+----------------+
+|dateTransfer|   datetimeTransfer|clientNumber|transferValue|transferCurrency|
++------------+-------------------+------------+-------------+----------------+
+|  2022-12-18|2022-12-18 08:45:30|        1297|       142.66|        dollar $|
+|  2022-12-13|2022-12-13 20:44:23|        5516|       992.15|        dollar $|
+|  2022-11-24|2022-11-24 20:01:39|        1945|       174.64|        dollar $|
+|  2022-11-07|2022-11-07 16:35:57|        4862|       570.69|        dollar $|
+|  2022-11-04|2022-11-04 20:00:34|        1297|        854.0|        dollar $|
++------------+-------------------+------------+-------------+----------------+
 only showing top 5 rows
+... with 5 more columns: transferID, transferLog, destinationBankNumber
+    destinationBankBranch, destinationBankAccount
 \end{verbatim}
 
 Writing simple SQL logical expression inside a string is the most easy
@@ -3129,16 +3137,18 @@ However, you could also write the same exact expression in a more
 \end{Shaded}
 
 \begin{verbatim}
-+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
-|dateTransfer|   datetimeTransfer|clientNumber|transferValue|transferCurrency|transferID|transferLog|destinationBankNumber|destinationBankBranch|destinationBankAccount|
-+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
-|  2022-12-18|2022-12-18 08:45:30|        1297|       142.66|        dollar $|  20223467|       null|                  421|                 5420|               43088-1|
-|  2022-12-13|2022-12-13 20:44:23|        5516|       992.15|        dollar $|  20223442|       null|                   33|                 5420|               41609-8|
-|  2022-11-24|2022-11-24 20:01:39|        1945|       174.64|        dollar $|  20223319|       null|                  421|                 2400|               34025-8|
-|  2022-11-07|2022-11-07 16:35:57|        4862|       570.69|        dollar $|  20223212|       null|                  290|                 5420|               51165-3|
-|  2022-11-04|2022-11-04 20:00:34|        1297|        854.0|        dollar $|  20223194|       null|                  421|                 4078|               43478-6|
-+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
++------------+-------------------+------------+-------------+----------------+
+|dateTransfer|   datetimeTransfer|clientNumber|transferValue|transferCurrency|
++------------+-------------------+------------+-------------+----------------+
+|  2022-12-18|2022-12-18 08:45:30|        1297|       142.66|        dollar $|
+|  2022-12-13|2022-12-13 20:44:23|        5516|       992.15|        dollar $|
+|  2022-11-24|2022-11-24 20:01:39|        1945|       174.64|        dollar $|
+|  2022-11-07|2022-11-07 16:35:57|        4862|       570.69|        dollar $|
+|  2022-11-04|2022-11-04 20:00:34|        1297|        854.0|        dollar $|
++------------+-------------------+------------+-------------+----------------+
 only showing top 5 rows
+... with 5 more columns: transferID, transferLog, destinationBankNumber
+    destinationBankBranch, destinationBankAccount
 \end{verbatim}
 
 You still have a more verbose alternative, that does not require the
@@ -3299,13 +3309,15 @@ together).
 \end{Shaded}
 
 \begin{verbatim}
-+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
-|dateTransfer|   datetimeTransfer|clientNumber|transferValue|transferCurrency|transferID|transferLog|destinationBankNumber|destinationBankBranch|destinationBankAccount|
-+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
-|  2022-12-18|2022-12-18 08:45:30|        1297|       142.66|        dollar $|  20223467|       null|                  421|                 5420|               43088-1|
-|  2022-11-04|2022-11-04 20:00:34|        1297|        854.0|        dollar $|  20223194|       null|                  421|                 4078|               43478-6|
-|  2022-02-27|2022-02-27 13:27:44|        1297|       697.21|        dollar $|  20221505|       null|                  421|                 1100|               60414-7|
-+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
++------------+-------------------+------------+-------------+----------------+
+|dateTransfer|   datetimeTransfer|clientNumber|transferValue|transferCurrency|
++------------+-------------------+------------+-------------+----------------+
+|  2022-12-18|2022-12-18 08:45:30|        1297|       142.66|        dollar $|
+|  2022-11-04|2022-11-04 20:00:34|        1297|        854.0|        dollar $|
+|  2022-02-27|2022-02-27 13:27:44|        1297|       697.21|        dollar $|
++------------+-------------------+------------+-------------+----------------+
+... with 5 more columns: transferID, transferLog, destinationBankNumber
+    destinationBankBranch, destinationBankAccount
 \end{verbatim}
 
 I could translate this logical expression into the ``pythonic'' way
@@ -3326,13 +3338,15 @@ operator to substitute the \texttt{and} keyword.
 \end{Shaded}
 
 \begin{verbatim}
-+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
-|dateTransfer|   datetimeTransfer|clientNumber|transferValue|transferCurrency|transferID|transferLog|destinationBankNumber|destinationBankBranch|destinationBankAccount|
-+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
-|  2022-12-18|2022-12-18 08:45:30|        1297|       142.66|        dollar $|  20223467|       null|                  421|                 5420|               43088-1|
-|  2022-11-04|2022-11-04 20:00:34|        1297|        854.0|        dollar $|  20223194|       null|                  421|                 4078|               43478-6|
-|  2022-02-27|2022-02-27 13:27:44|        1297|       697.21|        dollar $|  20221505|       null|                  421|                 1100|               60414-7|
-+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
++------------+-------------------+------------+-------------+----------------+
+|dateTransfer|   datetimeTransfer|clientNumber|transferValue|transferCurrency|
++------------+-------------------+------------+-------------+----------------+
+|  2022-12-18|2022-12-18 08:45:30|        1297|       142.66|        dollar $|
+|  2022-11-04|2022-11-04 20:00:34|        1297|        854.0|        dollar $|
+|  2022-02-27|2022-02-27 13:27:44|        1297|       697.21|        dollar $|
++------------+-------------------+------------+-------------+----------------+
+... with 5 more columns: transferID, transferLog, destinationBankNumber
+    destinationBankBranch, destinationBankAccount
 \end{verbatim}
 
 This a \textbf{very important detail}, because it is very easy to
@@ -3389,16 +3403,18 @@ February 2022.
 \end{Shaded}
 
 \begin{verbatim}
-+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
-|dateTransfer|   datetimeTransfer|clientNumber|transferValue|transferCurrency|transferID|transferLog|destinationBankNumber|destinationBankBranch|destinationBankAccount|
-+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
-|  2022-12-31|2022-12-31 14:00:24|        5516|      7794.31|          zing ƒ|  20223563|       null|                   33|                 4078|               72424-2|
-|  2022-12-31|2022-12-31 10:32:07|        4965|       7919.0|          zing ƒ|  20223562|       null|                  421|                 1979|               36441-5|
-|  2022-12-31|2022-12-31 07:37:02|        4608|       5603.0|        dollar $|  20223561|       null|                  666|                 4425|               41323-1|
-|  2022-12-31|2022-12-31 07:35:05|        1121|      4365.22|        dollar $|  20223560|       null|                  666|                 2400|               74120-4|
-|  2022-12-31|2022-12-31 02:53:44|        1121|       4620.0|        dollar $|  20223559|       null|                  421|                 1100|               39830-0|
-+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
++------------+-------------------+------------+-------------+----------------+
+|dateTransfer|   datetimeTransfer|clientNumber|transferValue|transferCurrency|
++------------+-------------------+------------+-------------+----------------+
+|  2022-12-31|2022-12-31 14:00:24|        5516|      7794.31|          zing ƒ|
+|  2022-12-31|2022-12-31 10:32:07|        4965|       7919.0|          zing ƒ|
+|  2022-12-31|2022-12-31 07:37:02|        4608|       5603.0|        dollar $|
+|  2022-12-31|2022-12-31 07:35:05|        1121|      4365.22|        dollar $|
+|  2022-12-31|2022-12-31 02:53:44|        1121|       4620.0|        dollar $|
++------------+-------------------+------------+-------------+----------------+
 only showing top 5 rows
+... with 5 more columns: transferID, transferLog, destinationBankNumber
+    destinationBankBranch, destinationBankAccount
 \end{verbatim}
 
 To translate this expression into the pythonic way, we have to
@@ -3418,16 +3434,18 @@ and surround each expression by parentheses again:
 \end{Shaded}
 
 \begin{verbatim}
-+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
-|dateTransfer|   datetimeTransfer|clientNumber|transferValue|transferCurrency|transferID|transferLog|destinationBankNumber|destinationBankBranch|destinationBankAccount|
-+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
-|  2022-12-31|2022-12-31 14:00:24|        5516|      7794.31|          zing ƒ|  20223563|       null|                   33|                 4078|               72424-2|
-|  2022-12-31|2022-12-31 10:32:07|        4965|       7919.0|          zing ƒ|  20223562|       null|                  421|                 1979|               36441-5|
-|  2022-12-31|2022-12-31 07:37:02|        4608|       5603.0|        dollar $|  20223561|       null|                  666|                 4425|               41323-1|
-|  2022-12-31|2022-12-31 07:35:05|        1121|      4365.22|        dollar $|  20223560|       null|                  666|                 2400|               74120-4|
-|  2022-12-31|2022-12-31 02:53:44|        1121|       4620.0|        dollar $|  20223559|       null|                  421|                 1100|               39830-0|
-+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
++------------+-------------------+------------+-------------+----------------+
+|dateTransfer|   datetimeTransfer|clientNumber|transferValue|transferCurrency|
++------------+-------------------+------------+-------------+----------------+
+|  2022-12-31|2022-12-31 14:00:24|        5516|      7794.31|          zing ƒ|
+|  2022-12-31|2022-12-31 10:32:07|        4965|       7919.0|          zing ƒ|
+|  2022-12-31|2022-12-31 07:37:02|        4608|       5603.0|        dollar $|
+|  2022-12-31|2022-12-31 07:35:05|        1121|      4365.22|        dollar $|
+|  2022-12-31|2022-12-31 02:53:44|        1121|       4620.0|        dollar $|
++------------+-------------------+------------+-------------+----------------+
 only showing top 5 rows
+... with 5 more columns: transferID, transferLog, destinationBankNumber
+    destinationBankBranch, destinationBankAccount
 \end{verbatim}
 
 You can also increase the complexity of your logical expressions by
@@ -3450,16 +3468,18 @@ equal to 01 of October 2022, and \texttt{clientNumber} is either 2727 or
 \end{Shaded}
 
 \begin{verbatim}
-+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
-|dateTransfer|   datetimeTransfer|clientNumber|transferValue|transferCurrency|transferID|transferLog|destinationBankNumber|destinationBankBranch|destinationBankAccount|
-+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
-|  2022-12-29|2022-12-29 10:22:02|        2727|      4666.25|          euro €|  20223541|       null|                   33|                 5420|               83070-8|
-|  2022-12-27|2022-12-27 03:58:25|        5188|      7821.69|        dollar $|  20223522|       null|                   33|                 4078|               46571-3|
-|  2022-12-26|2022-12-25 23:45:02|        2727|      3261.73| british pound £|  20223515|       null|                  421|                 6317|               66040-9|
-|  2022-12-23|2022-12-23 05:32:49|        2727|       8042.0|        dollar $|  20223496|       null|                  290|                 5420|               37759-7|
-|  2022-12-22|2022-12-22 06:02:47|        5188|      8175.67|        dollar $|  20223490|       null|                  666|                 8800|               42657-8|
-+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
++------------+-------------------+------------+-------------+----------------+
+|dateTransfer|   datetimeTransfer|clientNumber|transferValue|transferCurrency|
++------------+-------------------+------------+-------------+----------------+
+|  2022-12-29|2022-12-29 10:22:02|        2727|      4666.25|          euro €|
+|  2022-12-27|2022-12-27 03:58:25|        5188|      7821.69|        dollar $|
+|  2022-12-26|2022-12-25 23:45:02|        2727|      3261.73| british pound £|
+|  2022-12-23|2022-12-23 05:32:49|        2727|       8042.0|        dollar $|
+|  2022-12-22|2022-12-22 06:02:47|        5188|      8175.67|        dollar $|
++------------+-------------------+------------+-------------+----------------+
 only showing top 5 rows
+... with 5 more columns: transferID, transferLog, destinationBankNumber
+    destinationBankBranch, destinationBankAccount
 \end{verbatim}
 
 If you investigate the above condition carefully, maybe, you will
@@ -3483,16 +3503,18 @@ to 01 of October 2022.
 \end{Shaded}
 
 \begin{verbatim}
-+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
-|dateTransfer|   datetimeTransfer|clientNumber|transferValue|transferCurrency|transferID|transferLog|destinationBankNumber|destinationBankBranch|destinationBankAccount|
-+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
-|  2022-12-29|2022-12-29 10:22:02|        2727|      4666.25|          euro €|  20223541|       null|                   33|                 5420|               83070-8|
-|  2022-12-27|2022-12-27 03:58:25|        5188|      7821.69|        dollar $|  20223522|       null|                   33|                 4078|               46571-3|
-|  2022-12-26|2022-12-25 23:45:02|        2727|      3261.73| british pound £|  20223515|       null|                  421|                 6317|               66040-9|
-|  2022-12-23|2022-12-23 05:32:49|        2727|       8042.0|        dollar $|  20223496|       null|                  290|                 5420|               37759-7|
-|  2022-12-22|2022-12-22 06:02:47|        5188|      8175.67|        dollar $|  20223490|       null|                  666|                 8800|               42657-8|
-+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
++------------+-------------------+------------+-------------+----------------+
+|dateTransfer|   datetimeTransfer|clientNumber|transferValue|transferCurrency|
++------------+-------------------+------------+-------------+----------------+
+|  2022-12-29|2022-12-29 10:22:02|        2727|      4666.25|          euro €|
+|  2022-12-27|2022-12-27 03:58:25|        5188|      7821.69|        dollar $|
+|  2022-12-26|2022-12-25 23:45:02|        2727|      3261.73| british pound £|
+|  2022-12-23|2022-12-23 05:32:49|        2727|       8042.0|        dollar $|
+|  2022-12-22|2022-12-22 06:02:47|        5188|      8175.67|        dollar $|
++------------+-------------------+------------+-------------+----------------+
 only showing top 5 rows
+... with 5 more columns: transferID, transferLog, destinationBankNumber
+    destinationBankBranch, destinationBankAccount
 \end{verbatim}
 
 \hypertarget{translating-the-in-keyword-to-the-pythonic-way}{%
@@ -3520,16 +3542,18 @@ the example below, we are filtering the rows where
 \end{Shaded}
 
 \begin{verbatim}
-+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
-|dateTransfer|   datetimeTransfer|clientNumber|transferValue|transferCurrency|transferID|transferLog|destinationBankNumber|destinationBankBranch|destinationBankAccount|
-+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
-|  2022-12-31|2022-12-31 07:37:02|        4608|       5603.0|        dollar $|  20223561|       null|                  666|                 4425|               41323-1|
-|  2022-12-31|2022-12-31 07:35:05|        1121|      4365.22|        dollar $|  20223560|       null|                  666|                 2400|               74120-4|
-|  2022-12-31|2022-12-31 02:44:46|        1121|       7158.0|          zing ƒ|  20223558|       null|                  290|                 1100|               35424-4|
-|  2022-12-31|2022-12-31 01:02:06|        4862|       6714.0|        dollar $|  20223557|       null|                  666|                 1002|               71839-1|
-|  2022-12-31|2022-12-31 00:48:47|        3294|     10882.52|        dollar $|  20223556|       null|                  666|                 2231|               50190-5|
-+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
++------------+-------------------+------------+-------------+----------------+
+|dateTransfer|   datetimeTransfer|clientNumber|transferValue|transferCurrency|
++------------+-------------------+------------+-------------+----------------+
+|  2022-12-31|2022-12-31 07:37:02|        4608|       5603.0|        dollar $|
+|  2022-12-31|2022-12-31 07:35:05|        1121|      4365.22|        dollar $|
+|  2022-12-31|2022-12-31 02:44:46|        1121|       7158.0|          zing ƒ|
+|  2022-12-31|2022-12-31 01:02:06|        4862|       6714.0|        dollar $|
+|  2022-12-31|2022-12-31 00:48:47|        3294|     10882.52|        dollar $|
++------------+-------------------+------------+-------------+----------------+
 only showing top 5 rows
+... with 5 more columns: transferID, transferLog, destinationBankNumber
+    destinationBankBranch, destinationBankAccount
 \end{verbatim}
 
 \hypertarget{negating-logical-conditions}{%
@@ -3559,16 +3583,18 @@ For example, we can filter all the rows of \texttt{transf} where
 \end{Shaded}
 
 \begin{verbatim}
-+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
-|dateTransfer|   datetimeTransfer|clientNumber|transferValue|transferCurrency|transferID|transferLog|destinationBankNumber|destinationBankBranch|destinationBankAccount|
-+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
-|  2022-12-31|2022-12-31 14:00:24|        5516|      7794.31|          zing ƒ|  20223563|       null|                   33|                 4078|               72424-2|
-|  2022-12-31|2022-12-31 10:32:07|        4965|       7919.0|          zing ƒ|  20223562|       null|                  421|                 1979|               36441-5|
-|  2022-12-31|2022-12-31 07:37:02|        4608|       5603.0|        dollar $|  20223561|       null|                  666|                 4425|               41323-1|
-|  2022-12-31|2022-12-31 07:35:05|        1121|      4365.22|        dollar $|  20223560|       null|                  666|                 2400|               74120-4|
-|  2022-12-31|2022-12-31 02:53:44|        1121|       4620.0|        dollar $|  20223559|       null|                  421|                 1100|               39830-0|
-+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
++------------+-------------------+------------+-------------+----------------+
+|dateTransfer|   datetimeTransfer|clientNumber|transferValue|transferCurrency|
++------------+-------------------+------------+-------------+----------------+
+|  2022-12-31|2022-12-31 14:00:24|        5516|      7794.31|          zing ƒ|
+|  2022-12-31|2022-12-31 10:32:07|        4965|       7919.0|          zing ƒ|
+|  2022-12-31|2022-12-31 07:37:02|        4608|       5603.0|        dollar $|
+|  2022-12-31|2022-12-31 07:35:05|        1121|      4365.22|        dollar $|
+|  2022-12-31|2022-12-31 02:53:44|        1121|       4620.0|        dollar $|
++------------+-------------------+------------+-------------+----------------+
 only showing top 5 rows
+... with 5 more columns: transferID, transferLog, destinationBankNumber
+    destinationBankBranch, destinationBankAccount
 \end{verbatim}
 
 To translate this expression to the pythonic way, we use the
@@ -3585,16 +3611,18 @@ expression with parentheses.
 \end{Shaded}
 
 \begin{verbatim}
-+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
-|dateTransfer|   datetimeTransfer|clientNumber|transferValue|transferCurrency|transferID|transferLog|destinationBankNumber|destinationBankBranch|destinationBankAccount|
-+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
-|  2022-12-31|2022-12-31 14:00:24|        5516|      7794.31|          zing ƒ|  20223563|       null|                   33|                 4078|               72424-2|
-|  2022-12-31|2022-12-31 10:32:07|        4965|       7919.0|          zing ƒ|  20223562|       null|                  421|                 1979|               36441-5|
-|  2022-12-31|2022-12-31 07:37:02|        4608|       5603.0|        dollar $|  20223561|       null|                  666|                 4425|               41323-1|
-|  2022-12-31|2022-12-31 07:35:05|        1121|      4365.22|        dollar $|  20223560|       null|                  666|                 2400|               74120-4|
-|  2022-12-31|2022-12-31 02:53:44|        1121|       4620.0|        dollar $|  20223559|       null|                  421|                 1100|               39830-0|
-+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
++------------+-------------------+------------+-------------+----------------+
+|dateTransfer|   datetimeTransfer|clientNumber|transferValue|transferCurrency|
++------------+-------------------+------------+-------------+----------------+
+|  2022-12-31|2022-12-31 14:00:24|        5516|      7794.31|          zing ƒ|
+|  2022-12-31|2022-12-31 10:32:07|        4965|       7919.0|          zing ƒ|
+|  2022-12-31|2022-12-31 07:37:02|        4608|       5603.0|        dollar $|
+|  2022-12-31|2022-12-31 07:35:05|        1121|      4365.22|        dollar $|
+|  2022-12-31|2022-12-31 02:53:44|        1121|       4620.0|        dollar $|
++------------+-------------------+------------+-------------+----------------+
 only showing top 5 rows
+... with 5 more columns: transferID, transferLog, destinationBankNumber
+    destinationBankBranch, destinationBankAccount
 \end{verbatim}
 
 If you forget to add the parentheses, Spark will think you are negating
@@ -3634,16 +3662,18 @@ the code, but, is harder to write it.
 \end{Shaded}
 
 \begin{verbatim}
-+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
-|dateTransfer|   datetimeTransfer|clientNumber|transferValue|transferCurrency|transferID|transferLog|destinationBankNumber|destinationBankBranch|destinationBankAccount|
-+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
-|  2022-12-31|2022-12-31 14:00:24|        5516|      7794.31|          zing ƒ|  20223563|       null|                   33|                 4078|               72424-2|
-|  2022-12-31|2022-12-31 10:32:07|        4965|       7919.0|          zing ƒ|  20223562|       null|                  421|                 1979|               36441-5|
-|  2022-12-31|2022-12-31 07:37:02|        4608|       5603.0|        dollar $|  20223561|       null|                  666|                 4425|               41323-1|
-|  2022-12-31|2022-12-31 07:35:05|        1121|      4365.22|        dollar $|  20223560|       null|                  666|                 2400|               74120-4|
-|  2022-12-31|2022-12-31 02:53:44|        1121|       4620.0|        dollar $|  20223559|       null|                  421|                 1100|               39830-0|
-+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
++------------+-------------------+------------+-------------+----------------+
+|dateTransfer|   datetimeTransfer|clientNumber|transferValue|transferCurrency|
++------------+-------------------+------------+-------------+----------------+
+|  2022-12-31|2022-12-31 14:00:24|        5516|      7794.31|          zing ƒ|
+|  2022-12-31|2022-12-31 10:32:07|        4965|       7919.0|          zing ƒ|
+|  2022-12-31|2022-12-31 07:37:02|        4608|       5603.0|        dollar $|
+|  2022-12-31|2022-12-31 07:35:05|        1121|      4365.22|        dollar $|
+|  2022-12-31|2022-12-31 02:53:44|        1121|       4620.0|        dollar $|
++------------+-------------------+------------+-------------+----------------+
 only showing top 5 rows
+... with 5 more columns: transferID, transferLog, destinationBankNumber
+    destinationBankBranch, destinationBankAccount
 \end{verbatim}
 
 \hypertarget{filtering-null-values-i.e.-missing-data}{%
@@ -3669,16 +3699,18 @@ correctly filter these values in your DataFrame. In SQL, you can use the
 \end{Shaded}
 
 \begin{verbatim}
-+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
-|dateTransfer|   datetimeTransfer|clientNumber|transferValue|transferCurrency|transferID|transferLog|destinationBankNumber|destinationBankBranch|destinationBankAccount|
-+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
-|  2022-12-31|2022-12-31 14:00:24|        5516|      7794.31|          zing ƒ|  20223563|       null|                   33|                 4078|               72424-2|
-|  2022-12-31|2022-12-31 10:32:07|        4965|       7919.0|          zing ƒ|  20223562|       null|                  421|                 1979|               36441-5|
-|  2022-12-31|2022-12-31 07:37:02|        4608|       5603.0|        dollar $|  20223561|       null|                  666|                 4425|               41323-1|
-|  2022-12-31|2022-12-31 07:35:05|        1121|      4365.22|        dollar $|  20223560|       null|                  666|                 2400|               74120-4|
-|  2022-12-31|2022-12-31 02:53:44|        1121|       4620.0|        dollar $|  20223559|       null|                  421|                 1100|               39830-0|
-+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
++------------+-------------------+------------+-------------+----------------+
+|dateTransfer|   datetimeTransfer|clientNumber|transferValue|transferCurrency|
++------------+-------------------+------------+-------------+----------------+
+|  2022-12-31|2022-12-31 14:00:24|        5516|      7794.31|          zing ƒ|
+|  2022-12-31|2022-12-31 10:32:07|        4965|       7919.0|          zing ƒ|
+|  2022-12-31|2022-12-31 07:37:02|        4608|       5603.0|        dollar $|
+|  2022-12-31|2022-12-31 07:35:05|        1121|      4365.22|        dollar $|
+|  2022-12-31|2022-12-31 02:53:44|        1121|       4620.0|        dollar $|
++------------+-------------------+------------+-------------+----------------+
 only showing top 5 rows
+... with 5 more columns: transferID, transferLog, destinationBankNumber
+    destinationBankBranch, destinationBankAccount
 \end{verbatim}
 
 However, if you want to remove these values from your DataFrame, then,
@@ -3694,16 +3726,18 @@ you can just negate (or invert) the above expression with the
 \end{Shaded}
 
 \begin{verbatim}
-+------------+-------------------+------------+-------------+----------------+----------+--------------------+---------------------+---------------------+----------------------+
-|dateTransfer|   datetimeTransfer|clientNumber|transferValue|transferCurrency|transferID|         transferLog|destinationBankNumber|destinationBankBranch|destinationBankAccount|
-+------------+-------------------+------------+-------------+----------------+----------+--------------------+---------------------+---------------------+----------------------+
-|  2022-12-05|2022-12-05 00:51:00|        2197|      8240.62|          zing ƒ|  20223383| 408 Request Timeout|                  666|                 1100|               58503-9|
-|  2022-09-20|2022-09-19 21:59:51|        5188|       7583.9|        dollar $|  20222912|500 Server Unavai...|                  290|                 1979|               85242-1|
-|  2022-09-03|2022-09-03 06:07:59|        3795|       3654.0|          zing ƒ|  20222814| 408 Request Timeout|                  290|                 9921|               60494-5|
-|  2022-07-02|2022-07-02 15:29:50|        4465|       5294.0|        dollar $|  20222408|500 Server Unavai...|                  421|                 2400|               39070-3|
-|  2022-06-14|2022-06-14 10:21:55|        1121|       7302.0|        dollar $|  20222273| 408 Request Timeout|                  666|                 5420|               47709-2|
-+------------+-------------------+------------+-------------+----------------+----------+--------------------+---------------------+---------------------+----------------------+
++------------+-------------------+------------+-------------+----------------+
+|dateTransfer|   datetimeTransfer|clientNumber|transferValue|transferCurrency|
++------------+-------------------+------------+-------------+----------------+
+|  2022-12-05|2022-12-05 00:51:00|        2197|      8240.62|          zing ƒ|
+|  2022-09-20|2022-09-19 21:59:51|        5188|       7583.9|        dollar $|
+|  2022-09-03|2022-09-03 06:07:59|        3795|       3654.0|          zing ƒ|
+|  2022-07-02|2022-07-02 15:29:50|        4465|       5294.0|        dollar $|
+|  2022-06-14|2022-06-14 10:21:55|        1121|       7302.0|        dollar $|
++------------+-------------------+------------+-------------+----------------+
 only showing top 5 rows
+... with 5 more columns: transferID, transferLog, destinationBankNumber
+    destinationBankBranch, destinationBankAccount
 \end{verbatim}
 
 The \texttt{is} and \texttt{not} keywords in SQL have a special
@@ -3743,10 +3777,12 @@ below, this method does not work as expected:
 \end{Shaded}
 
 \begin{verbatim}
-+------------+----------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
-|dateTransfer|datetimeTransfer|clientNumber|transferValue|transferCurrency|transferID|transferLog|destinationBankNumber|destinationBankBranch|destinationBankAccount|
-+------------+----------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
-+------------+----------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
++------------+----------------+------------+-------------+----------------+
+|dateTransfer|datetimeTransfer|clientNumber|transferValue|transferCurrency|
++------------+----------------+------------+-------------+----------------+
++------------+----------------+------------+-------------+----------------+
+... with 5 more columns: transferID, transferLog, destinationBankNumber
+    destinationBankBranch, destinationBankAccount
 \end{verbatim}
 
 The correct way to do this in \texttt{pyspark}, is to use the
@@ -3761,16 +3797,18 @@ The correct way to do this in \texttt{pyspark}, is to use the
 \end{Shaded}
 
 \begin{verbatim}
-+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
-|dateTransfer|   datetimeTransfer|clientNumber|transferValue|transferCurrency|transferID|transferLog|destinationBankNumber|destinationBankBranch|destinationBankAccount|
-+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
-|  2022-12-31|2022-12-31 14:00:24|        5516|      7794.31|          zing ƒ|  20223563|       null|                   33|                 4078|               72424-2|
-|  2022-12-31|2022-12-31 10:32:07|        4965|       7919.0|          zing ƒ|  20223562|       null|                  421|                 1979|               36441-5|
-|  2022-12-31|2022-12-31 07:37:02|        4608|       5603.0|        dollar $|  20223561|       null|                  666|                 4425|               41323-1|
-|  2022-12-31|2022-12-31 07:35:05|        1121|      4365.22|        dollar $|  20223560|       null|                  666|                 2400|               74120-4|
-|  2022-12-31|2022-12-31 02:53:44|        1121|       4620.0|        dollar $|  20223559|       null|                  421|                 1100|               39830-0|
-+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
++------------+-------------------+------------+-------------+----------------+
+|dateTransfer|   datetimeTransfer|clientNumber|transferValue|transferCurrency|
++------------+-------------------+------------+-------------+----------------+
+|  2022-12-31|2022-12-31 14:00:24|        5516|      7794.31|          zing ƒ|
+|  2022-12-31|2022-12-31 10:32:07|        4965|       7919.0|          zing ƒ|
+|  2022-12-31|2022-12-31 07:37:02|        4608|       5603.0|        dollar $|
+|  2022-12-31|2022-12-31 07:35:05|        1121|      4365.22|        dollar $|
+|  2022-12-31|2022-12-31 02:53:44|        1121|       4620.0|        dollar $|
++------------+-------------------+------------+-------------+----------------+
 only showing top 5 rows
+... with 5 more columns: transferID, transferLog, destinationBankNumber
+    destinationBankBranch, destinationBankAccount
 \end{verbatim}
 
 If you want to eliminate the \texttt{null} values, just use the inverse
@@ -3785,16 +3823,18 @@ method \texttt{isNotNull()}.
 \end{Shaded}
 
 \begin{verbatim}
-+------------+-------------------+------------+-------------+----------------+----------+--------------------+---------------------+---------------------+----------------------+
-|dateTransfer|   datetimeTransfer|clientNumber|transferValue|transferCurrency|transferID|         transferLog|destinationBankNumber|destinationBankBranch|destinationBankAccount|
-+------------+-------------------+------------+-------------+----------------+----------+--------------------+---------------------+---------------------+----------------------+
-|  2022-12-05|2022-12-05 00:51:00|        2197|      8240.62|          zing ƒ|  20223383| 408 Request Timeout|                  666|                 1100|               58503-9|
-|  2022-09-20|2022-09-19 21:59:51|        5188|       7583.9|        dollar $|  20222912|500 Server Unavai...|                  290|                 1979|               85242-1|
-|  2022-09-03|2022-09-03 06:07:59|        3795|       3654.0|          zing ƒ|  20222814| 408 Request Timeout|                  290|                 9921|               60494-5|
-|  2022-07-02|2022-07-02 15:29:50|        4465|       5294.0|        dollar $|  20222408|500 Server Unavai...|                  421|                 2400|               39070-3|
-|  2022-06-14|2022-06-14 10:21:55|        1121|       7302.0|        dollar $|  20222273| 408 Request Timeout|                  666|                 5420|               47709-2|
-+------------+-------------------+------------+-------------+----------------+----------+--------------------+---------------------+---------------------+----------------------+
++------------+-------------------+------------+-------------+----------------+
+|dateTransfer|   datetimeTransfer|clientNumber|transferValue|transferCurrency|
++------------+-------------------+------------+-------------+----------------+
+|  2022-12-05|2022-12-05 00:51:00|        2197|      8240.62|          zing ƒ|
+|  2022-09-20|2022-09-19 21:59:51|        5188|       7583.9|        dollar $|
+|  2022-09-03|2022-09-03 06:07:59|        3795|       3654.0|          zing ƒ|
+|  2022-07-02|2022-07-02 15:29:50|        4465|       5294.0|        dollar $|
+|  2022-06-14|2022-06-14 10:21:55|        1121|       7302.0|        dollar $|
++------------+-------------------+------------+-------------+----------------+
 only showing top 5 rows
+... with 5 more columns: transferID, transferLog, destinationBankNumber
+    destinationBankBranch, destinationBankAccount
 \end{verbatim}
 
 \hypertarget{filtering-dates-and-datetimes-in-your-dataframe}{%
@@ -3993,16 +4033,18 @@ pattern.
 \end{Shaded}
 
 \begin{verbatim}
-+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
-|dateTransfer|   datetimeTransfer|clientNumber|transferValue|transferCurrency|transferID|transferLog|destinationBankNumber|destinationBankBranch|destinationBankAccount|
-+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
-|  2022-12-30|2022-12-30 11:30:23|        1455|       5141.0| british pound £|  20223552|       null|                  421|                 6552|               62671-3|
-|  2022-12-30|2022-12-30 02:35:23|        5986|       6076.0| british pound £|  20223550|       null|                   33|                 4078|               83994-4|
-|  2022-12-29|2022-12-29 15:24:04|        4862|       5952.0| british pound £|  20223544|       null|                  666|                 1002|               37736-6|
-|  2022-12-29|2022-12-29 14:16:46|        2197|       8771.0| british pound £|  20223543|       null|                   33|                 1200|               32390-2|
-|  2022-12-29|2022-12-29 06:51:24|        5987|       2345.0| british pound £|  20223539|       null|                   33|                 2231|               70909-9|
-+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
++------------+-------------------+------------+-------------+----------------+
+|dateTransfer|   datetimeTransfer|clientNumber|transferValue|transferCurrency|
++------------+-------------------+------------+-------------+----------------+
+|  2022-12-30|2022-12-30 11:30:23|        1455|       5141.0| british pound £|
+|  2022-12-30|2022-12-30 02:35:23|        5986|       6076.0| british pound £|
+|  2022-12-29|2022-12-29 15:24:04|        4862|       5952.0| british pound £|
+|  2022-12-29|2022-12-29 14:16:46|        2197|       8771.0| british pound £|
+|  2022-12-29|2022-12-29 06:51:24|        5987|       2345.0| british pound £|
++------------+-------------------+------------+-------------+----------------+
 only showing top 5 rows
+... with 5 more columns: transferID, transferLog, destinationBankNumber
+    destinationBankBranch, destinationBankAccount
 \end{verbatim}
 
 Although the style of pattern matching used by \texttt{like()} being
@@ -4022,16 +4064,18 @@ characters \texttt{54}.
 \end{Shaded}
 
 \begin{verbatim}
-+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
-|dateTransfer|   datetimeTransfer|clientNumber|transferValue|transferCurrency|transferID|transferLog|destinationBankNumber|destinationBankBranch|destinationBankAccount|
-+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
-|  2022-12-29|2022-12-29 02:54:23|        2197|       5752.0| british pound £|  20223536|       null|                  666|                 8800|               54159-1|
-|  2022-12-27|2022-12-27 04:51:45|        4862|      11379.0|        dollar $|  20223523|       null|                   33|                 4425|               54796-3|
-|  2022-12-05|2022-12-05 05:50:27|        4965|       5986.0| british pound £|  20223386|       null|                  421|                 1200|               54118-1|
-|  2022-12-04|2022-12-04 14:31:42|        4965|       8123.0|        dollar $|  20223380|       null|                  666|                 3321|               54912-2|
-|  2022-11-29|2022-11-29 16:23:07|        4862|       8060.0|          zing ƒ|  20223351|       null|                  421|                 8800|               54194-8|
-+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
++------------+-------------------+------------+-------------+----------------+
+|dateTransfer|   datetimeTransfer|clientNumber|transferValue|transferCurrency|
++------------+-------------------+------------+-------------+----------------+
+|  2022-12-29|2022-12-29 02:54:23|        2197|       5752.0| british pound £|
+|  2022-12-27|2022-12-27 04:51:45|        4862|      11379.0|        dollar $|
+|  2022-12-05|2022-12-05 05:50:27|        4965|       5986.0| british pound £|
+|  2022-12-04|2022-12-04 14:31:42|        4965|       8123.0|        dollar $|
+|  2022-11-29|2022-11-29 16:23:07|        4862|       8060.0|          zing ƒ|
++------------+-------------------+------------+-------------+----------------+
 only showing top 5 rows
+... with 5 more columns: transferID, transferLog, destinationBankNumber
+    destinationBankBranch, destinationBankAccount
 \end{verbatim}
 
 \hypertarget{managing-the-columns-of-your-dataframe}{%
@@ -4069,9 +4113,6 @@ your DataFrame, in the specific order you want.
 |  20223559|2022-12-31 02:53:44|        1121|       4620.0|
 +----------+-------------------+------------+-------------+
 only showing top 5 rows
-\end{verbatim}
-
-\begin{verbatim}
 \end{verbatim}
 
 \hypertarget{renaming-your-columns}{%
@@ -4128,16 +4169,18 @@ column.
 \end{Shaded}
 
 \begin{verbatim}
-+------------+-------------------+--------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
-|dateTransfer|   datetimeTransfer|clientID|transferValue|transferCurrency|transferID|transferLog|destinationBankNumber|destinationBankBranch|destinationBankAccount|
-+------------+-------------------+--------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
-|  2022-12-31|2022-12-31 14:00:24|    5516|      7794.31|          zing ƒ|  20223563|       null|                   33|                 4078|               72424-2|
-|  2022-12-31|2022-12-31 10:32:07|    4965|       7919.0|          zing ƒ|  20223562|       null|                  421|                 1979|               36441-5|
-|  2022-12-31|2022-12-31 07:37:02|    4608|       5603.0|        dollar $|  20223561|       null|                  666|                 4425|               41323-1|
-|  2022-12-31|2022-12-31 07:35:05|    1121|      4365.22|        dollar $|  20223560|       null|                  666|                 2400|               74120-4|
-|  2022-12-31|2022-12-31 02:53:44|    1121|       4620.0|        dollar $|  20223559|       null|                  421|                 1100|               39830-0|
-+------------+-------------------+--------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
++------------+-------------------+--------+-------------+----------------+
+|dateTransfer|   datetimeTransfer|clientID|transferValue|transferCurrency|
++------------+-------------------+--------+-------------+----------------+
+|  2022-12-31|2022-12-31 14:00:24|    5516|      7794.31|          zing ƒ|
+|  2022-12-31|2022-12-31 10:32:07|    4965|       7919.0|          zing ƒ|
+|  2022-12-31|2022-12-31 07:37:02|    4608|       5603.0|        dollar $|
+|  2022-12-31|2022-12-31 07:35:05|    1121|      4365.22|        dollar $|
+|  2022-12-31|2022-12-31 02:53:44|    1121|       4620.0|        dollar $|
++------------+-------------------+--------+-------------+----------------+
 only showing top 5 rows
+... with 5 more columns: transferID, transferLog, destinationBankNumber
+    destinationBankBranch, destinationBankAccount
 \end{verbatim}
 
 \hypertarget{dropping-unnecessary-columns}{%
@@ -4158,16 +4201,18 @@ the columns you want to drop from your DataFrame, inside the
 \end{Shaded}
 
 \begin{verbatim}
-+-------------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
-|   datetimeTransfer|transferValue|transferCurrency|transferID|transferLog|destinationBankNumber|destinationBankBranch|destinationBankAccount|
-+-------------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
-|2022-12-31 14:00:24|      7794.31|          zing ƒ|  20223563|       null|                   33|                 4078|               72424-2|
-|2022-12-31 10:32:07|       7919.0|          zing ƒ|  20223562|       null|                  421|                 1979|               36441-5|
-|2022-12-31 07:37:02|       5603.0|        dollar $|  20223561|       null|                  666|                 4425|               41323-1|
-|2022-12-31 07:35:05|      4365.22|        dollar $|  20223560|       null|                  666|                 2400|               74120-4|
-|2022-12-31 02:53:44|       4620.0|        dollar $|  20223559|       null|                  421|                 1100|               39830-0|
-+-------------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
++-------------------+-------------+----------------+----------+-----------+
+|   datetimeTransfer|transferValue|transferCurrency|transferID|transferLog|
++-------------------+-------------+----------------+----------+-----------+
+|2022-12-31 14:00:24|      7794.31|          zing ƒ|  20223563|       null|
+|2022-12-31 10:32:07|       7919.0|          zing ƒ|  20223562|       null|
+|2022-12-31 07:37:02|       5603.0|        dollar $|  20223561|       null|
+|2022-12-31 07:35:05|      4365.22|        dollar $|  20223560|       null|
+|2022-12-31 02:53:44|       4620.0|        dollar $|  20223559|       null|
++-------------------+-------------+----------------+----------+-----------+
 only showing top 5 rows
+... with 3 more columns: destinationBankNumber, destinationBankBranch
+    destinationBankAccount
 \end{verbatim}
 
 \hypertarget{casting-columns-to-a-different-data-type}{%
@@ -4311,16 +4356,18 @@ however, we are bringing all the columns of \texttt{transf} together.
 \end{Shaded}
 
 \begin{verbatim}
-+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+-------+
-|dateTransfer|   datetimeTransfer|clientNumber|transferValue|transferCurrency|transferID|transferLog|destinationBankNumber|destinationBankBranch|destinationBankAccount|by_1000|
-+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+-------+
-|  2022-12-31|2022-12-31 14:00:24|        5516|      7794.31|          zing ƒ|  20223563|       null|                   33|                 4078|               72424-2|7.79431|
-|  2022-12-31|2022-12-31 10:32:07|        4965|       7919.0|          zing ƒ|  20223562|       null|                  421|                 1979|               36441-5|  7.919|
-|  2022-12-31|2022-12-31 07:37:02|        4608|       5603.0|        dollar $|  20223561|       null|                  666|                 4425|               41323-1|  5.603|
-|  2022-12-31|2022-12-31 07:35:05|        1121|      4365.22|        dollar $|  20223560|       null|                  666|                 2400|               74120-4|4.36522|
-|  2022-12-31|2022-12-31 02:53:44|        1121|       4620.0|        dollar $|  20223559|       null|                  421|                 1100|               39830-0|   4.62|
-+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+-------+
++------------+-------------------+------------+-------------+----------------+
+|dateTransfer|   datetimeTransfer|clientNumber|transferValue|transferCurrency|
++------------+-------------------+------------+-------------+----------------+
+|  2022-12-31|2022-12-31 14:00:24|        5516|      7794.31|          zing ƒ|
+|  2022-12-31|2022-12-31 10:32:07|        4965|       7919.0|          zing ƒ|
+|  2022-12-31|2022-12-31 07:37:02|        4608|       5603.0|        dollar $|
+|  2022-12-31|2022-12-31 07:35:05|        1121|      4365.22|        dollar $|
+|  2022-12-31|2022-12-31 02:53:44|        1121|       4620.0|        dollar $|
++------------+-------------------+------------+-------------+----------------+
 only showing top 5 rows
+... with 6 more columns: transferID, transferLog, destinationBankNumber
+    destinationBankBranch, destinationBankAccount, by_1000
 \end{verbatim}
 
 \hypertarget{calculating-or-adding-new-columns-to-your-dataframe}{%
@@ -4348,16 +4395,18 @@ column like this:
 \end{Shaded}
 
 \begin{verbatim}
-+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+-------+
-|dateTransfer|   datetimeTransfer|clientNumber|transferValue|transferCurrency|transferID|transferLog|destinationBankNumber|destinationBankBranch|destinationBankAccount|by_1000|
-+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+-------+
-|  2022-12-31|2022-12-31 14:00:24|        5516|      7794.31|          zing ƒ|  20223563|       null|                   33|                 4078|               72424-2|7.79431|
-|  2022-12-31|2022-12-31 10:32:07|        4965|       7919.0|          zing ƒ|  20223562|       null|                  421|                 1979|               36441-5|  7.919|
-|  2022-12-31|2022-12-31 07:37:02|        4608|       5603.0|        dollar $|  20223561|       null|                  666|                 4425|               41323-1|  5.603|
-|  2022-12-31|2022-12-31 07:35:05|        1121|      4365.22|        dollar $|  20223560|       null|                  666|                 2400|               74120-4|4.36522|
-|  2022-12-31|2022-12-31 02:53:44|        1121|       4620.0|        dollar $|  20223559|       null|                  421|                 1100|               39830-0|   4.62|
-+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+-------+
++------------+-------------------+------------+-------------+----------------+
+|dateTransfer|   datetimeTransfer|clientNumber|transferValue|transferCurrency|
++------------+-------------------+------------+-------------+----------------+
+|  2022-12-31|2022-12-31 14:00:24|        5516|      7794.31|          zing ƒ|
+|  2022-12-31|2022-12-31 10:32:07|        4965|       7919.0|          zing ƒ|
+|  2022-12-31|2022-12-31 07:37:02|        4608|       5603.0|        dollar $|
+|  2022-12-31|2022-12-31 07:35:05|        1121|      4365.22|        dollar $|
+|  2022-12-31|2022-12-31 02:53:44|        1121|       4620.0|        dollar $|
++------------+-------------------+------------+-------------+----------------+
 only showing top 5 rows
+... with 6 more columns: transferID, transferLog, destinationBankNumber
+    destinationBankBranch, destinationBankAccount, by_1000
 \end{verbatim}
 
 A lot of the times we use the functions from
@@ -4394,16 +4443,18 @@ ascending order while sorting your rows.
 \end{Shaded}
 
 \begin{verbatim}
-+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
-|dateTransfer|   datetimeTransfer|clientNumber|transferValue|transferCurrency|transferID|transferLog|destinationBankNumber|destinationBankBranch|destinationBankAccount|
-+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
-|  2022-07-22|2022-07-22 16:06:25|        3795|         60.0|        dollar $|  20222533|       null|                  290|                 1100|               39925-1|
-|  2022-05-09|2022-05-09 14:02:15|        3284|        104.0|        dollar $|  20222033|       null|                  666|                 2231|               74766-2|
-|  2022-09-16|2022-09-16 20:35:40|        3294|       129.09|          zing ƒ|  20222896|       null|                  290|                 3321|               60867-9|
-|  2022-12-18|2022-12-18 08:45:30|        1297|       142.66|        dollar $|  20223467|       null|                  421|                 5420|               43088-1|
-|  2022-08-20|2022-08-20 09:27:55|        2727|        160.0|        dollar $|  20222724|       null|                   33|                 1002|               75581-5|
-+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
++------------+-------------------+------------+-------------+----------------+
+|dateTransfer|   datetimeTransfer|clientNumber|transferValue|transferCurrency|
++------------+-------------------+------------+-------------+----------------+
+|  2022-07-22|2022-07-22 16:06:25|        3795|         60.0|        dollar $|
+|  2022-05-09|2022-05-09 14:02:15|        3284|        104.0|        dollar $|
+|  2022-09-16|2022-09-16 20:35:40|        3294|       129.09|          zing ƒ|
+|  2022-12-18|2022-12-18 08:45:30|        1297|       142.66|        dollar $|
+|  2022-08-20|2022-08-20 09:27:55|        2727|        160.0|        dollar $|
++------------+-------------------+------------+-------------+----------------+
 only showing top 5 rows
+... with 5 more columns: transferID, transferLog, destinationBankNumber
+    destinationBankBranch, destinationBankAccount
 \end{verbatim}
 
 Just to be clear, you can use the combination between multiple columns
@@ -4422,16 +4473,18 @@ the rows of each \texttt{clientNumber} according to
 \end{Shaded}
 
 \begin{verbatim}
-+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
-|dateTransfer|   datetimeTransfer|clientNumber|transferValue|transferCurrency|transferID|transferLog|destinationBankNumber|destinationBankBranch|destinationBankAccount|
-+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
-|  2022-03-30|2022-03-30 11:57:22|        1121|        461.0|          euro €|  20221738|       null|                  666|                 6552|               35568-9|
-|  2022-05-23|2022-05-23 11:51:02|        1121|       844.66| british pound £|  20222127|       null|                  421|                 1002|               32340-0|
-|  2022-08-24|2022-08-24 13:51:30|        1121|      1046.93|          euro €|  20222748|       null|                  421|                 6317|               38887-3|
-|  2022-09-23|2022-09-23 19:49:19|        1121|       1327.0| british pound £|  20222938|       null|                  290|                 5420|               77350-1|
-|  2022-06-25|2022-06-25 17:07:08|        1121|       1421.0|        dollar $|  20222361|       null|                  290|                 9921|               77258-7|
-+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
++------------+-------------------+------------+-------------+----------------+
+|dateTransfer|   datetimeTransfer|clientNumber|transferValue|transferCurrency|
++------------+-------------------+------------+-------------+----------------+
+|  2022-03-30|2022-03-30 11:57:22|        1121|        461.0|          euro €|
+|  2022-05-23|2022-05-23 11:51:02|        1121|       844.66| british pound £|
+|  2022-08-24|2022-08-24 13:51:30|        1121|      1046.93|          euro €|
+|  2022-09-23|2022-09-23 19:49:19|        1121|       1327.0| british pound £|
+|  2022-06-25|2022-06-25 17:07:08|        1121|       1421.0|        dollar $|
++------------+-------------------+------------+-------------+----------------+
 only showing top 5 rows
+... with 5 more columns: transferID, transferLog, destinationBankNumber
+    destinationBankBranch, destinationBankAccount
 \end{verbatim}
 
 If you want to use a descending order in a specific column, you need to
@@ -4450,16 +4503,18 @@ to sort the rows in each \texttt{clientNumber}.
 \end{Shaded}
 
 \begin{verbatim}
-+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
-|dateTransfer|   datetimeTransfer|clientNumber|transferValue|transferCurrency|transferID|transferLog|destinationBankNumber|destinationBankBranch|destinationBankAccount|
-+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
-|  2022-08-18|2022-08-18 13:57:12|        1121|     11490.37|          zing ƒ|  20222712|       null|                  421|                 2400|               61244-9|
-|  2022-11-05|2022-11-05 08:00:37|        1121|     10649.59|        dollar $|  20223197|       null|                  421|                 3321|               40011-2|
-|  2022-05-17|2022-05-17 10:27:05|        1121|     10471.23| british pound £|  20222086|       null|                  666|                 8521|               26534-1|
-|  2022-05-15|2022-05-15 00:25:49|        1121|      10356.0|        dollar $|  20222075|       null|                   33|                 1979|               28234-7|
-|  2022-06-10|2022-06-09 23:51:39|        1121|      10142.0|        dollar $|  20222241|       null|                   33|                 2400|               36594-6|
-+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
++------------+-------------------+------------+-------------+----------------+
+|dateTransfer|   datetimeTransfer|clientNumber|transferValue|transferCurrency|
++------------+-------------------+------------+-------------+----------------+
+|  2022-08-18|2022-08-18 13:57:12|        1121|     11490.37|          zing ƒ|
+|  2022-11-05|2022-11-05 08:00:37|        1121|     10649.59|        dollar $|
+|  2022-05-17|2022-05-17 10:27:05|        1121|     10471.23| british pound £|
+|  2022-05-15|2022-05-15 00:25:49|        1121|      10356.0|        dollar $|
+|  2022-06-10|2022-06-09 23:51:39|        1121|      10142.0|        dollar $|
++------------+-------------------+------------+-------------+----------------+
 only showing top 5 rows
+... with 5 more columns: transferID, transferLog, destinationBankNumber
+    destinationBankBranch, destinationBankAccount
 \end{verbatim}
 
 This means that you can mix ascending orders with descending orders in
@@ -4609,7 +4664,7 @@ group in the DataFrame.
 \end{Shaded}
 
 \begin{verbatim}
-<pyspark.sql.group.GroupedData at 0x7f82cc62f040>
+<pyspark.sql.group.GroupedData at 0x7f533424cac0>
 \end{verbatim}
 
 At first, it appears that nothing has changed. But the
@@ -4754,6 +4809,10 @@ stored in my \texttt{Data} folder, I can do this:
 \NormalTok{json\_data.show()}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{verbatim}
+[Stage 0:>                                                          (0 + 1) / 1]                                                                                
+\end{verbatim}
 
 \begin{verbatim}
 +-----+----------+------------+-------+-------------------+-----+
@@ -5174,9 +5233,13 @@ see that the dates and timestamps in this file are using the
 \end{Shaded}
 
 \begin{verbatim}
-{"dateOfEvent":"15/06/2022","timeOfEvent":"15/06/2022 14:33:10","userId":"b902e51e-d043-4a66-afc4-a820173e1bb4","nameOfEvent":"entry"}
-{"dateOfEvent":"15/06/2022","timeOfEvent":"15/06/2022 14:40:08","userId":"b902e51e-d043-4a66-afc4-a820173e1bb4","nameOfEvent":"click: shop"}
-{"dateOfEvent":"15/06/2022","timeOfEvent":"15/06/2022 15:48:41","userId":"b902e51e-d043-4a66-afc4-a820173e1bb4","nameOfEvent":"select: payment-method"}
+{"dateOfEvent":"15/06/2022","timeOfEvent":"15/06/2022 14:33:10"
+,"userId":"b902e51e-d043-4a66-afc4-a820173e1bb4","nameOfEvent":"entry"}
+{"dateOfEvent":"15/06/2022","timeOfEvent":"15/06/2022 14:40:08"
+,"userId":"b902e51e-d043-4a66-afc4-a820173e1bb4","nameOfEvent":"click: shop"}
+{"dateOfEvent":"15/06/2022","timeOfEvent":"15/06/2022 15:48:41"
+,"userId":"b902e51e-d043-4a66-afc4-a820173e1bb4"
+,"nameOfEvent":"select: payment-method"}
 \end{verbatim}
 
 Date variables are usually interpreted by Spark as string variables. In
@@ -6054,16 +6117,17 @@ query it, using pure SQL:
 \end{Shaded}
 
 \begin{verbatim}
-+-------+---------+--------------+-------------+-----------------+-----------+------+----+
-|species|   island|bill_length_mm|bill_depth_mm|flipper_length_mm|body_mass_g|   sex|year|
-+-------+---------+--------------+-------------+-----------------+-----------+------+----+
-| Adelie|Torgersen|          39.1|         18.7|              181|       3750|  male|2007|
-| Adelie|Torgersen|          39.5|         17.4|              186|       3800|female|2007|
-| Adelie|Torgersen|          40.3|           18|              195|       3250|female|2007|
-| Adelie|Torgersen|          null|         null|             null|       null|  null|2007|
-| Adelie|Torgersen|          36.7|         19.3|              193|       3450|female|2007|
-+-------+---------+--------------+-------------+-----------------+-----------+------+----+
++-------+---------+--------------+-------------+-----------------+-----------+
+|species|   island|bill_length_mm|bill_depth_mm|flipper_length_mm|body_mass_g|
++-------+---------+--------------+-------------+-----------------+-----------+
+| Adelie|Torgersen|          39.1|         18.7|              181|       3750|
+| Adelie|Torgersen|          39.5|         17.4|              186|       3800|
+| Adelie|Torgersen|          40.3|           18|              195|       3250|
+| Adelie|Torgersen|          null|         null|             null|       null|
+| Adelie|Torgersen|          36.7|         19.3|              193|       3450|
++-------+---------+--------------+-------------+-----------------+-----------+
 only showing top 5 rows
+... with 2 more columns: sex, year
 \end{verbatim}
 
 \hypertarget{selecting-your-spark-dataframes}{%
@@ -6092,16 +6156,17 @@ same thing. For example, we could access \texttt{penguins\_view} as:
 \end{Shaded}
 
 \begin{verbatim}
-+-------+---------+--------------+-------------+-----------------+-----------+------+----+
-|species|   island|bill_length_mm|bill_depth_mm|flipper_length_mm|body_mass_g|   sex|year|
-+-------+---------+--------------+-------------+-----------------+-----------+------+----+
-| Adelie|Torgersen|          39.1|         18.7|              181|       3750|  male|2007|
-| Adelie|Torgersen|          39.5|         17.4|              186|       3800|female|2007|
-| Adelie|Torgersen|          40.3|           18|              195|       3250|female|2007|
-| Adelie|Torgersen|          null|         null|             null|       null|  null|2007|
-| Adelie|Torgersen|          36.7|         19.3|              193|       3450|female|2007|
-+-------+---------+--------------+-------------+-----------------+-----------+------+----+
++-------+---------+--------------+-------------+-----------------+-----------+
+|species|   island|bill_length_mm|bill_depth_mm|flipper_length_mm|body_mass_g|
++-------+---------+--------------+-------------+-----------------+-----------+
+| Adelie|Torgersen|          39.1|         18.7|              181|       3750|
+| Adelie|Torgersen|          39.5|         17.4|              186|       3800|
+| Adelie|Torgersen|          40.3|           18|              195|       3250|
+| Adelie|Torgersen|          null|         null|             null|       null|
+| Adelie|Torgersen|          36.7|         19.3|              193|       3450|
++-------+---------+--------------+-------------+-----------------+-----------+
 only showing top 5 rows
+... with 2 more columns: sex, year
 \end{verbatim}
 
 \hypertarget{executing-sql-expressions}{%
@@ -6254,15 +6319,16 @@ following python code:
 \end{Shaded}
 
 \begin{verbatim}
-+-------+------+--------------+-------------+-----------------+-----------+------+----+
-|species|island|bill_length_mm|bill_depth_mm|flipper_length_mm|body_mass_g|   sex|year|
-+-------+------+--------------+-------------+-----------------+-----------+------+----+
-| Gentoo|Biscoe|          44.9|         13.3|              213|       5100|female|2008|
-| Gentoo|Biscoe|          45.1|         14.5|              207|       5050|female|2007|
-| Gentoo|Biscoe|          45.2|         14.8|              212|       5200|female|2009|
-| Gentoo|Biscoe|          46.5|         14.8|              217|       5200|female|2008|
-| Gentoo|Biscoe|          49.1|         14.8|              220|       5150|female|2008|
-+-------+------+--------------+-------------+-----------------+-----------+------+----+
++-------+------+--------------+-------------+-----------------+-----------+
+|species|island|bill_length_mm|bill_depth_mm|flipper_length_mm|body_mass_g|
++-------+------+--------------+-------------+-----------------+-----------+
+| Gentoo|Biscoe|          44.9|         13.3|              213|       5100|
+| Gentoo|Biscoe|          45.1|         14.5|              207|       5050|
+| Gentoo|Biscoe|          45.2|         14.8|              212|       5200|
+| Gentoo|Biscoe|          46.5|         14.8|              217|       5200|
+| Gentoo|Biscoe|          49.1|         14.8|              220|       5150|
++-------+------+--------------+-------------+-----------------+-----------+
+... with 2 more columns: sex, year
 \end{verbatim}
 
 I could translate the above python code to the following SQL query:
@@ -6309,7 +6375,9 @@ Session, like this:
 \end{Shaded}
 
 \begin{verbatim}
-DataFrame[species: string, island: string, bill_length_mm: string, bill_depth_mm: string, flipper_length_mm: string, body_mass_g: string, sex: string, year: string]
+DataFrame[species: string, island: string, bill_length_mm: string
+, bill_depth_mm: string, flipper_length_mm: string, body_mass_g: string
+, sex: string, year: string]
 \end{verbatim}
 
 \hypertarget{spark-functions-are-usually-translated-into-sql-functions}{%
@@ -6841,7 +6909,8 @@ message.
 \end{Shaded}
 
 \begin{verbatim}
-[INFO]: 2022-09-05 04:02:09.05 Libraries installed: pandas, flask, numpy, spark_map, pyspark
+[INFO]: 2022-09-05 04:02:09.05 Libraries installed: pandas, flask, numpy
+, spark_map, pyspark
 \end{verbatim}
 
 We can see that this log message is listing a set of libraries that were

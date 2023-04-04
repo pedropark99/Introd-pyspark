@@ -216,7 +216,7 @@
 
 \begin{document}
 \maketitle
-\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[frame hidden, sharp corners, borderline west={3pt}{0pt}{shadecolor}, boxrule=0pt, enhanced, breakable, interior hidden]}{\end{tcolorbox}}\fi
+\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[enhanced, borderline west={3pt}{0pt}{shadecolor}, boxrule=0pt, frame hidden, sharp corners, breakable, interior hidden]}{\end{tcolorbox}}\fi
 
 \renewcommand*\contentsname{Table of contents}
 {
@@ -1914,11 +1914,7 @@ pure text, as you can see in the example below:
 \end{Shaded}
 
 \begin{verbatim}
-[Stage 0:>                                                          (0 + 1) / 1]
-\end{verbatim}
-
-\begin{verbatim}
-                                                                                
+[Stage 0:>                                                          (0 + 1) / 1]                                                                                
 \end{verbatim}
 
 \begin{verbatim}
@@ -4606,7 +4602,7 @@ group in the DataFrame.
 \end{Shaded}
 
 \begin{verbatim}
-<pyspark.sql.group.GroupedData at 0x7ff5ca003c70>
+<pyspark.sql.group.GroupedData at 0x7f533424cac0>
 \end{verbatim}
 
 At first, it appears that nothing has changed. But the
@@ -4751,6 +4747,10 @@ stored in my \texttt{Data} folder, I can do this:
 \NormalTok{json\_data.show()}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{verbatim}
+[Stage 0:>                                                          (0 + 1) / 1]                                                                                
+\end{verbatim}
 
 \begin{verbatim}
 +-----+----------+------------+-------+-------------------+-----+

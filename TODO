@@ -1,5 +1,4 @@
 TODOS:
 - Maybe the section for pulling data from sql databases whould be in another chapter;
-- Add sections describing how to use contains(), startswith() and endswith() methods to filter rows;
 - Add a chapter for date and datetime manipulation tools;
-- Add a second chapter for transforming dataframes. This time, presenting different types of transformation (union, distinct, drop_duplicates, join);
+- Add a second chapter for transforming dataframes. This time, presenting different types of transformation (union, distinct, drop_duplicates, join, na functions);
