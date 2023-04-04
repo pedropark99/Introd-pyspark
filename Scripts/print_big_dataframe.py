@@ -40,9 +40,6 @@ def print_dataframe_two_blocks(text, n_chars = 80):
     first_block = '\n'.join(first_block)
     second_block = '\n'.join(second_block)
 
-    print(first_block)
-    print('\n')
-    print(second_block)
 
     return None
 
@@ -97,7 +94,22 @@ def print_dataframe(text, n_chars = 80):
     max_index = max(filter(lambda x: x <= n_chars, column_seps))
     remainder_message = create_remainder_message(text[1], max_index, n_chars)
 
-    return remainder_message
+    truncated_block = list()
+    for i in range(len(text)):
+        line = text[i]
+        truncated_line = line[0:max_index]
+
+        if truncated_line[max_index - 1] == '-':
+            truncated_line = truncated_line + '+'
+        else:
+            truncated_line = truncated_line + '|'
+
+        truncated_block.append(truncated_line)
+
+    truncated_block.append(remainder_message)
+    truncated_block = '\n'.join(truncated_block)
+
+    return truncated_block
 
 # … with 336,766 more rows, 9 more variables: flight <int>, tailnum <chr>,
 
