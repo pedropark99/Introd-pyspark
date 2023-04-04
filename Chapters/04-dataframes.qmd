@@ -63,27 +63,12 @@ Like any python class, the `DataFrame` class comes with multiple methods that ar
 
 As an example, in the code below I expose all the available methods from this `DataFrame` class. First, I create a Spark DataFrame with `spark.range(5)`, and, store it in the object `df5`. After that, I use the `dir()` function to show all the methods that I can use through this `df5` object:
 
-```{python}
-#| include: false
-import sys 
-import os
-sys.path.append(os.path.abspath("./../Scripts/"))
-from print_big_list import print_big_list
-```
-
 
 ```{python}
-#| eval: false
+#| eval: true
 df5 = spark.range(5)
 available_methods = dir(df5)
 print(available_methods)
-```
-
-```{python}
-#| echo: false
-df5 = spark.range(5)
-available_methods = dir(df5)
-print_big_list(available_methods)
 ```
 
 
