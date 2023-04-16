@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.280">
+<meta name="generator" content="quarto-99.9.9">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -17,9 +17,10 @@ div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
   width: 0.8em;
-  margin: 0 0.8em 0.2em -1.6em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
@@ -46,48 +47,19 @@ pre.numberSource code > span > a:first-child::before
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
     padding: 0 4px; width: 4em;
-    color: #aaaaaa;
   }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
 div.sourceCode
   {   }
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { color: #008000; } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { color: #008000; font-weight: bold; } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+/* CSS for citations */
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
 }
-.hanging div.csl-entry {
+.hanging-indent div.csl-entry {
   margin-left:2em;
   text-indent:-2em;
 }
@@ -101,8 +73,7 @@ div.csl-right-inline {
 }
 div.csl-indent {
   margin-left: 2em;
-}
-</style>
+}</style>
 
 
 <script src="../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -143,6 +114,7 @@ div.csl-indent {
   }
 }</script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
@@ -158,32 +130,39 @@ div.csl-indent {
     <span class="navbar-title">Introduction to <code>pyspark</code></span>
     </a>
   </div>
+            <div id="quarto-search" class="" title="Search"></div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="https://pedro-faria.netlify.app/">
+    <a class="nav-link" href="https://pedro-faria.netlify.app/" rel="" target="">
  <span class="menu-text">Visit the author’s blog</span></a>
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/pedropark99/Introd-pyspark"><i class="bi bi-github" role="img">
+    <a class="nav-link" href="https://github.com/pedropark99/Introd-pyspark" rel="" target=""><i class="bi bi-github" role="img">
 </i> 
  <span class="menu-text"></span></a>
   </li>  
 </ul>
-              <div id="quarto-search" class="" title="Search"></div>
+            <div class="quarto-navbar-tools">
+</div>
           </div> <!-- /navcollapse -->
       </div> <!-- /container-fluid -->
     </nav>
-  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-    <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Tools for string manipulation</span></h1>
-      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
-        <i class="bi bi-chevron-right"></i>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Chapters/09-strings.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Tools for string manipulation</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
       </button>
     </div>
   </nav>
@@ -191,85 +170,99 @@ div.csl-indent {
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
-      <div class="mt-2 flex-shrink-0 align-items-center">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+        <div class="mt-2 flex-shrink-0 align-items-center">
         <div class="sidebar-search">
         <div id="quarto-search" class="" title="Search"></div>
         </div>
-      </div>
+        </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../index.html" class="sidebar-item-text sidebar-link">About this website</a>
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About this website</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Chapters/01-intro.html" class="sidebar-item-text sidebar-link">Preface</a>
+  <a href="../Chapters/01-intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Chapters/02-python.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Key concepts of python</span></a>
+  <a href="../Chapters/02-python.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Key concepts of python</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Chapters/03-spark.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introducing Apache Spark</span></a>
+  <a href="../Chapters/03-spark.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introducing Apache Spark</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Chapters/04-dataframes.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Introducing Spark DataFrames</span></a>
+  <a href="../Chapters/04-dataframes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Introducing Spark DataFrames</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Chapters/04-columns.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Introducing the <code>Column</code> class</span></a>
+  <a href="../Chapters/04-columns.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Introducing the <code>Column</code> class</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Chapters/05-transforming.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Transforming your Spark DataFrame</span></a>
+  <a href="../Chapters/05-transforming.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Transforming your Spark DataFrame</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Chapters/07-import.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Importing data to Spark</span></a>
+  <a href="../Chapters/07-import.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Importing data to Spark</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Chapters/06-dataframes-sql.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Working with SQL in <code>pyspark</code></span></a>
+  <a href="../Chapters/06-dataframes-sql.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Working with SQL in <code>pyspark</code></span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Chapters/09-strings.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Tools for string manipulation</span></a>
+  <a href="../Chapters/09-strings.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Tools for string manipulation</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Chapters/references.html" class="sidebar-item-text sidebar-link">References</a>
+  <a href="../Chapters/references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">Appendices</a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Chapters/00-terminal.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Opening the terminal of your OS</span></a>
+  <a href="../Chapters/00-terminal.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Opening the terminal of your OS</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Chapters/00-install-spark.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">How to install Spark and <code>pyspark</code></span></a>
+  <a href="../Chapters/00-install-spark.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">How to install Spark and <code>pyspark</code></span></span></a>
   </div>
 </li>
       </ul>
@@ -277,31 +270,32 @@ div.csl-indent {
     </ul>
     </div>
 </nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#the-logs-dataframe" id="toc-the-logs-dataframe" class="nav-link active" data-scroll-target="#the-logs-dataframe"><span class="toc-section-number">8.1</span>  The <code>logs</code> DataFrame</a></li>
-  <li><a href="#changing-the-case-of-letters-in-a-string" id="toc-changing-the-case-of-letters-in-a-string" class="nav-link" data-scroll-target="#changing-the-case-of-letters-in-a-string"><span class="toc-section-number">8.2</span>  Changing the case of letters in a string</a></li>
-  <li><a href="#calculating-string-length" id="toc-calculating-string-length" class="nav-link" data-scroll-target="#calculating-string-length"><span class="toc-section-number">8.3</span>  Calculating string length</a></li>
-  <li><a href="#trimming-or-removing-spaces-from-strings" id="toc-trimming-or-removing-spaces-from-strings" class="nav-link" data-scroll-target="#trimming-or-removing-spaces-from-strings"><span class="toc-section-number">8.4</span>  Trimming or removing spaces from strings</a></li>
-  <li><a href="#extracting-substrings" id="toc-extracting-substrings" class="nav-link" data-scroll-target="#extracting-substrings"><span class="toc-section-number">8.5</span>  Extracting substrings</a>
+  <li><a href="#the-logs-dataframe" id="toc-the-logs-dataframe" class="nav-link active" data-scroll-target="#the-logs-dataframe"><span class="header-section-number">8.1</span> The <code>logs</code> DataFrame</a></li>
+  <li><a href="#changing-the-case-of-letters-in-a-string" id="toc-changing-the-case-of-letters-in-a-string" class="nav-link" data-scroll-target="#changing-the-case-of-letters-in-a-string"><span class="header-section-number">8.2</span> Changing the case of letters in a string</a></li>
+  <li><a href="#calculating-string-length" id="toc-calculating-string-length" class="nav-link" data-scroll-target="#calculating-string-length"><span class="header-section-number">8.3</span> Calculating string length</a></li>
+  <li><a href="#trimming-or-removing-spaces-from-strings" id="toc-trimming-or-removing-spaces-from-strings" class="nav-link" data-scroll-target="#trimming-or-removing-spaces-from-strings"><span class="header-section-number">8.4</span> Trimming or removing spaces from strings</a></li>
+  <li><a href="#extracting-substrings" id="toc-extracting-substrings" class="nav-link" data-scroll-target="#extracting-substrings"><span class="header-section-number">8.5</span> Extracting substrings</a>
   <ul class="collapse">
-  <li><a href="#a-substring-based-on-a-start-position-and-length" id="toc-a-substring-based-on-a-start-position-and-length" class="nav-link" data-scroll-target="#a-substring-based-on-a-start-position-and-length"><span class="toc-section-number">8.5.1</span>  A substring based on a start position and length</a></li>
-  <li><a href="#a-substring-based-on-a-delimiter" id="toc-a-substring-based-on-a-delimiter" class="nav-link" data-scroll-target="#a-substring-based-on-a-delimiter"><span class="toc-section-number">8.5.2</span>  A substring based on a delimiter</a></li>
-  <li><a href="#forming-an-array-of-substrings" id="toc-forming-an-array-of-substrings" class="nav-link" data-scroll-target="#forming-an-array-of-substrings"><span class="toc-section-number">8.5.3</span>  Forming an array of substrings</a></li>
+  <li><a href="#a-substring-based-on-a-start-position-and-length" id="toc-a-substring-based-on-a-start-position-and-length" class="nav-link" data-scroll-target="#a-substring-based-on-a-start-position-and-length"><span class="header-section-number">8.5.1</span> A substring based on a start position and length</a></li>
+  <li><a href="#a-substring-based-on-a-delimiter" id="toc-a-substring-based-on-a-delimiter" class="nav-link" data-scroll-target="#a-substring-based-on-a-delimiter"><span class="header-section-number">8.5.2</span> A substring based on a delimiter</a></li>
+  <li><a href="#forming-an-array-of-substrings" id="toc-forming-an-array-of-substrings" class="nav-link" data-scroll-target="#forming-an-array-of-substrings"><span class="header-section-number">8.5.3</span> Forming an array of substrings</a></li>
   </ul></li>
-  <li><a href="#concatenating-multiple-strings-together" id="toc-concatenating-multiple-strings-together" class="nav-link" data-scroll-target="#concatenating-multiple-strings-together"><span class="toc-section-number">8.6</span>  Concatenating multiple strings together</a></li>
-  <li><a href="#sec-regex" id="toc-sec-regex" class="nav-link" data-scroll-target="#sec-regex"><span class="toc-section-number">8.7</span>  Introducing regular expressions</a>
+  <li><a href="#concatenating-multiple-strings-together" id="toc-concatenating-multiple-strings-together" class="nav-link" data-scroll-target="#concatenating-multiple-strings-together"><span class="header-section-number">8.6</span> Concatenating multiple strings together</a></li>
+  <li><a href="#sec-regex" id="toc-sec-regex" class="nav-link" data-scroll-target="#sec-regex"><span class="header-section-number">8.7</span> Introducing regular expressions</a>
   <ul class="collapse">
-  <li><a href="#the-java-regular-expression-standard" id="toc-the-java-regular-expression-standard" class="nav-link" data-scroll-target="#the-java-regular-expression-standard"><span class="toc-section-number">8.7.1</span>  The Java regular expression standard</a></li>
-  <li><a href="#using-an-invalid-regular-expression" id="toc-using-an-invalid-regular-expression" class="nav-link" data-scroll-target="#using-an-invalid-regular-expression"><span class="toc-section-number">8.7.2</span>  Using an invalid regular expression</a></li>
-  <li><a href="#sec-regexp-replace" id="toc-sec-regexp-replace" class="nav-link" data-scroll-target="#sec-regexp-replace"><span class="toc-section-number">8.7.3</span>  Replacing occurrences of a particular regular expression with <code>regexp_replace()</code></a></li>
-  <li><a href="#introducing-capturing-groups-on-pyspark" id="toc-introducing-capturing-groups-on-pyspark" class="nav-link" data-scroll-target="#introducing-capturing-groups-on-pyspark"><span class="toc-section-number">8.7.4</span>  Introducing capturing groups on <code>pyspark</code></a></li>
-  <li><a href="#sec-regexp-extract" id="toc-sec-regexp-extract" class="nav-link" data-scroll-target="#sec-regexp-extract"><span class="toc-section-number">8.7.5</span>  Extracting substrings with <code>regexp_extract()</code></a></li>
-  <li><a href="#identifying-values-that-match-a-particular-regular-expression-with-rlike" id="toc-identifying-values-that-match-a-particular-regular-expression-with-rlike" class="nav-link" data-scroll-target="#identifying-values-that-match-a-particular-regular-expression-with-rlike"><span class="toc-section-number">8.7.6</span>  Identifying values that match a particular regular expression with <code>rlike()</code></a></li>
+  <li><a href="#the-java-regular-expression-standard" id="toc-the-java-regular-expression-standard" class="nav-link" data-scroll-target="#the-java-regular-expression-standard"><span class="header-section-number">8.7.1</span> The Java regular expression standard</a></li>
+  <li><a href="#using-an-invalid-regular-expression" id="toc-using-an-invalid-regular-expression" class="nav-link" data-scroll-target="#using-an-invalid-regular-expression"><span class="header-section-number">8.7.2</span> Using an invalid regular expression</a></li>
+  <li><a href="#sec-regexp-replace" id="toc-sec-regexp-replace" class="nav-link" data-scroll-target="#sec-regexp-replace"><span class="header-section-number">8.7.3</span> Replacing occurrences of a particular regular expression with <code>regexp_replace()</code></a></li>
+  <li><a href="#introducing-capturing-groups-on-pyspark" id="toc-introducing-capturing-groups-on-pyspark" class="nav-link" data-scroll-target="#introducing-capturing-groups-on-pyspark"><span class="header-section-number">8.7.4</span> Introducing capturing groups on <code>pyspark</code></a></li>
+  <li><a href="#sec-regexp-extract" id="toc-sec-regexp-extract" class="nav-link" data-scroll-target="#sec-regexp-extract"><span class="header-section-number">8.7.5</span> Extracting substrings with <code>regexp_extract()</code></a></li>
+  <li><a href="#identifying-values-that-match-a-particular-regular-expression-with-rlike" id="toc-identifying-values-that-match-a-particular-regular-expression-with-rlike" class="nav-link" data-scroll-target="#identifying-values-that-match-a-particular-regular-expression-with-rlike"><span class="header-section-number">8.7.6</span> Identifying values that match a particular regular expression with <code>rlike()</code></a></li>
   </ul></li>
   </ul>
 </nav>
@@ -311,7 +305,7 @@ div.csl-indent {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span id="sec-string-tools" class="quarto-section-identifier d-none d-lg-block"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Tools for string manipulation</span></span></h1>
+<h1 class="title"><span id="sec-string-tools" class="quarto-section-identifier"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Tools for string manipulation</span></span></h1>
 </div>
 
 
@@ -520,16 +514,16 @@ only showing top 5 rows
 <p>There are five main functions that we can use in order to extract substrings of a string, which are:</p>
 <ul>
 <li><code>substring()</code> and <code>substr()</code>: extract a single substring based on a start position and the length (number of characters) of the collected substring<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>;</li>
-<li><code>substring_index()</code>: extract a single substring based on a single delimiter<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>;</li>
-<li><code>split()</code>: extract one or multiple substrings based on commom delimiter;</li>
+<li><code>substring_index()</code>: extract a single substring based on a delimiter character<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>;</li>
+<li><code>split()</code>: extract one or multiple substrings based on a delimiter character;</li>
 <li><code>regexp_extract()</code>: extracts substrings from a given string that match a specified regular expression pattern;</li>
 </ul>
-<p>You can obviously extract a substring that matches a particular regex (regular expression) by using the <code>regexp_extract()</code> function. However, I will describe this function, and the regex functionality available in <code>pyspark</code> at <a href="#sec-regex"><span>Section&nbsp;8.7</span></a>, or, more specifically, at <a href="#sec-regexp-extract"><span>Section&nbsp;8.7.5</span></a>. For now, just understand that you can also use regex to extract substrings from your text data.</p>
+<p>You can obviously extract a substring that matches a particular regex (regular expression) as well, by using the <code>regexp_extract()</code> function. However, I will describe this function, and the regex functionality available in <code>pyspark</code> at <a href="#sec-regex"><span>Section&nbsp;8.7</span></a>, or, more specifically, at <a href="#sec-regexp-extract"><span>Section&nbsp;8.7.5</span></a>. For now, just understand that you can also use regex to extract substrings from your text data.</p>
 <section id="a-substring-based-on-a-start-position-and-length" class="level3" data-number="8.5.1">
 <h3 data-number="8.5.1" class="anchored" data-anchor-id="a-substring-based-on-a-start-position-and-length"><span class="header-section-number">8.5.1</span> A substring based on a start position and length</h3>
 <p>The <code>substring()</code> and <code>substr()</code> functions they both work the same way. However, they come from different places. The <code>substring()</code> function comes from the <code>spark.sql.functions</code> module, while the <code>substr()</code> function is actually a method from the <code>Column</code> class.</p>
 <p>One interesting aspect of these functions, is that they both use a one-based index, instead of a zero-based index. This means that the first character in the full string is identified by the index 1, instead of the index 0.</p>
-<p>The first argument in both function is the index that identifies the start of the substring. If you set this argument to, let’s say, 4, it means that the substring you want to extract starts at the 4th character in the input string.</p>
+<p>The first argument in both function is the index that identifies the start position of the substring. If you set this argument to, let’s say, 4, it means that the substring you want to extract starts at the 4th character in the input string.</p>
 <p>The second argument is the amount of characters in the substring, or, in other words, it’s length. For example, if you set this argument to 10, it means that the function will extract the substring that is formed by walking <span class="math inline">\(10 - 1 = 9\)</span> characters ahead from the start position you specified at the first argument. We can also interpret this as: the function will walk ahead on the string, from the start position, until it gets a substring that is 10 characters long.</p>
 <p>In the example below, we are extracting the substring that starts at the second character (index 2) and ends at the sixth character (index 6) in the string.</p>
 <div class="cell" data-execution_count="10">
@@ -570,8 +564,9 @@ only showing top 5 rows
 <section id="a-substring-based-on-a-delimiter" class="level3" data-number="8.5.2">
 <h3 data-number="8.5.2" class="anchored" data-anchor-id="a-substring-based-on-a-delimiter"><span class="header-section-number">8.5.2</span> A substring based on a delimiter</h3>
 <p>The <code>substring_index()</code> function works very differently. It collects the substring formed between the start of the string, and the nth occurrence of a particular character.</p>
-<p>For example, if you ask <code>substring_index()</code> to search for the 3rd occurrence of the character <code>$</code> in your string, the function will return to you the substring formed by all characters that are between the start of the string until the 3rd occurrence of this character <code>$</code>. You can also ask <code>substring_index()</code> to read backwards. That is, to start the search on the end of the string, and move backwards in the string until it gets to the 3rd occurrence of this character <code>$</code>.</p>
-<p>As an example, let’s look at the 10th log message present in the <code>logs</code> DataFrame. I used the <code>collect()</code> DataFrame method to collect this message into a raw python string, so we can see the full message.</p>
+<p>For example, if you ask <code>substring_index()</code> to search for the 3rd occurrence of the character <code>$</code> in your string, the function will return to you the substring formed by all characters that are between the start of the string until the 3rd occurrence of this character <code>$</code>.</p>
+<p>You can also ask <code>substring_index()</code> to read backwards. That is, to start the search on the end of the string, and move backwards in the string until it gets to the 3rd occurrence of this character <code>$</code>.</p>
+<p>As an example, let’s look at the 10th log message present in the <code>logs</code> DataFrame. I used the <code>collect()</code> DataFrame method to collect this message into a raw python string, so we can easily see the full content of the message.</p>
 <div class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> monotonically_increasing_id</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -591,13 +586,13 @@ only showing top 5 rows
 </div>
 </div>
 <p>We can see that this log message is listing a set of libraries that were installed somewhere. Suppose you want to collect the first and the last libraries in this list. How would you do it?</p>
-<p>A good start to this objective, is to isolate the list of libraries from the rest of the message. In other words, there is a bunch of characters in the start of the log message, that we do not care about. So let’s get rid of them.</p>
+<p>A good start is to isolate the list of libraries from the rest of the message. In other words, there is a bunch of characters in the start of the log message, that we do not care about. So let’s get rid of them.</p>
 <p>If you look closely to the message, you can see that the character <code>:</code> appears twice whithin the message. One close to the start of the string, and another time right before the start of the list of the libraries. We can use this character as our first delimiter, to collect the third substring that it creates within the total string, which is the substring that contains the list of libraries.</p>
 <p>This first stage is presented visually at <a href="#fig-substring-delimiter1">Figure&nbsp;<span>8.2</span></a>.</p>
 <div id="fig-substring-delimiter1" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="./../Figures/substring-delimiter1.png" class="img-fluid figure-img"></p>
-<p></p><figcaption class="figure-caption">Figure&nbsp;8.2: The first stage of subsetting</figcaption><p></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;8.2: Substrings produced by the <code>:</code> delimiter character</figcaption><p></p>
 </figure>
 </div>
 <p>Now that we identified the substrings produced by the “delimiter character”, we just need to understand better which index we need to use in <code>substring_index()</code> to get this third substring that we want. The <a href="#fig-substring-delimiter2">Figure&nbsp;<span>8.3</span></a> presents in a visual manner how the count system of <code>substring_index()</code> works.</p>
@@ -633,7 +628,8 @@ only showing top 5 rows
 </section>
 <section id="forming-an-array-of-substrings" class="level3" data-number="8.5.3">
 <h3 data-number="8.5.3" class="anchored" data-anchor-id="forming-an-array-of-substrings"><span class="header-section-number">8.5.3</span> Forming an array of substrings</h3>
-<p>Now is a good time to introduce the <code>split()</code> function, because we can use it to extract the first and the last library from the list libraries of stored at the <code>mes_10th</code> DataFrame. Basically, this function also uses a delimiter character to cut the total string into multiple pieces, and store these pieces in a array of substrings. With this strategy, we can now access each substring (or each piece of the total string) individually.</p>
+<p>Now is a good time to introduce the <code>split()</code> function, because we can use it to extract the first and the last library from the list libraries of stored at the <code>mes_10th</code> DataFrame.</p>
+<p>Basically, this function also uses a delimiter character to cut the total string into multiple pieces. However, this function stores these multiple pieces (or multiple substrings) into an array of substrings. With this strategy, we can now access each substring (or each piece of the total string) individually.</p>
 <p>If we look again at the string that we stored at the <code>list_of_libraries</code> column, we have a list of libraries, separated by a comma.</p>
 <div class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>mes_10th<span class="op">\</span></span>
@@ -788,7 +784,7 @@ only showing top 5 rows
 <li><code>[]</code> : Matches any single character within the brackets;</li>
 <li><code>\d</code> : Matches any digit character;</li>
 <li><code>\b</code> : Matches a word boundary character;</li>
-<li><code>\w</code> : Matches any word character. Equivalente to the <code>"\b([a-zA-Z_0-9]+)\b"</code> regular expression;</li>
+<li><code>\w</code> : Matches any word character. Equivalent to the <code>"\b([a-zA-Z_0-9]+)\b"</code> regular expression;</li>
 <li><code>\s</code> : Matches any whitespace character;</li>
 <li><code>()</code> : Groups a series of pattern elements to a single element;</li>
 </ul>
@@ -1067,8 +1063,8 @@ only showing top 5 rows
 </div>
 
 
-<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography" style="display: none">
-<div id="ref-regexinfo" class="csl-entry" role="doc-biblioentry">
+<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="ref-regexinfo" class="csl-entry" role="listitem">
 Goyvaerts, Jan. 2023. <span>“Regular-Expressions.info.”</span> <a href="https://www.regular-expressions.info/">https://www.regular-expressions.info/</a>.
 </div>
 </div>
@@ -1078,8 +1074,8 @@ Goyvaerts, Jan. 2023. <span>“Regular-Expressions.info.”</span> <a href="http
 <hr>
 <ol>
 <li id="fn1"><p><a href="https://github.com/pedropark99/Introd-pyspark/tree/main/Data" class="uri">https://github.com/pedropark99/Introd-pyspark/tree/main/Data</a><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2"><p>These functions uses a one based index, and not zero based index.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn3"><p>These functions uses a one based index, and not zero based index.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Instead of using a zero based index (which is the default for Python), these functions use a one based index.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>Instead of using a zero based index (which is the default for Python), these functions use a one based index.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn4"><p><a href="https://docs.python.org/3/library/stdtypes.html#str.join" class="uri">https://docs.python.org/3/library/stdtypes.html#str.join</a><a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn5"><p><a href="https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html" class="uri">https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html</a><a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn6"><p><a href="https://regex101.com/" class="uri">https://regex101.com/</a><a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
@@ -1114,9 +1110,23 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     icon: icon
   };
   anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
   const clipboard = new window.ClipboardJS('.code-copy-button', {
-    target: function(trigger) {
-      return trigger.previousElementSibling;
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
     }
   });
   clipboard.on('success', function(e) {
@@ -1181,6 +1191,92 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return note.innerHTML;
     });
   }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
   const findCites = (el) => {
     const parentEl = el.parentElement;
     if (parentEl) {

@@ -132,7 +132,7 @@ In essence, you normally use the `lit()` function when you want to write a liter
 
 
 
-## Some key column methods 
+## Key methods of the `Column` class
 
 Because many transformations that we want to apply over our DataFrames are expressed as column transformations, the methods from the `Column` class will be quite useful on many different contexts. You will see many of these methods across the next chapters, like `desc()`, `alias()` and `cast()`.
 

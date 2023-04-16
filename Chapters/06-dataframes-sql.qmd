@@ -77,6 +77,17 @@ CREATE DATABASE `dummy`;
 USE `dummy`;
 ```
 
+If we try to execute these two steps at once, by using the `sql()` method, Spark complains with a `ParseException`, indicating that we have a sytax error in our query, like in the example below:
+
+```python
+query = '''
+CREATE DATABASE `dummy`;
+USE `dummy`;
+'''
+
+spark.sql(query).show()
+```
+
 ```
 Traceback (most recent call last):
   File "<stdin>", line 1, in <module>
@@ -95,7 +106,7 @@ USE `dummy`;
 ^^^
 ```
 
-In the example above, Spark complains with a `ParseException`, indicating that we have a sytax error in our query. However, there is nothing wrong about the above SQL statements. They are both correct and valid SQL statements, both semantically and syntactically. In other words, the case above results in a `ParseException` error solely because it contains two different SQL statements.
+However, there is nothing wrong about the above SQL statements. They are both correct and valid SQL statements, both semantically and syntactically. In other words, the case above results in a `ParseException` error solely because it contains two different SQL statements.
 
 In essence, the `spark.sql()` method always expect a single SQL statement as input, and, therefore, it will try to parse this input query as a single SQL statement. If it finds multiple SQL statements inside this input string, the method will automatically raise the above error.
 

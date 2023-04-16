@@ -130,13 +130,13 @@ logs.filter(trim(col('ip')) == "1.0.104.27")\
 There are five main functions that we can use in order to extract substrings of a string, which are:
 
 - `substring()` and `substr()`: extract a single substring based on a start position and the length (number of characters) of the collected substring[^index-one];
-- `substring_index()`: extract a single substring based on a single delimiter[^index-one];
-- `split()`: extract one or multiple substrings based on commom delimiter;
+- `substring_index()`: extract a single substring based on a delimiter character[^index-one];
+- `split()`: extract one or multiple substrings based on a delimiter character;
 - `regexp_extract()`: extracts substrings from a given string that match a specified regular expression pattern;
 
-[^index-one]: These functions uses a one based index, and not zero based index.
+[^index-one]: Instead of using a zero based index (which is the default for Python), these functions use a one based index.
 
-You can obviously extract a substring that matches a particular regex (regular expression) by using the `regexp_extract()` function. However, I will describe this function, and the regex functionality available in `pyspark` at @sec-regex, or, more specifically, at @sec-regexp-extract. For now, just understand that you can also use regex to extract substrings from your text data.
+You can obviously extract a substring that matches a particular regex (regular expression) as well, by using the `regexp_extract()` function. However, I will describe this function, and the regex functionality available in `pyspark` at @sec-regex, or, more specifically, at @sec-regexp-extract. For now, just understand that you can also use regex to extract substrings from your text data.
 
 
 ### A substring based on a start position and length
@@ -145,7 +145,7 @@ The `substring()` and `substr()` functions they both work the same way. However,
 
 One interesting aspect of these functions, is that they both use a one-based index, instead of a zero-based index. This means that the first character in the full string is identified by the index 1, instead of the index 0.
 
-The first argument in both function is the index that identifies the start of the substring. If you set this argument to, let's say, 4, it means that the substring you want to extract starts at the 4th character in the input string.
+The first argument in both function is the index that identifies the start position of the substring. If you set this argument to, let's say, 4, it means that the substring you want to extract starts at the 4th character in the input string.
 
 The second argument is the amount of characters in the substring, or, in other words, it's length. For example, if you set this argument to 10, it means that the function will extract the substring that is formed by walking $10 - 1 = 9$ characters ahead from the start position you specified at the first argument. We can also interpret this as: the function will walk ahead on the string, from the start position, until it gets a substring that is 10 characters long.
 
@@ -175,9 +175,11 @@ Just to be very clear on how `substring()` and `substr()` both works. The @fig-s
 
 The `substring_index()` function works very differently. It collects the substring formed between the start of the string, and the nth occurrence of a particular character.
 
-For example, if you ask `substring_index()` to search for the 3rd occurrence of the character `$` in your string, the function will return to you the substring formed by all characters that are between the start of the string until the 3rd occurrence of this character `$`. You can also ask `substring_index()` to read backwards. That is, to start the search on the end of the string, and move backwards in the string until it gets to the 3rd occurrence of this character `$`.
+For example, if you ask `substring_index()` to search for the 3rd occurrence of the character `$` in your string, the function will return to you the substring formed by all characters that are between the start of the string until the 3rd occurrence of this character `$`.
 
-As an example, let's look at the 10th log message present in the `logs` DataFrame. I used the `collect()` DataFrame method to collect this message into a raw python string, so we can see the full message.
+You can also ask `substring_index()` to read backwards. That is, to start the search on the end of the string, and move backwards in the string until it gets to the 3rd occurrence of this character `$`.
+
+As an example, let's look at the 10th log message present in the `logs` DataFrame. I used the `collect()` DataFrame method to collect this message into a raw python string, so we can easily see the full content of the message.
 
 ```{python}
 from pyspark.sql.functions import monotonically_increasing_id
@@ -197,13 +199,13 @@ print(message)
 
 We can see that this log message is listing a set of libraries that were installed somewhere. Suppose you want to collect the first and the last libraries in this list. How would you do it?
 
-A good start to this objective, is to isolate the list of libraries from the rest of the message. In other words, there is a bunch of characters in the start of the log message, that we do not care about. So let's get rid of them.
+A good start is to isolate the list of libraries from the rest of the message. In other words, there is a bunch of characters in the start of the log message, that we do not care about. So let's get rid of them.
 
 If you look closely to the message, you can see that the character `:` appears twice whithin the message. One close to the start of the string, and another time right before the start of the list of the libraries. We can use this character as our first delimiter, to collect the third substring that it creates within the total string, which is the substring that contains the list of libraries.
 
 This first stage is presented visually at @fig-substring-delimiter1.
 
-![The first stage of subsetting](./../Figures/substring-delimiter1.png){#fig-substring-delimiter1}
+![Substrings produced by the `:` delimiter character](./../Figures/substring-delimiter1.png){#fig-substring-delimiter1}
 
 Now that we identified the substrings produced by the "delimiter character", we just need to understand better which index we need to use in `substring_index()` to get this third substring that we want. The @fig-substring-delimiter2 presents in a visual manner how the count system of `substring_index()` works.
 
@@ -232,7 +234,9 @@ mes_10th.select('list_of_libraries')\
 
 ### Forming an array of substrings
 
-Now is a good time to introduce the `split()` function, because we can use it to extract the first and the last library from the list libraries of stored at the `mes_10th` DataFrame. Basically, this function also uses a delimiter character to cut the total string into multiple pieces, and store these pieces in a array of substrings. With this strategy, we can now access each substring (or each piece of the total string) individually.
+Now is a good time to introduce the `split()` function, because we can use it to extract the first and the last library from the list libraries of stored at the `mes_10th` DataFrame.
+
+Basically, this function also uses a delimiter character to cut the total string into multiple pieces. However, this function stores these multiple pieces (or multiple substrings) into an array of substrings. With this strategy, we can now access each substring (or each piece of the total string) individually.
 
 If we look again at the string that we stored at the `list_of_libraries` column, we have a list of libraries, separated by a comma. 
 
@@ -362,7 +366,7 @@ The following list gives you a quick description of a small fraction of the avai
 - `[]` : Matches any single character within the brackets;
 - `\d` : Matches any digit character;
 - `\b` : Matches a word boundary character;
-- `\w` : Matches any word character. Equivalente to the `"\b([a-zA-Z_0-9]+)\b"` regular expression;
+- `\w` : Matches any word character. Equivalent to the `"\b([a-zA-Z_0-9]+)\b"` regular expression;
 - `\s` : Matches any whitespace character;
 - `()` : Groups a series of pattern elements to a single element;
 
