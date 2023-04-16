@@ -74,14 +74,14 @@ To write a `pyspark` application, you write a python script that uses the `pyspa
 
 In this section, I want to point out the core parts that composes every `pyspark` program. This means that every `pyspark` program that you write will have these "core parts", which are:
 
-1) importing the Spark libraries (or packages);
+1) importing the `pyspark` package (or modules);
 
 2) starting your Spark Session;
 
 3) defining a set of transformations and actions over Spark DataFrames;
 
 
-### Importing the Spark libraries (or packages)
+### Importing the `pyspark` package (or modules)
 
 Spark comes with a lot of functionality installed. But, in order to use it in your `pyspark` program, you have to import most of these functionalities to your session. This means that you have to import specific packages (or "modules") of `pyspark` to your python session.
 

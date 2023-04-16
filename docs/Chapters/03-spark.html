@@ -283,7 +283,7 @@ div.csl-indent {
   <li><a href="#spark-application-versus-pyspark-application" id="toc-spark-application-versus-pyspark-application" class="nav-link" data-scroll-target="#spark-application-versus-pyspark-application"><span class="header-section-number">2.4</span> Spark application versus <code>pyspark</code> application</a></li>
   <li><a href="#core-parts-of-a-pyspark-program" id="toc-core-parts-of-a-pyspark-program" class="nav-link" data-scroll-target="#core-parts-of-a-pyspark-program"><span class="header-section-number">2.5</span> Core parts of a <code>pyspark</code> program</a>
   <ul class="collapse">
-  <li><a href="#importing-the-spark-libraries-or-packages" id="toc-importing-the-spark-libraries-or-packages" class="nav-link" data-scroll-target="#importing-the-spark-libraries-or-packages"><span class="header-section-number">2.5.1</span> Importing the Spark libraries (or packages)</a></li>
+  <li><a href="#importing-the-pyspark-package-or-modules" id="toc-importing-the-pyspark-package-or-modules" class="nav-link" data-scroll-target="#importing-the-pyspark-package-or-modules"><span class="header-section-number">2.5.1</span> Importing the <code>pyspark</code> package (or modules)</a></li>
   <li><a href="#starting-your-spark-session" id="toc-starting-your-spark-session" class="nav-link" data-scroll-target="#starting-your-spark-session"><span class="header-section-number">2.5.2</span> Starting your Spark Session</a></li>
   <li><a href="#defining-a-set-of-transformations-and-actions" id="toc-defining-a-set-of-transformations-and-actions" class="nav-link" data-scroll-target="#defining-a-set-of-transformations-and-actions"><span class="header-section-number">2.5.3</span> Defining a set of transformations and actions</a></li>
   </ul></li>
@@ -365,12 +365,12 @@ div.csl-indent {
 <h2 data-number="2.5" class="anchored" data-anchor-id="core-parts-of-a-pyspark-program"><span class="header-section-number">2.5</span> Core parts of a <code>pyspark</code> program</h2>
 <p>In this section, I want to point out the core parts that composes every <code>pyspark</code> program. This means that every <code>pyspark</code> program that you write will have these “core parts”, which are:</p>
 <ol type="1">
-<li><p>importing the Spark libraries (or packages);</p></li>
+<li><p>importing the <code>pyspark</code> package (or modules);</p></li>
 <li><p>starting your Spark Session;</p></li>
 <li><p>defining a set of transformations and actions over Spark DataFrames;</p></li>
 </ol>
-<section id="importing-the-spark-libraries-or-packages" class="level3" data-number="2.5.1">
-<h3 data-number="2.5.1" class="anchored" data-anchor-id="importing-the-spark-libraries-or-packages"><span class="header-section-number">2.5.1</span> Importing the Spark libraries (or packages)</h3>
+<section id="importing-the-pyspark-package-or-modules" class="level3" data-number="2.5.1">
+<h3 data-number="2.5.1" class="anchored" data-anchor-id="importing-the-pyspark-package-or-modules"><span class="header-section-number">2.5.1</span> Importing the <code>pyspark</code> package (or modules)</h3>
 <p>Spark comes with a lot of functionality installed. But, in order to use it in your <code>pyspark</code> program, you have to import most of these functionalities to your session. This means that you have to import specific packages (or “modules”) of <code>pyspark</code> to your python session.</p>
 <p>For example, most of the functions used to define our transformations and aggregations in Spark DataFrames, comes from the <code>pyspark.sql.functions</code> module.</p>
 <p>That is why we usually start our python scripts by importing functions from this module, like this:</p>
