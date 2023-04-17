@@ -2,9 +2,18 @@
 
 ## Introduction
 
+At @sec-transforming-dataframes-part1 we introduced four core types of transformations you might apply over your DataFrame, which were: 
+
 ## Removing distinct values from your DataFrame
 
 ## Merging multiple DataFrames together
 
-## Replacing null values with na functions
+### JOIN operations
+
+### UNION operations
+
+
+## Replacing null values
+
+## Removing null valuies
 
