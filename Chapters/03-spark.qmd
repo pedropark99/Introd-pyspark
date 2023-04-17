@@ -1,6 +1,7 @@
 # Introducing Apache Spark {#sec-introd-spark}
 
 ```{r}
+#| include: false
 source("./../Scripts/terminal-engine.R", encoding = "UTF-8")
 ```
 
