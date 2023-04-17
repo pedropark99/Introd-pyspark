@@ -320,6 +320,9 @@ div.csl-indent {
 
 </header>
 
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"./../Scripts/terminal-engine.R"</span>, <span class="at">encoding =</span> <span class="st">"UTF-8"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <section id="introduction" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">2.1</span> Introduction</h2>
 <p>In essence, <code>pyspark</code> is an API to Apache Spark (or simply Spark). In other words, with <code>pyspark</code> we can build Spark applications using the python language. So, by learning a little more about Spark, you will understand a lot more about <code>pyspark</code>.</p>
@@ -374,23 +377,23 @@ div.csl-indent {
 <p>Spark comes with a lot of functionality installed. But, in order to use it in your <code>pyspark</code> program, you have to import most of these functionalities to your session. This means that you have to import specific packages (or “modules”) of <code>pyspark</code> to your python session.</p>
 <p>For example, most of the functions used to define our transformations and aggregations in Spark DataFrames, comes from the <code>pyspark.sql.functions</code> module.</p>
 <p>That is why we usually start our python scripts by importing functions from this module, like this:</p>
-<div class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> <span class="bu">sum</span>, col</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>sum_expr <span class="op">=</span> <span class="bu">sum</span>(col(<span class="st">'Value'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> <span class="bu">sum</span>, col</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>sum_expr <span class="op">=</span> <span class="bu">sum</span>(col(<span class="st">'Value'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Or, importing the entire module with the <code>import</code> keyword, like this:</p>
-<div class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pyspark.sql.functions <span class="im">as</span> F</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>sum_expr <span class="op">=</span> F.<span class="bu">sum</span>(F.col(<span class="st">'Value'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pyspark.sql.functions <span class="im">as</span> F</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>sum_expr <span class="op">=</span> F.<span class="bu">sum</span>(F.col(<span class="st">'Value'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="starting-your-spark-session" class="level3" data-number="2.5.2">
 <h3 data-number="2.5.2" class="anchored" data-anchor-id="starting-your-spark-session"><span class="header-section-number">2.5.2</span> Starting your Spark Session</h3>
 <p>Every Spark application starts with a Spark Session. Basically, the Spark Session is the entry point to your application. This means that, in every <code>pyspark</code> program that you write, <strong>you should always start by defining your Spark Session</strong>. We do this, by using the <code>getOrCreate()</code> method from <code>pyspark.sql.SparkSession.builder</code> module.</p>
 <p>Just store the result of this method in any python object. Is very common to name this object as <code>spark</code>, like in the example below. This way, you can access all the information and methods of Spark from this <code>spark</code> object.</p>
-<div class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql <span class="im">import</span> SparkSession</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>spark <span class="op">=</span> SparkSession.builder.getOrCreate()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql <span class="im">import</span> SparkSession</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>spark <span class="op">=</span> SparkSession.builder.getOrCreate()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="defining-a-set-of-transformations-and-actions" class="level3" data-number="2.5.3">
@@ -398,19 +401,19 @@ div.csl-indent {
 <p>Every <code>pyspark</code> program is composed by a set of transformations and actions over a set of Spark DataFrames.</p>
 <p>We will explain Spark DataFrames in more deth on the <a href="04-dataframes.html"><span>Chapter&nbsp;3</span></a>. For now just understand that they are the basic data sctructure that feed all <code>pyspark</code> programs. In other words, on every <code>pyspark</code> program we are transforming multiple Spark DataFrames to get the result we want.</p>
 <p>As an example, in the script below we begin with the Spark DataFrame stored in the object <code>students</code>, and, apply multiple transformations over it to build the <code>ar_department</code> DataFrame. Lastly, we apply the <code>.show()</code> action over the <code>ar_department</code> DataFrame:</p>
-<div class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> col</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply some transformations over</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># the `students` DataFrame:</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>ar_department <span class="op">=</span> students<span class="op">\</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  .<span class="bu">filter</span>(col(<span class="st">'Age'</span>) <span class="op">&gt;</span> <span class="dv">22</span>)<span class="op">\</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  .withColumn(<span class="st">'IsArDepartment'</span>, col(<span class="st">'Department'</span>) <span class="op">==</span> <span class="st">'AR'</span>)<span class="op">\</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  .orderBy(col(<span class="st">'Age'</span>).desc())</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply the `.show()` action</span></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co"># over the `ar_department` DataFrame:</span></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>ar_department.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> col</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply some transformations over</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># the `students` DataFrame:</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>ar_department <span class="op">=</span> students<span class="op">\</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  .<span class="bu">filter</span>(col(<span class="st">'Age'</span>) <span class="op">&gt;</span> <span class="dv">22</span>)<span class="op">\</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  .withColumn(<span class="st">'IsArDepartment'</span>, col(<span class="st">'Department'</span>) <span class="op">==</span> <span class="st">'AR'</span>)<span class="op">\</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  .orderBy(col(<span class="st">'Age'</span>).desc())</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply the `.show()` action</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co"># over the `ar_department` DataFrame:</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>ar_department.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
@@ -421,29 +424,29 @@ div.csl-indent {
 <h3 data-number="2.6.1" class="anchored" data-anchor-id="writing-the-code"><span class="header-section-number">2.6.1</span> Writing the code</h3>
 <p>First, create a new blank text file in your computer, and save it somewhere with the name <code>spark-example.py</code>. Do not forget to put the <code>.py</code> extension in the name. This program we are writing together is a python program, and should be treated as such. With the <code>.py</code> extension in the name file, you are stating this fact quite clearly to your computer.</p>
 <p>After you created and saved the python script (i.e.&nbsp;the text file with the <code>.py</code> extension), you can start writing your <code>pyspark</code> program. As we noted in the previous section, you should always start your <code>pyspark</code> program by defining your Spark Session, with this code:</p>
-<div class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql <span class="im">import</span> SparkSession</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>spark <span class="op">=</span> SparkSession.builder.getOrCreate()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql <span class="im">import</span> SparkSession</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>spark <span class="op">=</span> SparkSession.builder.getOrCreate()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>After you defined your Spark Session, and saved it in an object called <code>spark</code>, you can now access all Spark’s functionality through this <code>spark</code> object.</p>
 <p>To create our first Spark table we use the <code>range()</code> method from the <code>spark</code> object. The <code>range()</code> method works similarly as the standard python function called <code>range()</code>. It basically creates a sequence of numbers, from 0 to <span class="math inline">\(n - 1\)</span>. However, this <code>range()</code> method from <code>spark</code> stores this sequence of numbers as rows in a Spark table (or a Spark DataFrame):</p>
-<div class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>table <span class="op">=</span> spark.<span class="bu">range</span>(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>table <span class="op">=</span> spark.<span class="bu">range</span>(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>After this step, we want to collect all the rows of the resulting table into a python list. And to do that, we use the <code>collect()</code> method from the Spark table:</p>
-<div class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> table.collect()</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(result)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> table.collect()</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(result)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>So, the entire program is composed of these three parts (or sections) of code. If you need it, the entire program is reproduced below. You can copy and paste all of this code to your python script, and then, save it:</p>
-<div class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The entire program:</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql <span class="im">import</span> SparkSession</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>spark <span class="op">=</span> SparkSession.builder.getOrCreate()</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>table <span class="op">=</span> spark.<span class="bu">range</span>(<span class="dv">5</span>)</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> table.collect()</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(result)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The entire program:</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql <span class="im">import</span> SparkSession</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>spark <span class="op">=</span> SparkSession.builder.getOrCreate()</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>table <span class="op">=</span> spark.<span class="bu">range</span>(<span class="dv">5</span>)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> table.collect()</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(result)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="executing-the-code" class="level3" data-number="2.6.2">
@@ -454,8 +457,13 @@ div.csl-indent {
 <p>In my current situation, I running Spark on a Ubuntu distribution, and, I saved the <code>spark-example.py</code> script inside a folder called <code>SparkExample</code>. This folder is located at the path <code>~/Documentos/Projetos/Livros/Introd-pyspark/SparkExample</code> of my computer. This means that, I need to open a terminal that is rooted inside this <code>SparkExample</code> folder.</p>
 <p>You probably have saved your <code>spark-example.py</code> file in a different folder of your computer. This means that you need to open the terminal from a different folder.</p>
 <p>After I opened a terminal rooted inside the <code>SparkExample</code> folder. I just use the <code>python3</code> command to access the python interpreter, and, give the name of the python script that I want to execute. In this case, the <code>spark-example.py</code> file. As a result, our first <code>pyspark</code> program will be executed:</p>
-<pre class="{terminal}"><code>Terminal$ python3 spark-example.py</code></pre>
+<div class="cell">
+<pre class="terminal cell-code"><code>Terminal$ cd ./../SparkExample
+Terminal$ python3 spark-example.py</code></pre>
+<div class="cell-output cell-output-stdout">
 <pre><code>[Row(id=0), Row(id=1), Row(id=2), Row(id=3), Row(id=4)]</code></pre>
+</div>
+</div>
 <p>You can see in the above result, that this Spark application produces a sequence of numbers, from 0 to 4, and, returns this sequence as a set of <code>Row</code> objects, inside a python list.</p>
 <p>Congratulations! You have just run your first Spark application using <code>pyspark</code>!</p>
 </section>
