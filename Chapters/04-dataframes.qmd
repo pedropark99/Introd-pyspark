@@ -171,6 +171,16 @@ If you need to, you can easily collect a python list with the column names prese
 students.columns
 ```
 
+
+## Getting the number of rows
+
+If you want to know the number of rows present in a Spark DataFrame, just use the `count()` method of this DataFrame. As a result, Spark will build this DataFrame, and count the number of rows present in it.
+
+```{python}
+students.count()
+```
+
+
 ## Spark Data Types
 
 Each column of your Spark DataFrame is associated with a specific data type. Spark supports a large number of different data types. You can see the full list at the official documentation page[^04-dataframes-1]. For now, we will focus on the most used data types, which are listed below:

@@ -6,14 +6,11 @@ At @sec-transforming-dataframes-part1 we introduced four core types of transform
 
 ## Removing distinct values from your DataFrame
 
-## Merging multiple DataFrames together
+## Applying UNION operations
 
-### JOIN operations
-
-### UNION operations
-
+## Applying JOIN operations
 
 ## Replacing null values
 
-## Removing null valuies
+## Removing null values
 
