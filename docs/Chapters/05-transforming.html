@@ -354,7 +354,7 @@ div.csl-indent {
 <p>Basically every <code>pyspark</code> program that you write will have such transformations. Spark support many types of transformations, however, in this chapter, we will focus on six basic transformations that you can apply to a DataFrame:</p>
 <ul>
 <li>Filtering rows based on a logical condition;</li>
-<li>Selecting a range of rows;</li>
+<li>Selecting a subset of rows;</li>
 <li>Selecting specific columns;</li>
 <li>Adding or deleting columns;</li>
 <li>Sorting rows;</li>
@@ -427,7 +427,7 @@ AttributeError: 'str' object has no attribute 'orderBy'</code></pre>
 <p>Another very useful action is the <code>count()</code> method, that gives you the number of rows in a DataFrame. To be able to count the number of rows in a DataFrame, Spark needs to access this DataFrame in the first place. That is why this <code>count()</code> method behaves as an action. Spark will perform the transformations that defines <code>big_values</code> to access the actual rows of this DataFrame and count them.</p>
 <div class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>big_values.count()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="61">
+<div class="cell-output cell-output-display" data-execution_count="117">
 <pre><code>3</code></pre>
 </div>
 </div>
@@ -565,7 +565,7 @@ only showing top 5 rows
 <p>As you can see below, this <code>transf</code> DataFrame have 2421 rows in total:</p>
 <div class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>transf.count()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="66">
+<div class="cell-output cell-output-display" data-execution_count="122">
 <pre><code>2421</code></pre>
 </div>
 </div>
@@ -1352,7 +1352,7 @@ only showing top 5 rows
 <p>If we calculate the number of rows in <code>transf_sample</code> DataFrame, we can see that this DataFrame have a number of rows close to 363:</p>
 <div class="cell" data-execution_count="46">
 <div class="sourceCode cell-code" id="cb79"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a>transf_sample.count()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="96">
+<div class="cell-output cell-output-display" data-execution_count="152">
 <pre><code>355</code></pre>
 </div>
 </div>
@@ -1638,7 +1638,7 @@ only showing top 5 rows
 <p>The Spark DataFrame class by itself provides a single aggregate method, which is <code>count()</code>. With this method, you can find out how many rows your DataFrame have. In the example below, we can see that <code>transf</code> have 2421 rows.</p>
 <div class="cell" data-execution_count="58">
 <div class="sourceCode cell-code" id="cb103"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb103-1"><a href="#cb103-1" aria-hidden="true" tabindex="-1"></a>transf.count()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="108">
+<div class="cell-output cell-output-display" data-execution_count="164">
 <pre><code>2421</code></pre>
 </div>
 </div>
@@ -1690,8 +1690,8 @@ only showing top 5 rows
 <div class="cell" data-execution_count="60">
 <div class="sourceCode cell-code" id="cb107"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb107-1"><a href="#cb107-1" aria-hidden="true" tabindex="-1"></a>transf_per_client <span class="op">=</span> transf.groupBy(<span class="st">'clientNumber'</span>)</span>
 <span id="cb107-2"><a href="#cb107-2" aria-hidden="true" tabindex="-1"></a>transf_per_client</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="110">
-<pre><code>&lt;pyspark.sql.group.GroupedData at 0x7fdfd197a8c0&gt;</code></pre>
+<div class="cell-output cell-output-display" data-execution_count="166">
+<pre><code>&lt;pyspark.sql.group.GroupedData at 0x7fdfaa3b41c0&gt;</code></pre>
 </div>
 </div>
 <p>At first, it appears that nothing has changed. But the <code>groupBy()</code> method always returns a new object of class <code>pyspark.sql.group.GroupedData</code>. As a consequence, we can no longer use some of the DataFrame methods that we used before, like the <code>show()</code> method to see the DataFrame.</p>

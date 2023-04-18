@@ -24,7 +24,7 @@ Spark DataFrames are **immutable**, meaning that, they cannot be directly change
 Basically every `pyspark` program that you write will have such transformations. Spark support many types of transformations, however, in this chapter, we will focus on six basic transformations that you can apply to a DataFrame:
 
 -   Filtering rows based on a logical condition;
--   Selecting a range of rows;
+-   Selecting a subset of rows;
 -   Selecting specific columns;
 -   Adding or deleting columns;
 -   Sorting rows;
