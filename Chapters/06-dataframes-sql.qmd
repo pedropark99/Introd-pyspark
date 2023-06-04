@@ -621,7 +621,7 @@ ORDER BY bill_length_mm
 '''
 
 # The same result of the example above
-spark.sql(query)
+spark.sql(query).show()
 ```
 
 
