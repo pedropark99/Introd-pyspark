@@ -2,15 +2,32 @@
 
 ## Introduction
 
-At @sec-transforming-dataframes-part1 we introduced four core types of transformations you might apply over your DataFrame, which were: 
+At @sec-transforming-dataframes-part1 I introduced six core types of transformations over Spark DataFrames. In this chapter, I will expand your knowledge by introducing five more types of transformations available to Spark DataFrames, which are:
+
+- Removing distinct values;
+- Merging multiple DataFrames with UNION operations;
+- Merging multiple DataFrames with JOIN operations;
+- Replacing and removing null values;
+
+
 
 ## Removing distinct values from your DataFrame
+
+Removing distinct values from DataFrames are a very commom operation in ETL pipelines. Basically, in Spark, you have two options to remove duplicated values, which are:
+
+- `distinct()` method, which removes all duplicated values considering the combination of all columns in the DataFrame;
+- `drop_duplicates()` or `dropDuplicates()` method, which removes all duplicated values considering a specific combination columns in the DataFrame;
+
+These methods above are all DataFrames methods. Is worth mentioning that the methods `drop_duplicates()` and `dropDuplicates()` are equivalent. They both mean the same thing, and have the same arguments and perform the same operation.
+
+Furthermore, when you run `drop_duplicates()` or `dropDuplicates()` without arguments, they use by default the combination of all columns in the DataFrame to locate the duplicated values. In other words, over this specific situation, the methods `drop_duplicates()` or `dropDuplicates()` become equivalent to the `distinct()` method. Because they use the combination of all columns in the DataFrame.
+
+
+
 
 ## Applying UNION operations
 
 ## Applying JOIN operations
 
-## Replacing null values
-
-## Removing null values
+## Replacing and removing `null` values
 
