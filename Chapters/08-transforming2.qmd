@@ -35,6 +35,11 @@ An UNION operation works on a pair of DataFrames. It returns the row-wise union 
 
 ## Applying JOIN operations
 
+A JOIN operation is another very commom operation used to bring data from scattered sources into a single unified DataFrame. While an UNION operation merges the two DataFrames by row, a JOIN operation uses the columns instead to merge the two DataFrames.
+
+
+
+
 ## Implode and explode operations
 
 ## More operations in Arrays and Map
