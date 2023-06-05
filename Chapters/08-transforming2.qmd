@@ -11,23 +11,32 @@ At @sec-transforming-dataframes-part1 I introduced six core types of transformat
 
 
 
-## Removing distinct values from your DataFrame
+## Removing duplicated values from your DataFrame
 
-Removing distinct values from DataFrames are a very commom operation in ETL pipelines. Basically, in Spark, you have two options to remove duplicated values, which are:
+Removing duplicated values from DataFrames is a very commom operation in ETL pipelines. Basically, in Spark, you have two options to remove duplicated values, which are:
 
-- `distinct()` method, which removes all duplicated values considering the combination of all columns in the DataFrame;
-- `drop_duplicates()` or `dropDuplicates()` method, which removes all duplicated values considering a specific combination columns in the DataFrame;
+- `distinct()` which removes all duplicated values considering the combination of all columns in the DataFrame;
+- `drop_duplicates()` or `dropDuplicates()` which removes all duplicated values considering a specific combination of columns in the DataFrame;
 
 These methods above are all DataFrames methods. Is worth mentioning that the methods `drop_duplicates()` and `dropDuplicates()` are equivalent. They both mean the same thing, and have the same arguments and perform the same operation.
 
-Furthermore, when you run `drop_duplicates()` or `dropDuplicates()` without arguments, they use by default the combination of all columns in the DataFrame to locate the duplicated values. In other words, over this specific situation, the methods `drop_duplicates()` or `dropDuplicates()` become equivalent to the `distinct()` method. Because they use the combination of all columns in the DataFrame.
+Furthermore, when you run `drop_duplicates()` or `dropDuplicates()` without arguments, they use by default the combination of all columns in the DataFrame to locate the duplicated values. As consequence, over this specific situation, the methods `drop_duplicates()` or `dropDuplicates()` become equivalent to the `distinct()` method. Because they use the combination of all columns in the DataFrame.
 
+## Replacing and removing `null` values
 
 
 
 ## Applying UNION operations
 
+When you have many individual DataFrames that have the same columns, and you want to unify them into a single big DataFrame that have all the rows from these different DataFrames, you want to perform an UNION operation.
+
+An UNION operation works on a pair of DataFrames. It returns the row-wise union of these two DataFrames. In pyspark, we perform UNION operations by using the `union()` DataFrame method. So the expression `df1.union(df2)` creates a new DataFrame which contains all the rows from both the `df1` and `df2` DataFrames.
+
+
 ## Applying JOIN operations
 
-## Replacing and removing `null` values
+## Implode and explode operations
+
+## More operations in Arrays and Map
+
 
