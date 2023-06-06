@@ -4,12 +4,21 @@
 
 At @sec-transforming-dataframes-part1 I introduced six core types of transformations over Spark DataFrames. In this chapter, I will expand your knowledge by introducing five more types of transformations available to Spark DataFrames, which are:
 
-- Removing distinct values;
+- Removing duplicated values;
 - Merging multiple DataFrames with UNION operations;
 - Merging multiple DataFrames with JOIN operations;
+- Rows to columns with Pivot operations;
+- Collecting and explode operations;
 - Replacing and removing null values;
 
-
+```{python}
+#| include: false
+# To execute the next chunks with success, we need to start a Spark Session
+from pyspark.sql import SparkSession
+spark = SparkSession.builder.getOrCreate()
+sc = spark.sparkContext
+sc.setLogLevel("OFF")
+```
 
 ## Removing duplicated values from your DataFrame
 
@@ -35,10 +44,34 @@ An UNION operation works on a pair of DataFrames. It returns the row-wise union 
 
 ## Applying JOIN operations
 
-A JOIN operation is another very commom operation used to bring data from scattered sources into a single unified DataFrame. While an UNION operation merges the two DataFrames by row, a JOIN operation uses the columns instead to merge the two DataFrames.
+A JOIN operation is another very commom operation that works on a pair of DataFrame. It is also used to bring data from scattered sources into a single unified DataFrame. While an UNION operation merges the two DataFrames by row, a JOIN operation uses the columns instead to merge the two DataFrames. In pyspark, we use the `join()` DataFrame method to perform JOIN operations.
+
+### What is a JOIN ?
+
+I imagine you are already familiar with JOIN operations. However, in order to build good and precise JOIN operations, is always important to know what a JOIN operation actually is.
+
+One key characteristic of JOIN operations is it's key matching mechanism. A JOIN uses the columns you provide to **build a key**. This key is used to identify rows (or "observations") in both DataFrames. In other words, these keys identifies relationships between the two DataFrames. These relations are vital to the JOIN.
+
+Let's use the `info` and `band_instruments` DataFrames as an example.
+
+```{python}
+info = [
+    ('Mick', 'Rolling Stones', '1943-07-26', True),
+    ('John', 'Beatles', '1940-09-10', True),
+    ('Paul', 'Beatles', '1942-06-18', True),
+    ('George', 'Beatles', '1943-02-25', True),
+    ('Ringo', 'Beatles', '1940-07-07', True)
+]
+
+info = spark.createDataFrame(info)
+```
 
 
 
+![The relations between `info` and `band_instruments` DataFrames](./../Figures/keys_comparacao.png)
+
+
+## Pivot operations
 
 ## Implode and explode operations
 

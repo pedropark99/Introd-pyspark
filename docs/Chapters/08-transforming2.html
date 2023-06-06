@@ -229,11 +229,15 @@ ul.task-list li input[type="checkbox"] {
    
   <ul>
   <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">8.1</span> Introduction</a></li>
-  <li><a href="#removing-distinct-values-from-your-dataframe" id="toc-removing-distinct-values-from-your-dataframe" class="nav-link" data-scroll-target="#removing-distinct-values-from-your-dataframe"><span class="header-section-number">8.2</span> Removing distinct values from your DataFrame</a></li>
-  <li><a href="#applying-union-operations" id="toc-applying-union-operations" class="nav-link" data-scroll-target="#applying-union-operations"><span class="header-section-number">8.3</span> Applying UNION operations</a></li>
-  <li><a href="#applying-join-operations" id="toc-applying-join-operations" class="nav-link" data-scroll-target="#applying-join-operations"><span class="header-section-number">8.4</span> Applying JOIN operations</a></li>
-  <li><a href="#replacing-null-values" id="toc-replacing-null-values" class="nav-link" data-scroll-target="#replacing-null-values"><span class="header-section-number">8.5</span> Replacing null values</a></li>
-  <li><a href="#removing-null-values" id="toc-removing-null-values" class="nav-link" data-scroll-target="#removing-null-values"><span class="header-section-number">8.6</span> Removing null values</a></li>
+  <li><a href="#removing-duplicated-values-from-your-dataframe" id="toc-removing-duplicated-values-from-your-dataframe" class="nav-link" data-scroll-target="#removing-duplicated-values-from-your-dataframe"><span class="header-section-number">8.2</span> Removing duplicated values from your DataFrame</a></li>
+  <li><a href="#replacing-and-removing-null-values" id="toc-replacing-and-removing-null-values" class="nav-link" data-scroll-target="#replacing-and-removing-null-values"><span class="header-section-number">8.3</span> Replacing and removing <code>null</code> values</a></li>
+  <li><a href="#applying-union-operations" id="toc-applying-union-operations" class="nav-link" data-scroll-target="#applying-union-operations"><span class="header-section-number">8.4</span> Applying UNION operations</a></li>
+  <li><a href="#applying-join-operations" id="toc-applying-join-operations" class="nav-link" data-scroll-target="#applying-join-operations"><span class="header-section-number">8.5</span> Applying JOIN operations</a>
+  <ul class="collapse">
+  <li><a href="#what-is-a-join" id="toc-what-is-a-join" class="nav-link" data-scroll-target="#what-is-a-join"><span class="header-section-number">8.5.1</span> What is a JOIN ?</a></li>
+  </ul></li>
+  <li><a href="#implode-and-explode-operations" id="toc-implode-and-explode-operations" class="nav-link" data-scroll-target="#implode-and-explode-operations"><span class="header-section-number">8.6</span> Implode and explode operations</a></li>
+  <li><a href="#more-operations-in-arrays-and-map" id="toc-more-operations-in-arrays-and-map" class="nav-link" data-scroll-target="#more-operations-in-arrays-and-map"><span class="header-section-number">8.7</span> More operations in Arrays and Map</a></li>
   </ul>
 </nav>
     </div>
@@ -259,22 +263,53 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="introduction" class="level2" data-number="8.1">
 <h2 data-number="8.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">8.1</span> Introduction</h2>
-<p>At <a href="05-transforming.html"><span>Chapter&nbsp;5</span></a> we introduced four core types of transformations you might apply over your DataFrame, which were:</p>
+<p>At <a href="05-transforming.html"><span>Chapter&nbsp;5</span></a> I introduced six core types of transformations over Spark DataFrames. In this chapter, I will expand your knowledge by introducing five more types of transformations available to Spark DataFrames, which are:</p>
+<ul>
+<li>Removing distinct values;</li>
+<li>Merging multiple DataFrames with UNION operations;</li>
+<li>Merging multiple DataFrames with JOIN operations;</li>
+<li>Replacing and removing null values;</li>
+</ul>
 </section>
-<section id="removing-distinct-values-from-your-dataframe" class="level2" data-number="8.2">
-<h2 data-number="8.2" class="anchored" data-anchor-id="removing-distinct-values-from-your-dataframe"><span class="header-section-number">8.2</span> Removing distinct values from your DataFrame</h2>
+<section id="removing-duplicated-values-from-your-dataframe" class="level2" data-number="8.2">
+<h2 data-number="8.2" class="anchored" data-anchor-id="removing-duplicated-values-from-your-dataframe"><span class="header-section-number">8.2</span> Removing duplicated values from your DataFrame</h2>
+<p>Removing duplicated values from DataFrames is a very commom operation in ETL pipelines. Basically, in Spark, you have two options to remove duplicated values, which are:</p>
+<ul>
+<li><code>distinct()</code> which removes all duplicated values considering the combination of all columns in the DataFrame;</li>
+<li><code>drop_duplicates()</code> or <code>dropDuplicates()</code> which removes all duplicated values considering a specific combination of columns in the DataFrame;</li>
+</ul>
+<p>These methods above are all DataFrames methods. Is worth mentioning that the methods <code>drop_duplicates()</code> and <code>dropDuplicates()</code> are equivalent. They both mean the same thing, and have the same arguments and perform the same operation.</p>
+<p>Furthermore, when you run <code>drop_duplicates()</code> or <code>dropDuplicates()</code> without arguments, they use by default the combination of all columns in the DataFrame to locate the duplicated values. As consequence, over this specific situation, the methods <code>drop_duplicates()</code> or <code>dropDuplicates()</code> become equivalent to the <code>distinct()</code> method. Because they use the combination of all columns in the DataFrame.</p>
 </section>
-<section id="applying-union-operations" class="level2" data-number="8.3">
-<h2 data-number="8.3" class="anchored" data-anchor-id="applying-union-operations"><span class="header-section-number">8.3</span> Applying UNION operations</h2>
+<section id="replacing-and-removing-null-values" class="level2" data-number="8.3">
+<h2 data-number="8.3" class="anchored" data-anchor-id="replacing-and-removing-null-values"><span class="header-section-number">8.3</span> Replacing and removing <code>null</code> values</h2>
 </section>
-<section id="applying-join-operations" class="level2" data-number="8.4">
-<h2 data-number="8.4" class="anchored" data-anchor-id="applying-join-operations"><span class="header-section-number">8.4</span> Applying JOIN operations</h2>
+<section id="applying-union-operations" class="level2" data-number="8.4">
+<h2 data-number="8.4" class="anchored" data-anchor-id="applying-union-operations"><span class="header-section-number">8.4</span> Applying UNION operations</h2>
+<p>When you have many individual DataFrames that have the same columns, and you want to unify them into a single big DataFrame that have all the rows from these different DataFrames, you want to perform an UNION operation.</p>
+<p>An UNION operation works on a pair of DataFrames. It returns the row-wise union of these two DataFrames. In pyspark, we perform UNION operations by using the <code>union()</code> DataFrame method. So the expression <code>df1.union(df2)</code> creates a new DataFrame which contains all the rows from both the <code>df1</code> and <code>df2</code> DataFrames.</p>
 </section>
-<section id="replacing-null-values" class="level2" data-number="8.5">
-<h2 data-number="8.5" class="anchored" data-anchor-id="replacing-null-values"><span class="header-section-number">8.5</span> Replacing null values</h2>
+<section id="applying-join-operations" class="level2" data-number="8.5">
+<h2 data-number="8.5" class="anchored" data-anchor-id="applying-join-operations"><span class="header-section-number">8.5</span> Applying JOIN operations</h2>
+<p>A JOIN operation is another very commom operation that works on a pair of DataFrame. It is also used to bring data from scattered sources into a single unified DataFrame. While an UNION operation merges the two DataFrames by row, a JOIN operation uses the columns instead to merge the two DataFrames. In pyspark, we use the <code>join()</code> DataFrame method to perform JOIN operations.</p>
+<section id="what-is-a-join" class="level3" data-number="8.5.1">
+<h3 data-number="8.5.1" class="anchored" data-anchor-id="what-is-a-join"><span class="header-section-number">8.5.1</span> What is a JOIN ?</h3>
+<p>I imagine you are already familiar with JOIN operations. However, in order to build good and precise JOIN operations, is always important to know what a JOIN operation actually is.</p>
+<p>One key characteristic of JOIN operations is it’s key matching mechanism. A JOIN uses the columns you provide to <strong>build a key</strong>. This key is used to identify rows (or “observations”) in both DataFrames. In other words, these keys identifies relationships between the two DataFrames. These relations are vital to the JOIN.</p>
+<p>Let’s use an example.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./../Figures/keys_comparacao.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">The relations between <code>info</code> and <code>band_instruments</code> DataFrames</figcaption><p></p>
+</figure>
+</div>
 </section>
-<section id="removing-null-values" class="level2" data-number="8.6">
-<h2 data-number="8.6" class="anchored" data-anchor-id="removing-null-values"><span class="header-section-number">8.6</span> Removing null values</h2>
+</section>
+<section id="implode-and-explode-operations" class="level2" data-number="8.6">
+<h2 data-number="8.6" class="anchored" data-anchor-id="implode-and-explode-operations"><span class="header-section-number">8.6</span> Implode and explode operations</h2>
+</section>
+<section id="more-operations-in-arrays-and-map" class="level2" data-number="8.7">
+<h2 data-number="8.7" class="anchored" data-anchor-id="more-operations-in-arrays-and-map"><span class="header-section-number">8.7</span> More operations in Arrays and Map</h2>
 
 
 </section>
