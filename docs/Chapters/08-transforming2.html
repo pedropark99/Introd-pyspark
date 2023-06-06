@@ -269,7 +269,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#applying-join-operations" id="toc-applying-join-operations" class="nav-link" data-scroll-target="#applying-join-operations"><span class="header-section-number">8.5</span> Applying JOIN operations</a>
   <ul class="collapse">
   <li><a href="#what-is-a-join" id="toc-what-is-a-join" class="nav-link" data-scroll-target="#what-is-a-join"><span class="header-section-number">8.5.1</span> What is a JOIN ?</a></li>
-  <li><a href="#how-to-build-joins-in-pyspark" id="toc-how-to-build-joins-in-pyspark" class="nav-link" data-scroll-target="#how-to-build-joins-in-pyspark"><span class="header-section-number">8.5.2</span> How to build JOINs in pyspark</a></li>
+  <li><a href="#the-different-types-of-join" id="toc-the-different-types-of-join" class="nav-link" data-scroll-target="#the-different-types-of-join"><span class="header-section-number">8.5.2</span> The different types of JOIN</a></li>
   <li><a href="#the-relations-between-keys" id="toc-the-relations-between-keys" class="nav-link" data-scroll-target="#the-relations-between-keys"><span class="header-section-number">8.5.3</span> The relations between keys</a></li>
   <li><a href="#how-joins-build-duplicated-values" id="toc-how-joins-build-duplicated-values" class="nav-link" data-scroll-target="#how-joins-build-duplicated-values"><span class="header-section-number">8.5.4</span> How JOINs build duplicated values</a></li>
   </ul></li>
@@ -366,6 +366,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>If you look closely to these two DataFrames, you will probably notice that they both describe musicians from two famous rock bands from 60’s and 70’s. The <code>info</code> DataFrame have more personal or general informations about the musicians, while the <code>band_instruments</code> DataFrame have only data about the main musical instruments that they play.</p>
 <div class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>info.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>[Stage 0:&gt;                                                          (0 + 1) / 1]</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>                                                                                </code></pre>
+</div>
 <div class="cell-output cell-output-stdout">
 <pre><code>+------+--------------+----------+--------+
 |  name|          band|      born|children|
@@ -380,7 +386,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <div class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>band_instruments.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>band_instruments.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>+-----+------+
 | name| plays|
@@ -394,8 +400,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>It might be of your interest, to have a single DataFrame that contains both the personal information and the musical instrument of each musician. In this case, you can build a JOIN operation between these DataFrames to get this result. An example of this JOIN in pyspark would be:</p>
 <div class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>info.join(band_instruments, on <span class="op">=</span> <span class="st">'name'</span>, how <span class="op">=</span> <span class="st">'left'</span>)<span class="op">\</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    .show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>info.join(band_instruments, on <span class="op">=</span> <span class="st">'name'</span>, how <span class="op">=</span> <span class="st">'left'</span>)<span class="op">\</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    .show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>+------+--------------+----------+--------+------+
 |  name|          band|      born|children| plays|
@@ -416,20 +422,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>A JOIN operation merges two different DataFrames together into a single unified DataFrame. It does this by using a column (or a set of columns) as keys to identify the observations of both DataFrames, and connects these observations together.</p>
 <p>A JOIN (like UNION) is also an operation that works on a pair of DataFrames. It is very commom to refer to this pair as “the sides of the JOIN”. That is, the DataFrame on the left side of the JOIN, and the DataFrame on the right side of the JOIN. Or also, the DataFrames “A” (left side) and “B” (right side).</p>
 <p>The main idea (or objective) of the JOIN is to bring all data from the DataFrame on the right side, into the DataFrame on the left side. In other words, a JOIN between DataFrames A and B results into a DataFrame C which contains all columns and rows from both DataFrames A and B.</p>
-<p>In an UNION operation, both DataFrames must have the same columns, because in an UNION operation you are concatenating both DataFrames together vertically, so the number of columns (or the “width” of the tables) need to match between the two. However, in a JOIN operation, both DataFrames only need to have at least one column in commom. Apart from that, in a JOIN, both DataFrames can have very different structure and columns from each other.</p>
+<p>In an UNION operation, both DataFrames must have the same columns, because in an UNION operation you are concatenating both DataFrames together vertically, so the number of columns (or the “width” of the tables) need to match. However, in a JOIN operation, both DataFrames only need to have at least one column in commom. Apart from that, in a JOIN, both DataFrames can have very different structure and columns from each other.</p>
 <p>One key characteristic of JOIN operations is it’s key matching mechanism. A JOIN uses the columns you provide to <strong>build a key</strong>. This key is used to identify rows (or “observations”) in both DataFrames. In other words, these keys identifies relationships between the two DataFrames. These relations are vital to the JOIN.</p>
-<p>If you look into these DataFrames for a bit more, you can see that they both have a <code>name</code> column which contains the name of the musician being described on the current row. This <code>name</code> column can be used as <strong>the key</strong> of the JOIN. Because this column is available on both DataFrames, and it can be used to identify an observation (or a musician) in each DataFrame.</p>
-<p>So the JOIN key is a column (or a combination of columns) that identifies what observations are (and are not) present on both DataFrames. The <a href="#fig-keys-comparison">Figure&nbsp;<span>8.1</span></a> presents these observations in a visual manner. You see in the figure that both Paul and John are described in both DataFrames. At the same time, Ringo, Mick and George are present only on <code>info</code>, while <code>Keith</code> is only at <code>band_instruments</code>.</p>
+<p>If we go back to <code>info</code> and <code>band_instruments</code> DataFrames, and analyse them for a bit more, we can see that they both have a <code>name</code> column which contains the name of the musician being described on the current row. This <code>name</code> column can be used as <strong>the key</strong> of the JOIN. Because this column is available on both DataFrames, and it can be used to identify a single observation (or a single musician) present in each DataFrame.</p>
+<p>So the JOIN key is a column (or a combination of columns) that can identify what observations are (and are not) present on both DataFrames. At <a href="#fig-keys-comparison">Figure&nbsp;<span>8.1</span></a>, we can see the observations from <code>info</code> and <code>band_instruments</code> in a visual manner. You see in the figure that both Paul and John are described in both DataFrames. At the same time, Ringo, Mick and George are present only on <code>info</code>, while <code>Keith</code> is only at <code>band_instruments</code>.</p>
 <div id="fig-keys-comparison" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="./../Figures/keys_comparacao.png" class="img-fluid figure-img"></p>
 <p></p><figcaption class="figure-caption">Figure&nbsp;8.1: The relations between <code>info</code> and <code>band_instruments</code> DataFrames</figcaption><p></p>
 </figure>
 </div>
-<p>In a certain way, you can see the JOIN key as a way to identify relationships between the two DataFrames. A JOIN operation use these relationships to merge your DataFrames in a precise way. A JOIN does not simply horizontally glue two DataFrames together. It uses the JOIN key to perform a matching process between the observations of the two DataFrames.</p>
+<p>In a certain way, you can see the JOIN key as a way to <strong>identify relationships between the two DataFrames</strong>. A JOIN operation use these relationships to merge your DataFrames in a precise way. A JOIN does not simply horizontally glue two DataFrames together. It uses the JOIN key to perform a matching process between the observations of the two DataFrames.</p>
 <p>This matching process ensures that the data present DataFrame “B” is correctly transported to the DataFrame “A”. In other words, it ensures that the oranges are paired with oranges, apples with apples, bananas with bananas, you got it.</p>
-<p>Just to describe visually what this matching process is, we have the <a href="#fig-join-matching">Figure&nbsp;<span>8.2</span></a> below. In this figure, we have two DataFrames on the left and center of the image, which represents the inputs of the JOIN. And the third DataFrame on the right of the image is the output (or the result) of the JOIN.</p>
-<p>The column that represents the JOIN key is the <code>ID</code> column. Not only this column is present on both DataFrames, but it also represents an unique identifier to each person described in both tables. And that is precisely the job of a JOIN key. It represents a way to identify observations (or “persons”, or “objects”, etc.) on both tables.</p>
+<p>Just to describe visually what this matching process is, we have the <a href="#fig-join-matching">Figure&nbsp;<span>8.2</span></a> below. In this figure, we have two DataFrames on the left and center of the image, which represents the inputs of the JOIN. We also have a third DataFrame on the right side of the image, which is the output (or the result) of the JOIN.</p>
+<p>In this specific example, the column that represents the JOIN key is the <code>ID</code> column. Not only this column is present on both DataFrames, but it also represents an unique identifier to each person described in both tables. And that is precisely the job of a JOIN key. It represents a way to identify observations (or “persons”, or “objects”, etc.) on both tables.</p>
 <p>You can see at <a href="#fig-join-matching">Figure&nbsp;<span>8.2</span></a>, that when the <code>ID</code> 100 is found on the 1st row of the left DataFrame, the JOIN initiates a lookup/matching process on the center DataFrame, looking for a row in the DataFrame that matches this <code>ID</code> 100. When it finds this <code>ID</code> 100 (on the 4th row of the center DataFrame), it captures and connects these two rows on both DataFrames, because these rows describes the same person (or observation), and because of that, they should be connected. This same matching process happens for all remaining <code>ID</code> values.</p>
 <div id="fig-join-matching" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
@@ -438,8 +444,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </figure>
 </div>
 </section>
-<section id="how-to-build-joins-in-pyspark" class="level3" data-number="8.5.2">
-<h3 data-number="8.5.2" class="anchored" data-anchor-id="how-to-build-joins-in-pyspark"><span class="header-section-number">8.5.2</span> How to build JOINs in pyspark</h3>
+<section id="the-different-types-of-join" class="level3" data-number="8.5.2">
+<h3 data-number="8.5.2" class="anchored" data-anchor-id="the-different-types-of-join"><span class="header-section-number">8.5.2</span> The different types of JOIN</h3>
+<p>Usually we have four types of JOIN operations, which are: <em>full</em>, <em>left</em>, <em>right</em> and <em>inner</em>. All of these types of JOIN work the same way as we described on the previous section. The difference between them is <strong>what they do in cases that an observation is found on both tables, or maybe, only on table A, or table B, etc</strong>.</p>
+<p>In other words, all these four types will perform a matching process between the two DataFrames, and will connect observations that are found in both DataFrames. However, which rows are included in the final output is what changes between each type of JOIN.</p>
+<div id="fig-join-sets" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="./../Figures/join-sets.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;8.3: A visual representation of JOIN sets</figcaption><p></p>
+</figure>
+</div>
 </section>
 <section id="the-relations-between-keys" class="level3" data-number="8.5.3">
 <h3 data-number="8.5.3" class="anchored" data-anchor-id="the-relations-between-keys"><span class="header-section-number">8.5.3</span> The relations between keys</h3>

@@ -108,31 +108,36 @@ A JOIN (like UNION) is also an operation that works on a pair of DataFrames. It 
 
 The main idea (or objective) of the JOIN is to bring all data from the DataFrame on the right side, into the DataFrame on the left side. In other words, a JOIN between DataFrames A and B results into a DataFrame C which contains all columns and rows from both DataFrames A and B.
 
-In an UNION operation, both DataFrames must have the same columns, because in an UNION operation you are concatenating both DataFrames together vertically, so the number of columns (or the "width" of the tables) need to match between the two. However, in a JOIN operation, both DataFrames only need to have at least one column in commom. Apart from that, in a JOIN, both DataFrames can have very different structure and columns from each other.
+In an UNION operation, both DataFrames must have the same columns, because in an UNION operation you are concatenating both DataFrames together vertically, so the number of columns (or the "width" of the tables) need to match. However, in a JOIN operation, both DataFrames only need to have at least one column in commom. Apart from that, in a JOIN, both DataFrames can have very different structure and columns from each other.
 
 One key characteristic of JOIN operations is it's key matching mechanism. A JOIN uses the columns you provide to **build a key**. This key is used to identify rows (or "observations") in both DataFrames. In other words, these keys identifies relationships between the two DataFrames. These relations are vital to the JOIN.
 
-If you look into these DataFrames for a bit more, you can see that they both have a `name` column which contains the name of the musician being described on the current row. This `name` column can be used as **the key** of the JOIN. Because this column is available on both DataFrames, and it can be used to identify an observation (or a musician) in each DataFrame.
+If we go back to `info` and `band_instruments` DataFrames, and analyse them for a bit more, we can see that they both have a `name` column which contains the name of the musician being described on the current row. This `name` column can be used as **the key** of the JOIN. Because this column is available on both DataFrames, and it can be used to identify a single observation (or a single musician) present in each DataFrame.
 
-So the JOIN key is a column (or a combination of columns) that identifies what observations are (and are not) present on both DataFrames. The @fig-keys-comparison presents these observations in a visual manner. You see in the figure that both Paul and John are described in both DataFrames. At the same time, Ringo, Mick and George are present only on `info`, while `Keith` is only at `band_instruments`. 
+So the JOIN key is a column (or a combination of columns) that can identify what observations are (and are not) present on both DataFrames. At @fig-keys-comparison, we can see the observations from `info` and `band_instruments` in a visual manner. You see in the figure that both Paul and John are described in both DataFrames. At the same time, Ringo, Mick and George are present only on `info`, while `Keith` is only at `band_instruments`. 
 
 ![The relations between `info` and `band_instruments` DataFrames](./../Figures/keys_comparacao.png){#fig-keys-comparison}
 
-In a certain way, you can see the JOIN key as a way to identify relationships between the two DataFrames. A JOIN operation use these relationships to merge your DataFrames in a precise way. A JOIN does not simply horizontally glue two DataFrames together. It uses the JOIN key to perform a matching process between the observations of the two DataFrames.
+In a certain way, you can see the JOIN key as a way to **identify relationships between the two DataFrames**. A JOIN operation use these relationships to merge your DataFrames in a precise way. A JOIN does not simply horizontally glue two DataFrames together. It uses the JOIN key to perform a matching process between the observations of the two DataFrames.
 
 This matching process ensures that the data present DataFrame "B" is correctly transported to the DataFrame "A". In other words, it ensures that the oranges are paired with oranges, apples with apples, bananas with bananas, you got it.
 
-Just to describe visually what this matching process is, we have the @fig-join-matching below. In this figure, we have two DataFrames on the left and center of the image, which represents the inputs of the JOIN. And the third DataFrame on the right of the image is the output (or the result) of the JOIN.
+Just to describe visually what this matching process is, we have the @fig-join-matching below. In this figure, we have two DataFrames on the left and center of the image, which represents the inputs of the JOIN. We also have a third DataFrame on the right side of the image, which is the output (or the result) of the JOIN.
 
-The column that represents the JOIN key is the `ID` column. Not only this column is present on both DataFrames, but it also represents an unique identifier to each person described in both tables. And that is precisely the job of a JOIN key. It represents a way to identify observations (or "persons", or "objects", etc.) on both tables.
+In this specific example, the column that represents the JOIN key is the `ID` column. Not only this column is present on both DataFrames, but it also represents an unique identifier to each person described in both tables. And that is precisely the job of a JOIN key. It represents a way to identify observations (or "persons", or "objects", etc.) on both tables.
 
 You can see at @fig-join-matching, that when the `ID` 100 is found on the 1st row of the left DataFrame, the JOIN initiates a lookup/matching process on the center DataFrame, looking for a row in the DataFrame that matches this `ID` 100. When it finds this `ID` 100 (on the 4th row of the center DataFrame), it captures and connects these two rows on both DataFrames, because these rows describes the same person (or observation), and because of that, they should be connected. This same matching process happens for all remaining `ID` values.
 
 
 ![The matching process of a JOIN operation](./../Figures/pareamento1.png){#fig-join-matching}
 
-### How to build JOINs in pyspark
+### The different types of JOIN
 
+Usually we have four types of JOIN operations, which are: *full*, *left*, *right* and *inner*. All of these types of JOIN work the same way as we described on the previous section. The difference between them is **what they do in cases that an observation is found on both tables, or maybe, only on table A, or table B, etc**.
+
+In other words, all these four types will perform a matching process between the two DataFrames, and will connect observations that are found in both DataFrames. However, which rows are included in the final output is what changes between each type of JOIN. 
+
+![A visual representation of JOIN sets](./../Figures/join-sets.png){#fig-join-sets}
 
 
 ### The relations between keys
