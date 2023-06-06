@@ -44,15 +44,13 @@ An UNION operation works on a pair of DataFrames. It returns the row-wise union 
 
 ## Applying JOIN operations
 
-A JOIN operation is another very commom operation that works on a pair of DataFrame. It is also used to bring data from scattered sources into a single unified DataFrame. While an UNION operation merges the two DataFrames by row, a JOIN operation uses the columns instead to merge the two DataFrames. In pyspark, we use the `join()` DataFrame method to perform JOIN operations.
+A JOIN operation is another very commom operation that is also used to bring data from scattered sources into a single unified DataFrame. In pyspark, we can build JOIN operations by using the `join()` DataFrame method. This method accepts tree arguments, which are:
 
-### What is a JOIN ?
+- `other`: the DataFrame you want to JOIN with (i.e. the DataFrame on the right side of the JOIN);
+- `on`: a column name, or a list of column names, that represents the key (or keys) of the JOIN;
+- `how`: the kind of JOIN you want to perform (inner, full, left, right);
 
-I imagine you are already familiar with JOIN operations. However, in order to build good and precise JOIN operations, is always important to know what a JOIN operation actually is.
-
-One key characteristic of JOIN operations is it's key matching mechanism. A JOIN uses the columns you provide to **build a key**. This key is used to identify rows (or "observations") in both DataFrames. In other words, these keys identifies relationships between the two DataFrames. These relations are vital to the JOIN.
-
-Let's use the `info` and `band_instruments` DataFrames as an example.
+As a first example, let's use the `info` and `band_instruments` DataFrames. With the code below, you can quickly re-create these two DataFrames in your session:
 
 ```{python}
 info = [
@@ -63,13 +61,83 @@ info = [
     ('Ringo', 'Beatles', '1940-07-07', True)
 ]
 
-info = spark.createDataFrame(info)
+info = spark.createDataFrame(
+    info,
+    ['name', 'band', 'born', 'children']
+)
+
+band_instruments = [
+    ('John', 'guitar'),
+    ('Paul', 'bass'),
+    ('Keith', 'guitar')
+]
+
+band_instruments = spark.createDataFrame(
+    band_instruments,
+    ['name', 'plays']
+)
 ```
 
+If you look closely to these two DataFrames, you will probably notice that they both describe musicians from two famous rock bands from 60's and 70's. The `info` DataFrame have more personal or general informations about the musicians, while the `band_instruments` DataFrame have only data about the main musical instruments that they play.
+
+```{python}
+info.show()
+```
+
+```{python}
+band_instruments.show()
+```
+
+It might be of your interest, to have a single DataFrame that contains both the personal information and the musical instrument of each musician. In this case, you can build a JOIN operation between these DataFrames to get this result. An example of this JOIN in pyspark would be:
+
+```{python}
+info.join(band_instruments, on = 'name', how = 'left')\
+    .show(5)
+```
+
+In the example above, we are performing a *left join* between the two DataFrames, using the `name` column as the JOIN key. Now, we have a single DataFrame with all 5 columns from both DataFrames (`plays`, `children`, `name`, `band` and `born`).
 
 
-![The relations between `info` and `band_instruments` DataFrames](./../Figures/keys_comparacao.png)
+### What is a JOIN ?
 
+I imagine you are already familiar with JOIN operations. However, in order to build good and precise JOIN operations, is very important to know what a JOIN operation actually is. So let's revisit it.
+
+A JOIN operation merges two different DataFrames together into a single unified DataFrame. It does this by using a column (or a set of columns) as keys to identify the observations of both DataFrames, and connects these observations together.
+
+A JOIN (like UNION) is also an operation that works on a pair of DataFrames. It is very commom to refer to this pair as "the sides of the JOIN". That is, the DataFrame on the left side of the JOIN, and the DataFrame on the right side of the JOIN. Or also, the DataFrames "A" (left side) and "B" (right side).
+
+The main idea (or objective) of the JOIN is to bring all data from the DataFrame on the right side, into the DataFrame on the left side. In other words, a JOIN between DataFrames A and B results into a DataFrame C which contains all columns and rows from both DataFrames A and B.
+
+In an UNION operation, both DataFrames must have the same columns, because in an UNION operation you are concatenating both DataFrames together vertically, so the number of columns (or the "width" of the tables) need to match between the two. However, in a JOIN operation, both DataFrames only need to have at least one column in commom. Apart from that, in a JOIN, both DataFrames can have very different structure and columns from each other.
+
+One key characteristic of JOIN operations is it's key matching mechanism. A JOIN uses the columns you provide to **build a key**. This key is used to identify rows (or "observations") in both DataFrames. In other words, these keys identifies relationships between the two DataFrames. These relations are vital to the JOIN.
+
+If you look into these DataFrames for a bit more, you can see that they both have a `name` column which contains the name of the musician being described on the current row. This `name` column can be used as **the key** of the JOIN. Because this column is available on both DataFrames, and it can be used to identify an observation (or a musician) in each DataFrame.
+
+So the JOIN key is a column (or a combination of columns) that identifies what observations are (and are not) present on both DataFrames. The @fig-keys-comparison presents these observations in a visual manner. You see in the figure that both Paul and John are described in both DataFrames. At the same time, Ringo, Mick and George are present only on `info`, while `Keith` is only at `band_instruments`. 
+
+![The relations between `info` and `band_instruments` DataFrames](./../Figures/keys_comparacao.png){#fig-keys-comparison}
+
+In a certain way, you can see the JOIN key as a way to identify relationships between the two DataFrames. A JOIN operation use these relationships to merge your DataFrames in a precise way. A JOIN does not simply horizontally glue two DataFrames together. It uses the JOIN key to perform a matching process between the observations of the two DataFrames.
+
+This matching process ensures that the data present DataFrame "B" is correctly transported to the DataFrame "A". In other words, it ensures that the oranges are paired with oranges, apples with apples, bananas with bananas, you got it.
+
+Just to describe visually what this matching process is, we have the @fig-join-matching below. In this figure, we have two DataFrames on the left and center of the image, which represents the inputs of the JOIN. And the third DataFrame on the right of the image is the output (or the result) of the JOIN.
+
+The column that represents the JOIN key is the `ID` column. Not only this column is present on both DataFrames, but it also represents an unique identifier to each person described in both tables. And that is precisely the job of a JOIN key. It represents a way to identify observations (or "persons", or "objects", etc.) on both tables.
+
+You can see at @fig-join-matching, that when the `ID` 100 is found on the 1st row of the left DataFrame, the JOIN initiates a lookup/matching process on the center DataFrame, looking for a row in the DataFrame that matches this `ID` 100. When it finds this `ID` 100 (on the 4th row of the center DataFrame), it captures and connects these two rows on both DataFrames, because these rows describes the same person (or observation), and because of that, they should be connected. This same matching process happens for all remaining `ID` values.
+
+
+![The matching process of a JOIN operation](./../Figures/pareamento1.png){#fig-join-matching}
+
+### How to build JOINs in pyspark
+
+
+
+### The relations between keys
+
+### How JOINs build duplicated values
 
 ## Pivot operations
 
