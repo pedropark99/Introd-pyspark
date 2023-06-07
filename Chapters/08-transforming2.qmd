@@ -4,12 +4,12 @@
 
 At @sec-transforming-dataframes-part1 I introduced six core types of transformations over Spark DataFrames. In this chapter, I will expand your knowledge by introducing five more types of transformations available to Spark DataFrames, which are:
 
+- Replacing null values;
 - Removing duplicated values;
 - Merging multiple DataFrames with UNION operations;
 - Merging multiple DataFrames with JOIN operations;
 - Rows to columns with Pivot operations;
 - Collecting and explode operations;
-- Replacing and removing null values;
 
 ```{python}
 #| include: false
@@ -31,16 +31,131 @@ These methods above are all DataFrames methods. Is worth mentioning that the met
 
 Furthermore, when you run `drop_duplicates()` or `dropDuplicates()` without arguments, they use by default the combination of all columns in the DataFrame to locate the duplicated values. As consequence, over this specific situation, the methods `drop_duplicates()` or `dropDuplicates()` become equivalent to the `distinct()` method. Because they use the combination of all columns in the DataFrame.
 
-## Replacing and removing `null` values
+Lets pick the `supermarket_sales` DataFrame exposed below as an example. You can see below, that this DataFrame contains some duplicated values, specifically on the transaction IDs "T001" e "T004". We also have some degree of duplication on the transaction ID "T006", but the two rows describing this ID are not precisely equal, since they have a small difference on the `quantity` column.
+
+```{python}
+from pyspark.sql.types import (
+    StructType, StructField,
+    StringType, IntegerType,
+    FloatType
+)
+
+schema = StructType([
+    StructField("transaction_id", StringType(), True),
+    StructField("product_name", StringType(), True),
+    StructField("quantity", IntegerType(), True),
+    StructField("price", FloatType(), True)
+])
+
+data = [
+    ("T001", "Apple", 5, 1.2),
+    ("T001", "Apple", 5, 1.2),
+    ("T002", "Banana", 3, 0.8),
+    ("T004", "Mango", 2, 2.0),
+    ("T004", "Mango", 2, 2.0),
+    ("T004", "Mango", 2, 2.0),
+    ("T005", "Grapes", 1, 3.5),
+    ("T006", "Apple", 2, 1.2),
+    ("T006", "Apple", 1, 1.2),
+    ("T007", "Banana", 4, 0.8),
+    ("T008", "Apple", 3, 1.2)
+]
+
+supermarket_sales = spark.createDataFrame(data, schema)
+supermarket_sales.show(6)
+```
 
 
+We can remove these duplicated values by using the `distinct()` method. Because on all 3 cases on duplicated values that exist on this DataFrame, the combination of all columns are equal. In the example of transaction ID "T004", all duplicated rows of this ID contains the values `("T004", "Mango", 2, 2.0)`, precisely in this order. Because of that, the `distinct()` method is enough to remove these duplicated values from the table.
+
+```{python}
+supermarket_sales\
+    .distinct()\
+    .show(6)
+```
+
+Now, if we use the `drop_duplicates()` method with only the column `transaction_id` as the key to determine which rows are duplicated, we get a small difference on the result.
+
+```{python}
+supermarket_sales\
+    .drop_duplicates(['transaction_id'])\
+    .show(8)
+```
+
+In the example below, the duplicated values of IDs "T001" and "T004" were removed as we expected. But we also removed the second value for ID "T006". Because we did not listed the `quantity` column on the input list, and, as a result, `drop_duplicates()` was not concerned with the differences on the `quantity` column.
+
+## Replacing `null` values
+
+At @sec-filter-null-values I showed how you can use `filter()` and `where()` DataFrame methods to remove all rows that contained a null value on some column. However, removing an entire row only because there is a null value on one of the columns might not be the best approach. Maybe you prefer to replace this null value for a more useful or representative value, such as `0`, or an empty string (`''`), a `False` value, etc.
+
+To do that in pyspark, we can use the `na.fill()` and `fillna()` DataFrame methods. They both mean the same thing, and work the exact same way. The most popular way of using this methods, is to provide a python dict as input. Inside this dict you have key-value pairs, where the key represents the column name, and the value represents the static value that will replace all null values that are found on the column specified by the key.
+
+In the example below, I created a simple `df` DataFrame which contains some null values on the `age` column. By providing the dict `{'age': 0}` to `fillna()`, I am asking `fillna()` to replace all null values found on the `age` column by the value `0` (zero).
+
+```{python}
+data = [
+    (1, "John", None, "2023-04-05"),
+    (2, "Alice", 25, "2023-04-09"),
+    (3, "Bob", None, "2023-04-12"),
+    (4, "Jane", 30, None),
+    (5, "Mike", 35, None)
+]
+columns = ["id", "name", "age", "date"]
+df = spark.createDataFrame(data, columns)
+
+# Or `df.na.fill({'age': 0}).show()`
+# It is the same thing
+df.fillna({'age': 0}).show()
+```
+
+You can see in the above example, that the null values present in the `date` column were maintained intact on the result. Because we did not asked to `fillna()` to replace the values of this column, by including it on the input dict that we provided. If we do include this `date` column on the input dict, then, `fillna()` will take care of this column as well.
+
+```{python}
+df.fillna({'age': 0, 'date': '2023-01-01'})\
+    .show()
+```
 
 ## Applying UNION operations
 
 When you have many individual DataFrames that have the same columns, and you want to unify them into a single big DataFrame that have all the rows from these different DataFrames, you want to perform an UNION operation.
 
-An UNION operation works on a pair of DataFrames. It returns the row-wise union of these two DataFrames. In pyspark, we perform UNION operations by using the `union()` DataFrame method. So the expression `df1.union(df2)` creates a new DataFrame which contains all the rows from both the `df1` and `df2` DataFrames.
+An UNION operation works on a pair of DataFrames. It returns the row-wise union of these two DataFrames. In `pyspark`, we perform UNION operations by using the `union()` DataFrame method. To use this method, you just provide the other DataFrame you want to make the union with. So the expression `df1.union(df2)` creates a new DataFrame which contains all the rows from both the `df1` and `df2` DataFrames.
 
+In commom SQL engines there are usually two kinds of UNION operations, which are: *union all* and *union distinct*. When you use an *union all* operation, you saying that you just want to unifiy the two DataFrames, no matter what data is in each one of them. You do not care if duplicated values are generated in the process, because an observation "x" might be present both on `df1` and `df2`.
+
+In contrast, an *union distinct* operation is the exact opposite of that. It merges the rows from both DataFrames together, and then, it removes all duplicated values from the result. So you use an *union distinct* operation when you want a single DataFrame that contains all rows from both DataFrames `df1` and `df2`, but, you do not want any duplicated rows into this single DataFrame.
+
+By default, the `union()` method always perform an *union all* operation. However, to do an *union distinct* operation in pyspark, you actually have to use the `union()` method in conjunction with the `distinct()` or `drop_duplicates()` methods. In other words, there is not a direct method in pyspark that performs an *union distinct* operation.
+
+Look at the example below with `df1` and `df2` DataFrames.
+
+```{python}
+df1 = [
+    (1, 'Anne', 'F'),
+    (5, 'Mike', 'M'),
+    (2, 'Francis', 'M'),
+]
+
+df2 = [
+    (5, 'Mike', 'M'),
+    (7, 'Arthur', 'M'),
+    (1, 'Anne', 'F'),
+]
+
+df1 = spark.createDataFrame(df1, ['ID', 'Name', 'Sex'])
+df2 = spark.createDataFrame(df2, ['ID', 'Name', 'Sex'])
+
+# An example of UNION ALL operation:
+df1.union(df2).show()
+```
+
+```{python}
+# An example of UNION DISTINCT operation
+df1\
+    .union(df2)\
+    .distinct()\
+    .show()
+```
 
 ## Applying JOIN operations
 
@@ -164,14 +279,14 @@ info.join(band_instruments, on = 'name', how = 'full')\
 On the other hand, the *left join* and *right join* are kind of self-explanatory. On a *left join*, all the observations from the left DataFrame are kept intact on the resulting DataFrame of the JOIN, regardless of whether these observations were found or not on the right DataFrame. In contrast, an *right join* is the opposite of that. So, all observations from the right DataFrame are kept intact on the resulting DataFrame of the JOIN.
 
 
-In pyspark, you can define the type of JOIN you want to use by setting the `on` argument at `join()` method. This argument accepts a string with the type of JOIN you want to use as input.
+In pyspark, you can define the type of JOIN you want to use by setting the `how` argument at `join()` method. This argument accepts a string with the type of JOIN you want to use as input.
 
-- `on = "left"`: make a *left join*;
-- `on = "right"`: make a *right join*;
-- `on = "full"`: make a *full join*;
-- `on = "inner"`: make an *inner join*;
-- `on = "semi"`: make a *semi join*;
-- `on = "anti"`: make an *anti join*;
+- `how = 'left'`: make a *left join*;
+- `how = 'right'`: make a *right join*;
+- `how = 'full'`: make a *full join*;
+- `how = 'inner'`: make an *inner join*;
+- `how = 'semi'`: make a *semi join*;
+- `how = 'anti'`: make an *anti join*;
 
 You can see on the list above, that `pyspark` do have two more types of JOINs, which are the *semi join* and *anti join*. These are "filtering types" of JOINs. Because they perform the matching process, and only filter the rows from table A (i.e. the DataFrame on the left side of the JOIN) based on the matches found on table B (i.e. the DataFrame on the right side of the JOIN).
 

@@ -485,7 +485,7 @@ transf\
 ```
 
 
-### Filtering `null` values (i.e. missing data)
+### Filtering `null` values (i.e. missing data) {#sec-filter-null-values}
 
 Sometimes, the `null` values play an important role in your filter. You either want to collect all these `null` values, so you can investigate why they are null in the first place, or, you want to completely eliminate them from your DataFrame.
 
