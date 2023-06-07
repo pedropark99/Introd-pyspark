@@ -133,16 +133,77 @@ You can see at @fig-join-matching, that when the `ID` 100 is found on the 1st ro
 
 ### The different types of JOIN
 
-Usually we have four types of JOIN operations, which are: *full*, *left*, *right* and *inner*. All of these types of JOIN work the same way as we described on the previous section. The difference between them is **what they do in cases that an observation is found on both tables, or maybe, only on table A, or table B, etc**.
+JOIN operations actually comes in different flavours (or types). The four main known types of JOINs are: *full*, *left*, *right* and *inner*. All of these different types of JOIN perform the same steps and matching processes that we described on the previous section. But they differ on the treatment they do to unmatched observations. In other words, these different types of JOINs differ on **what they do in cases when an observation is not found on both DataFrames of the JOIN** (e.g. when an observation is found only on table A).
 
-In other words, all these four types will perform a matching process between the two DataFrames, and will connect observations that are found in both DataFrames. However, which rows are included in the final output is what changes between each type of JOIN. 
+In other words, all these four types will perform the same matching process between the two DataFrames, and will connect observations that are found in both DataFrames. However, which rows are included in the final output is what changes between each type (or "flavour") of JOIN.
+
+In this situation, the words "left" and "right" are identifiers to the DataFrames involved on the JOIN operation. That is, the word *left* refers to the DataFrame on the left side of the JOIN, while the word *right* refers to the DataFrame on the right side of the JOIN.
+
+A very useful way of understanding these different types of JOINs is to represent both DataFrames as numerical sets (as we learn in mathematics). The @fig-join-sets gives you a visual representation of each type of JOIN using this "set model" of representing JOINs. Remember, all of these different types of JOIN work the same way, they just do different actions when an observation is not found on both tables.
+
+The most "complete" and "greedy" type of JOIN is the *full join*. Because this type returns all possible combinations of both DataFrames. In other words, this type of JOIN will result in a DataFrame that have all observations from both DataFrames. It does not matter if an observation is present only on table A, or only on table B, or maybe, on both tables. A *full join* will always try to connect as much observation as it can.
 
 ![A visual representation of JOIN sets](./../Figures/join-sets.png){#fig-join-sets}
 
+That is why the *full join* is represented on @fig-join-sets as the union between the two tables (or the two sets). In contrast, an *inner join* is the intersection of the two tables (or two sets). That is, an *inner join* will result in a new DataFrame which contains solely the observations that could be found on both tables. If a specific observation is found only on one table of the JOIN, this observation will be automatically removed from the result of the *inner join*.
+
+If we go back to the `info` and `band_instruments` DataFrames, and use them as an example, you can see that only Paul and John are included on the result of an *inner join*. While in a *full join*, all musicians are included on the resulting DataFrame.
+
+```{python}
+# An inner join between `info` and `band_instruments`:
+info.join(band_instruments, on = 'name', how = 'inner')\
+    .show()
+```
+
+```{python}
+# A full join between `info` and `band_instruments`:
+info.join(band_instruments, on = 'name', how = 'full')\
+    .show()
+```
+
+On the other hand, the *left join* and *right join* are kind of self-explanatory. On a *left join*, all the observations from the left DataFrame are kept intact on the resulting DataFrame of the JOIN, regardless of whether these observations were found or not on the right DataFrame. In contrast, an *right join* is the opposite of that. So, all observations from the right DataFrame are kept intact on the resulting DataFrame of the JOIN.
+
+
+In pyspark, you can define the type of JOIN you want to use by setting the `on` argument at `join()` method. This argument accepts a string with the type of JOIN you want to use as input.
+
+- `on = "left"`: make a *left join*;
+- `on = "right"`: make a *right join*;
+- `on = "full"`: make a *full join*;
+- `on = "inner"`: make an *inner join*;
+- `on = "semi"`: make a *semi join*;
+- `on = "anti"`: make an *anti join*;
+
+You can see on the list above, that `pyspark` do have two more types of JOINs, which are the *semi join* and *anti join*. These are "filtering types" of JOINs. Because they perform the matching process, and only filter the rows from table A (i.e. the DataFrame on the left side of the JOIN) based on the matches found on table B (i.e. the DataFrame on the right side of the JOIN).
+
+In other words, these both types are used as a filter mechanism, and not as a merge mechanism. When you use these two types, instead of merging two DataFrames together, you are interested in filtering the rows of DataFrame A based on the existence of these rows in DataFrame B.
+
+This is different from what we learned on *left*, *right*, *full* and *inner* types, because they do not only change which rows are included in the final result, but they also add the columns from table B into table A. Because of this behavior, these four main types are usually called as "additive types" of JOIN, since they are always adding data from table B into table A, i.e. they are merging the two tables together.
+
+In more details, an *anti join* perform the exact opposite matching process of an *inner join*. This means that an *anti join* will always result in a new DataFrame that contains solely the observations that exists only on one DataFrame of the JOIN. In other words, the observations that are found on both tables are automatically removed from the resulting DataFrame of the JOIN. If we look at the example below, we can see that both John and Paul were removed from the resulting DataFrame of the *anti join*, because these two musicians are present on both DataFrames:
+
+```{python}
+info.join(band_instruments, on = 'name', how = 'anti')\
+    .show()
+```
+
+In contrast, a *semi join* is equivalent to an *inner join*, with the difference that it does not adds the column from table B into table A. So this type of JOIN filter the rows from DataFrame A that also exists in DataFrame B. If an observation is found on both tables, this observation will appear on the resulting DataFrame.
+
+```{python}
+info.join(band_instruments, on = 'name', how = 'semi')\
+    .show()
+```
+
+Just to keep using our visual model of sets, on @fig-join-sets2 you can see the *semi* and *anti* types represented as numerical sets.
+
+![The two filter types of JOIN](./../Figures/join-sets2.png){#fig-join-sets2}
 
 ### The relations between keys
 
+Since a JOIN operation works on a pair of DataFrames, there are three different possible relations between the keys found in both DataFrames.
+
 ### How JOINs build duplicated values
+
+
 
 ## Pivot operations
 

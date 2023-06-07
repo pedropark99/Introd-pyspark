@@ -402,6 +402,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>info.join(band_instruments, on <span class="op">=</span> <span class="st">'name'</span>, how <span class="op">=</span> <span class="st">'left'</span>)<span class="op">\</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    .show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>[Stage 7:=================================&gt;                        (7 + 5) / 12]                                                                                </code></pre>
+</div>
 <div class="cell-output cell-output-stdout">
 <pre><code>+------+--------------+----------+--------+------+
 |  name|          band|      born|children| plays|
@@ -446,12 +449,98 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="the-different-types-of-join" class="level3" data-number="8.5.2">
 <h3 data-number="8.5.2" class="anchored" data-anchor-id="the-different-types-of-join"><span class="header-section-number">8.5.2</span> The different types of JOIN</h3>
-<p>Usually we have four types of JOIN operations, which are: <em>full</em>, <em>left</em>, <em>right</em> and <em>inner</em>. All of these types of JOIN work the same way as we described on the previous section. The difference between them is <strong>what they do in cases that an observation is found on both tables, or maybe, only on table A, or table B, etc</strong>.</p>
-<p>In other words, all these four types will perform a matching process between the two DataFrames, and will connect observations that are found in both DataFrames. However, which rows are included in the final output is what changes between each type of JOIN.</p>
+<p>JOIN operations actually comes in different flavours (or types). The four main known types of JOINs are: <em>full</em>, <em>left</em>, <em>right</em> and <em>inner</em>. All of these different types of JOIN perform the same steps and matching processes that we described on the previous section. But they differ on the treatment they do to unmatched observations. In other words, these different types of JOINs differ on <strong>what they do in cases when an observation is not found on both DataFrames of the JOIN</strong> (e.g.&nbsp;when an observation is found only on table A).</p>
+<p>In other words, all these four types will perform the same matching process between the two DataFrames, and will connect observations that are found in both DataFrames. However, which rows are included in the final output is what changes between each type (or “flavour”) of JOIN.</p>
+<p>In this situation, the words “left” and “right” are identifiers to the DataFrames involved on the JOIN operation. That is, the word <em>left</em> refers to the DataFrame on the left side of the JOIN, while the word <em>right</em> refers to the DataFrame on the right side of the JOIN.</p>
+<p>A very useful way of understanding these different types of JOINs is to represent both DataFrames as numerical sets (as we learn in mathematics). The <a href="#fig-join-sets">Figure&nbsp;<span>8.3</span></a> gives you a visual representation of each type of JOIN using this “set model” of representing JOINs. Remember, all of these different types of JOIN work the same way, they just do different actions when an observation is not found on both tables.</p>
+<p>The most “complete” and “greedy” type of JOIN is the <em>full join</em>. Because this type returns all possible combinations of both DataFrames. In other words, this type of JOIN will result in a DataFrame that have all observations from both DataFrames. It does not matter if an observation is present only on table A, or only on table B, or maybe, on both tables. A <em>full join</em> will always try to connect as much observation as it can.</p>
 <div id="fig-join-sets" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="./../Figures/join-sets.png" class="img-fluid figure-img"></p>
 <p></p><figcaption class="figure-caption">Figure&nbsp;8.3: A visual representation of JOIN sets</figcaption><p></p>
+</figure>
+</div>
+<p>That is why the <em>full join</em> is represented on <a href="#fig-join-sets">Figure&nbsp;<span>8.3</span></a> as the union between the two tables (or the two sets). In contrast, an <em>inner join</em> is the intersection of the two tables (or two sets). That is, an <em>inner join</em> will result in a new DataFrame which contains solely the observations that could be found on both tables. If a specific observation is found only on one table of the JOIN, this observation will be automatically removed from the result of the <em>inner join</em>.</p>
+<p>If we go back to the <code>info</code> and <code>band_instruments</code> DataFrames, and use them as an example, you can see that only Paul and John are included on the result of an <em>inner join</em>. While in a <em>full join</em>, all musicians are included on the resulting DataFrame.</p>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># An inner join between `info` and `band_instruments`:</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>info.join(band_instruments, on <span class="op">=</span> <span class="st">'name'</span>, how <span class="op">=</span> <span class="st">'inner'</span>)<span class="op">\</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    .show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>+----+-------+----------+--------+------+
+|name|   band|      born|children| plays|
++----+-------+----------+--------+------+
+|John|Beatles|1940-09-10|    true|guitar|
+|Paul|Beatles|1942-06-18|    true|  bass|
++----+-------+----------+--------+------+
+</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># A full join between `info` and `band_instruments`:</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>info.join(band_instruments, on <span class="op">=</span> <span class="st">'name'</span>, how <span class="op">=</span> <span class="st">'full'</span>)<span class="op">\</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    .show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>+------+--------------+----------+--------+------+
+|  name|          band|      born|children| plays|
++------+--------------+----------+--------+------+
+|George|       Beatles|1943-02-25|    true|  null|
+|  John|       Beatles|1940-09-10|    true|guitar|
+| Keith|          null|      null|    null|guitar|
+|  Mick|Rolling Stones|1943-07-26|    true|  null|
+|  Paul|       Beatles|1942-06-18|    true|  bass|
+| Ringo|       Beatles|1940-07-07|    true|  null|
++------+--------------+----------+--------+------+
+</code></pre>
+</div>
+</div>
+<p>On the other hand, the <em>left join</em> and <em>right join</em> are kind of self-explanatory. On a <em>left join</em>, all the observations from the left DataFrame are kept intact on the resulting DataFrame of the JOIN, regardless of whether these observations were found or not on the right DataFrame. In contrast, an <em>right join</em> is the opposite of that. So, all observations from the right DataFrame are kept intact on the resulting DataFrame of the JOIN.</p>
+<p>In pyspark, you can define the type of JOIN you want to use by setting the <code>on</code> argument at <code>join()</code> method. This argument accepts a string with the type of JOIN you want to use as input.</p>
+<ul>
+<li><code>on = "left"</code>: make a <em>left join</em>;</li>
+<li><code>on = "right"</code>: make a <em>right join</em>;</li>
+<li><code>on = "full"</code>: make a <em>full join</em>;</li>
+<li><code>on = "inner"</code>: make an <em>inner join</em>;</li>
+<li><code>on = "semi"</code>: make a <em>semi join</em>;</li>
+<li><code>on = "anti"</code>: make an <em>anti join</em>;</li>
+</ul>
+<p>You can see on the list above, that <code>pyspark</code> do have two more types of JOINs, which are the <em>semi join</em> and <em>anti join</em>. These are “filtering types” of JOINs. Because they perform the matching process, and only filter the rows from table A (i.e.&nbsp;the DataFrame on the left side of the JOIN) based on the matches found on table B (i.e.&nbsp;the DataFrame on the right side of the JOIN).</p>
+<p>In other words, these both types are used as a filter mechanism, and not as a merge mechanism. When you use these two types, instead of merging two DataFrames together, you are interested in filtering the rows of DataFrame A based on the existence of these rows in DataFrame B.</p>
+<p>This is different from what we learned on <em>left</em>, <em>right</em>, <em>full</em> and <em>inner</em> types, because they do not only change which rows are included in the final result, but they also add the columns from table B into table A. Because of this behavior, these four main types are usually called as “additive types” of JOIN, since they are always adding data from table B into table A, i.e.&nbsp;they are merging the two tables together.</p>
+<p>In more details, an <em>anti join</em> perform the exact opposite matching process of an <em>inner join</em>. This means that an <em>anti join</em> will always result in a new DataFrame that contains solely the observations that exists only on one DataFrame of the JOIN. In other words, the observations that are found on both tables are automatically removed from the resulting DataFrame of the JOIN. If we look at the example below, we can see that both John and Paul were removed from the resulting DataFrame of the <em>anti join</em>, because these two musicians are present on both DataFrames:</p>
+<div class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>info.join(band_instruments, on <span class="op">=</span> <span class="st">'name'</span>, how <span class="op">=</span> <span class="st">'anti'</span>)<span class="op">\</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    .show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>+------+--------------+----------+--------+
+|  name|          band|      born|children|
++------+--------------+----------+--------+
+|  Mick|Rolling Stones|1943-07-26|    true|
+|George|       Beatles|1943-02-25|    true|
+| Ringo|       Beatles|1940-07-07|    true|
++------+--------------+----------+--------+
+</code></pre>
+</div>
+</div>
+<p>In contrast, a <em>semi join</em> is equivalent to an <em>inner join</em>, with the difference that it does not adds the column from table B into table A. So this type of JOIN filter the rows from DataFrame A that also exists in DataFrame B. If an observation is found on both tables, this observation will appear on the resulting DataFrame.</p>
+<div class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>info.join(band_instruments, on <span class="op">=</span> <span class="st">'name'</span>, how <span class="op">=</span> <span class="st">'semi'</span>)<span class="op">\</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    .show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>+----+-------+----------+--------+
+|name|   band|      born|children|
++----+-------+----------+--------+
+|John|Beatles|1940-09-10|    true|
+|Paul|Beatles|1942-06-18|    true|
++----+-------+----------+--------+
+</code></pre>
+</div>
+</div>
+<p>Just to keep using our visual model of sets, on <a href="#fig-join-sets2">Figure&nbsp;<span>8.4</span></a> you can see the <em>semi</em> and <em>anti</em> types represented as numerical sets.</p>
+<div id="fig-join-sets2" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="./../Figures/join-sets2.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;8.4: The two filter types of JOIN</figcaption><p></p>
 </figure>
 </div>
 </section>
