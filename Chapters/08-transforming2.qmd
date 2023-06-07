@@ -312,6 +312,10 @@ Just to keep using our visual model of sets, on @fig-join-sets2 you can see the 
 
 ![The two filter types of JOIN](./../Figures/join-sets2.png){#fig-join-sets2}
 
+### The seventh type of JOIN
+
+`crossJoin()`.
+
 ### The relations between keys
 
 Since a JOIN operation works on a pair of DataFrames, there are three different possible relations between the keys found in both DataFrames.
