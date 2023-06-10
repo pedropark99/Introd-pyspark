@@ -22,16 +22,16 @@ sc.setLogLevel("OFF")
 
 ## Removing duplicated values from your DataFrame
 
-Removing duplicated values from DataFrames is a very commom operation in ETL pipelines. Basically, in Spark, you have two options to remove duplicated values, which are:
+Removing duplicated values from DataFrames is a very commom operation in ETL pipelines. In `pyspark` you have two options to remove duplicated values, which are:
 
-- `distinct()` which removes all duplicated values considering the combination of all columns in the DataFrame;
-- `drop_duplicates()` or `dropDuplicates()` which removes all duplicated values considering a specific combination of columns in the DataFrame;
+- `distinct()` which removes all duplicated values considering the combination of all current columns in the DataFrame;
+- `drop_duplicates()` or `dropDuplicates()` which removes all duplicated values considering a specific combination (or set) of columns in the DataFrame;
 
-These methods above are all DataFrames methods. Is worth mentioning that the methods `drop_duplicates()` and `dropDuplicates()` are equivalent. They both mean the same thing, and have the same arguments and perform the same operation.
+These three methods above are all DataFrames methods. Furthermore, the methods `drop_duplicates()` and `dropDuplicates()` are equivalent. They both mean the same thing, and have the same arguments and perform the same operation.
 
-Furthermore, when you run `drop_duplicates()` or `dropDuplicates()` without arguments, they use by default the combination of all columns in the DataFrame to locate the duplicated values. As consequence, over this specific situation, the methods `drop_duplicates()` or `dropDuplicates()` become equivalent to the `distinct()` method. Because they use the combination of all columns in the DataFrame.
+When you run `drop_duplicates()` or `dropDuplicates()` without any argument, they automatically use by default the combination of all columns available in the DataFrame to identify the duplicated values. As a consequence, over this specific situation, the methods `drop_duplicates()` or `dropDuplicates()` become equivalent to the `distinct()` method. Because they use the combination of all columns in the DataFrame.
 
-Lets pick the `supermarket_sales` DataFrame exposed below as an example. You can see below, that this DataFrame contains some duplicated values, specifically on the transaction IDs "T001" e "T004". We also have some degree of duplication on the transaction ID "T006", but the two rows describing this ID are not precisely equal, since they have a small difference on the `quantity` column.
+Lets pick the `supermarket_sales` DataFrame exposed below as an example. You can see below, that this DataFrame contains some duplicated values, specifically on the transaction IDs "T001" e "T004". We also have some "degree of duplication" on the transaction ID "T006". But the two rows describing this ID "T006" are not precisely identical, since they have a small difference on the `quantity` column.
 
 ```{python}
 from pyspark.sql.types import (
@@ -66,7 +66,8 @@ supermarket_sales.show(6)
 ```
 
 
-We can remove these duplicated values by using the `distinct()` method. Because on all 3 cases on duplicated values that exist on this DataFrame, the combination of all columns are equal. In the example of transaction ID "T004", all duplicated rows of this ID contains the values `("T004", "Mango", 2, 2.0)`, precisely in this order. Because of that, the `distinct()` method is enough to remove these duplicated values from the table.
+We can remove these duplicated values by using the `distinct()` method. In the example of transaction ID "T004", all duplicated rows of this ID contains the same values `("T004", "Mango", 2, 2.0)`, precisely in this order. Because of that, the `distinct()` method is enough to remove all of these duplicated values from the table.
+
 
 ```{python}
 supermarket_sales\
@@ -74,7 +75,10 @@ supermarket_sales\
     .show(6)
 ```
 
-Now, if we use the `drop_duplicates()` method with only the column `transaction_id` as the key to determine which rows are duplicated, we get a small difference on the result.
+
+However, the two rows describing the transaction ID "T006" have some difference on the `quantity` column, and as a result, the `distinct()` method does not identify these two rows as "duplicated values", and they are not removed from the input DataFrame.
+
+Now, if we needed a DataFrame that contained one row for each transaction ID (that is, the values on `transaction_id` column must be unique), we could use the `drop_duplicates()` method with only the column `transaction_id` as the key to remove all duplicated values of this column. This way, we get a slightly different output as you can see below.
 
 ```{python}
 supermarket_sales\
@@ -82,13 +86,15 @@ supermarket_sales\
     .show(8)
 ```
 
-In the example below, the duplicated values of IDs "T001" and "T004" were removed as we expected. But we also removed the second value for ID "T006". Because we did not listed the `quantity` column on the input list, and, as a result, `drop_duplicates()` was not concerned with the differences on the `quantity` column.
+In the example above, the duplicated values of IDs "T001" and "T004" were removed as we expected. But we also removed the second value for ID "T006". Because we did not listed the `quantity` column on `drop_duplicates()`, and, as a result, the `drop_duplicates()` method was not concerned with the differences on the `quantity` column. In other words, it used solely the `transaction_id` column to identify the duplicated values.
 
 ## Replacing `null` values
 
-At @sec-filter-null-values I showed how you can use `filter()` and `where()` DataFrame methods to remove all rows that contained a null value on some column. However, removing an entire row only because there is a null value on one of the columns might not be the best approach. Maybe you prefer to replace this null value for a more useful or representative value, such as `0`, or an empty string (`''`), a `False` value, etc.
+At @sec-filter-null-values I showed how you can use `filter()` and `where()` DataFrame methods to remove all rows that contained a null value on some column. However, removing an entire row only because there is a null value on one of the columns might not be the best approach.
 
-To do that in pyspark, we can use the `na.fill()` and `fillna()` DataFrame methods. They both mean the same thing, and work the exact same way. The most popular way of using this methods, is to provide a python dict as input. Inside this dict you have key-value pairs, where the key represents the column name, and the value represents the static value that will replace all null values that are found on the column specified by the key.
+Maybe you prefer to replace this null value for a more useful or representative value, such as `0`, or an empty string (`''`), a `False` value, etc. To do that in `pyspark`, we can use the `na.fill()` and `fillna()` DataFrame methods.
+
+Both methods mean the same thing, and they work the exact same way. The most popular way of using this methods, is to provide a python dict as input. Inside this dict you have key-value pairs, where the key represents the column name, and the value represents the static value that will replace all null values that are found on the column specified by the key.
 
 In the example below, I created a simple `df` DataFrame which contains some null values on the `age` column. By providing the dict `{'age': 0}` to `fillna()`, I am asking `fillna()` to replace all null values found on the `age` column by the value `0` (zero).
 
@@ -108,7 +114,9 @@ df = spark.createDataFrame(data, columns)
 df.fillna({'age': 0}).show()
 ```
 
-You can see in the above example, that the null values present in the `date` column were maintained intact on the result. Because we did not asked to `fillna()` to replace the values of this column, by including it on the input dict that we provided. If we do include this `date` column on the input dict, then, `fillna()` will take care of this column as well.
+You can see in the above example, that the null values present in the `date` column were maintained intact on the result. Because we did not asked to `fillna()` to replace the values of this column, by including it on the input dict that we provided.
+
+If we do include this `date` column on the input dict, then, `fillna()` will take care of this column as well:
 
 ```{python}
 df.fillna({'age': 0, 'date': '2023-01-01'})\
