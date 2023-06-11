@@ -88,11 +88,14 @@ supermarket_sales\
 
 In the example above, the duplicated values of IDs "T001" and "T004" were removed as we expected. But we also removed the second value for ID "T006". Because we did not listed the `quantity` column on `drop_duplicates()`, and, as a result, the `drop_duplicates()` method was not concerned with the differences on the `quantity` column. In other words, it used solely the `transaction_id` column to identify the duplicated values.
 
-## Replacing `null` values
+## Other techniques for dealing with `null` values
 
-At @sec-filter-null-values I showed how you can use `filter()` and `where()` DataFrame methods to remove all rows that contained a null value on some column. However, removing an entire row only because there is a null value on one of the columns might not be the best approach.
+At @sec-filter-null-values I showed how you can use `filter()` or `where()` DataFrame methods to remove all rows that contained a null value on some column. There are two other DataFrames methods available in Spark that you might want use to deal with null values. In essence, you can either remove or replace these null values.
 
-Maybe you prefer to replace this null value for a more useful or representative value, such as `0`, or an empty string (`''`), a `False` value, etc. To do that in `pyspark`, we can use the `na.fill()` and `fillna()` DataFrame methods.
+
+### Replacing `null` values
+
+Instead of removing the null values, and pretending that they never existed, maybe, you prefer to replace these null values by a more useful or representative value, such as `0`, or an empty string (`''`), or a `False` value, etc. To do that in `pyspark`, we can use the `na.fill()` and `fillna()` DataFrame methods.
 
 Both methods mean the same thing, and they work the exact same way. The most popular way of using this methods, is to provide a python dict as input. Inside this dict you have key-value pairs, where the key represents the column name, and the value represents the static value that will replace all null values that are found on the column specified by the key.
 
@@ -123,6 +126,20 @@ df.fillna({'age': 0, 'date': '2023-01-01'})\
     .show()
 ```
 
+
+### Dropping all `null` values
+
+Spark also offers the `na.drop()` and `dropna()` DataFrames methods, which you can use to easily remove any row that contains a null value on any column of the DataFrame. This is different from `filter()` and `where()`, because on these two methods you have to build a logical expression that translate "not-null values".
+
+In contrast, on `na.drop()` and `dropna()` methods you do not have a logical expression. You just call these methods, and they do the heavy work for you. They search trough the entire DataFrame. When it identify a null value on the DataFrame, it removes the entire row that contains such null value.
+
+For example, if we apply these methods on the `df` DataFrame that we used on the previous section, this is the end result:
+
+```{python}
+df.na.drop()\
+    .show()
+```
+
 ## Applying UNION operations
 
 When you have many individual DataFrames that have the same columns, and you want to unify them into a single big DataFrame that have all the rows from these different DataFrames, you want to perform an UNION operation.
@@ -133,7 +150,7 @@ In commom SQL engines there are usually two kinds of UNION operations, which are
 
 In contrast, an *union distinct* operation is the exact opposite of that. It merges the rows from both DataFrames together, and then, it removes all duplicated values from the result. So you use an *union distinct* operation when you want a single DataFrame that contains all rows from both DataFrames `df1` and `df2`, but, you do not want any duplicated rows into this single DataFrame.
 
-By default, the `union()` method always perform an *union all* operation. However, to do an *union distinct* operation in pyspark, you actually have to use the `union()` method in conjunction with the `distinct()` or `drop_duplicates()` methods. In other words, there is not a direct method in pyspark that performs an *union distinct* operation.
+By default, the `union()` method always perform an *union all* operation. However, to do an *union distinct* operation in pyspark, you actually have to use the `union()` method in conjunction with the `distinct()` or `drop_duplicates()` methods. In other words, there is not a direct method in pyspark that performs an *union distinct* operation on a single command.
 
 Look at the example below with `df1` and `df2` DataFrames.
 
@@ -163,6 +180,70 @@ df1\
     .union(df2)\
     .distinct()\
     .show()
+```
+
+Because an UNION operation merges the two DataFrames in a vertical way, the columns between the two DataFrames must match. If the columns between the two DataFrames are not in the same places, a mismatch happens during the operation, and Spark will do nothing to fix your mistake.
+
+Most programming languages would issue an error at this point, warning you about this conflict between the columns found on each DataFrame and their respective positions. However, in Spark, if the columns are out of order, Spark will continue with the UNION operation, as if nothing was wrong. Spark will not even raise a warning for you. Since this problem can easily pass unnotice, be aware of it.
+
+In the example below, we have a third DataFrame called `df3`. Notice that the columns in `df3` are the same of `df1` and `df2`. However, the columns from `df3` are in a different order than in `df1` and `df2`.
+```{python}
+data = [
+    ('Marla', 'F', 9),
+    ('Andrew', 'M', 15),
+    ('Peter', 'M', 12)
+]
+df3 = spark.createDataFrame(data, ['Name', 'Sex', 'ID'])
+df3.show()
+```
+
+If we try to perform an UNION operation between, let's say, `df2` and `df3`, the operations just works. But, the end result of this operation is not correct, as you can see in the example below.
+
+```{python}
+df2.union(df3).show()
+```
+
+Although this might be problematic, Spark provides an easy-to-use solution when the columns are in different places between each DataFrame. This solution is the `unionByName()` method.
+
+The difference between `union()` and `unionByName()` methods, is that the `unionByName()` method makes an matching by column name, before if performs the UNION. In other words, it compares the column names found on each DataFrame and it matches each column by its name. This way, the columns present on each DataFrame of the UNION must have the same name, but they do not need to be in the same positions on both DataFrames.
+
+If we use this method on the same example as above, you can see below that we get a different result, and a correct one this time.
+
+```{python}
+df2.unionByName(df3)\
+    .show()
+```
+
+
+Therefore, if you want to make an UNION operation between two DataFrames, you can generally use the `union()` method. But if you suspect the columns from these DataFrames might be in different positions on each DataFrame, you can change to the `unionByName()` method.
+
+In contrast, if the columns are different not only on position, but also, on column name, then, `unionByName()` will not work. The two DataFrames involved on an UNION operation must be very similar. If they are not similar, then, you will have a hard time trying to do the operation.
+
+Another problem that you might face is if you try to unify two DataFrames that have different numbers of columns between them. In this situation, it means that the two DataFrames have "different widths", and, as a result of that, an `AnalysisException` error will be raised by Spark if you try to unify them with an UNION operation, like in the example below:
+
+```{python}
+#| eval: false
+from pyspark.sql.types import (
+    StructField,
+    StructType,
+    LongType
+)
+
+schema = StructType([StructField('ID', LongType(), False)])
+df4 = [
+    (19,), (17,), (16,)
+]
+df4 = spark.createDataFrame(df4, schema)
+df3.union(df4).show()
+```
+
+```
+AnalysisException: Union can only be performed on tables
+with the same number of columns, but the first table has
+3 columns and the second table has 1 columns;
+'Union false, false
+:- LogicalRDD [Name#703, Sex#704, ID#705L], false
++- LogicalRDD [ID#762L], false
 ```
 
 ## Applying JOIN operations
@@ -266,7 +347,7 @@ A very useful way of understanding these different types of JOINs is to represen
 
 The most "complete" and "greedy" type of JOIN is the *full join*. Because this type returns all possible combinations of both DataFrames. In other words, this type of JOIN will result in a DataFrame that have all observations from both DataFrames. It does not matter if an observation is present only on table A, or only on table B, or maybe, on both tables. A *full join* will always try to connect as much observation as it can.
 
-![A visual representation of JOIN sets](./../Figures/join-sets.png){#fig-join-sets}
+![A visual representation for types of JOIN using numerical sets](./../Figures/join-sets.png){#fig-join-sets}
 
 That is why the *full join* is represented on @fig-join-sets as the union between the two tables (or the two sets). In contrast, an *inner join* is the intersection of the two tables (or two sets). That is, an *inner join* will result in a new DataFrame which contains solely the observations that could be found on both tables. If a specific observation is found only on one table of the JOIN, this observation will be automatically removed from the result of the *inner join*.
 
@@ -316,13 +397,15 @@ info.join(band_instruments, on = 'name', how = 'semi')\
     .show()
 ```
 
-Just to keep using our visual model of sets, on @fig-join-sets2 you can see the *semi* and *anti* types represented as numerical sets.
+Just to keep using our visual model of sets, on @fig-join-sets2 you can see the *semi* and *anti* JOIN types represented as numerical sets.
 
-![The two filter types of JOIN](./../Figures/join-sets2.png){#fig-join-sets2}
+![The two "filter types" of JOIN](./../Figures/join-sets2.png){#fig-join-sets2}
 
-### The seventh type of JOIN
+### A cross JOIN as the seventh type
 
-`crossJoin()`.
+Apart from the six types that we described on the previous section, Spark also offers a seventh type of JOIN called *cross join*. Since this is a special type of JOIN, you can either set the `on` argument at `join()` method to `"cross"`, or, you can also use the `crossJoin()` DataFrame method, to perform this type of JOIN.
+
+In essence, a *cross join* between DataFrames A and B returns the cartesian product between these two DataFrames as ouput. It is similar to R functions [`base::expand.grid()`](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/expand.grid) or [`dplyr::expand()`](https://tidyr.tidyverse.org/reference/expand.html), and also, the Python equivalent [`itertools.product()`](https://docs.python.org/2/library/itertools.html#itertools.product).
 
 ### The relations between keys
 

@@ -264,13 +264,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul>
   <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">8.1</span> Introduction</a></li>
   <li><a href="#removing-duplicated-values-from-your-dataframe" id="toc-removing-duplicated-values-from-your-dataframe" class="nav-link" data-scroll-target="#removing-duplicated-values-from-your-dataframe"><span class="header-section-number">8.2</span> Removing duplicated values from your DataFrame</a></li>
-  <li><a href="#replacing-null-values" id="toc-replacing-null-values" class="nav-link" data-scroll-target="#replacing-null-values"><span class="header-section-number">8.3</span> Replacing <code>null</code> values</a></li>
+  <li><a href="#other-techniques-for-dealing-with-null-values" id="toc-other-techniques-for-dealing-with-null-values" class="nav-link" data-scroll-target="#other-techniques-for-dealing-with-null-values"><span class="header-section-number">8.3</span> Other techniques for dealing with <code>null</code> values</a>
+  <ul class="collapse">
+  <li><a href="#replacing-null-values" id="toc-replacing-null-values" class="nav-link" data-scroll-target="#replacing-null-values"><span class="header-section-number">8.3.1</span> Replacing <code>null</code> values</a></li>
+  <li><a href="#dropping-all-null-values" id="toc-dropping-all-null-values" class="nav-link" data-scroll-target="#dropping-all-null-values"><span class="header-section-number">8.3.2</span> Dropping all <code>null</code> values</a></li>
+  </ul></li>
   <li><a href="#applying-union-operations" id="toc-applying-union-operations" class="nav-link" data-scroll-target="#applying-union-operations"><span class="header-section-number">8.4</span> Applying UNION operations</a></li>
   <li><a href="#applying-join-operations" id="toc-applying-join-operations" class="nav-link" data-scroll-target="#applying-join-operations"><span class="header-section-number">8.5</span> Applying JOIN operations</a>
   <ul class="collapse">
   <li><a href="#what-is-a-join" id="toc-what-is-a-join" class="nav-link" data-scroll-target="#what-is-a-join"><span class="header-section-number">8.5.1</span> What is a JOIN ?</a></li>
   <li><a href="#the-different-types-of-join" id="toc-the-different-types-of-join" class="nav-link" data-scroll-target="#the-different-types-of-join"><span class="header-section-number">8.5.2</span> The different types of JOIN</a></li>
-  <li><a href="#the-seventh-type-of-join" id="toc-the-seventh-type-of-join" class="nav-link" data-scroll-target="#the-seventh-type-of-join"><span class="header-section-number">8.5.3</span> The seventh type of JOIN</a></li>
+  <li><a href="#a-cross-join-as-the-seventh-type" id="toc-a-cross-join-as-the-seventh-type" class="nav-link" data-scroll-target="#a-cross-join-as-the-seventh-type"><span class="header-section-number">8.5.3</span> A cross JOIN as the seventh type</a></li>
   <li><a href="#the-relations-between-keys" id="toc-the-relations-between-keys" class="nav-link" data-scroll-target="#the-relations-between-keys"><span class="header-section-number">8.5.4</span> The relations between keys</a></li>
   <li><a href="#how-joins-build-duplicated-values" id="toc-how-joins-build-duplicated-values" class="nav-link" data-scroll-target="#how-joins-build-duplicated-values"><span class="header-section-number">8.5.5</span> How JOINs build duplicated values</a></li>
   </ul></li>
@@ -352,9 +356,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>supermarket_sales <span class="op">=</span> spark.createDataFrame(data, schema)</span>
 <span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>supermarket_sales.show(<span class="dv">6</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>[Stage 0:&gt;                                                          (0 + 1) / 1]                                                                                </code></pre>
-</div>
 <div class="cell-output cell-output-stdout">
 <pre><code>+--------------+------------+--------+-----+
 |transaction_id|product_name|quantity|price|
@@ -372,9 +373,9 @@ only showing top 6 rows
 </div>
 <p>We can remove these duplicated values by using the <code>distinct()</code> method. In the example of transaction ID “T004”, all duplicated rows of this ID contains the same values <code>("T004", "Mango", 2, 2.0)</code>, precisely in this order. Because of that, the <code>distinct()</code> method is enough to remove all of these duplicated values from the table.</p>
 <div class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>supermarket_sales<span class="op">\</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    .distinct()<span class="op">\</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    .show(<span class="dv">6</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>supermarket_sales<span class="op">\</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    .distinct()<span class="op">\</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    .show(<span class="dv">6</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>+--------------+------------+--------+-----+
 |transaction_id|product_name|quantity|price|
@@ -393,9 +394,9 @@ only showing top 6 rows
 <p>However, the two rows describing the transaction ID “T006” have some difference on the <code>quantity</code> column, and as a result, the <code>distinct()</code> method does not identify these two rows as “duplicated values”, and they are not removed from the input DataFrame.</p>
 <p>Now, if we needed a DataFrame that contained one row for each transaction ID (that is, the values on <code>transaction_id</code> column must be unique), we could use the <code>drop_duplicates()</code> method with only the column <code>transaction_id</code> as the key to remove all duplicated values of this column. This way, we get a slightly different output as you can see below.</p>
 <div class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>supermarket_sales<span class="op">\</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    .drop_duplicates([<span class="st">'transaction_id'</span>])<span class="op">\</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    .show(<span class="dv">8</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>supermarket_sales<span class="op">\</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    .drop_duplicates([<span class="st">'transaction_id'</span>])<span class="op">\</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    .show(<span class="dv">8</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>+--------------+------------+--------+-----+
 |transaction_id|product_name|quantity|price|
@@ -413,26 +414,28 @@ only showing top 6 rows
 </div>
 <p>In the example above, the duplicated values of IDs “T001” and “T004” were removed as we expected. But we also removed the second value for ID “T006”. Because we did not listed the <code>quantity</code> column on <code>drop_duplicates()</code>, and, as a result, the <code>drop_duplicates()</code> method was not concerned with the differences on the <code>quantity</code> column. In other words, it used solely the <code>transaction_id</code> column to identify the duplicated values.</p>
 </section>
-<section id="replacing-null-values" class="level2" data-number="8.3">
-<h2 data-number="8.3" class="anchored" data-anchor-id="replacing-null-values"><span class="header-section-number">8.3</span> Replacing <code>null</code> values</h2>
-<p>At <a href="05-transforming.html#sec-filter-null-values"><span>Section&nbsp;5.6.5</span></a> I showed how you can use <code>filter()</code> and <code>where()</code> DataFrame methods to remove all rows that contained a null value on some column. However, removing an entire row only because there is a null value on one of the columns might not be the best approach.</p>
-<p>Maybe you prefer to replace this null value for a more useful or representative value, such as <code>0</code>, or an empty string (<code>''</code>), a <code>False</code> value, etc. To do that in <code>pyspark</code>, we can use the <code>na.fill()</code> and <code>fillna()</code> DataFrame methods.</p>
+<section id="other-techniques-for-dealing-with-null-values" class="level2" data-number="8.3">
+<h2 data-number="8.3" class="anchored" data-anchor-id="other-techniques-for-dealing-with-null-values"><span class="header-section-number">8.3</span> Other techniques for dealing with <code>null</code> values</h2>
+<p>At <a href="05-transforming.html#sec-filter-null-values"><span>Section&nbsp;5.6.5</span></a> I showed how you can use <code>filter()</code> or <code>where()</code> DataFrame methods to remove all rows that contained a null value on some column. There are two other DataFrames methods available in Spark that you might want use to deal with null values. In essence, you can either remove or replace these null values.</p>
+<section id="replacing-null-values" class="level3" data-number="8.3.1">
+<h3 data-number="8.3.1" class="anchored" data-anchor-id="replacing-null-values"><span class="header-section-number">8.3.1</span> Replacing <code>null</code> values</h3>
+<p>Instead of removing the null values, and pretending that they never existed, maybe, you prefer to replace these null values by a more useful or representative value, such as <code>0</code>, or an empty string (<code>''</code>), or a <code>False</code> value, etc. To do that in <code>pyspark</code>, we can use the <code>na.fill()</code> and <code>fillna()</code> DataFrame methods.</p>
 <p>Both methods mean the same thing, and they work the exact same way. The most popular way of using this methods, is to provide a python dict as input. Inside this dict you have key-value pairs, where the key represents the column name, and the value represents the static value that will replace all null values that are found on the column specified by the key.</p>
 <p>In the example below, I created a simple <code>df</code> DataFrame which contains some null values on the <code>age</code> column. By providing the dict <code>{'age': 0}</code> to <code>fillna()</code>, I am asking <code>fillna()</code> to replace all null values found on the <code>age</code> column by the value <code>0</code> (zero).</p>
 <div class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> [</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">1</span>, <span class="st">"John"</span>, <span class="va">None</span>, <span class="st">"2023-04-05"</span>),</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">2</span>, <span class="st">"Alice"</span>, <span class="dv">25</span>, <span class="st">"2023-04-09"</span>),</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">3</span>, <span class="st">"Bob"</span>, <span class="va">None</span>, <span class="st">"2023-04-12"</span>),</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">4</span>, <span class="st">"Jane"</span>, <span class="dv">30</span>, <span class="va">None</span>),</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">5</span>, <span class="st">"Mike"</span>, <span class="dv">35</span>, <span class="va">None</span>)</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>columns <span class="op">=</span> [<span class="st">"id"</span>, <span class="st">"name"</span>, <span class="st">"age"</span>, <span class="st">"date"</span>]</span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> spark.createDataFrame(data, columns)</span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Or `df.na.fill({'age': 0}).show()`</span></span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="co"># It is the same thing</span></span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>df.fillna({<span class="st">'age'</span>: <span class="dv">0</span>}).show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> [</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">1</span>, <span class="st">"John"</span>, <span class="va">None</span>, <span class="st">"2023-04-05"</span>),</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">2</span>, <span class="st">"Alice"</span>, <span class="dv">25</span>, <span class="st">"2023-04-09"</span>),</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">3</span>, <span class="st">"Bob"</span>, <span class="va">None</span>, <span class="st">"2023-04-12"</span>),</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">4</span>, <span class="st">"Jane"</span>, <span class="dv">30</span>, <span class="va">None</span>),</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">5</span>, <span class="st">"Mike"</span>, <span class="dv">35</span>, <span class="va">None</span>)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>columns <span class="op">=</span> [<span class="st">"id"</span>, <span class="st">"name"</span>, <span class="st">"age"</span>, <span class="st">"date"</span>]</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> spark.createDataFrame(data, columns)</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Or `df.na.fill({'age': 0}).show()`</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="co"># It is the same thing</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>df.fillna({<span class="st">'age'</span>: <span class="dv">0</span>}).show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>+---+-----+---+----------+
 | id| name|age|      date|
@@ -449,8 +452,8 @@ only showing top 6 rows
 <p>You can see in the above example, that the null values present in the <code>date</code> column were maintained intact on the result. Because we did not asked to <code>fillna()</code> to replace the values of this column, by including it on the input dict that we provided.</p>
 <p>If we do include this <code>date</code> column on the input dict, then, <code>fillna()</code> will take care of this column as well:</p>
 <div class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>df.fillna({<span class="st">'age'</span>: <span class="dv">0</span>, <span class="st">'date'</span>: <span class="st">'2023-01-01'</span>})<span class="op">\</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    .show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>df.fillna({<span class="st">'age'</span>: <span class="dv">0</span>, <span class="st">'date'</span>: <span class="st">'2023-01-01'</span>})<span class="op">\</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    .show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>+---+-----+---+----------+
 | id| name|age|      date|
@@ -465,52 +468,71 @@ only showing top 6 rows
 </div>
 </div>
 </section>
+<section id="dropping-all-null-values" class="level3" data-number="8.3.2">
+<h3 data-number="8.3.2" class="anchored" data-anchor-id="dropping-all-null-values"><span class="header-section-number">8.3.2</span> Dropping all <code>null</code> values</h3>
+<p>Spark also offers the <code>na.drop()</code> and <code>dropna()</code> DataFrames methods, which you can use to easily remove any row that contains a null value on any column of the DataFrame. This is different from <code>filter()</code> and <code>where()</code>, because on these two methods you have to build a logical expression that translate “not-null values”.</p>
+<p>In contrast, on <code>na.drop()</code> and <code>dropna()</code> methods you do not have a logical expression. You just call these methods, and they do the heavy work for you. They search trough the entire DataFrame. When it identify a null value on the DataFrame, it removes the entire row that contains such null value.</p>
+<p>For example, if we apply these methods on the <code>df</code> DataFrame that we used on the previous section, this is the end result:</p>
+<div class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>df.na.drop()<span class="op">\</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    .show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>+---+-----+---+----------+
+| id| name|age|      date|
++---+-----+---+----------+
+|  2|Alice| 25|2023-04-09|
++---+-----+---+----------+
+</code></pre>
+</div>
+</div>
+</section>
+</section>
 <section id="applying-union-operations" class="level2" data-number="8.4">
 <h2 data-number="8.4" class="anchored" data-anchor-id="applying-union-operations"><span class="header-section-number">8.4</span> Applying UNION operations</h2>
 <p>When you have many individual DataFrames that have the same columns, and you want to unify them into a single big DataFrame that have all the rows from these different DataFrames, you want to perform an UNION operation.</p>
 <p>An UNION operation works on a pair of DataFrames. It returns the row-wise union of these two DataFrames. In <code>pyspark</code>, we perform UNION operations by using the <code>union()</code> DataFrame method. To use this method, you just provide the other DataFrame you want to make the union with. So the expression <code>df1.union(df2)</code> creates a new DataFrame which contains all the rows from both the <code>df1</code> and <code>df2</code> DataFrames.</p>
 <p>In commom SQL engines there are usually two kinds of UNION operations, which are: <em>union all</em> and <em>union distinct</em>. When you use an <em>union all</em> operation, you saying that you just want to unifiy the two DataFrames, no matter what data is in each one of them. You do not care if duplicated values are generated in the process, because an observation “x” might be present both on <code>df1</code> and <code>df2</code>.</p>
 <p>In contrast, an <em>union distinct</em> operation is the exact opposite of that. It merges the rows from both DataFrames together, and then, it removes all duplicated values from the result. So you use an <em>union distinct</em> operation when you want a single DataFrame that contains all rows from both DataFrames <code>df1</code> and <code>df2</code>, but, you do not want any duplicated rows into this single DataFrame.</p>
-<p>By default, the <code>union()</code> method always perform an <em>union all</em> operation. However, to do an <em>union distinct</em> operation in pyspark, you actually have to use the <code>union()</code> method in conjunction with the <code>distinct()</code> or <code>drop_duplicates()</code> methods. In other words, there is not a direct method in pyspark that performs an <em>union distinct</em> operation.</p>
+<p>By default, the <code>union()</code> method always perform an <em>union all</em> operation. However, to do an <em>union distinct</em> operation in pyspark, you actually have to use the <code>union()</code> method in conjunction with the <code>distinct()</code> or <code>drop_duplicates()</code> methods. In other words, there is not a direct method in pyspark that performs an <em>union distinct</em> operation on a single command.</p>
 <p>Look at the example below with <code>df1</code> and <code>df2</code> DataFrames.</p>
-<div class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>df1 <span class="op">=</span> [</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">1</span>, <span class="st">'Anne'</span>, <span class="st">'F'</span>),</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">5</span>, <span class="st">'Mike'</span>, <span class="st">'M'</span>),</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">2</span>, <span class="st">'Francis'</span>, <span class="st">'M'</span>),</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>df2 <span class="op">=</span> [</span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">5</span>, <span class="st">'Mike'</span>, <span class="st">'M'</span>),</span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">7</span>, <span class="st">'Arthur'</span>, <span class="st">'M'</span>),</span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">1</span>, <span class="st">'Anne'</span>, <span class="st">'F'</span>),</span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>df1 <span class="op">=</span> spark.createDataFrame(df1, [<span class="st">'ID'</span>, <span class="st">'Name'</span>, <span class="st">'Sex'</span>])</span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>df2 <span class="op">=</span> spark.createDataFrame(df2, [<span class="st">'ID'</span>, <span class="st">'Name'</span>, <span class="st">'Sex'</span>])</span>
-<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a><span class="co"># An example of UNION ALL operation:</span></span>
-<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>df1.union(df2).show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>+---+-------+---+
-| ID|   Name|Sex|
-+---+-------+---+
-|  1|   Anne|  F|
-|  5|   Mike|  M|
-|  2|Francis|  M|
-|  5|   Mike|  M|
-|  7| Arthur|  M|
-|  1|   Anne|  F|
-+---+-------+---+
-</code></pre>
-</div>
-</div>
 <div class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># An example of UNION DISTINCT operation</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>df1<span class="op">\</span></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    .union(df2)<span class="op">\</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    .distinct()<span class="op">\</span></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    .show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>df1 <span class="op">=</span> [</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">1</span>, <span class="st">'Anne'</span>, <span class="st">'F'</span>),</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">5</span>, <span class="st">'Mike'</span>, <span class="st">'M'</span>),</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">2</span>, <span class="st">'Francis'</span>, <span class="st">'M'</span>),</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>df2 <span class="op">=</span> [</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">5</span>, <span class="st">'Mike'</span>, <span class="st">'M'</span>),</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">7</span>, <span class="st">'Arthur'</span>, <span class="st">'M'</span>),</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">1</span>, <span class="st">'Anne'</span>, <span class="st">'F'</span>),</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>df1 <span class="op">=</span> spark.createDataFrame(df1, [<span class="st">'ID'</span>, <span class="st">'Name'</span>, <span class="st">'Sex'</span>])</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>df2 <span class="op">=</span> spark.createDataFrame(df2, [<span class="st">'ID'</span>, <span class="st">'Name'</span>, <span class="st">'Sex'</span>])</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a><span class="co"># An example of UNION ALL operation:</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>df1.union(df2).show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>+---+-------+---+
+| ID|   Name|Sex|
++---+-------+---+
+|  1|   Anne|  F|
+|  5|   Mike|  M|
+|  2|Francis|  M|
+|  5|   Mike|  M|
+|  7| Arthur|  M|
+|  1|   Anne|  F|
++---+-------+---+
+</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># An example of UNION DISTINCT operation</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>df1<span class="op">\</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    .union(df2)<span class="op">\</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    .distinct()<span class="op">\</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    .show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>+---+-------+---+
 | ID|   Name|Sex|
@@ -523,6 +545,88 @@ only showing top 6 rows
 </code></pre>
 </div>
 </div>
+<p>Because an UNION operation merges the two DataFrames in a vertical way, the columns between the two DataFrames must match. If the columns between the two DataFrames are not in the same places, a mismatch happens during the operation, and Spark will do nothing to fix your mistake.</p>
+<p>Most programming languages would issue an error at this point, warning you about this conflict between the columns found on each DataFrame and their respective positions. However, in Spark, if the columns are out of order, Spark will continue with the UNION operation, as if nothing was wrong. Spark will not even raise a warning for you. Since this problem can easily pass unnotice, be aware of it.</p>
+<p>In the example below, we have a third DataFrame called <code>df3</code>. Notice that the columns in <code>df3</code> are the same of <code>df1</code> and <code>df2</code>. However, the columns from <code>df3</code> are in a different order than in <code>df1</code> and <code>df2</code>.</p>
+<div class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> [</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'Marla'</span>, <span class="st">'F'</span>, <span class="dv">9</span>),</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'Andrew'</span>, <span class="st">'M'</span>, <span class="dv">15</span>),</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'Peter'</span>, <span class="st">'M'</span>, <span class="dv">12</span>)</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>df3 <span class="op">=</span> spark.createDataFrame(data, [<span class="st">'Name'</span>, <span class="st">'Sex'</span>, <span class="st">'ID'</span>])</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>df3.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>+------+---+---+
+|  Name|Sex| ID|
++------+---+---+
+| Marla|  F|  9|
+|Andrew|  M| 15|
+| Peter|  M| 12|
++------+---+---+
+</code></pre>
+</div>
+</div>
+<p>If we try to perform an UNION operation between, let’s say, <code>df2</code> and <code>df3</code>, the operations just works. But, the end result of this operation is not correct, as you can see in the example below.</p>
+<div class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>df2.union(df3).show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>+------+------+---+
+|    ID|  Name|Sex|
++------+------+---+
+|     5|  Mike|  M|
+|     7|Arthur|  M|
+|     1|  Anne|  F|
+| Marla|     F|  9|
+|Andrew|     M| 15|
+| Peter|     M| 12|
++------+------+---+
+</code></pre>
+</div>
+</div>
+<p>Although this might be problematic, Spark provides an easy-to-use solution when the columns are in different places between each DataFrame. This solution is the <code>unionByName()</code> method.</p>
+<p>The difference between <code>union()</code> and <code>unionByName()</code> methods, is that the <code>unionByName()</code> method makes an matching by column name, before if performs the UNION. In other words, it compares the column names found on each DataFrame and it matches each column by its name. This way, the columns present on each DataFrame of the UNION must have the same name, but they do not need to be in the same positions on both DataFrames.</p>
+<p>If we use this method on the same example as above, you can see below that we get a different result, and a correct one this time.</p>
+<div class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>df2.unionByName(df3)<span class="op">\</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    .show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>+---+------+---+
+| ID|  Name|Sex|
++---+------+---+
+|  5|  Mike|  M|
+|  7|Arthur|  M|
+|  1|  Anne|  F|
+|  9| Marla|  F|
+| 15|Andrew|  M|
+| 12| Peter|  M|
++---+------+---+
+</code></pre>
+</div>
+</div>
+<p>Therefore, if you want to make an UNION operation between two DataFrames, you can generally use the <code>union()</code> method. But if you suspect the columns from these DataFrames might be in different positions on each DataFrame, you can change to the <code>unionByName()</code> method.</p>
+<p>In contrast, if the columns are different not only on position, but also, on column name, then, <code>unionByName()</code> will not work. The two DataFrames involved on an UNION operation must be very similar. If they are not similar, then, you will have a hard time trying to do the operation.</p>
+<p>Another problem that you might face is if you try to unify two DataFrames that have different numbers of columns between them. In this situation, it means that the two DataFrames have “different widths”, and, as a result of that, an <code>AnalysisException</code> error will be raised by Spark if you try to unify them with an UNION operation, like in the example below:</p>
+<div class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.types <span class="im">import</span> (</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    StructField,</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    StructType,</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    LongType</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>schema <span class="op">=</span> StructType([StructField(<span class="st">'ID'</span>, LongType(), <span class="va">False</span>)])</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>df4 <span class="op">=</span> [</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">19</span>,), (<span class="dv">17</span>,), (<span class="dv">16</span>,)</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>df4 <span class="op">=</span> spark.createDataFrame(df4, schema)</span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>df3.union(df4).show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<pre><code>AnalysisException: Union can only be performed on tables
+with the same number of columns, but the first table has
+3 columns and the second table has 1 columns;
+'Union false, false
+:- LogicalRDD [Name#703, Sex#704, ID#705L], false
++- LogicalRDD [ID#762L], false</code></pre>
 </section>
 <section id="applying-join-operations" class="level2" data-number="8.5">
 <h2 data-number="8.5" class="anchored" data-anchor-id="applying-join-operations"><span class="header-section-number">8.5</span> Applying JOIN operations</h2>
@@ -533,34 +637,34 @@ only showing top 6 rows
 <li><code>how</code>: the kind of JOIN you want to perform (inner, full, left, right);</li>
 </ul>
 <p>As a first example, let’s use the <code>info</code> and <code>band_instruments</code> DataFrames. With the code below, you can quickly re-create these two DataFrames in your session:</p>
-<div class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>info <span class="op">=</span> [</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'Mick'</span>, <span class="st">'Rolling Stones'</span>, <span class="st">'1943-07-26'</span>, <span class="va">True</span>),</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'John'</span>, <span class="st">'Beatles'</span>, <span class="st">'1940-09-10'</span>, <span class="va">True</span>),</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'Paul'</span>, <span class="st">'Beatles'</span>, <span class="st">'1942-06-18'</span>, <span class="va">True</span>),</span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'George'</span>, <span class="st">'Beatles'</span>, <span class="st">'1943-02-25'</span>, <span class="va">True</span>),</span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'Ringo'</span>, <span class="st">'Beatles'</span>, <span class="st">'1940-07-07'</span>, <span class="va">True</span>)</span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>info <span class="op">=</span> spark.createDataFrame(</span>
-<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>    info,</span>
-<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>    [<span class="st">'name'</span>, <span class="st">'band'</span>, <span class="st">'born'</span>, <span class="st">'children'</span>]</span>
-<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>band_instruments <span class="op">=</span> [</span>
-<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'John'</span>, <span class="st">'guitar'</span>),</span>
-<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'Paul'</span>, <span class="st">'bass'</span>),</span>
-<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'Keith'</span>, <span class="st">'guitar'</span>)</span>
-<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>band_instruments <span class="op">=</span> spark.createDataFrame(</span>
-<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>    band_instruments,</span>
-<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>    [<span class="st">'name'</span>, <span class="st">'plays'</span>]</span>
-<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>info <span class="op">=</span> [</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'Mick'</span>, <span class="st">'Rolling Stones'</span>, <span class="st">'1943-07-26'</span>, <span class="va">True</span>),</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'John'</span>, <span class="st">'Beatles'</span>, <span class="st">'1940-09-10'</span>, <span class="va">True</span>),</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'Paul'</span>, <span class="st">'Beatles'</span>, <span class="st">'1942-06-18'</span>, <span class="va">True</span>),</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'George'</span>, <span class="st">'Beatles'</span>, <span class="st">'1943-02-25'</span>, <span class="va">True</span>),</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'Ringo'</span>, <span class="st">'Beatles'</span>, <span class="st">'1940-07-07'</span>, <span class="va">True</span>)</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>info <span class="op">=</span> spark.createDataFrame(</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>    info,</span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>    [<span class="st">'name'</span>, <span class="st">'band'</span>, <span class="st">'born'</span>, <span class="st">'children'</span>]</span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>band_instruments <span class="op">=</span> [</span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'John'</span>, <span class="st">'guitar'</span>),</span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'Paul'</span>, <span class="st">'bass'</span>),</span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'Keith'</span>, <span class="st">'guitar'</span>)</span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a>band_instruments <span class="op">=</span> spark.createDataFrame(</span>
+<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a>    band_instruments,</span>
+<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a>    [<span class="st">'name'</span>, <span class="st">'plays'</span>]</span>
+<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>If you look closely to these two DataFrames, you will probably notice that they both describe musicians from two famous rock bands from 60’s and 70’s. The <code>info</code> DataFrame have more personal or general informations about the musicians, while the <code>band_instruments</code> DataFrame have only data about the main musical instruments that they play.</p>
-<div class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>info.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>info.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>+------+--------------+----------+--------+
 |  name|          band|      born|children|
@@ -574,8 +678,8 @@ only showing top 6 rows
 </code></pre>
 </div>
 </div>
-<div class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>band_instruments.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>band_instruments.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>+-----+------+
 | name| plays|
@@ -588,9 +692,9 @@ only showing top 6 rows
 </div>
 </div>
 <p>It might be of your interest, to have a single DataFrame that contains both the personal information and the musical instrument of each musician. In this case, you can build a JOIN operation between these DataFrames to get this result. An example of this JOIN in pyspark would be:</p>
-<div class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>info.join(band_instruments, on <span class="op">=</span> <span class="st">'name'</span>, how <span class="op">=</span> <span class="st">'left'</span>)<span class="op">\</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    .show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>info.join(band_instruments, on <span class="op">=</span> <span class="st">'name'</span>, how <span class="op">=</span> <span class="st">'left'</span>)<span class="op">\</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>    .show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>+------+--------------+----------+--------+------+
 |  name|          band|      born|children| plays|
@@ -643,15 +747,15 @@ only showing top 6 rows
 <div id="fig-join-sets" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="./../Figures/join-sets.png" class="img-fluid figure-img"></p>
-<p></p><figcaption class="figure-caption">Figure&nbsp;8.3: A visual representation of JOIN sets</figcaption><p></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;8.3: A visual representation for types of JOIN using numerical sets</figcaption><p></p>
 </figure>
 </div>
 <p>That is why the <em>full join</em> is represented on <a href="#fig-join-sets">Figure&nbsp;<span>8.3</span></a> as the union between the two tables (or the two sets). In contrast, an <em>inner join</em> is the intersection of the two tables (or two sets). That is, an <em>inner join</em> will result in a new DataFrame which contains solely the observations that could be found on both tables. If a specific observation is found only on one table of the JOIN, this observation will be automatically removed from the result of the <em>inner join</em>.</p>
 <p>If we go back to the <code>info</code> and <code>band_instruments</code> DataFrames, and use them as an example, you can see that only Paul and John are included on the result of an <em>inner join</em>. While in a <em>full join</em>, all musicians are included on the resulting DataFrame.</p>
-<div class="cell" data-execution_count="13">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># An inner join between `info` and `band_instruments`:</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>info.join(band_instruments, on <span class="op">=</span> <span class="st">'name'</span>, how <span class="op">=</span> <span class="st">'inner'</span>)<span class="op">\</span></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    .show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># An inner join between `info` and `band_instruments`:</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>info.join(band_instruments, on <span class="op">=</span> <span class="st">'name'</span>, how <span class="op">=</span> <span class="st">'inner'</span>)<span class="op">\</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>    .show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>+----+-------+----------+--------+------+
 |name|   band|      born|children| plays|
@@ -662,10 +766,10 @@ only showing top 6 rows
 </code></pre>
 </div>
 </div>
-<div class="cell" data-execution_count="14">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># A full join between `info` and `band_instruments`:</span></span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>info.join(band_instruments, on <span class="op">=</span> <span class="st">'name'</span>, how <span class="op">=</span> <span class="st">'full'</span>)<span class="op">\</span></span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    .show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># A full join between `info` and `band_instruments`:</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>info.join(band_instruments, on <span class="op">=</span> <span class="st">'name'</span>, how <span class="op">=</span> <span class="st">'full'</span>)<span class="op">\</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>    .show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>+------+--------------+----------+--------+------+
 |  name|          band|      born|children| plays|
@@ -694,9 +798,9 @@ only showing top 6 rows
 <p>In other words, these both types are used as a filter mechanism, and not as a merge mechanism. When you use these two types, instead of merging two DataFrames together, you are interested in filtering the rows of DataFrame A based on the existence of these rows in DataFrame B.</p>
 <p>This is different from what we learned on <em>left</em>, <em>right</em>, <em>full</em> and <em>inner</em> types, because they do not only change which rows are included in the final result, but they also add the columns from table B into table A. Because of this behavior, these four main types are usually called as “additive types” of JOIN, since they are always adding data from table B into table A, i.e.&nbsp;they are merging the two tables together.</p>
 <p>In more details, an <em>anti join</em> perform the exact opposite matching process of an <em>inner join</em>. This means that an <em>anti join</em> will always result in a new DataFrame that contains solely the observations that exists only on one DataFrame of the JOIN. In other words, the observations that are found on both tables are automatically removed from the resulting DataFrame of the JOIN. If we look at the example below, we can see that both John and Paul were removed from the resulting DataFrame of the <em>anti join</em>, because these two musicians are present on both DataFrames:</p>
-<div class="cell" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>info.join(band_instruments, on <span class="op">=</span> <span class="st">'name'</span>, how <span class="op">=</span> <span class="st">'anti'</span>)<span class="op">\</span></span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>    .show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>info.join(band_instruments, on <span class="op">=</span> <span class="st">'name'</span>, how <span class="op">=</span> <span class="st">'anti'</span>)<span class="op">\</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>    .show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>+------+--------------+----------+--------+
 |  name|          band|      born|children|
@@ -709,9 +813,9 @@ only showing top 6 rows
 </div>
 </div>
 <p>In contrast, a <em>semi join</em> is equivalent to an <em>inner join</em>, with the difference that it does not adds the column from table B into table A. So this type of JOIN filter the rows from DataFrame A that also exists in DataFrame B. If an observation is found on both tables, this observation will appear on the resulting DataFrame.</p>
-<div class="cell" data-execution_count="16">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>info.join(band_instruments, on <span class="op">=</span> <span class="st">'name'</span>, how <span class="op">=</span> <span class="st">'semi'</span>)<span class="op">\</span></span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>    .show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>info.join(band_instruments, on <span class="op">=</span> <span class="st">'name'</span>, how <span class="op">=</span> <span class="st">'semi'</span>)<span class="op">\</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>    .show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>+----+-------+----------+--------+
 |name|   band|      born|children|
@@ -722,17 +826,18 @@ only showing top 6 rows
 </code></pre>
 </div>
 </div>
-<p>Just to keep using our visual model of sets, on <a href="#fig-join-sets2">Figure&nbsp;<span>8.4</span></a> you can see the <em>semi</em> and <em>anti</em> types represented as numerical sets.</p>
+<p>Just to keep using our visual model of sets, on <a href="#fig-join-sets2">Figure&nbsp;<span>8.4</span></a> you can see the <em>semi</em> and <em>anti</em> JOIN types represented as numerical sets.</p>
 <div id="fig-join-sets2" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="./../Figures/join-sets2.png" class="img-fluid figure-img"></p>
-<p></p><figcaption class="figure-caption">Figure&nbsp;8.4: The two filter types of JOIN</figcaption><p></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;8.4: The two “filter types” of JOIN</figcaption><p></p>
 </figure>
 </div>
 </section>
-<section id="the-seventh-type-of-join" class="level3" data-number="8.5.3">
-<h3 data-number="8.5.3" class="anchored" data-anchor-id="the-seventh-type-of-join"><span class="header-section-number">8.5.3</span> The seventh type of JOIN</h3>
-<p><code>crossJoin()</code>.</p>
+<section id="a-cross-join-as-the-seventh-type" class="level3" data-number="8.5.3">
+<h3 data-number="8.5.3" class="anchored" data-anchor-id="a-cross-join-as-the-seventh-type"><span class="header-section-number">8.5.3</span> A cross JOIN as the seventh type</h3>
+<p>Apart from the six types that we described on the previous section, Spark also offers a seventh type of JOIN called <em>cross join</em>. Since this is a special type of JOIN, you can either set the <code>on</code> argument at <code>join()</code> method to <code>"cross"</code>, or, you can also use the <code>crossJoin()</code> DataFrame method, to perform this type of JOIN.</p>
+<p>In essence, a <em>cross join</em> between DataFrames A and B returns the cartesian product between these two DataFrames as ouput. It is similar to R functions <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/expand.grid"><code>base::expand.grid()</code></a> or <a href="https://tidyr.tidyverse.org/reference/expand.html"><code>dplyr::expand()</code></a>, and also, the Python equivalent <a href="https://docs.python.org/2/library/itertools.html#itertools.product"><code>itertools.product()</code></a>.</p>
 </section>
 <section id="the-relations-between-keys" class="level3" data-number="8.5.4">
 <h3 data-number="8.5.4" class="anchored" data-anchor-id="the-relations-between-keys"><span class="header-section-number">8.5.4</span> The relations between keys</h3>
