@@ -465,7 +465,7 @@ Now, the `stack()` function have two main arguments, which are the number of col
 ```{python}
 from pyspark.sql.functions import expr
 stack_expr = """
-STACK(3,
+stack(3,
     '<$10k', `<$10k`,
     '$10k-$20k', `$10k-$20k`,
     '$20k-$30k', `$20k-$30k`
