@@ -254,7 +254,7 @@ A JOIN operation is another very commom operation that is also used to bring dat
 - `on`: a column name, or a list of column names, that represents the key (or keys) of the JOIN;
 - `how`: the kind of JOIN you want to perform (inner, full, left, right);
 
-As a first example, let's use the `info` and `band_instruments` DataFrames. With the code below, you can quickly re-create these two DataFrames in your session:
+As a first example, let's use the `info` and `band_instruments` DataFrames. With the source code below, you can quickly re-create these two DataFrames in your session:
 
 ```{python}
 info = [
@@ -403,19 +403,60 @@ Just to keep using our visual model of sets, on @fig-join-sets2 you can see the 
 
 ### A cross JOIN as the seventh type
 
-Apart from the six types that we described on the previous section, Spark also offers a seventh type of JOIN called *cross join*. Since this is a special type of JOIN, you can either set the `on` argument at `join()` method to `"cross"`, or, you can also use the `crossJoin()` DataFrame method, to perform this type of JOIN.
+We described six different types of JOINs on the previous section. But Spark also offers a seventh type of JOIN called *cross join*. This is a special type of JOIN that you can use by calling the `crossJoin()` DataFrame method.
 
 In essence, a *cross join* between DataFrames A and B returns the cartesian product between these two DataFrames as ouput. It is similar to R functions [`base::expand.grid()`](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/expand.grid) or [`dplyr::expand()`](https://tidyr.tidyverse.org/reference/expand.html), and also, the Python equivalent [`itertools.product()`](https://docs.python.org/2/library/itertools.html#itertools.product).
 
-### The relations between keys
+This a type of JOIN that you should avoid to use, specially if one (or both) of the DataFrames involved is a big DataFrame with thousands/millions of rows. Because a *cross join* will always produce a cartesian product between the two DataFrames involved. This means that, if DataFrame A contains $x$ rows, and DataFrame B contains $y$ rows, the end result of the *cross join* is a new DataFrame that contains $x \times y$ rows.
 
-Since a JOIN operation works on a pair of DataFrames, there are three different possible relations between the keys found in both DataFrames.
+In other words, the number of rows in the output of a *cross join* can grow exponentially. For example, a *cross join* between a DataFrame of 1 thousand rows, and another DataFrame of 10 thousand of rows (both are small DataFrames for the scale and sizes of a real-world big data environment), would produce a DataFrame with $10^3 \times 10^4 = 10^7$, that is, 10 milion of rows as output.
 
-### How JOINs build duplicated values
+In a big data environment, dealing with something that grows exponentially... it is never a good idea. So try to avoid a *cross join* and use him solely on very small DataFrames.
 
+As an example, to apply a *cross join* between `info` and `band_instruments` DataFrames we can use the `crossJoin()` method, like in the example below:
+
+```{python}
+info.crossJoin(band_instruments)\
+    .show()
+```
+
+A *cross join* is a special type of JOIN because it does not use "keys" and a matching process. It just computes every possible combination between the rows from both DataFrames. Because of the absence of these keys characteristics of a JOIN, many data analysts and engineers would not call a *cross join* as a type of JOIN (in other words, they would call it a type of something else). But regardless of our opinions, Spark decided to call this process as the *cross join*, so this is the way we are calling this process on this book.
 
 
 ## Pivot operations
+
+Pivot operations are extremely useful, and they are probably the main operation you can use to completely reformat your table. What these operations do is basically change the dimensions of your table, or in other words, these operations seek to transform columns into rows, or vice versa.
+
+As a parallel with other frameworks, a pivot operation in Spark is the same operation performed by R functions [`tidyr::pivot_longer()`](https://tidyr.tidyverse.org/reference/pivot_longer.html) and [`tidyr::pivot_wider()`](https://tidyr.tidyverse.org/reference/pivot_wider.html) from the famous R framework `tidyverse`; or, the same as the [`pivot()`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.pivot.html) and [`melt()`](https://pandas.pydata.org/docs/reference/api/pandas.melt.html) methods from the Python framework `pandas`.
+
+In Spark, pivot operations are performed by the `pivot()` and `stack()` DataFrame methods, and, they are available in both directions. That is, you can transform either rows into columns (corresponds to `pivot()`), or, columns into rows (corresponds to `stack()`). Let's begin with the `stack()` method, and after that, we explain the `pivot()` method.
+
+### Transforming columns into rows
+
+The `stack()` DataFrame method allows you to transform columns into rows. In other words, you can make your DataFrame "longer" with this kind of operation, because you remove columns ("width") from the table, and adds new rows ("heigth"). This gives a aspect of longer to your table, because after this operation, you table usually have more rows than columns.
+
+As a first example, lets use the `religion` DataFrame, which you can re-create in yuour session with the source code below:
+
+```{python}
+data = [
+    ('Agnostic', 27, 34, 60),
+    ('Atheist', 12, 27, 37),
+    ('Buddhist', 27, 21, 30)
+]
+cols = ['religion', '<$10k', '$10k-$20k', '$20k-$30k']
+religion = spark.createDataFrame(data, cols)
+religion.show()
+```
+
+This DataFrame is showing us the average salary of people belonging to different religions. See that in each column of this DataFrame, you have data for a specific salary level (or range). This is a structure that can be easy and intuitive at times, but it also might impose some limitations, specially if you need to apply a vectorised operation over these salary ranges.
+
+The basic unit of this DataFrame are the religious groups, and the salary range represents a characteristic of these groups. The different salary levels are distributed across different columns. But what if we transformed these multiple columns into multiple rows? How can we accomplish that?
+
+What we need to do, is to concentrate the labels (or the column names) of salary levels into a single column, and move the respective values of the salary levels into another column. In other words, we need to create a column that contains the labels, and another column that contains the values. At @fig-pivot1 we show a visual representation of this process:
+
+![A visual representation of a pivot process](./../Figures/pivot1.png){#fig-pivot1}
+
+### Transforming rows into columns
 
 ## Implode and explode operations
 
