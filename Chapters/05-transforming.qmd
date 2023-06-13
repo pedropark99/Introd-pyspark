@@ -947,7 +947,7 @@ In the other hand, when we define groups in a DataFrame (by using the `groupby()
 This means that each row in the resulting DataFrame describes a specific group in the original DataFrame, and, `agg()` usually produces a DataFrame with more than one single row when its calculations are performed by group. Because our DataFrames usually have more than one single group.
 
 
-### Calculating aggregates per group in your DataFrame
+### Calculating aggregates per group in your DataFrame {#sec-group-by}
 
 But how you define the groups inside your DataFrame? To do this, we use the `groupby()` and `groupBy()` methods. These methods are both synonymous (they do the same thing). 
 

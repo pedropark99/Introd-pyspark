@@ -248,7 +248,7 @@ with the same number of columns, but the first table has
 
 ## Applying JOIN operations
 
-A JOIN operation is another very commom operation that is also used to bring data from scattered sources into a single unified DataFrame. In pyspark, we can build JOIN operations by using the `join()` DataFrame method. This method accepts tree arguments, which are:
+A JOIN operation is another very commom operation that is also used to bring data from scattered sources into a single unified DataFrame. In pyspark, we can build JOIN operations by using the `join()` DataFrame method. This method accepts three arguments, which are:
 
 - `other`: the DataFrame you want to JOIN with (i.e. the DataFrame on the right side of the JOIN);
 - `on`: a column name, or a list of column names, that represents the key (or keys) of the JOIN;
@@ -405,9 +405,9 @@ Just to keep using our visual model of sets, on @fig-join-sets2 you can see the 
 
 We described six different types of JOINs on the previous section. But Spark also offers a seventh type of JOIN called *cross join*. This is a special type of JOIN that you can use by calling the `crossJoin()` DataFrame method.
 
-In essence, a *cross join* between DataFrames A and B returns the cartesian product between these two DataFrames as ouput. It is similar to R functions [`base::expand.grid()`](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/expand.grid) or [`dplyr::expand()`](https://tidyr.tidyverse.org/reference/expand.html), and also, the Python equivalent [`itertools.product()`](https://docs.python.org/2/library/itertools.html#itertools.product).
+In essence, a *cross join* returns, as output, the cartesian product between two DataFrames. It is similar to R functions [`base::expand.grid()`](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/expand.grid) or [`dplyr::expand()`](https://tidyr.tidyverse.org/reference/expand.html), and also, the Python equivalent [`itertools.product()`](https://docs.python.org/2/library/itertools.html#itertools.product).
 
-This a type of JOIN that you should avoid to use, specially if one (or both) of the DataFrames involved is a big DataFrame with thousands/millions of rows. Because a *cross join* will always produce a cartesian product between the two DataFrames involved. This means that, if DataFrame A contains $x$ rows, and DataFrame B contains $y$ rows, the end result of the *cross join* is a new DataFrame that contains $x \times y$ rows.
+This is a type of JOIN that you should avoid to use, specially if one (or both) of the DataFrames involved is a big DataFrame with thousands/millions of rows. Because a *cross join* will always produce a cartesian product between the two DataFrames involved. This means that, if DataFrame A contains $x$ rows, and DataFrame B contains $y$ rows, the end result of the *cross join* is a new DataFrame C that contains $x \times y$ rows.
 
 In other words, the number of rows in the output of a *cross join* can grow exponentially. For example, a *cross join* between a DataFrame of 1 thousand rows, and another DataFrame of 10 thousand of rows (both are small DataFrames for the scale and sizes of a real-world big data environment), would produce a DataFrame with $10^3 \times 10^4 = 10^7$, that is, 10 milion of rows as output.
 
@@ -460,7 +460,9 @@ Lets build this transformation in `pyspark`. First, remember that `stack()` is n
 
 So how do you use it? The answer is: use it inside Spark SQL! The `stack()` function is not available directly in python, but it is always available in Spark SQL, so all you need to do, is to use `stack()` inside functions and methods such as `expr()` (that I introduced at @sec-sql-expr), or `sql()` to access Spark SQL functionality.
 
-Now, the `stack()` function have two main arguments, which are the number of columns to transform into rows, and a sequence of key-value pairs that describes which columns will be transformed into rows, and the label values that corresponds to each column being transformed. As a first example, the source code below replicates the transformation exposed at @fig-pivot1:
+Now, the `stack()` function have two main arguments, which are the number of columns to transform into rows, and a sequence of key-value pairs that describes which columns will be transformed into rows, and the label values that corresponds to each column being transformed.
+
+As a first example, the source code below replicates the transformation exposed at @fig-pivot1:
 
 ```{python}
 from pyspark.sql.functions import expr
@@ -472,13 +474,46 @@ stack(3,
 ) AS (salary_range, avg_salary)
 """
 
+longer_religion = religion\
+    .select('religion', expr(stack_expr))
+
+longer_religion.show()
+```
+
+An important aspect about the `stack()` function, is that it always outputs two new columns (one column for the labels - or the keys, and another for the values). In the example above, these new columns are `salary_range` and `avg_salary`.
+
+The first column identifies from which column (before the `stack()` operation) the value present at `avg_salary` came from. This means that this first column produced by `stack()` works as a column of labels or identifiers. These labels identify from which of the three transformed columns (`<$10k`, `$10k-$20k` and `$20k-$30k`) the row value came from. In the visual representation exposed at @fig-pivot1, this "labels column" is the `income` column.
+
+In contrast, the second column in the output of `stack()` contains the actual values that were present on the columns that were transformed. This "values column" in the example above corresponds to the column `avg_salary`, while in the visual representation exposed at @fig-pivot1, it is the `values` column.
+
+The first argument in `stack()` is always the number of columns that will be transformed by the function into rows. In our example, we have three columns that we want to transform, which are `<$10k`, `$10k-$20k` and `$20k-$30k`. That is why we have the number 3 as the first argument to `stack()`.
+
+After that, we have a sequence of key-value pairs. In each pair, the value side (i.e. the right side) of the pair contains the name of the column that will be transformed, and the key side (i.e. the left side) of the pair contains the "label value", or, in other words, which value represents, marks, label, or identifies the values that came from the column described in the right side of the pair.
+
+Normally, you set the label value to be equivalent to the column name. That is, both sides of each pair are usually pretty much the same. But you can change this behaviour if you want. In the example below, all values that came from the `<$10k` are labeled as `"Below $10k"`, while the values from the `$10k-$20k` column, are labeled in the output as `"Between $10k-$20k"`, etc.
+
+```{python}
+stack_expr = """
+stack(3,
+    'Below $10k', `<$10k`,
+    'Between $10k-$20k', `$10k-$20k`,
+    'Between $20k-$30k', `$20k-$30k`
+) AS (salary_range, avg_salary)
+"""
+
 religion\
     .select('religion', expr(stack_expr))\
     .show()
 ```
 
 
-Differently from other Spark SQL functions, the `stack()` function should not be used inside a `withColumn()`, and the reason for this is very simple: `stack()` always returns two new columns as output (one column for the labels - or the keys, and another for the values), but the `withColumn()` method can only creates a single column. If you try to use `stack()` inside `withColumn()`, you will get an `AnalysisException` error.
+Furthermore, because the `stack()` function always outputs two new columns, if you want to rename these two new columns being created, to give them more readable and meaningful names, you always need to provide two new column names at once, inside a tuple, to the `AS` keyword.
+
+In the example above, this tuple is `(salary_range, avg_salary)`. The first value in the tuple is the new name for the "labels column", while the second value in the tuple, is the new name for the "values column".
+
+Now, differently from other Spark SQL functions, the `stack()` function should not be used inside a `withColumn()`, and the reason for this is very simple: `stack()` always returns two new columns as output, but the `withColumn()` method can only create one column at a time.
+
+This is why you get an `AnalysisException` error when you try to use `stack()` inside `withColumn()`, like in the example below:
 
 ```{python}
 #| eval: false
@@ -495,6 +530,17 @@ does not match the number of columns output by the UDTF expected
 ```
 
 ### Transforming rows into columns
+
+On the other side, if you want to transform rows into columns on your Spark DataFrame, you can use the `pivot()` method. One key aspect of the `pivot()` method, is that it must always be used in conjunction with the `groupby()` method that we introduced at @sec-group-by. In other words, `pivot()` does not work without `groupby()`.
+
+You can think (or interpret) that the `groupby()` method does the job of defining (or identifying) which columns will be present in the output of `pivot()`. For example, if your DataFrame contains five columns, which are `A`, `B`, `C`, `D` and `E`; but you only listed columns `A` and `C` inside `groupby()`, this means that if you perform a pivot operation after that, the columns `B`, `D` and `E` will not be present in the output of `pivot()`. These three columns will be automatically dropped during the pivot operation.
+
+In contrast, the `pivot()` method does the job of identifying a single column containing the values that will be transformed into new columns. In other words, if you list the column `car_brands` inside `pivot()`, and, this column contains four unique values, for example, `Audi`, `BMW`, `Jeep` and `Fiat`, this means that, in the output of `pivot()`, four new columns will be created, named as `Audi`, `BMW`, `Jeep` and `Fiat`.
+
+Now that we know how we define the columns that will be kept in the output of the pivot operation, and, how to mark the column that contains the rows that will be transformed into new columns, we must learn how to specify how these rows will be agrouped during the pivot operation. And for that, we need to use an aggregating function.
+
+This is really important, you can not do a pivot operation without aggregating the values you are converting into columns. Without it, Spark will not let you do the pivot operation.
+
 
 ## Implode and explode operations
 
