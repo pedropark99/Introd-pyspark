@@ -562,6 +562,5 @@ longer_religion\
 
 ## Implode and explode operations
 
-## More operations in Arrays and Map
 
 
