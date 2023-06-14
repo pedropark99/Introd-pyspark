@@ -454,7 +454,7 @@ The basic unit of this DataFrame are the religious groups, and the salary range 
 
 What we need to do, is to concentrate the labels (or the column names) of salary levels into a single column, and move the respective values of the salary levels into another column. In other words, we need to create a column that contains the labels, and another column that contains the values. At @fig-pivot1 we show a visual representation of this process:
 
-![A visual representation of a pivot process](./../Figures/pivot1.png){#fig-pivot1}
+![A visual representation of a pivot operation](./../Figures/pivot1.png){#fig-pivot1}
 
 Lets build this transformation in `pyspark`. First, remember that `stack()` is not a DataFrame method. It is a Spark SQL function. However, it is not an exported Spark SQL function, which means that you cannot import this function from the `pyspark.sql.function` module. This means that `stack()` will never be directly available in your python session to use.
 

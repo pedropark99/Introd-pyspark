@@ -850,16 +850,16 @@ with the same number of columns, but the first table has
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>info.crossJoin(band_instruments)<span class="op">\</span></span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>    .show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>[Stage 163:============&gt;                                        (23 + 12) / 100][Stage 163:==============&gt;                                      (28 + 12) / 100]</code></pre>
+<pre><code>[Stage 260:============&gt;                                        (24 + 12) / 100][Stage 260:=================&gt;                                   (33 + 12) / 100]</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>[Stage 163:===================&gt;                                 (37 + 12) / 100][Stage 163:=========================&gt;                           (49 + 12) / 100]</code></pre>
+<pre><code>[Stage 260:====================&gt;                                (39 + 12) / 100][Stage 260:=========================&gt;                           (49 + 12) / 100]</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>[Stage 163:===============================&gt;                     (60 + 12) / 100][Stage 163:=====================================&gt;               (70 + 12) / 100]</code></pre>
+<pre><code>[Stage 260:===============================&gt;                     (60 + 12) / 100][Stage 260:=====================================&gt;               (70 + 12) / 100]</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>[Stage 163:========================================&gt;            (77 + 12) / 100][Stage 163:==============================================&gt;      (87 + 12) / 100]</code></pre>
+<pre><code>[Stage 260:==========================================&gt;          (80 + 12) / 100][Stage 260:==============================================&gt;      (87 + 12) / 100]</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
 <pre><code>                                                                                </code></pre>
@@ -925,7 +925,7 @@ with the same number of columns, but the first table has
 <div id="fig-pivot1" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="./../Figures/pivot1.png" class="img-fluid figure-img"></p>
-<p></p><figcaption class="figure-caption">Figure&nbsp;8.5: A visual representation of a pivot process</figcaption><p></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;8.5: A visual representation of a pivot operation</figcaption><p></p>
 </figure>
 </div>
 <p>Lets build this transformation in <code>pyspark</code>. First, remember that <code>stack()</code> is not a DataFrame method. It is a Spark SQL function. However, it is not an exported Spark SQL function, which means that you cannot import this function from the <code>pyspark.sql.function</code> module. This means that <code>stack()</code> will never be directly available in your python session to use.</p>
@@ -1038,8 +1038,7 @@ does not match the number of columns output by the UDTF expected
 </code></pre>
 </div>
 </div>
-<p>We can use this <code>longer_religion</code> and the <code>pivot()</code> method to perform the inverse operation described at <a href="#fig-pivot1">Figure&nbsp;<span>8.5</span></a>. In other words, we can re-create the <code>religion</code> DataFrame trough <code>longer_religion</code>.</p>
-<p>The source code below demonstrates how we could do such thing:</p>
+<p>We can use this <code>longer_religion</code> and the <code>pivot()</code> method to perform the inverse operation described at <a href="#fig-pivot1">Figure&nbsp;<span>8.5</span></a>. In other words, we can re-create the <code>religion</code> DataFrame trough <code>longer_religion</code>. The source code below demonstrates how we could do such thing:</p>
 <div class="cell" data-execution_count="28">
 <div class="sourceCode cell-code" id="cb57"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> first</span>
 <span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a></span>
