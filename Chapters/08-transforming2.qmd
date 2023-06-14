@@ -140,7 +140,7 @@ df.na.drop()\
     .show()
 ```
 
-## Applying UNION operations
+## Union operations
 
 When you have many individual DataFrames that have the same columns, and you want to unify them into a single big DataFrame that have all the rows from these different DataFrames, you want to perform an UNION operation.
 
@@ -246,7 +246,7 @@ with the same number of columns, but the first table has
 +- LogicalRDD [ID#762L], false
 ```
 
-## Applying JOIN operations
+## Join operations
 
 A JOIN operation is another very commom operation that is also used to bring data from scattered sources into a single unified DataFrame. In pyspark, we can build JOIN operations by using the `join()` DataFrame method. This method accepts three arguments, which are:
 
