@@ -541,6 +541,24 @@ Now that we know how we define the columns that will be kept in the output of th
 
 This is really important, you can not do a pivot operation without aggregating the values you are converting into columns. Without it, Spark will not let you do the pivot operation.
 
+As an example, we can return to the `religion` DataFrame. More specifically, to the `longer_religion` DataFrame, which is the pivoted version of the `religion` DataFrame that we created on the previous section, using the `stack()` function.
+
+```{python}
+longer_religion.show()
+```
+
+We can use this `longer_religion` and the `pivot()` method to perform the inverse operation described at @fig-pivot1. In other words, we can re-create the `religion` DataFrame trough `longer_religion`. The source code below demonstrates how we could do such thing:
+```{python}
+from pyspark.sql.functions import first
+
+# Equivalent to the `religion` DataFrame:
+longer_religion\
+    .groupby('religion')\
+    .pivot('salary_range')\
+    .agg(first('avg_salary'))\
+    .show()
+```
+
 
 ## Implode and explode operations
 
