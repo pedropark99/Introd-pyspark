@@ -20,7 +20,7 @@ sc = spark.sparkContext
 sc.setLogLevel("OFF")
 ```
 
-## Removing duplicated values from your DataFrame
+## Removing duplicated values from your DataFrame {#sec-remove-duplicates}
 
 Removing duplicated values from DataFrames is a very commom operation in ETL pipelines. In `pyspark` you have two options to remove duplicated values, which are:
 
@@ -629,9 +629,9 @@ longer_religion\
 
 You can retract or extend vertically your DataFrame, by nesting multiple rows in to a single row, or, the inverse, which is unnesting (or exploding) one single row into multiple rows. The R `tidyverse` framework is probably the only data framework that have a defined name for this kind of operation, which are called "nesting" and "unnesting".
 
-In Apache Spark, you perform this kind of operations by using the `collect_list()` and `explode()` functions, which are both from the `pyspark.sql.functions` module. The `collect_list()` function is used for retracting (or nesting) your DataFrame, while the `explode()` function is used for extending (or unnesting).
+In Spark, you perform this kind of operations by using the `collect_list()`, `collect_set()` and `explode()` functions, which all comes from the `pyspark.sql.functions` module. The `collect_list()` and `collect_set()` functions are used for retracting (or nesting) your DataFrame, while the `explode()` function is used for extending (or unnesting).
 
-As a quick comparison, `explode()` is very similar to the R function [`tidyr::unnest_longer()`](https://tidyr.tidyverse.org/reference/unnest_longer.html) from the `tidyverse` framework, and also, similar to the Python method [`explode()`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.explode.html) in the `pandas` framework. While `collect_list()` does a similar job to the R function [`tidyr::nest()`](https://tidyr.tidyverse.org/reference/nest.html).
+As a quick comparison, `explode()` is very similar to the R function [`tidyr::unnest_longer()`](https://tidyr.tidyverse.org/reference/unnest_longer.html) from the `tidyverse` framework, and also, similar to the Python method [`explode()`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.explode.html) in the `pandas` framework. In the other hand, `collect_list()` and `collect_set()` functions does a similar job to the R function [`tidyr::nest()`](https://tidyr.tidyverse.org/reference/nest.html).
 
 ### Expanding (or unnesting) with `explode()`
 
@@ -697,3 +697,73 @@ explode_map\
 
 
 ### The different versions of `explode()`
+
+The `explode()` function have three brothers functions, called `explode_outer()`, `posexplode()` and `posexplode_outer()`. All of these functions have very small differences between them. However, these differences might be important to you.
+
+First, the difference between `explode()` and `explode_outer()` is on the `null` values. If an array contains a `null` value, `explode()` will ignore this null value. In other words, `explode()` does not create a new row for any `null` value. In contrast, `explode_outer()` does create a new row even if the value is `null`.
+
+For example, if `explode()` encounter an array with 5 elements where 2 of them are null values, then, `explode()` will output 3 new rows. The 2 null values in the array are automatically ignored. However, if `explode_outer()` encountered the same array, then, it would output 5 new rows, no matter which values are inside this array.
+
+Second, the difference between `explode()` and `posexplode()`, is that `posexplode()` also returns the index that identifies the position in the input array where each value is. In other words, if we applied the `posexplode()` over the `knowledge` column of `employee` DataFrame, we would get a new column called `pos`, and the values are stored in a column called `col`. By looking at the column `pos`, we could know that the value `"Python"` for the employee of ID 1, was on the position of index 1 on the original array that the function encountered in the original `knowledge` column.
+
+
+```{python}
+from pyspark.sql.functions import posexplode
+employees\
+    .select(
+        'employee_id',
+        posexplode('knowledge')
+    )\
+    .show()
+```
+
+
+Third, as you can probably imagine, the function `posexplode_outer()` incorporates the two visions from the previous brothers. So, not only `posexplode_outer()` creates a row for each element in the array, no matter if this is element is a `null` value or not, but it also returns the index that identifies the position in the input array where each value is.
+
+
+### Retracting (or nesting) with `collect_list()` and `collect_set()`
+
+In resume, you use the `collect_list()` and `collect_set()` functions to retract your DataFrame. That is, to reduce the number of rows of the DataFrame, while keeping the same amount of information.
+
+To do this you just aggregate your DataFrame, using the `agg()` method, and, apply the `collect_list()` or `collect_set()` function over the column you want to retract (or nest). You likely want to use the `groupby()` method as well in this case, to perform an aggregation per group.
+
+Because if you not define any group in this situation, you will aggregate the entire DataFrame into a single value. This means, that you would get as output, a new DataFrame with only a single row, and, all rows of the input DataFrame would be condensed inside of this single row.
+
+In essence, what the `collect_list()` function do is collect a set of rows and store it in an array. The `collect_set()` function does the same thing, with the difference that it stores this set of rows in a set, which is an array of unique values. In other words, `collect_set()` collects a set of rows, then, it removes all duplicated values, then, it stores the remaining values in an array.
+
+To demonstrate the `collect_list()` and `collect_set()` functions, we can use the `supermarket_sales` DataFrame that we introduced at @sec-remove-duplicates as an example:
+
+```{python}
+supermarket_sales.show()
+```
+
+Suppose you wanted a new DataFrame that had a single row for each `transaction_id` without losing any amount of information that we see in the above DataFrame. We could do this by using the `collect_list()` function, like in the example below:
+
+```{python}
+from pyspark.sql.functions import collect_list
+supermarket_sales\
+    .groupby('transaction_id')\
+    .agg(
+        collect_list('product_name').alias('product_name'),
+        collect_list('quantity').alias('quantity'),
+        collect_list('price').alias('price')
+    )\
+    .show()
+```
+
+The expression `groupby('transaction_id')` ensures that we have (on the output DataFrame) a single row for each unique value in the `transaction_id` column. While the `collect_list()` function does the job of condensing all the information of the remaining columns into a single row for each `transaction_id`.
+
+Now, if we use `collect_set()` instead of `collect_list()`, we would get a slightly different result. Because, as we described before, the `collect_set()` function removes all duplicated values found in the set of rows it collects.
+
+
+```{python}
+from pyspark.sql.functions import collect_set
+supermarket_sales\
+    .groupby('transaction_id')\
+    .agg(
+        collect_set('product_name').alias('product_name'),
+        collect_set('quantity').alias('quantity'),
+        collect_set('price').alias('price')
+    )\
+    .show()
+```
