@@ -210,7 +210,7 @@ s = StringType()
 print(s)
 ```
 
-## The DataFrame Schema
+## The DataFrame Schema {#sec-dataframe-schema}
 
 The schema of a Spark DataFrame is the combination of column names and the data types associated with each of these columns. Schemas can be set explicitly by you (that is, you can tell Spark how the schema of your DataFrame should look like), or, they can be automatically defined by Spark while reading or creating your data.
 

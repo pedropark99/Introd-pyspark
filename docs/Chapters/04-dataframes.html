@@ -292,7 +292,7 @@ div.csl-indent {
   <li><a href="#getting-the-name-of-the-columns" id="toc-getting-the-name-of-the-columns" class="nav-link" data-scroll-target="#getting-the-name-of-the-columns"><span class="header-section-number">3.7</span> Getting the name of the columns</a></li>
   <li><a href="#getting-the-number-of-rows" id="toc-getting-the-number-of-rows" class="nav-link" data-scroll-target="#getting-the-number-of-rows"><span class="header-section-number">3.8</span> Getting the number of rows</a></li>
   <li><a href="#spark-data-types" id="toc-spark-data-types" class="nav-link" data-scroll-target="#spark-data-types"><span class="header-section-number">3.9</span> Spark Data Types</a></li>
-  <li><a href="#the-dataframe-schema" id="toc-the-dataframe-schema" class="nav-link" data-scroll-target="#the-dataframe-schema"><span class="header-section-number">3.10</span> The DataFrame Schema</a>
+  <li><a href="#sec-dataframe-schema" id="toc-sec-dataframe-schema" class="nav-link" data-scroll-target="#sec-dataframe-schema"><span class="header-section-number">3.10</span> The DataFrame Schema</a>
   <ul class="collapse">
   <li><a href="#accessing-the-dataframe-schema" id="toc-accessing-the-dataframe-schema" class="nav-link" data-scroll-target="#accessing-the-dataframe-schema"><span class="header-section-number">3.10.1</span> Accessing the DataFrame schema</a></li>
   <li><a href="#building-a-dataframe-schema" id="toc-building-a-dataframe-schema" class="nav-link" data-scroll-target="#building-a-dataframe-schema"><span class="header-section-number">3.10.2</span> Building a DataFrame schema</a></li>
@@ -573,8 +573,8 @@ only showing top 2 rows
 </div>
 </div>
 </section>
-<section id="the-dataframe-schema" class="level2" data-number="3.10">
-<h2 data-number="3.10" class="anchored" data-anchor-id="the-dataframe-schema"><span class="header-section-number">3.10</span> The DataFrame Schema</h2>
+<section id="sec-dataframe-schema" class="level2" data-number="3.10">
+<h2 data-number="3.10" class="anchored" data-anchor-id="sec-dataframe-schema"><span class="header-section-number">3.10</span> The DataFrame Schema</h2>
 <p>The schema of a Spark DataFrame is the combination of column names and the data types associated with each of these columns. Schemas can be set explicitly by you (that is, you can tell Spark how the schema of your DataFrame should look like), or, they can be automatically defined by Spark while reading or creating your data.</p>
 <p>You can get a succinct description of a DataFrame schema, by looking inside the object where this DataFrame is stored. For example, lets look again to the <code>df</code> DataFrame.</p>
 <p>In the result below, we can see that <code>df</code> has three columns (<code>id</code>, <code>value</code> and <code>date</code>). By the description <code>id: bigint</code>, we know that <code>id</code> is a column of type <code>bigint</code>, which translates to the <code>LongType()</code> of Spark. Furthermore, by the descriptions <code>value: double</code> and <code>date: date</code>, we know too that the columns <code>value</code> and <code>date</code> are of type <code>DoubleType()</code> and <code>DateType()</code>, respectively.</p>

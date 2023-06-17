@@ -146,7 +146,7 @@ When you have many individual DataFrames that have the same columns, and you wan
 
 An UNION operation works on a pair of DataFrames. It returns the row-wise union of these two DataFrames. In `pyspark`, we perform UNION operations by using the `union()` DataFrame method. To use this method, you just provide the other DataFrame you want to make the union with. So the expression `df1.union(df2)` creates a new DataFrame which contains all the rows from both the `df1` and `df2` DataFrames.
 
-In commom SQL engines there are usually two kinds of UNION operations, which are: *union all* and *union distinct*. When you use an *union all* operation, you saying that you just want to unifiy the two DataFrames, no matter what data is in each one of them. You do not care if duplicated values are generated in the process, because an observation "x" might be present both on `df1` and `df2`.
+Moreover, in commom SQL engines there are usually two kinds of UNION operations, which are: *union all* and *union distinct*. When you use an *union all* operation, you are saying that you just want to unifiy the two DataFrames, no matter what data you find in each one of them. You do not care if duplicated values are generated in the process, because an observation "x" might be present both on `df1` and `df2`.
 
 In contrast, an *union distinct* operation is the exact opposite of that. It merges the rows from both DataFrames together, and then, it removes all duplicated values from the result. So you use an *union distinct* operation when you want a single DataFrame that contains all rows from both DataFrames `df1` and `df2`, but, you do not want any duplicated rows into this single DataFrame.
 
@@ -592,11 +592,108 @@ df\
     .show()
 ```
 
-However, these is a problem with this operation, because we lost some observations in the process. The specific combination `('2023-05-02', 'Mike')` have three different values in the `value` column, which are `25`, `34` and `21`. But there is only a single cell in the new DataFrame (i.e. the output of the pivot operation), more specifically, the first row in the fifth column.
+However, these is a problem with this operation, because we lost some observations in the process. The specific combination `('2023-05-02', 'Mike')` have three different values in the `value` column, which are `25`, `34` and `21`. But there is only a single cell in the new DataFrame (i.e. the output of the pivot operation) to hold these values. More specifically, the cell located at the first row in the fifth column.
 
-In other words, Spark finds three different values for a single cell (or single space), and this always raise an error. Spark cannot simply put three different values in a single cell. A Spark DataFrame just do not work that way. Every cell in a Spark DataFrame should always hold a single value, whatever that value is.
+In other words, Spark found three different values for a single cell (or single space), and this is always a problem. Spark cannot simply put three different values in a single cell. A Spark DataFrame just do not work that way. Every cell in a Spark DataFrame should always hold a single value, whatever that value is.
 
-## Implode and explode operations
+That is the exact problem that an aggregating function solves in a pivot operation. The aggregating function does the job of ensuring that a single value will be mapped to every new cell created from the pivot operation. Because an aggregating function is a function that aggregates (or that summarises) a set of values into a single value.
+
+In the example above we used `first()` as our aggregating function. So when Spark encountered the three values from the combination `('2023-05-02', 'Mike')`, it simply picked the first value from the three. That is why we find the value `25` at the first row in the fifth column.
+
+We can change this behaviour by changing the aggregating function applied. In the example below, we are using `sum()`, and, as a result, we get now the value of `80` (which is the sum of values `25`, `34` and `21`) at the first row in the fifth column.
+
+```{python}
+from pyspark.sql.functions import sum
+df\
+    .groupby('date', 'id')\
+    .pivot('name')\
+    .agg(sum('value'))\
+    .show()
+```
+
+Now, depending on the data and the structure from your DataFrame, Spark might never encounter a situation where it finds two (or more) values mapped to the same cell in a pivot operation. On this specific case, the output from the pivot operation will likely be the same for many different aggregating functions. In other words, the choice of the aggregating function you want to use might be irrelevant over this specific situation.
+
+For example, in the `longer_religion` example that we showed before, I could use the `last()` aggregating function (instead of `first()`), and still get the exact same result as before. Because in this specific situation, Spark does not find any case of two (or more) values mapped to the same cell in the output DataFrame.
+
+```{python}
+from pyspark.sql.functions import last
+longer_religion\
+    .groupby('religion')\
+    .pivot('salary_range')\
+    .agg(last('avg_salary'))\
+    .show()
+```
+
+
+## Retracting (or nesting) and extending (or unnesting) your DataFrame
+
+You can retract or extend vertically your DataFrame, by nesting multiple rows in to a single row, or, the inverse, which is unnesting (or exploding) one single row into multiple rows. The R `tidyverse` framework is probably the only data framework that have a defined name for this kind of operation, which are called "nesting" and "unnesting".
+
+In Apache Spark, you perform this kind of operations by using the `collect_list()` and `explode()` functions, which are both from the `pyspark.sql.functions` module. The `collect_list()` function is used for retracting (or nesting) your DataFrame, while the `explode()` function is used for extending (or unnesting).
+
+As a quick comparison, `explode()` is very similar to the R function [`tidyr::unnest_longer()`](https://tidyr.tidyverse.org/reference/unnest_longer.html) from the `tidyverse` framework, and also, similar to the Python method [`explode()`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.explode.html) in the `pandas` framework. While `collect_list()` does a similar job to the R function [`tidyr::nest()`](https://tidyr.tidyverse.org/reference/nest.html).
+
+### Expanding (or unnesting) with `explode()`
+
+As an example, we have the `employees` DataFrame below. Each row in this DataFrame describes an employee. The `knowledge` column describes which programming language the employee have experience with, and, the `employee_attrs` column contains dictionaries with general attributes of each employee (such it's department, and, it's name).
+
+```{python}
+data = [
+    (1, ["R", "Python"], {'dep': 'PR', 'name': 'Anne'}),
+    (2, ["Scala"], {'dep': 'PM', 'name': 'Mike'}),
+    (3, ["Java", "Python"], {'dep': 'HF', 'name': 'Sam'})
+]
+columns = ["employee_id", "knowledge", "employee_attrs"]
+employees = spark.createDataFrame(data, columns)
+employees.show()
+```
+
+You can use the `printSchema()` method that we introduced at @sec-dataframe-schema to see the schema of the DataFrame. You can see in the result below that the `knowledge` column is a column of arrays of strings (i.e. `ArrayType`), while the `employee_attrs` column is a column of maps (i.e. `MapType`).
+
+```{python}
+employees.printSchema()
+```
+
+Suppose you wanted to calculate the number of employees that have experience in each programming language. To do that, it would be great to transform the `knowledge` column into a column of strings. In other words, if an employee knows, for example, 3 different programming languages, it would be better to have 3 different rows that references this same employee, instead of having a single row that contains an array of three elements, like in the `employees` DataFrame.
+
+Why this is better? Because this format of the DataFrame makes the counting of the employees easier. And how would we transpose the current DataFrame to this format? By using the `explode()` function.
+
+When you apply the `explode()` function over a column of arrays, this function will create a new row for each element in each array it finds in the column. For example, the employee of ID 1 knows two programming languages (R and Python). As a result, when we apply `explode()` over the `knowledge` column, two rows are created for the employee of ID 1. As you can see in the example below:
+
+```{python}
+from pyspark.sql.functions import explode
+explode_array = employees\
+    .select(
+        'employee_id',
+        explode('knowledge')
+    )
+
+explode_array.show()
+```
+
+On the other hand, instead of arrays, the behaviour of `explode()` is slightly different when you apply it over a column of maps, such as `employee_attrs`. Because each element in a map have two components: a key and a value. As a consequence, when you apply `explode()` over a column of maps, each element in the map generates two different rows, which are stored in two separated columns, called `key` and `value`.
+
+Take the result below as an example. First, we have two new columns that were not present before (`key` and `value`). Each row in the `key` column represents the key for an element in the input map. While the `key` column represents the values of those elements.
+```{python}
+explode_map = employees\
+    .select(
+        'employee_id',
+        explode('employee_attrs')
+    )
+
+explode_map.show()
+```
+
+This kind of output is powerful, specially with pivot operations, because you can organize all data found in a column of maps into a series of new columns, like this:
+
+```{python}
+explode_map\
+    .groupby('employee_id')\
+    .pivot('key')\
+    .agg(first('value'))\
+    .show()
+```
 
 
 
+### The different versions of `explode()`
