@@ -533,21 +533,21 @@ does not match the number of columns output by the UDTF expected
 
 On the other side, if you want to transform rows into columns on your Spark DataFrame, you can use the `pivot()` method. One key aspect of the `pivot()` method, is that it must always be used in conjunction with the `groupby()` method that we introduced at @sec-group-by. In other words, `pivot()` does not work without `groupby()`.
 
-You can think (or interpret) that the `groupby()` method does the job of defining (or identifying) which columns will be present in the output of `pivot()`. For example, if your DataFrame contains five columns, which are `A`, `B`, `C`, `D` and `E`; but you only listed columns `A` and `C` inside `groupby()`, this means that if you perform a pivot operation after that, the columns `B`, `D` and `E` will not be present in the output of `pivot()`. These three columns will be automatically dropped during the pivot operation.
+You can think (or interpret) that the `groupby()` method does the job of defining (or identifying) which columns will be present in the output of `pivot()`. For example, if your DataFrame contains five columns, which are `A`, `B`, `C`, `D` and `E`; but you only listed columns `A` and `C` inside `groupby()`, this means that if you perform a pivot operation after that, the columns `B`, `D` and `E` will not be present in the output of `pivot()`. These three columns (`B`, `D` and `E`) will be automatically dropped during the pivot operation.
 
 In contrast, the `pivot()` method does the job of identifying a single column containing the values that will be transformed into new columns. In other words, if you list the column `car_brands` inside `pivot()`, and, this column contains four unique values, for example, `Audi`, `BMW`, `Jeep` and `Fiat`, this means that, in the output of `pivot()`, four new columns will be created, named as `Audi`, `BMW`, `Jeep` and `Fiat`.
 
-Now that we know how we define the columns that will be kept in the output of the pivot operation, and, how to mark the column that contains the rows that will be transformed into new columns, we must learn how to specify how these rows will be agrouped during the pivot operation. And for that, we need to use an aggregating function.
+Therefore, we use `groupby()` to define the columns that will be kept in the output of the pivot operation; we use `pivot()` to mark the column that contains the rows that we want to transform into new columns; at last, we must learn how to define which values will populate the new columns that will be created. Not only that, we also need to specify how these values will be calculated. And for that, we need to use an aggregating function.
 
-This is really important, you can not do a pivot operation without aggregating the values you are converting into columns. Without it, Spark will not let you do the pivot operation.
+This is really important, you can not do a pivot operation without aggregating the values that will compose (or populate) the new columns you are creating. Without it, Spark will not let you do the pivot operation using the `pivot()` method.
 
-As an example, we can return to the `religion` DataFrame. More specifically, to the `longer_religion` DataFrame, which is the pivoted version of the `religion` DataFrame that we created on the previous section, using the `stack()` function.
+As a first example, let's return to the `religion` DataFrame. More specifically, to the `longer_religion` DataFrame, which is the pivoted version of the `religion` DataFrame that we created on the previous section, using the `stack()` function.
 
 ```{python}
 longer_religion.show()
 ```
 
-We can use this `longer_religion` and the `pivot()` method to perform the inverse operation described at @fig-pivot1. In other words, we can re-create the `religion` DataFrame trough `longer_religion`. The source code below demonstrates how we could do such thing:
+We can use this `longer_religion` DataFrame and the `pivot()` method to perform the inverse operation we described at @fig-pivot1. In other words, we can re-create the `religion` DataFrame trough `longer_religion`. The source code below demonstrates how we could do such thing:
 ```{python}
 from pyspark.sql.functions import first
 
@@ -559,6 +559,42 @@ longer_religion\
     .show()
 ```
 
+In the example above, you can see the three core parts that we described: 1) use `groupby()` to define which columns will be preserved from the input DataFrame; 2) use `pivot()` to define which column will be used to transform rows into new columns; 3) the aggregating functions describing which values will be used, and how they are going to be calculated - `agg(first('avg_salary'))`. @fig-pivot2 exposes these core parts in a visual manner.
+
+![The three core parts that define the use of `pivot()`](./../Figures/pivot2.png){#fig-pivot2}
+
+When you use `pivot()`, you have to apply an agregatting function over the column from which you want to extract the values that will populate the new columns created from the pivot operation. This is a prerequisite, because Spark needs to know what he must do in case he finds two (or more) values that are mapped to the same cell in the pivot operation.
+
+In the above example, we used the `first()` function to aggregate the values from the `avg_salary` column. With this function, we are telling Spark, that if it finds two (or more) values that are mapped the same cell, then, Spark should pick the *first value if finds* in the input DataFrame, and simply ignore the remaining values.
+
+Let's see an example. In the code chunk below, we are creating a new DataFrame called `df`:
+
+```{python}
+data = [
+    ('2023-05-01', 'Anne', 1, 15),
+    ('2023-05-02', 'Mike', 2, 25),
+    ('2023-05-02', 'Mike', 2, 34),
+    ('2023-05-02', 'Mike', 2, 21),
+    ('2023-05-03', 'Dani', 3, 18)
+]
+cols = ['date', 'name', 'id', 'value']
+df = spark.createDataFrame(data, cols)
+df.show()
+```
+
+Let's suppose you want to transform the rows in the `name` column into new columns, and, populating these new columns created with the values from the `value` column. Following what we discussed until now, we could do this by using the following source code:
+
+```{python}
+df\
+    .groupby('date', 'id')\
+    .pivot('name')\
+    .agg(first('value'))\
+    .show()
+```
+
+However, these is a problem with this operation, because we lost some observations in the process. The specific combination `('2023-05-02', 'Mike')` have three different values in the `value` column, which are `25`, `34` and `21`. But there is only a single cell in the new DataFrame (i.e. the output of the pivot operation), more specifically, the first row in the fifth column.
+
+In other words, Spark finds three different values for a single cell (or single space), and this always raise an error. Spark cannot simply put three different values in a single cell. A Spark DataFrame just do not work that way. Every cell in a Spark DataFrame should always hold a single value, whatever that value is.
 
 ## Implode and explode operations
 
