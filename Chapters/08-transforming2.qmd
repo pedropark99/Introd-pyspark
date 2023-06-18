@@ -8,7 +8,7 @@ At @sec-transforming-dataframes-part1 I introduced six core types of transformat
 - Removing duplicated values;
 - Merging multiple DataFrames with UNION operations;
 - Merging multiple DataFrames with JOIN operations;
-- Rows to columns with Pivot operations;
+- Rows to columns and columns to rows with Pivot operations;
 - Collecting and explode operations;
 
 ```{python}
