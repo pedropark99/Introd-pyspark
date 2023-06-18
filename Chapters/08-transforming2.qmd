@@ -2,7 +2,7 @@
 
 ## Introduction
 
-At @sec-transforming-dataframes-part1 I introduced six core types of transformations over Spark DataFrames. In this chapter, I will expand your knowledge by introducing five more types of transformations available to Spark DataFrames, which are:
+At @sec-transforming-dataframes-part1 I introduced six core types of transformations over Spark DataFrames. In this chapter, I will expand your knowledge by introducing six more commom types of transformations available to Spark DataFrames, which are:
 
 - Replacing null values;
 - Removing duplicated values;
@@ -131,7 +131,7 @@ df.fillna({'age': 0, 'date': '2023-01-01'})\
 
 Spark also offers the `na.drop()` and `dropna()` DataFrames methods, which you can use to easily remove any row that contains a null value on any column of the DataFrame. This is different from `filter()` and `where()`, because on these two methods you have to build a logical expression that translate "not-null values".
 
-In contrast, on `na.drop()` and `dropna()` methods you do not have a logical expression. You just call these methods, and they do the heavy work for you. They search trough the entire DataFrame. When it identify a null value on the DataFrame, it removes the entire row that contains such null value.
+In contrast, on `na.drop()` and `dropna()` methods you do not have a logical expression. You just call these methods, and they do the heavy work for you. They search through the entire DataFrame. When it identify a null value on the DataFrame, it removes the entire row that contains such null value.
 
 For example, if we apply these methods on the `df` DataFrame that we used on the previous section, this is the end result:
 
@@ -425,9 +425,9 @@ A *cross join* is a special type of JOIN because it does not use "keys" and a ma
 
 ## Pivot operations
 
-Pivot operations are extremely useful, and they are probably the main operation you can use to completely reformat your table. What these operations do is basically change the dimensions of your table, or in other words, these operations seek to transform columns into rows, or vice versa.
+Pivot operations are extremely useful, and they are probably the main operation you can use to completely reformat your table. What these operations do is basically change the dimensions of your table. In other words, this kind of operation transform columns into rows, or vice versa.
 
-As a parallel with other frameworks, a pivot operation in Spark is the same operation performed by R functions [`tidyr::pivot_longer()`](https://tidyr.tidyverse.org/reference/pivot_longer.html) and [`tidyr::pivot_wider()`](https://tidyr.tidyverse.org/reference/pivot_wider.html) from the famous R framework `tidyverse`; or, the same as the [`pivot()`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.pivot.html) and [`melt()`](https://pandas.pydata.org/docs/reference/api/pandas.melt.html) methods from the Python framework `pandas`.
+As a comparison with other data frameworks, a pivot operation in Spark is the same operation performed by R functions [`tidyr::pivot_longer()`](https://tidyr.tidyverse.org/reference/pivot_longer.html) and [`tidyr::pivot_wider()`](https://tidyr.tidyverse.org/reference/pivot_wider.html) from the famous R framework `tidyverse`; or, the same as the [`pivot()`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.pivot.html) and [`melt()`](https://pandas.pydata.org/docs/reference/api/pandas.melt.html) methods from the Python framework `pandas`.
 
 In Spark, pivot operations are performed by the `pivot()` DataFrame method, and by the `stack()` Spark SQL function. Pivot transformations are available in both directions. That is, you can transform either rows into columns (corresponds to `pivot()`), or, columns into rows (corresponds to `stack()`). Let's begin with `stack()`, and after that, we explain the `pivot()` method.
 
@@ -435,7 +435,7 @@ In Spark, pivot operations are performed by the `pivot()` DataFrame method, and 
 
 The `stack()` Spark SQL function allows you to transform columns into rows. In other words, you can make your DataFrame "longer" with this kind of operation, because you remove columns ("width") from the table, and adds new rows ("heigth"). This gives an aspect of "longer" to your table, because after this operation, you table usually have more rows than columns.
 
-As a first example, lets use the `religion` DataFrame, which you can re-create in yuour session with the source code below:
+As a first example, lets use the `religion` DataFrame, which you can re-create in your session with the source code below:
 
 ```{python}
 data = [
@@ -448,15 +448,15 @@ religion = spark.createDataFrame(data, cols)
 religion.show()
 ```
 
-This DataFrame is showing us the average salary of people belonging to different religions. See that in each column of this DataFrame, you have data for a specific salary level (or range). This is a structure that can be easy and intuitive at times, but it also might impose some limitations, specially if you need to apply a vectorised operation over these salary ranges.
+This DataFrame is showing us the average salary of people belonging to different religious groups. In each column of this DataFrame, you have data for a specific salary level (or range). This is a structure that can be easy and intuitive for some specific operations, but it also might impose some limitations, specially if you need to apply a vectorised operation over these salary ranges.
 
-The basic unit of this DataFrame are the religious groups, and the salary range represents a characteristic of these groups. The different salary levels are distributed across different columns. But what if we transformed these multiple columns into multiple rows? How can we accomplish that?
+The basic unit of this DataFrame are the religious groups, and the salary ranges represents a characteristic of these groups. The different salary ranges are distributed across different columns. But what if we transformed these multiple columns into multiple rows? How can we accomplish that?
 
-What we need to do, is to concentrate the labels (or the column names) of salary levels into a single column, and move the respective values of the salary levels into another column. In other words, we need to create a column that contains the labels, and another column that contains the values. At @fig-pivot1 we show a visual representation of this process:
+What we need to do, is to concentrate the labels (or the column names) of salary ranges into a single column, and move the respective values of the salary levels into another column. In other words, we need to create a column that contains the labels, and another column that contains the values. @fig-pivot1 have a visual representation of this process:
 
 ![A visual representation of a pivot operation](./../Figures/pivot1.png){#fig-pivot1}
 
-Lets build this transformation in `pyspark`. First, remember that `stack()` is not a DataFrame method. It is a Spark SQL function. However, it is not an exported Spark SQL function, which means that you cannot import this function from the `pyspark.sql.function` module. This means that `stack()` will never be directly available in your python session to use.
+Let's build this transformation in `pyspark`. First, remember that `stack()` is not a DataFrame method. It is a Spark SQL function. However, it is not an exported Spark SQL function, which means that you cannot import this function from the `pyspark.sql.function` module. This means that `stack()` will never be directly available in your python session to use.
 
 So how do you use it? The answer is: use it inside Spark SQL! The `stack()` function is not available directly in python, but it is always available in Spark SQL, so all you need to do, is to use `stack()` inside functions and methods such as `expr()` (that I introduced at @sec-sql-expr), or `sql()` to access Spark SQL functionality.
 
@@ -484,7 +484,7 @@ An important aspect about the `stack()` function, is that it always outputs two 
 
 The first column identifies from which column (before the `stack()` operation) the value present at `avg_salary` came from. This means that this first column produced by `stack()` works as a column of labels or identifiers. These labels identify from which of the three transformed columns (`<$10k`, `$10k-$20k` and `$20k-$30k`) the row value came from. In the visual representation exposed at @fig-pivot1, this "labels column" is the `income` column.
 
-In contrast, the second column in the output of `stack()` contains the actual values that were present on the columns that were transformed. This "values column" in the example above corresponds to the column `avg_salary`, while in the visual representation exposed at @fig-pivot1, it is the `values` column.
+On the other hand, the second column in the output of `stack()` contains the actual values that were present on the columns that were transformed. This "values column" in the example above corresponds to the column `avg_salary`, while in the visual representation exposed at @fig-pivot1, it is the `values` column.
 
 The first argument in `stack()` is always the number of columns that will be transformed by the function into rows. In our example, we have three columns that we want to transform, which are `<$10k`, `$10k-$20k` and `$20k-$30k`. That is why we have the number 3 as the first argument to `stack()`.
 
@@ -511,7 +511,7 @@ Furthermore, because the `stack()` function always outputs two new columns, if y
 
 In the example above, this tuple is `(salary_range, avg_salary)`. The first value in the tuple is the new name for the "labels column", while the second value in the tuple, is the new name for the "values column".
 
-Now, differently from other Spark SQL functions, the `stack()` function should not be used inside a `withColumn()`, and the reason for this is very simple: `stack()` always returns two new columns as output, but the `withColumn()` method can only create one column at a time.
+Now, differently from other Spark SQL functions, the `stack()` function should not be used inside the `withColumn()` method, and the reason for this is very simple: `stack()` always returns two new columns as output, but the `withColumn()` method can only create one column at a time.
 
 This is why you get an `AnalysisException` error when you try to use `stack()` inside `withColumn()`, like in the example below:
 
@@ -531,13 +531,13 @@ does not match the number of columns output by the UDTF expected
 
 ### Transforming rows into columns
 
-On the other side, if you want to transform rows into columns on your Spark DataFrame, you can use the `pivot()` method. One key aspect of the `pivot()` method, is that it must always be used in conjunction with the `groupby()` method that we introduced at @sec-group-by. In other words, `pivot()` does not work without `groupby()`.
+On the other side, if you want to transform rows into columns in your Spark DataFrame, you can use the `pivot()` method. One key aspect of the `pivot()` method, is that it must always be used in conjunction with the `groupby()` method that we introduced at @sec-group-by. In other words, `pivot()` does not work without `groupby()`.
 
 You can think (or interpret) that the `groupby()` method does the job of defining (or identifying) which columns will be present in the output of `pivot()`. For example, if your DataFrame contains five columns, which are `A`, `B`, `C`, `D` and `E`; but you only listed columns `A` and `C` inside `groupby()`, this means that if you perform a pivot operation after that, the columns `B`, `D` and `E` will not be present in the output of `pivot()`. These three columns (`B`, `D` and `E`) will be automatically dropped during the pivot operation.
 
 In contrast, the `pivot()` method does the job of identifying a single column containing the values that will be transformed into new columns. In other words, if you list the column `car_brands` inside `pivot()`, and, this column contains four unique values, for example, `Audi`, `BMW`, `Jeep` and `Fiat`, this means that, in the output of `pivot()`, four new columns will be created, named as `Audi`, `BMW`, `Jeep` and `Fiat`.
 
-Therefore, we use `groupby()` to define the columns that will be kept in the output of the pivot operation; we use `pivot()` to mark the column that contains the rows that we want to transform into new columns; at last, we must learn how to define which values will populate the new columns that will be created. Not only that, we also need to specify how these values will be calculated. And for that, we need to use an aggregating function.
+Therefore, we use `groupby()` to define the columns that will be kept intact on the output of the pivot operation; we use `pivot()` to mark the column that contains the rows that we want to transform into new columns; at last, we must learn how to define which values will populate the new columns that will be created. Not only that, we also need to specify how these values will be calculated. And for that, we need to use an aggregating function.
 
 This is really important, you can not do a pivot operation without aggregating the values that will compose (or populate) the new columns you are creating. Without it, Spark will not let you do the pivot operation using the `pivot()` method.
 
@@ -547,7 +547,7 @@ As a first example, let's return to the `religion` DataFrame. More specifically,
 longer_religion.show()
 ```
 
-We can use this `longer_religion` DataFrame and the `pivot()` method to perform the inverse operation we described at @fig-pivot1. In other words, we can re-create the `religion` DataFrame trough `longer_religion`. The source code below demonstrates how we could do such thing:
+We can use this `longer_religion` DataFrame and the `pivot()` method to perform the inverse operation we described at @fig-pivot1. In other words, we can re-create the `religion` DataFrame through `longer_religion` using the `pivot()` method. The source code below demonstrates how we could do such thing:
 ```{python}
 from pyspark.sql.functions import first
 
@@ -563,7 +563,7 @@ In the example above, you can see the three core parts that we described: 1) use
 
 ![The three core parts that define the use of `pivot()`](./../Figures/pivot2.png){#fig-pivot2}
 
-When you use `pivot()`, you have to apply an agregatting function over the column from which you want to extract the values that will populate the new columns created from the pivot operation. This is a prerequisite, because Spark needs to know what he must do in case he finds two (or more) values that are mapped to the same cell in the pivot operation.
+When you use `pivot()`, you have to apply an aggregating function over the column from which you want to extract the values that will populate the new columns created from the pivot operation. This is a prerequisite, because Spark needs to know what he must do in case he finds two (or more) values that are mapped to the same cell in the pivot operation.
 
 In the above example, we used the `first()` function to aggregate the values from the `avg_salary` column. With this function, we are telling Spark, that if it finds two (or more) values that are mapped the same cell, then, Spark should pick the *first value if finds* in the input DataFrame, and simply ignore the remaining values.
 
@@ -582,7 +582,7 @@ df = spark.createDataFrame(data, cols)
 df.show()
 ```
 
-Let's suppose you want to transform the rows in the `name` column into new columns, and, populating these new columns created with the values from the `value` column. Following what we discussed until now, we could do this by using the following source code:
+Let's suppose you want to transform the rows in the `name` column into new columns, and, populate these new columns with the values from the `value` column. Following what we discussed until now, we could do this by using the following source code:
 
 ```{python}
 df\
@@ -592,7 +592,7 @@ df\
     .show()
 ```
 
-However, these is a problem with this operation, because we lost some observations in the process. The specific combination `('2023-05-02', 'Mike')` have three different values in the `value` column, which are `25`, `34` and `21`. But there is only a single cell in the new DataFrame (i.e. the output of the pivot operation) to hold these values. More specifically, the cell located at the first row in the fifth column.
+However, there is a problem with this operation, because we lost some observations in the process. The specific combination `('2023-05-02', 'Mike')` have three different values in the `value` column, which are `25`, `34` and `21`. But there is only a single cell in the new DataFrame (i.e. the output of the pivot operation) to hold these values. More specifically, the cell located at the first row in the fifth column.
 
 In other words, Spark found three different values for a single cell (or single space), and this is always a problem. Spark cannot simply put three different values in a single cell. A Spark DataFrame just do not work that way. Every cell in a Spark DataFrame should always hold a single value, whatever that value is.
 
@@ -613,7 +613,7 @@ df\
 
 Now, depending on the data and the structure from your DataFrame, Spark might never encounter a situation where it finds two (or more) values mapped to the same cell in a pivot operation. On this specific case, the output from the pivot operation will likely be the same for many different aggregating functions. In other words, the choice of the aggregating function you want to use might be irrelevant over this specific situation.
 
-For example, in the `longer_religion` example that we showed before, I could use the `last()` aggregating function (instead of `first()`), and still get the exact same result as before. Because in this specific situation, Spark does not find any case of two (or more) values mapped to the same cell in the output DataFrame.
+For example, in the `longer_religion` example that we showed before, I could use the `last()` aggregating function (instead of `first()`), and get the exact same result as before. Because in this specific situation, Spark does not find any case of two (or more) values mapped to the same cell in the output DataFrame.
 
 ```{python}
 from pyspark.sql.functions import last
@@ -625,9 +625,9 @@ longer_religion\
 ```
 
 
-## Retracting (or nesting) and extending (or unnesting) your DataFrame
+## Collecting and explode operations
 
-You can retract or extend vertically your DataFrame, by nesting multiple rows in to a single row, or, the inverse, which is unnesting (or exploding) one single row into multiple rows. The R `tidyverse` framework is probably the only data framework that have a defined name for this kind of operation, which are called "nesting" and "unnesting".
+You can retract or extend vertically your DataFrame, by nesting multiple rows into a single row, or, the inverse, which is unnesting (or exploding) one single row into multiple rows. The R `tidyverse` framework is probably the only data framework that have a defined name for this kind of operation, which are called "nesting" and "unnesting".
 
 In Spark, you perform this kind of operations by using the `collect_list()`, `collect_set()` and `explode()` functions, which all comes from the `pyspark.sql.functions` module. The `collect_list()` and `collect_set()` functions are used for retracting (or nesting) your DataFrame, while the `explode()` function is used for extending (or unnesting).
 
@@ -635,7 +635,7 @@ As a quick comparison, `explode()` is very similar to the R function [`tidyr::un
 
 ### Expanding (or unnesting) with `explode()`
 
-As an example, we have the `employees` DataFrame below. Each row in this DataFrame describes an employee. The `knowledge` column describes which programming language the employee have experience with, and, the `employee_attrs` column contains dictionaries with general attributes of each employee (such it's department, and, it's name).
+As an example, we have the `employees` DataFrame below. Each row in this DataFrame describes an employee. The `knowledge` column describes which programming language the employee have experience with, and, the `employee_attrs` column contains dictionaries with general attributes of each employee (such it's department and it's name).
 
 ```{python}
 data = [
@@ -648,15 +648,15 @@ employees = spark.createDataFrame(data, columns)
 employees.show()
 ```
 
-You can use the `printSchema()` method that we introduced at @sec-dataframe-schema to see the schema of the DataFrame. You can see in the result below that the `knowledge` column is a column of arrays of strings (i.e. `ArrayType`), while the `employee_attrs` column is a column of maps (i.e. `MapType`).
+You can use the `printSchema()` method that we introduced at @sec-dataframe-schema to see the schema of the DataFrame. You can see in the result below that `knowledge` is a column of arrays of strings (i.e. `ArrayType`), while `employee_attrs` is a column of maps (i.e. `MapType`).
 
 ```{python}
 employees.printSchema()
 ```
 
-Suppose you wanted to calculate the number of employees that have experience in each programming language. To do that, it would be great to transform the `knowledge` column into a column of strings. In other words, if an employee knows, for example, 3 different programming languages, it would be better to have 3 different rows that references this same employee, instead of having a single row that contains an array of three elements, like in the `employees` DataFrame.
+Suppose you wanted to calculate the number of employees that have experience in each programming language. To do that, it would be great to transform the `knowledge` column into a column of strings. Why? Because it would make the counting of the employees easier.
 
-Why this is better? Because this format of the DataFrame makes the counting of the employees easier. And how would we transpose the current DataFrame to this format? By using the `explode()` function.
+In other words, if an employee knows, for example, 3 different programming languages, it would be better to have 3 different rows that references this same employee, instead of having a single row that contains an array of three elements, like in the `employees` DataFrame. We can transform the current DataFrame into this new format by using the `explode()` function.
 
 When you apply the `explode()` function over a column of arrays, this function will create a new row for each element in each array it finds in the column. For example, the employee of ID 1 knows two programming languages (R and Python). As a result, when we apply `explode()` over the `knowledge` column, two rows are created for the employee of ID 1. As you can see in the example below:
 
@@ -673,7 +673,7 @@ explode_array.show()
 
 On the other hand, instead of arrays, the behaviour of `explode()` is slightly different when you apply it over a column of maps, such as `employee_attrs`. Because each element in a map have two components: a key and a value. As a consequence, when you apply `explode()` over a column of maps, each element in the map generates two different rows, which are stored in two separated columns, called `key` and `value`.
 
-Take the result below as an example. First, we have two new columns that were not present before (`key` and `value`). Each row in the `key` column represents the key for an element in the input map. While the `key` column represents the values of those elements.
+Take the result below as an example. First, we have two new columns that were not present before (`key` and `value`). Each row in the `key` column represents the key for an element in the input map. While the `value` column represents the values of those elements.
 ```{python}
 explode_map = employees\
     .select(
@@ -684,7 +684,7 @@ explode_map = employees\
 explode_map.show()
 ```
 
-This kind of output is powerful, specially with pivot operations, because you can organize all data found in a column of maps into a series of new columns, like this:
+This kind of output is powerful, specially with pivot operations, because you can easily organize all the data found in a column of maps into a series of new columns, like this:
 
 ```{python}
 explode_map\
@@ -698,13 +698,13 @@ explode_map\
 
 ### The different versions of `explode()`
 
-The `explode()` function have three brothers functions, called `explode_outer()`, `posexplode()` and `posexplode_outer()`. All of these functions have very small differences between them. However, these differences might be important to you.
+The `explode()` function have three brother functions, which are `explode_outer()`, `posexplode()` and `posexplode_outer()`. All of these functions have very small differences between them. However, these differences might be important/useful to you.
 
 First, the difference between `explode()` and `explode_outer()` is on the `null` values. If an array contains a `null` value, `explode()` will ignore this null value. In other words, `explode()` does not create a new row for any `null` value. In contrast, `explode_outer()` does create a new row even if the value is `null`.
 
-For example, if `explode()` encounter an array with 5 elements where 2 of them are null values, then, `explode()` will output 3 new rows. The 2 null values in the array are automatically ignored. However, if `explode_outer()` encountered the same array, then, it would output 5 new rows, no matter which values are inside this array.
+For example, if `explode()` encounter an array with 5 elements where 2 of them are null values, then, `explode()` will output 3 new rows. The 2 null values in the input array are automatically ignored. However, if `explode_outer()` encountered the same array, then, it would output 5 new rows, no matter which values are inside this input array.
 
-Second, the difference between `explode()` and `posexplode()`, is that `posexplode()` also returns the index that identifies the position in the input array where each value is. In other words, if we applied the `posexplode()` over the `knowledge` column of `employee` DataFrame, we would get a new column called `pos`, and the values are stored in a column called `col`. By looking at the column `pos`, we could know that the value `"Python"` for the employee of ID 1, was on the position of index 1 on the original array that the function encountered in the original `knowledge` column.
+Second, the difference between `explode()` and `posexplode()`, is that `posexplode()` also returns the index that identifies the position in the input array where each value is. In other words, if we applied the `posexplode()` over the `knowledge` column of `employee` DataFrame, we would get a new column called `pos`. By looking at this column `pos`, we could see that the value `"Python"` for the employee of ID 1, was on the position of index 1 on the original array that the function encountered in the original `knowledge` column.
 
 
 ```{python}
@@ -718,18 +718,18 @@ employees\
 ```
 
 
-Third, as you can probably imagine, the function `posexplode_outer()` incorporates the two visions from the previous brothers. So, not only `posexplode_outer()` creates a row for each element in the array, no matter if this is element is a `null` value or not, but it also returns the index that identifies the position in the input array where each value is.
+Third, as you can probably imagine, the function `posexplode_outer()` incorporates the two visions from the previous brothers. So, not only `posexplode_outer()` creates a row for each element in the array, no matter if this element is a `null` value or not, but it also returns the index that identifies the position in the input array where each value is.
 
 
 ### Retracting (or nesting) with `collect_list()` and `collect_set()`
 
 In resume, you use the `collect_list()` and `collect_set()` functions to retract your DataFrame. That is, to reduce the number of rows of the DataFrame, while keeping the same amount of information.
 
-To do this you just aggregate your DataFrame, using the `agg()` method, and, apply the `collect_list()` or `collect_set()` function over the column you want to retract (or nest). You likely want to use the `groupby()` method as well in this case, to perform an aggregation per group.
+To do this you just aggregate your DataFrame, using the `agg()` method, and, apply the `collect_list()` or `collect_set()` function over the columns you want to retract (or nest). You likely want to use the `groupby()` method as well in this case, to perform an aggregation per group.
 
-Because if you not define any group in this situation, you will aggregate the entire DataFrame into a single value. This means, that you would get as output, a new DataFrame with only a single row, and, all rows of the input DataFrame would be condensed inside of this single row.
+Because if you do not define any group in this situation, you will aggregate the entire DataFrame into a single value. This means, that you would get as output, a new DataFrame with only a single row, and, all rows from the input DataFrame would be condensed inside this single row in the output DataFrame.
 
-In essence, what the `collect_list()` function do is collect a set of rows and store it in an array. The `collect_set()` function does the same thing, with the difference that it stores this set of rows in a set, which is an array of unique values. In other words, `collect_set()` collects a set of rows, then, it removes all duplicated values, then, it stores the remaining values in an array.
+In essence, what the `collect_list()` function do is collect a set of rows and store it in an array. The `collect_set()` function does the same thing, with the difference that it stores this set of rows in a set (which is an array of unique values). In other words, `collect_set()` collects a set of rows, then, it removes all duplicated rows in this set, then, it stores the remaining values in an array.
 
 To demonstrate the `collect_list()` and `collect_set()` functions, we can use the `supermarket_sales` DataFrame that we introduced at @sec-remove-duplicates as an example:
 
@@ -737,7 +737,7 @@ To demonstrate the `collect_list()` and `collect_set()` functions, we can use th
 supermarket_sales.show()
 ```
 
-Suppose you wanted a new DataFrame that had a single row for each `transaction_id` without losing any amount of information that we see in the above DataFrame. We could do this by using the `collect_list()` function, like in the example below:
+Suppose you wanted a new DataFrame that had a single row for each `transaction_id` without losing any amount of information from the above DataFrame. We could do this by using the `collect_list()` function, like in the example below:
 
 ```{python}
 from pyspark.sql.functions import collect_list
