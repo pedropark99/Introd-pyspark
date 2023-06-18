@@ -2,3 +2,48 @@ TODOS:
 - Maybe the section for pulling data from sql databases whould be in another chapter;
 - Add a chapter for date and datetime manipulation tools;
 - Add a second chapter for transforming dataframes. This time, presenting different types of transformation (union, distinct, drop_duplicates, join, na functions);
+- Add a section to describe the new `withColumns()` method: https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/api/pyspark.sql.DataFrame.withColumns.html
+
+
+
+LIST OF METHODS:
+
+head()
+tail()
+limit()
+sample()
+
+
+
+union()
+unionByName()
+crossJoin()
+join()
+distinct()
+dropDuplicates()
+intersect()
+intersectAll()
+exceptAll()
+
+
+
+dropna()
+fillna()
+
+
+
+# Probably go to 2nd edition:
+cache()
+coalesce()
+unpersist()
+persist()
+
+# Probably go to 2nd edition:
+foreach()
+foreachPartition()
+replace()
+
+
+# Probably go to 2nd edition:
+sampleBy()
+randomSplit()

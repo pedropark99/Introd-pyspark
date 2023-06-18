@@ -621,12 +621,12 @@ ORDER BY bill_length_mm
 '''
 
 # The same result of the example above
-spark.sql(query)
+spark.sql(query).show()
 ```
 
 
 
-### Spark functions are usually translated into SQL functions
+### Spark functions are usually translated into SQL functions {#sec-sql-expr}
 
 Every function from the `pyspark.sql.functions` module you might use to describe your transformations in python, can be directly used in Spark SQL. In other words, every Spark function that is accesible in python, is also accesible in Spark SQL.
 

@@ -83,7 +83,7 @@ div.csl-indent {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../Chapters/09-strings.html" rel="next">
+<link href="../Chapters/08-transforming2.html" rel="next">
 <link href="../Chapters/07-import.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
@@ -215,7 +215,7 @@ div.csl-indent {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../Chapters/05-transforming.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Transforming your Spark DataFrame</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Transforming your Spark DataFrame - Part 1</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -232,8 +232,14 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../Chapters/08-transforming2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Transforming your Spark DataFrame - Part 2</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../Chapters/09-strings.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Tools for string manipulation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Tools for string manipulation</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -292,7 +298,7 @@ div.csl-indent {
   <li><a href="#every-dataframe-transformation-in-python-can-be-translated-into-sql" id="toc-every-dataframe-transformation-in-python-can-be-translated-into-sql" class="nav-link" data-scroll-target="#every-dataframe-transformation-in-python-can-be-translated-into-sql"><span class="header-section-number">7.7</span> Every DataFrame transformation in Python can be translated into SQL</a>
   <ul class="collapse">
   <li><a href="#dataframe-methods-are-usually-translated-into-sql-keywords" id="toc-dataframe-methods-are-usually-translated-into-sql-keywords" class="nav-link" data-scroll-target="#dataframe-methods-are-usually-translated-into-sql-keywords"><span class="header-section-number">7.7.1</span> DataFrame methods are usually translated into SQL keywords</a></li>
-  <li><a href="#spark-functions-are-usually-translated-into-sql-functions" id="toc-spark-functions-are-usually-translated-into-sql-functions" class="nav-link" data-scroll-target="#spark-functions-are-usually-translated-into-sql-functions"><span class="header-section-number">7.7.2</span> Spark functions are usually translated into SQL functions</a></li>
+  <li><a href="#sec-sql-expr" id="toc-sec-sql-expr" class="nav-link" data-scroll-target="#sec-sql-expr"><span class="header-section-number">7.7.2</span> Spark functions are usually translated into SQL functions</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -850,14 +856,23 @@ only showing top 5 rows
 <span id="cb44-13"><a href="#cb44-13" aria-hidden="true" tabindex="-1"></a><span class="st">'''</span></span>
 <span id="cb44-14"><a href="#cb44-14" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb44-15"><a href="#cb44-15" aria-hidden="true" tabindex="-1"></a><span class="co"># The same result of the example above</span></span>
-<span id="cb44-16"><a href="#cb44-16" aria-hidden="true" tabindex="-1"></a>spark.sql(query)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="13">
-<pre><code>DataFrame[species: string, island: string, bill_length_mm: string, bill_depth_mm: string, flipper_length_mm: string, body_mass_g: string, sex: string, year: string]</code></pre>
+<span id="cb44-16"><a href="#cb44-16" aria-hidden="true" tabindex="-1"></a>spark.sql(query).show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>+-------+------+--------------+-------------+-----------------+-----------+------+----+
+|species|island|bill_length_mm|bill_depth_mm|flipper_length_mm|body_mass_g|   sex|year|
++-------+------+--------------+-------------+-----------------+-----------+------+----+
+| Gentoo|Biscoe|          44.9|         13.3|              213|       5100|female|2008|
+| Gentoo|Biscoe|          45.1|         14.5|              207|       5050|female|2007|
+| Gentoo|Biscoe|          45.2|         14.8|              212|       5200|female|2009|
+| Gentoo|Biscoe|          46.5|         14.8|              217|       5200|female|2008|
+| Gentoo|Biscoe|          49.1|         14.8|              220|       5150|female|2008|
++-------+------+--------------+-------------+-----------------+-----------+------+----+
+</code></pre>
 </div>
 </div>
 </section>
-<section id="spark-functions-are-usually-translated-into-sql-functions" class="level3" data-number="7.7.2">
-<h3 data-number="7.7.2" class="anchored" data-anchor-id="spark-functions-are-usually-translated-into-sql-functions"><span class="header-section-number">7.7.2</span> Spark functions are usually translated into SQL functions</h3>
+<section id="sec-sql-expr" class="level3" data-number="7.7.2">
+<h3 data-number="7.7.2" class="anchored" data-anchor-id="sec-sql-expr"><span class="header-section-number">7.7.2</span> Spark functions are usually translated into SQL functions</h3>
 <p>Every function from the <code>pyspark.sql.functions</code> module you might use to describe your transformations in python, can be directly used in Spark SQL. In other words, every Spark function that is accesible in python, is also accesible in Spark SQL.</p>
 <p>When you translate these python functions into SQL, they usually become a pure SQL function with the same name. For example, if I wanted to use the <code>regexp_extract()</code> python function, from the <code>pyspark.sql.functions</code> module in Spark SQL, I just use the <code>REGEXP_EXTRACT()</code> SQL function. The same occurs to any other function, like the <code>to_date()</code> function for example.</p>
 <div class="cell" data-execution_count="24">
@@ -1176,8 +1191,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../Chapters/09-strings.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Tools for string manipulation</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../Chapters/08-transforming2.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Transforming your Spark DataFrame - Part 2</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
