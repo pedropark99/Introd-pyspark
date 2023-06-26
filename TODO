@@ -15,22 +15,6 @@ sample()
 
 
 
-union()
-unionByName()
-crossJoin()
-join()
-distinct()
-dropDuplicates()
-intersect()
-intersectAll()
-exceptAll()
-
-
-
-dropna()
-fillna()
-
-
 
 # Probably go to 2nd edition:
 cache()
