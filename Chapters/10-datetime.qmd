@@ -1,2 +1,10 @@
 # Tools for dates and datetimes manipulation {#sec-datetime-tools}
 
+Units of measurement that represents time are very commom types of data in our modern world. Nowadays, dates and datetimes (which is a a date accompanied by a time) are the most commom units used to represent a specific point in time. That is why you will learn in this chapter how to read, manipulate and use this kind of data with `pyspark`.
+
+In Spark, dates and datetimes are represented respectively by the `DateType` and `TimestampType` data types, which are available in `psypark` from the `pyspark.sql.types` module. Spark also offers two other data types to represent "intervals of time", which are `YearMonthIntervalType` and `DayTimeIntervalType`. However, you usually don't use these types directly to create new objects.
+
+
+## Creating dates
+
+Dates are normally interpreted in `pyspark` using the `DateType` data type. There are two commom ways to create date objects, which are: from strings (like `"3 of June of 2023"`, or maybe, `"2023-02-05"`); or from integers and floats. Normal python objects which use. In others, you usually
