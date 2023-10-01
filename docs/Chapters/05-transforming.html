@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-99.9.9">
+<meta name="generator" content="quarto-1.3.450">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -110,7 +110,8 @@ div.csl-indent {
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
     "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit"
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
   }
 }</script>
 
@@ -161,7 +162,7 @@ div.csl-indent {
       <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Chapters/05-transforming.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Transforming your Spark DataFrame - Part 1</span></a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
-      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
@@ -246,6 +247,12 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../Chapters/10-datetime.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Tools for dates and datetimes manipulation</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../Chapters/references.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">References</span></a>
   </div>
@@ -308,7 +315,7 @@ div.csl-indent {
   <ul class="collapse">
   <li><a href="#renaming-your-columns" id="toc-renaming-your-columns" class="nav-link" data-scroll-target="#renaming-your-columns"><span class="header-section-number">5.8.1</span> Renaming your columns</a></li>
   <li><a href="#dropping-unnecessary-columns" id="toc-dropping-unnecessary-columns" class="nav-link" data-scroll-target="#dropping-unnecessary-columns"><span class="header-section-number">5.8.2</span> Dropping unnecessary columns</a></li>
-  <li><a href="#casting-columns-to-a-different-data-type" id="toc-casting-columns-to-a-different-data-type" class="nav-link" data-scroll-target="#casting-columns-to-a-different-data-type"><span class="header-section-number">5.8.3</span> Casting columns to a different data type</a></li>
+  <li><a href="#sec-cast-column-type" id="toc-sec-cast-column-type" class="nav-link" data-scroll-target="#sec-cast-column-type"><span class="header-section-number">5.8.3</span> Casting columns to a different data type</a></li>
   <li><a href="#you-can-add-new-columns-with-select" id="toc-you-can-add-new-columns-with-select" class="nav-link" data-scroll-target="#you-can-add-new-columns-with-select"><span class="header-section-number">5.8.4</span> You can add new columns with <code>select()</code></a></li>
   </ul></li>
   <li><a href="#calculating-or-adding-new-columns-to-your-dataframe" id="toc-calculating-or-adding-new-columns-to-your-dataframe" class="nav-link" data-scroll-target="#calculating-or-adding-new-columns-to-your-dataframe"><span class="header-section-number">5.9</span> Calculating or adding new columns to your DataFrame</a></li>
@@ -416,6 +423,9 @@ AttributeError: 'str' object has no attribute 'orderBy'</code></pre>
 <div class="cell-output cell-output-stderr">
 <pre><code>[Stage 0:&gt;                                                        (0 + 12) / 12]</code></pre>
 </div>
+<div class="cell-output cell-output-stderr">
+<pre><code>                                                                                </code></pre>
+</div>
 <div class="cell-output cell-output-stdout">
 <pre><code>+----------+-----+
 |      date|value|
@@ -425,9 +435,6 @@ AttributeError: 'str' object has no attribute 'orderBy'</code></pre>
 |2021-01-01| 28.3|
 +----------+-----+
 </code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>                                                                                </code></pre>
 </div>
 </div>
 <p>Another very useful action is the <code>count()</code> method, that gives you the number of rows in a DataFrame. To be able to count the number of rows in a DataFrame, Spark needs to access this DataFrame in the first place. That is why this <code>count()</code> method behaves as an action. Spark will perform the transformations that defines <code>big_values</code> to access the actual rows of this DataFrame and count them.</p>
@@ -464,7 +471,7 @@ AttributeError: 'str' object has no attribute 'orderBy'</code></pre>
 <div id="fig-narrow-transformations" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="../Figures/narrow-transformations.png" class="img-fluid figure-img"></p>
-<p></p><figcaption class="figure-caption">Figure&nbsp;5.1: Presenting narrow transformations</figcaption><p></p>
+<figcaption class="figure-caption">Figure&nbsp;5.1: Presenting narrow transformations</figcaption>
 </figure>
 </div>
 <p>In other words, each partition of your input DataFrame will be used (<em>separately</em>) to generate one individual part of the result of your transformation. As another perspective, you can understand narrow transformations as those where Spark does not need to read the entire input DataFrame to generate a single and small piece of your result.</p>
@@ -475,7 +482,7 @@ AttributeError: 'str' object has no attribute 'orderBy'</code></pre>
 <div id="fig-wide-transformations" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="../Figures/wide-transformations.png" class="img-fluid figure-img"></p>
-<p></p><figcaption class="figure-caption">Figure&nbsp;5.2: Presenting wide transformations</figcaption><p></p>
+<figcaption class="figure-caption">Figure&nbsp;5.2: Presenting wide transformations</figcaption>
 </figure>
 </div>
 <p>When this kind of transformation happens, each worker node of the cluster needs to share his partition with the others. In other words, what happens is a partition shuffle. Each worker node sends his partition to the others, so they can have access to it, while performing their assigned tasks.</p>
@@ -558,11 +565,11 @@ AttributeError: 'str' object has no attribute 'orderBy'</code></pre>
 <pre><code>+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
 |dateTransfer|   datetimeTransfer|clientNumber|transferValue|transferCurrency|transferID|transferLog|destinationBankNumber|destinationBankBranch|destinationBankAccount|
 +------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
-|  2022-12-31|2022-12-31 14:00:24|        5516|      7794.31|          zing ƒ|  20223563|       null|                   33|                 4078|               72424-2|
-|  2022-12-31|2022-12-31 10:32:07|        4965|       7919.0|          zing ƒ|  20223562|       null|                  421|                 1979|               36441-5|
-|  2022-12-31|2022-12-31 07:37:02|        4608|       5603.0|        dollar $|  20223561|       null|                  666|                 4425|               41323-1|
-|  2022-12-31|2022-12-31 07:35:05|        1121|      4365.22|        dollar $|  20223560|       null|                  666|                 2400|               74120-4|
-|  2022-12-31|2022-12-31 02:53:44|        1121|       4620.0|        dollar $|  20223559|       null|                  421|                 1100|               39830-0|
+|  2022-12-31|2022-12-31 14:00:24|        5516|      7794.31|          zing ƒ|  20223563|       NULL|                   33|                 4078|               72424-2|
+|  2022-12-31|2022-12-31 10:32:07|        4965|       7919.0|          zing ƒ|  20223562|       NULL|                  421|                 1979|               36441-5|
+|  2022-12-31|2022-12-31 07:37:02|        4608|       5603.0|        dollar $|  20223561|       NULL|                  666|                 4425|               41323-1|
+|  2022-12-31|2022-12-31 07:35:05|        1121|      4365.22|        dollar $|  20223560|       NULL|                  666|                 2400|               74120-4|
+|  2022-12-31|2022-12-31 02:53:44|        1121|       4620.0|        dollar $|  20223559|       NULL|                  421|                 1100|               39830-0|
 +------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
 only showing top 5 rows
 </code></pre>
@@ -588,11 +595,11 @@ only showing top 5 rows
 <pre><code>+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
 |dateTransfer|   datetimeTransfer|clientNumber|transferValue|transferCurrency|transferID|transferLog|destinationBankNumber|destinationBankBranch|destinationBankAccount|
 +------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
-|  2022-12-18|2022-12-18 08:45:30|        1297|       142.66|        dollar $|  20223467|       null|                  421|                 5420|               43088-1|
-|  2022-12-13|2022-12-13 20:44:23|        5516|       992.15|        dollar $|  20223442|       null|                   33|                 5420|               41609-8|
-|  2022-11-24|2022-11-24 20:01:39|        1945|       174.64|        dollar $|  20223319|       null|                  421|                 2400|               34025-8|
-|  2022-11-07|2022-11-07 16:35:57|        4862|       570.69|        dollar $|  20223212|       null|                  290|                 5420|               51165-3|
-|  2022-11-04|2022-11-04 20:00:34|        1297|        854.0|        dollar $|  20223194|       null|                  421|                 4078|               43478-6|
+|  2022-12-18|2022-12-18 08:45:30|        1297|       142.66|        dollar $|  20223467|       NULL|                  421|                 5420|               43088-1|
+|  2022-12-13|2022-12-13 20:44:23|        5516|       992.15|        dollar $|  20223442|       NULL|                   33|                 5420|               41609-8|
+|  2022-11-24|2022-11-24 20:01:39|        1945|       174.64|        dollar $|  20223319|       NULL|                  421|                 2400|               34025-8|
+|  2022-11-07|2022-11-07 16:35:57|        4862|       570.69|        dollar $|  20223212|       NULL|                  290|                 5420|               51165-3|
+|  2022-11-04|2022-11-04 20:00:34|        1297|        854.0|        dollar $|  20223194|       NULL|                  421|                 4078|               43478-6|
 +------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
 only showing top 5 rows
 </code></pre>
@@ -609,11 +616,11 @@ only showing top 5 rows
 <pre><code>+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
 |dateTransfer|   datetimeTransfer|clientNumber|transferValue|transferCurrency|transferID|transferLog|destinationBankNumber|destinationBankBranch|destinationBankAccount|
 +------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
-|  2022-12-18|2022-12-18 08:45:30|        1297|       142.66|        dollar $|  20223467|       null|                  421|                 5420|               43088-1|
-|  2022-12-13|2022-12-13 20:44:23|        5516|       992.15|        dollar $|  20223442|       null|                   33|                 5420|               41609-8|
-|  2022-11-24|2022-11-24 20:01:39|        1945|       174.64|        dollar $|  20223319|       null|                  421|                 2400|               34025-8|
-|  2022-11-07|2022-11-07 16:35:57|        4862|       570.69|        dollar $|  20223212|       null|                  290|                 5420|               51165-3|
-|  2022-11-04|2022-11-04 20:00:34|        1297|        854.0|        dollar $|  20223194|       null|                  421|                 4078|               43478-6|
+|  2022-12-18|2022-12-18 08:45:30|        1297|       142.66|        dollar $|  20223467|       NULL|                  421|                 5420|               43088-1|
+|  2022-12-13|2022-12-13 20:44:23|        5516|       992.15|        dollar $|  20223442|       NULL|                   33|                 5420|               41609-8|
+|  2022-11-24|2022-11-24 20:01:39|        1945|       174.64|        dollar $|  20223319|       NULL|                  421|                 2400|               34025-8|
+|  2022-11-07|2022-11-07 16:35:57|        4862|       570.69|        dollar $|  20223212|       NULL|                  290|                 5420|               51165-3|
+|  2022-11-04|2022-11-04 20:00:34|        1297|        854.0|        dollar $|  20223194|       NULL|                  421|                 4078|               43478-6|
 +------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
 only showing top 5 rows
 </code></pre>
@@ -784,9 +791,9 @@ only showing top 5 rows
 <pre><code>+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
 |dateTransfer|   datetimeTransfer|clientNumber|transferValue|transferCurrency|transferID|transferLog|destinationBankNumber|destinationBankBranch|destinationBankAccount|
 +------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
-|  2022-12-18|2022-12-18 08:45:30|        1297|       142.66|        dollar $|  20223467|       null|                  421|                 5420|               43088-1|
-|  2022-11-04|2022-11-04 20:00:34|        1297|        854.0|        dollar $|  20223194|       null|                  421|                 4078|               43478-6|
-|  2022-02-27|2022-02-27 13:27:44|        1297|       697.21|        dollar $|  20221505|       null|                  421|                 1100|               60414-7|
+|  2022-12-18|2022-12-18 08:45:30|        1297|       142.66|        dollar $|  20223467|       NULL|                  421|                 5420|               43088-1|
+|  2022-11-04|2022-11-04 20:00:34|        1297|        854.0|        dollar $|  20223194|       NULL|                  421|                 4078|               43478-6|
+|  2022-02-27|2022-02-27 13:27:44|        1297|       697.21|        dollar $|  20221505|       NULL|                  421|                 1100|               60414-7|
 +------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
 </code></pre>
 </div>
@@ -804,9 +811,9 @@ only showing top 5 rows
 <pre><code>+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
 |dateTransfer|   datetimeTransfer|clientNumber|transferValue|transferCurrency|transferID|transferLog|destinationBankNumber|destinationBankBranch|destinationBankAccount|
 +------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
-|  2022-12-18|2022-12-18 08:45:30|        1297|       142.66|        dollar $|  20223467|       null|                  421|                 5420|               43088-1|
-|  2022-11-04|2022-11-04 20:00:34|        1297|        854.0|        dollar $|  20223194|       null|                  421|                 4078|               43478-6|
-|  2022-02-27|2022-02-27 13:27:44|        1297|       697.21|        dollar $|  20221505|       null|                  421|                 1100|               60414-7|
+|  2022-12-18|2022-12-18 08:45:30|        1297|       142.66|        dollar $|  20223467|       NULL|                  421|                 5420|               43088-1|
+|  2022-11-04|2022-11-04 20:00:34|        1297|        854.0|        dollar $|  20223194|       NULL|                  421|                 4078|               43478-6|
+|  2022-02-27|2022-02-27 13:27:44|        1297|       697.21|        dollar $|  20221505|       NULL|                  421|                 1100|               60414-7|
 +------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
 </code></pre>
 </div>
@@ -846,11 +853,11 @@ py4j.Py4JException: Method and([class java.lang.Integer]) does not exist
 <pre><code>+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
 |dateTransfer|   datetimeTransfer|clientNumber|transferValue|transferCurrency|transferID|transferLog|destinationBankNumber|destinationBankBranch|destinationBankAccount|
 +------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
-|  2022-12-31|2022-12-31 14:00:24|        5516|      7794.31|          zing ƒ|  20223563|       null|                   33|                 4078|               72424-2|
-|  2022-12-31|2022-12-31 10:32:07|        4965|       7919.0|          zing ƒ|  20223562|       null|                  421|                 1979|               36441-5|
-|  2022-12-31|2022-12-31 07:37:02|        4608|       5603.0|        dollar $|  20223561|       null|                  666|                 4425|               41323-1|
-|  2022-12-31|2022-12-31 07:35:05|        1121|      4365.22|        dollar $|  20223560|       null|                  666|                 2400|               74120-4|
-|  2022-12-31|2022-12-31 02:53:44|        1121|       4620.0|        dollar $|  20223559|       null|                  421|                 1100|               39830-0|
+|  2022-12-31|2022-12-31 14:00:24|        5516|      7794.31|          zing ƒ|  20223563|       NULL|                   33|                 4078|               72424-2|
+|  2022-12-31|2022-12-31 10:32:07|        4965|       7919.0|          zing ƒ|  20223562|       NULL|                  421|                 1979|               36441-5|
+|  2022-12-31|2022-12-31 07:37:02|        4608|       5603.0|        dollar $|  20223561|       NULL|                  666|                 4425|               41323-1|
+|  2022-12-31|2022-12-31 07:35:05|        1121|      4365.22|        dollar $|  20223560|       NULL|                  666|                 2400|               74120-4|
+|  2022-12-31|2022-12-31 02:53:44|        1121|       4620.0|        dollar $|  20223559|       NULL|                  421|                 1100|               39830-0|
 +------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
 only showing top 5 rows
 </code></pre>
@@ -869,11 +876,11 @@ only showing top 5 rows
 <pre><code>+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
 |dateTransfer|   datetimeTransfer|clientNumber|transferValue|transferCurrency|transferID|transferLog|destinationBankNumber|destinationBankBranch|destinationBankAccount|
 +------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
-|  2022-12-31|2022-12-31 14:00:24|        5516|      7794.31|          zing ƒ|  20223563|       null|                   33|                 4078|               72424-2|
-|  2022-12-31|2022-12-31 10:32:07|        4965|       7919.0|          zing ƒ|  20223562|       null|                  421|                 1979|               36441-5|
-|  2022-12-31|2022-12-31 07:37:02|        4608|       5603.0|        dollar $|  20223561|       null|                  666|                 4425|               41323-1|
-|  2022-12-31|2022-12-31 07:35:05|        1121|      4365.22|        dollar $|  20223560|       null|                  666|                 2400|               74120-4|
-|  2022-12-31|2022-12-31 02:53:44|        1121|       4620.0|        dollar $|  20223559|       null|                  421|                 1100|               39830-0|
+|  2022-12-31|2022-12-31 14:00:24|        5516|      7794.31|          zing ƒ|  20223563|       NULL|                   33|                 4078|               72424-2|
+|  2022-12-31|2022-12-31 10:32:07|        4965|       7919.0|          zing ƒ|  20223562|       NULL|                  421|                 1979|               36441-5|
+|  2022-12-31|2022-12-31 07:37:02|        4608|       5603.0|        dollar $|  20223561|       NULL|                  666|                 4425|               41323-1|
+|  2022-12-31|2022-12-31 07:35:05|        1121|      4365.22|        dollar $|  20223560|       NULL|                  666|                 2400|               74120-4|
+|  2022-12-31|2022-12-31 02:53:44|        1121|       4620.0|        dollar $|  20223559|       NULL|                  421|                 1100|               39830-0|
 +------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
 only showing top 5 rows
 </code></pre>
@@ -893,11 +900,11 @@ only showing top 5 rows
 <pre><code>+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
 |dateTransfer|   datetimeTransfer|clientNumber|transferValue|transferCurrency|transferID|transferLog|destinationBankNumber|destinationBankBranch|destinationBankAccount|
 +------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
-|  2022-12-29|2022-12-29 10:22:02|        2727|      4666.25|          euro €|  20223541|       null|                   33|                 5420|               83070-8|
-|  2022-12-27|2022-12-27 03:58:25|        5188|      7821.69|        dollar $|  20223522|       null|                   33|                 4078|               46571-3|
-|  2022-12-26|2022-12-25 23:45:02|        2727|      3261.73| british pound £|  20223515|       null|                  421|                 6317|               66040-9|
-|  2022-12-23|2022-12-23 05:32:49|        2727|       8042.0|        dollar $|  20223496|       null|                  290|                 5420|               37759-7|
-|  2022-12-22|2022-12-22 06:02:47|        5188|      8175.67|        dollar $|  20223490|       null|                  666|                 8800|               42657-8|
+|  2022-12-29|2022-12-29 10:22:02|        2727|      4666.25|          euro €|  20223541|       NULL|                   33|                 5420|               83070-8|
+|  2022-12-27|2022-12-27 03:58:25|        5188|      7821.69|        dollar $|  20223522|       NULL|                   33|                 4078|               46571-3|
+|  2022-12-26|2022-12-25 23:45:02|        2727|      3261.73| british pound £|  20223515|       NULL|                  421|                 6317|               66040-9|
+|  2022-12-23|2022-12-23 05:32:49|        2727|       8042.0|        dollar $|  20223496|       NULL|                  290|                 5420|               37759-7|
+|  2022-12-22|2022-12-22 06:02:47|        5188|      8175.67|        dollar $|  20223490|       NULL|                  666|                 8800|               42657-8|
 +------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
 only showing top 5 rows
 </code></pre>
@@ -917,11 +924,11 @@ only showing top 5 rows
 <pre><code>+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
 |dateTransfer|   datetimeTransfer|clientNumber|transferValue|transferCurrency|transferID|transferLog|destinationBankNumber|destinationBankBranch|destinationBankAccount|
 +------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
-|  2022-12-29|2022-12-29 10:22:02|        2727|      4666.25|          euro €|  20223541|       null|                   33|                 5420|               83070-8|
-|  2022-12-27|2022-12-27 03:58:25|        5188|      7821.69|        dollar $|  20223522|       null|                   33|                 4078|               46571-3|
-|  2022-12-26|2022-12-25 23:45:02|        2727|      3261.73| british pound £|  20223515|       null|                  421|                 6317|               66040-9|
-|  2022-12-23|2022-12-23 05:32:49|        2727|       8042.0|        dollar $|  20223496|       null|                  290|                 5420|               37759-7|
-|  2022-12-22|2022-12-22 06:02:47|        5188|      8175.67|        dollar $|  20223490|       null|                  666|                 8800|               42657-8|
+|  2022-12-29|2022-12-29 10:22:02|        2727|      4666.25|          euro €|  20223541|       NULL|                   33|                 5420|               83070-8|
+|  2022-12-27|2022-12-27 03:58:25|        5188|      7821.69|        dollar $|  20223522|       NULL|                   33|                 4078|               46571-3|
+|  2022-12-26|2022-12-25 23:45:02|        2727|      3261.73| british pound £|  20223515|       NULL|                  421|                 6317|               66040-9|
+|  2022-12-23|2022-12-23 05:32:49|        2727|       8042.0|        dollar $|  20223496|       NULL|                  290|                 5420|               37759-7|
+|  2022-12-22|2022-12-22 06:02:47|        5188|      8175.67|        dollar $|  20223490|       NULL|                  666|                 8800|               42657-8|
 +------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
 only showing top 5 rows
 </code></pre>
@@ -940,11 +947,11 @@ only showing top 5 rows
 <pre><code>+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
 |dateTransfer|   datetimeTransfer|clientNumber|transferValue|transferCurrency|transferID|transferLog|destinationBankNumber|destinationBankBranch|destinationBankAccount|
 +------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
-|  2022-12-31|2022-12-31 07:37:02|        4608|       5603.0|        dollar $|  20223561|       null|                  666|                 4425|               41323-1|
-|  2022-12-31|2022-12-31 07:35:05|        1121|      4365.22|        dollar $|  20223560|       null|                  666|                 2400|               74120-4|
-|  2022-12-31|2022-12-31 02:44:46|        1121|       7158.0|          zing ƒ|  20223558|       null|                  290|                 1100|               35424-4|
-|  2022-12-31|2022-12-31 01:02:06|        4862|       6714.0|        dollar $|  20223557|       null|                  666|                 1002|               71839-1|
-|  2022-12-31|2022-12-31 00:48:47|        3294|     10882.52|        dollar $|  20223556|       null|                  666|                 2231|               50190-5|
+|  2022-12-31|2022-12-31 07:37:02|        4608|       5603.0|        dollar $|  20223561|       NULL|                  666|                 4425|               41323-1|
+|  2022-12-31|2022-12-31 07:35:05|        1121|      4365.22|        dollar $|  20223560|       NULL|                  666|                 2400|               74120-4|
+|  2022-12-31|2022-12-31 02:44:46|        1121|       7158.0|          zing ƒ|  20223558|       NULL|                  290|                 1100|               35424-4|
+|  2022-12-31|2022-12-31 01:02:06|        4862|       6714.0|        dollar $|  20223557|       NULL|                  666|                 1002|               71839-1|
+|  2022-12-31|2022-12-31 00:48:47|        3294|     10882.52|        dollar $|  20223556|       NULL|                  666|                 2231|               50190-5|
 +------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
 only showing top 5 rows
 </code></pre>
@@ -968,11 +975,11 @@ only showing top 5 rows
 <pre><code>+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
 |dateTransfer|   datetimeTransfer|clientNumber|transferValue|transferCurrency|transferID|transferLog|destinationBankNumber|destinationBankBranch|destinationBankAccount|
 +------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
-|  2022-12-31|2022-12-31 14:00:24|        5516|      7794.31|          zing ƒ|  20223563|       null|                   33|                 4078|               72424-2|
-|  2022-12-31|2022-12-31 10:32:07|        4965|       7919.0|          zing ƒ|  20223562|       null|                  421|                 1979|               36441-5|
-|  2022-12-31|2022-12-31 07:37:02|        4608|       5603.0|        dollar $|  20223561|       null|                  666|                 4425|               41323-1|
-|  2022-12-31|2022-12-31 07:35:05|        1121|      4365.22|        dollar $|  20223560|       null|                  666|                 2400|               74120-4|
-|  2022-12-31|2022-12-31 02:53:44|        1121|       4620.0|        dollar $|  20223559|       null|                  421|                 1100|               39830-0|
+|  2022-12-31|2022-12-31 14:00:24|        5516|      7794.31|          zing ƒ|  20223563|       NULL|                   33|                 4078|               72424-2|
+|  2022-12-31|2022-12-31 10:32:07|        4965|       7919.0|          zing ƒ|  20223562|       NULL|                  421|                 1979|               36441-5|
+|  2022-12-31|2022-12-31 07:37:02|        4608|       5603.0|        dollar $|  20223561|       NULL|                  666|                 4425|               41323-1|
+|  2022-12-31|2022-12-31 07:35:05|        1121|      4365.22|        dollar $|  20223560|       NULL|                  666|                 2400|               74120-4|
+|  2022-12-31|2022-12-31 02:53:44|        1121|       4620.0|        dollar $|  20223559|       NULL|                  421|                 1100|               39830-0|
 +------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
 only showing top 5 rows
 </code></pre>
@@ -987,11 +994,11 @@ only showing top 5 rows
 <pre><code>+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
 |dateTransfer|   datetimeTransfer|clientNumber|transferValue|transferCurrency|transferID|transferLog|destinationBankNumber|destinationBankBranch|destinationBankAccount|
 +------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
-|  2022-12-31|2022-12-31 14:00:24|        5516|      7794.31|          zing ƒ|  20223563|       null|                   33|                 4078|               72424-2|
-|  2022-12-31|2022-12-31 10:32:07|        4965|       7919.0|          zing ƒ|  20223562|       null|                  421|                 1979|               36441-5|
-|  2022-12-31|2022-12-31 07:37:02|        4608|       5603.0|        dollar $|  20223561|       null|                  666|                 4425|               41323-1|
-|  2022-12-31|2022-12-31 07:35:05|        1121|      4365.22|        dollar $|  20223560|       null|                  666|                 2400|               74120-4|
-|  2022-12-31|2022-12-31 02:53:44|        1121|       4620.0|        dollar $|  20223559|       null|                  421|                 1100|               39830-0|
+|  2022-12-31|2022-12-31 14:00:24|        5516|      7794.31|          zing ƒ|  20223563|       NULL|                   33|                 4078|               72424-2|
+|  2022-12-31|2022-12-31 10:32:07|        4965|       7919.0|          zing ƒ|  20223562|       NULL|                  421|                 1979|               36441-5|
+|  2022-12-31|2022-12-31 07:37:02|        4608|       5603.0|        dollar $|  20223561|       NULL|                  666|                 4425|               41323-1|
+|  2022-12-31|2022-12-31 07:35:05|        1121|      4365.22|        dollar $|  20223560|       NULL|                  666|                 2400|               74120-4|
+|  2022-12-31|2022-12-31 02:53:44|        1121|       4620.0|        dollar $|  20223559|       NULL|                  421|                 1100|               39830-0|
 +------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
 only showing top 5 rows
 </code></pre>
@@ -1016,11 +1023,11 @@ only showing top 5 rows
 <pre><code>+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
 |dateTransfer|   datetimeTransfer|clientNumber|transferValue|transferCurrency|transferID|transferLog|destinationBankNumber|destinationBankBranch|destinationBankAccount|
 +------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
-|  2022-12-31|2022-12-31 14:00:24|        5516|      7794.31|          zing ƒ|  20223563|       null|                   33|                 4078|               72424-2|
-|  2022-12-31|2022-12-31 10:32:07|        4965|       7919.0|          zing ƒ|  20223562|       null|                  421|                 1979|               36441-5|
-|  2022-12-31|2022-12-31 07:37:02|        4608|       5603.0|        dollar $|  20223561|       null|                  666|                 4425|               41323-1|
-|  2022-12-31|2022-12-31 07:35:05|        1121|      4365.22|        dollar $|  20223560|       null|                  666|                 2400|               74120-4|
-|  2022-12-31|2022-12-31 02:53:44|        1121|       4620.0|        dollar $|  20223559|       null|                  421|                 1100|               39830-0|
+|  2022-12-31|2022-12-31 14:00:24|        5516|      7794.31|          zing ƒ|  20223563|       NULL|                   33|                 4078|               72424-2|
+|  2022-12-31|2022-12-31 10:32:07|        4965|       7919.0|          zing ƒ|  20223562|       NULL|                  421|                 1979|               36441-5|
+|  2022-12-31|2022-12-31 07:37:02|        4608|       5603.0|        dollar $|  20223561|       NULL|                  666|                 4425|               41323-1|
+|  2022-12-31|2022-12-31 07:35:05|        1121|      4365.22|        dollar $|  20223560|       NULL|                  666|                 2400|               74120-4|
+|  2022-12-31|2022-12-31 02:53:44|        1121|       4620.0|        dollar $|  20223559|       NULL|                  421|                 1100|               39830-0|
 +------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
 only showing top 5 rows
 </code></pre>
@@ -1039,11 +1046,11 @@ only showing top 5 rows
 <pre><code>+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
 |dateTransfer|   datetimeTransfer|clientNumber|transferValue|transferCurrency|transferID|transferLog|destinationBankNumber|destinationBankBranch|destinationBankAccount|
 +------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
-|  2022-12-31|2022-12-31 14:00:24|        5516|      7794.31|          zing ƒ|  20223563|       null|                   33|                 4078|               72424-2|
-|  2022-12-31|2022-12-31 10:32:07|        4965|       7919.0|          zing ƒ|  20223562|       null|                  421|                 1979|               36441-5|
-|  2022-12-31|2022-12-31 07:37:02|        4608|       5603.0|        dollar $|  20223561|       null|                  666|                 4425|               41323-1|
-|  2022-12-31|2022-12-31 07:35:05|        1121|      4365.22|        dollar $|  20223560|       null|                  666|                 2400|               74120-4|
-|  2022-12-31|2022-12-31 02:53:44|        1121|       4620.0|        dollar $|  20223559|       null|                  421|                 1100|               39830-0|
+|  2022-12-31|2022-12-31 14:00:24|        5516|      7794.31|          zing ƒ|  20223563|       NULL|                   33|                 4078|               72424-2|
+|  2022-12-31|2022-12-31 10:32:07|        4965|       7919.0|          zing ƒ|  20223562|       NULL|                  421|                 1979|               36441-5|
+|  2022-12-31|2022-12-31 07:37:02|        4608|       5603.0|        dollar $|  20223561|       NULL|                  666|                 4425|               41323-1|
+|  2022-12-31|2022-12-31 07:35:05|        1121|      4365.22|        dollar $|  20223560|       NULL|                  666|                 2400|               74120-4|
+|  2022-12-31|2022-12-31 02:53:44|        1121|       4620.0|        dollar $|  20223559|       NULL|                  421|                 1100|               39830-0|
 +------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
 only showing top 5 rows
 </code></pre>
@@ -1097,11 +1104,11 @@ only showing top 5 rows
 <pre><code>+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
 |dateTransfer|   datetimeTransfer|clientNumber|transferValue|transferCurrency|transferID|transferLog|destinationBankNumber|destinationBankBranch|destinationBankAccount|
 +------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
-|  2022-12-31|2022-12-31 14:00:24|        5516|      7794.31|          zing ƒ|  20223563|       null|                   33|                 4078|               72424-2|
-|  2022-12-31|2022-12-31 10:32:07|        4965|       7919.0|          zing ƒ|  20223562|       null|                  421|                 1979|               36441-5|
-|  2022-12-31|2022-12-31 07:37:02|        4608|       5603.0|        dollar $|  20223561|       null|                  666|                 4425|               41323-1|
-|  2022-12-31|2022-12-31 07:35:05|        1121|      4365.22|        dollar $|  20223560|       null|                  666|                 2400|               74120-4|
-|  2022-12-31|2022-12-31 02:53:44|        1121|       4620.0|        dollar $|  20223559|       null|                  421|                 1100|               39830-0|
+|  2022-12-31|2022-12-31 14:00:24|        5516|      7794.31|          zing ƒ|  20223563|       NULL|                   33|                 4078|               72424-2|
+|  2022-12-31|2022-12-31 10:32:07|        4965|       7919.0|          zing ƒ|  20223562|       NULL|                  421|                 1979|               36441-5|
+|  2022-12-31|2022-12-31 07:37:02|        4608|       5603.0|        dollar $|  20223561|       NULL|                  666|                 4425|               41323-1|
+|  2022-12-31|2022-12-31 07:35:05|        1121|      4365.22|        dollar $|  20223560|       NULL|                  666|                 2400|               74120-4|
+|  2022-12-31|2022-12-31 02:53:44|        1121|       4620.0|        dollar $|  20223559|       NULL|                  421|                 1100|               39830-0|
 +------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
 only showing top 5 rows
 </code></pre>
@@ -1254,11 +1261,11 @@ only showing top 5 rows
 <pre><code>+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
 |dateTransfer|   datetimeTransfer|clientNumber|transferValue|transferCurrency|transferID|transferLog|destinationBankNumber|destinationBankBranch|destinationBankAccount|
 +------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
-|  2022-12-30|2022-12-30 11:30:23|        1455|       5141.0| british pound £|  20223552|       null|                  421|                 6552|               62671-3|
-|  2022-12-30|2022-12-30 02:35:23|        5986|       6076.0| british pound £|  20223550|       null|                   33|                 4078|               83994-4|
-|  2022-12-29|2022-12-29 15:24:04|        4862|       5952.0| british pound £|  20223544|       null|                  666|                 1002|               37736-6|
-|  2022-12-29|2022-12-29 14:16:46|        2197|       8771.0| british pound £|  20223543|       null|                   33|                 1200|               32390-2|
-|  2022-12-29|2022-12-29 06:51:24|        5987|       2345.0| british pound £|  20223539|       null|                   33|                 2231|               70909-9|
+|  2022-12-30|2022-12-30 11:30:23|        1455|       5141.0| british pound £|  20223552|       NULL|                  421|                 6552|               62671-3|
+|  2022-12-30|2022-12-30 02:35:23|        5986|       6076.0| british pound £|  20223550|       NULL|                   33|                 4078|               83994-4|
+|  2022-12-29|2022-12-29 15:24:04|        4862|       5952.0| british pound £|  20223544|       NULL|                  666|                 1002|               37736-6|
+|  2022-12-29|2022-12-29 14:16:46|        2197|       8771.0| british pound £|  20223543|       NULL|                   33|                 1200|               32390-2|
+|  2022-12-29|2022-12-29 06:51:24|        5987|       2345.0| british pound £|  20223539|       NULL|                   33|                 2231|               70909-9|
 +------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
 only showing top 5 rows
 </code></pre>
@@ -1274,11 +1281,11 @@ only showing top 5 rows
 <pre><code>+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
 |dateTransfer|   datetimeTransfer|clientNumber|transferValue|transferCurrency|transferID|transferLog|destinationBankNumber|destinationBankBranch|destinationBankAccount|
 +------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
-|  2022-12-29|2022-12-29 02:54:23|        2197|       5752.0| british pound £|  20223536|       null|                  666|                 8800|               54159-1|
-|  2022-12-27|2022-12-27 04:51:45|        4862|      11379.0|        dollar $|  20223523|       null|                   33|                 4425|               54796-3|
-|  2022-12-05|2022-12-05 05:50:27|        4965|       5986.0| british pound £|  20223386|       null|                  421|                 1200|               54118-1|
-|  2022-12-04|2022-12-04 14:31:42|        4965|       8123.0|        dollar $|  20223380|       null|                  666|                 3321|               54912-2|
-|  2022-11-29|2022-11-29 16:23:07|        4862|       8060.0|          zing ƒ|  20223351|       null|                  421|                 8800|               54194-8|
+|  2022-12-29|2022-12-29 02:54:23|        2197|       5752.0| british pound £|  20223536|       NULL|                  666|                 8800|               54159-1|
+|  2022-12-27|2022-12-27 04:51:45|        4862|      11379.0|        dollar $|  20223523|       NULL|                   33|                 4425|               54796-3|
+|  2022-12-05|2022-12-05 05:50:27|        4965|       5986.0| british pound £|  20223386|       NULL|                  421|                 1200|               54118-1|
+|  2022-12-04|2022-12-04 14:31:42|        4965|       8123.0|        dollar $|  20223380|       NULL|                  666|                 3321|               54912-2|
+|  2022-11-29|2022-11-29 16:23:07|        4862|       8060.0|          zing ƒ|  20223351|       NULL|                  421|                 8800|               54194-8|
 +------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
 only showing top 5 rows
 </code></pre>
@@ -1301,7 +1308,7 @@ only showing top 5 rows
 <pre><code>+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
 |dateTransfer|   datetimeTransfer|clientNumber|transferValue|transferCurrency|transferID|transferLog|destinationBankNumber|destinationBankBranch|destinationBankAccount|
 +------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
-|  2022-12-31|2022-12-31 14:00:24|        5516|      7794.31|          zing ƒ|  20223563|       null|                   33|                 4078|               72424-2|
+|  2022-12-31|2022-12-31 14:00:24|        5516|      7794.31|          zing ƒ|  20223563|       NULL|                   33|                 4078|               72424-2|
 +------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
 </code></pre>
 </div>
@@ -1344,11 +1351,11 @@ only showing top 5 rows
 <pre><code>+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
 |dateTransfer|   datetimeTransfer|clientNumber|transferValue|transferCurrency|transferID|transferLog|destinationBankNumber|destinationBankBranch|destinationBankAccount|
 +------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
-|  2022-12-31|2022-12-31 01:02:06|        4862|       6714.0|        dollar $|  20223557|       null|                  666|                 1002|               71839-1|
-|  2022-12-30|2022-12-30 00:18:25|        5832|       6333.0|        dollar $|  20223548|       null|                  666|                 8800|               78901-8|
-|  2022-12-29|2022-12-29 06:51:24|        5987|       2345.0| british pound £|  20223539|       null|                   33|                 2231|               70909-9|
-|  2022-12-27|2022-12-27 14:08:01|        3294|      6617.17|        dollar $|  20223526|       null|                  666|                 2231|               49767-2|
-|  2022-12-26|2022-12-26 11:25:09|        5832|       8178.0|          euro €|  20223517|       null|                  290|                 8521|               39648-9|
+|  2022-12-31|2022-12-31 01:02:06|        4862|       6714.0|        dollar $|  20223557|       NULL|                  666|                 1002|               71839-1|
+|  2022-12-30|2022-12-30 00:18:25|        5832|       6333.0|        dollar $|  20223548|       NULL|                  666|                 8800|               78901-8|
+|  2022-12-29|2022-12-29 06:51:24|        5987|       2345.0| british pound £|  20223539|       NULL|                   33|                 2231|               70909-9|
+|  2022-12-27|2022-12-27 14:08:01|        3294|      6617.17|        dollar $|  20223526|       NULL|                  666|                 2231|               49767-2|
+|  2022-12-26|2022-12-26 11:25:09|        5832|       8178.0|          euro €|  20223517|       NULL|                  290|                 8521|               39648-9|
 +------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
 only showing top 5 rows
 </code></pre>
@@ -1426,11 +1433,11 @@ only showing top 5 rows
 <pre><code>+------------+-------------------+--------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
 |dateTransfer|   datetimeTransfer|clientID|transferValue|transferCurrency|transferID|transferLog|destinationBankNumber|destinationBankBranch|destinationBankAccount|
 +------------+-------------------+--------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
-|  2022-12-31|2022-12-31 14:00:24|    5516|      7794.31|          zing ƒ|  20223563|       null|                   33|                 4078|               72424-2|
-|  2022-12-31|2022-12-31 10:32:07|    4965|       7919.0|          zing ƒ|  20223562|       null|                  421|                 1979|               36441-5|
-|  2022-12-31|2022-12-31 07:37:02|    4608|       5603.0|        dollar $|  20223561|       null|                  666|                 4425|               41323-1|
-|  2022-12-31|2022-12-31 07:35:05|    1121|      4365.22|        dollar $|  20223560|       null|                  666|                 2400|               74120-4|
-|  2022-12-31|2022-12-31 02:53:44|    1121|       4620.0|        dollar $|  20223559|       null|                  421|                 1100|               39830-0|
+|  2022-12-31|2022-12-31 14:00:24|    5516|      7794.31|          zing ƒ|  20223563|       NULL|                   33|                 4078|               72424-2|
+|  2022-12-31|2022-12-31 10:32:07|    4965|       7919.0|          zing ƒ|  20223562|       NULL|                  421|                 1979|               36441-5|
+|  2022-12-31|2022-12-31 07:37:02|    4608|       5603.0|        dollar $|  20223561|       NULL|                  666|                 4425|               41323-1|
+|  2022-12-31|2022-12-31 07:35:05|    1121|      4365.22|        dollar $|  20223560|       NULL|                  666|                 2400|               74120-4|
+|  2022-12-31|2022-12-31 02:53:44|    1121|       4620.0|        dollar $|  20223559|       NULL|                  421|                 1100|               39830-0|
 +------------+-------------------+--------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
 only showing top 5 rows
 </code></pre>
@@ -1448,19 +1455,19 @@ only showing top 5 rows
 <pre><code>+-------------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
 |   datetimeTransfer|transferValue|transferCurrency|transferID|transferLog|destinationBankNumber|destinationBankBranch|destinationBankAccount|
 +-------------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
-|2022-12-31 14:00:24|      7794.31|          zing ƒ|  20223563|       null|                   33|                 4078|               72424-2|
-|2022-12-31 10:32:07|       7919.0|          zing ƒ|  20223562|       null|                  421|                 1979|               36441-5|
-|2022-12-31 07:37:02|       5603.0|        dollar $|  20223561|       null|                  666|                 4425|               41323-1|
-|2022-12-31 07:35:05|      4365.22|        dollar $|  20223560|       null|                  666|                 2400|               74120-4|
-|2022-12-31 02:53:44|       4620.0|        dollar $|  20223559|       null|                  421|                 1100|               39830-0|
+|2022-12-31 14:00:24|      7794.31|          zing ƒ|  20223563|       NULL|                   33|                 4078|               72424-2|
+|2022-12-31 10:32:07|       7919.0|          zing ƒ|  20223562|       NULL|                  421|                 1979|               36441-5|
+|2022-12-31 07:37:02|       5603.0|        dollar $|  20223561|       NULL|                  666|                 4425|               41323-1|
+|2022-12-31 07:35:05|      4365.22|        dollar $|  20223560|       NULL|                  666|                 2400|               74120-4|
+|2022-12-31 02:53:44|       4620.0|        dollar $|  20223559|       NULL|                  421|                 1100|               39830-0|
 +-------------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
 only showing top 5 rows
 </code></pre>
 </div>
 </div>
 </section>
-<section id="casting-columns-to-a-different-data-type" class="level3" data-number="5.8.3">
-<h3 data-number="5.8.3" class="anchored" data-anchor-id="casting-columns-to-a-different-data-type"><span class="header-section-number">5.8.3</span> Casting columns to a different data type</h3>
+<section id="sec-cast-column-type" class="level3" data-number="5.8.3">
+<h3 data-number="5.8.3" class="anchored" data-anchor-id="sec-cast-column-type"><span class="header-section-number">5.8.3</span> Casting columns to a different data type</h3>
 <p>Spark try to do its best when guessing which is correct data type for the columns of your DataFrame. But, obviously, Spark can get it wrong, and, you end up deciding by your own which data type to use for a specific column.</p>
 <p>To explicit transform a column to a specific data type, you can use <code>cast()</code> or <code>astype()</code> methods inside <code>select()</code>. The <code>astype()</code> method is just an alias to <code>cast()</code>. This <code>cast()</code> method is very similar to the <code>CAST()</code> function in SQL, and belongs to the <code>Column</code> class, so, you should always use it after a column name with the dot operator, or, a <code>col()</code>/<code>column()</code> function:</p>
 <div class="cell" data-execution_count="51">
@@ -1537,11 +1544,11 @@ only showing top 5 rows
 <pre><code>+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+-------+
 |dateTransfer|   datetimeTransfer|clientNumber|transferValue|transferCurrency|transferID|transferLog|destinationBankNumber|destinationBankBranch|destinationBankAccount|by_1000|
 +------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+-------+
-|  2022-12-31|2022-12-31 14:00:24|        5516|      7794.31|          zing ƒ|  20223563|       null|                   33|                 4078|               72424-2|7.79431|
-|  2022-12-31|2022-12-31 10:32:07|        4965|       7919.0|          zing ƒ|  20223562|       null|                  421|                 1979|               36441-5|  7.919|
-|  2022-12-31|2022-12-31 07:37:02|        4608|       5603.0|        dollar $|  20223561|       null|                  666|                 4425|               41323-1|  5.603|
-|  2022-12-31|2022-12-31 07:35:05|        1121|      4365.22|        dollar $|  20223560|       null|                  666|                 2400|               74120-4|4.36522|
-|  2022-12-31|2022-12-31 02:53:44|        1121|       4620.0|        dollar $|  20223559|       null|                  421|                 1100|               39830-0|   4.62|
+|  2022-12-31|2022-12-31 14:00:24|        5516|      7794.31|          zing ƒ|  20223563|       NULL|                   33|                 4078|               72424-2|7.79431|
+|  2022-12-31|2022-12-31 10:32:07|        4965|       7919.0|          zing ƒ|  20223562|       NULL|                  421|                 1979|               36441-5|  7.919|
+|  2022-12-31|2022-12-31 07:37:02|        4608|       5603.0|        dollar $|  20223561|       NULL|                  666|                 4425|               41323-1|  5.603|
+|  2022-12-31|2022-12-31 07:35:05|        1121|      4365.22|        dollar $|  20223560|       NULL|                  666|                 2400|               74120-4|4.36522|
+|  2022-12-31|2022-12-31 02:53:44|        1121|       4620.0|        dollar $|  20223559|       NULL|                  421|                 1100|               39830-0|   4.62|
 +------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+-------+
 only showing top 5 rows
 </code></pre>
@@ -1561,11 +1568,11 @@ only showing top 5 rows
 <pre><code>+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+-------+
 |dateTransfer|   datetimeTransfer|clientNumber|transferValue|transferCurrency|transferID|transferLog|destinationBankNumber|destinationBankBranch|destinationBankAccount|by_1000|
 +------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+-------+
-|  2022-12-31|2022-12-31 14:00:24|        5516|      7794.31|          zing ƒ|  20223563|       null|                   33|                 4078|               72424-2|7.79431|
-|  2022-12-31|2022-12-31 10:32:07|        4965|       7919.0|          zing ƒ|  20223562|       null|                  421|                 1979|               36441-5|  7.919|
-|  2022-12-31|2022-12-31 07:37:02|        4608|       5603.0|        dollar $|  20223561|       null|                  666|                 4425|               41323-1|  5.603|
-|  2022-12-31|2022-12-31 07:35:05|        1121|      4365.22|        dollar $|  20223560|       null|                  666|                 2400|               74120-4|4.36522|
-|  2022-12-31|2022-12-31 02:53:44|        1121|       4620.0|        dollar $|  20223559|       null|                  421|                 1100|               39830-0|   4.62|
+|  2022-12-31|2022-12-31 14:00:24|        5516|      7794.31|          zing ƒ|  20223563|       NULL|                   33|                 4078|               72424-2|7.79431|
+|  2022-12-31|2022-12-31 10:32:07|        4965|       7919.0|          zing ƒ|  20223562|       NULL|                  421|                 1979|               36441-5|  7.919|
+|  2022-12-31|2022-12-31 07:37:02|        4608|       5603.0|        dollar $|  20223561|       NULL|                  666|                 4425|               41323-1|  5.603|
+|  2022-12-31|2022-12-31 07:35:05|        1121|      4365.22|        dollar $|  20223560|       NULL|                  666|                 2400|               74120-4|4.36522|
+|  2022-12-31|2022-12-31 02:53:44|        1121|       4620.0|        dollar $|  20223559|       NULL|                  421|                 1100|               39830-0|   4.62|
 +------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+-------+
 only showing top 5 rows
 </code></pre>
@@ -1586,11 +1593,11 @@ only showing top 5 rows
 <pre><code>+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
 |dateTransfer|   datetimeTransfer|clientNumber|transferValue|transferCurrency|transferID|transferLog|destinationBankNumber|destinationBankBranch|destinationBankAccount|
 +------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
-|  2022-07-22|2022-07-22 16:06:25|        3795|         60.0|        dollar $|  20222533|       null|                  290|                 1100|               39925-1|
-|  2022-05-09|2022-05-09 14:02:15|        3284|        104.0|        dollar $|  20222033|       null|                  666|                 2231|               74766-2|
-|  2022-09-16|2022-09-16 20:35:40|        3294|       129.09|          zing ƒ|  20222896|       null|                  290|                 3321|               60867-9|
-|  2022-12-18|2022-12-18 08:45:30|        1297|       142.66|        dollar $|  20223467|       null|                  421|                 5420|               43088-1|
-|  2022-08-20|2022-08-20 09:27:55|        2727|        160.0|        dollar $|  20222724|       null|                   33|                 1002|               75581-5|
+|  2022-07-22|2022-07-22 16:06:25|        3795|         60.0|        dollar $|  20222533|       NULL|                  290|                 1100|               39925-1|
+|  2022-05-09|2022-05-09 14:02:15|        3284|        104.0|        dollar $|  20222033|       NULL|                  666|                 2231|               74766-2|
+|  2022-09-16|2022-09-16 20:35:40|        3294|       129.09|          zing ƒ|  20222896|       NULL|                  290|                 3321|               60867-9|
+|  2022-12-18|2022-12-18 08:45:30|        1297|       142.66|        dollar $|  20223467|       NULL|                  421|                 5420|               43088-1|
+|  2022-08-20|2022-08-20 09:27:55|        2727|        160.0|        dollar $|  20222724|       NULL|                   33|                 1002|               75581-5|
 +------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
 only showing top 5 rows
 </code></pre>
@@ -1605,11 +1612,11 @@ only showing top 5 rows
 <pre><code>+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
 |dateTransfer|   datetimeTransfer|clientNumber|transferValue|transferCurrency|transferID|transferLog|destinationBankNumber|destinationBankBranch|destinationBankAccount|
 +------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
-|  2022-03-30|2022-03-30 11:57:22|        1121|        461.0|          euro €|  20221738|       null|                  666|                 6552|               35568-9|
-|  2022-05-23|2022-05-23 11:51:02|        1121|       844.66| british pound £|  20222127|       null|                  421|                 1002|               32340-0|
-|  2022-08-24|2022-08-24 13:51:30|        1121|      1046.93|          euro €|  20222748|       null|                  421|                 6317|               38887-3|
-|  2022-09-23|2022-09-23 19:49:19|        1121|       1327.0| british pound £|  20222938|       null|                  290|                 5420|               77350-1|
-|  2022-06-25|2022-06-25 17:07:08|        1121|       1421.0|        dollar $|  20222361|       null|                  290|                 9921|               77258-7|
+|  2022-03-30|2022-03-30 11:57:22|        1121|        461.0|          euro €|  20221738|       NULL|                  666|                 6552|               35568-9|
+|  2022-05-23|2022-05-23 11:51:02|        1121|       844.66| british pound £|  20222127|       NULL|                  421|                 1002|               32340-0|
+|  2022-08-24|2022-08-24 13:51:30|        1121|      1046.93|          euro €|  20222748|       NULL|                  421|                 6317|               38887-3|
+|  2022-09-23|2022-09-23 19:49:19|        1121|       1327.0| british pound £|  20222938|       NULL|                  290|                 5420|               77350-1|
+|  2022-06-25|2022-06-25 17:07:08|        1121|       1421.0|        dollar $|  20222361|       NULL|                  290|                 9921|               77258-7|
 +------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
 only showing top 5 rows
 </code></pre>
@@ -1624,11 +1631,11 @@ only showing top 5 rows
 <pre><code>+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
 |dateTransfer|   datetimeTransfer|clientNumber|transferValue|transferCurrency|transferID|transferLog|destinationBankNumber|destinationBankBranch|destinationBankAccount|
 +------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
-|  2022-08-18|2022-08-18 13:57:12|        1121|     11490.37|          zing ƒ|  20222712|       null|                  421|                 2400|               61244-9|
-|  2022-11-05|2022-11-05 08:00:37|        1121|     10649.59|        dollar $|  20223197|       null|                  421|                 3321|               40011-2|
-|  2022-05-17|2022-05-17 10:27:05|        1121|     10471.23| british pound £|  20222086|       null|                  666|                 8521|               26534-1|
-|  2022-05-15|2022-05-15 00:25:49|        1121|      10356.0|        dollar $|  20222075|       null|                   33|                 1979|               28234-7|
-|  2022-06-10|2022-06-09 23:51:39|        1121|      10142.0|        dollar $|  20222241|       null|                   33|                 2400|               36594-6|
+|  2022-08-18|2022-08-18 13:57:12|        1121|     11490.37|          zing ƒ|  20222712|       NULL|                  421|                 2400|               61244-9|
+|  2022-11-05|2022-11-05 08:00:37|        1121|     10649.59|        dollar $|  20223197|       NULL|                  421|                 3321|               40011-2|
+|  2022-05-17|2022-05-17 10:27:05|        1121|     10471.23| british pound £|  20222086|       NULL|                  666|                 8521|               26534-1|
+|  2022-05-15|2022-05-15 00:25:49|        1121|      10356.0|        dollar $|  20222075|       NULL|                   33|                 1979|               28234-7|
+|  2022-06-10|2022-06-09 23:51:39|        1121|      10142.0|        dollar $|  20222241|       NULL|                   33|                 2400|               36594-6|
 +------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
 only showing top 5 rows
 </code></pre>
@@ -1697,7 +1704,7 @@ only showing top 5 rows
 <div class="sourceCode cell-code" id="cb109"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb109-1"><a href="#cb109-1" aria-hidden="true" tabindex="-1"></a>transf_per_client <span class="op">=</span> transf.groupBy(<span class="st">'clientNumber'</span>)</span>
 <span id="cb109-2"><a href="#cb109-2" aria-hidden="true" tabindex="-1"></a>transf_per_client</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="54">
-<pre><code>&lt;pyspark.sql.group.GroupedData at 0x7fc65c750460&gt;</code></pre>
+<pre><code>GroupedData[grouping expressions: [clientNumber], value: [dateTransfer: date, datetimeTransfer: timestamp ... 8 more fields], type: GroupBy]</code></pre>
 </div>
 </div>
 <p>At first, it appears that nothing has changed. But the <code>groupBy()</code> method always returns a new object of class <code>pyspark.sql.group.GroupedData</code>. As a consequence, we can no longer use some of the DataFrame methods that we used before, like the <code>show()</code> method to see the DataFrame.</p>

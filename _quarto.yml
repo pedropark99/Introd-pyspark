@@ -30,6 +30,7 @@ book:
     - Chapters/06-dataframes-sql.qmd
     - Chapters/08-transforming2.qmd
     - Chapters/09-strings.qmd
+    - Chapters/10-datetime.qmd
     - Chapters/references.qmd
   appendices:
     - Chapters/00-terminal.qmd

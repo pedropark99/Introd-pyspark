@@ -4,7 +4,206 @@ Units of measurement that represents time are very commom types of data in our m
 
 In Spark, dates and datetimes are represented respectively by the `DateType` and `TimestampType` data types, which are available in `psypark` from the `pyspark.sql.types` module. Spark also offers two other data types to represent "intervals of time", which are `YearMonthIntervalType` and `DayTimeIntervalType`. However, you usually don't use these types directly to create new objects.
 
+```{python}
+#| include: false
+# To execute the next chunks with success, we need to start a Spark Session
+from pyspark.sql import SparkSession
+spark = SparkSession.builder.getOrCreate()
+sc = spark.sparkContext
+sc.setLogLevel("OFF")
+```
 
 ## Creating dates
 
-Dates are normally interpreted in `pyspark` using the `DateType` data type. There are two commom ways to create date objects, which are: from strings (like `"3 of June of 2023"`, or maybe, `"2023-02-05"`); or from integers and floats. Normal python objects which use. In others, you usually
+Dates are normally interpreted in `pyspark` using the `DateType` data type. There are two commom ways to create date objects, which are from strings (like `"3 of June of 2023"`, or maybe, `"2023-02-05"`) or from datetime values (i.e. values of type `TimestampType`).
+
+
+### From strings
+
+When you have a `StringType` column in your DataFrame that contains dates that currently being stored inside strings, and you want to convert this column into a `DateType` column, you basically have two choices: 1) use the automatic column conversion with `cast()` or `astype()`; 2) use the `to_date()` Spark SQL function to convert the strings using a specified date format.
+
+When you use the `cast()` (or `astype()`) column method that we introduced at @sec-cast-column-type, Spark perform a quick and automatic conversion to `DateType` by casting the strings you have into `DateType`. In more details, when you use this method, Spark will always assume that the dates you have are in the ISO-8601 format, which is the international standard for dates.
+
+The ISO-8601 standard specifies that dates are represented in the format "Year-Month-Date", like `2023-09-19`, `1926-05-21`, or `2005-11-01`. This is also the format that dates are usually formatted in United States of America. This means that if the dates you have (which are currently stored inside strings) are formatted like the ISO-8601 standard, then, you can safely and easily convert them into the `DateType` by using the `cast()` or `astype()` column methods.
+
+However, if these dates are formatted in a different way, then, the `cast()` method will very likely produce `null` values as a result, because it cannot parse dates that are outside the ISO format.
+
+If that is your case, then you should use the `to_date()` function, which allows you to specify the exact format of your dates.
+I will describe at @sec-datetime-patterns how you can use this function to convert dates that are outside of the ISO format to `DateType` values. But for now, for simplicity sake, I will consider only strings that contains date in the ISO format.
+
+As a first example, lets consider the DataFrame `df` below:
+
+```{python}
+from pyspark.sql import Row
+
+data = [
+  Row(date_registered = "2021-01-01"),
+  Row(date_registered = "2021-01-01"),
+  Row(date_registered = "2021-01-02"),
+  Row(date_registered = "2021-01-03")
+]
+
+df = spark.createDataFrame(data)
+df.show()
+```
+
+If we look at the DataFrame schema, we can see that the `date_registered` column is currently being interpreted as a column of type `StringType`:
+
+```{python}
+df.printSchema()
+```
+
+Since the dates from the `date_registered` column are formatted like the ISO-8601 standard, we can safely use `cast()` to get a column of type `DateType`:
+
+```{python}
+from pyspark.sql.functions import col
+
+df = df.withColumn(
+    'date_registered',
+    col('date_registered').cast('date')
+)
+
+df.show()
+```
+
+```{python}
+df.printSchema()
+```
+
+
+### From datetimes
+
+A datetime value is a value that contains both a date component and a time component, and you can obviously extract the date component from a datetime value. Let's use the following DataFrame as example:
+
+```{python}
+from pyspark.sql import Row
+from datetime import datetime
+
+data = [
+  {'datetime': datetime(2021, 6, 12, 10, 0, 0)},
+  {'datetime': datetime(2021, 6, 12, 18, 0, 0)},
+  {'datetime': datetime(2021, 6, 13, 7, 0, 0)},
+  {'datetime': datetime(2021, 6, 14, 19, 30, 0)}
+]
+
+df = spark.createDataFrame(data)
+df.printSchema()
+```
+
+You can extract the date components from the `datetime` column by directly casting the column into the `DateType` type. Like you would normally do with a string column.
+
+```{python}
+from pyspark.sql.functions import from_unixtime
+df.withColumn('as_date', col('datetime').cast('date'))\
+    .show()
+```
+
+
+
+
+
+## Introducing datetime patterns {#sec-datetime-patterns}
+
+Every time you have strings that contains dates and datetime values that are outside of the ISO-8601 format, you usually have to use datetime patterns to convert these strings to date and datetime values. In other words, in this section I will describe how you can use datetime patterns to convert dates and datetimes values outside of the ISO-8601 format.
+
+Despite the existence of an international standard (like ISO-8601), the used date and datetime formats varies accross different countries around the world. There are tons of examples of these different formats. For example, in Brazil, dates are usually formatted like "Day/Month/Year". Not only the order of the date components (day, month and year) are different, but also, the separator character ("/" instead of "-").
+
+In essence, a datetime pattern is a string pattern that describes a specific date or datetime format. This means that we can use a datetime pattern to describe any date or datetime format. A datetime pattern is a string value that is constructed by grouping letters together.
+
+Each individual letter represents an individual component of a date or a datetime value. You can see at @tbl-date-components a list of the most commom used letters in datetime patterns. If you want, you can also see the full list of possible letters in datetime patterns by visiting the Spark Datetime Patterns page[^datetime_patterns].
+
+
+| Letter | Meaning                  | Example of a valid value                       |
+| ------ | ------------------------ | ---------------------------------------------- |
+| G      | era                      | AD; Anno Domini                                |
+| y      | year                     | 2020; 20                                       |
+| D      | day-of-year              | 189                                            |
+| M/L    | month-of-year            | 7; 07; Jul; July                               |
+| d      | day-of-month             | 28                                             |
+| Q/q    | quarter-of-year          | 3; 03; Q3; 3rd quarter                         |
+| E      | day-of-week              | Tue; Tuesday                                   |
+| F      | aligned day of week      | 3                                              |
+| a      | am-pm-of-day             | PM                                             |
+| h      | clock-hour-of-am-pm      | 12                                             |
+| K      | hour-of-am-pm            | 0                                              |
+| k      | clock-hour-of-day        | 0                                              |
+| H      | hour-of-day              | 0                                              |
+| m      | minute-of-hour           | 30                                             |
+| s      | second-of-minute         | 55                                             |
+| S      | fraction-of-second       | 978                                            |
+| V      | time-zone ID             | America/Los_Angeles; Z; -08:30                 |
+| z      | time-zone name           | Pacific Standard Time; PST                     |
+| O      | localized zone-offset    | GMT+8; GMT+08:00; UTC-08:00;                   |
+| X      | zone-offset ‘Z’ for zero | Z; -08; -0830; -08:30; -083015; -08:30:15;     |
+| x      | zone-offset              | +0000; -08; -0830; -08:30; -083015; -08:30:15; |
+| Z      | zone-offset              | +0000; -0800; -08:00;                          |
+
+: List of letters to represent date and datetime components {#tbl-date-components}
+
+[^datetime_patterns]: <https://spark.apache.org/docs/latest/sql-ref-datetime-pattern.html>
+
+
+So, following the above table, if we had a date in the format "Day, Month of Year", like "12, November of 1997", we would use the letters d, M and y for each of the three components that are present in this format. In fact, let's create a DataFrame with this exact value, and let's demonstrate how could you convert it to a `DateType` value.
+
+```{python}
+data = [ {"date": "12, November of 1997"} ]
+weird_date = spark.createDataFrame(data)
+weird_date.show()
+```
+
+To convert it from the `StringType` to `DateType` we have to use the `to_date()` Spark SQL function. Because with this function, we can provide the Datetime Pattern that describes the exact format that these dates use. But before we use `to_date()`, we need to build a Datetime Pattern that we want to use.
+
+The date example above ("12, November of 1997") starts with a two-digit day number. That is why we begin our datetime pattern with two d's, to represent this section of the date. After that we have a comma and a space followed by the month name. However, both month name and the year number at the end of the date are in their full formats, instead of their abbreviated formats.
+
+Because of that, we need to tell Spark to use the full format instead of the abbreviated format on both of these two components. To do that, we use four M's and four y's, instead of just two. At last, we have a literal "of" between the month name and the year name, and to describe this specific section of the date, we insert `'of'` between the M's and y's.
+
+In essence, we have the datetime pattern `"dd, MMMM 'of' yyyy"`. Now, we can just use `to_date()` with this datetime pattern to convert the string value to a date value.
+
+```{python}
+from pyspark.sql.functions import to_date
+pattern = "dd, MMMM 'of' yyyy"
+weird_date = weird_date\
+    .withColumn("date", to_date(col("date"), pattern))
+
+weird_date.show()
+```
+
+```{python}
+weird_date.printSchema()
+```
+
+
+So, if you have a constant (or fixed) text that is always present in all of your date values, like the "of" in the above example, you must encapsulate this text between quotation marks in your datetime patterns. Also, depending if your components are in a abbreviated format (like "02" for year 2002, or "Jan" for the January month), or in a full format (like the year "1997" or the month "October"), you might want to repeat the letters one or two times (to use abbreviated formats), or you might want to repeat it four times (to use the full formats). In other words, if you use less than 4 pattern letters, then, Spark will use the short text form, typically an abbreviation form of the component you are reffering to @sparkdoc.
+
+
+As another example of unusual date formats, lets use the `user_events` DataFrame. You can easily get the data of this DataFrame by dowloading the JSON file from the official repository of this book[^book_repo]. After you downloaded the JSON file that contains the data, you can import it to your Spark session with the commands below:
+
+[^book_repo]: <https://github.com/pedropark99/Introd-pyspark/tree/main/Data>
+
+```{python}
+#| cache: true
+from pyspark.sql.types import StructType, StructField
+from pyspark.sql.types import DoubleType, StringType
+from pyspark.sql.types import LongType, TimestampType, DateType
+path = "../Data/user-events.json"
+schema = StructType([
+  StructField('dateOfEvent', StringType(), False),
+  StructField('timeOfEvent', StringType(), False),
+  StructField('userId', StringType(), False),
+  StructField('nameOfEvent', StringType(), False)
+])
+
+user_events = spark.read\
+  .json(path, schema = schema)
+
+user_events.show()
+```
+
+The `dateOfEvent` column of this DataFrame contains dates in the Brazilian format "Day/Month/Year". To describe this date format, we can use the datetime pattern `"dd/MM/yyyy"`.
+
+```{python}
+pattern = "dd/MM/yyyy"
+user_events\
+    .select(to_date(col('dateOfEvent'), pattern))\
+    .show()
+```
