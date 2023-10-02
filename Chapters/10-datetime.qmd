@@ -13,7 +13,7 @@ sc = spark.sparkContext
 sc.setLogLevel("OFF")
 ```
 
-## Creating dates
+## Creating dates {#sec-create-dates}
 
 Dates are normally interpreted in `pyspark` using the `DateType` data type. There are two commom ways to create date objects, which are from strings (like `"3 of June of 2023"`, or maybe, `"2023-02-05"`) or from datetime values (i.e. values of type `TimestampType`).
 
@@ -97,6 +97,18 @@ from pyspark.sql.functions import from_unixtime
 df.withColumn('as_date', col('datetime').cast('date'))\
     .show()
 ```
+
+
+
+## Creating datetimes
+
+Different programming languages and frameworks have a different name for it, but what I call here of "datetime value" is a value that contains both a date component and a time component. Timestamp is also a very popular name for it. Anyway, in `pyspark`, datetime or timestamp values are stored using the `TimestampType` data type. There are two commom ways to create datetime objects, which are from strings (like `"2023-02-05 12:30:00"`) or from integer values (i.e. `IntegerType` and `LongType`).
+
+### From strings
+
+Again, if your datetime values are being currently stored inside strings, and, you want to convert them to datetime values, you can use the automatic conversion of Spark with the `cast()` column method. However, as we stated at @sec-create-dates, when you use this path, Spark will always assume that your datetime values follow the ISO-8601 format.
+
+The ISO-8601 standard states that datetime values should always follow the format "Year-Month-Day Hour:Minute:Second". Examples of values that follows this standard are "2014-10-18T16:30:00Z", "2019-05-09 08:20:00" and "2020-01-01 12:30:00 -03". This means that if your datetime values are not in this format, if they do not follow the ISO-8601 standard, then, you should not use the `cast()` method.
 
 
 
