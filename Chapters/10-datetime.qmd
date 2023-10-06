@@ -262,3 +262,14 @@ user_events\
 
 Another very commom operation is to add some amount of time to a date or datetime values. For example, you might want to advance your dates by 3 days. Or, delay your datetime values by 3 hours. In `pyspark`, you can perform this kind by either using functions or interval expressions.
 
+When we talk about functions available through the `pyspark.sql.functions` module, we have `date_add()` and `date_sub()`, which you can use to add or subtract days to a date, and `add_months()`, which you can use to add months to a date. Yes, the naming pattern of these functions is a little bit weird, but let's ignore this fact.
+
+Now, you can use interval expressions to add hours, minutes or seconds to a datetime value. However, interval expressions are only available at the Spark SQL level. As a consequence, you have to use the `expr()` function to get access to Spark SQL to use an interval expression. An interval expression follows the pattern below:
+
+```sql
+Column + INTERVAL 3 HOURS
+```
+
+A interval expression is an expression that begins with the `INTERVAL` keyword, and then, it is followed by a number that specifies an amount, and at last, another keyword that specifies the units of time to be used. So the expression `INTERVAL 3 HOURS` define a 3 hours interval expression. In contrast, the expression `INTERVAL 3 SECONDS` represents 3 seconds.
+
+By having an interval expression, you can just add or subtract this interval to your column to change the timestamp you have.
