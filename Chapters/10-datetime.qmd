@@ -15,18 +15,18 @@ sc.setLogLevel("OFF")
 
 ## Creating dates {#sec-create-dates}
 
-Dates are normally interpreted in `pyspark` using the `DateType` data type. There are two commom ways to create date objects, which are from strings (like `"3 of June of 2023"`, or maybe, `"2023-02-05"`) or from datetime values (i.e. values of type `TimestampType`).
+Dates are normally interpreted in `pyspark` using the `DateType` data type. There are two commom ways to create date objects, which are from strings (like `"3 of June of 2023"`, or maybe, `"2023-02-05"`) or by extracting the date component from datetime values (i.e. values of type `TimestampType`).
 
 
 ### From strings
 
 When you have a `StringType` column in your DataFrame that contains dates that currently being stored inside strings, and you want to convert this column into a `DateType` column, you basically have two choices: 1) use the automatic column conversion with `cast()` or `astype()`; 2) use the `to_date()` Spark SQL function to convert the strings using a specified date format.
 
-When you use the `cast()` (or `astype()`) column method that we introduced at @sec-cast-column-type, Spark perform a quick and automatic conversion to `DateType` by casting the strings you have into `DateType`. In more details, when you use this method, Spark will always assume that the dates you have are in the ISO-8601 format, which is the international standard for dates.
+When you use the `cast()` (or `astype()`) column method that we introduced at @sec-cast-column-type, Spark will perform a quick and automatic conversion to `DateType` by casting the strings you have into the `DateType`. But when you use this method, Spark will always assume that the dates you have are in the ISO-8601 format, which is the international standard for dates.
 
-The ISO-8601 standard specifies that dates are represented in the format "Year-Month-Date", like `2023-09-19`, `1926-05-21`, or `2005-11-01`. This is also the format that dates are usually formatted in United States of America. This means that if the dates you have (which are currently stored inside strings) are formatted like the ISO-8601 standard, then, you can safely and easily convert them into the `DateType` by using the `cast()` or `astype()` column methods.
+The ISO-8601 standard specifies that dates are represented in the format "YYYY-MM-DD" (or "Year-Month-Date"), like `2023-09-19`, `1926-05-21`, or `2005-11-01`. This is also the format that dates are usually formatted in United States of America. If the dates you have (which are currently stored inside strings) are formatted like the ISO-8601 standard, then, you can safely and easily convert them into the `DateType` by using the `cast()` or `astype()` column methods.
 
-However, if these dates are formatted in a different way, then, the `cast()` method will very likely produce `null` values as a result, because it cannot parse dates that are outside the ISO format.
+However, if these dates are formatted in a different way, then, the `cast()` method will very likely produce `null` values as a result, because it cannot parse dates that are outside the ISO-8601 format.
 
 If that is your case, then you should use the `to_date()` function, which allows you to specify the exact format of your dates.
 I will describe at @sec-datetime-patterns how you can use this function to convert dates that are outside of the ISO format to `DateType` values. But for now, for simplicity sake, I will consider only strings that contains date in the ISO format.
@@ -102,13 +102,13 @@ df.withColumn('as_date', col('datetime').cast('date'))\
 
 ## Creating datetimes
 
-Different programming languages and frameworks have a different name for it, but what I call here of "datetime value" is a value that contains both a date component and a time component. Timestamp is also a very popular name for it. Anyway, in `pyspark`, datetime or timestamp values are stored using the `TimestampType` data type. There are two commom ways to create datetime objects, which are from strings (like `"2023-02-05 12:30:00"`) or from integer values (i.e. `IntegerType` and `LongType`).
+Different programming languages and frameworks have a different name for it, but what I call here of "datetime value" is a value that contains both a date component and a time component. Timestamp is also a very popular name for it. Anyway, in `pyspark`, datetime or timestamp values are interpreted by the `TimestampType` data type. There are two commom ways to create datetime objects, which are from strings (like `"2023-02-05 12:30:00"`) or from integer values (i.e. `IntegerType` and `LongType`).
 
 ### From strings
 
 Again, if your datetime values are being currently stored inside strings, and, you want to convert them to datetime values, you can use the automatic conversion of Spark with the `cast()` column method. However, as we stated at @sec-create-dates, when you use this path, Spark will always assume that your datetime values follow the ISO-8601 format.
 
-The ISO-8601 standard states that datetime values should always follow the format "Year-Month-Day Hour:Minute:Second". Examples of values that follows this standard are "2014-10-18T16:30:00Z", "2019-05-09 08:20:00" and "2020-01-01 12:30:00 -03". This means that if your datetime values are not in this format, if they do not follow the ISO-8601 standard, then, you should not use the `cast()` method.
+The ISO-8601 standard states that datetime values should always follow the format "YYYY-MM-DD HH:MM:SS" (or "Year-Month-Day Hour:Minute:Second"). Examples of values that follows this standard are "2014-10-18T16:30:00Z", "2019-05-09 08:20:00" and "2020-01-01 12:30:00 -03". This means that if your datetime values are not in this format, if they do not follow the ISO-8601 standard, then, you should not use the `cast()` method.
 
 
 
@@ -215,7 +215,50 @@ The `dateOfEvent` column of this DataFrame contains dates in the Brazilian forma
 
 ```{python}
 pattern = "dd/MM/yyyy"
+user_events = user_events\
+    .withColumn('dateOfEvent', to_date(col('dateOfEvent'), pattern))
+
+user_events.show()
+```
+
+
+## Extracting date and datetime components
+
+One very commom operation when dealing with dates and datetime values is extracting components from the values. Like, you want to create a new column that contains the day component from all of your dates. Or maybe, the month... anyway.
+
+Thakfully, `pyspark` made it pretty easy to extract these kinds of components. You just use the corresponding function to each component! As a quick list, the functions below are used to extract components from both dates and datetime values. All of these functions come from the `pyspark.sql.functions` module:
+
+- `year()`: extract the year of a given date as integer.
+- `month()`: extract the month of a given date as integer.
+- `dayofmonth()`: extract the day of the month of a given date as integer.
+- `dayofweek()`: extract the day of the week of a given date as integer. The integer returned will be inside the range 1 (for a Sunday) through to 7 (for a Saturday).
+- `dayofyear()`: extract the day of the year of a given date as integer.
+
+
+On the other hand, the functions below only applies to datetime values, because they extract time components (which are not present on date values). These functions also comes to the `pyspark.sql.functions` module:
+
+- `hour()`: extract the hours of a given datetime as integer.
+- `minute()`: extract the minutes of a given datetime as integer.
+- `second()`: extract the seconds of a given datetime as integer.
+
+In essence, you just apply these functions at the column that contains your date and datetime values, and you get the component you want. As an example, lets go back to the `user_events` DataFrame and extract the day, month and year components of each date, into separate columns:
+
+```{python}
+from pyspark.sql.functions import (
+  dayofmonth,
+  month,
+  year
+)
+
 user_events\
-    .select(to_date(col('dateOfEvent'), pattern))\
+    .withColumn('dayOfEvent', dayofmonth(col('dateOfEvent')))\
+    .withColumn('monthOfEvent', month(col('dateOfEvent')))\
+    .withColumn('yearOfEvent', year(col('dateOfEvent')))\
     .show()
 ```
+
+
+## Adding time to date and datetime values with interval expressions
+
+Another very commom operation is to add some amount of time to a date or datetime values. For example, you might want to advance your dates by 3 days. Or, delay your datetime values by 3 hours. In `pyspark`, you can perform this kind by either using functions or interval expressions.
+
