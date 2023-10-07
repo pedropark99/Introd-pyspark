@@ -214,9 +214,11 @@ user_events.show()
 The `dateOfEvent` column of this DataFrame contains dates in the Brazilian format "Day/Month/Year". To describe this date format, we can use the datetime pattern `"dd/MM/yyyy"`.
 
 ```{python}
-pattern = "dd/MM/yyyy"
+date_pattern = "dd/MM/yyyy"
+datetime_pattern = date_pattern + " HH:mm:ss"
 user_events = user_events\
-    .withColumn('dateOfEvent', to_date(col('dateOfEvent'), pattern))
+    .withColumn('dateOfEvent', to_date(col('dateOfEvent'), date_pattern))\
+    .withColumn('timeOfEvent', to_datetime(col('timeOfEvent'), datetime_pattern))
 
 user_events.show()
 ```
@@ -262,14 +264,30 @@ user_events\
 
 Another very commom operation is to add some amount of time to a date or datetime values. For example, you might want to advance your dates by 3 days. Or, delay your datetime values by 3 hours. In `pyspark`, you can perform this kind by either using functions or interval expressions.
 
+
+
 When we talk about functions available through the `pyspark.sql.functions` module, we have `date_add()` and `date_sub()`, which you can use to add or subtract days to a date, and `add_months()`, which you can use to add months to a date. Yes, the naming pattern of these functions is a little bit weird, but let's ignore this fact.
 
-Now, you can use interval expressions to add hours, minutes or seconds to a datetime value. However, interval expressions are only available at the Spark SQL level. As a consequence, you have to use the `expr()` function to get access to Spark SQL to use an interval expression. An interval expression follows the pattern below:
+
+
+Now, you can use interval expressions to add years, months, days, hours, minutes or seconds to a date or datetime value. However, interval expressions are only available at the Spark SQL level. As a consequence, to use an interval expression, you must use `expr()` or `spark.sql()` (that we introduced at @sec-dataframe-sql-chapter) to get access to Spark SQL. An interval expression follows this pattern:
 
 ```sql
-Column + INTERVAL 3 HOURS
+INTERVAL 3 HOURS
 ```
 
-A interval expression is an expression that begins with the `INTERVAL` keyword, and then, it is followed by a number that specifies an amount, and at last, another keyword that specifies the units of time to be used. So the expression `INTERVAL 3 HOURS` define a 3 hours interval expression. In contrast, the expression `INTERVAL 3 SECONDS` represents 3 seconds.
+An interval expression is an expression that begins with the `INTERVAL` keyword, and then, it is followed by a number that specifies an amount. You define how much exactly this amout represents by using another keyword that specifies the unit of time to be used. So the keyword `HOUR` specifies that you want to use the "hour" unit of time.
+
+Having this in mind, the expression `INTERVAL 3 HOURS` defines a 3 hours interval expression. In contrast, the expression `INTERVAL 3 SECONDS` represents 3 seconds, and the expression `INTERVAL 90 MINUTES` represents 90 minutes, and so on.
 
 By having an interval expression, you can just add or subtract this interval to your column to change the timestamp you have.
+
+```{python}
+from pyspark.sql.functions import expr
+user_events\
+    .withColumn(
+      'timePlus3Hours',
+      expr('timeOfEvent + INTERVAL 3 HOURS')
+    )\
+    .show()
+```

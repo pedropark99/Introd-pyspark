@@ -1,4 +1,4 @@
-# Working with SQL in `pyspark`
+# Working with SQL in `pyspark` {#sec-dataframe-sql-chapter}
 
 ## Introduction
 
