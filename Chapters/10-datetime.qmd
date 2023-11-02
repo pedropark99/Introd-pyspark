@@ -98,6 +98,33 @@ df.withColumn('as_date', col('datetime').cast('date'))\
 ```
 
 
+### From individual components
+
+If you have 3 columns in your DataFrame, one for each component of a date value (day, month, year), you can group these components together to form date values. In `pyspark` you do this by using the `make_date()` function.
+
+To use this function, you just list the columns of each component in the following order: year, month and day. Like in this example:
+
+```{python}
+from pyspark.sql.functions import make_date
+df3 = spark.createDataFrame([
+    Row(day=14,month=2,year=2021),
+    Row(day=30,month=4,year=2021),
+    Row(day=2,month=5,year=2021),
+    Row(day=6,month=5,year=2021)
+])
+
+df3\
+    .withColumn(
+        'as_date',
+        make_date(
+            col('year'),
+            col('month'),
+            col('day')
+        )
+    )\
+    .show()
+```
+
 
 ## Creating datetime values
 
@@ -111,7 +138,7 @@ The ISO-8601 standard states that datetime values should always follow the forma
 
 This means that if your datetime values are not in this format, if they do not follow the ISO-8601 standard, then, you should not use the `cast()` method. If that is your case, you should use datetime patterns with the `to_timestamp()` function. We describe these assets in more depth at @sec-datetime-patterns.
 
-For now, let's focus on examples that use the ISO-8601 format. As an example, lets use the `df6` DataFrame below:
+For now, let's focus on examples that use the ISO-8601 format. As an example, lets use the `df2` DataFrame below:
 
 ```{python}
 data = [
@@ -121,30 +148,109 @@ data = [
     Row(datetime_as_string = "2021-08-09T00:30:16Z")
 ]
 
-df6 = spark.createDataFrame(data)
-df6.printSchema()
+df2 = spark.createDataFrame(data)
+df2.printSchema()
 ```
 
 You can see above, that the `datetime_as_string` column is currently being interpreted as a column of strings.
 But since the values are in ISO-8601 format, I can use the cast method to directly convert them into timestamp values.
 
 ```{python}
-df6 = df6\
+df2 = df2\
     .withColumn(
         'datetime_values',
         col('datetime_as_string').cast('timestamp')
     )
 
-df6.printSchema()
+df2.printSchema()
 ```
 
 ```{python}
-df6.show()
+df2.show()
 ```
 
 ### From integers
 
+You can also convert integers directly to datetime values by using the `cast()` method. When you do this, the integers are interpreted as being the number of seconds since the UNIX time epoch, which is mid-night of 1 January of 1970 (`"1970-01-01 00:00:00"`). In other words, the integer `60` will be converted the point of time which is 60 seconds after `"1970-01-01 00:00:00"`, which would be `"1970-01-01 00:01:00"`.
 
+In the example below, the number 1,000,421,325 is converted into 19:48:45 of 13 September of 2001. Because this date is 1.000421 billion of seconds ahead of the UNIX epoch.
+
+```{python}
+df3 = spark.createDataFrame([
+    Row(datetime_as_integer = 1000421325),
+    Row(datetime_as_integer = 1000423628),
+    Row(datetime_as_integer = 500),
+    Row(datetime_as_integer = 1000493412)
+])
+
+df3 = df3\
+    .withColumn(
+        'datetime_values',
+        col('datetime_as_integer').cast('timestamp')
+    )
+
+df3.show()
+```
+
+
+
+However, you probably notice in the example above, that something is odd. Because the number 500 was converted into `"1969-12-31 21:08:20"`, which is in teory, behind the UNIX epoch, which is 1 January of 1970. Why did that happen? Because your time zone is always taken into account during a conversion from integers to datetime values!
+
+In the example above, Spark is running on an operating system that is using the Brasília time zone (which is 3 hours late from international time zone - UTF-3) as the "default time zone" of the system. As a result, integers will be interpreted as being the number of seconds since the UNIX time epoch **minus 3 hours**, which is `"1969-12-31 21:00:00"`. So, in this context, the integer `60` would be converted into `"1969-12-31 21:01:00"` (instead of the usual `"1970-01-01 00:01:00"` that you would expect).
+
+That is why the number 500 was converted into `"1969-12-31 21:08:20"`. Because it is 500 seconds ahead of `"1969-12-31 21:00:00"`, which is 3 hours behind the UNIX time epoch.
+
+But what if you wanted to convert your integers into a UTC-0 time zone? Well, you could just set the time zone of your Spark Session to the international time zone before you do the conversion, with the command below:
+
+```python
+spark.conf.set("spark.sql.session.timeZone", "UTC")
+```
+
+But you could also do the conversion anyway and adjust the values later. That is, you just perform the conversion with the `cast()` method, even if the result would be in your current time zone. After that, you add the amount of time necessary to transpose your datetime values to the international time zone (UTC-0).
+
+So in the above example, since I was using the Brasília time zone (UTC-3) during the above conversion, I just need to add 3 hours to all datetime values to get their equivalents values in international time zone. You can do that by using interval expressions, which will be discussed in more depth at @sec-interval-express.
+
+```{python}
+from pyspark.sql.functions import expr
+df3 = df3\
+    .withColumn(
+        'datetime_values_utc0',
+        expr("datetime_values + INTERVAL 3 HOURS")
+    )
+
+df3.show()
+```
+
+
+### From individual components
+
+If you have 6 columns in your DataFrame, one for each component of a datetime value (day, month, year, hour, minute, second), you can group these components together to compose datetime values. We do this in `pyspark` by using the `make_timestamp()` function.
+
+To use this function, you just list the columns of each component in the following order: year, month, day, hours, minutes, seconds. Like in this example:
+
+```{python}
+from pyspark.sql.functions import make_timestamp
+df3 = spark.createDataFrame([
+    Row(day=14,month=2,year=2021,hour=12,mins=45,secs=0),
+    Row(day=30,month=4,year=2021,hour=8,mins=10,secs=0),
+    Row(day=2,month=5,year=2021,hour=5,mins=9,secs=12),
+    Row(day=6,month=5,year=2021,hour=0,mins=34,secs=4)
+])
+
+df3\
+    .withColumn(
+        'as_datetime',
+        make_timestamp(
+            col('year'),
+            col('month'),
+            col('day'),
+            col('hour'),
+            col('mins'),
+            col('secs')
+        )
+    )\
+    .show()
+```
 
 
 ## Introducing datetime patterns {#sec-datetime-patterns}
@@ -289,6 +395,7 @@ Thakfully, `pyspark` made it pretty easy to extract these kinds of components. Y
 - `dayofmonth()`: extract the day of the month of a given date or datetime as integer.
 - `dayofweek()`: extract the day of the week of a given date or datetime as integer. The integer returned will be inside the range 1 (for a Sunday) through to 7 (for a Saturday).
 - `dayofyear()`: extract the day of the year of a given date or datetime as integer.
+- `quarter()`: extract the quarter of a given date or datetime as integer.
 
 
 On the other hand, the list of functions below only applies to datetime values, because they extract time components (which are not present on date values). These functions also comes to the `pyspark.sql.functions` module:
@@ -318,7 +425,7 @@ user_events\
 ```
 
 
-## Adding time to date and datetime values with interval expressions
+## Adding time to date and datetime values with interval expressions {#sec-interval-express}
 
 Another very commom operation is to add some amount of time to a date or datetime values. For example, you might want to advance your dates by 3 days. Or, delay your datetime values by 3 hours. In `pyspark`, you can perform this kind by either using functions or interval expressions.
 
@@ -333,11 +440,11 @@ from pyspark.sql.functions import (
 
 user_events\
     .withColumn('timePlus10Days', date_add(col('timeOfEvent'), 10))\
-    .withColumn('timeLess5Days', date_sub(col('timeOfEvent'), 5))\
+    .withColumn('timeMinus5Days', date_sub(col('timeOfEvent'), 5))\
     .withColumn('timePlus8Months', add_months(col('timeOfEvent'), 8))\
     .select(
         'timeOfEvent', 'timePlus10Days',
-        'timeLess5Days', 'timePlus8Months'
+        'timeMinus5Days', 'timePlus8Months'
     )\
     .show()
 ```
@@ -368,3 +475,103 @@ user_events\
     .select('timeOfEvent', 'timePlus3Hours', 'timePlus2Years')\
     .show()
 ```
+
+
+## Calculating differences between dates and datetime values
+
+Another very commom operation is to calculate how much time is between two dates or two datetimes. In other words, you might
+want to calculate how many days the date `"2023-05-12"` is far ahead of `"2023-05-05"`, or how many hours the timestamp `"2023-07-10 13:13:00"` is ahead of `"2023-07-10 05:18:00"`.
+
+When you have two columns of type `DateType` (or `TimestampType`), you subtract one by the other directly to get the difference between the values of these columns. As an example, lets use the `df4` below:
+
+```{python}
+from random import randint, seed
+from datetime import (
+    date,
+    datetime,
+    timedelta
+)
+
+seed(10)
+dates = [
+    date(2023,4,1) + timedelta(days = randint(1,39))
+    for i in range(4)
+]
+
+datetimes = [
+    datetime(2023,4,1,8,14,54) + timedelta(hours = randint(1,39))
+    for i in range(4)
+]
+
+
+df4 = spark.createDataFrame([
+    Row(
+        date1 = date(2023,4,1),
+        date2 = dates[i],
+        datetime1 = datetime(2023,4,1,8,14,54),
+        datetime2 = datetimes[i]
+    )
+    for i in range(4)
+])
+
+df4.show()
+```
+
+If we subtract columns `date2` by `date1` and `datetime2` by `datetime1`, we get two new columns of type `DayTimeIntervalType`.
+These new columns represent the interval of time between the values of these columns.
+
+```{python}
+df4\
+    .select('date1', 'date2')\
+    .withColumn('datediff', col('date2') - col('date1'))\
+    .show()
+```
+
+
+```{python}
+df4\
+    .select('datetime1', 'datetime2')\
+    .withColumn('datetimediff', col('datetime2') - col('datetime1'))\
+    .show()
+```
+
+
+But another very commom way to calculate this difference is to convert the datetime values to seconds. Then, you subtract the calculated seconds, so you get as output, the difference in seconds between the two datetime values.
+
+To use this method, you first use the `unix_timestamp()` function to convert the timestamps into seconds as integer values, then, you subtract these new integer values that were created.
+
+```{python}
+from pyspark.sql.functions import unix_timestamp
+df4\
+    .select('datetime1', 'datetime2')\
+    .withColumn('datetime1', unix_timestamp(col('datetime1')))\
+    .withColumn('datetime2', unix_timestamp(col('datetime2')))\
+    .withColumn('diffinseconds', col('datetime2') - col('datetime1'))\
+    .show()
+```
+
+## Getting the now and today values
+
+If for some reason, you need to know which timestamp is now, or which date is today, you can use the `current_timestamp()` and `current_date()` functions from `pyspark.sql.functions` module. When you execute these functions, they output the current timestamp and date in your system.
+
+
+```{python}
+from pyspark.sql.types import StructType,StructField, StringType
+from pyspark.sql.functions import (
+    current_date,
+    current_timestamp,
+    lit
+)
+
+data = [Row(today="", now="")]
+schema = StructType([
+    StructField('today', StringType(), True),
+    StructField('now', StringType(), True)
+])
+
+spark.createDataFrame(data, schema = schema)\
+    .withColumn('today', lit(current_date()))\
+    .withColumn('now', lit(current_timestamp()))\
+    .show()
+```
+
