@@ -789,7 +789,7 @@ transf\
 
 
 
-### Casting columns to a different data type
+### Casting columns to a different data type {#sec-cast-column-type}
 
 Spark try to do its best when guessing which is correct data type for the columns of your DataFrame. But, obviously, Spark can get it wrong, and, you end up deciding by your own which data type to use for a specific column.
 
