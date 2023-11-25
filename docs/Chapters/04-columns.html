@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Introduction to pyspark - Preface</title>
+<title>Introduction to pyspark - 4&nbsp; Introducing the Column class</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -54,26 +54,7 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-/* CSS for citations */
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
-}
-.hanging-indent div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
-}
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
-}
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
-}</style>
+</style>
 
 
 <script src="../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -83,8 +64,8 @@ div.csl-indent {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../Chapters/02-python.html" rel="next">
-<link href="../index.html" rel="prev">
+<link href="../Chapters/05-transforming.html" rel="next">
+<link href="../Chapters/04-dataframes.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -157,7 +138,7 @@ div.csl-indent {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Chapters/01-intro.html">Preface</a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Chapters/04-columns.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Introducing the `Column` class</span></a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -185,7 +166,7 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Chapters/01-intro.html" class="sidebar-item-text sidebar-link active">
+  <a href="../Chapters/01-intro.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Preface</span></a>
   </div>
 </li>
@@ -209,7 +190,7 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Chapters/04-columns.html" class="sidebar-item-text sidebar-link">
+  <a href="../Chapters/04-columns.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Introducing the <code>Column</code> class</span></span></a>
   </div>
 </li>
@@ -288,15 +269,11 @@ div.csl-indent {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
-  <li><a href="#about-the-author" id="toc-about-the-author" class="nav-link" data-scroll-target="#about-the-author">About the author</a></li>
-  <li><a href="#some-conventions-of-this-book" id="toc-some-conventions-of-this-book" class="nav-link" data-scroll-target="#some-conventions-of-this-book">Some conventions of this book</a>
-  <ul class="collapse">
-  <li><a href="#python-code-and-terminal-commands" id="toc-python-code-and-terminal-commands" class="nav-link" data-scroll-target="#python-code-and-terminal-commands">Python code and terminal commands</a></li>
-  <li><a href="#python-objects-functions-and-methods" id="toc-python-objects-functions-and-methods" class="nav-link" data-scroll-target="#python-objects-functions-and-methods">Python objects, functions and methods</a></li>
-  <li><a href="#be-aware-of-differences-between-oss" id="toc-be-aware-of-differences-between-oss" class="nav-link" data-scroll-target="#be-aware-of-differences-between-oss">Be aware of differences between OS’s!</a></li>
-  </ul></li>
-  <li><a href="#install-the-necessary-software" id="toc-install-the-necessary-software" class="nav-link" data-scroll-target="#install-the-necessary-software">Install the necessary software</a></li>
+  <li><a href="#building-a-column-object" id="toc-building-a-column-object" class="nav-link active" data-scroll-target="#building-a-column-object"><span class="header-section-number">4.1</span> Building a column object</a></li>
+  <li><a href="#sec-columns-related-expressions" id="toc-sec-columns-related-expressions" class="nav-link" data-scroll-target="#sec-columns-related-expressions"><span class="header-section-number">4.2</span> Columns are strongly related to expressions</a></li>
+  <li><a href="#literal-values-versus-expressions" id="toc-literal-values-versus-expressions" class="nav-link" data-scroll-target="#literal-values-versus-expressions"><span class="header-section-number">4.3</span> Literal values versus expressions</a></li>
+  <li><a href="#sec-literal-values" id="toc-sec-literal-values" class="nav-link" data-scroll-target="#sec-literal-values"><span class="header-section-number">4.4</span> Passing a literal (or a constant) value to Spark</a></li>
+  <li><a href="#key-methods-of-the-column-class" id="toc-key-methods-of-the-column-class" class="nav-link" data-scroll-target="#key-methods-of-the-column-class"><span class="header-section-number">4.5</span> Key methods of the <code>Column</code> class</a></li>
   </ul>
 </nav>
     </div>
@@ -305,7 +282,7 @@ div.csl-indent {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Preface</h1>
+<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Introducing the <code>Column</code> class</span></h1>
 </div>
 
 
@@ -320,77 +297,143 @@ div.csl-indent {
 
 </header>
 
-<section id="introduction" class="level2">
-<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
-<p>In essence, <code>pyspark</code> is a python package that provides an API for Apache Spark. In other words, with <code>pyspark</code> you are able to use the python language to write Spark applications and run them on a Spark cluster in a scalable and elegant way. This book focus on teaching the fundamentals of <code>pyspark</code>, and how to use it for big data analysis.</p>
-<p>This book, also contains a small introduction to key python concepts that are important to understand how <code>pyspark</code> is organized and how it works in practice, and, since we will be using Spark under the hood, is very important to understand a little bit of how Spark works, so, we provide a small introduction to Spark as well.</p>
-<p>Big part of the knowledge exposed here is extracted from a lot of practical experience of the author, working with <code>pyspark</code> to analyze big data at platforms such as Databricks<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. Another part of the knowledge is extracted from the official documentation of Apache Spark <span class="citation" data-cites="sparkdoc">(<a href="references.html#ref-sparkdoc" role="doc-biblioref"><em>Apache Spark Official Documentation</em> 2022</a>)</span>, as well as some established works such as <span class="citation" data-cites="chambers2018">Chambers and Zaharia (<a href="references.html#ref-chambers2018" role="doc-biblioref">2018</a>)</span> and <span class="citation" data-cites="damji2020">Damji et al. (<a href="references.html#ref-damji2020" role="doc-biblioref">2020</a>)</span>.</p>
-</section>
-<section id="about-the-author" class="level2">
-<h2 class="anchored" data-anchor-id="about-the-author">About the author</h2>
-<p>Pedro Duarte Faria have a bachelor degree in Economics from Federal University of Ouro Preto - Brazil. Currently, he is a Data Engineer at Take Blip, and an Associate Developer for Apache Spark 3.0 certified by Databricks.</p>
-<p>The author have more than 3 years of experience in the data analysis market. He developed data pipelines, reports and analysis for research institutions and some of the largest companies in the brazilian financial sector, such as the BMG Bank, Sodexo and Pan Bank, besides dealing with databases that go beyond the billion rows.</p>
-<p>Furthermore, Pedro is specialized on the R programming language, and have given several lectures and courses about it, inside graduate centers (such as PPEA-UFOP<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>), in addition to federal and state organizations (such as FJP-MG<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>). As researcher, he have experience in the field of Science, Technology and Innovation Economics.</p>
-<p>Personal Website: <a href="https://pedro-faria.netlify.app/" class="uri">https://pedro-faria.netlify.app/</a></p>
-<p>Twitter: <a href="https://twitter.com/PedroPark9">@PedroPark9</a></p>
-<p>Mastodon: <a href="https://fosstodon.org/@pedropark99">@pedropark99@fosstodon.org</a></p>
-</section>
-<section id="some-conventions-of-this-book" class="level2">
-<h2 class="anchored" data-anchor-id="some-conventions-of-this-book">Some conventions of this book</h2>
-<section id="python-code-and-terminal-commands" class="level3">
-<h3 class="anchored" data-anchor-id="python-code-and-terminal-commands">Python code and terminal commands</h3>
-<p>This book is about <code>pyspark</code>, which is a python package. As a result, we will be exposing a lot of python code across the entire book. Examples of python code, are always shown inside a gray rectangle, like this example below.</p>
-<p>Every visible result that this python code produce, will be shown outside of the gray rectangle, just below the command that produced that visible result. Besides that, every line of result will always be written in plain black. So in the example below, the value <code>729</code> is the only visible result of this python code, and, the statement <code>print(y)</code> is the command that triggered this visible result.</p>
-<div class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="dv">3</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> <span class="dv">9</span> <span class="op">**</span> x</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>As we described at the introduction of <a href="04-dataframes.html"><span>Chapter&nbsp;3</span></a>, you will massively use the methods from the <code>DataFrame</code> class in your Spark applications to manage, modify and calculate your Spark DataFrames.</p>
+<p>However, there is one more python class that provides some very useful methods that you will regularly use, which is the <code>Column</code> class, or more specifically, the <code>pyspark.sql.column.Column</code> class.</p>
+<p>The <code>Column</code> class is used to represent a column in a Spark DataFrame. This means that, each column of your Spark DataFrame is a object of class <code>Column</code>.</p>
+<p>We can confirm this statement, by taking the <code>df</code> DataFrame that we showed at <a href="04-dataframes.html#sec-building-a-dataframe"><span>Section&nbsp;3.5</span></a>, and look at the class of any column of it. Like the <code>id</code> column:</p>
+<div class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(df.<span class="bu">id</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="2">
+<pre><code>pyspark.sql.column.Column</code></pre>
+</div>
+</div>
+<section id="building-a-column-object" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="building-a-column-object"><span class="header-section-number">4.1</span> Building a column object</h2>
+<p>You can refer to or create a column, by using the <code>col()</code> and <code>column()</code> functions from <code>pyspark.sql.functions</code> module. These functions receive a string input with the name of the column you want to create/refer to.</p>
+<p>Their result are always a object of class <code>Column</code>. For example, the code below creates a column called <code>ID</code>:</p>
+<div class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> col</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>id_column <span class="op">=</span> col(<span class="st">'ID'</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(id_column)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>729</code></pre>
+<pre><code>Column&lt;'ID'&gt;</code></pre>
 </div>
 </div>
-<p>Furthermore, all terminal commands that we expose in this book, will always be: pre-fixed by <code>Terminal$</code>; written in black; and, not outlined by a gray rectangle. In the example below, we can easily detect that this command <code>pip install jupyter</code> should be inserted in the terminal of the OS (whatever is the terminal that your OS uses), and not in the python interpreter, because this command is prefixed with <code>Terminal$</code>.</p>
-<pre class="{terminal}"><code>#| eval: false
-Terminal$ pip install jupyter</code></pre>
-<p>Some terminal commands may produce visible results as well. In that case, these results will be right below the respective command, and will not be pre-fixed with <code>Terminal$</code>. For example, we can see below that the command <code>echo "Hello!"</code> produces the result <code>"Hello!"</code>.</p>
-<pre class="{terminal}"><code>Terminal$ echo "Hello!"</code></pre>
 </section>
-<section id="python-objects-functions-and-methods" class="level3">
-<h3 class="anchored" data-anchor-id="python-objects-functions-and-methods">Python objects, functions and methods</h3>
-<p>When I refer to some python object, function, method or package, I will use a monospaced font. In other words, if I have a python object called “name”, and, I am describing this object, I will use <code>name</code> in the paragraph, and not “name”. The same logic applies to functions, methods and package names.</p>
+<section id="sec-columns-related-expressions" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="sec-columns-related-expressions"><span class="header-section-number">4.2</span> Columns are strongly related to expressions</h2>
+<p>Many kinds of transformations that we want to apply over a Spark DataFrame, are usually described through expressions, and, these expressions in Spark are mainly composed by <strong>column transformations</strong>. That is why the <code>Column</code> class, and its methods, are so important in Apache Spark.</p>
+<p>Columns in Spark are so strongly related to expressions that the columns themselves are initially interpreted as expressions. If we look again at the column <code>id</code> from <code>df</code> DataFrame, Spark will bring a expression as a result, and not the values hold by this column.</p>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>df.<span class="bu">id</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<pre><code>Column&lt;'id'&gt;</code></pre>
+</div>
+</div>
+<p>Having these ideas in mind, when I created the column <code>ID</code> on the previous section, I created a “column expression”. This means that <code>col("ID")</code> is just an expression, and as consequence, Spark does not know which are the values of column <code>ID</code>, or, where it lives (which is the DataFrame that this column belongs?). For now, Spark is not interested in this information, it just knows that we have an expression referring to a column called <code>ID</code>.</p>
+<p>These ideas relates a lot to the <strong>lazy aspect</strong> of Spark that we talked about in <a href="04-dataframes.html#sec-viewing-a-dataframe"><span>Section&nbsp;3.6</span></a>. Spark will not perform any heavy calculation, or show you the actual results/values from you code, until you trigger the calculations with an action (we will talk more about these “actions” on <a href="05-transforming.html#sec-dataframe-actions"><span>Section&nbsp;5.3</span></a>). As a result, when you access a column, Spark will only deliver a expression that represents that column, and not the actual values of that column.</p>
+<p>This is handy, because we can store our expressions in variables, and, reuse it latter, in multiple parts of our code. For example, I can keep building and merging a column with different kinds of operators, to build a more complex expression. In the example below, I create a expression that doubles the values of <code>ID</code> column:</p>
+<div class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>expr1 <span class="op">=</span> id_column <span class="op">*</span> <span class="dv">2</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(expr1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Column&lt;'(ID * 2)'&gt;</code></pre>
+</div>
+</div>
+<p>Remember, with this expression, Spark knows that we want to get a column called <code>ID</code> somewhere, and double its values. But Spark will not perform that action right now.</p>
+<p>Logical expressions follow the same logic. In the example below, I am looking for rows where the value in column <code>Name</code> is equal to <code>'Anne'</code>, and, the value in column <code>Grade</code> is above 6.</p>
+<p>Again, Spark just checks if this is a valid logical expression. For now, Spark does not want to know where are these <code>Name</code> and <code>Grade</code> columns. Spark does not evaluate the expression, until we ask for it with an action:</p>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>expr2 <span class="op">=</span> (col(<span class="st">'Name'</span>) <span class="op">==</span> <span class="st">'Anne'</span>) <span class="op">&amp;</span> (col(<span class="st">'Grade'</span>) <span class="op">&gt;</span> <span class="dv">6</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(expr2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Column&lt;'((Name = Anne) AND (Grade &gt; 6))'&gt;</code></pre>
+</div>
+</div>
 </section>
-<section id="be-aware-of-differences-between-oss" class="level3">
-<h3 class="anchored" data-anchor-id="be-aware-of-differences-between-oss">Be aware of differences between OS’s!</h3>
-<p>Spark is available for all three main operational systems (or OS’s) used in the world (Windows, MacOs and Linux). I will use constantly the word OS as an abbreviation to “operational system”.</p>
-<p>The snippets of python code shown throughout this book should just run correctly no matter which one of the three OS’s you are using. In other words, the python code snippets are made to be portable. So you can just copy and paste them to your computer, no matter which OS you are using.</p>
-<p>But, at some points, I may need to show you some terminal commands that are OS specific, and are not easily portable. For example, Linux have a package manager, but Windows does not have one. This means that, if you are on Linux, you will need to use some terminal commands to install some necessary programs (like python). In contrast, if you are on Windows, you will generally download executable files (<code>.exe</code>) that make this installation for you.</p>
-<p>In cases like this, I will always point out the specific OS of each one of the commands, or, I will describe the necessary steps to be made on each one the OS’s. Just be aware that these differences exists between the OS’s.</p>
+<section id="literal-values-versus-expressions" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="literal-values-versus-expressions"><span class="header-section-number">4.3</span> Literal values versus expressions</h2>
+<p>We know now that columns of a Spark DataFrame have a deep connection with expressions. But, on the other hand, there are some situations that you write a value (it can be a string, a integer, a boolean, or anything) inside your <code>pyspark</code> code, and you might actually want Spark to intepret this value as a constant (or a literal) value, rather than a expression.</p>
+<p>As an example, lets suppose you control the data generated by the sales of five different stores, scattered across different regions of Belo Horizonte city (in Brazil). Now, lets suppose you receive a batch of data generated by the 4th store in the city, which is located at Amazonas Avenue, 324. This batch of data is exposed below:</p>
+<div class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>path <span class="op">=</span> <span class="st">'./../Data/sales.json'</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>sales <span class="op">=</span> spark.read.json(path)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>sales.show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>+-----+----------+------------+-------+-------------------+-----+
+|price|product_id|product_name|sale_id|          timestamp|units|
++-----+----------+------------+-------+-------------------+-----+
+| 3.12|       134| Milk 1L Mua| 328711|2022-02-01T22:10:02|    1|
+| 1.22|       110|  Coke 350ml| 328712|2022-02-03T11:42:09|    3|
+| 4.65|       117|    Pepsi 2L| 328713|2022-02-03T14:22:15|    1|
+| 1.22|       110|  Coke 350ml| 328714|2022-02-03T18:33:08|    1|
+| 0.85|       341|Trident Mint| 328715|2022-02-04T15:41:36|    1|
++-----+----------+------------+-------+-------------------+-----+
+</code></pre>
+</div>
+</div>
+<p>If you look at this batch… there is no indication that these sales come from the 4th store. In other words, this information is not present in the data, is just in your mind. It certainly is a very bad idea to leave this data as is, whithout any identification of the source of it. So, you might want to add some labels and new columns to this batch of data, that can easily identify the store that originated these sales.</p>
+<p>For example, we could add two new columns to this <code>sales</code> DataFrame. One for the number that identifies the store (4), and, another to keep the store address. Considering that all rows in this batch comes from the 4th store, we should add two “constant” columns, meaning that these columns should have a constant value across all rows in this batch. But, how can we do this? How can we create a “constant” column? The answer is: by forcing Spark to interpret the values as literal values, instead of a expression.</p>
+<p>In other words, I can not use the <code>col()</code> function to create these two new columns. Because this <code>col()</code> function receives a column name as input. <strong>It interprets our input as an expression that refers to a column name</strong>. This function does not accept some sort of description of the actual values that this column should store.</p>
 </section>
+<section id="sec-literal-values" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="sec-literal-values"><span class="header-section-number">4.4</span> Passing a literal (or a constant) value to Spark</h2>
+<p>So how do we force Spark to interpret a value as a literal (or constant) value, rather than a expression? To do this, you must write this value inside the <code>lit()</code> (short for “literal”) function from the <code>pyspark.sql.functions</code> module.</p>
+<p>In other words, when you write in your code the statement <code>lit(4)</code>, Spark understand that you want to create a new column which is filled with 4’s. In other words, this new column is filled with the constant integer 4.</p>
+<p>With the code below, I am creating two new columns (called <code>store_number</code> and <code>store_address</code>), and adding them to the <code>sales</code> DataFrame.</p>
+<div class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> lit</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>store_number <span class="op">=</span> lit(<span class="dv">4</span>).alias(<span class="st">'store_number'</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>store_address <span class="op">=</span> lit(<span class="st">'Amazonas Avenue, 324'</span>).alias(<span class="st">'store_address'</span>)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>sales <span class="op">=</span> sales<span class="op">\</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    .select(</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>        <span class="st">'*'</span>, store_number, store_address</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>sales<span class="op">\</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    .select(</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>        <span class="st">'product_id'</span>, <span class="st">'product_name'</span>,</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>        <span class="st">'store_number'</span>, <span class="st">'store_address'</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>    )<span class="op">\</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>    .show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>+----------+------------+------------+--------------------+
+|product_id|product_name|store_number|       store_address|
++----------+------------+------------+--------------------+
+|       134| Milk 1L Mua|           4|Amazonas Avenue, 324|
+|       110|  Coke 350ml|           4|Amazonas Avenue, 324|
+|       117|    Pepsi 2L|           4|Amazonas Avenue, 324|
+|       110|  Coke 350ml|           4|Amazonas Avenue, 324|
+|       341|Trident Mint|           4|Amazonas Avenue, 324|
++----------+------------+------------+--------------------+
+</code></pre>
+</div>
+</div>
+<p>In essence, you normally use the <code>lit()</code> function when you want to write a literal value in places where Spark expects a column name. In the example above, instead of writing a name to an existing column in the <code>sales</code> DataFrame, I wanted to write the literal values <code>'Amazonas Avenue, 324'</code> and <code>4</code>, and I used the <code>lit()</code> function to make this intention very clear to Spark. If I did not used the <code>lit()</code> function, the <code>withColumn()</code> method would interpret the value <code>'Amazonas Avenue, 324'</code> as an existing column named <code>Amazonas Avenue, 324</code>.</p>
 </section>
-<section id="install-the-necessary-software" class="level2">
-<h2 class="anchored" data-anchor-id="install-the-necessary-software">Install the necessary software</h2>
-<p>If you want to follow the examples shown throughout this book, you must have Apache Spark and <code>pyspark</code> installed on your machine. If you do not know how to do this, you can consult the contents of <a href="00-install-spark.html"><span>Appendix&nbsp;B</span></a>. This appendix give you a tutorial with step-to-step on how to install these tools on Linux and Windows.</p>
+<section id="key-methods-of-the-column-class" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="key-methods-of-the-column-class"><span class="header-section-number">4.5</span> Key methods of the <code>Column</code> class</h2>
+<p>Because many transformations that we want to apply over our DataFrames are expressed as column transformations, the methods from the <code>Column</code> class will be quite useful on many different contexts. You will see many of these methods across the next chapters, like <code>desc()</code>, <code>alias()</code> and <code>cast()</code>.</p>
+<p>Remember, you can always use the <code>dir()</code> function to see the complete list of methods available in any python class. Is always useful to check the official documentation too<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. There you will have a more complete description of each method.</p>
+<p>But since they are so important in Spark, lets just give you a brief overview of some of the most popular methods from the <code>Column</code> class (these methods will be described in more detail in later chapters):</p>
+<ul>
+<li><code>desc()</code> and <code>asc()</code>: methods to order the values of the column in a descending or ascending order (respectively);</li>
+<li><code>cast()</code> and <code>astype()</code>: methods to cast (or convert) the values of the column to a specific data type;</li>
+<li><code>alias()</code>: method to rename a column;</li>
+<li><code>substr()</code>: method that returns a new column with the sub string of each value;</li>
+<li><code>isNull()</code> and <code>isNotNull()</code>: logical methods to test if each value in the column is a null value or not;</li>
+<li><code>startswith()</code> and <code>endswith()</code>: logical methods to search for values that starts with or ends with a specific pattern;</li>
+<li><code>like()</code> and <code>rlike()</code>: logical methods to search for a specific pattern or regular expression in the values of the column;</li>
+<li><code>isin()</code>: logical method to test if each value in the column is some of the listed values;</li>
+</ul>
 
 
-<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
-<div id="ref-sparkdoc" class="csl-entry" role="listitem">
-<em>Apache Spark Official Documentation</em>. 2022. Documentation for Apache Spark 3.2.1. <a href="https://spark.apache.org/docs/latest/">https://spark.apache.org/docs/latest/</a>.
-</div>
-<div id="ref-chambers2018" class="csl-entry" role="listitem">
-Chambers, Bill, and Matei Zaharia. 2018. <em>Spark: The Definitive Guide: Big Data Processing Made Simple</em>. Sebastopol, CA: O’Reilly Media.
-</div>
-<div id="ref-damji2020" class="csl-entry" role="listitem">
-Damji, Jules, Brooke Wenig, Tathagata Das, and Denny Lee. 2020. <em>Learning Spark: Lightning-Fast Data Analytics</em>. Sebastopol, CA: O’Reilly Media.
-</div>
-</div>
 </section>
 <section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
 <hr>
 <ol>
-<li id="fn1"><p><a href="https://databricks.com/" class="uri">https://databricks.com/</a><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2"><p><a href="https://ppea.ufop.br/" class="uri">https://ppea.ufop.br/</a><a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn3"><p><a href="http://fjp.mg.gov.br/" class="uri">http://fjp.mg.gov.br/</a><a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1"><p><a href="https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/api/pyspark.sql.Column.html" class="uri">https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/api/pyspark.sql.Column.html</a><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section>
 
@@ -630,13 +673,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../index.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">About this website</span>
+      <a href="../Chapters/04-dataframes.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Introducing Spark DataFrames</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../Chapters/02-python.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Key concepts of python</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../Chapters/05-transforming.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Transforming your Spark DataFrame - Part 1</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
