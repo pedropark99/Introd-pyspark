@@ -28,7 +28,7 @@ When you have a `StringType` column in your DataFrame that contains dates that c
 
 When you use the `cast()` (or `astype()`) column method that we introduced at @sec-cast-column-type, Spark will perform a quick and automatic conversion to `DateType` by casting the strings you have into the `DateType`. But when you use this method, Spark will always assume that the dates you have are in the ISO-8601 format, which is the international standard for dates. This format is presented at @fig-iso-8601-dates:
 
-![The ISO-8601 format for dates](./../Figures/format_date.png){#fig-iso-8601-dates}
+![The ISO-8601 format for dates](./../Figures/format_date.png){#fig-iso-8601-dates width=80%}
 
 Basically, the ISO-8601 standard specifies that dates are represented in the format "YYYY-MM-DD" (or "Year-Month-Date"), like `2023-09-19`, `1926-05-21`, or `2005-11-01`. This is also the format that dates are usually formatted in United States of America. So, if the dates you have (which are currently stored inside strings) are formatted like the ISO-8601 standard, then, you can safely and easily convert them into the `DateType` by using the `cast()` or `astype()` column methods.
 
@@ -159,7 +159,7 @@ The time zone component is always optional, and because of that, they usually ar
 
 But despite all these variations, datetime values that are ISO-8601 compatible are basically always following this same pattern (or this same order of components) of "Year-Month-Day Hour:Minute:Second TimeZone". Examples of values that follows this standard are "2014-10-18T16:30:00Z", "2019-05-09 08:20:05.324" and "2020-01-01 12:30:00 -03".
 
-![The ISO-8601 format for datetime/timestamp values](./../Figures/format_datetime.png){#fig-iso-8601-datetime}
+![The ISO-8601 format for datetime/timestamp values](./../Figures/format_datetime.png){#fig-iso-8601-datetime width=100%}
 
 This means that if your datetime values are not in this format, if they do not follow the ISO-8601 standard, then, you should not use the `cast()` method. If that is your case, you should use datetime patterns with the `to_timestamp()` function. We describe these assets in more depth at @sec-datetime-patterns.
 
@@ -567,11 +567,21 @@ To use this method, you first use the `unix_timestamp()` function to convert the
 
 ```{python}
 from pyspark.sql.functions import unix_timestamp
-df4\
+df4 = df4\
     .select('datetime1', 'datetime2')\
     .withColumn('datetime1', unix_timestamp(col('datetime1')))\
     .withColumn('datetime2', unix_timestamp(col('datetime2')))\
-    .withColumn('diffinseconds', col('datetime2') - col('datetime1'))\
+    .withColumn('diffinseconds', col('datetime2') - col('datetime1'))
+
+df4.show()
+```
+
+Now that we have the `diffinseconds` column, which represents the difference **in seconds** between `datetime1` and `datetime2` columns, we can divide this `diffinseconds` column by 60 to get the difference in minutes, or divide by 3600 to get the difference in hours, etc.
+
+```{python}
+df4\
+    .withColumn('diffinminutes', col('diffinseconds') / 60)\
+    .withColumn('diffinhours', col('diffinseconds') / 3600)\
     .show()
 ```
 

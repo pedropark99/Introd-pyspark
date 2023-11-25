@@ -348,7 +348,7 @@ div.csl-indent {
 <p>When you use the <code>cast()</code> (or <code>astype()</code>) column method that we introduced at <a href="05-transforming.html#sec-cast-column-type"><span>Section&nbsp;5.8.3</span></a>, Spark will perform a quick and automatic conversion to <code>DateType</code> by casting the strings you have into the <code>DateType</code>. But when you use this method, Spark will always assume that the dates you have are in the ISO-8601 format, which is the international standard for dates. This format is presented at <a href="#fig-iso-8601-dates">Figure&nbsp;<span>10.1</span></a>:</p>
 <div id="fig-iso-8601-dates" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="./../Figures/format_date.png" class="img-fluid figure-img"></p>
+<p><img src="./../Figures/format_date.png" class="img-fluid figure-img" style="width:80.0%"></p>
 <figcaption class="figure-caption">Figure&nbsp;10.1: The ISO-8601 format for dates</figcaption>
 </figure>
 </div>
@@ -503,11 +503,12 @@ div.csl-indent {
 <section id="from-strings-1" class="level3" data-number="10.2.1">
 <h3 data-number="10.2.1" class="anchored" data-anchor-id="from-strings-1"><span class="header-section-number">10.2.1</span> From strings</h3>
 <p>Again, if your datetime values are being currently stored inside strings, and, you want to convert them to datetime values, you can use the automatic conversion of Spark with the <code>cast()</code> column method. However, as we stated at <a href="#sec-create-dates"><span>Section&nbsp;10.1</span></a>, when you use this path, Spark will always assume that your datetime values follow the ISO-8601 format.</p>
-<p>The ISO-8601 standard states that datetime values should always follow the format “YYYY-MM-DD HH:MM:SS Z” (or “Year-Month-Day Hour:Minute:Second TimeZone”). The time zone component is always optional, and because of that, they usually are not present in the datetime values you have. There are some variations and extra characters that might appear at some points, for example, the character ‘T’ might appear to clearly separate the date from the time component, and the character ‘Z’ to separate the time zone from the time component. The time component might also have a microseconds section to identify a more precise point in time. But despite all these variations, datetime values that are ISO-8601 compatible are basically always following this same pattern (or this same order of components) of “Year-Month-Day Hour:Minute:Second TimeZone”.</p>
-<p>Examples of values that follows this standard are “2014-10-18T16:30:00Z”, “2019-05-09 08:20:05.324” and “2020-01-01 12:30:00 -03”. This format is presented at <a href="#fig-iso-8601-datetime">Figure&nbsp;<span>10.2</span></a>.</p>
+<p>The ISO-8601 standard states that datetime values should always follow the format “YYYY-MM-DD HH:MM:SS Z” (or “Year-Month-Day Hour:Minute:Second TimeZone”). You can see at <a href="#fig-iso-8601-datetime">Figure&nbsp;<span>10.2</span></a>, that are components that are mandatory (meaning that they always appear in a datetime value), and components that are optional (meaning that they might appear or might not in a datetime value).</p>
+<p>The time zone component is always optional, and because of that, they usually are not present in the datetime values you have. There are some variations and extra characters that might appear at some points, for example, the character ‘T’ might appear to clearly separate the date from the time component, and the character ‘Z’ to separate the time zone from the time component. Also, the time component might have a microseconds section to identify a more precise point in time.</p>
+<p>But despite all these variations, datetime values that are ISO-8601 compatible are basically always following this same pattern (or this same order of components) of “Year-Month-Day Hour:Minute:Second TimeZone”. Examples of values that follows this standard are “2014-10-18T16:30:00Z”, “2019-05-09 08:20:05.324” and “2020-01-01 12:30:00 -03”.</p>
 <div id="fig-iso-8601-datetime" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="./../Figures/format_datetime.png" class="img-fluid figure-img"></p>
+<p><img src="./../Figures/format_datetime.png" class="img-fluid figure-img" style="width:100.0%"></p>
 <figcaption class="figure-caption">Figure&nbsp;10.2: The ISO-8601 format for datetime/timestamp values</figcaption>
 </figure>
 </div>
@@ -592,7 +593,7 @@ div.csl-indent {
 </div>
 </div>
 <p>However, you probably notice in the example above, that something is odd. Because the number 500 was converted into <code>"1969-12-31 21:08:20"</code>, which is in teory, behind the UNIX epoch, which is 1 January of 1970. Why did that happen? Because your time zone is always taken into account during a conversion from integers to datetime values!</p>
-<p>In the example above, Spark is running on an operating system that is using the Brasília time zone (which is 3 hours late from international time zone - UTF-3) as the “default time zone” of the system. As a result, integers will be interpreted as being the number of seconds since the UNIX time epoch <strong>minus 3 hours</strong>, which is <code>"1969-12-31 21:00:00"</code>. So, in this context, the integer <code>60</code> would be converted into <code>"1969-12-31 21:01:00"</code> (instead of the usual <code>"1970-01-01 00:01:00"</code> that you would expect).</p>
+<p>In the example above, Spark is running on an operating system that is using the Brasília time zone (which is 3 hours late from international time zone - UTC-3) as the “default time zone” of the system. As a result, integers will be interpreted as being the number of seconds since the UNIX time epoch <strong>minus 3 hours</strong>, which is <code>"1969-12-31 21:00:00"</code>. So, in this context, the integer <code>60</code> would be converted into <code>"1969-12-31 21:01:00"</code> (instead of the usual <code>"1970-01-01 00:01:00"</code> that you would expect).</p>
 <p>That is why the number 500 was converted into <code>"1969-12-31 21:08:20"</code>. Because it is 500 seconds ahead of <code>"1969-12-31 21:00:00"</code>, which is 3 hours behind the UNIX time epoch.</p>
 <p>But what if you wanted to convert your integers into a UTC-0 time zone? Well, you could just set the time zone of your Spark Session to the international time zone before you do the conversion, with the command below:</p>
 <div class="sourceCode" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>spark.conf.<span class="bu">set</span>(<span class="st">"spark.sql.session.timeZone"</span>, <span class="st">"UTC"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1109,12 +1110,13 @@ div.csl-indent {
 <p>To use this method, you first use the <code>unix_timestamp()</code> function to convert the timestamps into seconds as integer values, then, you subtract these new integer values that were created.</p>
 <div class="cell" data-execution_count="27">
 <div class="sourceCode cell-code" id="cb52"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> unix_timestamp</span>
-<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>df4<span class="op">\</span></span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>df4 <span class="op">=</span> df4<span class="op">\</span></span>
 <span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>    .select(<span class="st">'datetime1'</span>, <span class="st">'datetime2'</span>)<span class="op">\</span></span>
 <span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>    .withColumn(<span class="st">'datetime1'</span>, unix_timestamp(col(<span class="st">'datetime1'</span>)))<span class="op">\</span></span>
 <span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>    .withColumn(<span class="st">'datetime2'</span>, unix_timestamp(col(<span class="st">'datetime2'</span>)))<span class="op">\</span></span>
-<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a>    .withColumn(<span class="st">'diffinseconds'</span>, col(<span class="st">'datetime2'</span>) <span class="op">-</span> col(<span class="st">'datetime1'</span>))<span class="op">\</span></span>
-<span id="cb52-7"><a href="#cb52-7" aria-hidden="true" tabindex="-1"></a>    .show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a>    .withColumn(<span class="st">'diffinseconds'</span>, col(<span class="st">'datetime2'</span>) <span class="op">-</span> col(<span class="st">'datetime1'</span>))</span>
+<span id="cb52-7"><a href="#cb52-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-8"><a href="#cb52-8" aria-hidden="true" tabindex="-1"></a>df4.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>+----------+----------+-------------+
 | datetime1| datetime2|diffinseconds|
@@ -1127,33 +1129,51 @@ div.csl-indent {
 </code></pre>
 </div>
 </div>
+<p>Now that we have the <code>diffinseconds</code> column, which represents the difference <strong>in seconds</strong> between <code>datetime1</code> and <code>datetime2</code> columns, we can divide this <code>diffinseconds</code> column by 60 to get the difference in minutes, or divide by 3600 to get the difference in hours, etc.</p>
+<div class="cell" data-execution_count="28">
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>df4<span class="op">\</span></span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>    .withColumn(<span class="st">'diffinminutes'</span>, col(<span class="st">'diffinseconds'</span>) <span class="op">/</span> <span class="dv">60</span>)<span class="op">\</span></span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>    .withColumn(<span class="st">'diffinhours'</span>, col(<span class="st">'diffinseconds'</span>) <span class="op">/</span> <span class="dv">3600</span>)<span class="op">\</span></span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>    .show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>+----------+----------+-------------+-------------+-----------+
+| datetime1| datetime2|diffinseconds|diffinminutes|diffinhours|
++----------+----------+-------------+-------------+-----------+
+|1680347694|1680480894|       133200|       2220.0|       37.0|
+|1680347694|1680351294|         3600|         60.0|        1.0|
+|1680347694|1680398094|        50400|        840.0|       14.0|
+|1680347694|1680455694|       108000|       1800.0|       30.0|
++----------+----------+-------------+-------------+-----------+
+</code></pre>
+</div>
+</div>
 </section>
 <section id="getting-the-now-and-today-values" class="level2" data-number="10.7">
 <h2 data-number="10.7" class="anchored" data-anchor-id="getting-the-now-and-today-values"><span class="header-section-number">10.7</span> Getting the now and today values</h2>
 <p>If for some reason, you need to know which timestamp is now, or which date is today, you can use the <code>current_timestamp()</code> and <code>current_date()</code> functions from <code>pyspark.sql.functions</code> module. When you execute these functions, they output the current timestamp and date in your system.</p>
-<div class="cell" data-execution_count="28">
-<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.types <span class="im">import</span> StructType,StructField, StringType</span>
-<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> (</span>
-<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>    current_date,</span>
-<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>    current_timestamp,</span>
-<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a>    lit</span>
-<span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb54-7"><a href="#cb54-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-8"><a href="#cb54-8" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> [Row(today<span class="op">=</span><span class="st">""</span>, now<span class="op">=</span><span class="st">""</span>)]</span>
-<span id="cb54-9"><a href="#cb54-9" aria-hidden="true" tabindex="-1"></a>schema <span class="op">=</span> StructType([</span>
-<span id="cb54-10"><a href="#cb54-10" aria-hidden="true" tabindex="-1"></a>    StructField(<span class="st">'today'</span>, StringType(), <span class="va">True</span>),</span>
-<span id="cb54-11"><a href="#cb54-11" aria-hidden="true" tabindex="-1"></a>    StructField(<span class="st">'now'</span>, StringType(), <span class="va">True</span>)</span>
-<span id="cb54-12"><a href="#cb54-12" aria-hidden="true" tabindex="-1"></a>])</span>
-<span id="cb54-13"><a href="#cb54-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-14"><a href="#cb54-14" aria-hidden="true" tabindex="-1"></a>spark.createDataFrame(data, schema <span class="op">=</span> schema)<span class="op">\</span></span>
-<span id="cb54-15"><a href="#cb54-15" aria-hidden="true" tabindex="-1"></a>    .withColumn(<span class="st">'today'</span>, lit(current_date()))<span class="op">\</span></span>
-<span id="cb54-16"><a href="#cb54-16" aria-hidden="true" tabindex="-1"></a>    .withColumn(<span class="st">'now'</span>, lit(current_timestamp()))<span class="op">\</span></span>
-<span id="cb54-17"><a href="#cb54-17" aria-hidden="true" tabindex="-1"></a>    .show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="29">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.types <span class="im">import</span> StructType,StructField, StringType</span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> (</span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>    current_date,</span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>    current_timestamp,</span>
+<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a>    lit</span>
+<span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb56-7"><a href="#cb56-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-8"><a href="#cb56-8" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> [Row(today<span class="op">=</span><span class="st">""</span>, now<span class="op">=</span><span class="st">""</span>)]</span>
+<span id="cb56-9"><a href="#cb56-9" aria-hidden="true" tabindex="-1"></a>schema <span class="op">=</span> StructType([</span>
+<span id="cb56-10"><a href="#cb56-10" aria-hidden="true" tabindex="-1"></a>    StructField(<span class="st">'today'</span>, StringType(), <span class="va">True</span>),</span>
+<span id="cb56-11"><a href="#cb56-11" aria-hidden="true" tabindex="-1"></a>    StructField(<span class="st">'now'</span>, StringType(), <span class="va">True</span>)</span>
+<span id="cb56-12"><a href="#cb56-12" aria-hidden="true" tabindex="-1"></a>])</span>
+<span id="cb56-13"><a href="#cb56-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-14"><a href="#cb56-14" aria-hidden="true" tabindex="-1"></a>spark.createDataFrame(data, schema <span class="op">=</span> schema)<span class="op">\</span></span>
+<span id="cb56-15"><a href="#cb56-15" aria-hidden="true" tabindex="-1"></a>    .withColumn(<span class="st">'today'</span>, lit(current_date()))<span class="op">\</span></span>
+<span id="cb56-16"><a href="#cb56-16" aria-hidden="true" tabindex="-1"></a>    .withColumn(<span class="st">'now'</span>, lit(current_timestamp()))<span class="op">\</span></span>
+<span id="cb56-17"><a href="#cb56-17" aria-hidden="true" tabindex="-1"></a>    .show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>+----------+--------------------+
 |     today|                 now|
 +----------+--------------------+
-|2023-11-25|2023-11-25 18:00:...|
+|2023-11-25|2023-11-25 18:55:...|
 +----------+--------------------+
 </code></pre>
 </div>

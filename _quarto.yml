@@ -47,4 +47,4 @@ format:
   #   mainfont: Times New Roman
   #   monofont: Inconsolata
   #   fontsize: 11pt
-  #   keep-tex: true
+  #   keep-tex: false
