@@ -156,7 +156,7 @@ FROM (
 However, if we had multiple separate `SELECT` statements that were independent on each other, like in the example below, then, `spark.sql()` would issue an `ParseException` error if we tried to execute these three `SELECT` statements inside the same input string.
 
 ```sql
--- These three statements can NOT be executed
+-- These three statements CANNOT be executed
 -- at the same time inside spark.sql()
 SELECT * FROM something;
 SELECT * FROM somewhere;
@@ -228,7 +228,7 @@ The above statement, tells us that selecing a `VIEW` causes the SQL engine to ex
 
 #### Differences in Spark SQL `VIEW`s
 
-Although a Spark SQL `VIEW` being very similar to other types of SQL `VIEW` (such as the MySQL type), on Spark applications, SQL `VIEW`s are usually registered as `TEMPORARY VIEW`s^[I will explain more about the meaning of "temporary" at @sec-temp-persist.] instead of standandard (and "persistent") SQL `VIEW` as in MySQL.
+Although a Spark SQL `VIEW` being very similar to other types of SQL `VIEW` (such as the MySQL type), on Spark applications, SQL `VIEW`s are usually registered as `TEMPORARY VIEW`s^[I will explain more about the meaning of "temporary" at @sec-temp-persist.] instead of standard (and "persistent") SQL `VIEW` as in MySQL.
 
 At MySQL there is no notion of a "temporary view", although other popular kinds of SQL databases do have it, [such as the PostGreSQL database](https://www.postgresql.org/docs/current/sql-createview.html)[^postgress-view]. So, a temporary view is not a exclusive concept of Spark SQL. However, is a special type of SQL `VIEW` that is not present in all popular kinds of SQL databases.
 

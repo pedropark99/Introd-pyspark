@@ -280,7 +280,7 @@ ul.task-list li input[type="checkbox"] {
 <li>Install Python;</li>
 <li>Install <code>pyspark</code>;</li>
 <li>Download and extract Apache Spark;</li>
-<li>Set a few environment variables;</li>
+<li>Set <code>SPARK_HOME</code> and <code>JAVA_HOME</code> environment variables;</li>
 </ol>
 <p>The next sections describes these steps for each operating system.</p>
 </section>
@@ -292,11 +292,11 @@ ul.task-list li input[type="checkbox"] {
 <p>In other words, you must have Java SDK installed to use Spark. If you do not have Java SDK, Spark will likely fail when you try to start it. However, since Java is a very popular tecnology across the world, is possible that you already have it installed in your machine. To check if Java is already installed, you can run the following command in your OS terminal:</p>
 <pre class="{terminal}"><code>#| eval: false
 Terminal$ java -version</code></pre>
-<p>If the above command outputs something similar to the text exposed below, than, you already have Java installed in your machine, and you can proceed to the next step.</p>
+<p>If the above command outputs something similar to the text exposed below, then, you already have Java installed in your machine, and you can proceed to the next step.</p>
 <pre><code>java version "19.0.1" 2022-10-18
 Java(TM) SE Runtime Environment (build 19.0.1+10-21)
 Java HotSpot(TM) 64-Bit Server VM (build 19.0.1+10-21, mixed mode, sharing)</code></pre>
-<p>But, if something different comes up in your terminal, than, is likely that you do not have Java installed. To fix this, <a href="https://www.oracle.com/java/technologies/downloads/">download Java from the official website</a><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>, and install it.</p>
+<p>But, if something different comes up in your terminal, then is likely that you do not have Java installed. To fix this, <a href="https://www.oracle.com/java/technologies/downloads/">download Java from the official website</a><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>, and install it.</p>
 </section>
 <section id="install-python" class="level3" data-number="B.2.2">
 <h3 data-number="B.2.2" class="anchored" data-anchor-id="install-python"><span class="header-section-number">B.2.2</span> Install Python</h3>
@@ -304,7 +304,7 @@ Java HotSpot(TM) 64-Bit Server VM (build 19.0.1+10-21, mixed mode, sharing)</cod
 </section>
 <section id="install-pyspark" class="level3" data-number="B.2.3">
 <h3 data-number="B.2.3" class="anchored" data-anchor-id="install-pyspark"><span class="header-section-number">B.2.3</span> Install <code>pyspark</code></h3>
-<p>Installing the <code>pyspark</code> python package is pretty straightforward. Just open a terminal (if you need help to open the terminal check <a href="00-terminal.html"><span>Appendix&nbsp;A</span></a>), and use the <code>pip</code> command to do it:</p>
+<p>After you installed Python, installing the <code>pyspark</code> Python package is pretty straightforward. Just open a terminal (if you need help to open the terminal check <a href="00-terminal.html"><span>Appendix&nbsp;A</span></a>), and use the <code>pip</code> command to do it:</p>
 <pre class="{terminal}"><code>#| eval: false
 Terminal$ pip install pyspark</code></pre>
 <p>If you try to run the above command (inside a terminal of any OS), and a message like <code>pip: command not found</code> appears, this means that you do not have the <code>pip</code> tool installed on your machine. Hence, if you face this kind of message, you need to install <code>pip</code> before you even install <code>pyspark</code>.</p>
@@ -350,7 +350,7 @@ if they do not have these new lines, an error in crossref will occur -->
 <figcaption class="figure-caption">Figure&nbsp;B.1: Path to Windows Environment Variables Menu</figcaption>
 </figure>
 </div>
-<p>During the process of scheduling and running your Spark application, Spark will execute a set of scripts located at the home directory of Spark itself. Spark does this by looking for a environment variable called <code>SPARK_HOME</code> in your system. If you do not have this variable configured, Spark will not be able to locate its home directory, and as a consequence, it throws an runtime error.</p>
+<p>During the process of scheduling and running your Spark application, Spark will execute a set of scripts located at the home directory of Spark itself. Spark does this by looking for a environment variable called <code>SPARK_HOME</code> in your system. If you do not have this variable configured, Spark will not be able to find its home directory, and as a consequence, it throws an runtime error.</p>
 <p>In other words, you need to set a variable with name <code>SPARK_HOME</code> in your system. Its value should be the path to the home (or “root”) directory where you installed (or unzipped) the Spark files. In my case I unzipped the files into a folder called <code>C:/Spark/spark-3.3.1-bin-hadoop3</code>, and that is the folder that I going to use in <code>SPARK_HOME</code>, as you can see at <a href="#fig-spark-home-env">Figure&nbsp;<span>B.2</span></a>:</p>
 <div id="fig-spark-home-env" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">

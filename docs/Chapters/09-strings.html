@@ -1040,9 +1040,9 @@ only showing top 5 rows
 </section>
 <section id="identifying-values-that-match-a-particular-regular-expression-with-rlike" class="level3" data-number="9.7.6">
 <h3 data-number="9.7.6" class="anchored" data-anchor-id="identifying-values-that-match-a-particular-regular-expression-with-rlike"><span class="header-section-number">9.7.6</span> Identifying values that match a particular regular expression with <code>rlike()</code></h3>
-<p>The <code>rlike()</code> column method is useful for checking if a string value in a column matches a specific regular expression. We briefly introduced this methd at <a href="05-transforming.html#sec-filter-regex-pattern"><span>Section&nbsp;5.6.7.2</span></a>. This method has only one input, which is the regular expression you want to apply over the column values.</p>
+<p>The <code>rlike()</code> column method is useful for checking if a string value in a column matches a specific regular expression. We briefly introduced this method at <a href="05-transforming.html#sec-filter-regex-pattern"><span>Section&nbsp;5.6.7.2</span></a>. This method has only one input, which is the regular expression you want to apply over the column values.</p>
 <p>As an example, lets suppose you wanted to identify timestamp values inside your strings. You could use a regular expression pattern to find which text values had these kinds of values inside them.</p>
-<p>A possible regular expression candidate for it would be <code>"[0-9]{2}:[0-9]{2}:[0-9]{2}([.][0-9]+)?"</code>. This regex matches timestamp values in the format “hh:mm:ss.sss”. This pattern consists of the following building blocks, or, elements:</p>
+<p>A possible regular expression candidate would be <code>"[0-9]{2}:[0-9]{2}:[0-9]{2}([.][0-9]+)?"</code>. This regex matches timestamp values in the format “hh:mm:ss.sss”. This pattern consists of the following building blocks, or, elements:</p>
 <ul>
 <li><code>[0-9]{2}</code>: Matches any two digits from 0 to 9.</li>
 <li><code>:</code>: Matches a colon character.</li>

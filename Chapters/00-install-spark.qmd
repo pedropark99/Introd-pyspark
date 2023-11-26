@@ -15,7 +15,7 @@ In short, the next steps for installing Spark are:
 2. Install Python;
 3. Install `pyspark`;
 2. Download and extract Apache Spark;
-3. Set a few environment variables;
+3. Set `SPARK_HOME` and `JAVA_HOME` environment variables;
 
 The next sections describes these steps for each operating system. 
 
@@ -33,7 +33,7 @@ In other words, you must have Java SDK installed to use Spark. If you do not hav
 Terminal$ java -version
 ```
 
-If the above command outputs something similar to the text exposed below, than, you already have Java installed in your machine, and you can proceed to the next step.
+If the above command outputs something similar to the text exposed below, then, you already have Java installed in your machine, and you can proceed to the next step.
 
 ```
 java version "19.0.1" 2022-10-18
@@ -41,7 +41,7 @@ Java(TM) SE Runtime Environment (build 19.0.1+10-21)
 Java HotSpot(TM) 64-Bit Server VM (build 19.0.1+10-21, mixed mode, sharing)
 ```
 
-But, if something different comes up in your terminal, than, is likely that you do not have Java installed. To fix this, [download Java from the official website](https://www.oracle.com/java/technologies/downloads/)^[<https://www.oracle.com/java/technologies/downloads/>], and install it.
+But, if something different comes up in your terminal, then is likely that you do not have Java installed. To fix this, [download Java from the official website](https://www.oracle.com/java/technologies/downloads/)^[<https://www.oracle.com/java/technologies/downloads/>], and install it.
 
 
 ### Install Python
@@ -51,7 +51,7 @@ You can easily install Python on Windows, by downloading the installer available
 
 ### Install `pyspark`
 
-Installing the `pyspark` python package is pretty straightforward. Just open a terminal (if you need help to open the terminal check @sec-open-terminal), and use the `pip` command to do it:
+After you installed Python, installing the `pyspark` Python package is pretty straightforward. Just open a terminal (if you need help to open the terminal check @sec-open-terminal), and use the `pip` command to do it:
 
 ```{terminal}
 #| eval: false
@@ -122,7 +122,7 @@ Path to Windows Environment Variables Menu
 
 :::::
 
-During the process of scheduling and running your Spark application, Spark will execute a set of scripts located at the home directory of Spark itself. Spark does this by looking for a environment variable called `SPARK_HOME` in your system. If you do not have this variable configured, Spark will not be able to locate its home directory, and as a consequence, it throws an runtime error.
+During the process of scheduling and running your Spark application, Spark will execute a set of scripts located at the home directory of Spark itself. Spark does this by looking for a environment variable called `SPARK_HOME` in your system. If you do not have this variable configured, Spark will not be able to find its home directory, and as a consequence, it throws an runtime error.
 
 In other words, you need to set a variable with name `SPARK_HOME` in your system. Its value should be the path to the home (or "root") directory where you installed (or unzipped) the Spark files. In my case I unzipped the files into a folder called `C:/Spark/spark-3.3.1-bin-hadoop3`, and that is the folder that I going to use in `SPARK_HOME`, as you can see at @fig-spark-home-env:
 

@@ -435,7 +435,7 @@ USE `dummy`;
 <span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>However, if we had multiple separate <code>SELECT</code> statements that were independent on each other, like in the example below, then, <code>spark.sql()</code> would issue an <code>ParseException</code> error if we tried to execute these three <code>SELECT</code> statements inside the same input string.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- These three statements can NOT be executed</span></span>
+<div class="sourceCode" id="cb9"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- These three statements CANNOT be executed</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co">-- at the same time inside spark.sql()</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> something;</span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> somewhere;</span>
@@ -483,7 +483,7 @@ USE `dummy`;
 </section>
 <section id="differences-in-spark-sql-views" class="level4" data-number="7.3.1.2">
 <h4 data-number="7.3.1.2" class="anchored" data-anchor-id="differences-in-spark-sql-views"><span class="header-section-number">7.3.1.2</span> Differences in Spark SQL <code>VIEW</code>s</h4>
-<p>Although a Spark SQL <code>VIEW</code> being very similar to other types of SQL <code>VIEW</code> (such as the MySQL type), on Spark applications, SQL <code>VIEW</code>s are usually registered as <code>TEMPORARY VIEW</code>s<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> instead of standandard (and “persistent”) SQL <code>VIEW</code> as in MySQL.</p>
+<p>Although a Spark SQL <code>VIEW</code> being very similar to other types of SQL <code>VIEW</code> (such as the MySQL type), on Spark applications, SQL <code>VIEW</code>s are usually registered as <code>TEMPORARY VIEW</code>s<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> instead of standard (and “persistent”) SQL <code>VIEW</code> as in MySQL.</p>
 <p>At MySQL there is no notion of a “temporary view”, although other popular kinds of SQL databases do have it, <a href="https://www.postgresql.org/docs/current/sql-createview.html">such as the PostGreSQL database</a><a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>. So, a temporary view is not a exclusive concept of Spark SQL. However, is a special type of SQL <code>VIEW</code> that is not present in all popular kinds of SQL databases.</p>
 <p>In other words, both Spark SQL and MySQL support the <code>CREATE VIEW</code> statement. In contrast, statements such as <code>CREATE TEMPORARY VIEW</code> and <code>CREATE OR REPLACE TEMPORARY VIEW</code> are available in Spark SQL, but not in MySQL.</p>
 </section>

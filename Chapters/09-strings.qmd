@@ -568,11 +568,11 @@ logs\
 
 ### Identifying values that match a particular regular expression with `rlike()`
 
-The `rlike()` column method is useful for checking if a string value in a column matches a specific regular expression. We briefly introduced this methd at @sec-filter-regex-pattern. This method has only one input, which is the regular expression you want to apply over the column values.
+The `rlike()` column method is useful for checking if a string value in a column matches a specific regular expression. We briefly introduced this method at @sec-filter-regex-pattern. This method has only one input, which is the regular expression you want to apply over the column values.
 
 As an example, lets suppose you wanted to identify timestamp values inside your strings. You could use a regular expression pattern to find which text values had these kinds of values inside them.
 
-A possible regular expression candidate for it would be `"[0-9]{2}:[0-9]{2}:[0-9]{2}([.][0-9]+)?"`. This regex matches timestamp values in the format "hh:mm:ss.sss". This pattern consists of the following building blocks, or, elements:
+A possible regular expression candidate would be `"[0-9]{2}:[0-9]{2}:[0-9]{2}([.][0-9]+)?"`. This regex matches timestamp values in the format "hh:mm:ss.sss". This pattern consists of the following building blocks, or, elements:
 
 - `[0-9]{2}`: Matches any two digits from 0 to 9.
 - `:`: Matches a colon character.
