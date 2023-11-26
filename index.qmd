@@ -1,23 +1,22 @@
 
-# Preface {.unnumbered}
-## About this book {.unnumbered}
-
-
-
-
 ::: {.content-visible when-format="html"}
+
+# Welcome {.unnumbered}
 
 Welcome! This is the initial page for the "Open Access" HTML version of the book "Introduction to `pyspark`", written by [Pedro Duarte Faria](https://pedro-faria.netlify.app/). This book provides an introduction to [`pyspark`](https://spark.apache.org/docs/latest/api/python/), which is a python API to [Apache Spark](https://spark.apache.org/).
 
-This book is still under active construction. This means that not all chapters are ready yet, and some of its current contents might change in the close future. This book is licensed by the [CC-BY 4.0 Creative Commons Attribution 4.0 International Public License](https://creativecommons.org/licenses/by/4.0/).
+This book is still under active construction. This means that not all chapters are ready yet, and some of its current contents might change in the close future.
 
-<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a>
+# About this book {.unnumbered}
 
 :::
 
 
 
 ::: {.content-visible when-format="pdf"}
+
+# Preface {.unnumbered}
+## About this book {.unnumbered}
 
 Hello! This book provides an introduction to [`pyspark`](https://spark.apache.org/docs/latest/api/python/), which is a Python API to [Apache Spark](https://spark.apache.org/). Here, you will learn how to perform the most commom data analysis tasks and useful data transformations with Python to process huge amounts of data.
 
@@ -48,7 +47,7 @@ Some of the main subjects discussed in the book are:
 
 ## About the author {.unnumbered}
 
-Pedro Duarte Faria have a bachelor degree in Economics from Federal University of Ouro Preto - Brazil. Currently, he is a Data Engineer at Take Blip, and an Associate Developer for Apache Spark 3.0 certified by Databricks.
+Pedro Duarte Faria have a bachelor degree in Economics from Federal University of Ouro Preto - Brazil. Currently, he is a Data Engineer at [Blip](https://www.blip.ai/en/), and an Associate Developer for Apache Spark 3.0 certified by Databricks.
 
 The author have more than 3 years of experience in the data analysis market. He developed data pipelines, reports and analysis for research institutions and some of the largest companies in the brazilian financial sector, such as the BMG Bank, Sodexo and Pan Bank, besides dealing with databases that go beyond the billion rows.
 
@@ -128,7 +127,7 @@ If you want to follow the examples shown throughout this book, you must have Apa
 
 Copyright © 2024 Pedro Duarte Faria. This book is licensed by the [CC-BY 4.0 Creative Commons Attribution 4.0 International Public License](https://creativecommons.org/licenses/by/4.0/).
 
-![](Figures/creative-commoms-88x31.png){width=60px}
+![](Figures/creative-commoms-88x31.png){width=88px}
 
 
 ### Book citation {.unnumbered}
