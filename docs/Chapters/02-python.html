@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Introduction to pyspark - 1&nbsp; Key concepts of python</title>
+<title>Introduction to pyspark - 2&nbsp; Key concepts of python</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -65,7 +65,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
 <link href="../Chapters/03-spark.html" rel="next">
-<link href="../Chapters/01-intro.html" rel="prev">
+<link href="../index.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -138,7 +138,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Chapters/02-python.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Key concepts of python</span></a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Chapters/02-python.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Key concepts of python</span></a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -161,73 +161,67 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">About this website</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../Chapters/01-intro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Preface</span></a>
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">About this book</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../Chapters/02-python.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Key concepts of python</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Key concepts of python</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../Chapters/03-spark.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introducing Apache Spark</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Introducing Apache Spark</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../Chapters/04-dataframes.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Introducing Spark DataFrames</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Introducing Spark DataFrames</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../Chapters/04-columns.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Introducing the <code>Column</code> class</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Introducing the <code>Column</code> class</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../Chapters/05-transforming.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Transforming your Spark DataFrame - Part 1</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Transforming your Spark DataFrame - Part 1</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../Chapters/07-import.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Importing data to Spark</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Importing data to Spark</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../Chapters/06-dataframes-sql.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Working with SQL in <code>pyspark</code></span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Working with SQL in <code>pyspark</code></span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../Chapters/08-transforming2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Transforming your Spark DataFrame - Part 2</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Transforming your Spark DataFrame - Part 2</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../Chapters/09-strings.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Tools for string manipulation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Tools for string manipulation</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../Chapters/10-datetime.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Tools for dates and datetimes manipulation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Tools for dates and datetimes manipulation</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -236,29 +230,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">References</span></a>
   </div>
 </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
- <span class="menu-text">Appendices</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../Chapters/00-terminal.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Opening the terminal of your OS</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../Chapters/00-install-spark.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">How to install Spark and <code>pyspark</code></span></span></a>
-  </div>
-</li>
-      </ul>
-  </li>
     </ul>
     </div>
 </nav>
@@ -269,14 +240,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">1.1</span> Introduction</a></li>
-  <li><a href="#scripts" id="toc-scripts" class="nav-link" data-scroll-target="#scripts"><span class="header-section-number">1.2</span> Scripts</a></li>
-  <li><a href="#how-to-run-a-python-program" id="toc-how-to-run-a-python-program" class="nav-link" data-scroll-target="#how-to-run-a-python-program"><span class="header-section-number">1.3</span> How to run a python program</a></li>
-  <li><a href="#objects" id="toc-objects" class="nav-link" data-scroll-target="#objects"><span class="header-section-number">1.4</span> Objects</a></li>
-  <li><a href="#expressions" id="toc-expressions" class="nav-link" data-scroll-target="#expressions"><span class="header-section-number">1.5</span> Expressions</a></li>
-  <li><a href="#packages-or-libraries" id="toc-packages-or-libraries" class="nav-link" data-scroll-target="#packages-or-libraries"><span class="header-section-number">1.6</span> Packages (or libraries)</a></li>
-  <li><a href="#methods-versus-functions" id="toc-methods-versus-functions" class="nav-link" data-scroll-target="#methods-versus-functions"><span class="header-section-number">1.7</span> Methods versus Functions</a></li>
-  <li><a href="#identifying-classes-and-their-methods" id="toc-identifying-classes-and-their-methods" class="nav-link" data-scroll-target="#identifying-classes-and-their-methods"><span class="header-section-number">1.8</span> Identifying classes and their methods</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">2.1</span> Introduction</a></li>
+  <li><a href="#scripts" id="toc-scripts" class="nav-link" data-scroll-target="#scripts"><span class="header-section-number">2.2</span> Scripts</a></li>
+  <li><a href="#how-to-run-a-python-program" id="toc-how-to-run-a-python-program" class="nav-link" data-scroll-target="#how-to-run-a-python-program"><span class="header-section-number">2.3</span> How to run a python program</a></li>
+  <li><a href="#objects" id="toc-objects" class="nav-link" data-scroll-target="#objects"><span class="header-section-number">2.4</span> Objects</a></li>
+  <li><a href="#expressions" id="toc-expressions" class="nav-link" data-scroll-target="#expressions"><span class="header-section-number">2.5</span> Expressions</a></li>
+  <li><a href="#packages-or-libraries" id="toc-packages-or-libraries" class="nav-link" data-scroll-target="#packages-or-libraries"><span class="header-section-number">2.6</span> Packages (or libraries)</a></li>
+  <li><a href="#methods-versus-functions" id="toc-methods-versus-functions" class="nav-link" data-scroll-target="#methods-versus-functions"><span class="header-section-number">2.7</span> Methods versus Functions</a></li>
+  <li><a href="#identifying-classes-and-their-methods" id="toc-identifying-classes-and-their-methods" class="nav-link" data-scroll-target="#identifying-classes-and-their-methods"><span class="header-section-number">2.8</span> Identifying classes and their methods</a></li>
   </ul>
 </nav>
     </div>
@@ -285,7 +256,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Key concepts of python</span></h1>
+<h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Key concepts of python</span></h1>
 </div>
 
 
@@ -300,24 +271,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<section id="introduction" class="level2" data-number="1.1">
-<h2 data-number="1.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">1.1</span> Introduction</h2>
+<section id="introduction" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">2.1</span> Introduction</h2>
 <p>If you have experience with python, and understands how objects and classes works, you might want to skip this entire chapter. But, if you are new to the language and do not have much experience with it, you might want to stick a little bit, and learn a few key concepts that will help you to understand how the <code>pyspark</code> package is organized, and how to work with it.</p>
 </section>
-<section id="scripts" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="scripts"><span class="header-section-number">1.2</span> Scripts</h2>
+<section id="scripts" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="scripts"><span class="header-section-number">2.2</span> Scripts</h2>
 <p>Python programs are written in plain text files that are saved with the <code>.py</code> extension. After you save these files, they are usually called “scripts”. So a script is just a text file that contains all the commands that make your python program.</p>
 <p>There are many IDEs or programs that help you to write, manage, run and organize this kind of files (like Microsoft Visual Studio Code<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>, PyCharm<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>, Anaconda<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> and RStudio<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>). Many of these programs are free to use, and, are easy to install.</p>
 <p>But, if you do not have any of them installed, you can just create a new plain text file from the built-in Notepad program of your OS (operational system), and, save it with the <code>.py</code> extension.</p>
 </section>
-<section id="how-to-run-a-python-program" class="level2" data-number="1.3">
-<h2 data-number="1.3" class="anchored" data-anchor-id="how-to-run-a-python-program"><span class="header-section-number">1.3</span> How to run a python program</h2>
+<section id="how-to-run-a-python-program" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="how-to-run-a-python-program"><span class="header-section-number">2.3</span> How to run a python program</h2>
 <p>As you learn to write your Spark applications with <code>pyspark</code>, at some point, you will want to actually execute this <code>pyspark</code> program, to see its result. To do so, you need to execute it as a python program. There are many ways to run a python program, but I will show you the more “standard” way. That is to use the <code>python</code> command inside the terminal of your OS (you need to have python already installed).</p>
 <p>As an example, lets create a simple “Hello world” program. First, open a new text file then save it somewhere in your machine (with the name <code>hello.py</code>). Remember to save the file with the <code>.py</code> extension. Then copy and paste the following command into this file:</p>
 <div class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Hello World!"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>It will be much easier to run this script, if you open the terminal inside the folder where you save the <code>hello.py</code> file. If you do not know how to do this, look at section <a href="00-terminal.html"><span>Appendix&nbsp;A</span></a>. After you opened the terminal inside the folder, just run the <code>python3 hello.py</code> command. As a result, python will execute <code>hello.py</code>, and, the text <code>Hello World!</code> should be printed to the terminal:</p>
+<p>It will be much easier to run this script, if you open the terminal inside the folder where you save the <code>hello.py</code> file. If you do not know how to do this, look at section <a href="#sec-open-terminal"><span class="quarto-unresolved-ref">sec-open-terminal</span></a>. After you opened the terminal inside the folder, just run the <code>python3 hello.py</code> command. As a result, python will execute <code>hello.py</code>, and, the text <code>Hello World!</code> should be printed to the terminal:</p>
 <pre class="{terminal}"><code>Terminal$ python3 hello.py</code></pre>
 <pre><code>Hello World!</code></pre>
 <p>But, if for some reason you could not open the terminal inside the folder, just open a terminal (in any way you can), then, use the <code>cd</code> command (stands for “change directory”) with the path to the folder where you saved <code>hello.py</code>. This way, your terminal will be rooted in this folder.</p>
@@ -330,8 +301,8 @@ Terminal$ cd "/usr/pedro/Documents"</code></pre>
 <p>After this <code>cd</code> command, you can run the <code>python hello.py</code> command in the terminal, and get the exact same result of the previous example.</p>
 <p>There you have it! So every time you need to run your python program (or your <code>pyspark</code> program), just open a terminal and run the command <code>python &lt;complete path to your script&gt;</code>. If the terminal is rooted on the folder where you saved your script, you can just use the <code>python &lt;name of the script&gt;</code> command.</p>
 </section>
-<section id="objects" class="level2" data-number="1.4">
-<h2 data-number="1.4" class="anchored" data-anchor-id="objects"><span class="header-section-number">1.4</span> Objects</h2>
+<section id="objects" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="objects"><span class="header-section-number">2.4</span> Objects</h2>
 <p>Although python is a general-purpose language, most of its features are focused on object-oriented programming. Meaning that, python is a programming language focused on creating, managing and modifying objects and classes of objects.</p>
 <p>So, when you work with python, you are basically applying many operations and functions over a set of objects. In essence, an object in python, is a name that refers to a set of data. This data can be anything that you computer can store (or represent).</p>
 <p>Having that in mind, an object is just a name, and this name is a reference, or a key to access some data. To define an object in python, you must use the assignment operator, which is the equal sign (<code>=</code>). In the example below, we are defining, or, creating an object called <code>x</code>, and it stores the value 10. Therefore, with the name <code>x</code> we can access this value of 10.</p>
@@ -397,8 +368,8 @@ Terminal$ cd "/usr/pedro/Documents"</code></pre>
 </div>
 <p>And many other things…</p>
 </section>
-<section id="expressions" class="level2" data-number="1.5">
-<h2 data-number="1.5" class="anchored" data-anchor-id="expressions"><span class="header-section-number">1.5</span> Expressions</h2>
+<section id="expressions" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="expressions"><span class="header-section-number">2.5</span> Expressions</h2>
 <p>Python programs are organized in blocks of expressions (or statements). A python expression is a statement that describes an operation to be performed by the program. For example, the expression below describes the sum between 3 and 5.</p>
 <div class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="dv">3</span> <span class="op">+</span> <span class="dv">5</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -453,10 +424,10 @@ NameError: name 'x' is not defined</code></pre>
 </div>
 <p>This error occurs, because inside the print statement, we call the name <code>x</code>. But, this is the first expression of the program, and at this point of the program, we did not defined a object called <code>x</code>. We make this definition, after the print statement, with <code>x = 1</code> and <code>x = 40</code>. In other words, at this point, python do not know any object called <code>x</code>.</p>
 </section>
-<section id="packages-or-libraries" class="level2" data-number="1.6">
-<h2 data-number="1.6" class="anchored" data-anchor-id="packages-or-libraries"><span class="header-section-number">1.6</span> Packages (or libraries)</h2>
+<section id="packages-or-libraries" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="packages-or-libraries"><span class="header-section-number">2.6</span> Packages (or libraries)</h2>
 <p>A python package (or a python “library”) is basically a set of functions and classes that provides important functionality to solve a specific problem. And <code>pyspark</code> is one of these many python packages available.</p>
-<p>Python packages are usually published (that is, made available to the public) through the PyPI archive<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>. If a python package is published in PyPI, then, you can easily install it through the <code>pip</code> tool, that we just used in <a href="00-install-spark.html"><span>Appendix&nbsp;B</span></a>.</p>
+<p>Python packages are usually published (that is, made available to the public) through the PyPI archive<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>. If a python package is published in PyPI, then, you can easily install it through the <code>pip</code> tool, that we just used in <a href="#sec-install-spark"><span class="quarto-unresolved-ref">sec-install-spark</span></a>.</p>
 <p>To use a python package, you always need to: 1) have this package installed on your machine; 2) import this package in your python script. If a package is not installed in your machine, you will face a <code>ModuleNotFoundError</code> as you try to use it, like in the example below.</p>
 <div class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -544,8 +515,8 @@ ModuleNotFoundError: No module named 'pandas'</code></pre>
 <span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pyspark.sql.window <span class="im">as</span> W</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="methods-versus-functions" class="level2" data-number="1.7">
-<h2 data-number="1.7" class="anchored" data-anchor-id="methods-versus-functions"><span class="header-section-number">1.7</span> Methods versus Functions</h2>
+<section id="methods-versus-functions" class="level2" data-number="2.7">
+<h2 data-number="2.7" class="anchored" data-anchor-id="methods-versus-functions"><span class="header-section-number">2.7</span> Methods versus Functions</h2>
 <p>Beginners tend mix these two types of functions in python, but they are not the same. So lets describe the differences between the two.</p>
 <p>Standard python functions, are <strong>functions that we apply over an object</strong>. A classical example, is the <code>print()</code> function. You can see in the example below, that we are applying <code>print()</code> over the <code>result</code> object.</p>
 <div class="cell" data-execution_count="22">
@@ -586,8 +557,8 @@ ModuleNotFoundError: No module named 'pandas'</code></pre>
 </div>
 <pre><code>AttributeError: 'int' object has no attribute 'startswith'</code></pre>
 </section>
-<section id="identifying-classes-and-their-methods" class="level2" data-number="1.8">
-<h2 data-number="1.8" class="anchored" data-anchor-id="identifying-classes-and-their-methods"><span class="header-section-number">1.8</span> Identifying classes and their methods</h2>
+<section id="identifying-classes-and-their-methods" class="level2" data-number="2.8">
+<h2 data-number="2.8" class="anchored" data-anchor-id="identifying-classes-and-their-methods"><span class="header-section-number">2.8</span> Identifying classes and their methods</h2>
 <p>Over the next chapters, you will realize that <code>pyspark</code> programs tend to use more methods than standard functions. So most of the functionality of <code>pyspark</code> resides in class methods. As a result, the capability of understanding the objects that you have in your python program, and, identifying its classes and methods will be crucial while you are developing and debugging your Spark applications.</p>
 <p>Every existing object in python represents an instance of a class. In other words, every object in python is associated to a given class. You can always identify the class of an object, by applying the <code>type()</code> function over this object. In the example below, we can see that, the <code>name</code> object is an instance of the <code>str</code> class.</p>
 <div class="cell" data-execution_count="26">
@@ -865,13 +836,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../Chapters/01-intro.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Preface</span>
+      <a href="../index.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">About this book</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="../Chapters/03-spark.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introducing Apache Spark</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Introducing Apache Spark</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

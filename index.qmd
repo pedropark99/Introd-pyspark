@@ -1,6 +1,10 @@
 
 
-# About this website {.unnumbered}
+## About this book
+
+
+
+::: {.content-visible when-format="html"}
 
 Welcome! This is the initial page for the "Open Access" HTML version of the book "Introduction to `pyspark`", written by [Pedro Duarte Faria](https://pedro-faria.netlify.app/). This book provides an introduction to [`pyspark`](https://spark.apache.org/docs/latest/api/python/), which is a python API to [Apache Spark](https://spark.apache.org/).
 
@@ -8,12 +12,128 @@ This book is still under active construction. This means that not all chapters a
 
 <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a>
 
+:::
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
 
-# if (Sys.info()["sysname"] == "Windows") {
-#   py_path <- "C:/Users/pedro/AppData/Local/Programs/Python/Python311/python.exe"
-#   reticulate::use_python(py_path)
-# }
+
+::: {.content-visible when-format="pdf"}
+
+Hello! This book provides an introduction to [`pyspark`](https://spark.apache.org/docs/latest/api/python/), which is a Python API to [Apache Spark](https://spark.apache.org/). Here, you will learn how to perform the most commom data analysis tasks and useful data transformations with Python to process huge amounts of data.
+
+:::
+
+
+
+
+
+In essence, `pyspark` is a python package that provides an API for Apache Spark. In other words, with `pyspark` you are able to use the python language to write Spark applications and run them on a Spark cluster in a scalable and elegant way. This book focus on teaching the fundamentals of `pyspark`, and how to use it for big data analysis.
+
+This book, also contains a small introduction to key python concepts that are important to understand how `pyspark` is organized. Since we will be using Apache Spark under the hood, it is also very important to understand a little bit of how Apache Spark works, so, we provide a small introduction to Apache Spark as well.
+
+Big part of the knowledge exposed here is extracted from a lot of practical experience of the author, working with `pyspark` to analyze big data at platforms such as Databricks^[<https://databricks.com/>]. Another part of the knowledge is extracted from the official documentation of Apache Spark [@sparkdoc], as well as some established works such as @chambers2018 and @damji2020.
+
+Some of the main subjects discussed in the book are:
+
+- How an Apache Spark application works?
+- What are Spark DataFrames?
+- How to transform and model your Spark DataFrame.
+- How to import data into Apache Spark.
+- How to work with SQL inside `pyspark`.
+- Tools for manipulating specific data types (e.g. string, dates and datetimes).
+- How to use window functions.
+
+
+## About the author
+
+Pedro Duarte Faria have a bachelor degree in Economics from Federal University of Ouro Preto - Brazil. Currently, he is a Data Engineer at Take Blip, and an Associate Developer for Apache Spark 3.0 certified by Databricks.
+
+The author have more than 3 years of experience in the data analysis market. He developed data pipelines, reports and analysis for research institutions and some of the largest companies in the brazilian financial sector, such as the BMG Bank, Sodexo and Pan Bank, besides dealing with databases that go beyond the billion rows.
+
+Furthermore, Pedro is specialized on the R programming language, and have given several lectures and courses about it, inside graduate centers (such as PPEA-UFOP^[<https://ppea.ufop.br/>]), in addition to federal and state organizations (such as FJP-MG^[<http://fjp.mg.gov.br/>]). As researcher, he have experience in the field of Science, Technology and Innovation Economics.
+
+
+Personal Website: <https://pedro-faria.netlify.app/>
+
+Twitter: [\@PedroPark9](https://twitter.com/PedroPark9)
+
+Mastodon: [\@pedropark99\@fosstodon.org](https://fosstodon.org/@pedropark99)
+
+
+
+
+## Some conventions of this book
+
+### Python code and terminal commands
+
+This book is about `pyspark`, which is a python package. As a result, we will be exposing a lot of python code across the entire book. Examples of python code, are always shown inside a gray rectangle, like this example below.
+
+Every visible result that this python code produce, will be written in plain black outside of the gray rectangle, just below the command that produced that visible result. So in the example below, the value `729` is the only visible result of this python code, and, the statement `print(y)` is the command that triggered this visible result.
+
+```{python}
+x = 3
+y = 9 ** x
+
+print(y)
 ```
+
+Furthermore, all terminal commands that we expose in this book, will always be: pre-fixed by `Terminal$`; written in black; and, not outlined by a gray rectangle. In the example below, the command `pip install jupyter` should be inserted in the terminal of the OS (whatever is the terminal that your OS uses), and not in the python interpreter, because this command is prefixed with `Terminal$`.
+
+```terminal
+Terminal$ pip install jupyter
+```
+
+Some terminal commands may produce visible results as well. In that case, these results will be right below the respective command, and will not be pre-fixed with `Terminal$`. For example, we can see below that the command `echo "Hello!"` produces the result `"Hello!"`.
+
+```terminal
+Terminal$ echo "Hello!"
+Hello!
+```
+
+### Python objects, functions and methods
+
+When I refer to some python object, function, method or package, I will use a monospaced font. In other words, if I have a python object called "name", and, I am describing this object, I will use `name` in the paragraph, and not "name". The same logic applies to Python functions, methods and package names.
+
+
+### Be aware of differences between OS's!
+
+Spark is available for all three main operational systems (or OS's) used in the world (Windows, MacOs and Linux). I will use constantly the word OS as an abbreviation to "operational system". 
+
+The snippets of python code shown throughout this book should just run correctly no matter which one of the three OS's you are using. In other words, the python code snippets are made to be portable. So you can just copy and paste them to your computer, no matter which OS you are using. 
+
+But, at some points, I may need to show you some terminal commands that are OS specific, and are not easily portable. For example, Linux have a package manager, but Windows does not have one. This means that, if you are on Linux, you will need to use some terminal commands to install some necessary programs (like python). In contrast, if you are on Windows, you will generally download executable files (`.exe`) that make this installation for you.
+
+In cases like this, I will always point out the specific OS of each one of the commands, or, I will describe the necessary steps to be made on each one the OS's. Just be aware that these differences exists between the OS's.
+
+## Install the necessary software
+
+If you want to follow the examples shown throughout this book, you must have Apache Spark and `pyspark` installed on your machine. If you do not know how to do this, you can consult the [articles from phoenixNAP which are very useful](https://phoenixnap.com/kb/install-spark-on-ubuntu)[^phoenix-lab].
+
+[^phoenix-lab]: <https://phoenixnap.com/kb/install-spark-on-ubuntu>.
+
+## Book's metadata
+
+### License
+
+Copyright © 2024 Pedro Duarte Faria. This book is licensed by the [CC-BY 4.0 Creative Commons Attribution 4.0 International Public License](https://creativecommons.org/licenses/by/4.0/).
+
+![](Figures/creative-commoms-88x31.png){width=88px}
+
+
+### Book citation
+
+```biblatex
+@book{pedro2024,
+    author = {Pedro Duarte Faria},
+    title = {Introduction to pyspark},
+    year = {2024},
+    address = {Belo Horizonte}
+}
+```
+
+### Corresponding author and maintainer
+
+Pedro Duarte Faria
+
+Contact: [pedropark99\@gmail.com](mailto:pedropark99@gmail.com)
+
+Personal website: <https://pedro-faria.netlify.app/>

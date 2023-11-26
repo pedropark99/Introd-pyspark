@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Introduction to pyspark - 4&nbsp; Introducing the Column class</title>
+<title>Introduction to pyspark - 5&nbsp; Introducing the Column class</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -138,7 +138,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Chapters/04-columns.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Introducing the `Column` class</span></a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Chapters/04-columns.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Introducing the `Column` class</span></a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -161,73 +161,67 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">About this website</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../Chapters/01-intro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Preface</span></a>
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">About this book</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../Chapters/02-python.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Key concepts of python</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Key concepts of python</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../Chapters/03-spark.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introducing Apache Spark</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Introducing Apache Spark</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../Chapters/04-dataframes.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Introducing Spark DataFrames</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Introducing Spark DataFrames</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../Chapters/04-columns.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Introducing the <code>Column</code> class</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Introducing the <code>Column</code> class</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../Chapters/05-transforming.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Transforming your Spark DataFrame - Part 1</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Transforming your Spark DataFrame - Part 1</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../Chapters/07-import.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Importing data to Spark</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Importing data to Spark</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../Chapters/06-dataframes-sql.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Working with SQL in <code>pyspark</code></span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Working with SQL in <code>pyspark</code></span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../Chapters/08-transforming2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Transforming your Spark DataFrame - Part 2</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Transforming your Spark DataFrame - Part 2</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../Chapters/09-strings.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Tools for string manipulation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Tools for string manipulation</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../Chapters/10-datetime.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Tools for dates and datetimes manipulation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Tools for dates and datetimes manipulation</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -236,29 +230,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">References</span></a>
   </div>
 </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
- <span class="menu-text">Appendices</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../Chapters/00-terminal.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Opening the terminal of your OS</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../Chapters/00-install-spark.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">How to install Spark and <code>pyspark</code></span></span></a>
-  </div>
-</li>
-      </ul>
-  </li>
     </ul>
     </div>
 </nav>
@@ -269,11 +240,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#building-a-column-object" id="toc-building-a-column-object" class="nav-link active" data-scroll-target="#building-a-column-object"><span class="header-section-number">4.1</span> Building a column object</a></li>
-  <li><a href="#sec-columns-related-expressions" id="toc-sec-columns-related-expressions" class="nav-link" data-scroll-target="#sec-columns-related-expressions"><span class="header-section-number">4.2</span> Columns are strongly related to expressions</a></li>
-  <li><a href="#literal-values-versus-expressions" id="toc-literal-values-versus-expressions" class="nav-link" data-scroll-target="#literal-values-versus-expressions"><span class="header-section-number">4.3</span> Literal values versus expressions</a></li>
-  <li><a href="#sec-literal-values" id="toc-sec-literal-values" class="nav-link" data-scroll-target="#sec-literal-values"><span class="header-section-number">4.4</span> Passing a literal (or a constant) value to Spark</a></li>
-  <li><a href="#key-methods-of-the-column-class" id="toc-key-methods-of-the-column-class" class="nav-link" data-scroll-target="#key-methods-of-the-column-class"><span class="header-section-number">4.5</span> Key methods of the <code>Column</code> class</a></li>
+  <li><a href="#building-a-column-object" id="toc-building-a-column-object" class="nav-link active" data-scroll-target="#building-a-column-object"><span class="header-section-number">5.1</span> Building a column object</a></li>
+  <li><a href="#sec-columns-related-expressions" id="toc-sec-columns-related-expressions" class="nav-link" data-scroll-target="#sec-columns-related-expressions"><span class="header-section-number">5.2</span> Columns are strongly related to expressions</a></li>
+  <li><a href="#literal-values-versus-expressions" id="toc-literal-values-versus-expressions" class="nav-link" data-scroll-target="#literal-values-versus-expressions"><span class="header-section-number">5.3</span> Literal values versus expressions</a></li>
+  <li><a href="#sec-literal-values" id="toc-sec-literal-values" class="nav-link" data-scroll-target="#sec-literal-values"><span class="header-section-number">5.4</span> Passing a literal (or a constant) value to Spark</a></li>
+  <li><a href="#key-methods-of-the-column-class" id="toc-key-methods-of-the-column-class" class="nav-link" data-scroll-target="#key-methods-of-the-column-class"><span class="header-section-number">5.5</span> Key methods of the <code>Column</code> class</a></li>
   </ul>
 </nav>
     </div>
@@ -282,7 +253,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Introducing the <code>Column</code> class</span></h1>
+<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Introducing the <code>Column</code> class</span></h1>
 </div>
 
 
@@ -297,18 +268,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<p>As we described at the introduction of <a href="04-dataframes.html"><span>Chapter&nbsp;3</span></a>, you will massively use the methods from the <code>DataFrame</code> class in your Spark applications to manage, modify and calculate your Spark DataFrames.</p>
+<p>As we described at the introduction of <a href="#sec-dataframes-chapter"><span class="quarto-unresolved-ref">sec-dataframes-chapter</span></a>, you will massively use the methods from the <code>DataFrame</code> class in your Spark applications to manage, modify and calculate your Spark DataFrames.</p>
 <p>However, there is one more python class that provides some very useful methods that you will regularly use, which is the <code>Column</code> class, or more specifically, the <code>pyspark.sql.column.Column</code> class.</p>
 <p>The <code>Column</code> class is used to represent a column in a Spark DataFrame. This means that, each column of your Spark DataFrame is a object of class <code>Column</code>.</p>
-<p>We can confirm this statement, by taking the <code>df</code> DataFrame that we showed at <a href="04-dataframes.html#sec-building-a-dataframe"><span>Section&nbsp;3.5</span></a>, and look at the class of any column of it. Like the <code>id</code> column:</p>
+<p>We can confirm this statement, by taking the <code>df</code> DataFrame that we showed at <a href="#sec-building-a-dataframe"><span class="quarto-unresolved-ref">sec-building-a-dataframe</span></a>, and look at the class of any column of it. Like the <code>id</code> column:</p>
 <div class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(df.<span class="bu">id</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
 <pre><code>pyspark.sql.column.Column</code></pre>
 </div>
 </div>
-<section id="building-a-column-object" class="level2" data-number="4.1">
-<h2 data-number="4.1" class="anchored" data-anchor-id="building-a-column-object"><span class="header-section-number">4.1</span> Building a column object</h2>
+<section id="building-a-column-object" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="building-a-column-object"><span class="header-section-number">5.1</span> Building a column object</h2>
 <p>You can refer to or create a column, by using the <code>col()</code> and <code>column()</code> functions from <code>pyspark.sql.functions</code> module. These functions receive a string input with the name of the column you want to create/refer to.</p>
 <p>Their result are always a object of class <code>Column</code>. For example, the code below creates a column called <code>ID</code>:</p>
 <div class="cell" data-execution_count="3">
@@ -320,8 +291,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="sec-columns-related-expressions" class="level2" data-number="4.2">
-<h2 data-number="4.2" class="anchored" data-anchor-id="sec-columns-related-expressions"><span class="header-section-number">4.2</span> Columns are strongly related to expressions</h2>
+<section id="sec-columns-related-expressions" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="sec-columns-related-expressions"><span class="header-section-number">5.2</span> Columns are strongly related to expressions</h2>
 <p>Many kinds of transformations that we want to apply over a Spark DataFrame, are usually described through expressions, and, these expressions in Spark are mainly composed by <strong>column transformations</strong>. That is why the <code>Column</code> class, and its methods, are so important in Apache Spark.</p>
 <p>Columns in Spark are so strongly related to expressions that the columns themselves are initially interpreted as expressions. If we look again at the column <code>id</code> from <code>df</code> DataFrame, Spark will bring a expression as a result, and not the values hold by this column.</p>
 <div class="cell" data-execution_count="4">
@@ -331,7 +302,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>Having these ideas in mind, when I created the column <code>ID</code> on the previous section, I created a “column expression”. This means that <code>col("ID")</code> is just an expression, and as consequence, Spark does not know which are the values of column <code>ID</code>, or, where it lives (which is the DataFrame that this column belongs?). For now, Spark is not interested in this information, it just knows that we have an expression referring to a column called <code>ID</code>.</p>
-<p>These ideas relates a lot to the <strong>lazy aspect</strong> of Spark that we talked about in <a href="04-dataframes.html#sec-viewing-a-dataframe"><span>Section&nbsp;3.6</span></a>. Spark will not perform any heavy calculation, or show you the actual results/values from you code, until you trigger the calculations with an action (we will talk more about these “actions” on <a href="05-transforming.html#sec-dataframe-actions"><span>Section&nbsp;5.3</span></a>). As a result, when you access a column, Spark will only deliver a expression that represents that column, and not the actual values of that column.</p>
+<p>These ideas relates a lot to the <strong>lazy aspect</strong> of Spark that we talked about in <a href="#sec-viewing-a-dataframe"><span class="quarto-unresolved-ref">sec-viewing-a-dataframe</span></a>. Spark will not perform any heavy calculation, or show you the actual results/values from you code, until you trigger the calculations with an action (we will talk more about these “actions” on <a href="#sec-dataframe-actions"><span class="quarto-unresolved-ref">sec-dataframe-actions</span></a>). As a result, when you access a column, Spark will only deliver a expression that represents that column, and not the actual values of that column.</p>
 <p>This is handy, because we can store our expressions in variables, and, reuse it latter, in multiple parts of our code. For example, I can keep building and merging a column with different kinds of operators, to build a more complex expression. In the example below, I create a expression that doubles the values of <code>ID</code> column:</p>
 <div class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>expr1 <span class="op">=</span> id_column <span class="op">*</span> <span class="dv">2</span></span>
@@ -351,8 +322,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="literal-values-versus-expressions" class="level2" data-number="4.3">
-<h2 data-number="4.3" class="anchored" data-anchor-id="literal-values-versus-expressions"><span class="header-section-number">4.3</span> Literal values versus expressions</h2>
+<section id="literal-values-versus-expressions" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="literal-values-versus-expressions"><span class="header-section-number">5.3</span> Literal values versus expressions</h2>
 <p>We know now that columns of a Spark DataFrame have a deep connection with expressions. But, on the other hand, there are some situations that you write a value (it can be a string, a integer, a boolean, or anything) inside your <code>pyspark</code> code, and you might actually want Spark to intepret this value as a constant (or a literal) value, rather than a expression.</p>
 <p>As an example, lets suppose you control the data generated by the sales of five different stores, scattered across different regions of Belo Horizonte city (in Brazil). Now, lets suppose you receive a batch of data generated by the 4th store in the city, which is located at Amazonas Avenue, 324. This batch of data is exposed below:</p>
 <div class="cell" data-execution_count="7">
@@ -376,8 +347,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>For example, we could add two new columns to this <code>sales</code> DataFrame. One for the number that identifies the store (4), and, another to keep the store address. Considering that all rows in this batch comes from the 4th store, we should add two “constant” columns, meaning that these columns should have a constant value across all rows in this batch. But, how can we do this? How can we create a “constant” column? The answer is: by forcing Spark to interpret the values as literal values, instead of a expression.</p>
 <p>In other words, I can not use the <code>col()</code> function to create these two new columns. Because this <code>col()</code> function receives a column name as input. <strong>It interprets our input as an expression that refers to a column name</strong>. This function does not accept some sort of description of the actual values that this column should store.</p>
 </section>
-<section id="sec-literal-values" class="level2" data-number="4.4">
-<h2 data-number="4.4" class="anchored" data-anchor-id="sec-literal-values"><span class="header-section-number">4.4</span> Passing a literal (or a constant) value to Spark</h2>
+<section id="sec-literal-values" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="sec-literal-values"><span class="header-section-number">5.4</span> Passing a literal (or a constant) value to Spark</h2>
 <p>So how do we force Spark to interpret a value as a literal (or constant) value, rather than a expression? To do this, you must write this value inside the <code>lit()</code> (short for “literal”) function from the <code>pyspark.sql.functions</code> module.</p>
 <p>In other words, when you write in your code the statement <code>lit(4)</code>, Spark understand that you want to create a new column which is filled with 4’s. In other words, this new column is filled with the constant integer 4.</p>
 <p>With the code below, I am creating two new columns (called <code>store_number</code> and <code>store_address</code>), and adding them to the <code>sales</code> DataFrame.</p>
@@ -412,8 +383,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>In essence, you normally use the <code>lit()</code> function when you want to write a literal value in places where Spark expects a column name. In the example above, instead of writing a name to an existing column in the <code>sales</code> DataFrame, I wanted to write the literal values <code>'Amazonas Avenue, 324'</code> and <code>4</code>, and I used the <code>lit()</code> function to make this intention very clear to Spark. If I did not used the <code>lit()</code> function, the <code>withColumn()</code> method would interpret the value <code>'Amazonas Avenue, 324'</code> as an existing column named <code>Amazonas Avenue, 324</code>.</p>
 </section>
-<section id="key-methods-of-the-column-class" class="level2" data-number="4.5">
-<h2 data-number="4.5" class="anchored" data-anchor-id="key-methods-of-the-column-class"><span class="header-section-number">4.5</span> Key methods of the <code>Column</code> class</h2>
+<section id="key-methods-of-the-column-class" class="level2" data-number="5.5">
+<h2 data-number="5.5" class="anchored" data-anchor-id="key-methods-of-the-column-class"><span class="header-section-number">5.5</span> Key methods of the <code>Column</code> class</h2>
 <p>Because many transformations that we want to apply over our DataFrames are expressed as column transformations, the methods from the <code>Column</code> class will be quite useful on many different contexts. You will see many of these methods across the next chapters, like <code>desc()</code>, <code>alias()</code> and <code>cast()</code>.</p>
 <p>Remember, you can always use the <code>dir()</code> function to see the complete list of methods available in any python class. Is always useful to check the official documentation too<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. There you will have a more complete description of each method.</p>
 <p>But since they are so important in Spark, lets just give you a brief overview of some of the most popular methods from the <code>Column</code> class (these methods will be described in more detail in later chapters):</p>
@@ -674,12 +645,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="../Chapters/04-dataframes.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Introducing Spark DataFrames</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Introducing Spark DataFrames</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="../Chapters/05-transforming.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Transforming your Spark DataFrame - Part 1</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Transforming your Spark DataFrame - Part 1</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

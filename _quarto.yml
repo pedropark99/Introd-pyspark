@@ -20,7 +20,6 @@ book:
   cover-image: "Cover/cover1.png"
   chapters:
     - index.qmd
-    - Chapters/01-intro.qmd
     - Chapters/02-python.qmd
     - Chapters/03-spark.qmd
     - Chapters/04-dataframes.qmd
@@ -32,9 +31,9 @@ book:
     - Chapters/09-strings.qmd
     - Chapters/10-datetime.qmd
     - Chapters/references.qmd
-  appendices:
-    - Chapters/00-terminal.qmd
-    - Chapters/00-install-spark.qmd
+  # appendices:
+  #   - Chapters/00-terminal.qmd
+  #   - Chapters/00-install-spark.qmd
 
 bibliography: references.bib
 number-sections: true
@@ -43,8 +42,8 @@ format:
     theme: 
       - cosmo
       - theme.scss
-  # pdf:
-  #   mainfont: Times New Roman
-  #   monofont: Inconsolata
-  #   fontsize: 11pt
-  #   keep-tex: false
+  pdf:
+    mainfont: Times New Roman
+    monofont: Inconsolata
+    fontsize: 11pt
+    keep-tex: false
