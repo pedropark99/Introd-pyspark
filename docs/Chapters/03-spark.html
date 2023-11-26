@@ -182,13 +182,7 @@ div.csl-indent {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">About this website</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../Chapters/01-intro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Preface</span></a>
+ <span class="menu-text">Welcome</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -257,29 +251,6 @@ div.csl-indent {
  <span class="menu-text">References</span></a>
   </div>
 </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
- <span class="menu-text">Appendices</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../Chapters/00-terminal.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Opening the terminal of your OS</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../Chapters/00-install-spark.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">How to install Spark and <code>pyspark</code></span></span></a>
-  </div>
-</li>
-      </ul>
-  </li>
     </ul>
     </div>
 </nav>
@@ -461,19 +432,13 @@ div.csl-indent {
 </section>
 <section id="executing-the-code" class="level3" data-number="2.6.2">
 <h3 data-number="2.6.2" class="anchored" data-anchor-id="executing-the-code"><span class="header-section-number">2.6.2</span> Executing the code</h3>
-<p>Now that you have written your first Spark application with <code>pyspark</code>, you want to execute this application and see its results. Yet, to run a <code>pyspark</code> program, remember that you need to have the necessary software installed on your machine. I talk about how to install these software at <a href="00-install-spark.html"><span>Appendix&nbsp;B</span></a>.</p>
+<p>Now that you have written your first Spark application with <code>pyspark</code>, you want to execute this application and see its results. Yet, to run a <code>pyspark</code> program, remember that you need to have the necessary software installed on your machine. In case you do not have Apache Spark installed yet, I personally recommend you to read the <a href="https://phoenixnap.com/kb/install-spark-on-ubuntu">articles from PhoenixNAP on how to install Apache Spark</a><a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>.</p>
 <p>Anyway, to execute this <code>pyspark</code> that you wrote, you need send this script to the python interpreter, and to do this you need to: 1) open a terminal inside the folder where you python script is stored; and, 2) use the python command from the terminal with the name of your python script.</p>
-<p>If you do not know how to open a terminal from inside a folder of your computer, you can consult <a href="00-terminal.html"><span>Appendix&nbsp;A</span></a> of this book, where I teach you how to do it.</p>
 <p>In my current situation, I running Spark on a Ubuntu distribution, and, I saved the <code>spark-example.py</code> script inside a folder called <code>SparkExample</code>. This folder is located at the path <code>~/Documentos/Projetos/Livros/Introd-pyspark/SparkExample</code> of my computer. This means that, I need to open a terminal that is rooted inside this <code>SparkExample</code> folder.</p>
 <p>You probably have saved your <code>spark-example.py</code> file in a different folder of your computer. This means that you need to open the terminal from a different folder.</p>
 <p>After I opened a terminal rooted inside the <code>SparkExample</code> folder. I just use the <code>python3</code> command to access the python interpreter, and, give the name of the python script that I want to execute. In this case, the <code>spark-example.py</code> file. As a result, our first <code>pyspark</code> program will be executed:</p>
-<div class="cell">
-<pre class="terminal cell-code"><code>Terminal$ cd ./../SparkExample
+<pre><code>Terminal$ cd ./../SparkExample
 Terminal$ python3 spark-example.py</code></pre>
-<div class="cell-output cell-output-stdout">
-<pre><code>[Row(id=0), Row(id=1), Row(id=2), Row(id=3), Row(id=4)]</code></pre>
-</div>
-</div>
 <p>You can see in the above result, that this Spark application produces a sequence of numbers, from 0 to 4, and, returns this sequence as a set of <code>Row</code> objects, inside a python list.</p>
 <p>Congratulations! You have just run your first Spark application using <code>pyspark</code>!</p>
 </section>
@@ -525,6 +490,7 @@ Karau, Holden, Andy Konwinski, Patrick Wendell, and Matei Zaharia. 2015. <em>Lea
 <li id="fn1"><p><a href="https://spark.apache.org/sql/" class="uri">https://spark.apache.org/sql/</a><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn2"><p><a href="https://spark.apache.org/docs/latest/ml-guide.html" class="uri">https://spark.apache.org/docs/latest/ml-guide.html</a><a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn3"><p><a href="https://spark.apache.org/docs/latest/structured-streaming-programming-guide.html#overview" class="uri">https://spark.apache.org/docs/latest/structured-streaming-programming-guide.html#overview</a><a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p><a href="https://phoenixnap.com/kb/install-spark-on-ubuntu" class="uri">https://phoenixnap.com/kb/install-spark-on-ubuntu</a>.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section>
 

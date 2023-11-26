@@ -18,3 +18,5 @@ Chapters/*.html
 Chapters/*/*
 
 Scripts/__pycache__/
+
+index_files/
