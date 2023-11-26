@@ -31,9 +31,6 @@ book:
     - Chapters/09-strings.qmd
     - Chapters/10-datetime.qmd
     - Chapters/references.qmd
-  # appendices:
-  #   - Chapters/00-terminal.qmd
-  #   - Chapters/00-install-spark.qmd
 
 bibliography: references.bib
 number-sections: true
