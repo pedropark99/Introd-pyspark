@@ -196,9 +196,9 @@ df2.show()
 
 ### From integers
 
-You can also convert integers directly to datetime values by using the `cast()` method. When you do this, the integers are interpreted as being the number of seconds since the UNIX time epoch, which is mid-night of 1 January of 1970 (`"1970-01-01 00:00:00"`). In other words, the integer `60` will be converted the point of time which is 60 seconds after `"1970-01-01 00:00:00"`, which would be `"1970-01-01 00:01:00"`.
+You can also convert integers directly to datetime values by using the `cast()` method. In this situation, the integers are interpreted as being the number of seconds since the UNIX time epoch, which is mid-night of 1 January of 1970 (`"1970-01-01 00:00:00"`). In other words, the integer `60` will be converted the point of time which is 60 seconds after `"1970-01-01 00:00:00"`, which would be `"1970-01-01 00:01:00"`.
 
-In the example below, the number 1,000,421,325 is converted into 19:48:45 of 13 September of 2001. Because this date is 1.000421 billion of seconds ahead of the UNIX epoch.
+In the example below, the number 1,000,421,325 is converted into 19:48:45 of 13 September of 2001. Because this exact point in time is 1.000421 billion of seconds ahead of the UNIX epoch.
 
 ```{python}
 df3 = spark.createDataFrame([
@@ -219,7 +219,7 @@ df3.show()
 
 
 
-However, you probably notice in the example above, that something is odd. Because the number 500 was converted into `"1969-12-31 21:08:20"`, which is in teory, behind the UNIX epoch, which is 1 January of 1970. Why did that happen? Because your time zone is always taken into account during a conversion from integers to datetime values!
+However, you probably notice in the example above, that something is odd. Because the number 500 was converted into `"1969-12-31 21:08:20"`, which is in teory, behind the UNIX epoch, which is 1 January of 1970. Why did that happen? The answer is that **your time zone is always taken into account** during a conversion from integers to datetime values!
 
 In the example above, Spark is running on an operating system that is using the Brasília time zone (which is 3 hours late from international time zone - UTC-3) as the "default time zone" of the system. As a result, integers will be interpreted as being the number of seconds since the UNIX time epoch **minus 3 hours**, which is `"1969-12-31 21:00:00"`. So, in this context, the integer `60` would be converted into `"1969-12-31 21:01:00"` (instead of the usual `"1970-01-01 00:01:00"` that you would expect).
 
