@@ -96,6 +96,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
 
@@ -247,7 +249,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#sec-window-def" id="toc-sec-window-def" class="nav-link active" data-scroll-target="#sec-window-def"><span class="header-section-number">11.1</span> Defining a window</a></li>
-  <li><a href="#introducing-window-functions" id="toc-introducing-window-functions" class="nav-link" data-scroll-target="#introducing-window-functions"><span class="header-section-number">11.2</span> Introducing window functions</a></li>
+  <li><a href="#window-functions-vs-group-by-clauses" id="toc-window-functions-vs-group-by-clauses" class="nav-link" data-scroll-target="#window-functions-vs-group-by-clauses"><span class="header-section-number">11.2</span> Window functions vs <em>group by</em> clauses</a></li>
+  <li><a href="#ranking-window-functions" id="toc-ranking-window-functions" class="nav-link" data-scroll-target="#ranking-window-functions"><span class="header-section-number">11.3</span> Ranking window functions</a></li>
+  <li><a href="#position-based-window-functions" id="toc-position-based-window-functions" class="nav-link" data-scroll-target="#position-based-window-functions"><span class="header-section-number">11.4</span> Position-based window functions</a>
+  <ul class="collapse">
+  <li><a href="#getting-the-next-and-previous-row-with-lead-and-lag" id="toc-getting-the-next-and-previous-row-with-lead-and-lag" class="nav-link" data-scroll-target="#getting-the-next-and-previous-row-with-lead-and-lag"><span class="header-section-number">11.4.1</span> Getting the next and previous row with <code>lead()</code> and <code>lag()</code></a></li>
+  </ul></li>
+  <li><a href="#agreggating-window-functions" id="toc-agreggating-window-functions" class="nav-link" data-scroll-target="#agreggating-window-functions"><span class="header-section-number">11.5</span> Agreggating window functions</a></li>
   </ul>
 </nav>
     </div>
@@ -272,15 +280,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 <p>Spark offers a set of tools known as <em>window functions</em>. These tools are essential for an extensive range of tasks, and you should know them. But what are them?</p>
-<p>Window functions in Spark are a set functions that performs calculations over windows of rows from your DataFrame. In other words, when you use these functions, the rows of your DataFrame are divided into multiple windows. Each window contains a specific range of rows from the DataFrame. In this context, a window function is a function that receives a window (or a range of rows) as input, and calculate an aggregate or a specific index based on the set of rows that is contained in this input window.</p>
-<p>So instead of receiving all the rows of your DataFrame at once as input, a window function receives a range of rows as input and outputs an aggregate (or index) value for this specific range of rows.</p>
-<p>To some extent, the idea of windows in a DataFrame is similar (but not identical) to the idea of “groups” created by <em>group by</em> functions, such as the <code>DataFrame.groupby()</code> method from <code>pyspark</code> (that we presented at <a href="05-transforming.html#sec-group-by"><span>Section&nbsp;5.11.4</span></a>), or the <a href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.groupby.html"><code>DataFrame.groupby()</code></a><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> method from <code>pandas</code>, and also, to <a href="https://dplyr.tidyverse.org/reference/group_by.html"><code>dplyr::group_by()</code></a><a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> from the <code>tidyverse</code> framework.</p>
+<p>Window functions in Spark are a set functions that performs calculations over windows of rows from your DataFrame. This is not a concept exclusive to Spark. In fact, window functions in Spark are essentially the same <a href="https://dev.mysql.com/doc/refman/8.0/en/window-functions-usage.html">as window functions in MySQL</a><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.</p>
+<p>When you use a window function, the rows of your DataFrame are divided into multiple windows. Each window contains a specific range of rows from the DataFrame. In this context, a window function is a function that receives a window (or a range of rows) as input, and calculates an aggregate or a specific index based on the set of rows that is contained in this input window.</p>
+<p>You might find this description very similar to what <code>groupby()</code> and <code>agg()</code> methods do when combined together. And yes… To some extent, the idea of windows in a DataFrame is similar (but not identical) to the idea of “groups” created by <em>group by</em> functions, such as the <code>DataFrame.groupby()</code> method from <code>pyspark</code> (that we presented at <a href="05-transforming.html#sec-group-by"><span>Section&nbsp;5.11.4</span></a>), or the <a href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.groupby.html"><code>DataFrame.groupby()</code></a><a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> method from <code>pandas</code>, and also, to <a href="https://dplyr.tidyverse.org/reference/group_by.html"><code>dplyr::group_by()</code></a><a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> from the <code>tidyverse</code> framework. You will see further in this chapter how window functions differ from these operations.</p>
 <section id="sec-window-def" class="level2" data-number="11.1">
 <h2 data-number="11.1" class="anchored" data-anchor-id="sec-window-def"><span class="header-section-number">11.1</span> Defining a window</h2>
-<p>In order to use a window function you need to define the window frames of your DataFrame. You do this by creating a <code>Window</code> object in your session. Every window object have two components, which are partitioning and ordering, and you specify each of these components by using the <code>partitionBy()</code> and <code>orderBy()</code> methods from the <code>Window</code> class.</p>
-<p>Before I give an example of a window object, we need an example of DataFrame to begin with. Let’s use the <code>transf</code> DataFrame that we presented at <a href="05-transforming.html"><span>Chapter&nbsp;5</span></a>. If you don’t remember how to import/get this DataFrame into your session, come back to <a href="05-transforming.html#sec-transf-dataframe"><span>Section&nbsp;5.5</span></a>.</p>
-<div class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>transf.show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>In order to use a window function you need to define the windows of your DataFrame first. You do this by creating a <code>Window</code> object in your session.</p>
+<p>Every window object have two components, which are partitioning and ordering, and you specify each of these components by using the <code>partitionBy()</code> and <code>orderBy()</code> methods from the <code>Window</code> class. In order to create a <code>Window</code> object, you need to import the <code>Window</code> class from the <code>pyspark.sql.window</code> module:</p>
+<div class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.window <span class="im">import</span> Window</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Over the next examples, I will be using the <code>transf</code> DataFrame that we presented at <a href="05-transforming.html"><span>Chapter&nbsp;5</span></a>. If you don’t remember how to import/get this DataFrame into your session, come back to <a href="05-transforming.html#sec-transf-dataframe"><span>Section&nbsp;5.5</span></a>.</p>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>transf.show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
 |dateTransfer|   datetimeTransfer|clientNumber|transferValue|transferCurrency|transferID|transferLog|destinationBankNumber|destinationBankBranch|destinationBankAccount|
@@ -295,24 +307,20 @@ only showing top 5 rows
 </code></pre>
 </div>
 </div>
-<p>Now, lets create a window object using the <code>transf</code> DataFrame as our target. In order to create a <code>Window</code> object, you need to import the <code>Window</code> class from the <code>pyspark.sql.window</code> module:</p>
-<div class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.window <span class="im">import</span> Window</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>As we described before, the <code>transf</code> DataFrame describes a set of transfers made in a fictitious bank. A reasonable way of splitting the rows of this DataFrame into window frames is using the <code>dateTransfer</code> column. In other words, each partition in the <code>dateTransfer</code> column will identify a different existing window frame in this DataFrame. We create this window specification in the snippet below:</p>
+<p>Now, lets create a window object using the <code>transf</code> DataFrame as our target. This DataFrame describes a set of transfers made in a fictitious bank. So a reasonable way of splitting this DataFrame is by day. That means that we can split this DataFrame into groups (or ranges) of rows by using the <code>dateTransfer</code> column. As a result, each partition in the <code>dateTransfer</code> column will create/identify a different window in this DataFrame.</p>
 <div class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>window_spec <span class="op">=</span> Window.partitionBy(<span class="st">'dateTransfer'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The above window object specifies that each unique date value present in the <code>dateTransfer</code> column identifies a different window frame in the <code>transf</code> DataFrame. <a href="#fig-window-spec1">Figure&nbsp;<span>11.1</span></a> presents this idea visually. So each partition in the <code>dateTransfer</code> column creates a different window frame. And each window frame will become an input to a window function (when we use one).</p>
+<p>The above window object specifies that each unique value present in the <code>dateTransfer</code> column identifies a different window frame in the <code>transf</code> DataFrame. <a href="#fig-window-spec1">Figure&nbsp;<span>11.1</span></a> presents this idea visually. So each partition in the <code>dateTransfer</code> column creates a different window frame. And each window frame will become an input to a window function (when we use one).</p>
 <div id="fig-window-spec1" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="./../Figures/window-spec1.png" class="img-fluid figure-img"></p>
 <figcaption class="figure-caption">Figure&nbsp;11.1: Visualizing the window frames - Part 1</figcaption>
 </figure>
 </div>
-<p>Until this point, defining window frames are very much like defining groups in your DataFrame with <em>group by</em> functions (i.e.&nbsp;window frames are very similar to groups). However, despite their similarities, these functions are used for different purposes. As we described at <a href="05-transforming.html#sec-group-by"><span>Section&nbsp;5.11.4</span></a>, you use <code>groupby()</code> when you want to collect the aggregate values into a new DataFrame using the <code>agg()</code> method. In contrast, when you use a window function, you usually want to add new columns into your existing DataFrame using the <code>withColumn()</code> method.</p>
-<p>In the above example, we specified only the partition component of the window frames. This means that <strong>the ordering component is not mandatory</strong> for using window functions. But lets define the ordering component anyway.</p>
-<p>The partitioning component of the window object specifies which partitions of the DataFrame are translated into window frames. In the other hand, the ordering component of the window object specifies how the rows within the window frame are ordered. Defining this component becomes very important when we are working with window functions that outputs (or that uses) indexes. For example, we might want to use the first (or the <em>nth</em>) row in each window frame.</p>
+<p>Until this point, defining windows are very much like defining groups in your DataFrame with <em>group by</em> functions (i.e.&nbsp;windows are very similar to groups). In the above example, we specified only the partition component of the windows. This means that <strong>the ordering component is not mandatory</strong> for using window functions. But lets define the ordering component anyway.</p>
+<p>The partitioning component of the window object specifies which partitions of the DataFrame are translated into windows. In the other hand, the ordering component of the window object specifies how the rows within the window are ordered. Defining this component becomes very important when we are working with window functions that outputs (or that uses) indexes.</p>
+<p>As an example, you might want to use in your calculations the first (or the <em>nth</em>) row in each window. In a situation like this, the order in which these rows are founded inside the window affects directly the output of your window function. That is why the ordering component matters.</p>
 <p>For example, we can say that the rows within each window should be in descending order according to the <code>datetimeTransfer</code> column:</p>
 <div class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> col</span>
@@ -320,14 +328,15 @@ only showing top 5 rows
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    .partitionBy(<span class="st">'dateTransfer'</span>)<span class="op">\</span></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    .orderBy(col(<span class="st">'datetimeTransfer'</span>).desc())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>With the above snippet, we are not only specifying how the window frames in the DataFrame are created (with the <code>partitionBy()</code>), but we are also specifying how the rows within the window are sorted (with the <code>orderBy()</code>). If we update our representation with the above window specification, we get <a href="#fig-window-spec2">Figure&nbsp;<span>11.2</span></a>:</p>
+<p>With the above snippet, we are not only specifying how the window frames in the DataFrame are created (with the <code>partitionBy()</code>), but we are also specifying how the rows within the window are sorted (with the <code>orderBy()</code>). If we update our representation with the above window specification, we get something similar to <a href="#fig-window-spec2">Figure&nbsp;<span>11.2</span></a>:</p>
 <div id="fig-window-spec2" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="./../Figures/window-spec2.png" class="img-fluid figure-img"></p>
 <figcaption class="figure-caption">Figure&nbsp;11.2: Visualizing the window frames - Part 2</figcaption>
 </figure>
 </div>
-<p>Is worth mentioning that, both <code>partitionBy()</code> and <code>orderBy()</code> methods accepts multiple columns as input. In other words, you can create window frames or order the rows based on a combination of columns. As an example, the window specification below is saying: 1) that a window frame is created for each unique combination of <code>dateTransfer</code> and <code>clientNumber</code>; 2) that the rows within each window are ordered accordingly to <code>transferCurrency</code> (ascending order) and <code>datetimeTransfer</code> (descending order).</p>
+<p>Is worth mentioning that, both <code>partitionBy()</code> and <code>orderBy()</code> methods accepts multiple columns as input. In other words, you can use a combination of columns both to define how the windows in your DataFrame will be created, and how the rows within these windows will be sorted.</p>
+<p>As an example, the window specification below is saying: 1) that a window frame is created for each unique combination of <code>dateTransfer</code> and <code>clientNumber</code>; 2) that the rows within each window are ordered accordingly to <code>transferCurrency</code> (ascending order) and <code>datetimeTransfer</code> (descending order).</p>
 <div class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>window_spec <span class="op">=</span> Window<span class="op">\</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    .partitionBy(<span class="st">'dateTransfer'</span>, <span class="st">'clientNumber'</span>)<span class="op">\</span></span>
@@ -337,9 +346,69 @@ only showing top 5 rows
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="introducing-window-functions" class="level2" data-number="11.2">
-<h2 data-number="11.2" class="anchored" data-anchor-id="introducing-window-functions"><span class="header-section-number">11.2</span> Introducing window functions</h2>
-<p>In essence, a window function is every function that is compatible with window frames, or, in other words, is a function that can receive window frames as input. Virtually every aggregating function that you find inside the <code>pyspark.sql.functions</code> module, like <code>sum()</code>, <code>mean()</code>, <code>count()</code>, <code>max()</code> and <code>min()</code>, is a window function.</p>
+<section id="window-functions-vs-group-by-clauses" class="level2" data-number="11.2">
+<h2 data-number="11.2" class="anchored" data-anchor-id="window-functions-vs-group-by-clauses"><span class="header-section-number">11.2</span> Window functions vs <em>group by</em> clauses</h2>
+<p>Despite their similarities, window functions and <em>group by</em> clauses are used for different purposes. One big difference between them, is that when you use <code>groupby()</code> + <code>agg()</code> you get one output row per each input group of rows, but in contrast, a window function outputs one row per input row. In other words, for a window of <span class="math inline">\(n\)</span> input rows a window function outputs <span class="math inline">\(n\)</span> rows that contains the same result (or the same aggregate result). Lets take a look at an example.</p>
+<div class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> <span class="bu">sum</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>transf<span class="op">\</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    .orderBy(<span class="st">'dateTransfer'</span>)<span class="op">\</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    .groupBy(<span class="st">'dateTransfer'</span>)<span class="op">\</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    .agg(<span class="bu">sum</span>(col(<span class="st">'transferValue'</span>)).alias(<span class="st">'dayTotalTransferValue'</span>))<span class="op">\</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    .show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>+------------+---------------------+
+|dateTransfer|dayTotalTransferValue|
++------------+---------------------+
+|  2022-01-01|              39630.7|
+|  2022-01-02|             70031.46|
+|  2022-01-03|   50957.869999999995|
+|  2022-01-04|             56068.34|
+|  2022-01-05|             47082.04|
++------------+---------------------+
+only showing top 5 rows
+</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>window_spec <span class="op">=</span> Window.partitionBy(<span class="st">'dateTransfer'</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>transf<span class="op">\</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    .select(<span class="st">'dateTransfer'</span>, <span class="st">'transferID'</span>, <span class="st">'transferValue'</span>)<span class="op">\</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    .withColumn(</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>        <span class="st">'dayTotalTransferValue'</span>,</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>        <span class="bu">sum</span>(col(<span class="st">'transferValue'</span>)).over(window_spec)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    )<span class="op">\</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    .show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>+------------+----------+-------------+---------------------+
+|dateTransfer|transferID|transferValue|dayTotalTransferValue|
++------------+----------+-------------+---------------------+
+|  2022-01-01|  20221148|      5547.13|              39630.7|
+|  2022-01-01|  20221147|       9941.0|              39630.7|
+|  2022-01-01|  20221146|       5419.9|              39630.7|
+|  2022-01-01|  20221145|       5006.0|              39630.7|
+|  2022-01-01|  20221144|      8640.06|              39630.7|
++------------+----------+-------------+---------------------+
+only showing top 5 rows
+</code></pre>
+</div>
+</div>
+<p>As we described at <a href="05-transforming.html#sec-group-by"><span>Section&nbsp;5.11.4</span></a>, you use <code>groupby()</code> when you want to collect the aggregate values into a new DataFrame using the <code>agg()</code> method. In contrast, when you use a window function, you usually want to add new columns into your existing DataFrame using the <code>withColumn()</code> method.</p>
+</section>
+<section id="ranking-window-functions" class="level2" data-number="11.3">
+<h2 data-number="11.3" class="anchored" data-anchor-id="ranking-window-functions"><span class="header-section-number">11.3</span> Ranking window functions</h2>
+<p>The functions <code>row_number()</code>, <code>rank()</code> and <code>dense_rank()</code> from the <code>pyspark.sql.functions</code> module are ranking functions, in the sense that they seek to rank each row in the input window according to a ranking system.</p>
+<p>The function <code>row_number()</code> returns a unique and sequential number to each row in a window, starting from 1. This function is very similar to <a href="https://dev.mysql.com/doc/refman/8.0/en/window-function-descriptions.html#function_row-number"><code>ROW_NUMBER()</code> from MySQL</a><a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>.</p>
+</section>
+<section id="position-based-window-functions" class="level2" data-number="11.4">
+<h2 data-number="11.4" class="anchored" data-anchor-id="position-based-window-functions"><span class="header-section-number">11.4</span> Position-based window functions</h2>
+<section id="getting-the-next-and-previous-row-with-lead-and-lag" class="level3" data-number="11.4.1">
+<h3 data-number="11.4.1" class="anchored" data-anchor-id="getting-the-next-and-previous-row-with-lead-and-lag"><span class="header-section-number">11.4.1</span> Getting the next and previous row with <code>lead()</code> and <code>lag()</code></h3>
+</section>
+</section>
+<section id="agreggating-window-functions" class="level2" data-number="11.5">
+<h2 data-number="11.5" class="anchored" data-anchor-id="agreggating-window-functions"><span class="header-section-number">11.5</span> Agreggating window functions</h2>
+<p>In essence, a window function is every function that is compatible with window frames, or, in other words, is a function that can receive window frames as input. Virtually every aggregating function that you can find inside the <code>pyspark.sql.functions</code> module (like <code>sum()</code>, <code>mean()</code>, <code>count()</code>, <code>max()</code> and <code>min()</code>) is a window function.</p>
 <!--
 dense_rank
 row_number
@@ -366,8 +435,10 @@ cume_dist
 <section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
 <hr>
 <ol>
-<li id="fn1"><p><a href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.groupby.html" class="uri">https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.groupby.html</a><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1"><p><a href="https://dev.mysql.com/doc/refman/8.0/en/window-functions-usage.html" class="uri">https://dev.mysql.com/doc/refman/8.0/en/window-functions-usage.html</a><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn2"><p><a href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.groupby.html" class="uri">https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.groupby.html</a><a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="uri">https://dplyr.tidyverse.org/reference/group_by.html</a><a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p><a href="https://dev.mysql.com/doc/refman/8.0/en/window-function-descriptions.html#function_row-number" class="uri">https://dev.mysql.com/doc/refman/8.0/en/window-function-descriptions.html#function_row-number</a><a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section>
 
