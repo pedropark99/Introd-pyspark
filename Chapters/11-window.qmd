@@ -108,17 +108,28 @@ window_spec = Window\
 
 ## Introducing the `over()` clause
 
-In order to use a window function you **need to combine a over clause with a window object**. If you pair these two components together, then, you become 
-Now that we have defined a window object for our DataFrame, we can actually use window functions, by pairing this window object with an `over()` clause.
+In order to use a window function you **need to combine a over clause with a window object**. If you pair these two components together, then, the function you are using becomes into a window function.
+
+Since we know now how to define window objects for our DataFrame, we can actually create and use this object to access window functionality, by pairing this window object with an `over()` clause.
+
+In `pyspark` this `over()` clause is actually a method from the `Column` class. Since all aggregating functions available from the `pyspark.sql.functions` module outputs a new `Column` object, we tend to use the `over()` method right after the function call.
+
+For example, if we wanted to calculate the mean of column `x` with the `mean()` function, and we had a window object called `window_spec`, we could use the `mean()` as a window function by writing:
+
+```python
+mean(col('x')).over(window_spec)
+```
+
+Having this in mind, if you see the `over()` method after a call of an aggregating function (such as `sum()`, `mean()`, etc.), then, you know that the aggregating function being called is used as a window function.
 
 In Spark SQL there is an `OVER` clause that you can use to use a window specification.
 
 
 
 
-## Window functions vs *group by* clauses
+## Window functions vs *group by* functions
 
-Despite their similarities, window functions and *group by* clauses are used for different purposes. One big difference between them, is that when you use `groupby()` + `agg()` you get one output row per each input group of rows, but in contrast, a window function outputs one row per input row. In other words, for a window of $n$ input rows a window function outputs $n$ rows that contains the same result (or the same aggregate result).
+Despite their similarities, window functions and *group by* functions are used for different purposes. One big difference between them, is that when you use `groupby()` + `agg()` you get one output row per each input group of rows, but in contrast, a window function outputs one row per input row. In other words, for a window of $n$ input rows a window function outputs $n$ rows that contains the same result (or the same aggregate result).
 
 For example, lets suppose you want to calculate the total value transfered within each day. If you use a `groupby()` + `agg()` strategy, you get as result a new DataFrame containing one row for each unique date present in the `dateTransfer` column:
 
@@ -146,7 +157,23 @@ transf\
     .show(5)
 ```
 
+You probably already seen this pattern in other data frameworks. As a quick comparison, if you were using the `tidyverse` framework, you could calculate the exact same result above with the following snippet of R code:
 
+```r
+transf |>
+    group_by(dateTransfer) |>
+    mutate(
+        dayTotalTransferValue = sum(transferValue)
+    )
+```
+
+In contrast, you would need the following snippet of Python code to get the same result in the `pandas` framework:
+
+```python
+transf['dayTotalTransferValue'] = transf['transferValue']\
+    .groupby(transf['dateTransfer'])\
+    .transform('sum')
+```
 
 
 ## Ranking window functions
