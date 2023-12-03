@@ -18,7 +18,7 @@ So instead of receiving all the rows of your DataFrame at once as input, a windo
 To some extent, the idea of windows in a DataFrame is similar (but not identical) to the idea of "groups" created by *group by* functions, such as the `DataFrame.groupby()` method from `pyspark` (that we presented at @sec-group-by), or the [`DataFrame.groupby()`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.groupby.html)[^pandas-group-by] method from `pandas`, and also, to [`dplyr::group_by()`](https://dplyr.tidyverse.org/reference/group_by.html)[^dplyr-group-by] from the `tidyverse` framework.
 
 [^pandas-group-by]: <https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.groupby.html>
-[^dplyr-group-by]: <https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.groupby.html>
+[^dplyr-group-by]: <https://dplyr.tidyverse.org/reference/group_by.html>
 
 
 ## Defining a window {#sec-window-def}
@@ -68,7 +68,7 @@ window_spec = Window.partitionBy('dateTransfer')
 
 The above window object specifies that each unique date value present in the `dateTransfer` column identifies a different window frame in the `transf` DataFrame. @fig-window-spec1 presents this idea visually. So each partition in the `dateTransfer` column creates a different window frame. And each window frame will become an input to a window function (when we use one).
 
-![Visualizing the window frames](./../Figures/window-spec1.png){#fig-window-spec1}
+![Visualizing the window frames - Part 1](./../Figures/window-spec1.png){#fig-window-spec1}
 
 Until this point, defining window frames are very much like defining groups in your DataFrame with *group by* functions (i.e. window frames are very similar to groups). However, despite their similarities, these functions are used for different purposes. As we described at @sec-group-by, you use `groupby()` when you want to collect the aggregate values into a new DataFrame using the `agg()` method. In contrast, when you use a window function, you usually want to add new columns into your existing DataFrame using the `withColumn()` method.
 
@@ -76,6 +76,36 @@ In the above example, we specified only the partition component of the window fr
 
 The partitioning component of the window object specifies which partitions of the DataFrame are translated into window frames. In the other hand, the ordering component of the window object specifies how the rows within the window frame are ordered. Defining this component becomes very important when we are working with window functions that outputs (or that uses) indexes. For example, we might want to use the first (or the *nth*) row in each window frame.
 
+For example, we can say that the rows within each window should be in descending order according to the `datetimeTransfer` column:
+
+```{python}
+from pyspark.sql.functions import col
+window_spec = Window\
+    .partitionBy('dateTransfer')\
+    .orderBy(col('datetimeTransfer').desc())
+```
+
+With the above snippet, we are not only specifying how the window frames in the DataFrame are created (with the `partitionBy()`), but we are also specifying how the rows within the window are sorted (with the `orderBy()`). If we update our representation with the above window specification, we get @fig-window-spec2:
+
+![Visualizing the window frames - Part 2](./../Figures/window-spec2.png){#fig-window-spec2}
+
+Is worth mentioning that, both `partitionBy()` and `orderBy()` methods accepts multiple columns as input. In other words, you can create window frames or order the rows based on a combination of columns. As an example, the window specification below is saying: 1) that a window frame is created for each unique combination of `dateTransfer` and `clientNumber`; 2) that the rows within each window are ordered accordingly to `transferCurrency` (ascending order) and `datetimeTransfer` (descending order).
+
+```{python}
+window_spec = Window\
+    .partitionBy('dateTransfer', 'clientNumber')\
+    .orderBy(
+        col('transferCurrency').asc(),
+        col('datetimeTransfer').desc()
+    )
+```
+
+
+## Introducing window functions
+
+In essence, a window function is every function that is compatible with window frames, or, in other words, is a function that can receive window frames as input. Virtually every aggregating function that you find inside the `pyspark.sql.functions` module, like `sum()`, `mean()`, `count()`, `max()` and `min()`, is a window function.
+
+### 
 
 <!--
 dense_rank

@@ -247,6 +247,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#sec-window-def" id="toc-sec-window-def" class="nav-link active" data-scroll-target="#sec-window-def"><span class="header-section-number">11.1</span> Defining a window</a></li>
+  <li><a href="#introducing-window-functions" id="toc-introducing-window-functions" class="nav-link" data-scroll-target="#introducing-window-functions"><span class="header-section-number">11.2</span> Introducing window functions</a></li>
   </ul>
 </nav>
     </div>
@@ -298,7 +299,7 @@ only showing top 5 rows
 <div class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.window <span class="im">import</span> Window</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>As we described before, the <code>transf</code> DataFrame describes a set of transfers made in a fictitious bank. A reasonable way of splitting the rows of this DataFrame into window frames is using the <code>dateTransfer</code> column. In other words, we want to partition this DataFrame by the date of the transfer. We create this window specification in the snippet below:</p>
+<p>As we described before, the <code>transf</code> DataFrame describes a set of transfers made in a fictitious bank. A reasonable way of splitting the rows of this DataFrame into window frames is using the <code>dateTransfer</code> column. In other words, each partition in the <code>dateTransfer</code> column will identify a different existing window frame in this DataFrame. We create this window specification in the snippet below:</p>
 <div class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>window_spec <span class="op">=</span> Window.partitionBy(<span class="st">'dateTransfer'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -306,12 +307,39 @@ only showing top 5 rows
 <div id="fig-window-spec1" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="./../Figures/window-spec1.png" class="img-fluid figure-img"></p>
-<figcaption class="figure-caption">Figure&nbsp;11.1: Visualizing the window frames</figcaption>
+<figcaption class="figure-caption">Figure&nbsp;11.1: Visualizing the window frames - Part 1</figcaption>
 </figure>
 </div>
-<p>Until this point, defining window frames are very much like defining groups in your DataFrame with <em>group by</em> functions (i.e.&nbsp;window frames are very similar to groups). However, despite their similarities, these functions are used for different purposes. As we described at <a href="05-transforming.html#sec-agg-method"><span>Section&nbsp;5.11.2</span></a>, you use <code>groupby()</code> when you want to collect the aggregate values into a new DataFrame using the <code>agg()</code> method. In contrast, when you use a window function, you usually want to add new columns into your existing DataFrame using the <code>withColumn()</code> method.</p>
-<p>In the above example, we specified only the partition component of the window frames. This means that <strong>the ordering component is not mandatory</strong> for using window functions.</p>
-<p>But what about the ordering component? In fact, we do not need to define an ordering component necessarily. That means that you can specify window frames in your DataFrame without a ordering component.</p>
+<p>Until this point, defining window frames are very much like defining groups in your DataFrame with <em>group by</em> functions (i.e.&nbsp;window frames are very similar to groups). However, despite their similarities, these functions are used for different purposes. As we described at <a href="05-transforming.html#sec-group-by"><span>Section&nbsp;5.11.4</span></a>, you use <code>groupby()</code> when you want to collect the aggregate values into a new DataFrame using the <code>agg()</code> method. In contrast, when you use a window function, you usually want to add new columns into your existing DataFrame using the <code>withColumn()</code> method.</p>
+<p>In the above example, we specified only the partition component of the window frames. This means that <strong>the ordering component is not mandatory</strong> for using window functions. But lets define the ordering component anyway.</p>
+<p>The partitioning component of the window object specifies which partitions of the DataFrame are translated into window frames. In the other hand, the ordering component of the window object specifies how the rows within the window frame are ordered. Defining this component becomes very important when we are working with window functions that outputs (or that uses) indexes. For example, we might want to use the first (or the <em>nth</em>) row in each window frame.</p>
+<p>For example, we can say that the rows within each window should be in descending order according to the <code>datetimeTransfer</code> column:</p>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> col</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>window_spec <span class="op">=</span> Window<span class="op">\</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    .partitionBy(<span class="st">'dateTransfer'</span>)<span class="op">\</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    .orderBy(col(<span class="st">'datetimeTransfer'</span>).desc())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>With the above snippet, we are not only specifying how the window frames in the DataFrame are created (with the <code>partitionBy()</code>), but we are also specifying how the rows within the window are sorted (with the <code>orderBy()</code>). If we update our representation with the above window specification, we get <a href="#fig-window-spec2">Figure&nbsp;<span>11.2</span></a>:</p>
+<div id="fig-window-spec2" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="./../Figures/window-spec2.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Figure&nbsp;11.2: Visualizing the window frames - Part 2</figcaption>
+</figure>
+</div>
+<p>Is worth mentioning that, both <code>partitionBy()</code> and <code>orderBy()</code> methods accepts multiple columns as input. In other words, you can create window frames or order the rows based on a combination of columns. As an example, the window specification below is saying: 1) that a window frame is created for each unique combination of <code>dateTransfer</code> and <code>clientNumber</code>; 2) that the rows within each window are ordered accordingly to <code>transferCurrency</code> (ascending order) and <code>datetimeTransfer</code> (descending order).</p>
+<div class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>window_spec <span class="op">=</span> Window<span class="op">\</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    .partitionBy(<span class="st">'dateTransfer'</span>, <span class="st">'clientNumber'</span>)<span class="op">\</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    .orderBy(</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>        col(<span class="st">'transferCurrency'</span>).asc(),</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>        col(<span class="st">'datetimeTransfer'</span>).desc()</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="introducing-window-functions" class="level2" data-number="11.2">
+<h2 data-number="11.2" class="anchored" data-anchor-id="introducing-window-functions"><span class="header-section-number">11.2</span> Introducing window functions</h2>
+<p>In essence, a window function is every function that is compatible with window frames, or, in other words, is a function that can receive window frames as input. Virtually every aggregating function that you find inside the <code>pyspark.sql.functions</code> module, like <code>sum()</code>, <code>mean()</code>, <code>count()</code>, <code>max()</code> and <code>min()</code>, is a window function.</p>
 <!--
 dense_rank
 row_number
