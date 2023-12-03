@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Introduction to pyspark - References</title>
+<title>Introduction to pyspark - 11&nbsp; Introducing window functions</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,26 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for citations */
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
 }
-.hanging-indent div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
-}</style>
+</style>
 
 
 <script src="../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -49,7 +64,8 @@ div.csl-indent {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../Chapters/11-window.html" rel="prev">
+<link href="../Chapters/references.html" rel="next">
+<link href="../Chapters/10-datetime.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -122,7 +138,7 @@ div.csl-indent {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Chapters/references.html">References</a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Chapters/11-window.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Introducing window functions</span></a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -210,13 +226,13 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Chapters/11-window.html" class="sidebar-item-text sidebar-link">
+  <a href="../Chapters/11-window.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Introducing window functions</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Chapters/references.html" class="sidebar-item-text sidebar-link active">
+  <a href="../Chapters/references.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">References</span></a>
   </div>
 </li>
@@ -226,14 +242,20 @@ div.csl-indent {
 <div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#sec-window-def" id="toc-sec-window-def" class="nav-link active" data-scroll-target="#sec-window-def"><span class="header-section-number">11.1</span> Defining a window</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">References</h1>
+<h1 class="title"><span id="sec-window-functions" class="quarto-section-identifier"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Introducing window functions</span></span></h1>
 </div>
 
 
@@ -248,32 +270,78 @@ div.csl-indent {
 
 </header>
 
-<div id="refs" class="references csl-bib-body hanging-indent" role="list">
-<div id="ref-sparkdoc" class="csl-entry" role="listitem">
-<em>Apache Spark Official Documentation</em>. 2022. Documentation for
-Apache Spark 3.2.1. <a href="https://spark.apache.org/docs/latest/">https://spark.apache.org/docs/latest/</a>.
+<p>Spark offers a set of tools known as <em>window functions</em>. These tools are essential for an extensive range of tasks, and you should know them. But what are them?</p>
+<p>Window functions in Spark are a set functions that performs calculations over windows of rows from your DataFrame. In other words, when you use these functions, the rows of your DataFrame are divided into multiple windows. Each window contains a specific range of rows from the DataFrame. In this context, a window function is a function that receives a window (or a range of rows) as input, and calculate an aggregate or a specific index based on the set of rows that is contained in this input window.</p>
+<p>So instead of receiving all the rows of your DataFrame at once as input, a window function receives a range of rows as input and outputs an aggregate (or index) value for this specific range of rows.</p>
+<p>To some extent, the idea of windows in a DataFrame is similar (but not identical) to the idea of “groups” created by <em>group by</em> functions, such as the <code>DataFrame.groupby()</code> method from <code>pyspark</code> (that we presented at <a href="05-transforming.html#sec-group-by"><span>Section&nbsp;5.11.4</span></a>), or the <a href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.groupby.html"><code>DataFrame.groupby()</code></a><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> method from <code>pandas</code>, and also, to <a href="https://dplyr.tidyverse.org/reference/group_by.html"><code>dplyr::group_by()</code></a><a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> from the <code>tidyverse</code> framework.</p>
+<section id="sec-window-def" class="level2" data-number="11.1">
+<h2 data-number="11.1" class="anchored" data-anchor-id="sec-window-def"><span class="header-section-number">11.1</span> Defining a window</h2>
+<p>In order to use a window function you need to define the window frames of your DataFrame. You do this by creating a <code>Window</code> object in your session. Every window object have two components, which are partitioning and ordering, and you specify each of these components by using the <code>partitionBy()</code> and <code>orderBy()</code> methods from the <code>Window</code> class.</p>
+<p>Before I give an example of a window object, we need an example of DataFrame to begin with. Let’s use the <code>transf</code> DataFrame that we presented at <a href="05-transforming.html"><span>Chapter&nbsp;5</span></a>. If you don’t remember how to import/get this DataFrame into your session, come back to <a href="05-transforming.html#sec-transf-dataframe"><span>Section&nbsp;5.5</span></a>.</p>
+<div class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>transf.show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
+|dateTransfer|   datetimeTransfer|clientNumber|transferValue|transferCurrency|transferID|transferLog|destinationBankNumber|destinationBankBranch|destinationBankAccount|
++------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
+|  2022-12-31|2022-12-31 14:00:24|        5516|      7794.31|          zing ƒ|  20223563|       NULL|                   33|                 4078|               72424-2|
+|  2022-12-31|2022-12-31 10:32:07|        4965|       7919.0|          zing ƒ|  20223562|       NULL|                  421|                 1979|               36441-5|
+|  2022-12-31|2022-12-31 07:37:02|        4608|       5603.0|        dollar $|  20223561|       NULL|                  666|                 4425|               41323-1|
+|  2022-12-31|2022-12-31 07:35:05|        1121|      4365.22|        dollar $|  20223560|       NULL|                  666|                 2400|               74120-4|
+|  2022-12-31|2022-12-31 02:53:44|        1121|       4620.0|        dollar $|  20223559|       NULL|                  421|                 1100|               39830-0|
++------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
+only showing top 5 rows
+</code></pre>
 </div>
-<div id="ref-chambers2018" class="csl-entry" role="listitem">
-Chambers, Bill, and Matei Zaharia. 2018. <em>Spark: The Definitive
-Guide: Big Data Processing Made Simple</em>. Sebastopol, CA: O’Reilly
-Media.
 </div>
-<div id="ref-damji2020" class="csl-entry" role="listitem">
-Damji, Jules, Brooke Wenig, Tathagata Das, and Denny Lee. 2020.
-<em>Learning Spark: Lightning-Fast Data Analytics</em>. Sebastopol, CA:
-O’Reilly Media.
+<p>Now, lets create a window object using the <code>transf</code> DataFrame as our target. In order to create a <code>Window</code> object, you need to import the <code>Window</code> class from the <code>pyspark.sql.window</code> module:</p>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.window <span class="im">import</span> Window</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="ref-regexinfo" class="csl-entry" role="listitem">
-Goyvaerts, Jan. 2023. <span>“Regular-Expressions.info.”</span> <a href="https://www.regular-expressions.info/">https://www.regular-expressions.info/</a>.
+<p>As we described before, the <code>transf</code> DataFrame describes a set of transfers made in a fictitious bank. A reasonable way of splitting the rows of this DataFrame into window frames is using the <code>dateTransfer</code> column. In other words, we want to partition this DataFrame by the date of the transfer. We create this window specification in the snippet below:</p>
+<div class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>window_spec <span class="op">=</span> Window.partitionBy(<span class="st">'dateTransfer'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="ref-karau2015" class="csl-entry" role="listitem">
-Karau, Holden, Andy Konwinski, Patrick Wendell, and Matei Zaharia. 2015.
-<em>Learning Spark: Lightning-Fast Data Analytics</em>. Sebastopol, CA:
-O’Reilly Media.
+<p>The above window object specifies that each unique date value present in the <code>dateTransfer</code> column identifies a different window frame in the <code>transf</code> DataFrame. <a href="#fig-window-spec1">Figure&nbsp;<span>11.1</span></a> presents this idea visually. So each partition in the <code>dateTransfer</code> column creates a different window frame. And each window frame will become an input to a window function (when we use one).</p>
+<div id="fig-window-spec1" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="./../Figures/window-spec1.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Figure&nbsp;11.1: Visualizing the window frames</figcaption>
+</figure>
 </div>
-</div>
+<p>Until this point, defining window frames are very much like defining groups in your DataFrame with <em>group by</em> functions (i.e.&nbsp;window frames are very similar to groups). However, despite their similarities, these functions are used for different purposes. As we described at <a href="05-transforming.html#sec-agg-method"><span>Section&nbsp;5.11.2</span></a>, you use <code>groupby()</code> when you want to collect the aggregate values into a new DataFrame using the <code>agg()</code> method. In contrast, when you use a window function, you usually want to add new columns into your existing DataFrame using the <code>withColumn()</code> method.</p>
+<p>In the above example, we specified only the partition component of the window frames. This means that <strong>the ordering component is not mandatory</strong> for using window functions.</p>
+<p>But what about the ordering component? In fact, we do not need to define an ordering component necessarily. That means that you can specify window frames in your DataFrame without a ordering component.</p>
+<!--
+dense_rank
+row_number
+rank
+percent_rank
+
+nth
+lead
+lag
+first
+last
+
+sum
+max
+min
+mean
+stddev
+
+cume_dist
+-->
 
 
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p><a href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.groupby.html" class="uri">https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.groupby.html</a><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p><a href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.groupby.html" class="uri">https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.groupby.html</a><a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -511,11 +579,14 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../Chapters/11-window.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Introducing window functions</span></span>
+      <a href="../Chapters/10-datetime.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Tools for dates and datetimes manipulation</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="../Chapters/references.html" class="pagination-link">
+        <span class="nav-page-text">References</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->
