@@ -648,7 +648,7 @@
     "href": "Chapters/11-window.html#footnotes",
     "title": "11  Introducing window functions",
     "section": "",
-    "text": "https://dev.mysql.com/doc/refman/8.0/en/window-functions-usage.html↩︎\nhttps://pandas.pydata.org/docs/reference/api/pandas.DataFrame.groupby.html↩︎\nhttps://dplyr.tidyverse.org/reference/group_by.html↩︎\nhttps://dev.mysql.com/doc/refman/8.0/en/window-function-descriptions.html#function_row-number↩︎"
+    "text": "https://dev.mysql.com/doc/refman/8.0/en/window-functions-usage.html↩︎\nhttps://pandas.pydata.org/docs/reference/api/pandas.DataFrame.groupby.html↩︎\nhttps://dplyr.tidyverse.org/reference/group_by.html↩︎\nhttps://dev.mysql.com/doc/refman/8.0/en/window-function-descriptions.html#function_row-number↩︎\nhttps://dplyr.tidyverse.org/reference/lead-lag.html↩︎"
   },
   {
     "objectID": "Chapters/references.html",
@@ -689,15 +689,15 @@
     "objectID": "Chapters/11-window.html#agreggating-window-functions",
     "href": "Chapters/11-window.html#agreggating-window-functions",
     "title": "11  Introducing window functions",
-    "section": "11.6 Agreggating window functions",
-    "text": "11.6 Agreggating window functions\nIn essence, a window function is every function that is compatible with window frames, or, in other words, is a function that can receive window frames as input. Virtually every aggregating function that you can find inside the pyspark.sql.functions module (like sum(), mean(), count(), max() and min()) is a window function."
+    "section": "11.5 Agreggating window functions",
+    "text": "11.5 Agreggating window functions\nIn essence, all agreggating functions from the pyspark.sql.functions module (like sum(), mean(), count(), max() and min()) can be used as a window function. So you can apply any agreggating function as a window function. You just need to use the over() clause with a Window object.\nWe could for example see how much each transferValue deviates from the daily mean of transfered value. This might be a valuable information in case you are planning to do some statistical inference over this data. Here is an example of what this would looks like in pyspark:\n\nfrom pyspark.sql.functions import mean\nwindow_spec = Window.partitionBy('dateTransfer')\n\nmean_deviation_expr = (\n    col('transferValue')\n    - mean(col('transferValue')).over(window_spec)\n)\n\ntransf\\\n    .select('dateTransfer', 'transferValue')\\\n    .withColumn('meanDeviation', mean_deviation_expr)\\\n    .show(5)\n\n+------------+-------------+-------------------+\n|dateTransfer|transferValue|      meanDeviation|\n+------------+-------------+-------------------+\n|  2022-01-01|      5547.13|-1057.9866666666658|\n|  2022-01-01|       9941.0|  3335.883333333334|\n|  2022-01-01|       5419.9|-1185.2166666666662|\n|  2022-01-01|       5006.0|-1599.1166666666659|\n|  2022-01-01|      8640.06| 2034.9433333333336|\n+------------+-------------+-------------------+\nonly showing top 5 rows"
   },
   {
     "objectID": "Chapters/11-window.html#position-based-window-functions",
     "href": "Chapters/11-window.html#position-based-window-functions",
     "title": "11  Introducing window functions",
     "section": "11.5 Position-based window functions",
-    "text": "11.5 Position-based window functions\n\n11.5.1 Getting the next and previous row with lead() and lag()"
+    "text": "11.5 Position-based window functions"
   },
   {
     "objectID": "Chapters/11-window.html#window-functions-vs-group-by-clauses",
@@ -726,5 +726,12 @@
     "title": "11  Introducing window functions",
     "section": "11.2 Partitioning or ordering or none",
     "text": "11.2 Partitioning or ordering or none\nIs worth mentioning that both partioning and ordering components of the window specification are optional. You can create a window object that contains only a partioning component defined, or, only a ordering component, or, in fact, a window object that basically have neither of them defined.\nAs an example, all three objects below (w1, w2 and w3) are valid window objects. w1 have only the partition component defined, while w2 have only the ordering component defined. However, w3 have basically none of them defined, because w3 is partitioned by nothing. In a situation like this, a single window is created, and this window covers the entire DataFrame. It covers all the rows at once. Is like you were not using any window at all.\n\nw1 = Window.partitionBy('x')\nw2 = Window.orderBy('x')\nw3 = Window.partitionBy()\n\nSo just be aware of it. Be aware that you can cover the entire DataFrame into a single window. Be aware that if you use a window object with neither components defined (Window.partitionBy()) your window function basically works with the entire DataFrame at once. In essence, this window function becomes similar to a normal aggregating function."
+  },
+  {
+    "objectID": "Chapters/11-window.html#getting-the-next-and-previous-row-with-lead-and-lag",
+    "href": "Chapters/11-window.html#getting-the-next-and-previous-row-with-lead-and-lag",
+    "title": "11  Introducing window functions",
+    "section": "11.6 Getting the next and previous row with lead() and lag()",
+    "text": "11.6 Getting the next and previous row with lead() and lag()\nThere is one pair functions that is worth talking about in this chapter, which are lead() and lag(). These functions are very useful in the context of windows, because they return the value in the next and previous rows considering your current position in your DataFrame.\nThese functions basically performs the same operation as their peers dplyr::lead() and dplyr::lag()5 from the tidyverse framework. In essence, lead() will return the value of the next row, while lag() will return the value of the previous row.\n\nfrom pyspark.sql.functions import lag, lead\nwindow_spec = Window\\\n    .partitionBy('dateTransfer')\\\n    .orderBy('datetimeTransfer')\n\nlead_expr = lead('transferValue').over(window_spec)\nlag_expr = lag('transferValue').over(window_spec)\n\ntransf\\\n    .withColumn('nextValue', lead_expr)\\\n    .withColumn('previousValue', lag_expr)\\\n    .select(\n        'datetimeTransfer',\n        'transferValue',\n        'nextValue',\n        'previousValue'\n    )\\\n    .show(5)\n\n+-------------------+-------------+---------+-------------+\n|   datetimeTransfer|transferValue|nextValue|previousValue|\n+-------------------+-------------+---------+-------------+\n|2022-01-01 03:56:58|      5076.61|  8640.06|         NULL|\n|2022-01-01 04:07:44|      8640.06|   5006.0|      5076.61|\n|2022-01-01 09:00:18|       5006.0|   5419.9|      8640.06|\n|2022-01-01 10:17:04|       5419.9|   9941.0|       5006.0|\n|2022-01-01 16:14:30|       9941.0|  5547.13|       5419.9|\n+-------------------+-------------+---------+-------------+\nonly showing top 5 rows"
   }
 ]

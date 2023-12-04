@@ -272,17 +272,57 @@ df.withColumn('with_dense_rank', dense_rank().over(window_spec))\
 ```
 
 
-
-## Position-based window functions
-
-### Getting the next and previous row with `lead()` and `lag()`
-
-
-
 ## Agreggating window functions
 
-In essence, a window function is every function that is compatible with window frames, or, in other words, is a function that can receive window frames as input. Virtually every aggregating function that you can find inside the `pyspark.sql.functions` module (like `sum()`, `mean()`, `count()`, `max()` and `min()`) is a window function.
+In essence, all agreggating functions from the `pyspark.sql.functions` module (like `sum()`, `mean()`, `count()`, `max()` and `min()`) can be used as a window function. So you can apply any agreggating function as a window function. You just need to use the `over()` clause with a `Window` object.
 
+We could for example see how much each `transferValue` deviates from the daily mean of transfered value. This might be a valuable information in case you are planning to do some statistical inference over this data. Here is an example of what this would looks like in `pyspark`:
+
+```{python}
+from pyspark.sql.functions import mean
+window_spec = Window.partitionBy('dateTransfer')
+
+mean_deviation_expr = (
+    col('transferValue')
+    - mean(col('transferValue')).over(window_spec)
+)
+
+transf\
+    .select('dateTransfer', 'transferValue')\
+    .withColumn('meanDeviation', mean_deviation_expr)\
+    .show(5)
+```
+
+
+
+## Getting the next and previous row with `lead()` and `lag()`
+
+There is one pair functions that is worth talking about in this chapter, which are `lead()` and `lag()`. These functions are very useful in the context of windows, because they return the value in the next and previous rows considering your current position in your DataFrame.
+
+These functions basically performs the same operation as their peers [`dplyr::lead()` and `dplyr::lag()`](https://dplyr.tidyverse.org/reference/lead-lag.html)[^dplyr-lead] from the `tidyverse` framework. In essence, `lead()` will return the value of the next row, while `lag()` will return the value of the previous row.
+
+[^dplyr-lead]: <https://dplyr.tidyverse.org/reference/lead-lag.html>
+
+```{python}
+from pyspark.sql.functions import lag, lead
+window_spec = Window\
+    .partitionBy('dateTransfer')\
+    .orderBy('datetimeTransfer')
+
+lead_expr = lead('transferValue').over(window_spec)
+lag_expr = lag('transferValue').over(window_spec)
+
+transf\
+    .withColumn('nextValue', lead_expr)\
+    .withColumn('previousValue', lag_expr)\
+    .select(
+        'datetimeTransfer',
+        'transferValue',
+        'nextValue',
+        'previousValue'
+    )\
+    .show(5)
+```
 
 
 <!--

@@ -255,11 +255,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#introducing-the-over-clause" id="toc-introducing-the-over-clause" class="nav-link" data-scroll-target="#introducing-the-over-clause"><span class="header-section-number">11.2</span> Introducing the <code>over()</code> clause</a></li>
   <li><a href="#window-functions-vs-group-by-functions" id="toc-window-functions-vs-group-by-functions" class="nav-link" data-scroll-target="#window-functions-vs-group-by-functions"><span class="header-section-number">11.3</span> Window functions vs <em>group by</em> functions</a></li>
   <li><a href="#ranking-window-functions" id="toc-ranking-window-functions" class="nav-link" data-scroll-target="#ranking-window-functions"><span class="header-section-number">11.4</span> Ranking window functions</a></li>
-  <li><a href="#position-based-window-functions" id="toc-position-based-window-functions" class="nav-link" data-scroll-target="#position-based-window-functions"><span class="header-section-number">11.5</span> Position-based window functions</a>
-  <ul class="collapse">
-  <li><a href="#getting-the-next-and-previous-row-with-lead-and-lag" id="toc-getting-the-next-and-previous-row-with-lead-and-lag" class="nav-link" data-scroll-target="#getting-the-next-and-previous-row-with-lead-and-lag"><span class="header-section-number">11.5.1</span> Getting the next and previous row with <code>lead()</code> and <code>lag()</code></a></li>
-  </ul></li>
-  <li><a href="#agreggating-window-functions" id="toc-agreggating-window-functions" class="nav-link" data-scroll-target="#agreggating-window-functions"><span class="header-section-number">11.6</span> Agreggating window functions</a></li>
+  <li><a href="#agreggating-window-functions" id="toc-agreggating-window-functions" class="nav-link" data-scroll-target="#agreggating-window-functions"><span class="header-section-number">11.5</span> Agreggating window functions</a></li>
+  <li><a href="#getting-the-next-and-previous-row-with-lead-and-lag" id="toc-getting-the-next-and-previous-row-with-lead-and-lag" class="nav-link" data-scroll-target="#getting-the-next-and-previous-row-with-lead-and-lag"><span class="header-section-number">11.6</span> Getting the next and previous row with <code>lead()</code> and <code>lag()</code></a></li>
   </ul>
 </nav>
     </div>
@@ -559,15 +556,75 @@ only showing top 5 rows
 </div>
 </div>
 </section>
-<section id="position-based-window-functions" class="level2" data-number="11.5">
-<h2 data-number="11.5" class="anchored" data-anchor-id="position-based-window-functions"><span class="header-section-number">11.5</span> Position-based window functions</h2>
-<section id="getting-the-next-and-previous-row-with-lead-and-lag" class="level3" data-number="11.5.1">
-<h3 data-number="11.5.1" class="anchored" data-anchor-id="getting-the-next-and-previous-row-with-lead-and-lag"><span class="header-section-number">11.5.1</span> Getting the next and previous row with <code>lead()</code> and <code>lag()</code></h3>
+<section id="agreggating-window-functions" class="level2" data-number="11.5">
+<h2 data-number="11.5" class="anchored" data-anchor-id="agreggating-window-functions"><span class="header-section-number">11.5</span> Agreggating window functions</h2>
+<p>In essence, all agreggating functions from the <code>pyspark.sql.functions</code> module (like <code>sum()</code>, <code>mean()</code>, <code>count()</code>, <code>max()</code> and <code>min()</code>) can be used as a window function. So you can apply any agreggating function as a window function. You just need to use the <code>over()</code> clause with a <code>Window</code> object.</p>
+<p>We could for example see how much each <code>transferValue</code> deviates from the daily mean of transfered value. This might be a valuable information in case you are planning to do some statistical inference over this data. Here is an example of what this would looks like in <code>pyspark</code>:</p>
+<div class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> mean</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>window_spec <span class="op">=</span> Window.partitionBy(<span class="st">'dateTransfer'</span>)</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>mean_deviation_expr <span class="op">=</span> (</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>    col(<span class="st">'transferValue'</span>)</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">-</span> mean(col(<span class="st">'transferValue'</span>)).over(window_spec)</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>transf<span class="op">\</span></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>    .select(<span class="st">'dateTransfer'</span>, <span class="st">'transferValue'</span>)<span class="op">\</span></span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>    .withColumn(<span class="st">'meanDeviation'</span>, mean_deviation_expr)<span class="op">\</span></span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>    .show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>+------------+-------------+-------------------+
+|dateTransfer|transferValue|      meanDeviation|
++------------+-------------+-------------------+
+|  2022-01-01|      5547.13|-1057.9866666666658|
+|  2022-01-01|       9941.0|  3335.883333333334|
+|  2022-01-01|       5419.9|-1185.2166666666662|
+|  2022-01-01|       5006.0|-1599.1166666666659|
+|  2022-01-01|      8640.06| 2034.9433333333336|
++------------+-------------+-------------------+
+only showing top 5 rows
+</code></pre>
+</div>
+</div>
 </section>
-</section>
-<section id="agreggating-window-functions" class="level2" data-number="11.6">
-<h2 data-number="11.6" class="anchored" data-anchor-id="agreggating-window-functions"><span class="header-section-number">11.6</span> Agreggating window functions</h2>
-<p>In essence, a window function is every function that is compatible with window frames, or, in other words, is a function that can receive window frames as input. Virtually every aggregating function that you can find inside the <code>pyspark.sql.functions</code> module (like <code>sum()</code>, <code>mean()</code>, <code>count()</code>, <code>max()</code> and <code>min()</code>) is a window function.</p>
+<section id="getting-the-next-and-previous-row-with-lead-and-lag" class="level2" data-number="11.6">
+<h2 data-number="11.6" class="anchored" data-anchor-id="getting-the-next-and-previous-row-with-lead-and-lag"><span class="header-section-number">11.6</span> Getting the next and previous row with <code>lead()</code> and <code>lag()</code></h2>
+<p>There is one pair functions that is worth talking about in this chapter, which are <code>lead()</code> and <code>lag()</code>. These functions are very useful in the context of windows, because they return the value in the next and previous rows considering your current position in your DataFrame.</p>
+<p>These functions basically performs the same operation as their peers <a href="https://dplyr.tidyverse.org/reference/lead-lag.html"><code>dplyr::lead()</code> and <code>dplyr::lag()</code></a><a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a> from the <code>tidyverse</code> framework. In essence, <code>lead()</code> will return the value of the next row, while <code>lag()</code> will return the value of the previous row.</p>
+<div class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> lag, lead</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>window_spec <span class="op">=</span> Window<span class="op">\</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>    .partitionBy(<span class="st">'dateTransfer'</span>)<span class="op">\</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>    .orderBy(<span class="st">'datetimeTransfer'</span>)</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>lead_expr <span class="op">=</span> lead(<span class="st">'transferValue'</span>).over(window_spec)</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>lag_expr <span class="op">=</span> lag(<span class="st">'transferValue'</span>).over(window_spec)</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>transf<span class="op">\</span></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>    .withColumn(<span class="st">'nextValue'</span>, lead_expr)<span class="op">\</span></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>    .withColumn(<span class="st">'previousValue'</span>, lag_expr)<span class="op">\</span></span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>    .select(</span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>        <span class="st">'datetimeTransfer'</span>,</span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>        <span class="st">'transferValue'</span>,</span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>        <span class="st">'nextValue'</span>,</span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>        <span class="st">'previousValue'</span></span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a>    )<span class="op">\</span></span>
+<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a>    .show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>+-------------------+-------------+---------+-------------+
+|   datetimeTransfer|transferValue|nextValue|previousValue|
++-------------------+-------------+---------+-------------+
+|2022-01-01 03:56:58|      5076.61|  8640.06|         NULL|
+|2022-01-01 04:07:44|      8640.06|   5006.0|      5076.61|
+|2022-01-01 09:00:18|       5006.0|   5419.9|      8640.06|
+|2022-01-01 10:17:04|       5419.9|   9941.0|       5006.0|
+|2022-01-01 16:14:30|       9941.0|  5547.13|       5419.9|
++-------------------+-------------+---------+-------------+
+only showing top 5 rows
+</code></pre>
+</div>
+</div>
 <!--
 dense_rank
 row_number
@@ -598,6 +655,7 @@ cume_dist
 <li id="fn2"><p><a href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.groupby.html" class="uri">https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.groupby.html</a><a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn3"><p><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="uri">https://dplyr.tidyverse.org/reference/group_by.html</a><a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn4"><p><a href="https://dev.mysql.com/doc/refman/8.0/en/window-function-descriptions.html#function_row-number" class="uri">https://dev.mysql.com/doc/refman/8.0/en/window-function-descriptions.html#function_row-number</a><a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p><a href="https://dplyr.tidyverse.org/reference/lead-lag.html" class="uri">https://dplyr.tidyverse.org/reference/lead-lag.html</a><a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section>
 
