@@ -73,11 +73,9 @@ The above window object specifies that each unique value present in the `dateTra
 
 ![Visualizing the window frames - Part 1](./../Figures/window-spec1.png){#fig-window-spec1}
 
-Until this point, defining windows are very much like defining groups in your DataFrame with *group by* functions (i.e. windows are very similar to groups). In the above example, we specified only the partition component of the windows. This means that **the ordering component is not mandatory** for using window functions. But lets define the ordering component anyway.
+Until this point, defining windows are very much like defining groups in your DataFrame with *group by* functions (i.e. windows are very similar to groups). But in the above example, we specified only the partition component of the windows. The partitioning component of the window object specifies which partitions of the DataFrame are translated into windows. In the other hand, the ordering component of the window object specifies how the rows within the window are ordered.
 
-The partitioning component of the window object specifies which partitions of the DataFrame are translated into windows. In the other hand, the ordering component of the window object specifies how the rows within the window are ordered. Defining this component becomes very important when we are working with window functions that outputs (or that uses) indexes.
-
-As an example, you might want to use in your calculations the first (or the *nth*) row in each window. In a situation like this, the order in which these rows are founded inside the window affects directly the output of your window function. That is why the ordering component matters.
+Defining the ordering component becomes very important when we are working with window functions that outputs (or that uses) indexes. As an example, you might want to use in your calculations the first (or the *nth*) row in each window. In a situation like this, the order in which these rows are founded inside the window affects directly the output of your window function. That is why the ordering component matters.
 
 For example, we can say that the rows within each window should be in descending order according to the `datetimeTransfer` column:
 
@@ -106,9 +104,19 @@ window_spec = Window\
 ```
 
 
-## Partitioning or ordering or none
+### Partitioning or ordering or none
 
+Is worth mentioning that both partioning and ordering components of the window specification **are optional**. You can create a window object that contains only a partioning component defined, or, only a ordering component, or, in fact, a window object that basically have neither of them defined.
 
+As an example, all three objects below (`w1`, `w2` and `w3`) are valid window objects. `w1` have only the partition component defined, while `w2` have only the ordering component defined. However, `w3` have basically none of them defined, because `w3` is partitioned by nothing. In a situation like this, a single window is created, and this window covers the entire DataFrame. It covers all the rows at once. Is like you were not using any window at all.
+
+```{python}
+w1 = Window.partitionBy('x')
+w2 = Window.orderBy('x')
+w3 = Window.partitionBy()
+```
+
+So just be aware of this. Be aware that you can cover the entire DataFrame into a single window. Be aware that if you use a window object with neither components defined (`Window.partitionBy()`) your window function basically works with the entire DataFrame at once. In essence, this window function becomes similar to a normal aggregating function.
 
 ## Introducing the `over()` clause
 
@@ -135,7 +143,7 @@ If you see this `over()` method after a call of an aggregating function (such as
 The `over()` clause is also available in Spark SQL as the SQL keyword `OVER`. This means that you can use window functions in Spark SQL as well. But in Spark SQL, you write the window specification inside parentheses after the `OVER` keyword, and you specify each component with `PARTITION BY` AND `ORDER BY` keywords. We could replicate the above example in Spark SQL like this:
 
 ```sql
-mean(x) OVER (PARTITION BY y, z ORDER BY t ASC)
+SELECT mean(x) OVER (PARTITION BY y, z ORDER BY t ASC)
 ```
 
 
