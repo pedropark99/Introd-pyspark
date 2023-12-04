@@ -138,6 +138,7 @@ You can use the following BibTex entry to cite this book:
 @book{pedro2024,
     author = {Pedro Duarte Faria},
     title = {Introduction to pyspark},
+    month = {January},
     year = {2024},
     address = {Belo Horizonte}
 }
