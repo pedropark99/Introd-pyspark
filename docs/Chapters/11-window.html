@@ -587,30 +587,56 @@ only showing top 5 rows
 </code></pre>
 </div>
 </div>
+<p>As another example, you might want to calculate how much a specific transfer value represents of represents of the total amount transferred daily. You could just get the total amount transferred daily by applying the <code>sum()</code> function over windows partitioned by <code>dateTransfer</code>. Then, you just need to divide the current <code>transferValue</code> by the result of this <code>sum()</code> function, and you get the proportion you are looking for.</p>
+<div class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> <span class="bu">sum</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>proportion_expr <span class="op">=</span> (</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>    col(<span class="st">'transferValue'</span>)</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">/</span> <span class="bu">sum</span>(col(<span class="st">'transferValue'</span>)).over(window_spec)</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>transf<span class="op">\</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>    .select(<span class="st">'dateTransfer'</span>, <span class="st">'transferValue'</span>)<span class="op">\</span></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>    .withColumn(<span class="st">'proportionDailyTotal'</span>, proportion_expr)<span class="op">\</span></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>    .show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>+------------+-------------+--------------------+
+|dateTransfer|transferValue|proportionDailyTotal|
++------------+-------------+--------------------+
+|  2022-01-01|      5547.13|  0.1399705278988259|
+|  2022-01-01|       9941.0| 0.25084088850310493|
+|  2022-01-01|       5419.9|  0.1367601379738435|
+|  2022-01-01|       5006.0|  0.1263162144499088|
+|  2022-01-01|      8640.06|  0.2180143171833957|
++------------+-------------+--------------------+
+only showing top 5 rows
+</code></pre>
+</div>
+</div>
 </section>
 <section id="getting-the-next-and-previous-row-with-lead-and-lag" class="level2" data-number="11.6">
 <h2 data-number="11.6" class="anchored" data-anchor-id="getting-the-next-and-previous-row-with-lead-and-lag"><span class="header-section-number">11.6</span> Getting the next and previous row with <code>lead()</code> and <code>lag()</code></h2>
 <p>There is one pair functions that is worth talking about in this chapter, which are <code>lead()</code> and <code>lag()</code>. These functions are very useful in the context of windows, because they return the value in the next and previous rows considering your current position in your DataFrame.</p>
 <p>These functions basically performs the same operation as their peers <a href="https://dplyr.tidyverse.org/reference/lead-lag.html"><code>dplyr::lead()</code> and <code>dplyr::lag()</code></a><a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a> from the <code>tidyverse</code> framework. In essence, <code>lead()</code> will return the value of the next row, while <code>lag()</code> will return the value of the previous row.</p>
-<div class="cell" data-execution_count="17">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> lag, lead</span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>window_spec <span class="op">=</span> Window<span class="op">\</span></span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>    .partitionBy(<span class="st">'dateTransfer'</span>)<span class="op">\</span></span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>    .orderBy(<span class="st">'datetimeTransfer'</span>)</span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>lead_expr <span class="op">=</span> lead(<span class="st">'transferValue'</span>).over(window_spec)</span>
-<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>lag_expr <span class="op">=</span> lag(<span class="st">'transferValue'</span>).over(window_spec)</span>
-<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>transf<span class="op">\</span></span>
-<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>    .withColumn(<span class="st">'nextValue'</span>, lead_expr)<span class="op">\</span></span>
-<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>    .withColumn(<span class="st">'previousValue'</span>, lag_expr)<span class="op">\</span></span>
-<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>    .select(</span>
-<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>        <span class="st">'datetimeTransfer'</span>,</span>
-<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>        <span class="st">'transferValue'</span>,</span>
-<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>        <span class="st">'nextValue'</span>,</span>
-<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>        <span class="st">'previousValue'</span></span>
-<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a>    )<span class="op">\</span></span>
-<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a>    .show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> lag, lead</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>window_spec <span class="op">=</span> Window<span class="op">\</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    .partitionBy(<span class="st">'dateTransfer'</span>)<span class="op">\</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>    .orderBy(<span class="st">'datetimeTransfer'</span>)</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>lead_expr <span class="op">=</span> lead(<span class="st">'transferValue'</span>).over(window_spec)</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>lag_expr <span class="op">=</span> lag(<span class="st">'transferValue'</span>).over(window_spec)</span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>transf<span class="op">\</span></span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>    .withColumn(<span class="st">'nextValue'</span>, lead_expr)<span class="op">\</span></span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>    .withColumn(<span class="st">'previousValue'</span>, lag_expr)<span class="op">\</span></span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>    .select(</span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>        <span class="st">'datetimeTransfer'</span>,</span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>        <span class="st">'transferValue'</span>,</span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>        <span class="st">'nextValue'</span>,</span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>        <span class="st">'previousValue'</span></span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a>    )<span class="op">\</span></span>
+<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a>    .show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>+-------------------+-------------+---------+-------------+
 |   datetimeTransfer|transferValue|nextValue|previousValue|

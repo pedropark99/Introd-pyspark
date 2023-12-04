@@ -293,7 +293,20 @@ transf\
     .show(5)
 ```
 
+As another example, you might want to calculate how much a specific transfer value represents of represents of the total amount transferred daily. You could just get the total amount transferred daily by applying the `sum()` function over windows partitioned by `dateTransfer`. Then, you just need to divide the current `transferValue` by the result of this `sum()` function, and you get the proportion you are looking for.
 
+```{python}
+from pyspark.sql.functions import sum
+proportion_expr = (
+    col('transferValue')
+    / sum(col('transferValue')).over(window_spec)
+)
+
+transf\
+    .select('dateTransfer', 'transferValue')\
+    .withColumn('proportionDailyTotal', proportion_expr)\
+    .show(5)
+```
 
 ## Getting the next and previous row with `lead()` and `lag()`
 
