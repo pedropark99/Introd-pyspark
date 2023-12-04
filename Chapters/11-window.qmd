@@ -106,23 +106,37 @@ window_spec = Window\
 ```
 
 
+## Partitioning or ordering or none
+
+
+
 ## Introducing the `over()` clause
 
-In order to use a window function you **need to combine a over clause with a window object**. If you pair these two components together, then, the function you are using becomes into a window function.
+In order to use a window function you **need to combine an over clause with a window object**. If you pair these two components together, then, the function you are using becomes a window function.
 
 Since we know now how to define window objects for our DataFrame, we can actually create and use this object to access window functionality, by pairing this window object with an `over()` clause.
 
-In `pyspark` this `over()` clause is actually a method from the `Column` class. Since all aggregating functions available from the `pyspark.sql.functions` module outputs a new `Column` object, we tend to use the `over()` method right after the function call.
+In `pyspark` this `over()` clause is actually a method from the `Column` class. Since all aggregating functions available from the `pyspark.sql.functions` module produces a new `Column` object as output, we tend to use the `over()` method right after the function call.
 
-For example, if we wanted to calculate the mean of column `x` with the `mean()` function, and we had a window object called `window_spec`, we could use the `mean()` as a window function by writing:
+For example, if we wanted to calculate the mean of `x` with the `mean()` function, and we had a window object called `window_spec`, we could use the `mean()` as a window function by writing `mean(col('x')).over(window_spec)`.
 
 ```python
+from pyspark.sql.window import Window
+from pyspark.sql.functions import mean, col
+window_spec = Window\
+    .partitionBy('y', 'z')\
+    .orderBy('t')
+
 mean(col('x')).over(window_spec)
 ```
 
-Having this in mind, if you see the `over()` method after a call of an aggregating function (such as `sum()`, `mean()`, etc.), then, you know that the aggregating function being called is used as a window function.
+If you see this `over()` method after a call of an aggregating function (such as `sum()`, `mean()`, etc.), then, you know that this aggregating function is being called as a window function.
 
-In Spark SQL there is an `OVER` clause that you can use to use a window specification.
+The `over()` clause is also available in Spark SQL as the SQL keyword `OVER`. This means that you can use window functions in Spark SQL as well. But in Spark SQL, you write the window specification inside parentheses after the `OVER` keyword, and you specify each component with `PARTITION BY` AND `ORDER BY` keywords. We could replicate the above example in Spark SQL like this:
+
+```sql
+mean(x) OVER (PARTITION BY y, z ORDER BY t ASC)
+```
 
 
 
@@ -178,12 +192,76 @@ transf['dayTotalTransferValue'] = transf['transferValue']\
 
 ## Ranking window functions
 
-The functions `row_number()`, `rank()` and `dense_rank()` from the `pyspark.sql.functions` module are ranking functions, in the sense that they seek to rank each row in the input window according to a ranking system.
-
-The function `row_number()` returns a unique and sequential number to each row in a window, starting from 1. This function is very similar to [`ROW_NUMBER()` from MySQL](https://dev.mysql.com/doc/refman/8.0/en/window-function-descriptions.html#function_row-number)[^mysql-row-num].
+The functions `row_number()`, `rank()` and `dense_rank()` from the `pyspark.sql.functions` module are ranking functions, in the sense that they seek to rank each row in the input window according to a ranking system. These functions are identical to their [peers in MySQL](https://dev.mysql.com/doc/refman/8.0/en/window-function-descriptions.html#function_row-number)[^mysql-row-num] `ROW_NUMBER()`, `RANK()` and `DENSE_RANK()`.
 
 [^mysql-row-num]: <https://dev.mysql.com/doc/refman/8.0/en/window-function-descriptions.html#function_row-number>
 
+The function `row_number()` simply returns a unique and sequential number to each row in a window, starting from 1. It is a quick way of marking each row with an unique and sequential number.
+
+```{python}
+from pyspark.sql.functions import row_number
+window_spec = Window\
+    .partitionBy('dateTransfer')\
+    .orderBy('datetimeTransfer')
+
+transf\
+    .select(
+        'dateTransfer',
+        'datetimeTransfer',
+        'transferID'
+    )\
+    .withColumn('rowID', row_number().over(window_spec))\
+    .show(5)
+```
+
+The `row_number()` function is also very useful when you are trying to collect the rows in each window that contains the smallest or biggest value in the window. If the ordering of your window specification is in ascending order, then, the first row in the window will contain the smallest value in the current window. In contrast, if the ordering is in descending order, then, the first row in the window will contain the biggest value in the current window.
+
+This is interesting, because lets suppose you wanted to find the rows that contained the maximum transfer values in each day. A `groupby()` + `agg()` strategy would tell you which are the maximum transfer values in each day. But it would not tell you where are the rows in the DataFrame that contains these maximum values. A `Window` object + `row_number()` + `filter()` can help you to get this answer.
+
+```{python}
+window_spec = Window\
+    .partitionBy('dateTransfer')\
+    .orderBy(col('transferValue').desc())
+
+# The row with rowID == 1 is the first row in each window
+transf\
+    .withColumn('rowID', row_number().over(window_spec))\
+    .filter(col('rowID') == 1)\
+    .select('dateTransfer', 'rowID', 'transferID', 'transferValue')\
+    .show(5)
+```
+
+The `rank()` and `dense_rank()` functions are similar to each other. They both rank the rows with integers, just like `row_number()`. But if there is a tie between two rows (that means that both rows have the same value in the ordering column, so it becomes a tie, we do not know which one of these rows should come first), then, these functions will repeat the same number/index for these rows in tie. Lets use the `df` below as a quick example:
+
+```{python}
+data = [
+    (1, 3000), (1, 2400),
+    (1, 4200), (1, 4200),
+    (2, 1500), (2, 2000),
+    (2, 3000), (2, 3000),
+    (2, 4500), (2, 4600)
+]
+df = spark.createDataFrame(data, ['id', 'value'])
+```
+
+If we apply both `rank()` and `dense_rank()` over this DataFrame with the same window specification, we can see the difference between these functions. In essence, `rank()` leave gaps in the indexes that come right after any tied rows, while `dense_rank()` does not.
+
+```{python}
+from pyspark.sql.functions import rank, dense_rank
+window_spec = Window\
+    .partitionBy('id')\
+    .orderBy('value')
+
+# With rank() there are gaps in the indexes
+df.withColumn('with_rank', rank().over(window_spec))\
+    .show()
+```
+
+```{python}
+# With dense_rank() there are no gaps in the indexes
+df.withColumn('with_dense_rank', dense_rank().over(window_spec))\
+    .show()
+```
 
 
 
