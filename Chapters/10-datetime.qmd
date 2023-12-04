@@ -1,6 +1,6 @@
 # Tools for dates and datetimes manipulation {#sec-datetime-tools}
 
-Units of measurement that represents time are very commom types of data in our modern world. Nowadays, dates and datetimes (or timestamps) are the most commom units used to represent a specific point in time. In this chapter, you will learn how to import, manipulate and use this kind of data with `pyspark`.
+Units of measurement that represent time are very commom types of data in our modern world. Nowadays, dates and datetimes (or timestamps) are the most commom units used to represent a specific point in time. In this chapter, you will learn how to import, manipulate and use this kind of data with `pyspark`.
 
 In Spark, dates and datetimes are represented by the `DateType` and `TimestampType` data types, respectively, which are available in the `pyspark.sql.types` module. Spark also offers two other data types to represent "intervals of time", which are `YearMonthIntervalType` and `DayTimeIntervalType`. However, you usually don't use these types directly to create new objects. In other words, they are intermediate types. They are a passage, or a path you use to get to another data type.
 
@@ -24,7 +24,7 @@ Dates are normally interpreted in `pyspark` using the `DateType` data type. Ther
 
 ### From strings
 
-When you have a `StringType` column in your DataFrame that contains dates that currently being stored inside strings, and you want to convert this column into a `DateType` column, you basically have two choices: 1) use the automatic column conversion with `cast()` or `astype()`; 2) use the `to_date()` Spark SQL function to convert the strings using a specified date format.
+When you have a `StringType` column in your DataFrame that contains dates that are currently being stored inside strings, and you want to convert this column into a `DateType` column, you basically have two choices: 1) use the automatic column conversion with `cast()` or `astype()`; 2) use the `to_date()` Spark SQL function to convert the strings using a specific date format.
 
 When you use the `cast()` (or `astype()`) column method that we introduced at @sec-cast-column-type, Spark will perform a quick and automatic conversion to `DateType` by casting the strings you have into the `DateType`. But when you use this method, Spark will always assume that the dates you have are in the ISO-8601 format, which is the international standard for dates. This format is presented at @fig-iso-8601-dates:
 
@@ -196,7 +196,7 @@ df2.show()
 
 ### From integers
 
-You can also convert integers directly to datetime values by using the `cast()` method. In this situation, the integers are interpreted as being the number of seconds since the UNIX time epoch, which is mid-night of 1 January of 1970 (`"1970-01-01 00:00:00"`). In other words, the integer `60` will be converted the point of time which is 60 seconds after `"1970-01-01 00:00:00"`, which would be `"1970-01-01 00:01:00"`.
+You can also convert integers directly to datetime values by using the `cast()` method. In this situation, the integers are interpreted as being the number of seconds since the UNIX time epoch, which is mid-night of 1 January of 1970 (`"1970-01-01 00:00:00"`). In other words, the integer `60` will be converted the point in time that is 60 seconds after `"1970-01-01 00:00:00"`, which would be `"1970-01-01 00:01:00"`.
 
 In the example below, the number 1,000,421,325 is converted into 19:48:45 of 13 September of 2001. Because this exact point in time is 1.000421 billion of seconds ahead of the UNIX epoch.
 
@@ -219,9 +219,9 @@ df3.show()
 
 
 
-However, you probably notice in the example above, that something is odd. Because the number 500 was converted into `"1969-12-31 21:08:20"`, which is in teory, behind the UNIX epoch, which is 1 January of 1970. Why did that happen? The answer is that **your time zone is always taken into account** during a conversion from integers to datetime values!
+However, you probably notice in the example above, that something is odd. Because the number 500 was converted into `"1969-12-31 21:08:20"`, which is in theory, behind the UNIX epoch, which is 1 January of 1970. Why did that happen? The answer is that **your time zone is always taken into account** during a conversion from integers to datetime values!
 
-In the example above, Spark is running on an operating system that is using the Brasília time zone (which is 3 hours late from international time zone - UTC-3) as the "default time zone" of the system. As a result, integers will be interpreted as being the number of seconds since the UNIX time epoch **minus 3 hours**, which is `"1969-12-31 21:00:00"`. So, in this context, the integer `60` would be converted into `"1969-12-31 21:01:00"` (instead of the usual `"1970-01-01 00:01:00"` that you would expect).
+In the example above, Spark is running on an operating system that is using the America/Sao_Paulo time zone (which is 3 hours late from international time zone - UTC-3) as the "default time zone" of the system. As a result, integers will be interpreted as being the number of seconds since the UNIX time epoch **minus 3 hours**, which is `"1969-12-31 21:00:00"`. So, in this context, the integer `60` would be converted into `"1969-12-31 21:01:00"` (instead of the usual `"1970-01-01 00:01:00"` that you would expect).
 
 That is why the number 500 was converted into `"1969-12-31 21:08:20"`. Because it is 500 seconds ahead of `"1969-12-31 21:00:00"`, which is 3 hours behind the UNIX time epoch.
 

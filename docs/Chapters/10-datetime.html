@@ -83,7 +83,7 @@ div.csl-indent {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../Chapters/references.html" rel="next">
+<link href="../Chapters/11-window.html" rel="next">
 <link href="../Chapters/09-strings.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
@@ -245,6 +245,12 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../Chapters/11-window.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Introducing window functions</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../Chapters/references.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">References</span></a>
   </div>
@@ -303,7 +309,7 @@ div.csl-indent {
 
 </header>
 
-<p>Units of measurement that represents time are very commom types of data in our modern world. Nowadays, dates and datetimes (or timestamps) are the most commom units used to represent a specific point in time. In this chapter, you will learn how to import, manipulate and use this kind of data with <code>pyspark</code>.</p>
+<p>Units of measurement that represent time are very commom types of data in our modern world. Nowadays, dates and datetimes (or timestamps) are the most commom units used to represent a specific point in time. In this chapter, you will learn how to import, manipulate and use this kind of data with <code>pyspark</code>.</p>
 <p>In Spark, dates and datetimes are represented by the <code>DateType</code> and <code>TimestampType</code> data types, respectively, which are available in the <code>pyspark.sql.types</code> module. Spark also offers two other data types to represent “intervals of time”, which are <code>YearMonthIntervalType</code> and <code>DayTimeIntervalType</code>. However, you usually don’t use these types directly to create new objects. In other words, they are intermediate types. They are a passage, or a path you use to get to another data type.</p>
 <section id="sec-create-dates" class="level2" data-number="10.1">
 <h2 data-number="10.1" class="anchored" data-anchor-id="sec-create-dates"><span class="header-section-number">10.1</span> Creating date values</h2>
@@ -315,7 +321,7 @@ div.csl-indent {
 </ol>
 <section id="from-strings" class="level3" data-number="10.1.1">
 <h3 data-number="10.1.1" class="anchored" data-anchor-id="from-strings"><span class="header-section-number">10.1.1</span> From strings</h3>
-<p>When you have a <code>StringType</code> column in your DataFrame that contains dates that currently being stored inside strings, and you want to convert this column into a <code>DateType</code> column, you basically have two choices: 1) use the automatic column conversion with <code>cast()</code> or <code>astype()</code>; 2) use the <code>to_date()</code> Spark SQL function to convert the strings using a specified date format.</p>
+<p>When you have a <code>StringType</code> column in your DataFrame that contains dates that are currently being stored inside strings, and you want to convert this column into a <code>DateType</code> column, you basically have two choices: 1) use the automatic column conversion with <code>cast()</code> or <code>astype()</code>; 2) use the <code>to_date()</code> Spark SQL function to convert the strings using a specific date format.</p>
 <p>When you use the <code>cast()</code> (or <code>astype()</code>) column method that we introduced at <a href="05-transforming.html#sec-cast-column-type"><span>Section&nbsp;5.8.3</span></a>, Spark will perform a quick and automatic conversion to <code>DateType</code> by casting the strings you have into the <code>DateType</code>. But when you use this method, Spark will always assume that the dates you have are in the ISO-8601 format, which is the international standard for dates. This format is presented at <a href="#fig-iso-8601-dates">Figure&nbsp;<span>10.1</span></a>:</p>
 <div id="fig-iso-8601-dates" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
@@ -537,7 +543,7 @@ div.csl-indent {
 </section>
 <section id="from-integers" class="level3" data-number="10.2.2">
 <h3 data-number="10.2.2" class="anchored" data-anchor-id="from-integers"><span class="header-section-number">10.2.2</span> From integers</h3>
-<p>You can also convert integers directly to datetime values by using the <code>cast()</code> method. In this situation, the integers are interpreted as being the number of seconds since the UNIX time epoch, which is mid-night of 1 January of 1970 (<code>"1970-01-01 00:00:00"</code>). In other words, the integer <code>60</code> will be converted the point of time which is 60 seconds after <code>"1970-01-01 00:00:00"</code>, which would be <code>"1970-01-01 00:01:00"</code>.</p>
+<p>You can also convert integers directly to datetime values by using the <code>cast()</code> method. In this situation, the integers are interpreted as being the number of seconds since the UNIX time epoch, which is mid-night of 1 January of 1970 (<code>"1970-01-01 00:00:00"</code>). In other words, the integer <code>60</code> will be converted the point in time that is 60 seconds after <code>"1970-01-01 00:00:00"</code>, which would be <code>"1970-01-01 00:01:00"</code>.</p>
 <p>In the example below, the number 1,000,421,325 is converted into 19:48:45 of 13 September of 2001. Because this exact point in time is 1.000421 billion of seconds ahead of the UNIX epoch.</p>
 <div class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>df3 <span class="op">=</span> spark.createDataFrame([</span>
@@ -566,8 +572,8 @@ div.csl-indent {
 </code></pre>
 </div>
 </div>
-<p>However, you probably notice in the example above, that something is odd. Because the number 500 was converted into <code>"1969-12-31 21:08:20"</code>, which is in teory, behind the UNIX epoch, which is 1 January of 1970. Why did that happen? The answer is that <strong>your time zone is always taken into account</strong> during a conversion from integers to datetime values!</p>
-<p>In the example above, Spark is running on an operating system that is using the Brasília time zone (which is 3 hours late from international time zone - UTC-3) as the “default time zone” of the system. As a result, integers will be interpreted as being the number of seconds since the UNIX time epoch <strong>minus 3 hours</strong>, which is <code>"1969-12-31 21:00:00"</code>. So, in this context, the integer <code>60</code> would be converted into <code>"1969-12-31 21:01:00"</code> (instead of the usual <code>"1970-01-01 00:01:00"</code> that you would expect).</p>
+<p>However, you probably notice in the example above, that something is odd. Because the number 500 was converted into <code>"1969-12-31 21:08:20"</code>, which is in theory, behind the UNIX epoch, which is 1 January of 1970. Why did that happen? The answer is that <strong>your time zone is always taken into account</strong> during a conversion from integers to datetime values!</p>
+<p>In the example above, Spark is running on an operating system that is using the America/Sao_Paulo time zone (which is 3 hours late from international time zone - UTC-3) as the “default time zone” of the system. As a result, integers will be interpreted as being the number of seconds since the UNIX time epoch <strong>minus 3 hours</strong>, which is <code>"1969-12-31 21:00:00"</code>. So, in this context, the integer <code>60</code> would be converted into <code>"1969-12-31 21:01:00"</code> (instead of the usual <code>"1970-01-01 00:01:00"</code> that you would expect).</p>
 <p>That is why the number 500 was converted into <code>"1969-12-31 21:08:20"</code>. Because it is 500 seconds ahead of <code>"1969-12-31 21:00:00"</code>, which is 3 hours behind the UNIX time epoch.</p>
 <p>But what if you wanted to convert your integers into a UTC-0 time zone? Well, you could just set the time zone of your Spark Session to the international time zone before you do the conversion, with the command below:</p>
 <div class="sourceCode" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>spark.conf.<span class="bu">set</span>(<span class="st">"spark.sql.session.timeZone"</span>, <span class="st">"UTC"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1147,7 +1153,7 @@ div.csl-indent {
 <pre><code>+----------+--------------------+
 |     today|                 now|
 +----------+--------------------+
-|2023-11-26|2023-11-26 16:50:...|
+|2023-12-04|2023-12-04 14:36:...|
 +----------+--------------------+
 </code></pre>
 </div>
@@ -1409,8 +1415,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../Chapters/references.html" class="pagination-link">
-        <span class="nav-page-text">References</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../Chapters/11-window.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Introducing window functions</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

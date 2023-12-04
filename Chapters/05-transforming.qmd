@@ -149,7 +149,7 @@ Partition shuffles are a very popular topic in Apache Spark, because they can be
 A classic example of wide operation is a grouped aggregation. For example, lets suppose we had a DataFrame with the daily sales of multiple stores spread across the country, and, we wanted to calculate the total sales per city/region. To calculate the total sales of a specific city, like "São Paulo", Spark would need to find all the rows that corresponds to this city, before adding the values, and these rows can be spread across multiple partitions of the cluster.
 
 
-## The `transf` DataFrame
+## The `transf` DataFrame {#sec-transf-dataframe}
 
 To demonstrate some of the next examples in this chapter, we will use a different DataFrame called `transf`. The data that represents this DataFrame is freely available as a CSV file. You can download this CSV at the repository of this book[^transforming-1].
 
