@@ -243,11 +243,15 @@ A single worker, or a single node in a Spark cluster, can hold multiple partitio
 
 ## Transforming to a Pandas DataFrame as a way to export data
 
+- with `pandas` we can easily export this data into Excel files (`.xlsx`)[^excel-spark].
 
+[^excel-spark]: Actually, there is a Spark plugin available that is capable of exporting data from Spark directly into Excel files. But you need to install this plugin separately, since it does not come with Spark from the factory: <https://github.com/crealytics/spark-excel>.
 
 ## The `collect()` method as a way to export data
 
-The `collect()` DataFrame method exports the DataFrame's data from Spark into a Python native object, more specifically, into a normal Python list. To some extent, this is a viable way to export data from Spark. Because by making data from Spark available as a normal/standard Python object, many new possibilities become open for us, such as:
+The `collect()` DataFrame method exports the DataFrame's data from Spark into a Python native object, more specifically, into a normal Python list. To some extent, this is a viable way to export data from Spark.
+
+Because by making this data from Spark available as a normal/standard Python object, many new possibilities become open for us. Such as:
 
 - sending this data to another location via HTTP requests using the `request` Python package.
 - sending this data by email using the `email` built-in Python package.

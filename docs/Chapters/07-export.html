@@ -298,8 +298,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>As an example, let’s use the <code>transf</code> DataFrame that I presented at <a href="05-transforming.html"><span>Chapter&nbsp;5</span></a>. The <code>write</code> method of the <code>transf</code> DataFrame object is the main entrypoint to all the facilities that Spark offers to write/export <code>transf</code>’s data to somewhere else.</p>
 <div class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>transf.write</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="8">
-<pre><code>&lt;pyspark.sql.readwriter.DataFrameWriter at 0x7fafedaf6350&gt;</code></pre>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<pre><code>&lt;pyspark.sql.readwriter.DataFrameWriter at 0x7f328c876490&gt;</code></pre>
 </div>
 </div>
 <p>This <code>write</code> entrypoint is very similar in structure to the <code>read</code> entrypoint. Essentially, this write entrypoint have a collection of <em>write engines</em>. Each write engine is speciallized in writing data into a specific file format. So you have an engine for CSV files, another engine for JSON files, another to Parquet files, etc.</p>
@@ -389,7 +389,7 @@ already exists. Set mode as "overwrite" to overwrite the existing path.</code></
 <p>The result above show us that the folder <code>transf_export</code> currently contains 4842 rows of data. This is the exact double of number of rows in the <code>transf</code> DataFrame, which have 2421 rows.</p>
 <div class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>transf.count()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="9">
+<div class="cell-output cell-output-display" data-execution_count="4">
 <pre><code>2421</code></pre>
 </div>
 </div>
@@ -406,7 +406,7 @@ already exists. Set mode as "overwrite" to overwrite the existing path.</code></
 <p>Taking the <code>transf</code> DataFrame as an example, we can discover the number of partitions in this DataFrame by running the <code>rdd.getNumPartitions()</code> method. You can see below that this DataFrame contains only one single partition.</p>
 <div class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>transf.rdd.getNumPartitions()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="10">
+<div class="cell-output cell-output-display" data-execution_count="5">
 <pre><code>1</code></pre>
 </div>
 </div>
@@ -416,10 +416,14 @@ already exists. Set mode as "overwrite" to overwrite the existing path.</code></
 </section>
 <section id="transforming-to-a-pandas-dataframe-as-a-way-to-export-data" class="level2" data-number="9.4">
 <h2 data-number="9.4" class="anchored" data-anchor-id="transforming-to-a-pandas-dataframe-as-a-way-to-export-data"><span class="header-section-number">9.4</span> Transforming to a Pandas DataFrame as a way to export data</h2>
+<ul>
+<li>with <code>pandas</code> we can easily export this data into Excel files (<code>.xlsx</code>)<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>.</li>
+</ul>
 </section>
 <section id="the-collect-method-as-a-way-to-export-data" class="level2" data-number="9.5">
 <h2 data-number="9.5" class="anchored" data-anchor-id="the-collect-method-as-a-way-to-export-data"><span class="header-section-number">9.5</span> The <code>collect()</code> method as a way to export data</h2>
-<p>The <code>collect()</code> DataFrame method exports the DataFrame’s data from Spark into a Python native object, more specifically, into a normal Python list. To some extent, this is a viable way to export data from Spark. Because by making data from Spark available as a normal/standard Python object, many new possibilities become open for us, such as:</p>
+<p>The <code>collect()</code> DataFrame method exports the DataFrame’s data from Spark into a Python native object, more specifically, into a normal Python list. To some extent, this is a viable way to export data from Spark.</p>
+<p>Because by making this data from Spark available as a normal/standard Python object, many new possibilities become open for us. Such as:</p>
 <ul>
 <li>sending this data to another location via HTTP requests using the <code>request</code> Python package.</li>
 <li>sending this data by email using the <code>email</code> built-in Python package.</li>
@@ -428,8 +432,7 @@ already exists. Set mode as "overwrite" to overwrite the existing path.</code></
 </ul>
 <p>By having the DataFrame’s data easily available to Python as a Python list, we can do virtually anything with this data. We can use this data in basically anything that Python is capable of doing.</p>
 <p>Just as a simple example, I needed to send the <code>transf</code> data to an fictitious endpoint using a <code>POST</code> HTTP request, the source code would probably be something similar to this:</p>
-<div class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
+<div class="sourceCode" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>dataframe_rows <span class="op">=</span> transf.collect()</span>
 <span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -437,7 +440,6 @@ already exists. Set mode as "overwrite" to overwrite the existing path.</code></
 <span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> row <span class="kw">in</span> dataframe_rows:</span>
 <span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>    row_as_dict <span class="op">=</span> row.asDict()</span>
 <span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>    requests.post(url, data <span class="op">=</span> row_as_dict)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
 
 
 </section>
@@ -445,6 +447,7 @@ already exists. Set mode as "overwrite" to overwrite the existing path.</code></
 <hr>
 <ol>
 <li id="fn1"><p><a href="https://www.geeksforgeeks.org/tree-command-unixlinux/" class="uri">https://www.geeksforgeeks.org/tree-command-unixlinux/</a><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Actually, there is a Spark plugin available that is capable of exporting data from Spark directly into Excel files. But you need to install this plugin separately, since it does not come with Spark from the factory: <a href="https://github.com/crealytics/spark-excel" class="uri">https://github.com/crealytics/spark-excel</a>.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section>
 
