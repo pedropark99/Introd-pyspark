@@ -253,7 +253,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#the-write-object-as-the-main-entrypoint" id="toc-the-write-object-as-the-main-entrypoint" class="nav-link active" data-scroll-target="#the-write-object-as-the-main-entrypoint"><span class="header-section-number">9.1</span> The <code>write</code> object as the main entrypoint</a></li>
-  <li><a href="#a-simple-example-of-writing-an-csv-file" id="toc-a-simple-example-of-writing-an-csv-file" class="nav-link" data-scroll-target="#a-simple-example-of-writing-an-csv-file"><span class="header-section-number">9.2</span> A simple example of writing an CSV file</a></li>
+  <li><a href="#exporting-the-transf-dataframe-as-an-example" id="toc-exporting-the-transf-dataframe-as-an-example" class="nav-link" data-scroll-target="#exporting-the-transf-dataframe-as-an-example"><span class="header-section-number">9.2</span> Exporting the <code>transf</code> DataFrame as an example</a>
+  <ul class="collapse">
+  <li><a href="#quick-export-to-a-csv-file" id="toc-quick-export-to-a-csv-file" class="nav-link" data-scroll-target="#quick-export-to-a-csv-file"><span class="header-section-number">9.2.1</span> Quick export to a CSV file</a></li>
+  <li><a href="#setting-the-write-mode" id="toc-setting-the-write-mode" class="nav-link" data-scroll-target="#setting-the-write-mode"><span class="header-section-number">9.2.2</span> Setting the write mode</a></li>
+  </ul></li>
   <li><a href="#number-of-partitions-determines-the-number-of-files-written" id="toc-number-of-partitions-determines-the-number-of-files-written" class="nav-link" data-scroll-target="#number-of-partitions-determines-the-number-of-files-written"><span class="header-section-number">9.3</span> Number of partitions determines the number of files written</a></li>
   <li><a href="#transforming-to-a-pandas-dataframe-as-a-way-to-export-data" id="toc-transforming-to-a-pandas-dataframe-as-a-way-to-export-data" class="nav-link" data-scroll-target="#transforming-to-a-pandas-dataframe-as-a-way-to-export-data"><span class="header-section-number">9.4</span> Transforming to a Pandas DataFrame as a way to export data</a></li>
   <li><a href="#the-collect-method-as-a-way-to-export-data" id="toc-the-collect-method-as-a-way-to-export-data" class="nav-link" data-scroll-target="#the-collect-method-as-a-way-to-export-data"><span class="header-section-number">9.5</span> The <code>collect()</code> method as a way to export data</a></li>
@@ -294,8 +298,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>As an example, let’s use the <code>transf</code> DataFrame that I presented at <a href="05-transforming.html"><span>Chapter&nbsp;5</span></a>. The <code>write</code> method of the <code>transf</code> DataFrame object is the main entrypoint to all the facilities that Spark offers to write/export <code>transf</code>’s data to somewhere else.</p>
 <div class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>transf.write</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="26">
-<pre><code>&lt;pyspark.sql.readwriter.DataFrameWriter at 0x7f8540c96990&gt;</code></pre>
+<div class="cell-output cell-output-display" data-execution_count="52">
+<pre><code>&lt;pyspark.sql.readwriter.DataFrameWriter at 0x7f406ef0b0d0&gt;</code></pre>
 </div>
 </div>
 <p>This <code>write</code> entrypoint is very similar in structure to the <code>read</code> entrypoint. Essentially, this write entrypoint have a collection of <em>write engines</em>. Each write engine is speciallized in writing data into a specific file format. So you have an engine for CSV files, another engine for JSON files, another to Parquet files, etc.</p>
@@ -311,11 +315,70 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><code>jdbc()</code>: saves the data of the current DataFrame into a database using the JDBC API.</li>
 </ul>
 </section>
-<section id="a-simple-example-of-writing-an-csv-file" class="level2" data-number="9.2">
-<h2 data-number="9.2" class="anchored" data-anchor-id="a-simple-example-of-writing-an-csv-file"><span class="header-section-number">9.2</span> A simple example of writing an CSV file</h2>
+<section id="exporting-the-transf-dataframe-as-an-example" class="level2" data-number="9.2">
+<h2 data-number="9.2" class="anchored" data-anchor-id="exporting-the-transf-dataframe-as-an-example"><span class="header-section-number">9.2</span> Exporting the <code>transf</code> DataFrame as an example</h2>
+<p>As a simple example, we will export the data from <code>transf</code> DataFrame. Over the next sections, we will cover each aspect that influences this write/export process that you should know about, or considering when exporting your data.</p>
+<section id="quick-export-to-a-csv-file" class="level3" data-number="9.2.1">
+<h3 data-number="9.2.1" class="anchored" data-anchor-id="quick-export-to-a-csv-file"><span class="header-section-number">9.2.1</span> Quick export to a CSV file</h3>
+<p>Lets begin with a quick example of exporting the Spark data to a CSV file. Since we decided to export the data to a CSV file, we need to use the write engine <code>csv()</code> for this job.</p>
+<p>The first (and main) argument to all write engines available in Spark is a path to a folder where you want to store the exported files. This means that (whatever write engine you use) Spark will always write the files with the exported data inside a folder.</p>
+<p>Spark needs to use a folder during the write process, because some extra files are generated during the write process, and these extra files behave as “placeholders” or as “process statuses” during the write process. And Spark needs to store these “placeholder files” together with the CSV files with the exported data. That is why he needs to create a folder, to store all of these different files together with the CSV files that contains the exported data.</p>
+<p>In the example below, I decided to write this data into a folder called <code>transf_export</code>.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>transf.write.csv(<span class="st">"transf_export"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Now, after I executed the above command, if I take a look at my current working directory, I will see the <code>transf_export</code> folder that was created by Spark.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>current_directory <span class="op">=</span> Path(<span class="st">"."</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>folders_in_current_directory <span class="op">=</span> [</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">str</span>(item)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> item <span class="kw">in</span> current_directory.iterdir()</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> item.is_dir()</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(folders_in_current_directory)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>['metastore_db', 'transf_export']</code></pre>
+<p>And if I take a look inside this <code>transf_export</code> folder I will see two files. One is the placeholder file (<code>_SUCCESS</code>), and a CSV file containing the exported data (<code>part-0000-*</code>).</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>export_folder <span class="op">=</span> Path(<span class="st">"transf_export"</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>files <span class="op">=</span> [<span class="bu">str</span>(x.name) <span class="cf">for</span> x <span class="kw">in</span> export_folder.iterdir()]</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(files)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>['part-00000-a4ee2ff4-4b7f-499e-a904-cec8d524ac56-c000.csv', '_SUCCESS']</code></pre>
+<p>If we wanted to see this file structure, we can use the <code>tree</code> command line utility to build a diagram in the format of a tree that represents this structure:</p>
+<pre><code>Terminal$ tree transf_export</code></pre>
+<pre><code>transf_export
+├── part-00000-a4ee2ff4-4b7f-499e-a904-cec8d524ac56-c000.csv
+└── _SUCCESS</code></pre>
+</section>
+<section id="setting-the-write-mode" class="level3" data-number="9.2.2">
+<h3 data-number="9.2.2" class="anchored" data-anchor-id="setting-the-write-mode"><span class="header-section-number">9.2.2</span> Setting the write mode</h3>
+<p>We begin by setting the write mode of this process, by using the <code>mode()</code> method. This <code>mode()</code> method sets the “mode of the write process”, and this mode affects specially the behavior of the process when files for this particular DataFrame you trying to export already exists in your file system.</p>
+<p>There are four write modes available in Spark:</p>
+<ul>
+<li><code>append</code>: will append the exported data to existing files of this specific DataFrame.</li>
+<li><code>overwrite</code>: will overwrite the data inside existing files of this specific DataFrame with the data that is being currently exported.</li>
+<li><code>error</code> or <code>errorifexists</code>: will throw an exception in case already existing files for this specific DataFrame are found.</li>
+<li><code>ignore</code>: silently ignore/abort this write operation in case already existing files for this specific DataFrame are found.</li>
+</ul>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>transf_writer <span class="op">=</span> transf.write<span class="op">\</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    .mode(<span class="st">"overwrite"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
 </section>
 <section id="number-of-partitions-determines-the-number-of-files-written" class="level2" data-number="9.3">
 <h2 data-number="9.3" class="anchored" data-anchor-id="number-of-partitions-determines-the-number-of-files-written"><span class="header-section-number">9.3</span> Number of partitions determines the number of files written</h2>
+<p>As I explained at <span class="quarto-unresolved-ref">?sec-dataframe-partitions</span>, every DataFrame that exists in Spark is a <strong>distributed</strong> DataFrame, meaning that this DataFrame is divided into multiple pieces (that we call <em>partitions</em>), and these pieces are always spread across the nodes of the Spark cluster.</p>
+<p>In other words, each machine that is present in the Spark cluster, contains a specific partition, a specific piece of the DataFrame. But why we are discussing partitions here? Is because the number of partitions of your DataFrame determines the number of files written when you export the data using the <code>write</code> method.</p>
+<p>If your DataFrame is splitted across 5 different partitions, and you run <code>DataFrame.write.csv()</code> to export the Spark data into CSV files, then, 5 different CSV files will be written in your system. One CSV file for each partition of the DataFrame.</p>
+<p>This also means that, if you want to export all data from your Spark DataFrame into a single static file (whatever is the file format you choose), then, you need to concentrate all data from your Spark DataFrame into a single partition.</p>
+<p>Taking the <code>transf</code> DataFrame as an example, we can discover the number of partitions in this DataFrame by running the <code>rdd.getNumPartitions()</code> method. You can see below that this DataFrame contains only one single partition.</p>
+<div class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>transf.rdd.getNumPartitions()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="54">
+<pre><code>1</code></pre>
+</div>
+</div>
+<p>Most Spark DataFrames you find in the wild contains lots and lots of data. And because of that, you will likely find Spark DataFrames that are splitted into multiple partitions. That is, Spark DataFrames that are by default concentrated into one single partition are very, very rare. Because Spark will always try to organize the DataFrame into a partition distribution that yields the best performance in data processing (and a single partition distribution is rarely the case for this).</p>
+<p>In the examples of this book, I am running Spark locally on a cheap notebook, instead of running it across a big cluster of machines in the cloud. As a consequence, I have only one single worker node in my Spark cluster.</p>
+<p>A single worker, or a single node in a Spark cluster, can hold multiple partitions of a DataFrame inside of it. This means that even though I am running Spark locally, this does not necessarily mean that all data from <code>transf</code> DataFrame is concentrated into a single partition on my “single worker node”.</p>
 </section>
 <section id="transforming-to-a-pandas-dataframe-as-a-way-to-export-data" class="level2" data-number="9.4">
 <h2 data-number="9.4" class="anchored" data-anchor-id="transforming-to-a-pandas-dataframe-as-a-way-to-export-data"><span class="header-section-number">9.4</span> Transforming to a Pandas DataFrame as a way to export data</h2>
@@ -331,15 +394,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <p>By having the DataFrame’s data easily available to Python as a Python list, we can do virtually anything with this data. We can use this data in basically anything that Python is capable of doing.</p>
 <p>Just as a simple example, I needed to send the <code>transf</code> data to an fictitious endpoint using a <code>POST</code> HTTP request, the source code would probably be something similar to this:</p>
-<div class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>dataframe_rows <span class="op">=</span> transf.collect()</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>url <span class="op">=</span> <span class="st">'https://example.com/api/v1/transf'</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> row <span class="kw">in</span> dataframe_rows:</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    row_as_dict <span class="op">=</span> row.asDict()</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    requests.post(url, data <span class="op">=</span> row_as_dict)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>dataframe_rows <span class="op">=</span> transf.collect()</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>url <span class="op">=</span> <span class="st">'https://example.com/api/v1/transf'</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> row <span class="kw">in</span> dataframe_rows:</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    row_as_dict <span class="op">=</span> row.asDict()</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    requests.post(url, data <span class="op">=</span> row_as_dict)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 

@@ -69,12 +69,108 @@ The main methods of the write entrypoint are:
 - `jdbc()`: saves the data of the current DataFrame into a database using the JDBC API.
 
 
-## A simple example of writing an CSV file
+## Exporting the `transf` DataFrame as an example
 
+As a simple example, we will export the data from `transf` DataFrame. Over the next sections, we will cover each aspect that influences this write/export process that you should know about, or considering when exporting your data.
+
+### Quick export to a CSV file
+
+Lets begin with a quick example of exporting the Spark data to a CSV file. Since we decided to export the data to a CSV file, we need to use the write engine `csv()` for this job.
+
+The first (and main) argument to all write engines available in Spark is a path to a folder where you want to store the exported files. This means that (whatever write engine you use) Spark will always write the files with the exported data inside a folder.
+
+Spark needs to use a folder during the write process, because some extra files are generated during the write process, and these extra files behave as "placeholders" or as "process statuses" during the write process. And Spark needs to store these "placeholder files" together with the CSV files with the exported data. That is why he needs to create a folder, to store all of these different files together with the CSV files that contains the exported data.
+
+In the example below, I decided to write this data into a folder called `transf_export`.
+
+```python
+transf.write.csv("transf_export")
+```
+
+Now, after I executed the above command, if I take a look at my current working directory, I will see the `transf_export` folder that was created by Spark.
+
+```python
+from pathlib import Path
+current_directory = Path(".")
+folders_in_current_directory = [
+    str(item)
+    for item in current_directory.iterdir()
+    if item.is_dir()
+]
+
+print(folders_in_current_directory)
+```
+
+```
+['metastore_db', 'transf_export']
+```
+
+And if I take a look inside this `transf_export` folder I will see two files. One is the placeholder file (`_SUCCESS`), and a CSV file containing the exported data (`part-0000-*`).
+
+```python
+export_folder = Path("transf_export")
+files = [str(x.name) for x in export_folder.iterdir()]
+print(files)
+```
+
+```
+['part-00000-a4ee2ff4-4b7f-499e-a904-cec8d524ac56-c000.csv', '_SUCCESS']
+```
+
+If we wanted to see this file structure, we can use the `tree` command line utility to build a diagram in the format of a tree that represents this structure:
+
+```
+Terminal$ tree transf_export
+```
+
+```
+transf_export
+├── part-00000-a4ee2ff4-4b7f-499e-a904-cec8d524ac56-c000.csv
+└── _SUCCESS
+```
+
+
+### Setting the write mode
+
+We begin by setting the write mode of this process, by using the `mode()` method. This `mode()` method sets the "mode of the write process", and this mode affects specially the behavior of the process when files for this particular DataFrame you trying to export already exists in your file system.
+
+There are four write modes available in Spark:
+
+- `append`: will append the exported data to existing files of this specific DataFrame.
+- `overwrite`: will overwrite the data inside existing files of this specific DataFrame with the data that is being currently exported.
+- `error` or `errorifexists`: will throw an exception in case already existing files for this specific DataFrame are found.
+- `ignore`: silently ignore/abort this write operation in case already existing files for this specific DataFrame are found.
+
+```{python}
+transf_writer = transf.write\
+    .mode("overwrite")
+```
 
 
 
 ## Number of partitions determines the number of files written
+
+As I explained at @sec-dataframe-partitions, every DataFrame that exists in Spark is a **distributed** DataFrame, meaning that this DataFrame is divided into multiple pieces (that we call *partitions*), and these pieces are always spread across the nodes of the Spark cluster.
+
+In other words, each machine that is present in the Spark cluster, contains a specific partition, a specific piece of the DataFrame. But why we are discussing partitions here? Is because the number of partitions of your DataFrame determines the number of files written when you export the data using the `write` method.
+
+If your DataFrame is splitted across 5 different partitions, and you run `DataFrame.write.csv()` to export the Spark data into CSV files, then, 5 different CSV files will be written in your system. One CSV file for each partition of the DataFrame.
+
+This also means that, if you want to export all data from your Spark DataFrame into a single static file (whatever is the file format you choose), then, you need to concentrate all data from your Spark DataFrame into a single partition.
+
+Taking the `transf` DataFrame as an example, we can discover the number of partitions in this DataFrame by running the `rdd.getNumPartitions()` method. You can see below that this DataFrame contains only one single partition.
+
+```{python}
+transf.rdd.getNumPartitions()
+```
+
+
+Most Spark DataFrames you find in the wild contains lots and lots of data. And because of that, you will likely find Spark DataFrames that are splitted into multiple partitions. That is, Spark DataFrames that are by default concentrated into one single partition are very, very rare. Because Spark will always try to organize the DataFrame into a partition distribution that yields the best performance in data processing (and a single partition distribution is rarely the case for this).
+
+In the examples of this book, I am running Spark locally on a cheap notebook, instead of running it across a big cluster of machines in the cloud. As a consequence, I have only one single worker node in my Spark cluster.
+
+A single worker, or a single node in a Spark cluster, can hold multiple partitions of a DataFrame inside of it. This means that even though I am running Spark locally, this does not necessarily mean that all data from `transf` DataFrame is concentrated into a single partition on my "single worker node".
+
 
 
 ## Transforming to a Pandas DataFrame as a way to export data

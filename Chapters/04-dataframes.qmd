@@ -39,7 +39,7 @@ If you are running Spark in a 4 nodes cluster (one is the driver node, and the o
 ![A Spark DataFrame is distributed across the cluster](../Figures/distributed-df.png){#fig-distributed-df fig-align="center"}
 
 
-## Partitions of a Spark DataFrame
+## Partitions of a Spark DataFrame {#sec-dataframe-partitions}
 
 A Spark DataFrame is always broken into many small pieces, and, these pieces are always spread across the cluster of machines. Each one of these small pieces of the total data are considered a DataFrame *partition*.
 
