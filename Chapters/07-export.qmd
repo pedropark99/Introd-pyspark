@@ -105,7 +105,7 @@ print(folders_in_current_directory)
 ['metastore_db', 'transf_export']
 ```
 
-And if I take a look inside this `transf_export` folder I will see two files. One is the placeholder file (`_SUCCESS`), and a CSV file containing the exported data (`part-0000-*`).
+And if I take a look inside this `transf_export` folder I will see two files. One is the placeholder file (`_SUCCESS`), and a CSV file containing the exported data (`part-*`).
 
 ```python
 export_folder = Path("transf_export")
@@ -117,7 +117,10 @@ print(files)
 ['part-00000-a4ee2ff4-4b7f-499e-a904-cec8d524ac56-c000.csv', '_SUCCESS']
 ```
 
-If we wanted to see this file structure, we can use the `tree` command line utility to build a diagram in the format of a tree that represents this structure:
+If we wanted to see this file structure, we can use the [`tree` command line utility](https://www.geeksforgeeks.org/tree-command-unixlinux/)[^tree-cmd] to build a diagram of this file structure:
+
+[^tree-cmd]: <https://www.geeksforgeeks.org/tree-command-unixlinux/>
+
 
 ```
 Terminal$ tree transf_export
@@ -128,6 +131,7 @@ transf_export
 ├── part-00000-a4ee2ff4-4b7f-499e-a904-cec8d524ac56-c000.csv
 └── _SUCCESS
 ```
+
 
 
 ### Setting the write mode
@@ -141,10 +145,74 @@ There are four write modes available in Spark:
 - `error` or `errorifexists`: will throw an exception in case already existing files for this specific DataFrame are found.
 - `ignore`: silently ignore/abort this write operation in case already existing files for this specific DataFrame are found.
 
-```{python}
-transf_writer = transf.write\
-    .mode("overwrite")
+If we set the write mode to `overwrite`, this means that every time we execute the command below, the files inside the folder `transf_export` are rewritten from scratch. Everytime we export the data, the files `part-*` inside the folder are rewritten to contain the most fresh data from `transf` DataFrame.
+
+```python
+transf.write\
+    .mode("overwrite")\
+    .csv("transf_export")
 ```
+
+However, if we set the write mode to `error`, and run the command again, then an error will be raised to indicate that the folder (`transf_export`) where we are trying to write the files already exists.
+
+```python
+transf.write\
+    .mode("error")\
+    .csv("transf_export")
+```
+
+```
+AnalysisException: [PATH_ALREADY_EXISTS]
+Path file:/home/pedro/Documentos/Projetos/Livros/Introd-pyspark/Chapters/transf_export
+already exists. Set mode as "overwrite" to overwrite the existing path.
+```
+
+In contrast, if we set the write mode to `append`, then the current data of transf is appended (or "added") to the folder `transf_export`.
+
+```python
+transf.write\
+    .mode("append")\
+    .csv("transf_export")
+```
+
+Now, if I take a look at the contents of the `transf_export` folder, I will see now two `part-*` files instead of just one. Both files have the same size (around 218 kb) because they both contain the same data, or the same lines from the `transf` DataFrame.
+
+```
+Terminal$ tree transf_export
+```
+
+```
+transf_export
+├── part-00000-a4ee2ff4-4b7f-499e-a904-cec8d524ac56-c000.csv
+├── part-00000-ffcc7487-fc60-403b-a815-a1dd56894062-c000.csv
+└── _SUCCESS
+```
+
+This means that the data is currently duplicated inside the `transf_export` folder. We can see this duplication by looking at the number of rows of the DataFrame contained inside `transf_export`. We can use `spark.read.load()` to quickly load the contents of the `transf_export` folder into a new DataFrame, and use `count()` method to see the number of rows.
+
+```python
+df = spark.read.load(
+    "transf_export",
+    format = "csv",
+    header = False
+)
+df.count()
+```
+
+```
+4842
+```
+
+The result above show us that the folder `transf_export` currently contains 4842 rows of data. This is the exact double of number of rows in the `transf` DataFrame, which have 2421 rows.
+
+```{python}
+transf.count()
+```
+
+
+So, in resume, the difference between write mode `overwrite` and `append`, is that `overwrite` causes Spark to erase the contents of `transf_export`, before it starts to write the current data into the folder. This way, Spark exports the most recent version of the data stored inside the DataFrame. In contrast, `append` simply appends (or adds) new files to the folder `transf_export` with the most recent version of the data stored inside the DataFrame.
+
+At @sec-sql-save-modes we presented this difference visually in @fig-save-table-modes. So, in case you don't understood fully the difference between these two write modes, you can comeback at @sec-sql-save-modes and check @fig-save-table-modes to see if it clears your understanding. OBS: save modes = write modes.
 
 
 
@@ -190,8 +258,7 @@ By having the DataFrame's data easily available to Python as a Python list, we c
 
 Just as a simple example, I needed to send the `transf` data to an fictitious endpoint using a `POST` HTTP request, the source code would probably be something similar to this:
 
-```{python}
-#| eval: false
+```python
 import requests
 
 dataframe_rows = transf.collect()

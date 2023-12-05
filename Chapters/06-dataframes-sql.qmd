@@ -398,7 +398,7 @@ spark\
 +----+------------+
 ```
 
-#### The different save "modes"
+#### The different save "modes" {#sec-sql-save-modes}
 
 There are other arguments that you might want to use in the `write.saveAsTable()` method, like the `mode` argument. This argument controls how Spark will save your data into the database. By default, `write.saveAsTable()` uses the `mode = "error"` by default. In this mode, Spark will look if the table you referenced already exists, before it saves your data.
 

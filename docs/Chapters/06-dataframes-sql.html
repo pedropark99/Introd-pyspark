@@ -607,8 +607,8 @@ USE `dummy`;
 |  25|     Paraíba|
 +----+------------+</code></pre>
 </section>
-<section id="the-different-save-modes" class="level4" data-number="7.3.1.6">
-<h4 data-number="7.3.1.6" class="anchored" data-anchor-id="the-different-save-modes"><span class="header-section-number">7.3.1.6</span> The different save “modes”</h4>
+<section id="sec-sql-save-modes" class="level4" data-number="7.3.1.6">
+<h4 data-number="7.3.1.6" class="anchored" data-anchor-id="sec-sql-save-modes"><span class="header-section-number">7.3.1.6</span> The different save “modes”</h4>
 <p>There are other arguments that you might want to use in the <code>write.saveAsTable()</code> method, like the <code>mode</code> argument. This argument controls how Spark will save your data into the database. By default, <code>write.saveAsTable()</code> uses the <code>mode = "error"</code> by default. In this mode, Spark will look if the table you referenced already exists, before it saves your data.</p>
 <p>Let’s get back to the code we showed before (which is reproduced below). In this code, we asked Spark to save our data into a table called <code>"example_table"</code>. Spark will look if a table with this name already exists. If it does, then, Spark will raise an error that will stop the process (i.e.&nbsp;no data is saved).</p>
 <div class="cell" data-execution_count="15">

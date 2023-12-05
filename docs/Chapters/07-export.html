@@ -298,8 +298,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>As an example, let’s use the <code>transf</code> DataFrame that I presented at <a href="05-transforming.html"><span>Chapter&nbsp;5</span></a>. The <code>write</code> method of the <code>transf</code> DataFrame object is the main entrypoint to all the facilities that Spark offers to write/export <code>transf</code>’s data to somewhere else.</p>
 <div class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>transf.write</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="52">
-<pre><code>&lt;pyspark.sql.readwriter.DataFrameWriter at 0x7f406ef0b0d0&gt;</code></pre>
+<div class="cell-output cell-output-display" data-execution_count="8">
+<pre><code>&lt;pyspark.sql.readwriter.DataFrameWriter at 0x7fafedaf6350&gt;</code></pre>
 </div>
 </div>
 <p>This <code>write</code> entrypoint is very similar in structure to the <code>read</code> entrypoint. Essentially, this write entrypoint have a collection of <em>write engines</em>. Each write engine is speciallized in writing data into a specific file format. So you have an engine for CSV files, another engine for JSON files, another to Parquet files, etc.</p>
@@ -336,12 +336,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(folders_in_current_directory)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <pre><code>['metastore_db', 'transf_export']</code></pre>
-<p>And if I take a look inside this <code>transf_export</code> folder I will see two files. One is the placeholder file (<code>_SUCCESS</code>), and a CSV file containing the exported data (<code>part-0000-*</code>).</p>
+<p>And if I take a look inside this <code>transf_export</code> folder I will see two files. One is the placeholder file (<code>_SUCCESS</code>), and a CSV file containing the exported data (<code>part-*</code>).</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>export_folder <span class="op">=</span> Path(<span class="st">"transf_export"</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>files <span class="op">=</span> [<span class="bu">str</span>(x.name) <span class="cf">for</span> x <span class="kw">in</span> export_folder.iterdir()]</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(files)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <pre><code>['part-00000-a4ee2ff4-4b7f-499e-a904-cec8d524ac56-c000.csv', '_SUCCESS']</code></pre>
-<p>If we wanted to see this file structure, we can use the <code>tree</code> command line utility to build a diagram in the format of a tree that represents this structure:</p>
+<p>If we wanted to see this file structure, we can use the <a href="https://www.geeksforgeeks.org/tree-command-unixlinux/"><code>tree</code> command line utility</a><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> to build a diagram of this file structure:</p>
 <pre><code>Terminal$ tree transf_export</code></pre>
 <pre><code>transf_export
 ├── part-00000-a4ee2ff4-4b7f-499e-a904-cec8d524ac56-c000.csv
@@ -357,22 +357,56 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><code>error</code> or <code>errorifexists</code>: will throw an exception in case already existing files for this specific DataFrame are found.</li>
 <li><code>ignore</code>: silently ignore/abort this write operation in case already existing files for this specific DataFrame are found.</li>
 </ul>
+<p>If we set the write mode to <code>overwrite</code>, this means that every time we execute the command below, the files inside the folder <code>transf_export</code> are rewritten from scratch. Everytime we export the data, the files <code>part-*</code> inside the folder are rewritten to contain the most fresh data from <code>transf</code> DataFrame.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>transf.write<span class="op">\</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    .mode(<span class="st">"overwrite"</span>)<span class="op">\</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    .csv(<span class="st">"transf_export"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>However, if we set the write mode to <code>error</code>, and run the command again, then an error will be raised to indicate that the folder (<code>transf_export</code>) where we are trying to write the files already exists.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>transf.write<span class="op">\</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    .mode(<span class="st">"error"</span>)<span class="op">\</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    .csv(<span class="st">"transf_export"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>AnalysisException: [PATH_ALREADY_EXISTS]
+Path file:/home/pedro/Documentos/Projetos/Livros/Introd-pyspark/Chapters/transf_export
+already exists. Set mode as "overwrite" to overwrite the existing path.</code></pre>
+<p>In contrast, if we set the write mode to <code>append</code>, then the current data of transf is appended (or “added”) to the folder <code>transf_export</code>.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>transf.write<span class="op">\</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    .mode(<span class="st">"append"</span>)<span class="op">\</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    .csv(<span class="st">"transf_export"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Now, if I take a look at the contents of the <code>transf_export</code> folder, I will see now two <code>part-*</code> files instead of just one. Both files have the same size (around 218 kb) because they both contain the same data, or the same lines from the <code>transf</code> DataFrame.</p>
+<pre><code>Terminal$ tree transf_export</code></pre>
+<pre><code>transf_export
+├── part-00000-a4ee2ff4-4b7f-499e-a904-cec8d524ac56-c000.csv
+├── part-00000-ffcc7487-fc60-403b-a815-a1dd56894062-c000.csv
+└── _SUCCESS</code></pre>
+<p>This means that the data is currently duplicated inside the <code>transf_export</code> folder. We can see this duplication by looking at the number of rows of the DataFrame contained inside <code>transf_export</code>. We can use <code>spark.read.load()</code> to quickly load the contents of the <code>transf_export</code> folder into a new DataFrame, and use <code>count()</code> method to see the number of rows.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> spark.read.load(</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"transf_export"</span>,</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">format</span> <span class="op">=</span> <span class="st">"csv"</span>,</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    header <span class="op">=</span> <span class="va">False</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>df.count()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>4842</code></pre>
+<p>The result above show us that the folder <code>transf_export</code> currently contains 4842 rows of data. This is the exact double of number of rows in the <code>transf</code> DataFrame, which have 2421 rows.</p>
 <div class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>transf_writer <span class="op">=</span> transf.write<span class="op">\</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    .mode(<span class="st">"overwrite"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>transf.count()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="9">
+<pre><code>2421</code></pre>
 </div>
+</div>
+<p>So, in resume, the difference between write mode <code>overwrite</code> and <code>append</code>, is that <code>overwrite</code> causes Spark to erase the contents of <code>transf_export</code>, before it starts to write the current data into the folder. This way, Spark exports the most recent version of the data stored inside the DataFrame. In contrast, <code>append</code> simply appends (or adds) new files to the folder <code>transf_export</code> with the most recent version of the data stored inside the DataFrame.</p>
+<p>At <a href="06-dataframes-sql.html#sec-sql-save-modes"><span>Section&nbsp;7.3.1.6</span></a> we presented this difference visually in <a href="06-dataframes-sql.html#fig-save-table-modes">Figure&nbsp;<span>7.1</span></a>. So, in case you don’t understood fully the difference between these two write modes, you can comeback at <a href="06-dataframes-sql.html#sec-sql-save-modes"><span>Section&nbsp;7.3.1.6</span></a> and check <a href="06-dataframes-sql.html#fig-save-table-modes">Figure&nbsp;<span>7.1</span></a> to see if it clears your understanding. OBS: save modes = write modes.</p>
 </section>
 </section>
 <section id="number-of-partitions-determines-the-number-of-files-written" class="level2" data-number="9.3">
 <h2 data-number="9.3" class="anchored" data-anchor-id="number-of-partitions-determines-the-number-of-files-written"><span class="header-section-number">9.3</span> Number of partitions determines the number of files written</h2>
-<p>As I explained at <span class="quarto-unresolved-ref">?sec-dataframe-partitions</span>, every DataFrame that exists in Spark is a <strong>distributed</strong> DataFrame, meaning that this DataFrame is divided into multiple pieces (that we call <em>partitions</em>), and these pieces are always spread across the nodes of the Spark cluster.</p>
+<p>As I explained at <a href="04-dataframes.html#sec-dataframe-partitions"><span>Section&nbsp;3.3</span></a>, every DataFrame that exists in Spark is a <strong>distributed</strong> DataFrame, meaning that this DataFrame is divided into multiple pieces (that we call <em>partitions</em>), and these pieces are always spread across the nodes of the Spark cluster.</p>
 <p>In other words, each machine that is present in the Spark cluster, contains a specific partition, a specific piece of the DataFrame. But why we are discussing partitions here? Is because the number of partitions of your DataFrame determines the number of files written when you export the data using the <code>write</code> method.</p>
 <p>If your DataFrame is splitted across 5 different partitions, and you run <code>DataFrame.write.csv()</code> to export the Spark data into CSV files, then, 5 different CSV files will be written in your system. One CSV file for each partition of the DataFrame.</p>
 <p>This also means that, if you want to export all data from your Spark DataFrame into a single static file (whatever is the file format you choose), then, you need to concentrate all data from your Spark DataFrame into a single partition.</p>
 <p>Taking the <code>transf</code> DataFrame as an example, we can discover the number of partitions in this DataFrame by running the <code>rdd.getNumPartitions()</code> method. You can see below that this DataFrame contains only one single partition.</p>
 <div class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>transf.rdd.getNumPartitions()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="54">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>transf.rdd.getNumPartitions()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="10">
 <pre><code>1</code></pre>
 </div>
 </div>
@@ -395,17 +429,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>By having the DataFrame’s data easily available to Python as a Python list, we can do virtually anything with this data. We can use this data in basically anything that Python is capable of doing.</p>
 <p>Just as a simple example, I needed to send the <code>transf</code> data to an fictitious endpoint using a <code>POST</code> HTTP request, the source code would probably be something similar to this:</p>
 <div class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>dataframe_rows <span class="op">=</span> transf.collect()</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>url <span class="op">=</span> <span class="st">'https://example.com/api/v1/transf'</span></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> row <span class="kw">in</span> dataframe_rows:</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    row_as_dict <span class="op">=</span> row.asDict()</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    requests.post(url, data <span class="op">=</span> row_as_dict)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>dataframe_rows <span class="op">=</span> transf.collect()</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>url <span class="op">=</span> <span class="st">'https://example.com/api/v1/transf'</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> row <span class="kw">in</span> dataframe_rows:</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>    row_as_dict <span class="op">=</span> row.asDict()</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>    requests.post(url, data <span class="op">=</span> row_as_dict)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p><a href="https://www.geeksforgeeks.org/tree-command-unixlinux/" class="uri">https://www.geeksforgeeks.org/tree-command-unixlinux/</a><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
 </section>
 
 </main> <!-- /main -->
