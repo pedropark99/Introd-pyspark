@@ -16,7 +16,7 @@ After you transformed your DataFrame and generated the results you need, you mig
 - send these results to your manager or to your client.
 - send this data to an ingest process that feeds some database. 
 
-These are very commom patterns in all kinds of areas, and Spark offers some commom tools to meet this need.
+These are very commom patterns in our data world, and in this chapter, we will discuss the tools that Spark offers to meet these needs.
 
 ## The `write` object as the main entrypoint
 
