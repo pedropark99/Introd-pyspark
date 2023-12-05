@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -218,7 +252,11 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#the-write-method-as-the-main-entrypoint" id="toc-the-write-method-as-the-main-entrypoint" class="nav-link active" data-scroll-target="#the-write-method-as-the-main-entrypoint"><span class="header-section-number">9.1</span> The <code>write</code> method as the main entrypoint</a></li>
+  <li><a href="#the-write-object-as-the-main-entrypoint" id="toc-the-write-object-as-the-main-entrypoint" class="nav-link active" data-scroll-target="#the-write-object-as-the-main-entrypoint"><span class="header-section-number">9.1</span> The <code>write</code> object as the main entrypoint</a></li>
+  <li><a href="#a-simple-example-of-writing-an-csv-file" id="toc-a-simple-example-of-writing-an-csv-file" class="nav-link" data-scroll-target="#a-simple-example-of-writing-an-csv-file"><span class="header-section-number">9.2</span> A simple example of writing an CSV file</a></li>
+  <li><a href="#number-of-partitions-determines-the-number-of-files-written" id="toc-number-of-partitions-determines-the-number-of-files-written" class="nav-link" data-scroll-target="#number-of-partitions-determines-the-number-of-files-written"><span class="header-section-number">9.3</span> Number of partitions determines the number of files written</a></li>
+  <li><a href="#transforming-to-a-pandas-dataframe-as-a-way-to-export-data" id="toc-transforming-to-a-pandas-dataframe-as-a-way-to-export-data" class="nav-link" data-scroll-target="#transforming-to-a-pandas-dataframe-as-a-way-to-export-data"><span class="header-section-number">9.4</span> Transforming to a Pandas DataFrame as a way to export data</a></li>
+  <li><a href="#the-collect-method-as-a-way-to-export-data" id="toc-the-collect-method-as-a-way-to-export-data" class="nav-link" data-scroll-target="#the-collect-method-as-a-way-to-export-data"><span class="header-section-number">9.5</span> The <code>collect()</code> method as a way to export data</a></li>
   </ul>
 </nav>
     </div>
@@ -249,11 +287,60 @@ ul.task-list li input[type="checkbox"] {
 <li>send this data to an ingest process that feeds some database.</li>
 </ul>
 <p>These are very commom patterns in all kinds of areas, and Spark offers some commom tools to meet this need.</p>
-<section id="the-write-method-as-the-main-entrypoint" class="level2" data-number="9.1">
-<h2 data-number="9.1" class="anchored" data-anchor-id="the-write-method-as-the-main-entrypoint"><span class="header-section-number">9.1</span> The <code>write</code> method as the main entrypoint</h2>
-<p>Every Spark session you start has an built-in <code>read</code> object that you can use to read data and import it into Spark. I presented this object at <a href="07-import.html#sec-read-files"><span>Section&nbsp;6.2</span></a>.</p>
-<p>write object that you can use to output data out of Spark. This object is available trough the <code>write</code> method of your <code>SparkSession</code> object. So you can access it by using <code>spark.write</code>:</p>
-<p>time you want to export data.</p>
+<section id="the-write-object-as-the-main-entrypoint" class="level2" data-number="9.1">
+<h2 data-number="9.1" class="anchored" data-anchor-id="the-write-object-as-the-main-entrypoint"><span class="header-section-number">9.1</span> The <code>write</code> object as the main entrypoint</h2>
+<p>Every Spark session you start has an built-in <code>read</code> object that you can use to read data and import it into Spark (I described this object at <a href="07-import.html#sec-read-files"><span>Section&nbsp;6.2</span></a>), and the same applies to writing data out of Spark. That is, Spark also offers a <code>write</code> object that you can use to write/output data out of Spark.</p>
+<p>But in contrast to the <code>read</code> object, which is avaiable trough the <code>SparkSession</code> object (<code>spark</code>), this <code>write</code> object is available trough the <code>write</code> method of any <code>DataFrame</code> object. In other words, every DataFrame you create in Spark has a built-in <code>write</code> object that you can use to write/export the data present in this DataFrame out of Spark.</p>
+<p>As an example, let’s use the <code>transf</code> DataFrame that I presented at <a href="05-transforming.html"><span>Chapter&nbsp;5</span></a>. The <code>write</code> method of the <code>transf</code> DataFrame object is the main entrypoint to all the facilities that Spark offers to write/export <code>transf</code>’s data to somewhere else.</p>
+<div class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>transf.write</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="26">
+<pre><code>&lt;pyspark.sql.readwriter.DataFrameWriter at 0x7f8540c96990&gt;</code></pre>
+</div>
+</div>
+<p>This <code>write</code> entrypoint is very similar in structure to the <code>read</code> entrypoint. Essentially, this write entrypoint have a collection of <em>write engines</em>. Each write engine is speciallized in writing data into a specific file format. So you have an engine for CSV files, another engine for JSON files, another to Parquet files, etc.</p>
+<p>The main methods of the write entrypoint are:</p>
+<ul>
+<li><code>mode()</code>: set the mode of the write process. This affects how the data will be written to the files, and how the process will behaviour in case exceptions/erros are raised during runtime.</li>
+<li><code>option()</code>: to set an option to be used in the write process. This could be an option that is specific to the write engine used, or, an option that is global to the write process (that does not depend of the chosen write engine).</li>
+<li><code>csv()</code>: the write engine to export data to a CSV file.</li>
+<li><code>json()</code>: the write engine to export data to a JSON file.</li>
+<li><code>parquet()</code>: the write engine to export data to a Parquet file.</li>
+<li><code>orc()</code>: the write engine to export data to a ORC file.</li>
+<li><code>text()</code>: the write engine to export data to a text file.</li>
+<li><code>jdbc()</code>: saves the data of the current DataFrame into a database using the JDBC API.</li>
+</ul>
+</section>
+<section id="a-simple-example-of-writing-an-csv-file" class="level2" data-number="9.2">
+<h2 data-number="9.2" class="anchored" data-anchor-id="a-simple-example-of-writing-an-csv-file"><span class="header-section-number">9.2</span> A simple example of writing an CSV file</h2>
+</section>
+<section id="number-of-partitions-determines-the-number-of-files-written" class="level2" data-number="9.3">
+<h2 data-number="9.3" class="anchored" data-anchor-id="number-of-partitions-determines-the-number-of-files-written"><span class="header-section-number">9.3</span> Number of partitions determines the number of files written</h2>
+</section>
+<section id="transforming-to-a-pandas-dataframe-as-a-way-to-export-data" class="level2" data-number="9.4">
+<h2 data-number="9.4" class="anchored" data-anchor-id="transforming-to-a-pandas-dataframe-as-a-way-to-export-data"><span class="header-section-number">9.4</span> Transforming to a Pandas DataFrame as a way to export data</h2>
+</section>
+<section id="the-collect-method-as-a-way-to-export-data" class="level2" data-number="9.5">
+<h2 data-number="9.5" class="anchored" data-anchor-id="the-collect-method-as-a-way-to-export-data"><span class="header-section-number">9.5</span> The <code>collect()</code> method as a way to export data</h2>
+<p>The <code>collect()</code> DataFrame method exports the DataFrame’s data from Spark into a Python native object, more specifically, into a normal Python list. To some extent, this is a viable way to export data from Spark. Because by making data from Spark available as a normal/standard Python object, many new possibilities become open for us, such as:</p>
+<ul>
+<li>sending this data to another location via HTTP requests using the <code>request</code> Python package.</li>
+<li>sending this data by email using the <code>email</code> built-in Python package.</li>
+<li>sending this data by SFTP protocol with the <code>paramiko</code> Python package.</li>
+<li>sending this data to a cloud storage, such as Amazon S3 (using the <code>boto3</code> Python package).</li>
+</ul>
+<p>By having the DataFrame’s data easily available to Python as a Python list, we can do virtually anything with this data. We can use this data in basically anything that Python is capable of doing.</p>
+<p>Just as a simple example, I needed to send the <code>transf</code> data to an fictitious endpoint using a <code>POST</code> HTTP request, the source code would probably be something similar to this:</p>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>dataframe_rows <span class="op">=</span> transf.collect()</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>url <span class="op">=</span> <span class="st">'https://example.com/api/v1/transf'</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> row <span class="kw">in</span> dataframe_rows:</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    row_as_dict <span class="op">=</span> row.asDict()</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    requests.post(url, data <span class="op">=</span> row_as_dict)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 
 
 </section>

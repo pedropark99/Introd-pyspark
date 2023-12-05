@@ -295,12 +295,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>But in order to Spark read any type of static file stored inside your computer, <strong>it always need to know the path to this file</strong>. Every OS have its own file system, and every file in your computer is stored in a specific address of this file system. The “path” to this file is the path (or “steps”) that your computer needs to follow to reach this specific address, where the file is stored.</p>
 <p>As we pointed out earlier, to read any static file in Spark, you use one of the available “read engines”, which are in the <code>spark.read</code> module of your Spark Session. This means that, each read engine in this module is responsible for reading a specific file format.</p>
 <p>If you want to read a CSV file for example, you use the <code>spark.read.csv()</code> engine. In contrast, if you want to read a JSON file, you use the <code>spark.read.json()</code> engine instead. But no matter what read engine you use, you always give the path to your file to any of these “read engines”.</p>
-<p>The main read engines available in Spark for static files are:</p>
+<p>The main read engines available in Spark are:</p>
 <ul>
-<li><code>spark.read.json()</code>: to read JSON files;</li>
-<li><code>spark.read.csv()</code>: to read CSV files;</li>
-<li><code>spark.read.parquet()</code>: to read Apache Parquet files;</li>
-<li><code>spark.read.orc()</code>: to read ORC (Apache <em>Optimized Row Columnar</em> format) files;</li>
+<li><code>spark.read.json()</code>: to read JSON files.</li>
+<li><code>spark.read.csv()</code>: to read CSV files.</li>
+<li><code>spark.read.parquet()</code>: to read Apache Parquet files.</li>
+<li><code>spark.read.orc()</code>: to read ORC (Apache <em>Optimized Row Columnar</em> format) files.</li>
+<li><code>spark.read.text()</code>: to read text files.</li>
+<li><code>spark.read.jdbc()</code>: to read data from databases using the JDBC API.</li>
 </ul>
 <p>For example, to read a JSON file called <code>sales.json</code> that is stored in my <code>Data</code> folder, I can do this:</p>
 <div class="cell" data-execution_count="2">
@@ -372,8 +374,9 @@ Bob,32,Developer</code></pre>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> spark.read.csv(<span class="st">"weird-file.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <pre><code>Traceback (most recent call last):
-  ...
-pyspark.sql.utils.AnalysisException: Path does not exist: file:/home/pedro/Documents/Projects/Books/Introd-pyspark/weird-file.csv</code></pre>
+pyspark.sql.utils.AnalysisException:
+Path does not exist:
+file:/home/pedro/Documents/Projects/Books/Introd-pyspark/weird-file.csv</code></pre>
 <p>Every time you face this “Path does not exist” error, it means that Spark did not found the file that you described in the path you gave to <code>spark.read</code>. In this case, is very likely that you have a typo or a mistake in your path. Maybe your forgot to add the <code>.csv</code> extension to the name of your file. Or maybe you forgot to use the right angled slash (<code>/</code>) instead of the left angled slash (<code>\</code>). Or maybe, you gave the path to folder <span class="math inline">\(x\)</span>, when in fact, you wanted to reach the folder <span class="math inline">\(y\)</span>.</p>
 <p>Sometimes, is useful to list all the files that are stored inside the folder you are trying to access. This way, you can make sure that you are looking at the right folder of your file system. To do that, you can use the <code>listdir()</code> function from <code>os</code> module of python. As an example, I can list all the files that are stored inside of the <code>Data</code> folder in this way:</p>
 <div class="cell" data-execution_count="7">
