@@ -1,0 +1,28 @@
+# Exporting data out of Spark {#sec-export}
+
+
+```{python}
+#| include: false
+from pyspark.sql import SparkSession
+spark = SparkSession.builder.getOrCreate()
+sc = spark.sparkContext
+sc.setLogLevel("OFF")
+```
+
+
+After you transformed your DataFrame and generated the results you need, you might need to actually export these results out of Spark, so you can:
+
+- send this exported data to an external API.
+- send these results to your manager or to your client.
+- send this data to an ingest process that feeds some database. 
+
+These are very commom patterns in all kinds of areas, and Spark offers some commom tools to meet this need.
+
+## The `write` object as the main entrypoint
+
+Every Spark session you start has an built-in `read` object that you can use to read data and import it into Spark (I described this object at @sec-read-files), and the same applies to writing data out of Spark. That is, Spark also offers a `write` object that you can use to write/output data out of Spark.
+
+But in contrast to the `read` object, which is avaiable trough the `SparkSession` object (`spark`), this `write` object is available trough the `write` method of any `DataFrame` object. In other words, every DataFrame you create in Spark has a built-in `write` object that you can use to write/export the data present in this DataFrame out of Spark.
+
+
+time you want to export data.

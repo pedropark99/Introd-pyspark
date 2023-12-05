@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Introduction to pyspark - References</title>
+<title>Introduction to pyspark - 9&nbsp; Exporting data out of Spark</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,26 +20,7 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for citations */
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
-}
-.hanging-indent div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
-}
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
-}
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
-}</style>
+</style>
 
 
 <script src="../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -49,7 +30,8 @@ div.csl-indent {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../Chapters/11-window.html" rel="prev">
+<link href="../Chapters/09-strings.html" rel="next">
+<link href="../Chapters/08-transforming2.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -122,7 +104,7 @@ div.csl-indent {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Chapters/references.html">References</a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Chapters/07-export.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Exporting data out of Spark</span></a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -198,7 +180,7 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Chapters/07-export.html" class="sidebar-item-text sidebar-link">
+  <a href="../Chapters/07-export.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Exporting data out of Spark</span></span></a>
   </div>
 </li>
@@ -222,7 +204,7 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Chapters/references.html" class="sidebar-item-text sidebar-link active">
+  <a href="../Chapters/references.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">References</span></a>
   </div>
 </li>
@@ -232,14 +214,20 @@ div.csl-indent {
 <div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#the-write-method-as-the-main-entrypoint" id="toc-the-write-method-as-the-main-entrypoint" class="nav-link active" data-scroll-target="#the-write-method-as-the-main-entrypoint"><span class="header-section-number">9.1</span> The <code>write</code> method as the main entrypoint</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">References</h1>
+<h1 class="title"><span id="sec-export" class="quarto-section-identifier"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Exporting data out of Spark</span></span></h1>
 </div>
 
 
@@ -254,32 +242,21 @@ div.csl-indent {
 
 </header>
 
-<div id="refs" class="references csl-bib-body hanging-indent" role="list">
-<div id="ref-sparkdoc" class="csl-entry" role="listitem">
-<em>Apache Spark Official Documentation</em>. 2022. Documentation for
-Apache Spark 3.2.1. <a href="https://spark.apache.org/docs/latest/">https://spark.apache.org/docs/latest/</a>.
-</div>
-<div id="ref-chambers2018" class="csl-entry" role="listitem">
-Chambers, Bill, and Matei Zaharia. 2018. <em>Spark: The Definitive
-Guide: Big Data Processing Made Simple</em>. Sebastopol, CA: O’Reilly
-Media.
-</div>
-<div id="ref-damji2020" class="csl-entry" role="listitem">
-Damji, Jules, Brooke Wenig, Tathagata Das, and Denny Lee. 2020.
-<em>Learning Spark: Lightning-Fast Data Analytics</em>. Sebastopol, CA:
-O’Reilly Media.
-</div>
-<div id="ref-regexinfo" class="csl-entry" role="listitem">
-Goyvaerts, Jan. 2023. <span>“Regular-Expressions.info.”</span> <a href="https://www.regular-expressions.info/">https://www.regular-expressions.info/</a>.
-</div>
-<div id="ref-karau2015" class="csl-entry" role="listitem">
-Karau, Holden, Andy Konwinski, Patrick Wendell, and Matei Zaharia. 2015.
-<em>Learning Spark: Lightning-Fast Data Analytics</em>. Sebastopol, CA:
-O’Reilly Media.
-</div>
-</div>
+<p>After you transformed your DataFrame and generated the results you need, you might need to actually export these results out of Spark, so you can:</p>
+<ul>
+<li>send this exported data to an external API.</li>
+<li>send these results to your manager or to your client.</li>
+<li>send this data to an ingest process that feeds some database.</li>
+</ul>
+<p>These are very commom patterns in all kinds of areas, and Spark offers some commom tools to meet this need.</p>
+<section id="the-write-method-as-the-main-entrypoint" class="level2" data-number="9.1">
+<h2 data-number="9.1" class="anchored" data-anchor-id="the-write-method-as-the-main-entrypoint"><span class="header-section-number">9.1</span> The <code>write</code> method as the main entrypoint</h2>
+<p>Every Spark session you start has an built-in <code>read</code> object that you can use to read data and import it into Spark. I presented this object at <a href="07-import.html#sec-read-files"><span>Section&nbsp;6.2</span></a>.</p>
+<p>write object that you can use to output data out of Spark. This object is available trough the <code>write</code> method of your <code>SparkSession</code> object. So you can access it by using <code>spark.write</code>:</p>
+<p>time you want to export data.</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -517,11 +494,14 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../Chapters/11-window.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Introducing window functions</span></span>
+      <a href="../Chapters/08-transforming2.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Transforming your Spark DataFrame - Part 2</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="../Chapters/09-strings.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Tools for string manipulation</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->

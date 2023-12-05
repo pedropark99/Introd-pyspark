@@ -120,7 +120,7 @@ first_row = big_values.take(n)
 print(first_row)
 ```
 
-The last action would be the `write` method of a Spark DataFrame, but we will explain this method latter at @sec-import-export.
+The last action would be the `write` method of a Spark DataFrame, but we will explain this method latter at @sec-import.
 
 ## Understanding narrow and wide transformations
 

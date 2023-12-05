@@ -1,5 +1,5 @@
 
-# Importing data to Spark {#sec-import-export}
+# Importing data to Spark {#sec-import}
 
 ```{python}
 #| include: false
@@ -16,7 +16,7 @@ Another way of creating Spark DataFrames, is to read (or import) data from somew
 
 To read (or import) any data to Spark, we use a "read engine", and there are many different read engines available in Spark. Each engine is used to read a specific file format, or to import data from a specific type of data source, and we access these engines by using the `read` module from your Spark Session object. 
 
-## Reading data from static files
+## Reading data from static files {#sec-read-files}
 
 Static files are probably the easiest way to transport data from one computer to another. Because you just need to copy and paste this file to the other machine, or download it from the internet. 
 
