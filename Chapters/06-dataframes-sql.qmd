@@ -1,6 +1,5 @@
 # Working with SQL in `pyspark` {#sec-dataframe-sql-chapter}
 
-## Introduction
 
 ```{python}
 #| include: false

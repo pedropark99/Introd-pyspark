@@ -1,7 +1,6 @@
 
 # Transforming your Spark DataFrame - Part 1 {#sec-transforming-dataframes-part1}
 
-## Introduction
 
 ```{python}
 #| include: false
@@ -122,7 +121,7 @@ print(first_row)
 
 The last action would be the `write` method of a Spark DataFrame, but we will explain this method latter at @sec-import.
 
-## Understanding narrow and wide transformations
+## Understanding narrow and wide transformations {#sec-narrow-wide}
 
 There are two kinds of transformations in Spark: narrow and wide transformations. Remember, a Spark DataFrame is divided into many small parts (called partitions), and, these parts are spread across the cluster. The basic difference between narrow and wide transformations, is if the transformation forces Spark to read data from multiple partitions to generate a single part of the result of that transformation, or not.
 

@@ -328,7 +328,7 @@ div.csl-indent {
 <section id="from-strings" class="level3" data-number="11.1.1">
 <h3 data-number="11.1.1" class="anchored" data-anchor-id="from-strings"><span class="header-section-number">11.1.1</span> From strings</h3>
 <p>When you have a <code>StringType</code> column in your DataFrame that contains dates that are currently being stored inside strings, and you want to convert this column into a <code>DateType</code> column, you basically have two choices: 1) use the automatic column conversion with <code>cast()</code> or <code>astype()</code>; 2) use the <code>to_date()</code> Spark SQL function to convert the strings using a specific date format.</p>
-<p>When you use the <code>cast()</code> (or <code>astype()</code>) column method that we introduced at <a href="05-transforming.html#sec-cast-column-type"><span>Section&nbsp;5.8.3</span></a>, Spark will perform a quick and automatic conversion to <code>DateType</code> by casting the strings you have into the <code>DateType</code>. But when you use this method, Spark will always assume that the dates you have are in the ISO-8601 format, which is the international standard for dates. This format is presented at <a href="#fig-iso-8601-dates">Figure&nbsp;<span>11.1</span></a>:</p>
+<p>When you use the <code>cast()</code> (or <code>astype()</code>) column method that we introduced at <a href="05-transforming.html#sec-cast-column-type"><span>Section&nbsp;5.7.3</span></a>, Spark will perform a quick and automatic conversion to <code>DateType</code> by casting the strings you have into the <code>DateType</code>. But when you use this method, Spark will always assume that the dates you have are in the ISO-8601 format, which is the international standard for dates. This format is presented at <a href="#fig-iso-8601-dates">Figure&nbsp;<span>11.1</span></a>:</p>
 <div id="fig-iso-8601-dates" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="./../Figures/format_date.png" class="img-fluid figure-img" style="width:80.0%"></p>
@@ -1162,7 +1162,7 @@ div.csl-indent {
 <pre><code>+----------+--------------------+
 |     today|                 now|
 +----------+--------------------+
-|2023-12-05|2023-12-05 08:57:...|
+|2023-12-05|2023-12-05 22:45:...|
 +----------+--------------------+
 </code></pre>
 </div>
