@@ -138,7 +138,7 @@ You can also use a method that returns a `DataFrame` object by default. Examples
 
 Other examples are the methods used to read data and import it to `pyspark`. These methods are available in the `spark.read` module, like `spark.read.csv()` and `spark.read.json()`. These methods will be described in more depth in @sec-import.
 
-## Viewing a Spark DataFrame {#sec-viewing-a-dataframe}
+## Visualizing a Spark DataFrame {#sec-viewing-a-dataframe}
 
 A key aspect of Spark is its laziness. In other words, for most operations, Spark will only check if your code is correct and if it makes sense. Spark will not actually run or execute the operations you are describing in your code, unless you explicit ask for it with a trigger operation, which is called an "action" (this kind of operation is described in @sec-dataframe-actions).
 

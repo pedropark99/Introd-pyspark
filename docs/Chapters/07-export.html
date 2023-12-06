@@ -95,9 +95,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
-<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
 </head>
@@ -262,7 +259,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#setting-the-write-mode" id="toc-setting-the-write-mode" class="nav-link" data-scroll-target="#setting-the-write-mode"><span class="header-section-number">9.2.2</span> Setting the write mode</a></li>
   <li><a href="#setting-write-options" id="toc-setting-write-options" class="nav-link" data-scroll-target="#setting-write-options"><span class="header-section-number">9.2.3</span> Setting write options</a></li>
   </ul></li>
-  <li><a href="#number-of-partitions-determines-the-number-of-files-generated" id="toc-number-of-partitions-determines-the-number-of-files-generated" class="nav-link" data-scroll-target="#number-of-partitions-determines-the-number-of-files-generated"><span class="header-section-number">9.3</span> Number of partitions determines the number of files generated</a></li>
+  <li><a href="#sec-export-partition-coalesce" id="toc-sec-export-partition-coalesce" class="nav-link" data-scroll-target="#sec-export-partition-coalesce"><span class="header-section-number">9.3</span> Number of partitions determines the number of files generated</a></li>
   <li><a href="#transforming-to-a-pandas-dataframe-as-a-way-to-export-data" id="toc-transforming-to-a-pandas-dataframe-as-a-way-to-export-data" class="nav-link" data-scroll-target="#transforming-to-a-pandas-dataframe-as-a-way-to-export-data"><span class="header-section-number">9.4</span> Transforming to a Pandas DataFrame as a way to export data</a></li>
   <li><a href="#the-collect-method-as-a-way-to-export-data" id="toc-the-collect-method-as-a-way-to-export-data" class="nav-link" data-scroll-target="#the-collect-method-as-a-way-to-export-data"><span class="header-section-number">9.5</span> The <code>collect()</code> method as a way to export data</a></li>
   </ul>
@@ -301,8 +298,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>As an example, let’s use the <code>transf</code> DataFrame that I presented at <a href="05-transforming.html"><span>Chapter&nbsp;5</span></a>. The <code>write</code> method of the <code>transf</code> DataFrame object is the main entrypoint to all the facilities that Spark offers to write/export <code>transf</code>’s data to somewhere else.</p>
 <div class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>transf.write</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="3">
-<pre><code>&lt;pyspark.sql.readwriter.DataFrameWriter at 0x7fe187e7b040&gt;</code></pre>
+<div class="cell-output cell-output-display" data-execution_count="24">
+<pre><code>&lt;pyspark.sql.readwriter.DataFrameWriter at 0x7f9148c400a0&gt;</code></pre>
 </div>
 </div>
 <p>This <code>write</code> object is very similar in structure to the <code>read</code> object. Essentially, this write object have a collection of <em>write engines</em>. Each write engine is speciallized in writing data into a specific file format. So you have an engine for CSV files, another engine for JSON files, another to Parquet files, etc.</p>
@@ -392,7 +389,7 @@ already exists. Set mode as "overwrite" to overwrite the existing path.</code></
 <p>The result above show us that the folder <code>transf_export</code> currently contains 4842 rows of data. This is the exact double of number of rows in the <code>transf</code> DataFrame, which have 2421 rows.</p>
 <div class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>transf.count()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="4">
+<div class="cell-output cell-output-display" data-execution_count="25">
 <pre><code>2421</code></pre>
 </div>
 </div>
@@ -428,8 +425,8 @@ already exists. Set mode as "overwrite" to overwrite the existing path.</code></
 <p>If you want to see the full list of options for each write engine, the documentation of Spark have a table with the complete list of options available at each write engine<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>.</p>
 </section>
 </section>
-<section id="number-of-partitions-determines-the-number-of-files-generated" class="level2" data-number="9.3">
-<h2 data-number="9.3" class="anchored" data-anchor-id="number-of-partitions-determines-the-number-of-files-generated"><span class="header-section-number">9.3</span> Number of partitions determines the number of files generated</h2>
+<section id="sec-export-partition-coalesce" class="level2" data-number="9.3">
+<h2 data-number="9.3" class="anchored" data-anchor-id="sec-export-partition-coalesce"><span class="header-section-number">9.3</span> Number of partitions determines the number of files generated</h2>
 <p>As I explained at <a href="04-dataframes.html#sec-dataframe-partitions"><span>Section&nbsp;3.2</span></a>, every DataFrame that exists in Spark is a <strong>distributed</strong> DataFrame, meaning that this DataFrame is divided into multiple pieces (that we call <em>partitions</em>), and these pieces are spread across the nodes in the Spark cluster.</p>
 <p>In other words, each machine that is present in the Spark cluster, contains some partitions (or some pieces) of the total DataFrame. But why we are discussing partitions here? Is because the number of partitions of your DataFrame determines the number of files written by Spark when you export the data using the <code>write</code> method.</p>
 <p>On the previous examples across <a href="#sec-write-example"><span>Section&nbsp;9.2</span></a>, when we exported the <code>transf</code> DataFrame into CSV files, only one single CSV file was generated inside the <code>transf_exported</code> folder. That is because the <code>transf</code> DataFrame have only one single partition, as the code below demonstrates:</p>
@@ -476,178 +473,15 @@ already exists. Set mode as "overwrite" to overwrite the existing path.</code></
 </ul>
 <p>To convert an existing Spark DataFrame into a <code>pandas</code> DataFrame, all you need to do is to call the <code>toPandas()</code> method of your Spark DataFrame, and you will get a <code>pandas</code> DataFrame as output, like in the example below:</p>
 <div class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>transf.toPandas()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="5">
-<div>
-
-
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">dateTransfer</th>
-<th data-quarto-table-cell-role="th">datetimeTransfer</th>
-<th data-quarto-table-cell-role="th">clientNumber</th>
-<th data-quarto-table-cell-role="th">transferValue</th>
-<th data-quarto-table-cell-role="th">transferCurrency</th>
-<th data-quarto-table-cell-role="th">transferID</th>
-<th data-quarto-table-cell-role="th">transferLog</th>
-<th data-quarto-table-cell-role="th">destinationBankNumber</th>
-<th data-quarto-table-cell-role="th">destinationBankBranch</th>
-<th data-quarto-table-cell-role="th">destinationBankAccount</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">0</td>
-<td>2022-12-31</td>
-<td>2022-12-31 14:00:24</td>
-<td>5516</td>
-<td>7794.31</td>
-<td>zing ƒ</td>
-<td>20223563</td>
-<td>None</td>
-<td>33</td>
-<td>4078</td>
-<td>72424-2</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">1</td>
-<td>2022-12-31</td>
-<td>2022-12-31 10:32:07</td>
-<td>4965</td>
-<td>7919.00</td>
-<td>zing ƒ</td>
-<td>20223562</td>
-<td>None</td>
-<td>421</td>
-<td>1979</td>
-<td>36441-5</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2</td>
-<td>2022-12-31</td>
-<td>2022-12-31 07:37:02</td>
-<td>4608</td>
-<td>5603.00</td>
-<td>dollar $</td>
-<td>20223561</td>
-<td>None</td>
-<td>666</td>
-<td>4425</td>
-<td>41323-1</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">3</td>
-<td>2022-12-31</td>
-<td>2022-12-31 07:35:05</td>
-<td>1121</td>
-<td>4365.22</td>
-<td>dollar $</td>
-<td>20223560</td>
-<td>None</td>
-<td>666</td>
-<td>2400</td>
-<td>74120-4</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">4</td>
-<td>2022-12-31</td>
-<td>2022-12-31 02:53:44</td>
-<td>1121</td>
-<td>4620.00</td>
-<td>dollar $</td>
-<td>20223559</td>
-<td>None</td>
-<td>421</td>
-<td>1100</td>
-<td>39830-0</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2416</td>
-<td>2022-01-01</td>
-<td>2022-01-01 16:14:30</td>
-<td>4862</td>
-<td>9941.00</td>
-<td>dollar $</td>
-<td>20221147</td>
-<td>None</td>
-<td>421</td>
-<td>8521</td>
-<td>60923-9</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2417</td>
-<td>2022-01-01</td>
-<td>2022-01-01 10:17:04</td>
-<td>4023</td>
-<td>5419.90</td>
-<td>dollar $</td>
-<td>20221146</td>
-<td>None</td>
-<td>666</td>
-<td>4425</td>
-<td>79079-4</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2418</td>
-<td>2022-01-01</td>
-<td>2022-01-01 09:00:18</td>
-<td>3284</td>
-<td>5006.00</td>
-<td>dollar $</td>
-<td>20221145</td>
-<td>None</td>
-<td>666</td>
-<td>9921</td>
-<td>53844-1</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2419</td>
-<td>2022-01-01</td>
-<td>2022-01-01 04:07:44</td>
-<td>5987</td>
-<td>8640.06</td>
-<td>dollar $</td>
-<td>20221144</td>
-<td>None</td>
-<td>666</td>
-<td>6552</td>
-<td>70021-4</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2420</td>
-<td>2022-01-01</td>
-<td>2022-01-01 03:56:58</td>
-<td>6032</td>
-<td>5076.61</td>
-<td>dollar $</td>
-<td>20221143</td>
-<td>None</td>
-<td>33</td>
-<td>8800</td>
-<td>41326-5</td>
-</tr>
-</tbody>
-</table>
-
-<p>2421 rows × 10 columns</p>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>as_pandas_df <span class="op">=</span> transf.toPandas()</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(as_pandas_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="26">
+<pre><code>pandas.core.frame.DataFrame</code></pre>
 </div>
 </div>
-</div>
+<p>But you should be careful with this method, because when you transform your Spark DataFrame into a <code>pandas</code> DataFrame you eliminate the distributed aspect of it. As a result, all the data from your DataFrame needs to be loaded into a single place (which is usually the driver’s memory).</p>
+<p>Because of that, using this <code>toPandas()</code> method might cause very similar issues as the ones discussed at <a href="#sec-export-partition-coalesce"><span>Section&nbsp;9.3</span></a>. In other words, you might face the same slowdowns caused by doing a repartition to concentrate all the data into a single partition.</p>
+<p>So, as the Spark documentation itself suggests, you should use this <code>toPandas()</code> method only if you know that your DataFrame is small enough to fit into the driver’s memory.</p>
 </section>
 <section id="the-collect-method-as-a-way-to-export-data" class="level2" data-number="9.5">
 <h2 data-number="9.5" class="anchored" data-anchor-id="the-collect-method-as-a-way-to-export-data"><span class="header-section-number">9.5</span> The <code>collect()</code> method as a way to export data</h2>
@@ -661,14 +495,14 @@ already exists. Set mode as "overwrite" to overwrite the existing path.</code></
 </ul>
 <p>By having the DataFrame’s data easily available to Python as a Python list, we can do virtually anything with this data. We can use this data in basically anything that Python is capable of doing.</p>
 <p>Just as a simple example, I needed to send the <code>transf</code> data to an fictitious endpoint using a <code>POST</code> HTTP request, the source code would probably be something similar to this:</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>dataframe_rows <span class="op">=</span> transf.collect()</span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>url <span class="op">=</span> <span class="st">'https://example.com/api/v1/transf'</span></span>
-<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> row <span class="kw">in</span> dataframe_rows:</span>
-<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>    row_as_dict <span class="op">=</span> row.asDict()</span>
-<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>    requests.post(url, data <span class="op">=</span> row_as_dict)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>dataframe_rows <span class="op">=</span> transf.collect()</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>url <span class="op">=</span> <span class="st">'https://example.com/api/v1/transf'</span></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> row <span class="kw">in</span> dataframe_rows:</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>    row_as_dict <span class="op">=</span> row.asDict()</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>    requests.post(url, data <span class="op">=</span> row_as_dict)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
 </section>

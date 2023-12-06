@@ -261,7 +261,7 @@ If you want to see the full list of options for each write engine, the documenta
 [^spark-opts]: <https://spark.apache.org/docs/latest/sql-data-sources-csv.html#data-source-option>.
 
 
-## Number of partitions determines the number of files generated
+## Number of partitions determines the number of files generated {#sec-export-partition-coalesce}
 
 As I explained at @sec-dataframe-partitions, every DataFrame that exists in Spark is a **distributed** DataFrame, meaning that this DataFrame is divided into multiple pieces (that we call *partitions*), and these pieces are spread across the nodes in the Spark cluster.
 
@@ -353,8 +353,15 @@ To convert an existing Spark DataFrame into a `pandas` DataFrame, all you need t
 
 ```{python}
 #| warning: false
-transf.toPandas()
+as_pandas_df = transf.toPandas()
+type(as_pandas_df)
 ```
+
+But you should be careful with this method, because when you transform your Spark DataFrame into a `pandas` DataFrame you eliminate the distributed aspect of it. As a result, all the data from your DataFrame needs to be loaded into a single place (which is usually the driver’s memory).
+
+Because of that, using this `toPandas()` method might cause very similar issues as the ones discussed at @sec-export-partition-coalesce. In other words, you might face the same slowdowns caused by doing a repartition to concentrate all the data into a single partition.
+
+So, as the Spark documentation itself suggests, you should use this `toPandas()` method only if you know that your DataFrame is small enough to fit into the driver's memory.
 
 ## The `collect()` method as a way to export data
 
