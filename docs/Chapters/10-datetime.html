@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Introduction to pyspark - 10&nbsp; Tools for dates and datetimes manipulation</title>
+<title>Introduction to pyspark - 11&nbsp; Tools for dates and datetimes manipulation</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -157,7 +157,7 @@ div.csl-indent {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Chapters/10-datetime.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Tools for dates and datetimes manipulation</span></a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Chapters/10-datetime.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Tools for dates and datetimes manipulation</span></a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -233,20 +233,26 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../Chapters/07-export.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Exporting data out of Spark</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../Chapters/09-strings.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Tools for string manipulation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Tools for string manipulation</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../Chapters/10-datetime.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Tools for dates and datetimes manipulation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Tools for dates and datetimes manipulation</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../Chapters/11-window.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Introducing window functions</span></span></a>
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Introducing window functions</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -265,27 +271,27 @@ div.csl-indent {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#sec-create-dates" id="toc-sec-create-dates" class="nav-link active" data-scroll-target="#sec-create-dates"><span class="header-section-number">10.1</span> Creating date values</a>
+  <li><a href="#sec-create-dates" id="toc-sec-create-dates" class="nav-link active" data-scroll-target="#sec-create-dates"><span class="header-section-number">11.1</span> Creating date values</a>
   <ul class="collapse">
-  <li><a href="#from-strings" id="toc-from-strings" class="nav-link" data-scroll-target="#from-strings"><span class="header-section-number">10.1.1</span> From strings</a></li>
-  <li><a href="#from-datetime-values" id="toc-from-datetime-values" class="nav-link" data-scroll-target="#from-datetime-values"><span class="header-section-number">10.1.2</span> From datetime values</a></li>
-  <li><a href="#from-individual-components" id="toc-from-individual-components" class="nav-link" data-scroll-target="#from-individual-components"><span class="header-section-number">10.1.3</span> From individual components</a></li>
+  <li><a href="#from-strings" id="toc-from-strings" class="nav-link" data-scroll-target="#from-strings"><span class="header-section-number">11.1.1</span> From strings</a></li>
+  <li><a href="#from-datetime-values" id="toc-from-datetime-values" class="nav-link" data-scroll-target="#from-datetime-values"><span class="header-section-number">11.1.2</span> From datetime values</a></li>
+  <li><a href="#from-individual-components" id="toc-from-individual-components" class="nav-link" data-scroll-target="#from-individual-components"><span class="header-section-number">11.1.3</span> From individual components</a></li>
   </ul></li>
-  <li><a href="#creating-datetime-values" id="toc-creating-datetime-values" class="nav-link" data-scroll-target="#creating-datetime-values"><span class="header-section-number">10.2</span> Creating datetime values</a>
+  <li><a href="#creating-datetime-values" id="toc-creating-datetime-values" class="nav-link" data-scroll-target="#creating-datetime-values"><span class="header-section-number">11.2</span> Creating datetime values</a>
   <ul class="collapse">
-  <li><a href="#from-strings-1" id="toc-from-strings-1" class="nav-link" data-scroll-target="#from-strings-1"><span class="header-section-number">10.2.1</span> From strings</a></li>
-  <li><a href="#from-integers" id="toc-from-integers" class="nav-link" data-scroll-target="#from-integers"><span class="header-section-number">10.2.2</span> From integers</a></li>
-  <li><a href="#from-individual-components-1" id="toc-from-individual-components-1" class="nav-link" data-scroll-target="#from-individual-components-1"><span class="header-section-number">10.2.3</span> From individual components</a></li>
+  <li><a href="#from-strings-1" id="toc-from-strings-1" class="nav-link" data-scroll-target="#from-strings-1"><span class="header-section-number">11.2.1</span> From strings</a></li>
+  <li><a href="#from-integers" id="toc-from-integers" class="nav-link" data-scroll-target="#from-integers"><span class="header-section-number">11.2.2</span> From integers</a></li>
+  <li><a href="#from-individual-components-1" id="toc-from-individual-components-1" class="nav-link" data-scroll-target="#from-individual-components-1"><span class="header-section-number">11.2.3</span> From individual components</a></li>
   </ul></li>
-  <li><a href="#sec-datetime-patterns" id="toc-sec-datetime-patterns" class="nav-link" data-scroll-target="#sec-datetime-patterns"><span class="header-section-number">10.3</span> Introducing datetime patterns</a>
+  <li><a href="#sec-datetime-patterns" id="toc-sec-datetime-patterns" class="nav-link" data-scroll-target="#sec-datetime-patterns"><span class="header-section-number">11.3</span> Introducing datetime patterns</a>
   <ul class="collapse">
-  <li><a href="#using-datetime-patterns-to-get-date-values" id="toc-using-datetime-patterns-to-get-date-values" class="nav-link" data-scroll-target="#using-datetime-patterns-to-get-date-values"><span class="header-section-number">10.3.1</span> Using datetime patterns to get date values</a></li>
-  <li><a href="#using-datetime-patterns-to-get-datetimetimestamp-values" id="toc-using-datetime-patterns-to-get-datetimetimestamp-values" class="nav-link" data-scroll-target="#using-datetime-patterns-to-get-datetimetimestamp-values"><span class="header-section-number">10.3.2</span> Using datetime patterns to get datetime/timestamp values</a></li>
+  <li><a href="#using-datetime-patterns-to-get-date-values" id="toc-using-datetime-patterns-to-get-date-values" class="nav-link" data-scroll-target="#using-datetime-patterns-to-get-date-values"><span class="header-section-number">11.3.1</span> Using datetime patterns to get date values</a></li>
+  <li><a href="#using-datetime-patterns-to-get-datetimetimestamp-values" id="toc-using-datetime-patterns-to-get-datetimetimestamp-values" class="nav-link" data-scroll-target="#using-datetime-patterns-to-get-datetimetimestamp-values"><span class="header-section-number">11.3.2</span> Using datetime patterns to get datetime/timestamp values</a></li>
   </ul></li>
-  <li><a href="#extracting-date-or-datetime-components" id="toc-extracting-date-or-datetime-components" class="nav-link" data-scroll-target="#extracting-date-or-datetime-components"><span class="header-section-number">10.4</span> Extracting date or datetime components</a></li>
-  <li><a href="#sec-interval-express" id="toc-sec-interval-express" class="nav-link" data-scroll-target="#sec-interval-express"><span class="header-section-number">10.5</span> Adding time to date and datetime values with interval expressions</a></li>
-  <li><a href="#calculating-differences-between-dates-and-datetime-values" id="toc-calculating-differences-between-dates-and-datetime-values" class="nav-link" data-scroll-target="#calculating-differences-between-dates-and-datetime-values"><span class="header-section-number">10.6</span> Calculating differences between dates and datetime values</a></li>
-  <li><a href="#getting-the-now-and-today-values" id="toc-getting-the-now-and-today-values" class="nav-link" data-scroll-target="#getting-the-now-and-today-values"><span class="header-section-number">10.7</span> Getting the now and today values</a></li>
+  <li><a href="#extracting-date-or-datetime-components" id="toc-extracting-date-or-datetime-components" class="nav-link" data-scroll-target="#extracting-date-or-datetime-components"><span class="header-section-number">11.4</span> Extracting date or datetime components</a></li>
+  <li><a href="#sec-interval-express" id="toc-sec-interval-express" class="nav-link" data-scroll-target="#sec-interval-express"><span class="header-section-number">11.5</span> Adding time to date and datetime values with interval expressions</a></li>
+  <li><a href="#calculating-differences-between-dates-and-datetime-values" id="toc-calculating-differences-between-dates-and-datetime-values" class="nav-link" data-scroll-target="#calculating-differences-between-dates-and-datetime-values"><span class="header-section-number">11.6</span> Calculating differences between dates and datetime values</a></li>
+  <li><a href="#getting-the-now-and-today-values" id="toc-getting-the-now-and-today-values" class="nav-link" data-scroll-target="#getting-the-now-and-today-values"><span class="header-section-number">11.7</span> Getting the now and today values</a></li>
   </ul>
 </nav>
     </div>
@@ -294,7 +300,7 @@ div.csl-indent {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span id="sec-datetime-tools" class="quarto-section-identifier"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Tools for dates and datetimes manipulation</span></span></h1>
+<h1 class="title"><span id="sec-datetime-tools" class="quarto-section-identifier"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Tools for dates and datetimes manipulation</span></span></h1>
 </div>
 
 
@@ -311,22 +317,22 @@ div.csl-indent {
 
 <p>Units of measurement that represent time are very commom types of data in our modern world. Nowadays, dates and datetimes (or timestamps) are the most commom units used to represent a specific point in time. In this chapter, you will learn how to import, manipulate and use this kind of data with <code>pyspark</code>.</p>
 <p>In Spark, dates and datetimes are represented by the <code>DateType</code> and <code>TimestampType</code> data types, respectively, which are available in the <code>pyspark.sql.types</code> module. Spark also offers two other data types to represent “intervals of time”, which are <code>YearMonthIntervalType</code> and <code>DayTimeIntervalType</code>. However, you usually don’t use these types directly to create new objects. In other words, they are intermediate types. They are a passage, or a path you use to get to another data type.</p>
-<section id="sec-create-dates" class="level2" data-number="10.1">
-<h2 data-number="10.1" class="anchored" data-anchor-id="sec-create-dates"><span class="header-section-number">10.1</span> Creating date values</h2>
+<section id="sec-create-dates" class="level2" data-number="11.1">
+<h2 data-number="11.1" class="anchored" data-anchor-id="sec-create-dates"><span class="header-section-number">11.1</span> Creating date values</h2>
 <p>Dates are normally interpreted in <code>pyspark</code> using the <code>DateType</code> data type. There are three commom ways to create date objects, which are:</p>
 <ol type="1">
 <li>from strings (like <code>"3 of June of 2023"</code>, or maybe, <code>"2023-02-05"</code>).</li>
 <li>by extracting the date component from datetime values (i.e.&nbsp;values of type <code>TimestampType</code>).</li>
 <li>by combining day, month and year components to build a date object.</li>
 </ol>
-<section id="from-strings" class="level3" data-number="10.1.1">
-<h3 data-number="10.1.1" class="anchored" data-anchor-id="from-strings"><span class="header-section-number">10.1.1</span> From strings</h3>
+<section id="from-strings" class="level3" data-number="11.1.1">
+<h3 data-number="11.1.1" class="anchored" data-anchor-id="from-strings"><span class="header-section-number">11.1.1</span> From strings</h3>
 <p>When you have a <code>StringType</code> column in your DataFrame that contains dates that are currently being stored inside strings, and you want to convert this column into a <code>DateType</code> column, you basically have two choices: 1) use the automatic column conversion with <code>cast()</code> or <code>astype()</code>; 2) use the <code>to_date()</code> Spark SQL function to convert the strings using a specific date format.</p>
-<p>When you use the <code>cast()</code> (or <code>astype()</code>) column method that we introduced at <a href="05-transforming.html#sec-cast-column-type"><span>Section&nbsp;5.8.3</span></a>, Spark will perform a quick and automatic conversion to <code>DateType</code> by casting the strings you have into the <code>DateType</code>. But when you use this method, Spark will always assume that the dates you have are in the ISO-8601 format, which is the international standard for dates. This format is presented at <a href="#fig-iso-8601-dates">Figure&nbsp;<span>10.1</span></a>:</p>
+<p>When you use the <code>cast()</code> (or <code>astype()</code>) column method that we introduced at <a href="05-transforming.html#sec-cast-column-type"><span>Section&nbsp;5.7.3</span></a>, Spark will perform a quick and automatic conversion to <code>DateType</code> by casting the strings you have into the <code>DateType</code>. But when you use this method, Spark will always assume that the dates you have are in the ISO-8601 format, which is the international standard for dates. This format is presented at <a href="#fig-iso-8601-dates">Figure&nbsp;<span>11.1</span></a>:</p>
 <div id="fig-iso-8601-dates" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="./../Figures/format_date.png" class="img-fluid figure-img" style="width:80.0%"></p>
-<figcaption class="figure-caption">Figure&nbsp;10.1: The ISO-8601 format for dates</figcaption>
+<figcaption class="figure-caption">Figure&nbsp;11.1: The ISO-8601 format for dates</figcaption>
 </figure>
 </div>
 <p>Basically, the ISO-8601 standard specifies that dates are represented in the format “YYYY-MM-DD” (or “Year-Month-Date”), like <code>2023-09-19</code>, <code>1926-05-21</code>, or <code>2005-11-01</code>. This is also the format that dates are usually formatted in United States of America. So, if the dates you have (which are currently stored inside strings) are formatted like the ISO-8601 standard, then, you can safely and easily convert them into the <code>DateType</code> by using the <code>cast()</code> or <code>astype()</code> column methods.</p>
@@ -337,7 +343,7 @@ div.csl-indent {
 <li>In Japan, dates are formatted as “year month day (weekday)”, with the Japanese characters meaning “year”, “month” and “day” inserted after the numerals. Example: 2008年12月31日 (水) for “Wednesday 31 December 2008”.</li>
 <li>Many websites display dates using the full name of the month, like “November 18, 2023”. This is an important fact considering that web-scrapping is a real and important area of data analysis these days.</li>
 </ul>
-<p>I will describe at <a href="#sec-datetime-patterns"><span>Section&nbsp;10.3</span></a> how you can use the <code>to_date()</code> function to convert dates that are outside of the ISO format to <code>DateType</code> values. But for now, for simplicity sake, I will consider only strings that contains date in the ISO format.</p>
+<p>I will describe at <a href="#sec-datetime-patterns"><span>Section&nbsp;11.3</span></a> how you can use the <code>to_date()</code> function to convert dates that are outside of the ISO format to <code>DateType</code> values. But for now, for simplicity sake, I will consider only strings that contains date in the ISO format.</p>
 <p>As a first example, lets consider the DataFrame <code>df</code> below:</p>
 <div class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql <span class="im">import</span> Row</span>
@@ -394,8 +400,8 @@ div.csl-indent {
 </div>
 </div>
 </section>
-<section id="from-datetime-values" class="level3" data-number="10.1.2">
-<h3 data-number="10.1.2" class="anchored" data-anchor-id="from-datetime-values"><span class="header-section-number">10.1.2</span> From datetime values</h3>
+<section id="from-datetime-values" class="level3" data-number="11.1.2">
+<h3 data-number="11.1.2" class="anchored" data-anchor-id="from-datetime-values"><span class="header-section-number">11.1.2</span> From datetime values</h3>
 <p>A datetime value is a value that contains both a date component and a time component. But you can obviously extract just the date component from a datetime value. Let’s use the following DataFrame as example:</p>
 <div class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql <span class="im">import</span> Row</span>
@@ -433,8 +439,8 @@ div.csl-indent {
 </div>
 </div>
 </section>
-<section id="from-individual-components" class="level3" data-number="10.1.3">
-<h3 data-number="10.1.3" class="anchored" data-anchor-id="from-individual-components"><span class="header-section-number">10.1.3</span> From individual components</h3>
+<section id="from-individual-components" class="level3" data-number="11.1.3">
+<h3 data-number="11.1.3" class="anchored" data-anchor-id="from-individual-components"><span class="header-section-number">11.1.3</span> From individual components</h3>
 <p>If you have 3 columns in your DataFrame, one for each component of a date value (day, month, year), you can group these components together to form date values. In <code>pyspark</code> you do this by using the <code>make_date()</code> function.</p>
 <p>To use this function, you just list the columns of each component in the following order: year, month and day. Like in this example:</p>
 <div class="cell" data-execution_count="8">
@@ -470,8 +476,8 @@ div.csl-indent {
 </div>
 </section>
 </section>
-<section id="creating-datetime-values" class="level2" data-number="10.2">
-<h2 data-number="10.2" class="anchored" data-anchor-id="creating-datetime-values"><span class="header-section-number">10.2</span> Creating datetime values</h2>
+<section id="creating-datetime-values" class="level2" data-number="11.2">
+<h2 data-number="11.2" class="anchored" data-anchor-id="creating-datetime-values"><span class="header-section-number">11.2</span> Creating datetime values</h2>
 <p>Datetime values are values that contains both a date and a time components. These datetime values might also come with a time zone component, although this component is not mandatory.</p>
 <p>Different programming languages and frameworks might have different names for these kind of values. Because of that, you might know datetime values by a different name. For example, “timestamps” is also a very popular name for this kind of values. Anyway, in <code>pyspark</code>, datetime (or timestamp) values are interpreted by the <code>TimestampType</code> data type.</p>
 <p>There are three commom ways to create datetime objects, which are:</p>
@@ -480,19 +486,19 @@ div.csl-indent {
 <li>from integer values (i.e.&nbsp;<code>IntegerType</code> and <code>LongType</code>).</li>
 <li>by combining the individual components of a datetime value (day, month, year, hour, minute, second, etc.) to form a complete datetime value.</li>
 </ol>
-<section id="from-strings-1" class="level3" data-number="10.2.1">
-<h3 data-number="10.2.1" class="anchored" data-anchor-id="from-strings-1"><span class="header-section-number">10.2.1</span> From strings</h3>
-<p>Again, if your datetime values are being currently stored inside strings, and, you want to convert them to datetime values, you can use the automatic conversion of Spark with the <code>cast()</code> column method. However, as we stated at <a href="#sec-create-dates"><span>Section&nbsp;10.1</span></a>, when you use this path, Spark will always assume that your datetime values follow the ISO-8601 format.</p>
-<p>The ISO-8601 standard states that datetime values should always follow the format “YYYY-MM-DD HH:MM:SS Z” (or “Year-Month-Day Hour:Minute:Second TimeZone”). You can see at <a href="#fig-iso-8601-datetime">Figure&nbsp;<span>10.2</span></a>, that are components that are mandatory (meaning that they always appear in a datetime value), and components that are optional (meaning that they might appear or might not in a datetime value).</p>
+<section id="from-strings-1" class="level3" data-number="11.2.1">
+<h3 data-number="11.2.1" class="anchored" data-anchor-id="from-strings-1"><span class="header-section-number">11.2.1</span> From strings</h3>
+<p>Again, if your datetime values are being currently stored inside strings, and, you want to convert them to datetime values, you can use the automatic conversion of Spark with the <code>cast()</code> column method. However, as we stated at <a href="#sec-create-dates"><span>Section&nbsp;11.1</span></a>, when you use this path, Spark will always assume that your datetime values follow the ISO-8601 format.</p>
+<p>The ISO-8601 standard states that datetime values should always follow the format “YYYY-MM-DD HH:MM:SS Z” (or “Year-Month-Day Hour:Minute:Second TimeZone”). You can see at <a href="#fig-iso-8601-datetime">Figure&nbsp;<span>11.2</span></a>, that are components that are mandatory (meaning that they always appear in a datetime value), and components that are optional (meaning that they might appear or might not in a datetime value).</p>
 <p>The time zone component is always optional, and because of that, they usually are not present in the datetime values you have. There are some variations and extra characters that might appear at some points, for example, the character ‘T’ might appear to clearly separate the date from the time component, and the character ‘Z’ to separate the time zone from the time component. Also, the time component might have a microseconds section to identify a more precise point in time.</p>
 <p>But despite all these variations, datetime values that are ISO-8601 compatible are basically always following this same pattern (or this same order of components) of “Year-Month-Day Hour:Minute:Second TimeZone”. Examples of values that follows this standard are “2014-10-18T16:30:00Z”, “2019-05-09 08:20:05.324” and “2020-01-01 12:30:00 -03”.</p>
 <div id="fig-iso-8601-datetime" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="./../Figures/format_datetime.png" class="img-fluid figure-img" style="width:100.0%"></p>
-<figcaption class="figure-caption">Figure&nbsp;10.2: The ISO-8601 format for datetime/timestamp values</figcaption>
+<figcaption class="figure-caption">Figure&nbsp;11.2: The ISO-8601 format for datetime/timestamp values</figcaption>
 </figure>
 </div>
-<p>This means that if your datetime values are not in this format, if they do not follow the ISO-8601 standard, then, you should not use the <code>cast()</code> method. If that is your case, you should use datetime patterns with the <code>to_timestamp()</code> function. We describe these assets in more depth at <a href="#sec-datetime-patterns"><span>Section&nbsp;10.3</span></a>.</p>
+<p>This means that if your datetime values are not in this format, if they do not follow the ISO-8601 standard, then, you should not use the <code>cast()</code> method. If that is your case, you should use datetime patterns with the <code>to_timestamp()</code> function. We describe these assets in more depth at <a href="#sec-datetime-patterns"><span>Section&nbsp;11.3</span></a>.</p>
 <p>For now, let’s focus on examples that use the ISO-8601 format. As an example, lets use the <code>df2</code> DataFrame below:</p>
 <div class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> [</span>
@@ -541,8 +547,8 @@ div.csl-indent {
 </div>
 </div>
 </section>
-<section id="from-integers" class="level3" data-number="10.2.2">
-<h3 data-number="10.2.2" class="anchored" data-anchor-id="from-integers"><span class="header-section-number">10.2.2</span> From integers</h3>
+<section id="from-integers" class="level3" data-number="11.2.2">
+<h3 data-number="11.2.2" class="anchored" data-anchor-id="from-integers"><span class="header-section-number">11.2.2</span> From integers</h3>
 <p>You can also convert integers directly to datetime values by using the <code>cast()</code> method. In this situation, the integers are interpreted as being the number of seconds since the UNIX time epoch, which is mid-night of 1 January of 1970 (<code>"1970-01-01 00:00:00"</code>). In other words, the integer <code>60</code> will be converted the point in time that is 60 seconds after <code>"1970-01-01 00:00:00"</code>, which would be <code>"1970-01-01 00:01:00"</code>.</p>
 <p>In the example below, the number 1,000,421,325 is converted into 19:48:45 of 13 September of 2001. Because this exact point in time is 1.000421 billion of seconds ahead of the UNIX epoch.</p>
 <div class="cell" data-execution_count="12">
@@ -578,7 +584,7 @@ div.csl-indent {
 <p>But what if you wanted to convert your integers into a UTC-0 time zone? Well, you could just set the time zone of your Spark Session to the international time zone before you do the conversion, with the command below:</p>
 <div class="sourceCode" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>spark.conf.<span class="bu">set</span>(<span class="st">"spark.sql.session.timeZone"</span>, <span class="st">"UTC"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>But you could also do the conversion anyway and adjust the values later. That is, you just perform the conversion with the <code>cast()</code> method, even if the result would be in your current time zone. After that, you add the amount of time necessary to transpose your datetime values to the international time zone (UTC-0).</p>
-<p>So in the above example, since I was using the Brasília time zone (UTC-3) during the above conversion, I just need to add 3 hours to all datetime values to get their equivalents values in international time zone. You can do that by using interval expressions, which will be discussed in more depth at <a href="#sec-interval-express"><span>Section&nbsp;10.5</span></a>.</p>
+<p>So in the above example, since I was using the Brasília time zone (UTC-3) during the above conversion, I just need to add 3 hours to all datetime values to get their equivalents values in international time zone. You can do that by using interval expressions, which will be discussed in more depth at <a href="#sec-interval-express"><span>Section&nbsp;11.5</span></a>.</p>
 <div class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> expr</span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>df3 <span class="op">=</span> df3<span class="op">\</span></span>
@@ -601,8 +607,8 @@ div.csl-indent {
 </div>
 </div>
 </section>
-<section id="from-individual-components-1" class="level3" data-number="10.2.3">
-<h3 data-number="10.2.3" class="anchored" data-anchor-id="from-individual-components-1"><span class="header-section-number">10.2.3</span> From individual components</h3>
+<section id="from-individual-components-1" class="level3" data-number="11.2.3">
+<h3 data-number="11.2.3" class="anchored" data-anchor-id="from-individual-components-1"><span class="header-section-number">11.2.3</span> From individual components</h3>
 <p>If you have 6 columns in your DataFrame, one for each component of a datetime value (day, month, year, hour, minute, second), you can group these components together to compose datetime values. We do this in <code>pyspark</code> by using the <code>make_timestamp()</code> function.</p>
 <p>To use this function, you just list the columns of each component in the following order: year, month, day, hours, minutes, seconds. Like in this example:</p>
 <div class="cell" data-execution_count="14">
@@ -641,15 +647,15 @@ div.csl-indent {
 </div>
 </section>
 </section>
-<section id="sec-datetime-patterns" class="level2" data-number="10.3">
-<h2 data-number="10.3" class="anchored" data-anchor-id="sec-datetime-patterns"><span class="header-section-number">10.3</span> Introducing datetime patterns</h2>
+<section id="sec-datetime-patterns" class="level2" data-number="11.3">
+<h2 data-number="11.3" class="anchored" data-anchor-id="sec-datetime-patterns"><span class="header-section-number">11.3</span> Introducing datetime patterns</h2>
 <p>Every time you have strings that contains dates and datetime values that are outside of the ISO-8601 format, you usually have to use datetime patterns to convert these strings to date or datetime values. In other words, in this section I will describe how you can use datetime patterns to convert string values (that are outside of the ISO-8601 format) into dates or datetimes values.</p>
 <p>Despite the existence of an international standard (like ISO-8601), the used date and datetime formats varies accross different countries around the world. There are tons of examples of these different formats. For example, in Brazil, dates are usually formatted like “Day/Month/Year”. Not only the order of the date components (day, month and year) are different, but also, the separator character (“/” instead of “-”).</p>
 <p>In essence, a datetime pattern is a string pattern that describes a specific date or datetime format. This means that we can use a datetime pattern to describe any date or datetime format. A datetime pattern is a string value that is constructed by grouping letters together. Each individual letter represents an individual component of a date or a datetime value.</p>
-<p>You can see at <a href="#tbl-date-components">Table&nbsp;<span>10.1</span></a> a list of the most commom used letters in datetime patterns. If you want, you can also see the full list of possible letters in datetime patterns by visiting the Spark Datetime Patterns page<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.</p>
+<p>You can see at <a href="#tbl-date-components">Table&nbsp;<span>11.1</span></a> a list of the most commom used letters in datetime patterns. If you want, you can also see the full list of possible letters in datetime patterns by visiting the Spark Datetime Patterns page<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.</p>
 <div id="tbl-date-components" class="anchored">
 <table class="table">
-<caption>Table&nbsp;10.1: List of letters to represent date and datetime components</caption>
+<caption>Table&nbsp;11.1: List of letters to represent date and datetime components</caption>
 <colgroup>
 <col style="width: 7%">
 <col style="width: 31%">
@@ -776,9 +782,9 @@ div.csl-indent {
 </tbody>
 </table>
 </div>
-<section id="using-datetime-patterns-to-get-date-values" class="level3" data-number="10.3.1">
-<h3 data-number="10.3.1" class="anchored" data-anchor-id="using-datetime-patterns-to-get-date-values"><span class="header-section-number">10.3.1</span> Using datetime patterns to get date values</h3>
-<p>Following <a href="#tbl-date-components">Table&nbsp;<span>10.1</span></a>, if we had a date in the format “Day, Month of Year”, like “12, November of 1997”, we would use the letters d, M and y for each of the three components that are present in this format. In fact, let’s create a DataFrame with this exact value, and let’s demonstrate how could you convert it to a <code>DateType</code> value.</p>
+<section id="using-datetime-patterns-to-get-date-values" class="level3" data-number="11.3.1">
+<h3 data-number="11.3.1" class="anchored" data-anchor-id="using-datetime-patterns-to-get-date-values"><span class="header-section-number">11.3.1</span> Using datetime patterns to get date values</h3>
+<p>Following <a href="#tbl-date-components">Table&nbsp;<span>11.1</span></a>, if we had a date in the format “Day, Month of Year”, like “12, November of 1997”, we would use the letters d, M and y for each of the three components that are present in this format. In fact, let’s create a DataFrame with this exact value, and let’s demonstrate how could you convert it to a <code>DateType</code> value.</p>
 <div class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> [ {<span class="st">"date"</span>: <span class="st">"12, November of 1997"</span>} ]</span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>weird_date <span class="op">=</span> spark.createDataFrame(data)</span>
@@ -868,9 +874,9 @@ div.csl-indent {
 </div>
 </div>
 </section>
-<section id="using-datetime-patterns-to-get-datetimetimestamp-values" class="level3" data-number="10.3.2">
-<h3 data-number="10.3.2" class="anchored" data-anchor-id="using-datetime-patterns-to-get-datetimetimestamp-values"><span class="header-section-number">10.3.2</span> Using datetime patterns to get datetime/timestamp values</h3>
-<p>Furthermore, the <code>user_events</code> table also contains the <code>timeOfEvent</code> column, which is a column of datetime (or timestamp) values, also in the usual Brazilian format “Day/Month/Year Hour:Minutes:Seconds”. Following <a href="#tbl-date-components">Table&nbsp;<span>10.1</span></a>, we can describe this datetime format with the pattern <code>"dd/MM/yyyy HH:mm:ss"</code>.</p>
+<section id="using-datetime-patterns-to-get-datetimetimestamp-values" class="level3" data-number="11.3.2">
+<h3 data-number="11.3.2" class="anchored" data-anchor-id="using-datetime-patterns-to-get-datetimetimestamp-values"><span class="header-section-number">11.3.2</span> Using datetime patterns to get datetime/timestamp values</h3>
+<p>Furthermore, the <code>user_events</code> table also contains the <code>timeOfEvent</code> column, which is a column of datetime (or timestamp) values, also in the usual Brazilian format “Day/Month/Year Hour:Minutes:Seconds”. Following <a href="#tbl-date-components">Table&nbsp;<span>11.1</span></a>, we can describe this datetime format with the pattern <code>"dd/MM/yyyy HH:mm:ss"</code>.</p>
 <p>When you have a column of string values that you want to convert into the <code>TimestampType</code> type, but your values are not in ISO-8601 format, you should use the <code>to_timestamp()</code> function (which also comes from the <code>pyspark.sql.functions</code> module) together with a datetime pattern to describe the actual format of your values.</p>
 <p>You use the <code>to_timestamp()</code> function in the same way you would use the <code>to_date()</code> function, you reference the name of the column you want to convert into a column of timestamp values, and you also provide a datetime pattern to be used in the conversion. The difference between the two functions is solely on the type of columns they produce. The <code>to_timestamp()</code> function always produce a column of type <code>TimestampType</code> as a result, while the <code>to_date()</code> function produces a column of type <code>DateType</code>.</p>
 <div class="cell" data-execution_count="20">
@@ -896,8 +902,8 @@ div.csl-indent {
 </div>
 </section>
 </section>
-<section id="extracting-date-or-datetime-components" class="level2" data-number="10.4">
-<h2 data-number="10.4" class="anchored" data-anchor-id="extracting-date-or-datetime-components"><span class="header-section-number">10.4</span> Extracting date or datetime components</h2>
+<section id="extracting-date-or-datetime-components" class="level2" data-number="11.4">
+<h2 data-number="11.4" class="anchored" data-anchor-id="extracting-date-or-datetime-components"><span class="header-section-number">11.4</span> Extracting date or datetime components</h2>
 <p>One very commom operation when dealing with dates and datetime values is extracting components from these values. For example, you might want to create a new column that contains the day component from all of your dates. Or maybe, the month… anyway.</p>
 <p>Thakfully, <code>pyspark</code> made it pretty easy to extract these kinds of components. You just use the corresponding function to each component! All of these functions come from the <code>pyspark.sql.functions</code> module. As a quick list, the functions below are used to extract components from both dates and datetime values:</p>
 <ul>
@@ -943,8 +949,8 @@ div.csl-indent {
 </div>
 </div>
 </section>
-<section id="sec-interval-express" class="level2" data-number="10.5">
-<h2 data-number="10.5" class="anchored" data-anchor-id="sec-interval-express"><span class="header-section-number">10.5</span> Adding time to date and datetime values with interval expressions</h2>
+<section id="sec-interval-express" class="level2" data-number="11.5">
+<h2 data-number="11.5" class="anchored" data-anchor-id="sec-interval-express"><span class="header-section-number">11.5</span> Adding time to date and datetime values with interval expressions</h2>
 <p>Another very commom operation is to add some amount of time to a date or datetime values. For example, you might want to advance your dates by 3 days. Or, delay your datetime values by 3 hours. In <code>pyspark</code>, you can perform this kind by either using functions or interval expressions.</p>
 <p>When we talk about functions available through the <code>pyspark.sql.functions</code> module, we have <code>date_add()</code> and <code>date_sub()</code>, which you can use to add or subtract days to a date, and <code>add_months()</code>, which you can use to add months to a date. Yes, the naming pattern of these functions is a little bit weird, but let’s ignore this fact.</p>
 <div class="cell" data-execution_count="22">
@@ -1004,8 +1010,8 @@ div.csl-indent {
 </div>
 </div>
 </section>
-<section id="calculating-differences-between-dates-and-datetime-values" class="level2" data-number="10.6">
-<h2 data-number="10.6" class="anchored" data-anchor-id="calculating-differences-between-dates-and-datetime-values"><span class="header-section-number">10.6</span> Calculating differences between dates and datetime values</h2>
+<section id="calculating-differences-between-dates-and-datetime-values" class="level2" data-number="11.6">
+<h2 data-number="11.6" class="anchored" data-anchor-id="calculating-differences-between-dates-and-datetime-values"><span class="header-section-number">11.6</span> Calculating differences between dates and datetime values</h2>
 <p>Another very commom operation is to calculate how much time is between two dates or two datetimes. In other words, you might want to calculate how many days the date <code>"2023-05-12"</code> is far ahead of <code>"2023-05-05"</code>, or how many hours the timestamp <code>"2023-07-10 13:13:00"</code> is ahead of <code>"2023-07-10 05:18:00"</code>.</p>
 <p>When you have two columns of type <code>DateType</code> (or <code>TimestampType</code>), you subtract one by the other directly to get the difference between the values of these columns. As an example, lets use the <code>df4</code> below:</p>
 <div class="cell" data-execution_count="24">
@@ -1128,8 +1134,8 @@ div.csl-indent {
 </div>
 </div>
 </section>
-<section id="getting-the-now-and-today-values" class="level2" data-number="10.7">
-<h2 data-number="10.7" class="anchored" data-anchor-id="getting-the-now-and-today-values"><span class="header-section-number">10.7</span> Getting the now and today values</h2>
+<section id="getting-the-now-and-today-values" class="level2" data-number="11.7">
+<h2 data-number="11.7" class="anchored" data-anchor-id="getting-the-now-and-today-values"><span class="header-section-number">11.7</span> Getting the now and today values</h2>
 <p>If for some reason, you need to know which timestamp is now, or which date is today, you can use the <code>current_timestamp()</code> and <code>current_date()</code> functions from <code>pyspark.sql.functions</code> module. When you execute these functions, they output the current timestamp and date in your system.</p>
 <div class="cell" data-execution_count="29">
 <div class="sourceCode cell-code" id="cb57"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.types <span class="im">import</span> StructType,StructField, StringType</span>
@@ -1153,7 +1159,7 @@ div.csl-indent {
 <pre><code>+----------+--------------------+
 |     today|                 now|
 +----------+--------------------+
-|2023-12-04|2023-12-04 14:36:...|
+|2023-12-05|2023-12-05 23:38:...|
 +----------+--------------------+
 </code></pre>
 </div>
@@ -1411,12 +1417,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="../Chapters/09-strings.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Tools for string manipulation</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Tools for string manipulation</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="../Chapters/11-window.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Introducing window functions</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Introducing window functions</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

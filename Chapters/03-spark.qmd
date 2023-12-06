@@ -16,7 +16,6 @@ sc.setLogLevel("OFF")
 ```
 
 
-## Introduction
 
 In essence, `pyspark` is an API to Apache Spark (or simply Spark). In other words, with `pyspark` we can build Spark applications using the python language. So, by learning a little more about Spark, you will understand a lot more about `pyspark`.
 
@@ -124,7 +123,7 @@ spark = SparkSession.builder.getOrCreate()
 
 Every `pyspark` program is composed by a set of transformations and actions over a set of Spark DataFrames. 
 
-We will explain Spark DataFrames in more deth on the @sec-dataframes-chapter. For now just understand that they are the basic data sctructure that feed all `pyspark` programs. In other words, on every `pyspark` program we are transforming multiple Spark DataFrames to get the result we want.
+I will explain Spark DataFrames in more deth on the @sec-dataframes-chapter. For now just understand that they are the basic data sctructure that feed all `pyspark` programs. In other words, on every `pyspark` program we are transforming multiple Spark DataFrames to get the result we want.
 
 As an example, in the script below we begin with the Spark DataFrame stored in the object `students`, and, apply multiple transformations over it to build the `ar_department` DataFrame. Lastly, we apply the `.show()` action over the `ar_department` DataFrame:
 
@@ -211,8 +210,12 @@ Terminal$ cd ./../SparkExample
 Terminal$ python3 spark-example.py
 ```
 
+```
+[Row(id=0), Row(id=1), Row(id=2), Row(id=3), Row(id=4)]
+```
 
-You can see in the above result, that this Spark application produces a sequence of numbers, from 0 to 4, and, returns this sequence as a set of `Row` objects, inside a python list.
+
+You can see in the above result, that this Spark application produces a sequence of `Row` objects, inside a Python list. Each row object contains a number from 0 to 4.
 
 Congratulations! You have just run your first Spark application using `pyspark`!
 

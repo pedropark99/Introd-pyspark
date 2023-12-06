@@ -28,6 +28,7 @@ book:
     - Chapters/07-import.qmd
     - Chapters/06-dataframes-sql.qmd
     - Chapters/08-transforming2.qmd
+    - Chapters/07-export.qmd
     - Chapters/09-strings.qmd
     - Chapters/10-datetime.qmd
     - Chapters/11-window.qmd
@@ -40,8 +41,8 @@ format:
     theme: 
       - cosmo
       - theme.scss
-  pdf:
-    mainfont: Times New Roman
-    monofont: Inconsolata
-    fontsize: 11pt
-    keep-tex: false
+  # pdf:
+  #   mainfont: Times New Roman
+  #   monofont: Inconsolata
+  #   fontsize: 11pt
+  #   keep-tex: false

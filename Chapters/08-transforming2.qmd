@@ -1,6 +1,5 @@
 # Transforming your Spark DataFrame - Part 2
 
-## Introduction
 
 At @sec-transforming-dataframes-part1 I introduced six core types of transformations over Spark DataFrames. In this chapter, I will expand your knowledge by introducing six more commom types of transformations available to Spark DataFrames, which are:
 

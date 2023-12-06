@@ -1,5 +1,5 @@
 
-# Importing data to Spark {#sec-import-export}
+# Importing data to Spark {#sec-import}
 
 ```{python}
 #| include: false
@@ -10,13 +10,11 @@ sc.setLogLevel("OFF")
 ```
 
 
-## Introduction
-
 Another way of creating Spark DataFrames, is to read (or import) data from somewhere and convert it to a Spark DataFrame. Spark can read a variety of file formats, including CSV, Parquet, JSON, ORC and Binary files. Furthermore, Spark can connect to other databases and import tables from them, using ODBC/JDBC connections. 
 
 To read (or import) any data to Spark, we use a "read engine", and there are many different read engines available in Spark. Each engine is used to read a specific file format, or to import data from a specific type of data source, and we access these engines by using the `read` module from your Spark Session object. 
 
-## Reading data from static files
+## Reading data from static files {#sec-read-files}
 
 Static files are probably the easiest way to transport data from one computer to another. Because you just need to copy and paste this file to the other machine, or download it from the internet. 
 
@@ -27,12 +25,15 @@ As we pointed out earlier, to read any static file in Spark, you use one of the 
 If you want to read a CSV file for example, you use the `spark.read.csv()` engine. In contrast, if you want to read a JSON file, you use the `spark.read.json()` engine instead. But no matter what read engine you use, you always give the path to your file to any of these "read engines".
 
 
-The main read engines available in Spark for static files are:
+The main read engines available in Spark are:
 
-- `spark.read.json()`: to read JSON files;
-- `spark.read.csv()`: to read CSV files;
-- `spark.read.parquet()`: to read Apache Parquet files;
-- `spark.read.orc()`: to read ORC (Apache *Optimized Row Columnar* format) files;
+- `spark.read.json()`: to read JSON files.
+- `spark.read.csv()`: to read CSV files.
+- `spark.read.parquet()`: to read Apache Parquet files.
+- `spark.read.orc()`: to read ORC (Apache *Optimized Row Columnar* format) files.
+- `spark.read.text()`: to read text files.
+- `spark.read.jdbc()`: to read data from databases using the JDBC API.
+
 
 For example, to read a JSON file called `sales.json` that is stored in my `Data` folder, I can do this:
 
@@ -92,8 +93,9 @@ df = spark.read.csv("weird-file.csv")
 
 ```
 Traceback (most recent call last):
-  ...
-pyspark.sql.utils.AnalysisException: Path does not exist: file:/home/pedro/Documents/Projects/Books/Introd-pyspark/weird-file.csv
+pyspark.sql.utils.AnalysisException:
+Path does not exist:
+file:/home/pedro/Documents/Projects/Books/Introd-pyspark/weird-file.csv
 ```
 
 Every time you face this "Path does not exist" error, it means that Spark did not found the file that you described in the path you gave to `spark.read`. In this case, is very likely that you have a typo or a mistake in your path. Maybe your forgot to add the `.csv` extension to the name of your file. Or maybe you forgot to use the right angled slash (`/`) instead of the left angled slash (`\`). Or maybe, you gave the path to folder $x$, when in fact, you wanted to reach the folder $y$.
@@ -227,6 +229,7 @@ As an example, lets look into the `user-events.json` file. We can see that the d
 ```{python}
 peek_file("../Data/user-events.json", n_lines=3)
 ```
+
 Date variables are usually interpreted by Spark as string variables. In other words, Spark usually do not convert data that contains dates to the date type of Spark. In order to Spark
 
 ```{python}

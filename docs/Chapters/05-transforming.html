@@ -235,20 +235,26 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../Chapters/07-export.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Exporting data out of Spark</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../Chapters/09-strings.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Tools for string manipulation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Tools for string manipulation</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../Chapters/10-datetime.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Tools for dates and datetimes manipulation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Tools for dates and datetimes manipulation</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../Chapters/11-window.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Introducing window functions</span></span></a>
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Introducing window functions</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -267,42 +273,41 @@ div.csl-indent {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">5.1</span> Introduction</a></li>
-  <li><a href="#sec-df-defining-transformations" id="toc-sec-df-defining-transformations" class="nav-link" data-scroll-target="#sec-df-defining-transformations"><span class="header-section-number">5.2</span> Defining transformations</a></li>
-  <li><a href="#sec-dataframe-actions" id="toc-sec-dataframe-actions" class="nav-link" data-scroll-target="#sec-dataframe-actions"><span class="header-section-number">5.3</span> Triggering calculations with actions</a></li>
-  <li><a href="#understanding-narrow-and-wide-transformations" id="toc-understanding-narrow-and-wide-transformations" class="nav-link" data-scroll-target="#understanding-narrow-and-wide-transformations"><span class="header-section-number">5.4</span> Understanding narrow and wide transformations</a></li>
-  <li><a href="#sec-transf-dataframe" id="toc-sec-transf-dataframe" class="nav-link" data-scroll-target="#sec-transf-dataframe"><span class="header-section-number">5.5</span> The <code>transf</code> DataFrame</a></li>
-  <li><a href="#filtering-rows-of-your-dataframe" id="toc-filtering-rows-of-your-dataframe" class="nav-link" data-scroll-target="#filtering-rows-of-your-dataframe"><span class="header-section-number">5.6</span> Filtering rows of your DataFrame</a>
+  <li><a href="#sec-df-defining-transformations" id="toc-sec-df-defining-transformations" class="nav-link active" data-scroll-target="#sec-df-defining-transformations"><span class="header-section-number">5.1</span> Defining transformations</a></li>
+  <li><a href="#sec-dataframe-actions" id="toc-sec-dataframe-actions" class="nav-link" data-scroll-target="#sec-dataframe-actions"><span class="header-section-number">5.2</span> Triggering calculations with actions</a></li>
+  <li><a href="#sec-narrow-wide" id="toc-sec-narrow-wide" class="nav-link" data-scroll-target="#sec-narrow-wide"><span class="header-section-number">5.3</span> Understanding narrow and wide transformations</a></li>
+  <li><a href="#sec-transf-dataframe" id="toc-sec-transf-dataframe" class="nav-link" data-scroll-target="#sec-transf-dataframe"><span class="header-section-number">5.4</span> The <code>transf</code> DataFrame</a></li>
+  <li><a href="#filtering-rows-of-your-dataframe" id="toc-filtering-rows-of-your-dataframe" class="nav-link" data-scroll-target="#filtering-rows-of-your-dataframe"><span class="header-section-number">5.5</span> Filtering rows of your DataFrame</a>
   <ul class="collapse">
-  <li><a href="#logical-operators-available" id="toc-logical-operators-available" class="nav-link" data-scroll-target="#logical-operators-available"><span class="header-section-number">5.6.1</span> Logical operators available</a></li>
-  <li><a href="#connecting-multiple-logical-expressions" id="toc-connecting-multiple-logical-expressions" class="nav-link" data-scroll-target="#connecting-multiple-logical-expressions"><span class="header-section-number">5.6.2</span> Connecting multiple logical expressions</a></li>
-  <li><a href="#translating-the-in-keyword-to-the-pythonic-way" id="toc-translating-the-in-keyword-to-the-pythonic-way" class="nav-link" data-scroll-target="#translating-the-in-keyword-to-the-pythonic-way"><span class="header-section-number">5.6.3</span> Translating the <code>in</code> keyword to the pythonic way</a></li>
-  <li><a href="#negating-logical-conditions" id="toc-negating-logical-conditions" class="nav-link" data-scroll-target="#negating-logical-conditions"><span class="header-section-number">5.6.4</span> Negating logical conditions</a></li>
-  <li><a href="#sec-filter-null-values" id="toc-sec-filter-null-values" class="nav-link" data-scroll-target="#sec-filter-null-values"><span class="header-section-number">5.6.5</span> Filtering <code>null</code> values (i.e.&nbsp;missing data)</a></li>
-  <li><a href="#filtering-dates-and-datetimes-in-your-dataframe" id="toc-filtering-dates-and-datetimes-in-your-dataframe" class="nav-link" data-scroll-target="#filtering-dates-and-datetimes-in-your-dataframe"><span class="header-section-number">5.6.6</span> Filtering dates and datetimes in your DataFrame</a></li>
-  <li><a href="#sec-filter-pattern-search" id="toc-sec-filter-pattern-search" class="nav-link" data-scroll-target="#sec-filter-pattern-search"><span class="header-section-number">5.6.7</span> Searching for a particular pattern in string values</a></li>
+  <li><a href="#logical-operators-available" id="toc-logical-operators-available" class="nav-link" data-scroll-target="#logical-operators-available"><span class="header-section-number">5.5.1</span> Logical operators available</a></li>
+  <li><a href="#connecting-multiple-logical-expressions" id="toc-connecting-multiple-logical-expressions" class="nav-link" data-scroll-target="#connecting-multiple-logical-expressions"><span class="header-section-number">5.5.2</span> Connecting multiple logical expressions</a></li>
+  <li><a href="#translating-the-in-keyword-to-the-pythonic-way" id="toc-translating-the-in-keyword-to-the-pythonic-way" class="nav-link" data-scroll-target="#translating-the-in-keyword-to-the-pythonic-way"><span class="header-section-number">5.5.3</span> Translating the <code>in</code> keyword to the pythonic way</a></li>
+  <li><a href="#negating-logical-conditions" id="toc-negating-logical-conditions" class="nav-link" data-scroll-target="#negating-logical-conditions"><span class="header-section-number">5.5.4</span> Negating logical conditions</a></li>
+  <li><a href="#sec-filter-null-values" id="toc-sec-filter-null-values" class="nav-link" data-scroll-target="#sec-filter-null-values"><span class="header-section-number">5.5.5</span> Filtering <code>null</code> values (i.e.&nbsp;missing data)</a></li>
+  <li><a href="#filtering-dates-and-datetimes-in-your-dataframe" id="toc-filtering-dates-and-datetimes-in-your-dataframe" class="nav-link" data-scroll-target="#filtering-dates-and-datetimes-in-your-dataframe"><span class="header-section-number">5.5.6</span> Filtering dates and datetimes in your DataFrame</a></li>
+  <li><a href="#sec-filter-pattern-search" id="toc-sec-filter-pattern-search" class="nav-link" data-scroll-target="#sec-filter-pattern-search"><span class="header-section-number">5.5.7</span> Searching for a particular pattern in string values</a></li>
   </ul></li>
-  <li><a href="#selecting-a-subset-of-rows-from-your-dataframe" id="toc-selecting-a-subset-of-rows-from-your-dataframe" class="nav-link" data-scroll-target="#selecting-a-subset-of-rows-from-your-dataframe"><span class="header-section-number">5.7</span> Selecting a subset of rows from your DataFrame</a>
+  <li><a href="#selecting-a-subset-of-rows-from-your-dataframe" id="toc-selecting-a-subset-of-rows-from-your-dataframe" class="nav-link" data-scroll-target="#selecting-a-subset-of-rows-from-your-dataframe"><span class="header-section-number">5.6</span> Selecting a subset of rows from your DataFrame</a>
   <ul class="collapse">
-  <li><a href="#limiting-the-number-of-rows-in-your-dataframe" id="toc-limiting-the-number-of-rows-in-your-dataframe" class="nav-link" data-scroll-target="#limiting-the-number-of-rows-in-your-dataframe"><span class="header-section-number">5.7.1</span> Limiting the number of rows in your DataFrame</a></li>
-  <li><a href="#getting-the-firstlast-n-rows-of-your-dataframe" id="toc-getting-the-firstlast-n-rows-of-your-dataframe" class="nav-link" data-scroll-target="#getting-the-firstlast-n-rows-of-your-dataframe"><span class="header-section-number">5.7.2</span> Getting the first/last <span class="math inline">\(n\)</span> rows of your DataFrame</a></li>
-  <li><a href="#taking-a-random-sample-of-your-dataframe" id="toc-taking-a-random-sample-of-your-dataframe" class="nav-link" data-scroll-target="#taking-a-random-sample-of-your-dataframe"><span class="header-section-number">5.7.3</span> Taking a random sample of your DataFrame</a></li>
+  <li><a href="#limiting-the-number-of-rows-in-your-dataframe" id="toc-limiting-the-number-of-rows-in-your-dataframe" class="nav-link" data-scroll-target="#limiting-the-number-of-rows-in-your-dataframe"><span class="header-section-number">5.6.1</span> Limiting the number of rows in your DataFrame</a></li>
+  <li><a href="#getting-the-firstlast-n-rows-of-your-dataframe" id="toc-getting-the-firstlast-n-rows-of-your-dataframe" class="nav-link" data-scroll-target="#getting-the-firstlast-n-rows-of-your-dataframe"><span class="header-section-number">5.6.2</span> Getting the first/last <span class="math inline">\(n\)</span> rows of your DataFrame</a></li>
+  <li><a href="#taking-a-random-sample-of-your-dataframe" id="toc-taking-a-random-sample-of-your-dataframe" class="nav-link" data-scroll-target="#taking-a-random-sample-of-your-dataframe"><span class="header-section-number">5.6.3</span> Taking a random sample of your DataFrame</a></li>
   </ul></li>
-  <li><a href="#managing-the-columns-of-your-dataframe" id="toc-managing-the-columns-of-your-dataframe" class="nav-link" data-scroll-target="#managing-the-columns-of-your-dataframe"><span class="header-section-number">5.8</span> Managing the columns of your DataFrame</a>
+  <li><a href="#managing-the-columns-of-your-dataframe" id="toc-managing-the-columns-of-your-dataframe" class="nav-link" data-scroll-target="#managing-the-columns-of-your-dataframe"><span class="header-section-number">5.7</span> Managing the columns of your DataFrame</a>
   <ul class="collapse">
-  <li><a href="#renaming-your-columns" id="toc-renaming-your-columns" class="nav-link" data-scroll-target="#renaming-your-columns"><span class="header-section-number">5.8.1</span> Renaming your columns</a></li>
-  <li><a href="#dropping-unnecessary-columns" id="toc-dropping-unnecessary-columns" class="nav-link" data-scroll-target="#dropping-unnecessary-columns"><span class="header-section-number">5.8.2</span> Dropping unnecessary columns</a></li>
-  <li><a href="#sec-cast-column-type" id="toc-sec-cast-column-type" class="nav-link" data-scroll-target="#sec-cast-column-type"><span class="header-section-number">5.8.3</span> Casting columns to a different data type</a></li>
-  <li><a href="#you-can-add-new-columns-with-select" id="toc-you-can-add-new-columns-with-select" class="nav-link" data-scroll-target="#you-can-add-new-columns-with-select"><span class="header-section-number">5.8.4</span> You can add new columns with <code>select()</code></a></li>
+  <li><a href="#renaming-your-columns" id="toc-renaming-your-columns" class="nav-link" data-scroll-target="#renaming-your-columns"><span class="header-section-number">5.7.1</span> Renaming your columns</a></li>
+  <li><a href="#dropping-unnecessary-columns" id="toc-dropping-unnecessary-columns" class="nav-link" data-scroll-target="#dropping-unnecessary-columns"><span class="header-section-number">5.7.2</span> Dropping unnecessary columns</a></li>
+  <li><a href="#sec-cast-column-type" id="toc-sec-cast-column-type" class="nav-link" data-scroll-target="#sec-cast-column-type"><span class="header-section-number">5.7.3</span> Casting columns to a different data type</a></li>
+  <li><a href="#you-can-add-new-columns-with-select" id="toc-you-can-add-new-columns-with-select" class="nav-link" data-scroll-target="#you-can-add-new-columns-with-select"><span class="header-section-number">5.7.4</span> You can add new columns with <code>select()</code></a></li>
   </ul></li>
-  <li><a href="#calculating-or-adding-new-columns-to-your-dataframe" id="toc-calculating-or-adding-new-columns-to-your-dataframe" class="nav-link" data-scroll-target="#calculating-or-adding-new-columns-to-your-dataframe"><span class="header-section-number">5.9</span> Calculating or adding new columns to your DataFrame</a></li>
-  <li><a href="#sorting-rows-of-your-dataframe" id="toc-sorting-rows-of-your-dataframe" class="nav-link" data-scroll-target="#sorting-rows-of-your-dataframe"><span class="header-section-number">5.10</span> Sorting rows of your DataFrame</a></li>
-  <li><a href="#calculating-aggregates" id="toc-calculating-aggregates" class="nav-link" data-scroll-target="#calculating-aggregates"><span class="header-section-number">5.11</span> Calculating aggregates</a>
+  <li><a href="#calculating-or-adding-new-columns-to-your-dataframe" id="toc-calculating-or-adding-new-columns-to-your-dataframe" class="nav-link" data-scroll-target="#calculating-or-adding-new-columns-to-your-dataframe"><span class="header-section-number">5.8</span> Calculating or adding new columns to your DataFrame</a></li>
+  <li><a href="#sorting-rows-of-your-dataframe" id="toc-sorting-rows-of-your-dataframe" class="nav-link" data-scroll-target="#sorting-rows-of-your-dataframe"><span class="header-section-number">5.9</span> Sorting rows of your DataFrame</a></li>
+  <li><a href="#calculating-aggregates" id="toc-calculating-aggregates" class="nav-link" data-scroll-target="#calculating-aggregates"><span class="header-section-number">5.10</span> Calculating aggregates</a>
   <ul class="collapse">
-  <li><a href="#using-standard-dataframe-methods" id="toc-using-standard-dataframe-methods" class="nav-link" data-scroll-target="#using-standard-dataframe-methods"><span class="header-section-number">5.11.1</span> Using standard DataFrame methods</a></li>
-  <li><a href="#sec-agg-method" id="toc-sec-agg-method" class="nav-link" data-scroll-target="#sec-agg-method"><span class="header-section-number">5.11.2</span> Using the <code>agg()</code> method</a></li>
-  <li><a href="#without-groups-we-calculate-a-aggregate-of-the-entire-dataframe" id="toc-without-groups-we-calculate-a-aggregate-of-the-entire-dataframe" class="nav-link" data-scroll-target="#without-groups-we-calculate-a-aggregate-of-the-entire-dataframe"><span class="header-section-number">5.11.3</span> Without groups, we calculate a aggregate of the entire DataFrame</a></li>
-  <li><a href="#sec-group-by" id="toc-sec-group-by" class="nav-link" data-scroll-target="#sec-group-by"><span class="header-section-number">5.11.4</span> Calculating aggregates per group in your DataFrame</a></li>
+  <li><a href="#using-standard-dataframe-methods" id="toc-using-standard-dataframe-methods" class="nav-link" data-scroll-target="#using-standard-dataframe-methods"><span class="header-section-number">5.10.1</span> Using standard DataFrame methods</a></li>
+  <li><a href="#sec-agg-method" id="toc-sec-agg-method" class="nav-link" data-scroll-target="#sec-agg-method"><span class="header-section-number">5.10.2</span> Using the <code>agg()</code> method</a></li>
+  <li><a href="#without-groups-we-calculate-a-aggregate-of-the-entire-dataframe" id="toc-without-groups-we-calculate-a-aggregate-of-the-entire-dataframe" class="nav-link" data-scroll-target="#without-groups-we-calculate-a-aggregate-of-the-entire-dataframe"><span class="header-section-number">5.10.3</span> Without groups, we calculate a aggregate of the entire DataFrame</a></li>
+  <li><a href="#sec-group-by" id="toc-sec-group-by" class="nav-link" data-scroll-target="#sec-group-by"><span class="header-section-number">5.10.4</span> Calculating aggregates per group in your DataFrame</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -327,13 +332,10 @@ div.csl-indent {
 
 </header>
 
-<section id="introduction" class="level2" data-number="5.1">
-<h2 data-number="5.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">5.1</span> Introduction</h2>
 <p>Virtually every data analysis or data pipeline will include some ETL (<em>Extract, Transform, Load</em>) process, and the T is an essential part of it. Because, you almost never have an input data, or a initial DataFrame that perfectly fits your needs.</p>
 <p>This means that you always have to transform the initial data that you have, to a specific format that you can use in your analysis. In this chapter, you will learn how to apply some of these basic transformations to your Spark DataFrame.</p>
-</section>
-<section id="sec-df-defining-transformations" class="level2" data-number="5.2">
-<h2 data-number="5.2" class="anchored" data-anchor-id="sec-df-defining-transformations"><span class="header-section-number">5.2</span> Defining transformations</h2>
+<section id="sec-df-defining-transformations" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="sec-df-defining-transformations"><span class="header-section-number">5.1</span> Defining transformations</h2>
 <p>Spark DataFrames are <strong>immutable</strong>, meaning that, they cannot be directly changed. But you can use an existing DataFrame to create a new one, based on a set of transformations. In other words, you define a new DataFrame as a transformed version of an older DataFrame.</p>
 <p>Basically every <code>pyspark</code> program that you write will have such transformations. Spark support many types of transformations, however, in this chapter, we will focus on six basic transformations that you can apply to a DataFrame:</p>
 <ul>
@@ -381,8 +383,8 @@ div.csl-indent {
 AttributeError: 'str' object has no attribute 'orderBy'</code></pre>
 <p>Each one of these DataFrame methods create a <em>lazily evaluated transformation</em>. Once again, we see the <strong>lazy</strong> aspect of Spark doing its work here. All these transformation methods are lazily evaluated, meaning that, Spark will only check if they make sense with the initial DataFrame that you have. Spark will not actually perform these transformations on your initial DataFrame, not untill you trigger these transformations with an <strong>action</strong>.</p>
 </section>
-<section id="sec-dataframe-actions" class="level2" data-number="5.3">
-<h2 data-number="5.3" class="anchored" data-anchor-id="sec-dataframe-actions"><span class="header-section-number">5.3</span> Triggering calculations with actions</h2>
+<section id="sec-dataframe-actions" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="sec-dataframe-actions"><span class="header-section-number">5.2</span> Triggering calculations with actions</h2>
 <p>Therefore, Spark will avoid performing any heavy calculation until such calculation is really needed. But how or when Spark will face this decision? <strong>When it encounters an action</strong>. An action is the tool you have to trigger Spark to actually perform the transformations you have defined.</p>
 <blockquote class="blockquote">
 <p>An action instructs Spark to compute the result from a series of transformations. <span class="citation" data-cites="chambers2018">(<a href="references.html#ref-chambers2018" role="doc-biblioref">Chambers and Zaharia 2018</a>)</span>.</p>
@@ -438,8 +440,8 @@ AttributeError: 'str' object has no attribute 'orderBy'</code></pre>
 </div>
 <p>The last action would be the <code>write</code> method of a Spark DataFrame, but we will explain this method latter at <a href="07-import.html"><span>Chapter&nbsp;6</span></a>.</p>
 </section>
-<section id="understanding-narrow-and-wide-transformations" class="level2" data-number="5.4">
-<h2 data-number="5.4" class="anchored" data-anchor-id="understanding-narrow-and-wide-transformations"><span class="header-section-number">5.4</span> Understanding narrow and wide transformations</h2>
+<section id="sec-narrow-wide" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="sec-narrow-wide"><span class="header-section-number">5.3</span> Understanding narrow and wide transformations</h2>
 <p>There are two kinds of transformations in Spark: narrow and wide transformations. Remember, a Spark DataFrame is divided into many small parts (called partitions), and, these parts are spread across the cluster. The basic difference between narrow and wide transformations, is if the transformation forces Spark to read data from multiple partitions to generate a single part of the result of that transformation, or not.</p>
 <p>More technically, narrow transformations are simply transformations where 1 input data (or 1 partition of the input DataFrame) contributes to only 1 partition of the output.</p>
 <div id="fig-narrow-transformations" class="quarto-figure quarto-figure-center anchored">
@@ -463,8 +465,8 @@ AttributeError: 'str' object has no attribute 'orderBy'</code></pre>
 <p>Partition shuffles are a very popular topic in Apache Spark, because they can be a serious source of inefficiency in your Spark application <span class="citation" data-cites="chambers2018">(<a href="references.html#ref-chambers2018" role="doc-biblioref">Chambers and Zaharia 2018</a>)</span>. In more details, when these shuffles happens, Spark needs to write data back to the hard disk of the computer, and this is not a very fast operation. It does not mean that wide transformations are bad or slow, just that the shuffles they are producing can be a problem.</p>
 <p>A classic example of wide operation is a grouped aggregation. For example, lets suppose we had a DataFrame with the daily sales of multiple stores spread across the country, and, we wanted to calculate the total sales per city/region. To calculate the total sales of a specific city, like “São Paulo”, Spark would need to find all the rows that corresponds to this city, before adding the values, and these rows can be spread across multiple partitions of the cluster.</p>
 </section>
-<section id="sec-transf-dataframe" class="level2" data-number="5.5">
-<h2 data-number="5.5" class="anchored" data-anchor-id="sec-transf-dataframe"><span class="header-section-number">5.5</span> The <code>transf</code> DataFrame</h2>
+<section id="sec-transf-dataframe" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="sec-transf-dataframe"><span class="header-section-number">5.4</span> The <code>transf</code> DataFrame</h2>
 <p>To demonstrate some of the next examples in this chapter, we will use a different DataFrame called <code>transf</code>. The data that represents this DataFrame is freely available as a CSV file. You can download this CSV at the repository of this book<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.</p>
 <p>With the code below, you can import the data from the <code>transf.csv</code> CSV file, to recreate the <code>transf</code> DataFrame in your Spark Session:</p>
 <div class="cell" data-cache="true" data-execution_count="9">
@@ -557,8 +559,8 @@ only showing top 5 rows
 </div>
 </div>
 </section>
-<section id="filtering-rows-of-your-dataframe" class="level2" data-number="5.6">
-<h2 data-number="5.6" class="anchored" data-anchor-id="filtering-rows-of-your-dataframe"><span class="header-section-number">5.6</span> Filtering rows of your DataFrame</h2>
+<section id="filtering-rows-of-your-dataframe" class="level2" data-number="5.5">
+<h2 data-number="5.5" class="anchored" data-anchor-id="filtering-rows-of-your-dataframe"><span class="header-section-number">5.5</span> Filtering rows of your DataFrame</h2>
 <p>To filter specific rows of a DataFrame, <code>pyspark</code> offers two equivalent DataFrame methods called <code>where()</code> and <code>filter()</code>. In other words, they both do the same thing, and work in the same way. These methods receives as input a logical expression that translates what you want to filter.</p>
 <p>As a first example, lets suppose you wanted to inspect all the rows from the <code>transf</code> DataFrame where <code>transferValue</code> is less than 1000. To do so, you can use the following code:</p>
 <div class="cell" data-execution_count="13">
@@ -607,8 +609,8 @@ only showing top 5 rows
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>transf<span class="op">\</span></span>
 <span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  .<span class="bu">filter</span>(transf.transferValue <span class="op">&lt;</span> <span class="dv">1000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="logical-operators-available" class="level3" data-number="5.6.1">
-<h3 data-number="5.6.1" class="anchored" data-anchor-id="logical-operators-available"><span class="header-section-number">5.6.1</span> Logical operators available</h3>
+<section id="logical-operators-available" class="level3" data-number="5.5.1">
+<h3 data-number="5.5.1" class="anchored" data-anchor-id="logical-operators-available"><span class="header-section-number">5.5.1</span> Logical operators available</h3>
 <p>As we saw in the previous section, there are two ways to write logical expressions in <code>pyspark</code>: 1) write a SQL logical expression inside a string; 2) or, write a python logical expression using the <code>col()</code> function.</p>
 <p>If you choose to write a SQL logical expressions in a string, you need to use the logical operators of SQL in your expression (not the logical operators of python). In the other hand, if you choose to write in the “python” way, then, you need to use the logical operators of python instead.</p>
 <p>The logical operators of SQL are described in the table below:</p>
@@ -747,8 +749,8 @@ only showing top 5 rows
 </table>
 </div>
 </section>
-<section id="connecting-multiple-logical-expressions" class="level3" data-number="5.6.2">
-<h3 data-number="5.6.2" class="anchored" data-anchor-id="connecting-multiple-logical-expressions"><span class="header-section-number">5.6.2</span> Connecting multiple logical expressions</h3>
+<section id="connecting-multiple-logical-expressions" class="level3" data-number="5.5.2">
+<h3 data-number="5.5.2" class="anchored" data-anchor-id="connecting-multiple-logical-expressions"><span class="header-section-number">5.5.2</span> Connecting multiple logical expressions</h3>
 <p>Sometimes, you need to write more complex logical expressions to correctly describe the rows you are interested in. That is, when you combine multiple logical expressions together.</p>
 <p>As an example, lets suppose you wanted all the rows in <code>transf</code> DataFrame from client of number 1297 where the transfer value is smaller than 1000, and the date of the transfer is after 20 of February 2022. These conditions are dependent, that is, they are connected to each other (the client number, the transfer value and the date of the transfer). That is why I used the <code>and</code> keyword between each condition in the example below (i.e.&nbsp;to connect these three conditions together).</p>
 <div class="cell" data-execution_count="16">
@@ -909,8 +911,8 @@ only showing top 5 rows
 </div>
 </div>
 </section>
-<section id="translating-the-in-keyword-to-the-pythonic-way" class="level3" data-number="5.6.3">
-<h3 data-number="5.6.3" class="anchored" data-anchor-id="translating-the-in-keyword-to-the-pythonic-way"><span class="header-section-number">5.6.3</span> Translating the <code>in</code> keyword to the pythonic way</h3>
+<section id="translating-the-in-keyword-to-the-pythonic-way" class="level3" data-number="5.5.3">
+<h3 data-number="5.5.3" class="anchored" data-anchor-id="translating-the-in-keyword-to-the-pythonic-way"><span class="header-section-number">5.5.3</span> Translating the <code>in</code> keyword to the pythonic way</h3>
 <p>Python does have a <code>in</code> keyword just like SQL, but, this keyword does not work as expected in <code>pyspark</code>. To write a logical expression, using the pythonic way, that filters the rows where a column is equal to one of the listed values, you can use the <code>isin()</code> method.</p>
 <p>This method belongs to the <code>Column</code> class, so, you should always use <code>isin()</code> after a column name or a <code>col()</code> function. In the example below, we are filtering the rows where <code>destinationBankNumber</code> is 290 or 666:</p>
 <div class="cell" data-execution_count="23">
@@ -932,8 +934,8 @@ only showing top 5 rows
 </div>
 </div>
 </section>
-<section id="negating-logical-conditions" class="level3" data-number="5.6.4">
-<h3 data-number="5.6.4" class="anchored" data-anchor-id="negating-logical-conditions"><span class="header-section-number">5.6.4</span> Negating logical conditions</h3>
+<section id="negating-logical-conditions" class="level3" data-number="5.5.4">
+<h3 data-number="5.5.4" class="anchored" data-anchor-id="negating-logical-conditions"><span class="header-section-number">5.5.4</span> Negating logical conditions</h3>
 <!-- Describe the ~ operator -->
 <p>In some cases, is easier to describe what rows you <strong>do not want</strong> in your filter. That is, you want to negate (or invert) your logical expression. For this, SQL provides the <code>not</code> keyword, that you place before the logical expression you want to negate.</p>
 <p>For example, we can filter all the rows of <code>transf</code> where <code>clientNumber</code> is not equal to 3284. Remember, the methods <code>filter()</code> and <code>where()</code> are equivalents or synonymous (they both mean the same thing).</p>
@@ -1008,8 +1010,8 @@ only showing top 5 rows
 </div>
 </div>
 </section>
-<section id="sec-filter-null-values" class="level3" data-number="5.6.5">
-<h3 data-number="5.6.5" class="anchored" data-anchor-id="sec-filter-null-values"><span class="header-section-number">5.6.5</span> Filtering <code>null</code> values (i.e.&nbsp;missing data)</h3>
+<section id="sec-filter-null-values" class="level3" data-number="5.5.5">
+<h3 data-number="5.5.5" class="anchored" data-anchor-id="sec-filter-null-values"><span class="header-section-number">5.5.5</span> Filtering <code>null</code> values (i.e.&nbsp;missing data)</h3>
 <p>Sometimes, the <code>null</code> values play an important role in your filter. You either want to collect all these <code>null</code> values, so you can investigate why they are null in the first place, or, you want to completely eliminate them from your DataFrame.</p>
 <p>Because this is a special kind of value in Spark, with a special meaning (the “absence” of a value), you need to use a special syntax to correctly filter these values in your DataFrame. In SQL, you can use the <code>is</code> keyword to filter these values:</p>
 <div class="cell" data-execution_count="28">
@@ -1108,8 +1110,8 @@ only showing top 5 rows
 </div>
 </div>
 </section>
-<section id="filtering-dates-and-datetimes-in-your-dataframe" class="level3" data-number="5.6.6">
-<h3 data-number="5.6.6" class="anchored" data-anchor-id="filtering-dates-and-datetimes-in-your-dataframe"><span class="header-section-number">5.6.6</span> Filtering dates and datetimes in your DataFrame</h3>
+<section id="filtering-dates-and-datetimes-in-your-dataframe" class="level3" data-number="5.5.6">
+<h3 data-number="5.5.6" class="anchored" data-anchor-id="filtering-dates-and-datetimes-in-your-dataframe"><span class="header-section-number">5.5.6</span> Filtering dates and datetimes in your DataFrame</h3>
 <p>Just as a quick side note, when you want to filter rows of your DataFrame that fits into a particular date, you can easily write this particular date as a single string, like in the example below:</p>
 <div class="cell" data-execution_count="34">
 <div class="sourceCode cell-code" id="cb60"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>df_0702 <span class="op">=</span> transf<span class="op">\</span></span>
@@ -1160,11 +1162,11 @@ only showing top 5 rows
 </div>
 <p>In other words, with the SQL expression <code>CAST("2022-07-02 03:30:00" AS TIMESTAMP)</code> we are telling Spark to convert the literal string <code>"2022-07-02 03:30:00"</code> into an actual timestamp value.</p>
 </section>
-<section id="sec-filter-pattern-search" class="level3" data-number="5.6.7">
-<h3 data-number="5.6.7" class="anchored" data-anchor-id="sec-filter-pattern-search"><span class="header-section-number">5.6.7</span> Searching for a particular pattern in string values</h3>
+<section id="sec-filter-pattern-search" class="level3" data-number="5.5.7">
+<h3 data-number="5.5.7" class="anchored" data-anchor-id="sec-filter-pattern-search"><span class="header-section-number">5.5.7</span> Searching for a particular pattern in string values</h3>
 <p>Spark offers different methods to search a particular pattern within a string value. In this section, I want to describe how you can use these different methods to find specific rows in your DataFrame, that fit into the description of these patterns.</p>
-<section id="starts-with-ends-with-and-contains" class="level4" data-number="5.6.7.1">
-<h4 data-number="5.6.7.1" class="anchored" data-anchor-id="starts-with-ends-with-and-contains"><span class="header-section-number">5.6.7.1</span> Starts with, ends with and contains</h4>
+<section id="starts-with-ends-with-and-contains" class="level4" data-number="5.5.7.1">
+<h4 data-number="5.5.7.1" class="anchored" data-anchor-id="starts-with-ends-with-and-contains"><span class="header-section-number">5.5.7.1</span> Starts with, ends with and contains</h4>
 <p>You can use the column methods <code>startswith()</code>, <code>endswith()</code> and <code>contains()</code>, to search for rows where a input string value starts with, ends with, or, contains a particular pattern, respectively.</p>
 <p>These three methods returns a boolean value that indicates if the input string value matched the input pattern that you gave to the method. And you can use these boolean values they return to filter the rows of your DataFrame that fit into the description of these patterns.</p>
 <p>Just as an example, in the following code, we are creating a new DataFrame called <code>persons</code>, that contains the description of 3 persons (Alice, Bob and Charlie). And I use these three methods to search for different rows in the DataFrame:</p>
@@ -1223,8 +1225,8 @@ only showing top 5 rows
 </div>
 </div>
 </section>
-<section id="sec-filter-regex-pattern" class="level4" data-number="5.6.7.2">
-<h4 data-number="5.6.7.2" class="anchored" data-anchor-id="sec-filter-regex-pattern"><span class="header-section-number">5.6.7.2</span> Using regular expressions or SQL LIKE patterns</h4>
+<section id="sec-filter-regex-pattern" class="level4" data-number="5.5.7.2">
+<h4 data-number="5.5.7.2" class="anchored" data-anchor-id="sec-filter-regex-pattern"><span class="header-section-number">5.5.7.2</span> Using regular expressions or SQL LIKE patterns</h4>
 <p>In Spark, you can also use a particular “SQL LIKE pattern” or a regular pattern (a.k.a. regex) to filter the rows of a DataFrame, by using the <code>Column</code> methods <code>like()</code> and <code>rlike()</code>.</p>
 <p>In essence, the <code>like()</code> method is the <code>pyspark</code> equivalent of the <code>LIKE</code> SQL operator. As a result, this <code>like()</code> method expects a SQL pattern as input. This means that you can use the SQL metacharacters <code>%</code> (to match any number of characters) and <code>_</code> (to match exactly one character) inside this pattern.</p>
 <div class="cell" data-execution_count="41">
@@ -1268,12 +1270,12 @@ only showing top 5 rows
 </section>
 </section>
 </section>
-<section id="selecting-a-subset-of-rows-from-your-dataframe" class="level2" data-number="5.7">
-<h2 data-number="5.7" class="anchored" data-anchor-id="selecting-a-subset-of-rows-from-your-dataframe"><span class="header-section-number">5.7</span> Selecting a subset of rows from your DataFrame</h2>
+<section id="selecting-a-subset-of-rows-from-your-dataframe" class="level2" data-number="5.6">
+<h2 data-number="5.6" class="anchored" data-anchor-id="selecting-a-subset-of-rows-from-your-dataframe"><span class="header-section-number">5.6</span> Selecting a subset of rows from your DataFrame</h2>
 <p>At some point, you might need to use just a small piece of your DataFrame over the next steps of your pipeline, and not the entire thing. For example, you may want to select just the fisrt (or last) 5 rows of this DataFrame, or, maybe, you need to take a random sample of rows from it.</p>
 <p>In this section I will discuss the main methods offered by Spark to deal with these scenarios. Each method returns a subset of rows from the original DataFrame as a result. But each method works differently from the other, and uses a different strategy to retrieve this subset.</p>
-<section id="limiting-the-number-of-rows-in-your-dataframe" class="level3" data-number="5.7.1">
-<h3 data-number="5.7.1" class="anchored" data-anchor-id="limiting-the-number-of-rows-in-your-dataframe"><span class="header-section-number">5.7.1</span> Limiting the number of rows in your DataFrame</h3>
+<section id="limiting-the-number-of-rows-in-your-dataframe" class="level3" data-number="5.6.1">
+<h3 data-number="5.6.1" class="anchored" data-anchor-id="limiting-the-number-of-rows-in-your-dataframe"><span class="header-section-number">5.6.1</span> Limiting the number of rows in your DataFrame</h3>
 <p>The <code>limit()</code> method is very similar to the <code>LIMIT</code> SQL keyword. It limits the number of rows present in your DataFrame to a specific amount. So, if I run <code>transf.limit(1)</code> I get a new DataFrame as a result, which have only a single row from the <code>transf</code> DataFrame. As you can see below:</p>
 <div class="cell" data-execution_count="43">
 <div class="sourceCode cell-code" id="cb74"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>single_transfer <span class="op">=</span> transf.limit(<span class="dv">1</span>)</span>
@@ -1290,9 +1292,9 @@ only showing top 5 rows
 <p>Is worth mentioning that the <code>limit()</code> method will always try to limit your original DataFrame, to the first <span class="math inline">\(n\)</span> rows. This means that the command <code>df.limit(430)</code> tries to limit the <code>df</code> DataFrame to its first 430 rows.</p>
 <p>This also means that 430 is the maximum number of rows that will be taken from the <code>df</code> DataFrame. So, if <code>df</code> DataFrame has less than 430 lines, like 14 rows, than, nothing will happen, i.e.&nbsp;the result of <code>df.limit(430)</code> will be equivalent to the <code>df</code> DataFrame itself.</p>
 </section>
-<section id="getting-the-firstlast-n-rows-of-your-dataframe" class="level3" data-number="5.7.2">
-<h3 data-number="5.7.2" class="anchored" data-anchor-id="getting-the-firstlast-n-rows-of-your-dataframe"><span class="header-section-number">5.7.2</span> Getting the first/last <span class="math inline">\(n\)</span> rows of your DataFrame</h3>
-<p>The methods <code>head()</code> and <code>tail()</code> allows you to collect the first/last <span class="math inline">\(n\)</span> rows of your DataFrame, respectively. One key aspect from these methods, is that they return a list of <code>Row</code> values, instead of a new DataFrame (such as the <code>limit()</code> method). You can compare these methods to the <code>take()</code> and <code>collect()</code> methods that we introduced at <a href="#sec-dataframe-actions"><span>Section&nbsp;5.3</span></a>, because they both produce a list of <code>Row</code> values as well.</p>
+<section id="getting-the-firstlast-n-rows-of-your-dataframe" class="level3" data-number="5.6.2">
+<h3 data-number="5.6.2" class="anchored" data-anchor-id="getting-the-firstlast-n-rows-of-your-dataframe"><span class="header-section-number">5.6.2</span> Getting the first/last <span class="math inline">\(n\)</span> rows of your DataFrame</h3>
+<p>The methods <code>head()</code> and <code>tail()</code> allows you to collect the first/last <span class="math inline">\(n\)</span> rows of your DataFrame, respectively. One key aspect from these methods, is that they return a list of <code>Row</code> values, instead of a new DataFrame (such as the <code>limit()</code> method). You can compare these methods to the <code>take()</code> and <code>collect()</code> methods that we introduced at <a href="#sec-dataframe-actions"><span>Section&nbsp;5.2</span></a>, because they both produce a list of <code>Row</code> values as well.</p>
 <p>Now, the <code>head()</code> method produce the same output as the <code>take()</code> method. However, these two methods work very differently under the hoods, and, are recommended to be used in different scenarios.</p>
 <p>More specifically, if you have a big DataFrame (i.e.&nbsp;a DataFrame with many rows) is recommended to use <code>take()</code> (instead of <code>head()</code>) to collect the first <span class="math inline">\(n\)</span> rows from it. Because the <code>head()</code> method makes Spark to load the entire DataFrame into the driver’s memory, and this can easily cause an “out of memory” situation for big DataFrames. So, use the <code>head()</code> method only for small DataFrames.</p>
 <p>In the example below, we are using these methods to get the first and last 2 rows of the <code>transf</code> DataFrame:</p>
@@ -1308,8 +1310,8 @@ only showing top 5 rows
 </div>
 </div>
 </section>
-<section id="taking-a-random-sample-of-your-dataframe" class="level3" data-number="5.7.3">
-<h3 data-number="5.7.3" class="anchored" data-anchor-id="taking-a-random-sample-of-your-dataframe"><span class="header-section-number">5.7.3</span> Taking a random sample of your DataFrame</h3>
+<section id="taking-a-random-sample-of-your-dataframe" class="level3" data-number="5.6.3">
+<h3 data-number="5.6.3" class="anchored" data-anchor-id="taking-a-random-sample-of-your-dataframe"><span class="header-section-number">5.6.3</span> Taking a random sample of your DataFrame</h3>
 <p>With the <code>sample()</code> you can take a random sample of rows from your DataFrame. In other words, this method returns a new DataFrame with a random subset of rows from the original DataFrame.</p>
 <p>This method have three main arguments, which are:</p>
 <ul>
@@ -1347,8 +1349,8 @@ only showing top 5 rows
 <p>On the other hand, when you do not set the <code>seed</code> argument, then, Spark will likely produce a different random sample of the original DataFrame every time you run the <code>sample()</code> method.</p>
 </section>
 </section>
-<section id="managing-the-columns-of-your-dataframe" class="level2" data-number="5.8">
-<h2 data-number="5.8" class="anchored" data-anchor-id="managing-the-columns-of-your-dataframe"><span class="header-section-number">5.8</span> Managing the columns of your DataFrame</h2>
+<section id="managing-the-columns-of-your-dataframe" class="level2" data-number="5.7">
+<h2 data-number="5.7" class="anchored" data-anchor-id="managing-the-columns-of-your-dataframe"><span class="header-section-number">5.7</span> Managing the columns of your DataFrame</h2>
 <p>Sometimes, you need manage or transform the columns you have. For example, you might need to change the order of these columns, or, to delete/rename some of them. To do this, you can use the <code>select()</code> and <code>drop()</code> methods of your DataFrame.</p>
 <p>The <code>select()</code> method works very similarly to the <code>SELECT</code> statement of SQL. You basically list all the columns you want to keep in your DataFrame, in the specific order you want.</p>
 <div class="cell" data-execution_count="47">
@@ -1372,8 +1374,8 @@ only showing top 5 rows
 </code></pre>
 </div>
 </div>
-<section id="renaming-your-columns" class="level3" data-number="5.8.1">
-<h3 data-number="5.8.1" class="anchored" data-anchor-id="renaming-your-columns"><span class="header-section-number">5.8.1</span> Renaming your columns</h3>
+<section id="renaming-your-columns" class="level3" data-number="5.7.1">
+<h3 data-number="5.7.1" class="anchored" data-anchor-id="renaming-your-columns"><span class="header-section-number">5.7.1</span> Renaming your columns</h3>
 <p>Realize in the example above, that the column names can be delivered directly as strings to <code>select()</code>. This makes life pretty easy, but, it does not give you extra options.</p>
 <p>For example, you might want to rename some of the columns, and, to do this, you need to use the <code>alias()</code> method from <code>Column</code> class. Since this is a method from <code>Column</code> class, you need to use it after a <code>col()</code> or <code>column()</code> function, or, after a column name using the dot operator.</p>
 <div class="cell" data-execution_count="48">
@@ -1418,8 +1420,8 @@ only showing top 5 rows
 </div>
 </div>
 </section>
-<section id="dropping-unnecessary-columns" class="level3" data-number="5.8.2">
-<h3 data-number="5.8.2" class="anchored" data-anchor-id="dropping-unnecessary-columns"><span class="header-section-number">5.8.2</span> Dropping unnecessary columns</h3>
+<section id="dropping-unnecessary-columns" class="level3" data-number="5.7.2">
+<h3 data-number="5.7.2" class="anchored" data-anchor-id="dropping-unnecessary-columns"><span class="header-section-number">5.7.2</span> Dropping unnecessary columns</h3>
 <p>In some cases, your DataFrame just have too many columns and you just want to eliminate a few of them. In a situation like this, you can list the columns you want to drop from your DataFrame, inside the <code>drop()</code> method, like this:</p>
 <div class="cell" data-execution_count="50">
 <div class="sourceCode cell-code" id="cb88"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a>transf<span class="op">\</span></span>
@@ -1440,8 +1442,8 @@ only showing top 5 rows
 </div>
 </div>
 </section>
-<section id="sec-cast-column-type" class="level3" data-number="5.8.3">
-<h3 data-number="5.8.3" class="anchored" data-anchor-id="sec-cast-column-type"><span class="header-section-number">5.8.3</span> Casting columns to a different data type</h3>
+<section id="sec-cast-column-type" class="level3" data-number="5.7.3">
+<h3 data-number="5.7.3" class="anchored" data-anchor-id="sec-cast-column-type"><span class="header-section-number">5.7.3</span> Casting columns to a different data type</h3>
 <p>Spark try to do its best when guessing which is correct data type for the columns of your DataFrame. But, obviously, Spark can get it wrong, and, you end up deciding by your own which data type to use for a specific column.</p>
 <p>To explicit transform a column to a specific data type, you can use <code>cast()</code> or <code>astype()</code> methods inside <code>select()</code>. The <code>astype()</code> method is just an alias to <code>cast()</code>. This <code>cast()</code> method is very similar to the <code>CAST()</code> function in SQL, and belongs to the <code>Column</code> class, so, you should always use it after a column name with the dot operator, or, a <code>col()</code>/<code>column()</code> function:</p>
 <div class="cell" data-execution_count="51">
@@ -1479,8 +1481,8 @@ only showing top 5 rows
 <li><code>'dict'</code>: correspond to <code>MapType()</code>;</li>
 </ul>
 </section>
-<section id="you-can-add-new-columns-with-select" class="level3" data-number="5.8.4">
-<h3 data-number="5.8.4" class="anchored" data-anchor-id="you-can-add-new-columns-with-select"><span class="header-section-number">5.8.4</span> You can add new columns with <code>select()</code></h3>
+<section id="you-can-add-new-columns-with-select" class="level3" data-number="5.7.4">
+<h3 data-number="5.7.4" class="anchored" data-anchor-id="you-can-add-new-columns-with-select"><span class="header-section-number">5.7.4</span> You can add new columns with <code>select()</code></h3>
 <p>When I said that <code>select()</code> works in the same way as the <code>SELECT</code> statement of SQL, I also meant that you can use <code>select()</code> to select columns that do not currently exist in your DataFrame, and add them to the final result.</p>
 <p>For example, I can select a new column (called <code>by_1000</code>) containing <code>value</code> divided by 1000, like this:</p>
 <div class="cell" data-execution_count="52">
@@ -1530,8 +1532,8 @@ only showing top 5 rows
 </div>
 </section>
 </section>
-<section id="calculating-or-adding-new-columns-to-your-dataframe" class="level2" data-number="5.9">
-<h2 data-number="5.9" class="anchored" data-anchor-id="calculating-or-adding-new-columns-to-your-dataframe"><span class="header-section-number">5.9</span> Calculating or adding new columns to your DataFrame</h2>
+<section id="calculating-or-adding-new-columns-to-your-dataframe" class="level2" data-number="5.8">
+<h2 data-number="5.8" class="anchored" data-anchor-id="calculating-or-adding-new-columns-to-your-dataframe"><span class="header-section-number">5.8</span> Calculating or adding new columns to your DataFrame</h2>
 <p>Although you can add new columns with <code>select()</code>, this method is not specialized to do that. As consequence, when you want to add many new columns, it can become pretty annoying to write <code>select('*', new_column)</code> over and over again. That is why <code>pyspark</code> provides a special method called <code>withColumn()</code>.</p>
 <p>This method has two arguments. First, is the name of the new column. Second, is the formula (or the equation) that represents this new column. As an example, I could reproduce the same <code>by_1000</code> column like this:</p>
 <div class="cell" data-execution_count="54">
@@ -1555,8 +1557,8 @@ only showing top 5 rows
 <p>A lot of the times we use the functions from <code>pyspark.sql.functions</code> module to produce such formulas used by <code>withColumn()</code>. You can checkout the complete list of functions present in this module, by visiting the official documentation of <code>pyspark</code><a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>.</p>
 <p>You will see a lot more examples of formulas and uses of <code>withColumn()</code> throughout this book. For now, I just want you to know that <code>withColumn()</code> is a method that adds a new column to your DataFrame. The first argument is the name of the new column, and, the second argument is the calculation formula of this new column.</p>
 </section>
-<section id="sorting-rows-of-your-dataframe" class="level2" data-number="5.10">
-<h2 data-number="5.10" class="anchored" data-anchor-id="sorting-rows-of-your-dataframe"><span class="header-section-number">5.10</span> Sorting rows of your DataFrame</h2>
+<section id="sorting-rows-of-your-dataframe" class="level2" data-number="5.9">
+<h2 data-number="5.9" class="anchored" data-anchor-id="sorting-rows-of-your-dataframe"><span class="header-section-number">5.9</span> Sorting rows of your DataFrame</h2>
 <p>Spark, or, <code>pyspark</code>, provides the <code>orderBy()</code> and <code>sort()</code> DataFrame method to sort rows. They both work the same way: you just give the name of the columns that Spark will use to sort the rows.</p>
 <p>In the example below, Spark will sort <code>transf</code> according to the values in the <code>transferValue</code> column. By default, Spark uses an ascending order while sorting your rows.</p>
 <div class="cell" data-execution_count="55">
@@ -1617,11 +1619,11 @@ only showing top 5 rows
 </div>
 <p>This means that you can mix ascending orders with descending orders in <code>orderBy()</code>. Since the ascending order is the default, if you want to use a descending order in all of the columns, then, you need to apply the <code>desc()</code> method to all of them.</p>
 </section>
-<section id="calculating-aggregates" class="level2" data-number="5.11">
-<h2 data-number="5.11" class="anchored" data-anchor-id="calculating-aggregates"><span class="header-section-number">5.11</span> Calculating aggregates</h2>
+<section id="calculating-aggregates" class="level2" data-number="5.10">
+<h2 data-number="5.10" class="anchored" data-anchor-id="calculating-aggregates"><span class="header-section-number">5.10</span> Calculating aggregates</h2>
 <p>To calculate aggregates of a Spark DataFrame we have two main paths: 1) we can use some standard DataFrame methods, like <code>count()</code> or <code>sum()</code>, to calculate a single aggregate; 2) or, we can use the <code>agg()</code> method to calculate multiple aggregates at the same time.</p>
-<section id="using-standard-dataframe-methods" class="level3" data-number="5.11.1">
-<h3 data-number="5.11.1" class="anchored" data-anchor-id="using-standard-dataframe-methods"><span class="header-section-number">5.11.1</span> Using standard DataFrame methods</h3>
+<section id="using-standard-dataframe-methods" class="level3" data-number="5.10.1">
+<h3 data-number="5.10.1" class="anchored" data-anchor-id="using-standard-dataframe-methods"><span class="header-section-number">5.10.1</span> Using standard DataFrame methods</h3>
 <p>The Spark DataFrame class by itself provides a single aggregate method, which is <code>count()</code>. With this method, you can find out how many rows your DataFrame have. In the example below, we can see that <code>transf</code> have 2421 rows.</p>
 <div class="cell" data-execution_count="58">
 <div class="sourceCode cell-code" id="cb104"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb104-1"><a href="#cb104-1" aria-hidden="true" tabindex="-1"></a>transf.count()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1639,8 +1641,8 @@ only showing top 5 rows
 </ul>
 <p>This means that you can use any of the above methods after a <code>groupby()</code> call, to calculate aggregates <em>per group</em> in your Spark DataFrame. For now, lets forget about this “groupby” detail, and learn how to calculate different aggregates by using the <code>agg()</code> method.</p>
 </section>
-<section id="sec-agg-method" class="level3" data-number="5.11.2">
-<h3 data-number="5.11.2" class="anchored" data-anchor-id="sec-agg-method"><span class="header-section-number">5.11.2</span> Using the <code>agg()</code> method</h3>
+<section id="sec-agg-method" class="level3" data-number="5.10.2">
+<h3 data-number="5.10.2" class="anchored" data-anchor-id="sec-agg-method"><span class="header-section-number">5.10.2</span> Using the <code>agg()</code> method</h3>
 <p>With the <code>agg()</code> method, we can calculate many different aggregates at the same time. In this method, you should provide a expression that describes what aggregate measure you want to calculate.</p>
 <p>In most cases, this “aggregate expression” will be composed of functions from the <code>pyspark.sql.functions</code> module. So, having familiarity with the functions present in this module will help you to compose the formulas of your aggregations in <code>agg()</code>.</p>
 <p>In the example below, I am using the <code>sum()</code> and <code>mean()</code> functions from <code>pyspark.sql.functions</code> to calculate the total sum and the total mean of the <code>transferValue</code> column in the <code>transf</code> DataFrame. I am also using the <code>countDistinct()</code> function to calculate the number of distinct values in the <code>clientNumber</code> column.</p>
@@ -1663,14 +1665,14 @@ only showing top 5 rows
 </div>
 </div>
 </section>
-<section id="without-groups-we-calculate-a-aggregate-of-the-entire-dataframe" class="level3" data-number="5.11.3">
-<h3 data-number="5.11.3" class="anchored" data-anchor-id="without-groups-we-calculate-a-aggregate-of-the-entire-dataframe"><span class="header-section-number">5.11.3</span> Without groups, we calculate a aggregate of the entire DataFrame</h3>
+<section id="without-groups-we-calculate-a-aggregate-of-the-entire-dataframe" class="level3" data-number="5.10.3">
+<h3 data-number="5.10.3" class="anchored" data-anchor-id="without-groups-we-calculate-a-aggregate-of-the-entire-dataframe"><span class="header-section-number">5.10.3</span> Without groups, we calculate a aggregate of the entire DataFrame</h3>
 <p>When we do not define any group for the input DataFrame, <code>agg()</code> always produce a new DataFrame with one single row (like in the above example). This happens because we are calculating aggregates of the entire DataFrame, that is, a set of single values (or single measures) that summarizes (in some way) the entire DataFrame.</p>
 <p>In the other hand, when we define groups in a DataFrame (by using the <code>groupby()</code> method), the calculations performed by <code>agg()</code> are made inside each group in the DataFrame. In other words, instead of summarizing the entire DataFrame, <code>agg()</code> will produce a set of single values that describes (or summarizes) each group in the DataFrame.</p>
 <p>This means that each row in the resulting DataFrame describes a specific group in the original DataFrame, and, <code>agg()</code> usually produces a DataFrame with more than one single row when its calculations are performed by group. Because our DataFrames usually have more than one single group.</p>
 </section>
-<section id="sec-group-by" class="level3" data-number="5.11.4">
-<h3 data-number="5.11.4" class="anchored" data-anchor-id="sec-group-by"><span class="header-section-number">5.11.4</span> Calculating aggregates per group in your DataFrame</h3>
+<section id="sec-group-by" class="level3" data-number="5.10.4">
+<h3 data-number="5.10.4" class="anchored" data-anchor-id="sec-group-by"><span class="header-section-number">5.10.4</span> Calculating aggregates per group in your DataFrame</h3>
 <p>But how you define the groups inside your DataFrame? To do this, we use the <code>groupby()</code> and <code>groupBy()</code> methods. These methods are both synonymous (they do the same thing).</p>
 <p>These methods, produce a <strong>grouped</strong> DataFrame as a result, or, in more technical words, a object of class <code>pyspark.sql.group.GroupedData</code>. You just need to provide, inside this <code>groupby()</code> method, the name of the columns that define (or “mark”) your groups.</p>
 <p>In the example below, I am creating a grouped DataFrame per client defined in the <code>clientNumber</code> column. This means that each distinct value in the <code>clientNumber</code> column defines a different group in the DataFrame.</p>
@@ -1703,7 +1705,7 @@ only showing top 5 rows
 </div>
 </div>
 <p>Remember that, by using standard DataFrame methods (like <code>max()</code> in the example above) we can calculate only a single aggregate value. But, with <code>agg()</code> we can calculate more than one aggregate value at the same time. Since our <code>transf_per_client</code> object is a <strong>grouped</strong> DataFrame, <code>agg()</code> will calculate these aggregates per group.</p>
-<p>As an example, if I apply <code>agg()</code> with the exact same expressions exposed on <a href="#sec-agg-method"><span>Section&nbsp;5.11.2</span></a> with the <code>transf_per_client</code> DataFrame, instead of a DataFrame with one single row, I get a new DataFrame with nine rows. In each row, I have the total and mean values for a specific user in the input DataFrame.</p>
+<p>As an example, if I apply <code>agg()</code> with the exact same expressions exposed on <a href="#sec-agg-method"><span>Section&nbsp;5.10.2</span></a> with the <code>transf_per_client</code> DataFrame, instead of a DataFrame with one single row, I get a new DataFrame with nine rows. In each row, I have the total and mean values for a specific user in the input DataFrame.</p>
 <div class="cell" data-execution_count="62">
 <div class="sourceCode cell-code" id="cb112"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb112-1"><a href="#cb112-1" aria-hidden="true" tabindex="-1"></a>transf_per_client<span class="op">\</span></span>
 <span id="cb112-2"><a href="#cb112-2" aria-hidden="true" tabindex="-1"></a>  .agg(</span>

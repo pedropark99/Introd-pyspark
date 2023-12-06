@@ -71,7 +71,7 @@ window_spec = Window.partitionBy('dateTransfer')
 
 The above window object specifies that each unique value present in the `dateTransfer` column identifies a different window frame in the `transf` DataFrame. @fig-window-spec1 presents this idea visually. So each partition in the `dateTransfer` column creates a different window frame. And each window frame will become an input to a window function (when we use one).
 
-![Visualizing the window frames - Part 1](./../Figures/window-spec1.png){#fig-window-spec1 width=80%}
+![Visualizing the window frames - Part 1](./../Figures/window-spec1.png){#fig-window-spec1 width=100%}
 
 Until this point, defining windows are very much like defining groups in your DataFrame with *group by* functions (i.e. windows are very similar to groups). But in the above example, we specified only the partition component of the windows. The partitioning component of the window object specifies which partitions of the DataFrame are translated into windows. In the other hand, the ordering component of the window object specifies how the rows within the window are ordered.
 
@@ -88,7 +88,7 @@ window_spec = Window\
 
 With the above snippet, we are not only specifying how the window frames in the DataFrame are created (with the `partitionBy()`), but we are also specifying how the rows within the window are sorted (with the `orderBy()`). If we update our representation with the above window specification, we get something similar to @fig-window-spec2:
 
-![Visualizing the window frames - Part 2](./../Figures/window-spec2.png){#fig-window-spec2 width=80%}
+![Visualizing the window frames - Part 2](./../Figures/window-spec2.png){#fig-window-spec2 width=100%}
 
 Is worth mentioning that, both `partitionBy()` and `orderBy()` methods accepts multiple columns as input. In other words, you can use a combination of columns both to define how the windows in your DataFrame will be created, and how the rows within these windows will be sorted.
 

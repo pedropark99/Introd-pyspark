@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Introduction to pyspark - 11&nbsp; Introducing window functions</title>
+<title>Introduction to pyspark - 12&nbsp; Introducing window functions</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -140,7 +140,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Chapters/11-window.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Introducing window functions</span></a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Chapters/11-window.html"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Introducing window functions</span></a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -216,20 +216,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../Chapters/07-export.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Exporting data out of Spark</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../Chapters/09-strings.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Tools for string manipulation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Tools for string manipulation</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../Chapters/10-datetime.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Tools for dates and datetimes manipulation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Tools for dates and datetimes manipulation</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../Chapters/11-window.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Introducing window functions</span></span></a>
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Introducing window functions</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -248,15 +254,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#sec-window-def" id="toc-sec-window-def" class="nav-link active" data-scroll-target="#sec-window-def"><span class="header-section-number">11.1</span> How to define windows</a>
+  <li><a href="#sec-window-def" id="toc-sec-window-def" class="nav-link active" data-scroll-target="#sec-window-def"><span class="header-section-number">12.1</span> How to define windows</a>
   <ul class="collapse">
-  <li><a href="#partitioning-or-ordering-or-none" id="toc-partitioning-or-ordering-or-none" class="nav-link" data-scroll-target="#partitioning-or-ordering-or-none"><span class="header-section-number">11.1.1</span> Partitioning or ordering or none</a></li>
+  <li><a href="#partitioning-or-ordering-or-none" id="toc-partitioning-or-ordering-or-none" class="nav-link" data-scroll-target="#partitioning-or-ordering-or-none"><span class="header-section-number">12.1.1</span> Partitioning or ordering or none</a></li>
   </ul></li>
-  <li><a href="#introducing-the-over-clause" id="toc-introducing-the-over-clause" class="nav-link" data-scroll-target="#introducing-the-over-clause"><span class="header-section-number">11.2</span> Introducing the <code>over()</code> clause</a></li>
-  <li><a href="#window-functions-vs-group-by-functions" id="toc-window-functions-vs-group-by-functions" class="nav-link" data-scroll-target="#window-functions-vs-group-by-functions"><span class="header-section-number">11.3</span> Window functions vs <em>group by</em> functions</a></li>
-  <li><a href="#ranking-window-functions" id="toc-ranking-window-functions" class="nav-link" data-scroll-target="#ranking-window-functions"><span class="header-section-number">11.4</span> Ranking window functions</a></li>
-  <li><a href="#agreggating-window-functions" id="toc-agreggating-window-functions" class="nav-link" data-scroll-target="#agreggating-window-functions"><span class="header-section-number">11.5</span> Agreggating window functions</a></li>
-  <li><a href="#getting-the-next-and-previous-row-with-lead-and-lag" id="toc-getting-the-next-and-previous-row-with-lead-and-lag" class="nav-link" data-scroll-target="#getting-the-next-and-previous-row-with-lead-and-lag"><span class="header-section-number">11.6</span> Getting the next and previous row with <code>lead()</code> and <code>lag()</code></a></li>
+  <li><a href="#introducing-the-over-clause" id="toc-introducing-the-over-clause" class="nav-link" data-scroll-target="#introducing-the-over-clause"><span class="header-section-number">12.2</span> Introducing the <code>over()</code> clause</a></li>
+  <li><a href="#window-functions-vs-group-by-functions" id="toc-window-functions-vs-group-by-functions" class="nav-link" data-scroll-target="#window-functions-vs-group-by-functions"><span class="header-section-number">12.3</span> Window functions vs <em>group by</em> functions</a></li>
+  <li><a href="#ranking-window-functions" id="toc-ranking-window-functions" class="nav-link" data-scroll-target="#ranking-window-functions"><span class="header-section-number">12.4</span> Ranking window functions</a></li>
+  <li><a href="#agreggating-window-functions" id="toc-agreggating-window-functions" class="nav-link" data-scroll-target="#agreggating-window-functions"><span class="header-section-number">12.5</span> Agreggating window functions</a></li>
+  <li><a href="#getting-the-next-and-previous-row-with-lead-and-lag" id="toc-getting-the-next-and-previous-row-with-lead-and-lag" class="nav-link" data-scroll-target="#getting-the-next-and-previous-row-with-lead-and-lag"><span class="header-section-number">12.6</span> Getting the next and previous row with <code>lead()</code> and <code>lag()</code></a></li>
   </ul>
 </nav>
     </div>
@@ -265,7 +271,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span id="sec-window-functions" class="quarto-section-identifier"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Introducing window functions</span></span></h1>
+<h1 class="title"><span id="sec-window-functions" class="quarto-section-identifier"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Introducing window functions</span></span></h1>
 </div>
 
 
@@ -283,15 +289,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Spark offers a set of tools known as <em>window functions</em>. These tools are essential for an extensive range of tasks, and you should know them. But what are them?</p>
 <p>Window functions in Spark are a set functions that performs calculations over windows of rows from your DataFrame. This is not a concept exclusive to Spark. In fact, window functions in Spark are essentially the same <a href="https://dev.mysql.com/doc/refman/8.0/en/window-functions-usage.html">as window functions in MySQL</a><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.</p>
 <p>When you use a window function, the rows of your DataFrame are divided into multiple windows. Each window contains a specific range of rows from the DataFrame. In this context, a window function is a function that receives a window (or a range of rows) as input, and calculates an aggregate or a specific index based on the set of rows that is contained in this input window.</p>
-<p>You might find this description very similar to what <code>groupby()</code> and <code>agg()</code> methods do when combined together. And yes… To some extent, the idea of windows in a DataFrame is similar (but not identical) to the idea of “groups” created by <em>group by</em> functions, such as the <code>DataFrame.groupby()</code> method from <code>pyspark</code> (that we presented at <a href="05-transforming.html#sec-group-by"><span>Section&nbsp;5.11.4</span></a>), or the <a href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.groupby.html"><code>DataFrame.groupby()</code></a><a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> method from <code>pandas</code>, and also, to <a href="https://dplyr.tidyverse.org/reference/group_by.html"><code>dplyr::group_by()</code></a><a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> from the <code>tidyverse</code> framework. You will see further in this chapter how window functions differ from these operations.</p>
-<section id="sec-window-def" class="level2" data-number="11.1">
-<h2 data-number="11.1" class="anchored" data-anchor-id="sec-window-def"><span class="header-section-number">11.1</span> How to define windows</h2>
+<p>You might find this description very similar to what <code>groupby()</code> and <code>agg()</code> methods do when combined together. And yes… To some extent, the idea of windows in a DataFrame is similar (but not identical) to the idea of “groups” created by <em>group by</em> functions, such as the <code>DataFrame.groupby()</code> method from <code>pyspark</code> (that we presented at <a href="05-transforming.html#sec-group-by"><span>Section&nbsp;5.10.4</span></a>), or the <a href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.groupby.html"><code>DataFrame.groupby()</code></a><a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> method from <code>pandas</code>, and also, to <a href="https://dplyr.tidyverse.org/reference/group_by.html"><code>dplyr::group_by()</code></a><a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> from the <code>tidyverse</code> framework. You will see further in this chapter how window functions differ from these operations.</p>
+<section id="sec-window-def" class="level2" data-number="12.1">
+<h2 data-number="12.1" class="anchored" data-anchor-id="sec-window-def"><span class="header-section-number">12.1</span> How to define windows</h2>
 <p>In order to use a window function you need to define the windows of your DataFrame first. You do this by creating a <code>Window</code> object in your session.</p>
 <p>Every window object have two components, which are partitioning and ordering, and you specify each of these components by using the <code>partitionBy()</code> and <code>orderBy()</code> methods from the <code>Window</code> class. In order to create a <code>Window</code> object, you need to import the <code>Window</code> class from the <code>pyspark.sql.window</code> module:</p>
 <div class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.window <span class="im">import</span> Window</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Over the next examples, I will be using the <code>transf</code> DataFrame that we presented at <a href="05-transforming.html"><span>Chapter&nbsp;5</span></a>. If you don’t remember how to import/get this DataFrame into your session, come back to <a href="05-transforming.html#sec-transf-dataframe"><span>Section&nbsp;5.5</span></a>.</p>
+<p>Over the next examples, I will be using the <code>transf</code> DataFrame that we presented at <a href="05-transforming.html"><span>Chapter&nbsp;5</span></a>. If you don’t remember how to import/get this DataFrame into your session, come back to <a href="05-transforming.html#sec-transf-dataframe"><span>Section&nbsp;5.4</span></a>.</p>
 <div class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>transf.show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -312,11 +318,11 @@ only showing top 5 rows
 <div class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>window_spec <span class="op">=</span> Window.partitionBy(<span class="st">'dateTransfer'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The above window object specifies that each unique value present in the <code>dateTransfer</code> column identifies a different window frame in the <code>transf</code> DataFrame. <a href="#fig-window-spec1">Figure&nbsp;<span>11.1</span></a> presents this idea visually. So each partition in the <code>dateTransfer</code> column creates a different window frame. And each window frame will become an input to a window function (when we use one).</p>
+<p>The above window object specifies that each unique value present in the <code>dateTransfer</code> column identifies a different window frame in the <code>transf</code> DataFrame. <a href="#fig-window-spec1">Figure&nbsp;<span>12.1</span></a> presents this idea visually. So each partition in the <code>dateTransfer</code> column creates a different window frame. And each window frame will become an input to a window function (when we use one).</p>
 <div id="fig-window-spec1" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="./../Figures/window-spec1.png" class="img-fluid figure-img"></p>
-<figcaption class="figure-caption">Figure&nbsp;11.1: Visualizing the window frames - Part 1</figcaption>
+<p><img src="./../Figures/window-spec1.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<figcaption class="figure-caption">Figure&nbsp;12.1: Visualizing the window frames - Part 1</figcaption>
 </figure>
 </div>
 <p>Until this point, defining windows are very much like defining groups in your DataFrame with <em>group by</em> functions (i.e.&nbsp;windows are very similar to groups). But in the above example, we specified only the partition component of the windows. The partitioning component of the window object specifies which partitions of the DataFrame are translated into windows. In the other hand, the ordering component of the window object specifies how the rows within the window are ordered.</p>
@@ -328,11 +334,11 @@ only showing top 5 rows
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    .partitionBy(<span class="st">'dateTransfer'</span>)<span class="op">\</span></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    .orderBy(col(<span class="st">'datetimeTransfer'</span>).desc())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>With the above snippet, we are not only specifying how the window frames in the DataFrame are created (with the <code>partitionBy()</code>), but we are also specifying how the rows within the window are sorted (with the <code>orderBy()</code>). If we update our representation with the above window specification, we get something similar to <a href="#fig-window-spec2">Figure&nbsp;<span>11.2</span></a>:</p>
+<p>With the above snippet, we are not only specifying how the window frames in the DataFrame are created (with the <code>partitionBy()</code>), but we are also specifying how the rows within the window are sorted (with the <code>orderBy()</code>). If we update our representation with the above window specification, we get something similar to <a href="#fig-window-spec2">Figure&nbsp;<span>12.2</span></a>:</p>
 <div id="fig-window-spec2" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="./../Figures/window-spec2.png" class="img-fluid figure-img"></p>
-<figcaption class="figure-caption">Figure&nbsp;11.2: Visualizing the window frames - Part 2</figcaption>
+<p><img src="./../Figures/window-spec2.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<figcaption class="figure-caption">Figure&nbsp;12.2: Visualizing the window frames - Part 2</figcaption>
 </figure>
 </div>
 <p>Is worth mentioning that, both <code>partitionBy()</code> and <code>orderBy()</code> methods accepts multiple columns as input. In other words, you can use a combination of columns both to define how the windows in your DataFrame will be created, and how the rows within these windows will be sorted.</p>
@@ -345,8 +351,8 @@ only showing top 5 rows
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>        col(<span class="st">'datetimeTransfer'</span>).desc()</span>
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="partitioning-or-ordering-or-none" class="level3" data-number="11.1.1">
-<h3 data-number="11.1.1" class="anchored" data-anchor-id="partitioning-or-ordering-or-none"><span class="header-section-number">11.1.1</span> Partitioning or ordering or none</h3>
+<section id="partitioning-or-ordering-or-none" class="level3" data-number="12.1.1">
+<h3 data-number="12.1.1" class="anchored" data-anchor-id="partitioning-or-ordering-or-none"><span class="header-section-number">12.1.1</span> Partitioning or ordering or none</h3>
 <p>Is worth mentioning that both partioning and ordering components of the window specification <strong>are optional</strong>. You can create a window object that contains only a partioning component defined, or, only a ordering component, or, in fact, a window object that basically have neither of them defined.</p>
 <p>As an example, all three objects below (<code>w1</code>, <code>w2</code> and <code>w3</code>) are valid window objects. <code>w1</code> have only the partition component defined, while <code>w2</code> have only the ordering component defined. However, <code>w3</code> have basically none of them defined, because <code>w3</code> is partitioned by nothing. In a situation like this, a single window is created, and this window covers the entire DataFrame. It covers all the rows at once. Is like you were not using any window at all.</p>
 <div class="cell" data-execution_count="8">
@@ -357,8 +363,8 @@ only showing top 5 rows
 <p>So just be aware of this. Be aware that you can cover the entire DataFrame into a single window. Be aware that if you use a window object with neither components defined (<code>Window.partitionBy()</code>) your window function basically works with the entire DataFrame at once. In essence, this window function becomes similar to a normal aggregating function.</p>
 </section>
 </section>
-<section id="introducing-the-over-clause" class="level2" data-number="11.2">
-<h2 data-number="11.2" class="anchored" data-anchor-id="introducing-the-over-clause"><span class="header-section-number">11.2</span> Introducing the <code>over()</code> clause</h2>
+<section id="introducing-the-over-clause" class="level2" data-number="12.2">
+<h2 data-number="12.2" class="anchored" data-anchor-id="introducing-the-over-clause"><span class="header-section-number">12.2</span> Introducing the <code>over()</code> clause</h2>
 <p>In order to use a window function you <strong>need to combine an over clause with a window object</strong>. If you pair these two components together, then, the function you are using becomes a window function.</p>
 <p>Since we know now how to define window objects for our DataFrame, we can actually create and use this object to access window functionality, by pairing this window object with an <code>over()</code> clause.</p>
 <p>In <code>pyspark</code> this <code>over()</code> clause is actually a method from the <code>Column</code> class. Since all aggregating functions available from the <code>pyspark.sql.functions</code> module produces a new <code>Column</code> object as output, we tend to use the <code>over()</code> method right after the function call.</p>
@@ -374,8 +380,8 @@ only showing top 5 rows
 <p>The <code>over()</code> clause is also available in Spark SQL as the SQL keyword <code>OVER</code>. This means that you can use window functions in Spark SQL as well. But in Spark SQL, you write the window specification inside parentheses after the <code>OVER</code> keyword, and you specify each component with <code>PARTITION BY</code> AND <code>ORDER BY</code> keywords. We could replicate the above example in Spark SQL like this:</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> mean(x) <span class="kw">OVER</span> (<span class="kw">PARTITION</span> <span class="kw">BY</span> y, z <span class="kw">ORDER</span> <span class="kw">BY</span> t <span class="kw">ASC</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="window-functions-vs-group-by-functions" class="level2" data-number="11.3">
-<h2 data-number="11.3" class="anchored" data-anchor-id="window-functions-vs-group-by-functions"><span class="header-section-number">11.3</span> Window functions vs <em>group by</em> functions</h2>
+<section id="window-functions-vs-group-by-functions" class="level2" data-number="12.3">
+<h2 data-number="12.3" class="anchored" data-anchor-id="window-functions-vs-group-by-functions"><span class="header-section-number">12.3</span> Window functions vs <em>group by</em> functions</h2>
 <p>Despite their similarities, window functions and <em>group by</em> functions are used for different purposes. One big difference between them, is that when you use <code>groupby()</code> + <code>agg()</code> you get one output row per each input group of rows, but in contrast, a window function outputs one row per input row. In other words, for a window of <span class="math inline">\(n\)</span> input rows a window function outputs <span class="math inline">\(n\)</span> rows that contains the same result (or the same aggregate result).</p>
 <p>For example, lets suppose you want to calculate the total value transfered within each day. If you use a <code>groupby()</code> + <code>agg()</code> strategy, you get as result a new DataFrame containing one row for each unique date present in the <code>dateTransfer</code> column:</p>
 <div class="cell" data-execution_count="9">
@@ -435,8 +441,8 @@ only showing top 5 rows
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    .groupby(transf[<span class="st">'dateTransfer'</span>])<span class="op">\</span></span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    .transform(<span class="st">'sum'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="ranking-window-functions" class="level2" data-number="11.4">
-<h2 data-number="11.4" class="anchored" data-anchor-id="ranking-window-functions"><span class="header-section-number">11.4</span> Ranking window functions</h2>
+<section id="ranking-window-functions" class="level2" data-number="12.4">
+<h2 data-number="12.4" class="anchored" data-anchor-id="ranking-window-functions"><span class="header-section-number">12.4</span> Ranking window functions</h2>
 <p>The functions <code>row_number()</code>, <code>rank()</code> and <code>dense_rank()</code> from the <code>pyspark.sql.functions</code> module are ranking functions, in the sense that they seek to rank each row in the input window according to a ranking system. These functions are identical to their <a href="https://dev.mysql.com/doc/refman/8.0/en/window-function-descriptions.html#function_row-number">peers in MySQL</a><a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> <code>ROW_NUMBER()</code>, <code>RANK()</code> and <code>DENSE_RANK()</code>.</p>
 <p>The function <code>row_number()</code> simply returns a unique and sequential number to each row in a window, starting from 1. It is a quick way of marking each row with an unique and sequential number.</p>
 <div class="cell" data-execution_count="11">
@@ -532,11 +538,14 @@ only showing top 5 rows
 +---+-----+---------+
 </code></pre>
 </div>
+<div class="cell-output cell-output-stderr">
+<pre><code>[Stage 14:&gt;                                                       (0 + 12) / 12]                                                                                </code></pre>
+</div>
 </div>
 <div class="cell" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># With dense_rank() there are no gaps in the indexes</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>df.withColumn(<span class="st">'with_dense_rank'</span>, dense_rank().over(window_spec))<span class="op">\</span></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    .show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># With dense_rank() there are no gaps in the indexes</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>df.withColumn(<span class="st">'with_dense_rank'</span>, dense_rank().over(window_spec))<span class="op">\</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    .show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>+---+-----+---------------+
 | id|value|with_dense_rank|
@@ -556,23 +565,23 @@ only showing top 5 rows
 </div>
 </div>
 </section>
-<section id="agreggating-window-functions" class="level2" data-number="11.5">
-<h2 data-number="11.5" class="anchored" data-anchor-id="agreggating-window-functions"><span class="header-section-number">11.5</span> Agreggating window functions</h2>
+<section id="agreggating-window-functions" class="level2" data-number="12.5">
+<h2 data-number="12.5" class="anchored" data-anchor-id="agreggating-window-functions"><span class="header-section-number">12.5</span> Agreggating window functions</h2>
 <p>In essence, all agreggating functions from the <code>pyspark.sql.functions</code> module (like <code>sum()</code>, <code>mean()</code>, <code>count()</code>, <code>max()</code> and <code>min()</code>) can be used as a window function. So you can apply any agreggating function as a window function. You just need to use the <code>over()</code> clause with a <code>Window</code> object.</p>
 <p>We could for example see how much each <code>transferValue</code> deviates from the daily mean of transfered value. This might be a valuable information in case you are planning to do some statistical inference over this data. Here is an example of what this would looks like in <code>pyspark</code>:</p>
 <div class="cell" data-execution_count="16">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> mean</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>window_spec <span class="op">=</span> Window.partitionBy(<span class="st">'dateTransfer'</span>)</span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>mean_deviation_expr <span class="op">=</span> (</span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>    col(<span class="st">'transferValue'</span>)</span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">-</span> mean(col(<span class="st">'transferValue'</span>)).over(window_spec)</span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>transf<span class="op">\</span></span>
-<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>    .select(<span class="st">'dateTransfer'</span>, <span class="st">'transferValue'</span>)<span class="op">\</span></span>
-<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>    .withColumn(<span class="st">'meanDeviation'</span>, mean_deviation_expr)<span class="op">\</span></span>
-<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>    .show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> mean</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>window_spec <span class="op">=</span> Window.partitionBy(<span class="st">'dateTransfer'</span>)</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>mean_deviation_expr <span class="op">=</span> (</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    col(<span class="st">'transferValue'</span>)</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">-</span> mean(col(<span class="st">'transferValue'</span>)).over(window_spec)</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>transf<span class="op">\</span></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>    .select(<span class="st">'dateTransfer'</span>, <span class="st">'transferValue'</span>)<span class="op">\</span></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>    .withColumn(<span class="st">'meanDeviation'</span>, mean_deviation_expr)<span class="op">\</span></span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>    .show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>+------------+-------------+-------------------+
 |dateTransfer|transferValue|      meanDeviation|
@@ -589,16 +598,16 @@ only showing top 5 rows
 </div>
 <p>As another example, you might want to calculate how much a specific transfer value represents of represents of the total amount transferred daily. You could just get the total amount transferred daily by applying the <code>sum()</code> function over windows partitioned by <code>dateTransfer</code>. Then, you just need to divide the current <code>transferValue</code> by the result of this <code>sum()</code> function, and you get the proportion you are looking for.</p>
 <div class="cell" data-execution_count="17">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> <span class="bu">sum</span></span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>proportion_expr <span class="op">=</span> (</span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>    col(<span class="st">'transferValue'</span>)</span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">/</span> <span class="bu">sum</span>(col(<span class="st">'transferValue'</span>)).over(window_spec)</span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>transf<span class="op">\</span></span>
-<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>    .select(<span class="st">'dateTransfer'</span>, <span class="st">'transferValue'</span>)<span class="op">\</span></span>
-<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>    .withColumn(<span class="st">'proportionDailyTotal'</span>, proportion_expr)<span class="op">\</span></span>
-<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>    .show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> <span class="bu">sum</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>proportion_expr <span class="op">=</span> (</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    col(<span class="st">'transferValue'</span>)</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">/</span> <span class="bu">sum</span>(col(<span class="st">'transferValue'</span>)).over(window_spec)</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>transf<span class="op">\</span></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>    .select(<span class="st">'dateTransfer'</span>, <span class="st">'transferValue'</span>)<span class="op">\</span></span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>    .withColumn(<span class="st">'proportionDailyTotal'</span>, proportion_expr)<span class="op">\</span></span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>    .show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>+------------+-------------+--------------------+
 |dateTransfer|transferValue|proportionDailyTotal|
@@ -614,29 +623,29 @@ only showing top 5 rows
 </div>
 </div>
 </section>
-<section id="getting-the-next-and-previous-row-with-lead-and-lag" class="level2" data-number="11.6">
-<h2 data-number="11.6" class="anchored" data-anchor-id="getting-the-next-and-previous-row-with-lead-and-lag"><span class="header-section-number">11.6</span> Getting the next and previous row with <code>lead()</code> and <code>lag()</code></h2>
+<section id="getting-the-next-and-previous-row-with-lead-and-lag" class="level2" data-number="12.6">
+<h2 data-number="12.6" class="anchored" data-anchor-id="getting-the-next-and-previous-row-with-lead-and-lag"><span class="header-section-number">12.6</span> Getting the next and previous row with <code>lead()</code> and <code>lag()</code></h2>
 <p>There is one pair functions that is worth talking about in this chapter, which are <code>lead()</code> and <code>lag()</code>. These functions are very useful in the context of windows, because they return the value in the next and previous rows considering your current position in your DataFrame.</p>
 <p>These functions basically performs the same operation as their peers <a href="https://dplyr.tidyverse.org/reference/lead-lag.html"><code>dplyr::lead()</code> and <code>dplyr::lag()</code></a><a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a> from the <code>tidyverse</code> framework. In essence, <code>lead()</code> will return the value of the next row, while <code>lag()</code> will return the value of the previous row.</p>
 <div class="cell" data-execution_count="18">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> lag, lead</span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>window_spec <span class="op">=</span> Window<span class="op">\</span></span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    .partitionBy(<span class="st">'dateTransfer'</span>)<span class="op">\</span></span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>    .orderBy(<span class="st">'datetimeTransfer'</span>)</span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>lead_expr <span class="op">=</span> lead(<span class="st">'transferValue'</span>).over(window_spec)</span>
-<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>lag_expr <span class="op">=</span> lag(<span class="st">'transferValue'</span>).over(window_spec)</span>
-<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>transf<span class="op">\</span></span>
-<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>    .withColumn(<span class="st">'nextValue'</span>, lead_expr)<span class="op">\</span></span>
-<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>    .withColumn(<span class="st">'previousValue'</span>, lag_expr)<span class="op">\</span></span>
-<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>    .select(</span>
-<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>        <span class="st">'datetimeTransfer'</span>,</span>
-<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>        <span class="st">'transferValue'</span>,</span>
-<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>        <span class="st">'nextValue'</span>,</span>
-<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>        <span class="st">'previousValue'</span></span>
-<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a>    )<span class="op">\</span></span>
-<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a>    .show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> lag, lead</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>window_spec <span class="op">=</span> Window<span class="op">\</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>    .partitionBy(<span class="st">'dateTransfer'</span>)<span class="op">\</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>    .orderBy(<span class="st">'datetimeTransfer'</span>)</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>lead_expr <span class="op">=</span> lead(<span class="st">'transferValue'</span>).over(window_spec)</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>lag_expr <span class="op">=</span> lag(<span class="st">'transferValue'</span>).over(window_spec)</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>transf<span class="op">\</span></span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>    .withColumn(<span class="st">'nextValue'</span>, lead_expr)<span class="op">\</span></span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>    .withColumn(<span class="st">'previousValue'</span>, lag_expr)<span class="op">\</span></span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>    .select(</span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>        <span class="st">'datetimeTransfer'</span>,</span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>        <span class="st">'transferValue'</span>,</span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>        <span class="st">'nextValue'</span>,</span>
+<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>        <span class="st">'previousValue'</span></span>
+<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a>    )<span class="op">\</span></span>
+<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a>    .show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>+-------------------+-------------+---------+-------------+
 |   datetimeTransfer|transferValue|nextValue|previousValue|
@@ -922,7 +931,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="../Chapters/10-datetime.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Tools for dates and datetimes manipulation</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Tools for dates and datetimes manipulation</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

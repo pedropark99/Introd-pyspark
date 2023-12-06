@@ -9,7 +9,6 @@ sc = spark.sparkContext
 sc.setLogLevel("OFF")
 ```
 
-## Introduction
 
 In this chapter, you will understand how Spark represents and manages tables (or tabular data). Different programming languages and frameworks use different names to describe a table. But, in Apache Spark, they are referred as Spark DataFrames.
 
@@ -39,7 +38,7 @@ If you are running Spark in a 4 nodes cluster (one is the driver node, and the o
 ![A Spark DataFrame is distributed across the cluster](../Figures/distributed-df.png){#fig-distributed-df fig-align="center"}
 
 
-## Partitions of a Spark DataFrame
+## Partitions of a Spark DataFrame {#sec-dataframe-partitions}
 
 A Spark DataFrame is always broken into many small pieces, and, these pieces are always spread across the cluster of machines. Each one of these small pieces of the total data are considered a DataFrame *partition*.
 
@@ -137,9 +136,9 @@ students
 
 You can also use a method that returns a `DataFrame` object by default. Examples are the `table()` and `range()` methods from your Spark Session, like we used in the @sec-dataframe-class, to create the `df5` object.
 
-Other examples are the methods used to read data and import it to `pyspark`. These methods are available in the `spark.read` module, like `spark.read.csv()` and `spark.read.json()`. These methods will be described in more depth in @sec-import-export.
+Other examples are the methods used to read data and import it to `pyspark`. These methods are available in the `spark.read` module, like `spark.read.csv()` and `spark.read.json()`. These methods will be described in more depth in @sec-import.
 
-## Viewing a Spark DataFrame {#sec-viewing-a-dataframe}
+## Visualizing a Spark DataFrame {#sec-viewing-a-dataframe}
 
 A key aspect of Spark is its laziness. In other words, for most operations, Spark will only check if your code is correct and if it makes sense. Spark will not actually run or execute the operations you are describing in your code, unless you explicit ask for it with a trigger operation, which is called an "action" (this kind of operation is described in @sec-dataframe-actions).
 

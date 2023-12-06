@@ -214,20 +214,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../Chapters/07-export.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Exporting data out of Spark</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../Chapters/09-strings.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Tools for string manipulation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Tools for string manipulation</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../Chapters/10-datetime.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Tools for dates and datetimes manipulation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Tools for dates and datetimes manipulation</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../Chapters/11-window.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Introducing window functions</span></span></a>
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Introducing window functions</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -277,7 +283,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>As we described at the introduction of <a href="04-dataframes.html"><span>Chapter&nbsp;3</span></a>, you will massively use the methods from the <code>DataFrame</code> class in your Spark applications to manage, modify and calculate your Spark DataFrames.</p>
 <p>However, there is one more python class that provides some very useful methods that you will regularly use, which is the <code>Column</code> class, or more specifically, the <code>pyspark.sql.column.Column</code> class.</p>
 <p>The <code>Column</code> class is used to represent a column in a Spark DataFrame. This means that, each column of your Spark DataFrame is a object of class <code>Column</code>.</p>
-<p>We can confirm this statement, by taking the <code>df</code> DataFrame that we showed at <a href="04-dataframes.html#sec-building-a-dataframe"><span>Section&nbsp;3.5</span></a>, and look at the class of any column of it. Like the <code>id</code> column:</p>
+<p>We can confirm this statement, by taking the <code>df</code> DataFrame that we showed at <a href="04-dataframes.html#sec-building-a-dataframe"><span>Section&nbsp;3.4</span></a>, and look at the class of any column of it. Like the <code>id</code> column:</p>
 <div class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(df.<span class="bu">id</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
@@ -308,7 +314,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>Having these ideas in mind, when I created the column <code>ID</code> on the previous section, I created a “column expression”. This means that <code>col("ID")</code> is just an expression, and as consequence, Spark does not know which are the values of column <code>ID</code>, or, where it lives (which is the DataFrame that this column belongs?). For now, Spark is not interested in this information, it just knows that we have an expression referring to a column called <code>ID</code>.</p>
-<p>These ideas relates a lot to the <strong>lazy aspect</strong> of Spark that we talked about in <a href="04-dataframes.html#sec-viewing-a-dataframe"><span>Section&nbsp;3.6</span></a>. Spark will not perform any heavy calculation, or show you the actual results/values from you code, until you trigger the calculations with an action (we will talk more about these “actions” on <a href="05-transforming.html#sec-dataframe-actions"><span>Section&nbsp;5.3</span></a>). As a result, when you access a column, Spark will only deliver a expression that represents that column, and not the actual values of that column.</p>
+<p>These ideas relates a lot to the <strong>lazy aspect</strong> of Spark that we talked about in <a href="04-dataframes.html#sec-viewing-a-dataframe"><span>Section&nbsp;3.5</span></a>. Spark will not perform any heavy calculation, or show you the actual results/values from you code, until you trigger the calculations with an action (we will talk more about these “actions” on <a href="05-transforming.html#sec-dataframe-actions"><span>Section&nbsp;5.2</span></a>). As a result, when you access a column, Spark will only deliver a expression that represents that column, and not the actual values of that column.</p>
 <p>This is handy, because we can store our expressions in variables, and, reuse it latter, in multiple parts of our code. For example, I can keep building and merging a column with different kinds of operators, to build a more complex expression. In the example below, I create a expression that doubles the values of <code>ID</code> column:</p>
 <div class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>expr1 <span class="op">=</span> id_column <span class="op">*</span> <span class="dv">2</span></span>
