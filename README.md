@@ -11,7 +11,7 @@ Some of the main subjects discussed in the book are:
 - How an Apache Spark application works?
 - What are Spark DataFrames?
 - How to transform and model your Spark DataFrame.
-- How to import data into Apache Spark.
+- How to import data into, and export data out of Apache Spark.
 - How to work with SQL inside pyspark.
 - Tools for manipulating specific data types (e.g. string, dates and datetimes).
 - How to use window functions.
