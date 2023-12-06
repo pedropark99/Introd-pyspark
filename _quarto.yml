@@ -41,8 +41,8 @@ format:
     theme: 
       - cosmo
       - theme.scss
-  # pdf:
-  #   mainfont: Times New Roman
-  #   monofont: Inconsolata
-  #   fontsize: 11pt
-  #   keep-tex: false
+  pdf:
+    mainfont: Times New Roman
+    monofont: Inconsolata
+    fontsize: 11pt
+    keep-tex: false
