@@ -1,0 +1,58 @@
+# Preface {.unnumbered}
+## About this book {.unnumbered}
+
+Hello! This book provides an introduction to [`pyspark`](https://spark.apache.org/docs/latest/api/python/), which is a Python API to [Apache Spark](https://spark.apache.org/). Here, you will learn how to perform the most commom data analysis tasks and useful data transformations with Python to process huge amounts of data.
+
+```{python}
+#| include: false
+# To execute the next chunks with success, we need to start a Spark Session
+from pyspark.sql import SparkSession
+spark = SparkSession.builder.getOrCreate()
+sc = spark.sparkContext
+sc.setLogLevel("OFF")
+```
+
+
+```{python}
+from pyspark.sql.types import StructType, StructField
+from pyspark.sql.types import DoubleType, StringType
+from pyspark.sql.types import LongType, TimestampType, DateType
+path = "../../Data/transf.csv"
+schema = StructType([
+  StructField('dateTransfer', DateType(), False),
+  StructField('datetimeTransfer', TimestampType(), False),
+  StructField('clientNumber', LongType(), False),
+  StructField('transferValue', DoubleType(), False),
+  StructField('transferCurrency', StringType(), False),
+  StructField('transferID', LongType(), False),
+  StructField('transferLog', StringType(), False),
+  StructField('destinationBankNumber', LongType(), False),
+  StructField('destinationBankBranch', LongType(), False),
+  StructField('destinationBankAccount', StringType(), False)
+])
+
+transf = spark.read\
+  .csv(path, schema = schema, sep = ";", header = True)
+```
+
+
+```{python}
+transf.show()
+```
+
+
+```
+StructType([StructField('id', LongType(), True), StructField('value', DoubleType(), True), StructField('date', DateType(), True)])
+```
+
+
+```
+Py4JError: An error occurred while calling o216.and. Trace: py4j.Py4JException: Method and([class java.lang.Integer]) does not exist aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaat py4j.reflection.ReflectionEngine.getMethod(ReflectionEngine.java:318)
+at py4j.reflection.ReflectionEngine.getMethod(ReflectionEngine.java:326)
+at py4j.Gateway.invoke(Gateway.java:274)
+at py4j.commands.AbstractCommand.invokeMethod(AbstractCommand.java:132)
+at py4j.commands.CallCommand.execute(CallCommand.java:79)
+at py4j.ClientServerConnection.waitForCommands(ClientServerConnection.java:182)
+at py4j.ClientServerConnection.run(ClientServerConnection.java:106)
+at java.base/java.lang.Thread.run(Thread.java:829)
+```

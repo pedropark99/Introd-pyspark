@@ -1,0 +1,16 @@
+project:
+  type: book
+
+book:
+  title: "Introduction to `pyspark`"
+  author: "Pedro Duarte Faria"
+  date: "today"
+  edition: "First edition"
+  chapters:
+    - index.qmd
+
+number-sections: true
+format:
+  pdf:
+    fontsize: 11pt
+    keep-tex: true

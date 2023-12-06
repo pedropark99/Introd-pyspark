@@ -67,5 +67,13 @@ def print_big_list(text, n_chars = 80):
     return truncated_text
 
 
-# x = print_big_list(test_list)
-# print(x)
+def split_list_into_lines(input_list, max_items_per_line):
+    input_list = [x.strip() for x in input_list.split(',')]
+    result = [input_list[i:i + max_items_per_line] for i in range(0, len(input_list), max_items_per_line)]
+    adjusted_lines = list()
+    for line_elements in result:
+        adjusted_lines.append(', '.join(line_elements))
+
+    return ',\n'.join(adjusted_lines)
+
+
