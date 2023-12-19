@@ -388,7 +388,7 @@ div.csl-indent {
 <section id="defining-a-set-of-transformations-and-actions" class="level3" data-number="2.4.3">
 <h3 data-number="2.4.3" class="anchored" data-anchor-id="defining-a-set-of-transformations-and-actions"><span class="header-section-number">2.4.3</span> Defining a set of transformations and actions</h3>
 <p>Every <code>pyspark</code> program is composed by a set of transformations and actions over a set of Spark DataFrames.</p>
-<p>We will explain Spark DataFrames in more deth on the <a href="04-dataframes.html"><span>Chapter&nbsp;3</span></a>. For now just understand that they are the basic data sctructure that feed all <code>pyspark</code> programs. In other words, on every <code>pyspark</code> program we are transforming multiple Spark DataFrames to get the result we want.</p>
+<p>I will explain Spark DataFrames in more deth on the <a href="04-dataframes.html"><span>Chapter&nbsp;3</span></a>. For now just understand that they are the basic data sctructure that feed all <code>pyspark</code> programs. In other words, on every <code>pyspark</code> program we are transforming multiple Spark DataFrames to get the result we want.</p>
 <p>As an example, in the script below we begin with the Spark DataFrame stored in the object <code>students</code>, and, apply multiple transformations over it to build the <code>ar_department</code> DataFrame. Lastly, we apply the <code>.show()</code> action over the <code>ar_department</code> DataFrame:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> col</span>
@@ -447,7 +447,8 @@ div.csl-indent {
 <p>After I opened a terminal rooted inside the <code>SparkExample</code> folder. I just use the <code>python3</code> command to access the python interpreter, and, give the name of the python script that I want to execute. In this case, the <code>spark-example.py</code> file. As a result, our first <code>pyspark</code> program will be executed:</p>
 <pre><code>Terminal$ cd ./../SparkExample
 Terminal$ python3 spark-example.py</code></pre>
-<p>You can see in the above result, that this Spark application produces a sequence of numbers, from 0 to 4, and, returns this sequence as a set of <code>Row</code> objects, inside a python list.</p>
+<pre><code>[Row(id=0), Row(id=1), Row(id=2), Row(id=3), Row(id=4)]</code></pre>
+<p>You can see in the above result, that this Spark application produces a sequence of <code>Row</code> objects, inside a Python list. Each row object contains a number from 0 to 4.</p>
 <p>Congratulations! You have just run your first Spark application using <code>pyspark</code>!</p>
 </section>
 </section>

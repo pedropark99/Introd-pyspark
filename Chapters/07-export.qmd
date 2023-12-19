@@ -310,7 +310,7 @@ However, when you do perform a repartition operation to concentrate all the data
 3. depending on the size of all partitions merged together, the risks for an "out of memory" error to be raised during the process scales rapidly.
 
 
-So you should be aware of these risks above, and always try to avoid using the option 1. Actually, you should avoid as much as possible the need to write all the data into a single static file! Is best for you to just write the data using the default number of partitions that Spark chose for your DataFrame.
+So you should be aware of these risks above, and always try to avoid using the option 1. Actually, you should avoid as much as possible the need to write all the data into a single static file! Is best for you to just write the data using the default number of partitions that Spark choose for your DataFrame.
 
 But anyway, if you really cannot avoid this need, and if you have, for example, a `sales` DataFrame you want to export, and this DataFrame contains 4 partitions:
 
