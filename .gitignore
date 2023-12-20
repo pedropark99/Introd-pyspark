@@ -23,3 +23,6 @@ index_files/
 
 Introduction-to-`pyspark`.tex
 docs/*.pdf
+*.aux
+*.log
+*.toc
