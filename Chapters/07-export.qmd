@@ -54,29 +54,29 @@ transf.write
 ```
 
 
-This `write` object is very similar in structure to the `read` object. Essentially, this write object have a collection of *write engines*. Each write engine is speciallized in writing data into a specific file format. So you have an engine for CSV files, another engine for JSON files, another to Parquet files, etc.
+This `write` object is very similar in structure to the `read` object. Essentially, this write object have a collection of *write engines*. Each write engine is speciallized in writing data into a specific file format. So you have an engine for CSV files, another engine for JSON files, another for Parquet files, etc.
 
 Every `write` object have the following methods:
 
-- `mode()`: set the mode of the write process. This affects how the data will be written to the files, and how the process will behaviour in case exceptions/erros are raised during runtime.
-- `option()`: to set an option to be used in the write process. This option might be specific to the write engine used, or, might be an option that is global to the write process (that does not depend of the chosen write engine).
-- `csv()`: the write engine to export data to a CSV file.
-- `json()`: the write engine to export data to a JSON file.
-- `parquet()`: the write engine to export data to a Parquet file.
-- `orc()`: the write engine to export data to a ORC file.
-- `text()`: the write engine to export data to a text file.
+- `mode()`: set the mode of the write process. This affects how the data will be written to the files, and how the process will behaviour if exceptions (or erros) are raised during runtime.
+- `option()`: set an option to be used in the write process. This option might be specific to the write engine used, or, might be an option that is global to the write process (i.e. an option that does not depend of the chosen engine).
+- `csv()`: the write engine to export data to CSV files.
+- `json()`: the write engine to export data to JSON files.
+- `parquet()`: the write engine to export data to Parquet files.
+- `orc()`: the write engine to export data to ORC files.
+- `text()`: the write engine to export data to text files.
 - `jdbc()`: saves the data of the current DataFrame into a database using the JDBC API.
 
 
 ## Exporting the `transf` DataFrame {#sec-write-example}
 
-As a simple example, we will export the data from the `transf` DataFrame. Over the next sections, we will cover each aspect that influences this write/export process that you should know about, or considering when exporting your data.
+As a first example on how to export data out of Spark, I will export the data from the `transf` DataFrame. Over the next sections, I will cover individual aspects that influences this write/export process. You should know and consider each of these individual aspects when exporting your data.
 
 ### Quick export to a CSV file
 
 Lets begin with a quick example of exporting the Spark data to a CSV file. For this job, we need to use the write engine for CSV files, which is the `csv()` method from the write object.
 
-The first (and main) argument to all write engines available in Spark is a path to a folder where you want to store the exported files. This means that (whatever write engine you use) Spark will always write the files (with the exported data) inside a folder.
+The **first (and main) argument to all write engines** available in Spark is a path to a folder where you want to store the exported files. This means that (whatever write engine you use) Spark will always write the files (with the exported data) inside a folder.
 
 Spark needs to use a folder to write the data. Because it generates some extra files during the process that serves as "placeholders" or as "statuses". That is why Spark needs to create a folder, to store all of these different files together during the process.
 
@@ -104,7 +104,7 @@ print(folders_in_current_directory)
 ['metastore_db', 'transf_export']
 ```
 
-And if I look inside this `transf_export` folder I will see two files. One is the placeholder file (`_SUCCESS`), and the other, is a CSV file containing the exported data (`part-*`).
+And if I look inside this `transf_export` folder I will see two files. One is the placeholder file (`_SUCCESS`), and the other, is a CSV file containing the exported data (`part-*.csv`).
 
 ```python
 export_folder = Path("transf_export")
@@ -211,7 +211,7 @@ transf.count()
 
 So, in resume, the difference between write mode `overwrite` and `append`, is that `overwrite` causes Spark to erase the contents of `transf_export`, before it starts to write the current data into the folder. This way, Spark exports the most recent version of the data stored inside the DataFrame. In contrast, `append` simply appends (or adds) new files to the folder `transf_export` with the most recent version of the data stored inside the DataFrame.
 
-At @sec-sql-save-modes we presented this difference visually in @fig-save-table-modes. So, in case you don't understood fully the difference between these two write modes, you can comeback at @sec-sql-save-modes and check @fig-save-table-modes to see if it clears your understanding. OBS: save modes = write modes.
+At @sec-sql-save-modes (or more specifically, at @fig-save-table-modes) we presented this difference visually. So, in case you don't understood fully the difference between these two write modes, you can comeback at @sec-sql-save-modes and check @fig-save-table-modes to see if it clears your understanding. OBS: save modes = write modes.
 
 
 ### Setting write options
@@ -279,38 +279,40 @@ transf.rdd.getNumPartitions()
 
 That means that all the data from `transf` DataFrame is concentrated into a single partition. Having that in mind, we could say that Spark decided in this specific case to not actually distribute the data of `transf`. Because all of its data is concentrated into one single place.
 
-This also means that, for example, if your DataFrame is splitted across 5 different partitions, and you run `DataFrame.write.csv()` to export the Spark data into CSV files, then, 5 different CSV files will be written in your system. One CSV file for each existing partition of the DataFrame.
+But what would happen if the `transf` DataFrame was splitted across 5 different partitions? What would happen then? In that case, if the `transf` DataFrame had 5 different partitions, and I ran the command `transf.write.csv("transf_export")` to export its data into CSV files, then, 5 different CSV files would be written by Spark inside the folder `transf_export`. One CSV file for each existing partition of the DataFrame.
 
 The same goes for any other file format, or any write engine that you might use in Spark. Each file generated by the write process contains the data from a specific partition of the DataFrame.
 
-Spark will always try to organize your DataFrame into a partition distribution that yields the best performance in data processing. Usually in production environments, we have huge amounts of data, and a single partition distribution is rarely the case that yields the best performance in these environments.
+### Avoid exporting too much data into a single file
+
+Spark will always try to organize your DataFrame into a *partition distribution* that yields the best performance in any data processing. Usually in production environments, we have huge amounts of data, and a single partition distribution is rarely the case that yields the best performance in these environments.
 
 That is why most existing Spark DataFrames in production environments are splitted into multiple partitions across the Spark cluster. This means that Spark DataFrames that are by default concentrated into one single partition (like the `transf` DataFrame in the examples of this book) are very, very rare to find in the production environments.
 
 As a consequence, if you really need to export your data into a single static file in a production environment, you will likely need to:
 
 1. repartition your Spark DataFrame. That is, to reorganize the partitions of this DataFrame, so that all of its data get concentrated into a single partition.
-2. continue with the write process anyway, then later, after the write process is finished, you merge all of the generated files together with some other tool, like `pandas`, or `polars`, or the `tidyverse`.
+2. or you continue with the write process anyway, and then later, after the write process is finished, you merge all of the generated files together with some other tool, like `pandas`, or `polars`, or the `tidyverse`.
 
 
-The option 2 above is a little out of the scope of this book, so I will not explain it further here. But if you really want to export all data from your Spark DataFrame into a single static file (whatever is the file format you choose), and you choose to follow option 1, then, you need to perform a repartition operation to concentrate all data from your Spark DataFrame into a single partition.
+The option 2 above is a little out of the scope of this book, so I will not explain it further here. But if you really need to export all the data from your Spark DataFrame into a single static file (whatever is the file format you choose), and you choose to follow option 1, then, you need to perform a repartition operation to concentrate all data from your Spark DataFrame into a single partition.
 
-Is worth mentioning that **I strongly advise against option 1**. Because option 1 may cause some serious bottlenecks in your data pipeline, depending specially on the size of the DataFrame you are trying to export.
+Is worth mentioning that **I strongly advise against this option 1**. Because option 1 may cause some serious bottlenecks in your data pipeline, depending specially on the size of the DataFrame you are trying to export.
 
-In more details, when you do not perform any repartition operation, that is, when you just write your DataFrame as is, without touching in the existing partitions, then, the write process become a narrow transformation, as I explained at @sec-narrow-wide. Because each partition is exported into a single and separate file that is independent from the others.
+In more details, when you do not perform any repartition operation, that is, when you just write your DataFrame as is, without touching in the existing partitions, then, the write process is a narrow transformation, as I explained at @sec-narrow-wide. Because each partition is exported into a single and separate file that is independent from the others.
 
 This is really important, because narrow transformations are much more predictable and are more easily scaled than wide transformations. As a result, Spark tends to scale and perform better when dealing with narrow transformations.
 
 However, when you do perform a repartition operation to concentrate all the data into a single partition, then, three things happen:
 
-1. the write process becomes a wide transformation, because all partitions needs to merged together, and as a consequence, all nodes in the cluster needs to send their data to a single place (which is usually the driver node of the cluster).
+1. the write process becomes a wide transformation, because all partitions needs to be merged together, and as a consequence, all nodes in the cluster needs to send their data to a single place (which is usually the driver node of the cluster).
 
 2. a high amount of partition shuffles can happen inside the cluster, and if they do happen, then, depending on the amount of data that needs to be "shuffled" accross the cluster, this may cause some serious slowdown in the processing.
 
 3. depending on the size of all partitions merged together, the risks for an "out of memory" error to be raised during the process scales rapidly.
 
 
-So you should be aware of these risks above, and always try to avoid using the option 1. Actually, you should avoid as much as possible the need to write all the data into a single static file! Is best for you to just write the data using the default number of partitions that Spark chose for your DataFrame.
+So you should be aware of these risks above, and always try to avoid using the option 1. Actually, you should avoid as much as possible the need to write all the data into a single static file! Is best for you to just write the data using the default number of partitions that Spark choose for your DataFrame.
 
 But anyway, if you really cannot avoid this need, and if you have, for example, a `sales` DataFrame you want to export, and this DataFrame contains 4 partitions:
 
@@ -322,7 +324,7 @@ sales.rdd.getNumPartitions()
 4
 ```
 
-And you want to perform a repartition operation over this DataFrame to export its data into a single static file, you can do so by using the `coalesce()` DataFrame method. Just provide the number 1 to this method, and all of the partitions are reorganized into a single partition:
+And you want to perform a repartition operation over this DataFrame to export its data into a single static file, you can do so by using the `coalesce()` DataFrame method. Just provide the number 1 to this method, and all of the partitions will be reorganized into a single partition:
 
 ```python
 sales\
@@ -335,7 +337,15 @@ sales\
 1
 ```
 
+Having that in mind, the entire source code to export the DataFrame into a single static file would be something like this:
 
+```python
+sales\
+    .coalesce(1)\
+    .write\
+    .mode("overwrite")\
+    .csv("sales_export")
+```
 
 
 

@@ -23,8 +23,6 @@
 \usepackage{lmodern}
 \ifPDFTeX\else  
     % xetex/luatex font selection
-  \setmainfont[]{Times New Roman}
-  \setmonofont[]{Inconsolata}
 \fi
 % Use upquote if available, for straight quotes in verbatim environments
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
@@ -144,6 +142,12 @@
 \newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{#1}\break}
 \newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
 
+\usepackage{fontspec}
+\setmainfont{Times New Roman}
+\setmonofont{Inconsolata-Regular.ttf}[
+    Path = Fonts/Inconsolata/static/,
+    BoldFont = Inconsolata-Bold.ttf
+]
 \KOMAoption{captions}{tableheading}
 \makeatletter
 \makeatother
@@ -217,11 +221,11 @@
 
 \title{Introduction to \texttt{pyspark}}
 \author{Pedro Duarte Faria}
-\date{2023-12-06}
+\date{2023-12-19}
 
 \begin{document}
 \maketitle
-\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[breakable, interior hidden, sharp corners, borderline west={3pt}{0pt}{shadecolor}, boxrule=0pt, frame hidden, enhanced]}{\end{tcolorbox}}\fi
+\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[boxrule=0pt, sharp corners, frame hidden, interior hidden, borderline west={3pt}{0pt}{shadecolor}, enhanced, breakable]}{\end{tcolorbox}}\fi
 
 \renewcommand*\contentsname{Table of contents}
 {
@@ -2864,8 +2868,9 @@ DataFrame to us.
 \end{Highlighting}
 \end{Shaded}
 
+
 \begin{verbatim}
-[Stage 0:>                                                        (0 + 12) / 12]
+                                                                                
 \end{verbatim}
 
 \begin{verbatim}
@@ -5984,9 +5989,6 @@ After we executed the above statements, we can now access and use the
 \end{Highlighting}
 \end{Shaded}
 
-\begin{verbatim}
-[Stage 0:>                                                          (0 + 1) / 1]
-\end{verbatim}
 
 \begin{verbatim}
 +---+-----+----------+
@@ -6855,6 +6857,7 @@ since they have a small difference on the \texttt{quantity} column.
 \NormalTok{supermarket\_sales.show(}\DecValTok{6}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
+
 
 \begin{verbatim}
 +--------------+------------+--------+-----+
@@ -7813,29 +7816,11 @@ As an example, to apply a \emph{cross join} between \texttt{info} and
 \end{Highlighting}
 \end{Shaded}
 
-\begin{verbatim}
-[Stage 69:============>                                         (24 + 12) / 100]
-[Stage 69:===================>                                  (36 + 12) / 100]
-\end{verbatim}
 
-\begin{verbatim}
-[Stage 69:=========================>                            (47 + 12) / 100]
-[Stage 69:===========================>                          (51 + 12) / 100]
-\end{verbatim}
 
-\begin{verbatim}
-[Stage 69:=================================>                    (62 + 12) / 100]
-[Stage 69:=======================================>              (74 + 12) / 100]
-\end{verbatim}
 
-\begin{verbatim}
-[Stage 69:===========================================>          (80 + 12) / 100]
-[Stage 69:================================================>     (90 + 10) / 100]
-\end{verbatim}
 
-\begin{verbatim}
-                                                                                
-\end{verbatim}
+
 
 \begin{verbatim}
 +------+--------------+----------+--------+-----+------+
@@ -8847,14 +8832,14 @@ data to somewhere else.
 \end{Shaded}
 
 \begin{verbatim}
-<pyspark.sql.readwriter.DataFrameWriter at 0x7fe6dd9c7160>
+<pyspark.sql.readwriter.DataFrameWriter at 0x7f662d142fe0>
 \end{verbatim}
 
 This \texttt{write} object is very similar in structure to the
 \texttt{read} object. Essentially, this write object have a collection
 of \emph{write engines}. Each write engine is speciallized in writing
 data into a specific file format. So you have an engine for CSV files,
-another engine for JSON files, another to Parquet files, etc.
+another engine for JSON files, another for Parquet files, etc.
 
 Every \texttt{write} object have the following methods:
 
@@ -8863,22 +8848,22 @@ Every \texttt{write} object have the following methods:
 \item
   \texttt{mode()}: set the mode of the write process. This affects how
   the data will be written to the files, and how the process will
-  behaviour in case exceptions/erros are raised during runtime.
+  behaviour if exceptions (or erros) are raised during runtime.
 \item
-  \texttt{option()}: to set an option to be used in the write process.
-  This option might be specific to the write engine used, or, might be
-  an option that is global to the write process (that does not depend of
-  the chosen write engine).
+  \texttt{option()}: set an option to be used in the write process. This
+  option might be specific to the write engine used, or, might be an
+  option that is global to the write process (i.e.~an option that does
+  not depend of the chosen engine).
 \item
-  \texttt{csv()}: the write engine to export data to a CSV file.
+  \texttt{csv()}: the write engine to export data to CSV files.
 \item
-  \texttt{json()}: the write engine to export data to a JSON file.
+  \texttt{json()}: the write engine to export data to JSON files.
 \item
-  \texttt{parquet()}: the write engine to export data to a Parquet file.
+  \texttt{parquet()}: the write engine to export data to Parquet files.
 \item
-  \texttt{orc()}: the write engine to export data to a ORC file.
+  \texttt{orc()}: the write engine to export data to ORC files.
 \item
-  \texttt{text()}: the write engine to export data to a text file.
+  \texttt{text()}: the write engine to export data to text files.
 \item
   \texttt{jdbc()}: saves the data of the current DataFrame into a
   database using the JDBC API.
@@ -8888,10 +8873,11 @@ Every \texttt{write} object have the following methods:
 \section{\texorpdfstring{Exporting the \texttt{transf}
 DataFrame}{Exporting the transf DataFrame}}\label{sec-write-example}}
 
-As a simple example, we will export the data from the \texttt{transf}
-DataFrame. Over the next sections, we will cover each aspect that
-influences this write/export process that you should know about, or
-considering when exporting your data.
+As a first example on how to export data out of Spark, I will export the
+data from the \texttt{transf} DataFrame. Over the next sections, I will
+cover individual aspects that influences this write/export process. You
+should know and consider each of these individual aspects when exporting
+your data.
 
 \hypertarget{quick-export-to-a-csv-file}{%
 \subsection{Quick export to a CSV
@@ -8901,10 +8887,10 @@ Lets begin with a quick example of exporting the Spark data to a CSV
 file. For this job, we need to use the write engine for CSV files, which
 is the \texttt{csv()} method from the write object.
 
-The first (and main) argument to all write engines available in Spark is
-a path to a folder where you want to store the exported files. This
-means that (whatever write engine you use) Spark will always write the
-files (with the exported data) inside a folder.
+The \textbf{first (and main) argument to all write engines} available in
+Spark is a path to a folder where you want to store the exported files.
+This means that (whatever write engine you use) Spark will always write
+the files (with the exported data) inside a folder.
 
 Spark needs to use a folder to write the data. Because it generates some
 extra files during the process that serves as ``placeholders'' or as
@@ -8944,7 +8930,7 @@ was created by Spark.
 
 And if I look inside this \texttt{transf\_export} folder I will see two
 files. One is the placeholder file (\texttt{\_SUCCESS}), and the other,
-is a CSV file containing the exported data (\texttt{part-*}).
+is a CSV file containing the exported data (\texttt{part-*.csv}).
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -9108,10 +9094,11 @@ version of the data stored inside the DataFrame. In contrast,
 \texttt{transf\_export} with the most recent version of the data stored
 inside the DataFrame.
 
-At Section~\ref{sec-sql-save-modes} we presented this difference
-visually in Figure~\ref{fig-save-table-modes}. So, in case you don't
-understood fully the difference between these two write modes, you can
-comeback at Section~\ref{sec-sql-save-modes} and check
+At Section~\ref{sec-sql-save-modes} (or more specifically, at
+Figure~\ref{fig-save-table-modes}) we presented this difference
+visually. So, in case you don't understood fully the difference between
+these two write modes, you can comeback at
+Section~\ref{sec-sql-save-modes} and check
 Figure~\ref{fig-save-table-modes} to see if it clears your
 understanding. OBS: save modes = write modes.
 
@@ -9231,18 +9218,24 @@ that Spark decided in this specific case to not actually distribute the
 data of \texttt{transf}. Because all of its data is concentrated into
 one single place.
 
-This also means that, for example, if your DataFrame is splitted across
-5 different partitions, and you run \texttt{DataFrame.write.csv()} to
-export the Spark data into CSV files, then, 5 different CSV files will
-be written in your system. One CSV file for each existing partition of
-the DataFrame.
+But what would happen if the \texttt{transf} DataFrame was splitted
+across 5 different partitions? What would happen then? In that case, if
+the \texttt{transf} DataFrame had 5 different partitions, and I ran the
+command \texttt{transf.write.csv("transf\_export")} to export its data
+into CSV files, then, 5 different CSV files would be written by Spark
+inside the folder \texttt{transf\_export}. One CSV file for each
+existing partition of the DataFrame.
 
 The same goes for any other file format, or any write engine that you
 might use in Spark. Each file generated by the write process contains
 the data from a specific partition of the DataFrame.
 
-Spark will always try to organize your DataFrame into a partition
-distribution that yields the best performance in data processing.
+\hypertarget{avoid-exporting-too-much-data-into-a-single-file}{%
+\subsection{Avoid exporting too much data into a single
+file}\label{avoid-exporting-too-much-data-into-a-single-file}}
+
+Spark will always try to organize your DataFrame into a \emph{partition
+distribution} that yields the best performance in any data processing.
 Usually in production environments, we have huge amounts of data, and a
 single partition distribution is rarely the case that yields the best
 performance in these environments.
@@ -9264,30 +9257,30 @@ static file in a production environment, you will likely need to:
   partitions of this DataFrame, so that all of its data get concentrated
   into a single partition.
 \item
-  continue with the write process anyway, then later, after the write
-  process is finished, you merge all of the generated files together
-  with some other tool, like \texttt{pandas}, or \texttt{polars}, or the
-  \texttt{tidyverse}.
+  or you continue with the write process anyway, and then later, after
+  the write process is finished, you merge all of the generated files
+  together with some other tool, like \texttt{pandas}, or
+  \texttt{polars}, or the \texttt{tidyverse}.
 \end{enumerate}
 
 The option 2 above is a little out of the scope of this book, so I will
-not explain it further here. But if you really want to export all data
-from your Spark DataFrame into a single static file (whatever is the
-file format you choose), and you choose to follow option 1, then, you
-need to perform a repartition operation to concentrate all data from
+not explain it further here. But if you really need to export all the
+data from your Spark DataFrame into a single static file (whatever is
+the file format you choose), and you choose to follow option 1, then,
+you need to perform a repartition operation to concentrate all data from
 your Spark DataFrame into a single partition.
 
-Is worth mentioning that \textbf{I strongly advise against option 1}.
-Because option 1 may cause some serious bottlenecks in your data
+Is worth mentioning that \textbf{I strongly advise against this option
+1}. Because option 1 may cause some serious bottlenecks in your data
 pipeline, depending specially on the size of the DataFrame you are
 trying to export.
 
 In more details, when you do not perform any repartition operation, that
 is, when you just write your DataFrame as is, without touching in the
-existing partitions, then, the write process become a narrow
-transformation, as I explained at Section~\ref{sec-narrow-wide}. Because
-each partition is exported into a single and separate file that is
-independent from the others.
+existing partitions, then, the write process is a narrow transformation,
+as I explained at Section~\ref{sec-narrow-wide}. Because each partition
+is exported into a single and separate file that is independent from the
+others.
 
 This is really important, because narrow transformations are much more
 predictable and are more easily scaled than wide transformations. As a
@@ -9301,9 +9294,9 @@ the data into a single partition, then, three things happen:
 \def\labelenumi{\arabic{enumi}.}
 \item
   the write process becomes a wide transformation, because all
-  partitions needs to merged together, and as a consequence, all nodes
-  in the cluster needs to send their data to a single place (which is
-  usually the driver node of the cluster).
+  partitions needs to be merged together, and as a consequence, all
+  nodes in the cluster needs to send their data to a single place (which
+  is usually the driver node of the cluster).
 \item
   a high amount of partition shuffles can happen inside the cluster, and
   if they do happen, then, depending on the amount of data that needs to
@@ -9319,7 +9312,7 @@ So you should be aware of these risks above, and always try to avoid
 using the option 1. Actually, you should avoid as much as possible the
 need to write all the data into a single static file! Is best for you to
 just write the data using the default number of partitions that Spark
-chose for your DataFrame.
+choose for your DataFrame.
 
 But anyway, if you really cannot avoid this need, and if you have, for
 example, a \texttt{sales} DataFrame you want to export, and this
@@ -9338,7 +9331,7 @@ DataFrame contains 4 partitions:
 And you want to perform a repartition operation over this DataFrame to
 export its data into a single static file, you can do so by using the
 \texttt{coalesce()} DataFrame method. Just provide the number 1 to this
-method, and all of the partitions are reorganized into a single
+method, and all of the partitions will be reorganized into a single
 partition:
 
 \begin{Shaded}
@@ -9353,6 +9346,19 @@ partition:
 \begin{verbatim}
 1
 \end{verbatim}
+
+Having that in mind, the entire source code to export the DataFrame into
+a single static file would be something like this:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{sales}\OperatorTok{\textbackslash{}}
+\NormalTok{    .coalesce(}\DecValTok{1}\NormalTok{)}\OperatorTok{\textbackslash{}}
+\NormalTok{    .write}\OperatorTok{\textbackslash{}}
+\NormalTok{    .mode(}\StringTok{"overwrite"}\NormalTok{)}\OperatorTok{\textbackslash{}}
+\NormalTok{    .csv(}\StringTok{"sales\_export"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
 
 \hypertarget{transforming-to-a-pandas-dataframe-as-a-way-to-export-data}{%
 \section{Transforming to a Pandas DataFrame as a way to export
@@ -11007,10 +11013,6 @@ schema after the transformation, we can certify that the
 \end{Shaded}
 
 \begin{verbatim}
-[Stage 0:>                                                          (0 + 1) / 1]
-\end{verbatim}
-
-\begin{verbatim}
 +---------------+
 |date_registered|
 +---------------+
@@ -12118,7 +12120,7 @@ timestamp and date in your system.
 +----------+--------------------+
 |     today|                 now|
 +----------+--------------------+
-|2023-12-06|2023-12-06 12:04:...|
+|2023-12-19|2023-12-19 21:31:...|
 +----------+--------------------+
 \end{verbatim}
 
@@ -12644,10 +12646,6 @@ indexes that come right after any tied rows, while
 +---+-----+---------+
 \end{verbatim}
 
-\begin{verbatim}
-[Stage 14:>                                                       (0 + 12) / 12]
-\end{verbatim}
-
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# With dense\_rank() there are no gaps in the indexes}
@@ -12809,3 +12807,41 @@ value of the previous row.
 +-------------------+-------------+---------+-------------+
 only showing top 5 rows
 \end{verbatim}
+
+\bookmarksetup{startatroot}
+
+\hypertarget{references}{%
+\chapter*{References}\label{references}}
+\addcontentsline{toc}{chapter}{References}
+
+\markboth{References}{References}
+
+\hypertarget{refs}{}
+\begin{CSLReferences}{1}{0}
+\leavevmode\vadjust pre{\hypertarget{ref-sparkdoc}{}}%
+\emph{Apache Spark Official Documentation}. 2022. Documentation for
+Apache Spark 3.2.1. \url{https://spark.apache.org/docs/latest/}.
+
+\leavevmode\vadjust pre{\hypertarget{ref-chambers2018}{}}%
+Chambers, Bill, and Matei Zaharia. 2018. \emph{Spark: The Definitive
+Guide: Big Data Processing Made Simple}. Sebastopol, CA: O'Reilly Media.
+
+\leavevmode\vadjust pre{\hypertarget{ref-damji2020}{}}%
+Damji, Jules, Brooke Wenig, Tathagata Das, and Denny Lee. 2020.
+\emph{Learning Spark: Lightning-Fast Data Analytics}. Sebastopol, CA:
+O'Reilly Media.
+
+\leavevmode\vadjust pre{\hypertarget{ref-regexinfo}{}}%
+Goyvaerts, Jan. 2023. {``Regular-Expressions.info.''}
+\url{https://www.regular-expressions.info/}.
+
+\leavevmode\vadjust pre{\hypertarget{ref-karau2015}{}}%
+Karau, Holden, Andy Konwinski, Patrick Wendell, and Matei Zaharia. 2015.
+\emph{Learning Spark: Lightning-Fast Data Analytics}. Sebastopol, CA:
+O'Reilly Media.
+
+\end{CSLReferences}
+
+
+
+\end{document}

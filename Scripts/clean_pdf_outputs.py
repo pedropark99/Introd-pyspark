@@ -13,6 +13,7 @@ TEX_FILE_PATH = "Introduction-to-`pyspark`.tex"
 TRUNCATE_LIMIT = 80
 BEGIN_VERBATIM_REGEX = r'\\begin\{verbatim\}'
 END_VERBATIM_REGEX = r'\\end\{verbatim\}'
+STAGE_REGEX = r'^\[Stage'
 
 def read_text_file(file_path):
     with open(file_path, mode = 'r', encoding = "utf8") as file_connection:
@@ -63,6 +64,11 @@ def is_list_output(text):
     regex = re.compile(r'(^\[)|(^StructType\()')
     return regex.match(text)
 
+def is_stage_output(text):
+    regex = re.compile(STAGE_REGEX)
+    return regex.match(text)
+
+
 def need_adjustment(chunk_output, n_chars = TRUNCATE_LIMIT):
     lines = chunk_output.split('\n')
     for line in lines:
@@ -85,6 +91,7 @@ def adjust_chunk_output(chunk_output):
     return chunk_output
 
 
+
 adjusted_lines = list()
 last_index = 0
 for chunk_range in CHUNK_RANGES:
@@ -92,24 +99,32 @@ for chunk_range in CHUNK_RANGES:
     end_index = chunk_range[-1]
     print(f"[INFO]: Found chunk output at indexes {start_index}, {end_index}")
     chunk_output = collect_chunk_content(chunk_range)
-    adjusted_output = adjust_chunk_output(chunk_output)
 
+    if is_stage_output(chunk_output):
+        # Remove stage outputs
+        print("[INFO]: Found a stage output at: ", start_index)
+        adjusted_lines.append('\n'.join([
+            '\n'.join(TEX_LINES[last_index:(start_index - 1)])
+        ]))
+        last_index = end_index + 1
+        continue
+
+    # The chunk is not a stage output
+    adjusted_output = adjust_chunk_output(chunk_output)
     adjusted_lines.append('\n'.join([
         '\n'.join(TEX_LINES[last_index:start_index]),
         adjusted_output,
         TEX_LINES[end_index]
     ]))
-
     last_index = end_index + 1
 
+
+# Append the last lines of the document
+adjusted_lines.append('\n'.join([
+    '\n'.join(TEX_LINES[last_index:])
+]))
 
 adjusted_lines = '\n'.join(adjusted_lines)
 write_text_file(TEX_FILE_PATH, adjusted_lines)
 print(f"[INFO]: Rewrited tex file {TEX_FILE_PATH}")
 
-xelatex_cmd = f"xelatex \"{TEX_FILE_PATH.replace('.tex', '')}\""
-print(f"Executing in bash: {xelatex_cmd}")
-
-import subprocess
-subprocess.run(xelatex_cmd)
-subprocess.run(xelatex_cmd)
