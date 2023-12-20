@@ -199,14 +199,13 @@ Now that you have written your first Spark application with `pyspark`, you want 
 
 Anyway, to execute this `pyspark` that you wrote, you need send this script to the python interpreter, and to do this you need to: 1) open a terminal inside the folder where you python script is stored; and, 2) use the python command from the terminal with the name of your python script.
 
-In my current situation, I running Spark on a Ubuntu distribution, and, I saved the `spark-example.py` script inside a folder called `SparkExample`. This folder is located at the path `~/Documentos/Projetos/Livros/Introd-pyspark/SparkExample` of my computer. This means that, I need to open a terminal that is rooted inside this `SparkExample` folder.
+In my current situation, I running Spark on a Ubuntu distribution, and, I saved the `spark-example.py` script inside a folder called `SparkExample`. This means that, I need to open a terminal that is rooted inside this `SparkExample` folder.
 
 You probably have saved your `spark-example.py` file in a different folder of your computer. This means that you need to open the terminal from a different folder.
 
 After I opened a terminal rooted inside the `SparkExample` folder. I just use the `python3` command to access the python interpreter, and, give the name of the python script that I want to execute. In this case, the `spark-example.py` file. As a result, our first `pyspark` program will be executed:
 
 ```
-Terminal$ cd ./../SparkExample
 Terminal$ python3 spark-example.py
 ```
 

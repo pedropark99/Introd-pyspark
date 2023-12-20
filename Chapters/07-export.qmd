@@ -386,7 +386,7 @@ Because by making this data from Spark available as a normal/standard Python obj
 
 By having the DataFrame's data easily available to Python as a Python list, we can do virtually anything with this data. We can use this data in basically anything that Python is capable of doing.
 
-Just as a simple example, I needed to send the `transf` data to an fictitious endpoint using a `POST` HTTP request, the source code would probably be something similar to this:
+Just as a simple example, if I needed to send the `transf` data to an fictitious endpoint using a `POST` HTTP request, the source code would probably be something similar to this:
 
 ```python
 import requests

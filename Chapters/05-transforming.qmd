@@ -459,7 +459,7 @@ transf\
   .show(5)
 ```
 
-If you forget to add the parentheses, Spark will think you are negating just the column (e.g. `~col('clientNumber')`), and not the entire expression. That would not make sense, and, as a result, Spark would throw an error:
+If you forget to add the parentheses, Spark will think you are negating just the column, and not the entire expression. That would not make sense, and, as a result, Spark would throw an error:
 
 ```{python}
 #| eval: false

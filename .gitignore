@@ -20,3 +20,5 @@ Chapters/*/*
 Scripts/__pycache__/
 
 index_files/
+
+Introduction-to-`pyspark`.tex
