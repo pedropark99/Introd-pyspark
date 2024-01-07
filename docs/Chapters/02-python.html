@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.433">
+<meta name="generator" content="quarto-1.4.532">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -22,7 +22,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -81,7 +81,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   "collapse-after": 3,
   "panel-placement": "end",
   "type": "overlay",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -90,6 +96,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
@@ -103,9 +110,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-dark ">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container">
+      <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">Introduction to <code>pyspark</code></span>
     </a>
@@ -117,45 +124,37 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="https://pedro-faria.netlify.app/" rel="" target="">
- <span class="menu-text">Visit the author’s blog</span></a>
+    <a class="nav-link" href="https://pedro-faria.netlify.app/"> 
+<span class="menu-text">Visit the author’s blog</span></a>
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/pedropark99/Introd-pyspark" rel="" target=""><i class="bi bi-github" role="img">
+    <a class="nav-link" href="https://github.com/pedropark99/Introd-pyspark"> <i class="bi bi-github" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
 </ul>
-            <div class="quarto-navbar-tools">
-</div>
           </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+</div>
       </div> <!-- /container-fluid -->
     </nav>
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Chapters/02-python.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Key concepts of python</span></a></li></ol></nav>
-      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-      </a>
-      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
-        <i class="bi bi-search"></i>
-      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Chapters/02-python.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Key concepts of python</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
     </div>
   </nav>
 </header>
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
-        <div class="mt-2 flex-shrink-0 align-items-center">
-        <div class="sidebar-search">
-        <div id="quarto-search" class="" title="Search"></div>
-        </div>
-        </div>
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
@@ -185,7 +184,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../Chapters/04-columns.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Introducing the <code>Column</code> class</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Introducing the `Column` class</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -203,7 +202,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../Chapters/06-dataframes-sql.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Working with SQL in <code>pyspark</code></span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Working with SQL in `pyspark`</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -245,7 +244,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </ul>
     </div>
 </nav>
-<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
@@ -280,7 +279,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </div>
   
 
+
 </header>
+
 
 <p>If you have experience with python, and understands how objects and classes works, you might want to skip this entire chapter. But, if you are new to the language and do not have much experience with it, you might want to stick a little bit, and learn a few key concepts that will help you to understand how the <code>pyspark</code> package is organized, and how to work with it.</p>
 <section id="scripts" class="level2" data-number="1.1">
@@ -293,7 +294,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 data-number="1.2" class="anchored" data-anchor-id="how-to-run-a-python-program"><span class="header-section-number">1.2</span> How to run a python program</h2>
 <p>As you learn to write your Spark applications with <code>pyspark</code>, at some point, you will want to actually execute this <code>pyspark</code> program, to see its result. To do so, you need to execute it as a python program. There are many ways to run a python program, but I will show you the more “standard” way. That is to use the <code>python</code> command inside the terminal of your OS (you need to have python already installed).</p>
 <p>As an example, lets create a simple “Hello world” program. First, open a new text file then save it somewhere in your machine (with the name <code>hello.py</code>). Remember to save the file with the <code>.py</code> extension. Then copy and paste the following command into this file:</p>
-<div class="cell" data-execution_count="1">
+<div id="614bb6d1" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Hello World!"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>It will be much easier to run this script, if you open your OS’s terminal inside the folder where you save the <code>hello.py</code> file. After you opened the terminal inside the folder, just run the <code>python3 hello.py</code> command. As a result, python will execute <code>hello.py</code>, and, the text <code>Hello World!</code> should be printed to the terminal:</p>
@@ -313,7 +314,7 @@ Terminal$ cd "/usr/pedro/Documents"</code></pre>
 <p>Although python is a general-purpose language, most of its features are focused on object-oriented programming. Meaning that, python is a programming language focused on creating, managing and modifying objects and classes of objects.</p>
 <p>So, when you work with python, you are basically applying many operations and functions over a set of objects. In essence, an object in python, is a name that refers to a set of data. This data can be anything that you computer can store (or represent).</p>
 <p>Having that in mind, an object is just a name, and this name is a reference, or a key to access some data. To define an object in python, you must use the assignment operator, which is the equal sign (<code>=</code>). In the example below, we are defining, or, creating an object called <code>x</code>, and it stores the value 10. Therefore, with the name <code>x</code> we can access this value of 10.</p>
-<div class="cell" data-execution_count="2">
+<div id="8f99b0cf" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="dv">10</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -321,21 +322,21 @@ Terminal$ cd "/usr/pedro/Documents"</code></pre>
 </div>
 </div>
 <p>When we store a value inside an object, we can easily reuse this value in multiple operations or expressions:</p>
-<div class="cell" data-execution_count="3">
+<div id="2af4834b" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Multiply by 2</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(x <span class="op">*</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>20</code></pre>
 </div>
 </div>
-<div class="cell" data-execution_count="4">
+<div id="7bea825d" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Divide by 3</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(x <span class="op">/</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>3.3333333333333335</code></pre>
 </div>
 </div>
-<div class="cell" data-execution_count="5">
+<div id="782b63d3" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Print its class</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">type</span>(x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -343,11 +344,11 @@ Terminal$ cd "/usr/pedro/Documents"</code></pre>
 </div>
 </div>
 <p>Remember, an object can store any type of value, or any type of data. For example, it can store a single string, like the object <code>salutation</code> below:</p>
-<div class="cell" data-execution_count="6">
+<div id="a3c1c646" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>salutation <span class="op">=</span> <span class="st">"Hello! My name is Pedro"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Or, a list of multiple strings:</p>
-<div class="cell" data-execution_count="7">
+<div id="fe12f43a" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>names <span class="op">=</span> [</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Anne"</span>, <span class="st">"Vanse"</span>, <span class="st">"Elliot"</span>,</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Carlyle"</span>, <span class="st">"Ed"</span>, <span class="st">"Memphis"</span></span>
@@ -359,7 +360,7 @@ Terminal$ cd "/usr/pedro/Documents"</code></pre>
 </div>
 </div>
 <p>Or a dict containing the description of a product:</p>
-<div class="cell" data-execution_count="8">
+<div id="bd465325" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>product <span class="op">=</span> {</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">'name'</span>: <span class="st">'Coca Cola'</span>,</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">'volume'</span>: <span class="st">'2 litters'</span>,</span>
@@ -378,7 +379,7 @@ Terminal$ cd "/usr/pedro/Documents"</code></pre>
 <section id="expressions" class="level2" data-number="1.4">
 <h2 data-number="1.4" class="anchored" data-anchor-id="expressions"><span class="header-section-number">1.4</span> Expressions</h2>
 <p>Python programs are organized in blocks of expressions (or statements). A python expression is a statement that describes an operation to be performed by the program. For example, the expression below describes the sum between 3 and 5.</p>
-<div class="cell" data-execution_count="9">
+<div id="284149c8" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="dv">3</span> <span class="op">+</span> <span class="dv">5</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="8">
 <pre><code>8</code></pre>
@@ -386,7 +387,7 @@ Terminal$ cd "/usr/pedro/Documents"</code></pre>
 </div>
 <p>The expression above is composed of numbers (like 3 and 5) and a operator, more specifically, the sum operator (<code>+</code>). But any python expression can include a multitude of different items. It can be composed of functions (like <code>print()</code>, <code>map()</code> and <code>str()</code>), constant strings (like <code>"Hello World!"</code>), logical operators (like <code>!=</code>, <code>&lt;</code>, <code>&gt;</code> and <code>==</code>), arithmetic operators (like <code>*</code>, <code>/</code>, <code>**</code>, <code>%</code>, <code>-</code> and <code>+</code>), structures (like lists, arrays and dicts) and many other types of commands.</p>
 <p>Below we have a more complex example, that contains the <code>def</code> keyword (which starts a function definition; in the example below, this new function being defined is <code>double()</code>), many built-in functions (<code>list()</code>, <code>map()</code> and <code>print()</code>), a arithmetic operator (<code>*</code>), numbers and a list (initiated by the pair of brackets - <code>[]</code>).</p>
-<div class="cell" data-execution_count="10">
+<div id="6bb2b017" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> double(x):</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> x <span class="op">*</span> <span class="dv">2</span></span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  </span>
@@ -398,7 +399,7 @@ Terminal$ cd "/usr/pedro/Documents"</code></pre>
 <p>Python expressions are evaluated in a sequential manner (from top to bottom of your python file). In other words, python runs the first expression in the top of your file, them, goes to the second expression, and runs it, them goes to the third expression, and runs it, and goes on and on in that way, until it hits the end of the file. So, in the example above, python executes the function definition (initiated at <code>def double(x):</code>), before it executes the <code>print()</code> statement, because the print statement is below the function definition.</p>
 <p>This order of evaluation is commonly referred as “control flow” in many programming languages. Sometimes, this order can be a fundamental part of the python program. Meaning that, sometimes, if we change the order of the expressions in the program, we can produce unexpected results (like an error), or change the results produced by the program.</p>
 <p>As an example, the program below prints the result 4, because the print statement is executed before the expression <code>x = 40</code>.</p>
-<div class="cell" data-execution_count="11">
+<div id="7ff6d5d7" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="dv">1</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(x <span class="op">*</span> <span class="dv">4</span>)</span>
@@ -409,7 +410,7 @@ Terminal$ cd "/usr/pedro/Documents"</code></pre>
 </div>
 </div>
 <p>But, if we execute the expression <code>x = 40</code> before the print statement, we then change the result produced by the program.</p>
-<div class="cell" data-execution_count="12">
+<div id="05c394e0" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="dv">1</span></span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="dv">40</span></span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -419,13 +420,13 @@ Terminal$ cd "/usr/pedro/Documents"</code></pre>
 </div>
 </div>
 <p>If we go a little further, and, put the print statement as the first expression of the program, we then get a name error. This error warns us that, the object named <code>x</code> is not defined (i.e.&nbsp;it does not exist).</p>
-<div class="cell" data-execution_count="13">
+<div id="656af4bb" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(x <span class="op">*</span> <span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <pre><code>Traceback (most recent call last):
   File "&lt;stdin&gt;", line 1, in &lt;module&gt;
 NameError: name 'x' is not defined</code></pre>
-<div class="cell" data-execution_count="14">
+<div id="fcd6f946" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="dv">1</span></span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="dv">40</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -436,7 +437,7 @@ NameError: name 'x' is not defined</code></pre>
 <p>A python package (or a python “library”) is basically a set of functions and classes that provides important functionality to solve a specific problem. And <code>pyspark</code> is one of these many python packages available.</p>
 <p>Python packages are usually published (that is, made available to the public) through the PyPI archive<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>. If a python package is published in PyPI, then, you can easily install it through the <code>pip</code> tool.</p>
 <p>To use a python package, you always need to: 1) have this package installed on your machine; 2) import this package in your python script. If a package is not installed in your machine, you will face a <code>ModuleNotFoundError</code> as you try to use it, like in the example below.</p>
-<div class="cell" data-execution_count="15">
+<div id="f093a110" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <pre><code>Traceback (most recent call last):
@@ -445,7 +446,7 @@ ModuleNotFoundError: No module named 'pandas'</code></pre>
 <p>If your program produce this error, is very likely that you are trying to use a package that is not currently installed on your machine. To install it, you may use the <code>pip install &lt;name of the package&gt;</code> command on the terminal of your OS.</p>
 <pre><code>pip install pandas</code></pre>
 <p>But, if this package is already installed in your machine, then, you can just import it to your script. To do this, you just include an <code>import</code> statement at the start of your python file. For example, if I want to use the <code>DataFrame</code> function from the <code>pandas</code> package:</p>
-<div class="cell" data-execution_count="16">
+<div id="1160e2c9" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Now that I installed the `pandas` package with `pip`</span></span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="co"># this `import` statement works without any errors:</span></span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas</span>
@@ -466,7 +467,7 @@ ModuleNotFoundError: No module named 'pandas'</code></pre>
 </div>
 <p>Therefore, with <code>import pandas</code> I can access any of the functions available in the <code>pandas</code> package, by using the dot operator after the name of the package (<code>pandas.&lt;name of the function&gt;</code>). However, it can become very annoying to write <code>pandas.</code> every time you want to access a function from <code>pandas</code>, specially if you use it constantly in your code.</p>
 <p>To make life a little easier, python offers some alternative ways to define this <code>import</code> statement. First, you can give an alias to this package that is shorter/easier to write. As an example, nowadays, is virtually a industry standard to import the <code>pandas</code> package as <code>pd</code>. To do this, you use the <code>as</code> keyword in your <code>import</code> statement. This way, you can access the <code>pandas</code> functionality with <code>pd.&lt;name of the function&gt;</code>:</p>
-<div class="cell" data-execution_count="17">
+<div id="51ec4e53" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame([</span>
@@ -484,7 +485,7 @@ ModuleNotFoundError: No module named 'pandas'</code></pre>
 </div>
 </div>
 <p>In contrast, if you want to make your life even easier and produce a more “clean” code, you can import (from the package) just the functions that you need to use. In this method, you can eliminate the dot operator, and refer directly to the function by its name. To use this method, you include the <code>from</code> keyword in your import statement, like this:</p>
-<div class="cell" data-execution_count="18">
+<div id="92337868" class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pandas <span class="im">import</span> DataFrame</span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> DataFrame([</span>
@@ -502,7 +503,7 @@ ModuleNotFoundError: No module named 'pandas'</code></pre>
 </div>
 </div>
 <p>Just to be clear, you can import multiple functions from the package, by listing them. Or, if you prefer, you can import all components of the package (or module/sub-module) by using the star shortcut (<code>*</code>):</p>
-<div class="cell" data-execution_count="19">
+<div id="f132166a" class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Import `search()`, `match()` and `compile()` functions:</span></span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> re <span class="im">import</span> search, match, <span class="bu">compile</span></span>
 <span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Import all functions from the `os` package</span></span>
@@ -511,12 +512,12 @@ ModuleNotFoundError: No module named 'pandas'</code></pre>
 <p>Some packages may be very big, and includes many different functions and classes. As the size of the package becomes bigger and bigger, developers tend to divide this package in many “modules”. In other words, the functions and classes of this python package are usually organized in “modules”.</p>
 <p>As an example, the <code>pyspark</code> package is a fairly large package, that contains many classes and functions. Because of it, the package is organized in a number of modules, such as <code>sql</code> (to access Spark SQL), <code>pandas</code> (to access the Pandas API of Spark), <code>ml</code> (to access Spark MLib).</p>
 <p>To access the functions available in each one of these modules, you use the dot operator between the name of the package and the name of the module. For example, to import all components from the <code>sql</code> and <code>pandas</code> modules of <code>pyspark</code>, you would do this:</p>
-<div class="cell" data-execution_count="20">
+<div id="c3755eb8" class="cell" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql <span class="im">import</span> <span class="op">*</span></span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.pandas <span class="im">import</span> <span class="op">*</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Going further, we can have sub-modules (or modules inside a module) too. As an example, the <code>sql</code> module of <code>pyspark</code> have the <code>functions</code> and <code>window</code> sub-modules. To access these sub-modules, you use the dot operator again:</p>
-<div class="cell" data-execution_count="21">
+<div id="e006cac2" class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Importing `functions` and `window` sub-modules:</span></span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pyspark.sql.functions <span class="im">as</span> F</span>
 <span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pyspark.sql.window <span class="im">as</span> W</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -526,7 +527,7 @@ ModuleNotFoundError: No module named 'pandas'</code></pre>
 <h2 data-number="1.6" class="anchored" data-anchor-id="methods-versus-functions"><span class="header-section-number">1.6</span> Methods versus Functions</h2>
 <p>Beginners tend mix these two types of functions in python, but they are not the same. So lets describe the differences between the two.</p>
 <p>Standard python functions, are <strong>functions that we apply over an object</strong>. A classical example, is the <code>print()</code> function. You can see in the example below, that we are applying <code>print()</code> over the <code>result</code> object.</p>
-<div class="cell" data-execution_count="22">
+<div id="fdea53d9" class="cell" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> <span class="dv">10</span> <span class="op">+</span> <span class="dv">54</span></span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(result)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -534,7 +535,7 @@ ModuleNotFoundError: No module named 'pandas'</code></pre>
 </div>
 </div>
 <p>Other examples of a standard python function would be <code>map()</code> and <code>list()</code>. See in the example below, that we apply the <code>map()</code> function over a set of objects:</p>
-<div class="cell" data-execution_count="23">
+<div id="78c7af47" class="cell" data-execution_count="23">
 <div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>words <span class="op">=</span> [<span class="st">'apple'</span>, <span class="st">'star'</span>, <span class="st">'abc'</span>]</span>
 <span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>lengths <span class="op">=</span> <span class="bu">map</span>(<span class="bu">len</span>, words)</span>
 <span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a><span class="bu">list</span>(lengths)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -544,7 +545,7 @@ ModuleNotFoundError: No module named 'pandas'</code></pre>
 </div>
 <p>In contrast, a python method is a function registered inside a python class. In other words, this function <strong>belongs to the class itself</strong>, and cannot be used outside of it. This means that, in order to use a method, you need to have an instance of the class where it is registered.</p>
 <p>For example, the <code>startswith()</code> method belongs to the <code>str</code> class (this class is used to represent strings in python). So to use this method, we need to have an instance of this class saved in a object that we can access. Note in the example below, that we access the <code>startswith()</code> method through the <code>name</code> object. This means that, <code>startswith()</code> is a function. But, we cannot use it without an object of class <code>str</code>, like <code>name</code>.</p>
-<div class="cell" data-execution_count="24">
+<div id="7778044b" class="cell" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>name <span class="op">=</span> <span class="st">"Pedro"</span></span>
 <span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>name.startswith(<span class="st">"P"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="20">
@@ -555,7 +556,7 @@ ModuleNotFoundError: No module named 'pandas'</code></pre>
 <p>So, if we have a class called <code>people</code>, and, this class has a method called <code>location()</code>, we can use this <code>location()</code> method by using the dot operator (<code>.</code>) with the name of an object of class <code>people</code>. If an object called <code>x</code> is an instance of <code>people</code> class, then, we can do <code>x.location()</code>.</p>
 <p>But if this object <code>x</code> is of a different class, like <code>int</code>, then we can no longer use the <code>location()</code> method, because this method does not belong to the <code>int</code> class. For example, if your object is from class <code>A</code>, and, you try to use a method of class <code>B</code>, you will get an <code>AttributeError</code>.</p>
 <p>In the example exposed below, I have an object called <code>number</code> of class <code>int</code>, and, I try to use the method <code>startswith()</code> from <code>str</code> class with this object:</p>
-<div class="cell" data-execution_count="25">
+<div id="84a24913" class="cell" data-execution_count="25">
 <div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>number <span class="op">=</span> <span class="dv">2</span></span>
 <span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="co"># You can see below that, the `x` object have class `int`</span></span>
 <span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(number)</span>
@@ -568,7 +569,7 @@ ModuleNotFoundError: No module named 'pandas'</code></pre>
 <h2 data-number="1.7" class="anchored" data-anchor-id="identifying-classes-and-their-methods"><span class="header-section-number">1.7</span> Identifying classes and their methods</h2>
 <p>Over the next chapters, you will realize that <code>pyspark</code> programs tend to use more methods than standard functions. So most of the functionality of <code>pyspark</code> resides in class methods. As a result, the capability of understanding the objects that you have in your python program, and, identifying its classes and methods will be crucial while you are developing and debugging your Spark applications.</p>
 <p>Every existing object in python represents an instance of a class. In other words, every object in python is associated to a given class. You can always identify the class of an object, by applying the <code>type()</code> function over this object. In the example below, we can see that, the <code>name</code> object is an instance of the <code>str</code> class.</p>
-<div class="cell" data-execution_count="26">
+<div id="00c3c295" class="cell" data-execution_count="26">
 <div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>name <span class="op">=</span> <span class="st">"Pedro"</span></span>
 <span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(name)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="21">
@@ -576,7 +577,7 @@ ModuleNotFoundError: No module named 'pandas'</code></pre>
 </div>
 </div>
 <p>If you do not know all the methods that a class have, you can always apply the <code>dir()</code> function over this class to get a list of all available methods. For example, lets suppose you wanted to see all methods from the <code>str</code> class. To do so, you would do this:</p>
-<div class="cell" data-execution_count="27">
+<div id="9d68de13" class="cell" data-execution_count="27">
 <div class="sourceCode cell-code" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="bu">dir</span>(<span class="bu">str</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <pre><code>['__add__', '__class__', '__contains__', '__delattr__', '__dir__',
@@ -687,10 +688,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
-  function tippyHover(el, contentFn) {
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -700,8 +700,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -714,6 +723,120 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
       return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      return note.innerHTML;
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -757,6 +880,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -782,6 +906,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -843,17 +993,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../index.html" class="pagination-link">
+      <a href="../index.html" class="pagination-link  aria-label=" preface"="">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Preface</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../Chapters/03-spark.html" class="pagination-link">
+      <a href="../Chapters/03-spark.html" class="pagination-link" aria-label="<span class='chapter-number'>2</span>&nbsp; <span class='chapter-title'>Introducing Apache Spark</span>">
         <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introducing Apache Spark</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
 </div> <!-- /content -->
+
 
 
 

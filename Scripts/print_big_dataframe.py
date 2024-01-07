@@ -1,4 +1,5 @@
 from contextlib import redirect_stdout
+from print_big_text import print_big_text
 import io
 
 df = '''+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
@@ -42,27 +43,18 @@ def get_columns_in_range(text, max_index):
 def create_remainder_message(columns, max_index, n_chars):
     all_columns = get_columns_names(columns)
     columns_in_range = get_columns_in_range(columns, max_index)
-    remaning_columns = list()
+    remaining_columns = list()
     for column in all_columns:
         if column not in columns_in_range:
-            remaning_columns.append(column)
+            remaining_columns.append(column)
 
-    n = len(remaning_columns)
+    n = len(remaining_columns)
     if n > 0:
-        columns = ', '.join(remaning_columns)
+        columns = ', '.join(remaining_columns)
         message = f"... with {n} more columns: {columns}"
+        message = print_big_text(message, max_index)
     else:
         return None
-
-    if len(message) > n_chars:
-        # Insert a break line
-        commas = get_substring_indexes(message, ',')
-        last_comma = max(filter(lambda x: x <= n_chars, commas))
-        message = [
-            message[:last_comma],
-            message[(last_comma + 1):]
-        ]
-        message = '\n   '.join(message)
 
     return message
 
@@ -132,7 +124,7 @@ def print_dataframe(text, n_chars = 80):
         line = lines[i]
         if 'only showing top' in line:
             truncated_block.append(line)
-            continue
+            break
 
         truncated_line = line[0:max_index]
 
@@ -143,8 +135,8 @@ def print_dataframe(text, n_chars = 80):
 
         truncated_block.append(truncated_line)
 
-
-    truncated_block.append(remainder_message)
+    if remainder_message:
+        truncated_block.append(remainder_message)
     truncated_block = '\n'.join(truncated_block)
 
     return truncated_block

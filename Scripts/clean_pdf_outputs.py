@@ -10,7 +10,7 @@ from print_big_text import print_big_text
 TEX_FILE_PATH = "Introduction-to-`pyspark`.tex"
 # Number of characters to use as the limit for truncate
 # lines of text
-TRUNCATE_LIMIT = 80
+TRUNCATE_LIMIT = 65
 BEGIN_VERBATIM_REGEX = r'\\begin\{verbatim\}'
 END_VERBATIM_REGEX = r'\\end\{verbatim\}'
 STAGE_REGEX = r'^\[Stage'
@@ -69,26 +69,28 @@ def is_stage_output(text):
     return regex.match(text)
 
 
-def need_adjustment(chunk_output, n_chars = TRUNCATE_LIMIT):
-    lines = chunk_output.split('\n')
+def need_adjustment(text, n_chars = TRUNCATE_LIMIT):
+    lines = text.split('\n')
     for line in lines:
         if len(line) >= n_chars:
             return True
         
     return False
 
-def adjust_chunk_output(chunk_output):
-    if is_dataframe_output(chunk_output) and need_adjustment(chunk_output):
+def adjust_chunk_output(text_to_adjust):
+    text_adjusted = text_to_adjust
+    if is_dataframe_output(text_to_adjust) and need_adjustment(text_to_adjust):
         print("[INFO]: Found a DataFrame output that needs adjustment! Adjusting...")
-        chunk_output = print_dataframe(chunk_output, n_chars = TRUNCATE_LIMIT)
-    if is_list_output(chunk_output) and need_adjustment(chunk_output):
+        return print_dataframe(text_to_adjust, n_chars = TRUNCATE_LIMIT)
+    if is_list_output(text_to_adjust) and need_adjustment(text_to_adjust):
         print("[INFO]: Found a list output that needs adjustment! Adjusting...")
-        chunk_output = split_list_into_lines(chunk_output, max_items_per_line = 3)
-    if need_adjustment(chunk_output):
+        return print_big_list(text_to_adjust, n_chars = TRUNCATE_LIMIT)
+    if need_adjustment(text_to_adjust):
         print("[INFO]: Found text output that needs adjustment! Adjusting...")
-        chunk_output = print_big_text(chunk_output, n_chars = TRUNCATE_LIMIT)
+        return print_big_text(text_to_adjust, n_chars = TRUNCATE_LIMIT)
 
-    return chunk_output
+
+    return text_adjusted
 
 
 
@@ -125,6 +127,6 @@ adjusted_lines.append('\n'.join([
 ]))
 
 adjusted_lines = '\n'.join(adjusted_lines)
-write_text_file(TEX_FILE_PATH, adjusted_lines)
-print(f"[INFO]: Rewrited tex file {TEX_FILE_PATH}")
+write_text_file('tex_adjusted.tex', adjusted_lines)
+print(f"[INFO]: Rewrited tex file {'tex_adjusted.tex'}")
 

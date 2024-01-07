@@ -1,4 +1,6 @@
 import re
+import subprocess
+import os
 
 test_list = "StructType([StructField('id', LongType(), True), StructField('value', DoubleType(), True), StructField('date', DateType(), True)])"
 
@@ -49,22 +51,16 @@ def truncate_line(line, n_chars):
 
 
 def print_big_list(text, n_chars = 80):
-    lines = text.split('\n')
-    if is_trunc_needed(lines, n_chars) == False:
-        return text
-    
-    truncated_text = list()
-    for line in lines:
-        n = len(line)
-        if n > n_chars:
-            truncated_text.append(
-                truncate_line(line, n_chars)
-            )
-        else:
-            truncated_text.append(line)
+    from pprint import pformat
+    text = re.sub("\n", ' ', text)
+    formatted_output = pformat(text, indent = 2, width = n_chars)
+    formatted_output = re.sub("^[(]", "", formatted_output)
+    formatted_output = re.sub("[)]$", "", formatted_output)
+    formatted_output = formatted_output.split("\n")
+    formatted_output = [re.sub('"', '', x) for x in formatted_output]
+    formatted_output = "\n".join(formatted_output)
 
-    truncated_text = '\n'.join(truncated_text)
-    return truncated_text
+    return formatted_output
 
 
 def split_list_into_lines(input_list, max_items_per_line):

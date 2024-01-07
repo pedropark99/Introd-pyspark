@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.433">
+<meta name="generator" content="quarto-1.4.532">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -22,7 +22,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -81,7 +81,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   "collapse-after": 3,
   "panel-placement": "end",
   "type": "overlay",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -90,6 +96,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
@@ -103,9 +110,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-dark ">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container">
+      <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">Introduction to <code>pyspark</code></span>
     </a>
@@ -117,45 +124,37 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="https://pedro-faria.netlify.app/" rel="" target="">
- <span class="menu-text">Visit the author’s blog</span></a>
+    <a class="nav-link" href="https://pedro-faria.netlify.app/"> 
+<span class="menu-text">Visit the author’s blog</span></a>
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/pedropark99/Introd-pyspark" rel="" target=""><i class="bi bi-github" role="img">
+    <a class="nav-link" href="https://github.com/pedropark99/Introd-pyspark"> <i class="bi bi-github" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
 </ul>
-            <div class="quarto-navbar-tools">
-</div>
           </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+</div>
       </div> <!-- /container-fluid -->
     </nav>
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Chapters/07-export.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Exporting data out of Spark</span></a></li></ol></nav>
-      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-      </a>
-      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
-        <i class="bi bi-search"></i>
-      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Chapters/07-export.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Exporting data out of Spark</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
     </div>
   </nav>
 </header>
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
-        <div class="mt-2 flex-shrink-0 align-items-center">
-        <div class="sidebar-search">
-        <div id="quarto-search" class="" title="Search"></div>
-        </div>
-        </div>
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
@@ -185,7 +184,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../Chapters/04-columns.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Introducing the <code>Column</code> class</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Introducing the `Column` class</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -203,7 +202,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../Chapters/06-dataframes-sql.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Working with SQL in <code>pyspark</code></span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Working with SQL in `pyspark`</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -245,7 +244,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </ul>
     </div>
 </nav>
-<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
@@ -286,7 +285,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </div>
   
 
+
 </header>
+
 
 <p>After you transform your DataFrame and generate the results you want, you might need to actually export these results out of Spark, so you can:</p>
 <ul>
@@ -296,13 +297,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <section id="the-write-object-as-the-main-entrypoint" class="level2" data-number="9.1">
 <h2 data-number="9.1" class="anchored" data-anchor-id="the-write-object-as-the-main-entrypoint"><span class="header-section-number">9.1</span> The <code>write</code> object as the main entrypoint</h2>
-<p>Every Spark session you start has an built-in <code>read</code> object that you can use to read data and import it into Spark (this object was described at <a href="07-import.html#sec-read-files"><span>Section&nbsp;6.1</span></a>), and the same applies to writing data out of Spark. That is, Spark also offers a <code>write</code> object that you can use to write/output data out of Spark.</p>
+<p>Every Spark session you start has an built-in <code>read</code> object that you can use to read data and import it into Spark (this object was described at <a href="07-import.html#sec-read-files" class="quarto-xref"><span>Section 6.1</span></a>), and the same applies to writing data out of Spark. That is, Spark also offers a <code>write</code> object that you can use to write/output data out of Spark.</p>
 <p>But in contrast to the <code>read</code> object, which is avaiable trough the <code>SparkSession</code> object (<code>spark</code>), this <code>write</code> object is available trough the <code>write</code> method of any <code>DataFrame</code> object. In other words, every DataFrame you create in Spark has a built-in <code>write</code> object that you can use to write/export the data present in this DataFrame out of Spark.</p>
-<p>As an example, let’s use the <code>transf</code> DataFrame that I presented at <a href="05-transforming.html"><span>Chapter&nbsp;5</span></a>. The <code>write</code> method of the <code>transf</code> DataFrame object is the main entrypoint to all the facilities that Spark offers to write/export <code>transf</code>’s data to somewhere else.</p>
-<div class="cell" data-execution_count="3">
+<p>As an example, let’s use the <code>transf</code> DataFrame that I presented at <a href="05-transforming.html" class="quarto-xref"><span>Chapter 5</span></a>. The <code>write</code> method of the <code>transf</code> DataFrame object is the main entrypoint to all the facilities that Spark offers to write/export <code>transf</code>’s data to somewhere else.</p>
+<div id="bd83034c" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>transf.write</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
-<pre><code>&lt;pyspark.sql.readwriter.DataFrameWriter at 0x7ff75e9d3010&gt;</code></pre>
+<pre><code>&lt;pyspark.sql.readwriter.DataFrameWriter at 0x7f66d544f7c0&gt;</code></pre>
 </div>
 </div>
 <p>This <code>write</code> object is very similar in structure to the <code>read</code> object. Essentially, this write object have a collection of <em>write engines</em>. Each write engine is speciallized in writing data into a specific file format. So you have an engine for CSV files, another engine for JSON files, another for Parquet files, etc.</p>
@@ -390,14 +391,14 @@ already exists. Set mode as "overwrite" to overwrite the existing path.</code></
 <span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>df.count()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <pre><code>4842</code></pre>
 <p>The result above show us that the folder <code>transf_export</code> currently contains 4842 rows of data. This is the exact double of number of rows in the <code>transf</code> DataFrame, which have 2421 rows.</p>
-<div class="cell" data-execution_count="4">
+<div id="070abf2f" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>transf.count()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
 <pre><code>2421</code></pre>
 </div>
 </div>
 <p>So, in resume, the difference between write mode <code>overwrite</code> and <code>append</code>, is that <code>overwrite</code> causes Spark to erase the contents of <code>transf_export</code>, before it starts to write the current data into the folder. This way, Spark exports the most recent version of the data stored inside the DataFrame. In contrast, <code>append</code> simply appends (or adds) new files to the folder <code>transf_export</code> with the most recent version of the data stored inside the DataFrame.</p>
-<p>At <a href="06-dataframes-sql.html#sec-sql-save-modes"><span>Section&nbsp;7.2.1.6</span></a> (or more specifically, at <a href="06-dataframes-sql.html#fig-save-table-modes">Figure&nbsp;<span>7.1</span></a>) we presented this difference visually. So, in case you don’t understood fully the difference between these two write modes, you can comeback at <a href="06-dataframes-sql.html#sec-sql-save-modes"><span>Section&nbsp;7.2.1.6</span></a> and check <a href="06-dataframes-sql.html#fig-save-table-modes">Figure&nbsp;<span>7.1</span></a> to see if it clears your understanding. OBS: save modes = write modes.</p>
+<p>At <a href="06-dataframes-sql.html#sec-sql-save-modes" class="quarto-xref"><span>Section 7.2.1.6</span></a> (or more specifically, at <a href="06-dataframes-sql.html#fig-save-table-modes" class="quarto-xref">Figure&nbsp;<span>7.1</span></a>) we presented this difference visually. So, in case you don’t understood fully the difference between these two write modes, you can comeback at <a href="06-dataframes-sql.html#sec-sql-save-modes" class="quarto-xref"><span>Section 7.2.1.6</span></a> and check <a href="06-dataframes-sql.html#fig-save-table-modes" class="quarto-xref">Figure&nbsp;<span>7.1</span></a> to see if it clears your understanding. OBS: save modes = write modes.</p>
 </section>
 <section id="setting-write-options" class="level3" data-number="9.2.3">
 <h3 data-number="9.2.3" class="anchored" data-anchor-id="setting-write-options"><span class="header-section-number">9.2.3</span> Setting write options</h3>
@@ -430,9 +431,9 @@ already exists. Set mode as "overwrite" to overwrite the existing path.</code></
 </section>
 <section id="sec-export-partition-coalesce" class="level2" data-number="9.3">
 <h2 data-number="9.3" class="anchored" data-anchor-id="sec-export-partition-coalesce"><span class="header-section-number">9.3</span> Number of partitions determines the number of files generated</h2>
-<p>As I explained at <a href="04-dataframes.html#sec-dataframe-partitions"><span>Section&nbsp;3.2</span></a>, every DataFrame that exists in Spark is a <strong>distributed</strong> DataFrame, meaning that this DataFrame is divided into multiple pieces (that we call <em>partitions</em>), and these pieces are spread across the nodes in the Spark cluster.</p>
+<p>As I explained at <a href="04-dataframes.html#sec-dataframe-partitions" class="quarto-xref"><span>Section 3.2</span></a>, every DataFrame that exists in Spark is a <strong>distributed</strong> DataFrame, meaning that this DataFrame is divided into multiple pieces (that we call <em>partitions</em>), and these pieces are spread across the nodes in the Spark cluster.</p>
 <p>In other words, each machine that is present in the Spark cluster, contains some partitions (or some pieces) of the total DataFrame. But why we are discussing partitions here? Is because the number of partitions of your DataFrame determines the number of files written by Spark when you export the data using the <code>write</code> method.</p>
-<p>On the previous examples across <a href="#sec-write-example"><span>Section&nbsp;9.2</span></a>, when we exported the <code>transf</code> DataFrame into CSV files, only one single CSV file was generated inside the <code>transf_exported</code> folder. That is because the <code>transf</code> DataFrame have only one single partition, as the code below demonstrates:</p>
+<p>On the previous examples across <a href="#sec-write-example" class="quarto-xref"><span>Section 9.2</span></a>, when we exported the <code>transf</code> DataFrame into CSV files, only one single CSV file was generated inside the <code>transf_exported</code> folder. That is because the <code>transf</code> DataFrame have only one single partition, as the code below demonstrates:</p>
 <div class="sourceCode" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>transf.rdd.getNumPartitions()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <pre><code>1</code></pre>
 <p>That means that all the data from <code>transf</code> DataFrame is concentrated into a single partition. Having that in mind, we could say that Spark decided in this specific case to not actually distribute the data of <code>transf</code>. Because all of its data is concentrated into one single place.</p>
@@ -449,7 +450,7 @@ already exists. Set mode as "overwrite" to overwrite the existing path.</code></
 </ol>
 <p>The option 2 above is a little out of the scope of this book, so I will not explain it further here. But if you really need to export all the data from your Spark DataFrame into a single static file (whatever is the file format you choose), and you choose to follow option 1, then, you need to perform a repartition operation to concentrate all data from your Spark DataFrame into a single partition.</p>
 <p>Is worth mentioning that <strong>I strongly advise against this option 1</strong>. Because option 1 may cause some serious bottlenecks in your data pipeline, depending specially on the size of the DataFrame you are trying to export.</p>
-<p>In more details, when you do not perform any repartition operation, that is, when you just write your DataFrame as is, without touching in the existing partitions, then, the write process is a narrow transformation, as I explained at <a href="05-transforming.html#sec-narrow-wide"><span>Section&nbsp;5.3</span></a>. Because each partition is exported into a single and separate file that is independent from the others.</p>
+<p>In more details, when you do not perform any repartition operation, that is, when you just write your DataFrame as is, without touching in the existing partitions, then, the write process is a narrow transformation, as I explained at <a href="05-transforming.html#sec-narrow-wide" class="quarto-xref"><span>Section 5.3</span></a>. Because each partition is exported into a single and separate file that is independent from the others.</p>
 <p>This is really important, because narrow transformations are much more predictable and are more easily scaled than wide transformations. As a result, Spark tends to scale and perform better when dealing with narrow transformations.</p>
 <p>However, when you do perform a repartition operation to concentrate all the data into a single partition, then, three things happen:</p>
 <ol type="1">
@@ -484,7 +485,7 @@ already exists. Set mode as "overwrite" to overwrite the existing path.</code></
 <li>with <code>pandas</code> you can easily export this data into Excel files (<code>.xlsx</code>)<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>, which are not easily available in Spark.</li>
 </ul>
 <p>To convert an existing Spark DataFrame into a <code>pandas</code> DataFrame, all you need to do is to call the <code>toPandas()</code> method of your Spark DataFrame, and you will get a <code>pandas</code> DataFrame as output, like in the example below:</p>
-<div class="cell" data-execution_count="5">
+<div id="7706b132" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>as_pandas_df <span class="op">=</span> transf.toPandas()</span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(as_pandas_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="5">
@@ -492,7 +493,7 @@ already exists. Set mode as "overwrite" to overwrite the existing path.</code></
 </div>
 </div>
 <p>But you should be careful with this method, because when you transform your Spark DataFrame into a <code>pandas</code> DataFrame you eliminate the distributed aspect of it. As a result, all the data from your DataFrame needs to be loaded into a single place (which is usually the driver’s memory).</p>
-<p>Because of that, using this <code>toPandas()</code> method might cause very similar issues as the ones discussed at <a href="#sec-export-partition-coalesce"><span>Section&nbsp;9.3</span></a>. In other words, you might face the same slowdowns caused by doing a repartition to concentrate all the data into a single partition.</p>
+<p>Because of that, using this <code>toPandas()</code> method might cause very similar issues as the ones discussed at <a href="#sec-export-partition-coalesce" class="quarto-xref"><span>Section 9.3</span></a>. In other words, you might face the same slowdowns caused by doing a repartition to concentrate all the data into a single partition.</p>
 <p>So, as the Spark documentation itself suggests, you should use this <code>toPandas()</code> method only if you know that your DataFrame is small enough to fit into the driver’s memory.</p>
 </section>
 <section id="the-collect-method-as-a-way-to-export-data" class="level2" data-number="9.5">
@@ -607,10 +608,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
-  function tippyHover(el, contentFn) {
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -620,8 +620,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -634,6 +643,120 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
       return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      return note.innerHTML;
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -677,6 +800,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -702,6 +826,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -763,17 +913,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../Chapters/08-transforming2.html" class="pagination-link">
+      <a href="../Chapters/08-transforming2.html" class="pagination-link  aria-label=" &lt;span="" your="" spark="" dataframe="" -="" part="" 2&lt;="" span&gt;"="">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Transforming your Spark DataFrame - Part 2</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../Chapters/09-strings.html" class="pagination-link">
+      <a href="../Chapters/09-strings.html" class="pagination-link" aria-label="<span class='chapter-number'>10</span>&nbsp; <span class='chapter-title'>Tools for string manipulation</span>">
         <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Tools for string manipulation</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
 </div> <!-- /content -->
+
 
 
 
