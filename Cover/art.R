@@ -1,4 +1,27 @@
-library(tidyverse)
+if (!require("ggplot2")) {
+  cat("[INFO]: ggplot2 not found! Installing ggplot2...\n")
+  install.packages("ggplot2", repos = "https://vps.fmvz.usp.br/CRAN/")
+}
+
+if (!require("tibble")) {
+  cat("[INFO]: tibble not found! Installing tibble...\n")
+  install.packages("tibble", repos = "https://vps.fmvz.usp.br/CRAN/")
+}
+
+if (!require("dplyr")) {
+  cat("[INFO]: dplyr not found! Installing dplyr...\n")
+  install.packages("dplyr", repos = "https://vps.fmvz.usp.br/CRAN/")
+}
+
+if (!require("ragg")) {
+  cat("[INFO]: ragg not found! Installing ragg\n")
+  install.packages("ragg", repos = "https://vps.fmvz.usp.br/CRAN/")
+}
+
+library(ggplot2)
+library(tibble)
+library(dplyr)
+library(ragg)
 
 calc_x <- function(distance, angle, direction = 1L){
   distance * cos(angle) * direction
@@ -49,7 +72,7 @@ pl <- ggplot(df) +
   scale_color_identity()
 
 
-ragg::agg_png(
+agg_png(
   "Cover/Images/lines.png", res = 800, 
   width = 4500, height = 4500, background = NULL
 )
