@@ -24,6 +24,8 @@ index_files/
 
 Introduction-to-`pyspark`.tex
 index.tex
+tex_adjusted.tex
+tex_adjusted.pdf
 docs/*.pdf
 *.aux
 *.log
