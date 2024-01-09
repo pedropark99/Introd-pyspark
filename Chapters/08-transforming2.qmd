@@ -630,7 +630,8 @@ You can retract or extend vertically your DataFrame, by nesting multiple rows in
 
 In Spark, you perform this kind of operations by using the `collect_list()`, `collect_set()` and `explode()` functions, which all comes from the `pyspark.sql.functions` module. The `collect_list()` and `collect_set()` functions are used for retracting (or nesting) your DataFrame, while the `explode()` function is used for extending (or unnesting).
 
-As a quick comparison, `explode()` is very similar to the R function [`tidyr::unnest_longer()`](https://tidyr.tidyverse.org/reference/unnest_longer.html) from the `tidyverse` framework, and also, similar to the Python method [`explode()`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.explode.html) in the `pandas` framework. In the other hand, `collect_list()` and `collect_set()` functions does a similar job to the R function [`tidyr::nest()`](https://tidyr.tidyverse.org/reference/nest.html).
+As a quick comparison, `explode()` is very similar to the R function\
+[`tidyr::unnest_longer()`](https://tidyr.tidyverse.org/reference/unnest_longer.html) from the `tidyverse` framework, and also, similar to the Python method [`explode()`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.explode.html) in the `pandas` framework. In the other hand, `collect_list()` and `collect_set()` functions does a similar job to the R function [`tidyr::nest()`](https://tidyr.tidyverse.org/reference/nest.html).
 
 ### Expanding (or unnesting) with `explode()`
 

@@ -382,7 +382,10 @@ The `dateOfEvent` column of this DataFrame contains date values in the Brazilian
 ```{python}
 date_pattern = "dd/MM/yyyy"
 user_events = user_events\
-    .withColumn('dateOfEvent', to_date(col('dateOfEvent'), date_pattern))
+    .withColumn(
+        'dateOfEvent',
+        to_date(col('dateOfEvent'), date_pattern)
+    )
 
 user_events.show()
 ```
@@ -464,9 +467,18 @@ from pyspark.sql.functions import (
 )
 
 user_events\
-    .withColumn('timePlus10Days', date_add(col('timeOfEvent'), 10))\
-    .withColumn('timeMinus5Days', date_sub(col('timeOfEvent'), 5))\
-    .withColumn('timePlus8Months', add_months(col('timeOfEvent'), 8))\
+    .withColumn(
+        'timePlus10Days',
+        date_add(col('timeOfEvent'), 10)
+    )\
+    .withColumn(
+        'timeMinus5Days',
+        date_sub(col('timeOfEvent'), 5)
+    )\
+    .withColumn(
+        'timePlus8Months',
+        add_months(col('timeOfEvent'), 8)
+    )\
     .select(
         'timeOfEvent', 'timePlus10Days',
         'timeMinus5Days', 'timePlus8Months'
@@ -556,7 +568,10 @@ df4\
 ```{python}
 df4\
     .select('datetime1', 'datetime2')\
-    .withColumn('datetimediff', col('datetime2') - col('datetime1'))\
+    .withColumn(
+        'datetimediff',
+        col('datetime2') - col('datetime1')
+    )\
     .show()
 ```
 
@@ -571,7 +586,10 @@ df4 = df4\
     .select('datetime1', 'datetime2')\
     .withColumn('datetime1', unix_timestamp(col('datetime1')))\
     .withColumn('datetime2', unix_timestamp(col('datetime2')))\
-    .withColumn('diffinseconds', col('datetime2') - col('datetime1'))
+    .withColumn(
+        'diffinseconds',
+        col('datetime2') - col('datetime1')
+    )
 
 df4.show()
 ```

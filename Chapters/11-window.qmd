@@ -235,7 +235,10 @@ window_spec = Window\
 transf\
     .withColumn('rowID', row_number().over(window_spec))\
     .filter(col('rowID') == 1)\
-    .select('dateTransfer', 'rowID', 'transferID', 'transferValue')\
+    .select(
+        'dateTransfer', 'rowID',
+        'transferID', 'transferValue'
+    )\
     .show(5)
 ```
 

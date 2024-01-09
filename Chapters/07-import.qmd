@@ -72,7 +72,8 @@ In the above example, I gave a relative path to the file I wanted to read. But y
 ```{python}
 #| eval: false
 # The absolute path to `people.csv`:
-path = "/home/pedro/Documents/Projects/Books/Introd-pyspark/Data/people.csv"
+path = "/home/pedro/Documents/Projects/Books/"
+path = path + "Introd-pyspark/Data/people.csv"
 
 df = spark.read.csv(path)
 df.show()
@@ -233,7 +234,6 @@ peek_file("../Data/user-events.json", n_lines=3)
 Date variables are usually interpreted by Spark as string variables. In other words, Spark usually do not convert data that contains dates to the date type of Spark. In order to Spark
 
 ```{python}
-#| eval: true
 from pyspark.sql.types import StructType, StructField
 from pyspark.sql.types import DateType, StringType, TimestampType
 

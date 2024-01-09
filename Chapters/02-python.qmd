@@ -208,7 +208,7 @@ ModuleNotFoundError: No module named 'pandas'
 If your program produce this error, is very likely that you are trying to use a package that is not currently installed on your machine. To install it, you may use the `pip install <name of the package>` command on the terminal of your OS.
 
 ```
-pip install pandas
+Terminal$ pip install pandas
 ```
 
 But, if this package is already installed in your machine, then, you can just import it to your script. To do this, you just include an `import` statement at the start of your python file. For example, if I want to use the `DataFrame` function from the `pandas` package:

@@ -64,7 +64,6 @@ As an example, in the code below I expose all the available methods from this `D
 
 
 ```{python}
-#| eval: true
 df5 = spark.range(5)
 available_methods = dir(df5)
 print(available_methods)
@@ -96,7 +95,6 @@ df = spark.createDataFrame(data)
 Remember that a Spark DataFrame in python is a object of class `pyspark.sql.dataframe.DataFrame` as you can see below:
 
 ```{python}
-#| eval: true
 type(df)
 ```
 
@@ -281,7 +279,6 @@ In the example below, the `schema` object represents the schema of the `register
 You can see below that I deliver this `schema` object that I built to `spark.createDataFrame()`. Now `spark.createDataFrame()` will follow the schema I described in this `schema` object when building the `registers` DataFrame.
 
 ```{python}
-#| eval: true
 from pyspark.sql.types import StructType, StructField
 from pyspark.sql.types import DateType, StringType, IntegerType
 from datetime import date

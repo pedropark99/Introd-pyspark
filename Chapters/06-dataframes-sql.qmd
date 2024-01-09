@@ -182,7 +182,7 @@ In real life jobs at the industry, is very likely that your data will be allocat
 
 However, to expose more simplified examples throughout this chapter, we will use `pyspark` to create a simple temporary SQL table in our Spark SQL context, and use this temporary SQL table in our examples of SQL queries. This way, we avoid the work to connect to some existing SQL database, and, still get to learn how to use SQL queries in `pyspark`.
 
-First, lets create our Spark Session. You can see below that I used the `config()` method to set a specific option of the session called `spark.sql.catalogImplementation`, to the value `"hive"`. This option controls the implementation of the Spark SQL Catalog, which is a core part of the SQL functionality of Spark [^06-dataframes-sql-catalog].
+First, lets create our Spark Session. You can see below that I used the `config()` method to set a specific option of the session called `catalogImplementation` to the value `"hive"`. This option controls the implementation of the Spark SQL Catalog, which is a core part of the SQL functionality of Spark [^06-dataframes-sql-catalog].
 
 [^06-dataframes-sql-catalog]: There are some very good materials explaining what is the Spark SQL Catalog, and which is the purpose of it. For a soft introduction, I recommend Sarfaraz Hussain post: <https://medium.com/@sarfarazhussain211/metastore-in-apache-spark-9286097180a4>. For a more technical introduction, see <https://jaceklaskowski.gitbooks.io/mastering-spark-sql/content/spark-sql-Catalog.html>.
 
@@ -248,7 +248,8 @@ df.createOrReplaceTempView('example_view')
 
 ```{python}
 #| eval: false
-# To save the `df` DataFrame as a SQL VIEW, use one of the methods below:
+# To save the `df` DataFrame as a SQL VIEW,
+# use one of the methods below:
 df.createTempView('example_view')
 df.createOrReplaceTempView('example_view')
 ```
