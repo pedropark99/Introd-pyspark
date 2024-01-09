@@ -45,3 +45,5 @@ format:
     fontsize: 11pt
     keep-tex: true
     include-in-header: font_config.tex
+  epub:
+    cover-image: "Cover/cover1.jpg"
