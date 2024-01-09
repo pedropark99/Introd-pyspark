@@ -5,6 +5,7 @@
 Introd-pyspark.pdf
 
 /.quarto/
+site_libs/
 
 derby.log
 Chapters/derby.log

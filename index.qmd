@@ -5,7 +5,10 @@
 # Preface {.unnumbered}
 ## About this book {.unnumbered}
 
-Hello! This book provides an introduction to [`pyspark`](https://spark.apache.org/docs/latest/api/python/), which is a Python API to [Apache Spark](https://spark.apache.org/). Here, you will learn how to perform the most commom data analysis tasks and useful data transformations with Python to process huge amounts of data.
+Hello! This book provides an introduction to [`pyspark`](https://spark.apache.org/docs/latest/api/python/)[^pyspark-docs], which is a Python API to [Apache Spark](https://spark.apache.org/)[^spark-docs]. Here, you will learn how to perform the most commom data analysis tasks and useful data transformations with Python to process huge amounts of data.
+
+[^pyspark-docs]: <https://spark.apache.org/docs/latest/api/python/>
+[^spark-docs]: <https://spark.apache.org/>
 
 :::
 
@@ -45,7 +48,9 @@ Some of the main subjects discussed in the book are:
 
 ## About the author {.unnumbered}
 
-Pedro Duarte Faria have a bachelor degree in Economics from Federal University of Ouro Preto - Brazil. Currently, he is a Data Engineer at [Blip](https://www.blip.ai/en/), and an Associate Developer for Apache Spark 3.0 certified by Databricks.
+Pedro Duarte Faria have a bachelor degree in Economics from Federal University of Ouro Preto - Brazil. Currently, he is a Data Engineer at [Blip](https://www.blip.ai/en/)[^blip], and an Associate Developer for Apache Spark 3.0 certified by Databricks.
+
+[^blip]: <https://www.blip.ai/en/>
 
 The author have more than 3 years of experience in the data analysis market. He developed data pipelines, reports and analysis for research institutions and some of the largest companies in the brazilian financial sector, such as the BMG Bank, Sodexo and Pan Bank, besides dealing with databases that go beyond the billion rows.
 
@@ -123,7 +128,9 @@ If you want to follow the examples shown throughout this book, you must have Apa
 
 ### License {.unnumbered}
 
-Copyright © 2024 Pedro Duarte Faria. This book is licensed by the [CC-BY 4.0 Creative Commons Attribution 4.0 International Public License](https://creativecommons.org/licenses/by/4.0/).
+Copyright © 2024 Pedro Duarte Faria. This book is licensed by the [CC-BY 4.0 Creative Commons Attribution 4.0 International Public License](https://creativecommons.org/licenses/by/4.0/)[^cc-license].
+
+[^cc-license]: <https://creativecommons.org/licenses/by/4.0/>
 
 ![](Figures/creative-commoms-88x31.png){width=88px}
 
