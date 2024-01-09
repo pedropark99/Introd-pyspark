@@ -404,7 +404,12 @@ Just to keep using our visual model of sets, on @fig-join-sets2 you can see the 
 
 We described six different types of JOINs on the previous section. But Spark also offers a seventh type of JOIN called *cross join*. This is a special type of JOIN that you can use by calling the `crossJoin()` DataFrame method.
 
-In essence, a *cross join* returns, as output, the cartesian product between two DataFrames. It is similar to R functions [`base::expand.grid()`](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/expand.grid) or [`dplyr::expand()`](https://tidyr.tidyverse.org/reference/expand.html), and also, the Python equivalent [`itertools.product()`](https://docs.python.org/2/library/itertools.html#itertools.product).
+In essence, a *cross join* returns, as output, the cartesian product between two DataFrames. It is similar to R functions [`base::expand.grid()`](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/expand.grid)[^expand-grid] or [`dplyr::expand()`](https://tidyr.tidyverse.org/reference/expand.html)[^expand], and also, the Python equivalent [`itertools.product()`](https://docs.python.org/2/library/itertools.html#itertools.product)[^itertools].
+
+[^expand-grid]: <https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/expand.grid>
+[^expand]: <https://tidyr.tidyverse.org/reference/expand.html>
+[^itertools]: <https://docs.python.org/2/library/itertools.html#itertools.product>
+
 
 This is a type of JOIN that you should avoid to use, specially if one (or both) of the DataFrames involved is a big DataFrame with thousands/millions of rows. Because a *cross join* will always produce a cartesian product between the two DataFrames involved. This means that, if DataFrame A contains $x$ rows, and DataFrame B contains $y$ rows, the end result of the *cross join* is a new DataFrame C that contains $x \times y$ rows.
 
@@ -426,7 +431,13 @@ A *cross join* is a special type of JOIN because it does not use "keys" and a ma
 
 Pivot operations are extremely useful, and they are probably the main operation you can use to completely reformat your table. What these operations do is basically change the dimensions of your table. In other words, this kind of operation transform columns into rows, or vice versa.
 
-As a comparison with other data frameworks, a pivot operation in Spark is the same operation performed by R functions [`tidyr::pivot_longer()`](https://tidyr.tidyverse.org/reference/pivot_longer.html) and [`tidyr::pivot_wider()`](https://tidyr.tidyverse.org/reference/pivot_wider.html) from the famous R framework `tidyverse`; or, the same as the [`pivot()`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.pivot.html) and [`melt()`](https://pandas.pydata.org/docs/reference/api/pandas.melt.html) methods from the Python framework `pandas`.
+As a comparison with other data frameworks, a pivot operation in Spark is the same operation performed by R functions [`tidyr::pivot_longer()`](https://tidyr.tidyverse.org/reference/pivot_longer.html)[^longer] and [`tidyr::pivot_wider()`](https://tidyr.tidyverse.org/reference/pivot_wider.html)[^wider] from the famous R framework `tidyverse`; or, the same as the [`pivot()`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.pivot.html)[^pivot] and [`melt()`](https://pandas.pydata.org/docs/reference/api/pandas.melt.html)[^melt] methods from the Python framework `pandas`.
+
+[^longer]: <https://tidyr.tidyverse.org/reference/pivot_longer.html>
+[^wider]: <https://tidyr.tidyverse.org/reference/pivot_wider.html>
+[^pivot]: <https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.pivot.html>
+[^melt]: <https://pandas.pydata.org/docs/reference/api/pandas.melt.html>
+
 
 In Spark, pivot operations are performed by the `pivot()` DataFrame method, and by the `stack()` Spark SQL function. Pivot transformations are available in both directions. That is, you can transform either rows into columns (corresponds to `pivot()`), or, columns into rows (corresponds to `stack()`). Let's begin with `stack()`, and after that, we explain the `pivot()` method.
 
@@ -630,8 +641,13 @@ You can retract or extend vertically your DataFrame, by nesting multiple rows in
 
 In Spark, you perform this kind of operations by using the `collect_list()`, `collect_set()` and `explode()` functions, which all comes from the `pyspark.sql.functions` module. The `collect_list()` and `collect_set()` functions are used for retracting (or nesting) your DataFrame, while the `explode()` function is used for extending (or unnesting).
 
-As a quick comparison, `explode()` is very similar to the R function\
-[`tidyr::unnest_longer()`](https://tidyr.tidyverse.org/reference/unnest_longer.html) from the `tidyverse` framework, and also, similar to the Python method [`explode()`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.explode.html) in the `pandas` framework. In the other hand, `collect_list()` and `collect_set()` functions does a similar job to the R function [`tidyr::nest()`](https://tidyr.tidyverse.org/reference/nest.html).
+<!--                                                                Added a "-" here to break the line smoothly -->
+As a quick comparison, `explode()` is very similar to the R function [`tidyr::-unnest_longer()`](https://tidyr.tidyverse.org/reference/unnest_longer.html)[^unnest-longer] from the `tidyverse` framework, and also, similar to the Python method [`explode()`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.explode.html)[^explode] in the `pandas` framework. In the other hand, `collect_list()` and `collect_set()` functions does a similar job to the R function [`tidyr::nest()`](https://tidyr.tidyverse.org/reference/nest.html)[^nest].
+
+[^nest]: <https://tidyr.tidyverse.org/reference/nest.html>
+[^unnest-longer]: <https://tidyr.tidyverse.org/reference/unnest_longer.html>
+[^explode]: <https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.explode.html>
+
 
 ### Expanding (or unnesting) with `explode()`
 

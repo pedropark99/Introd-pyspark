@@ -276,7 +276,8 @@ Because of that, in some cases, you have to tell Spark how exactly you want this
 
 In the example below, the `schema` object represents the schema of the `registers` DataFrame. This DataFrame have three columns (`ID`, `Date`, `Name`) of types `IntegerType`, `DateType` and `StringType`, respectively.
 
-You can see below that I deliver this `schema` object that I built to `spark.createDataFrame()`. Now `spark.createDataFrame()` will follow the schema I described in this `schema` object when building the `registers` DataFrame.
+<!--                                                                   Added a "-" to break the line smoothly -->
+You can see below that I deliver this `schema` object that I built to `spark.create-DataFrame()`. Now `spark.createDataFrame()` will follow the schema I described in this `schema` object when building the `registers` DataFrame.
 
 ```{python}
 from pyspark.sql.types import StructType, StructField

@@ -56,10 +56,17 @@ def print_big_list(text, n_chars = 80):
     formatted_output = pformat(text, indent = 2, width = n_chars)
     formatted_output = re.sub("^[(]", "", formatted_output)
     formatted_output = re.sub("[)]$", "", formatted_output)
-    formatted_output = formatted_output.split("\n")
-    formatted_output = [re.sub('"', '', x) for x in formatted_output]
-    formatted_output = "\n".join(formatted_output)
+    formatted_output = formatted_output.split('\n')
+    for i in range(len(formatted_output)):
+        current_line = formatted_output[i]
+        for chr in current_line:
+            if chr == '"' or chr == "'":
+                char_to_replace = chr
+                break
 
+        formatted_output[i] = re.sub(char_to_replace, '', current_line)
+
+    formatted_output = "\n".join(formatted_output)
     return formatted_output
 
 

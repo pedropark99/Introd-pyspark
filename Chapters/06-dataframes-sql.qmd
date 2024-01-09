@@ -468,7 +468,9 @@ The methods `saveAsTable()`, `createTempView()` and `createOrReplaceTempView()` 
 
 ## The `penguins` DataFrame
 
-Over the next examples in this chapter, we will explore the `penguins` DataFrame. This is the `penguins` dataset from the [`palmerpenguins` R library](https://allisonhorst.github.io/palmerpenguins/). It stores data of multiple measurements of penguin species from the islands in Palmer Archipelago.
+Over the next examples in this chapter, we will explore the `penguins` DataFrame. This is the `penguins` dataset from the [`palmerpenguins` R library](https://allisonhorst.github.io/palmerpenguins/)[^palmer]. It stores data of multiple measurements of penguin species from the islands in Palmer Archipelago.
+
+[^palmer]: <https://allisonhorst.github.io/palmerpenguins/>
 
 These measurements include size (flipper length, body mass, bill dimensions) and sex, and they were collected by researchers of the Antarctica LTER program, a member of the Long Term Ecological Research Network. If you want to understand more about each field/column present in this dataset, I recommend you to read the [official documentation of this dataset](https://allisonhorst.github.io/palmerpenguins/reference/penguins.html)[^penguins_doc].
 
