@@ -27,6 +27,8 @@ index.tex
 tex_adjusted.tex
 tex_adjusted.pdf
 docs/*.pdf
+*.docx
+*.epub
 *.aux
 *.log
 *.toc

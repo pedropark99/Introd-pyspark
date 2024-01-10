@@ -348,7 +348,7 @@ window.Quarto = {
 <p>These three methods above are all DataFrames methods. Furthermore, the methods <code>drop_duplicates()</code> and <code>dropDuplicates()</code> are equivalent. They both mean the same thing, and have the same arguments and perform the same operation.</p>
 <p>When you run <code>drop_duplicates()</code> or <code>dropDuplicates()</code> without any argument, they automatically use by default the combination of all columns available in the DataFrame to identify the duplicated values. As a consequence, over this specific situation, the methods <code>drop_duplicates()</code> or <code>dropDuplicates()</code> become equivalent to the <code>distinct()</code> method. Because they use the combination of all columns in the DataFrame.</p>
 <p>Lets pick the <code>supermarket_sales</code> DataFrame exposed below as an example. You can see below, that this DataFrame contains some duplicated values, specifically on the transaction IDs “T001” e “T004”. We also have some “degree of duplication” on the transaction ID “T006”. But the two rows describing this ID “T006” are not precisely identical, since they have a small difference on the <code>quantity</code> column.</p>
-<div id="57fe2d6f" class="cell" data-execution_count="2">
+<div id="650cfdf3" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.types <span class="im">import</span> (</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    StructType, StructField,</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    StringType, IntegerType,</span>
@@ -397,7 +397,7 @@ only showing top 6 rows
 </div>
 </div>
 <p>We can remove these duplicated values by using the <code>distinct()</code> method. In the example of transaction ID “T004”, all duplicated rows of this ID contains the same values <code>("T004", "Mango", 2, 2.0)</code>, precisely in this order. Because of that, the <code>distinct()</code> method is enough to remove all of these duplicated values from the table.</p>
-<div id="da64adc4" class="cell" data-execution_count="3">
+<div id="ad2181e0" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>supermarket_sales<span class="op">\</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    .distinct()<span class="op">\</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    .show(<span class="dv">6</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -418,7 +418,7 @@ only showing top 6 rows
 </div>
 <p>However, the two rows describing the transaction ID “T006” have some difference on the <code>quantity</code> column, and as a result, the <code>distinct()</code> method does not identify these two rows as “duplicated values”, and they are not removed from the input DataFrame.</p>
 <p>Now, if we needed a DataFrame that contained one row for each transaction ID (that is, the values on <code>transaction_id</code> column must be unique), we could use the <code>drop_duplicates()</code> method with only the column <code>transaction_id</code> as the key to remove all duplicated values of this column. This way, we get a slightly different output as you can see below.</p>
-<div id="58a833ad" class="cell" data-execution_count="4">
+<div id="43d98bf1" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>supermarket_sales<span class="op">\</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    .drop_duplicates([<span class="st">'transaction_id'</span>])<span class="op">\</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    .show(<span class="dv">8</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -447,7 +447,7 @@ only showing top 6 rows
 <p>Instead of removing the null values, and pretending that they never existed, maybe, you prefer to replace these null values by a more useful or representative value, such as <code>0</code>, or an empty string (<code>''</code>), or a <code>False</code> value, etc. To do that in <code>pyspark</code>, we can use the <code>na.fill()</code> and <code>fillna()</code> DataFrame methods.</p>
 <p>Both methods mean the same thing, and they work the exact same way. The most popular way of using this methods, is to provide a python dict as input. Inside this dict you have key-value pairs, where the key represents the column name, and the value represents the static value that will replace all null values that are found on the column specified by the key.</p>
 <p>In the example below, I created a simple <code>df</code> DataFrame which contains some null values on the <code>age</code> column. By providing the dict <code>{'age': 0}</code> to <code>fillna()</code>, I am asking <code>fillna()</code> to replace all null values found on the <code>age</code> column by the value <code>0</code> (zero).</p>
-<div id="0b7ca229" class="cell" data-execution_count="5">
+<div id="93be896e" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> [</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">1</span>, <span class="st">"John"</span>, <span class="va">None</span>, <span class="st">"2023-04-05"</span>),</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">2</span>, <span class="st">"Alice"</span>, <span class="dv">25</span>, <span class="st">"2023-04-09"</span>),</span>
@@ -476,7 +476,7 @@ only showing top 6 rows
 </div>
 <p>You can see in the above example, that the null values present in the <code>date</code> column were maintained intact on the result. Because we did not asked to <code>fillna()</code> to replace the values of this column, by including it on the input dict that we provided.</p>
 <p>If we do include this <code>date</code> column on the input dict, then, <code>fillna()</code> will take care of this column as well:</p>
-<div id="6f89bf8a" class="cell" data-execution_count="6">
+<div id="1194d813" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>df.fillna({<span class="st">'age'</span>: <span class="dv">0</span>, <span class="st">'date'</span>: <span class="st">'2023-01-01'</span>})<span class="op">\</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    .show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -498,7 +498,7 @@ only showing top 6 rows
 <p>Spark also offers the <code>na.drop()</code> and <code>dropna()</code> DataFrames methods, which you can use to easily remove any row that contains a null value on any column of the DataFrame. This is different from <code>filter()</code> and <code>where()</code>, because on these two methods you have to build a logical expression that translate “not-null values”.</p>
 <p>In contrast, on <code>na.drop()</code> and <code>dropna()</code> methods you do not have a logical expression. You just call these methods, and they do the heavy work for you. They search through the entire DataFrame. When it identify a null value on the DataFrame, it removes the entire row that contains such null value.</p>
 <p>For example, if we apply these methods on the <code>df</code> DataFrame that we used on the previous section, this is the end result:</p>
-<div id="0e796a1c" class="cell" data-execution_count="7">
+<div id="23002a02" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>df.na.drop()<span class="op">\</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    .show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -520,7 +520,7 @@ only showing top 6 rows
 <p>In contrast, an <em>union distinct</em> operation is the exact opposite of that. It merges the rows from both DataFrames together, and then, it removes all duplicated values from the result. So you use an <em>union distinct</em> operation when you want a single DataFrame that contains all rows from both DataFrames <code>df1</code> and <code>df2</code>, but, you do not want any duplicated rows into this single DataFrame.</p>
 <p>By default, the <code>union()</code> method always perform an <em>union all</em> operation. However, to do an <em>union distinct</em> operation in pyspark, you actually have to use the <code>union()</code> method in conjunction with the <code>distinct()</code> or <code>drop_duplicates()</code> methods. In other words, there is not a direct method in pyspark that performs an <em>union distinct</em> operation on a single command.</p>
 <p>Look at the example below with <code>df1</code> and <code>df2</code> DataFrames.</p>
-<div id="6d66ac8a" class="cell" data-execution_count="8">
+<div id="4ba2a359" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>df1 <span class="op">=</span> [</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">1</span>, <span class="st">'Anne'</span>, <span class="st">'F'</span>),</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">5</span>, <span class="st">'Mike'</span>, <span class="st">'M'</span>),</span>
@@ -552,7 +552,7 @@ only showing top 6 rows
 </code></pre>
 </div>
 </div>
-<div id="4533cc73" class="cell" data-execution_count="9">
+<div id="d2d63d26" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># An example of UNION DISTINCT operation</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>df1<span class="op">\</span></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    .union(df2)<span class="op">\</span></span>
@@ -573,7 +573,7 @@ only showing top 6 rows
 <p>Because an UNION operation merges the two DataFrames in a vertical way, the columns between the two DataFrames must match. If the columns between the two DataFrames are not in the same places, a mismatch happens during the operation, and Spark will do nothing to fix your mistake.</p>
 <p>Most programming languages would issue an error at this point, warning you about this conflict between the columns found on each DataFrame and their respective positions. However, in Spark, if the columns are out of order, Spark will continue with the UNION operation, as if nothing was wrong. Spark will not even raise a warning for you. Since this problem can easily pass unnotice, be aware of it.</p>
 <p>In the example below, we have a third DataFrame called <code>df3</code>. Notice that the columns in <code>df3</code> are the same of <code>df1</code> and <code>df2</code>. However, the columns from <code>df3</code> are in a different order than in <code>df1</code> and <code>df2</code>.</p>
-<div id="a5e2eb5b" class="cell" data-execution_count="10">
+<div id="b7d34faa" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> [</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'Marla'</span>, <span class="st">'F'</span>, <span class="dv">9</span>),</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'Andrew'</span>, <span class="st">'M'</span>, <span class="dv">15</span>),</span>
@@ -593,7 +593,7 @@ only showing top 6 rows
 </div>
 </div>
 <p>If we try to perform an UNION operation between, let’s say, <code>df2</code> and <code>df3</code>, the operations just works. But, the end result of this operation is not correct, as you can see in the example below.</p>
-<div id="68b85d04" class="cell" data-execution_count="11">
+<div id="ad1cda56" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>df2.union(df3).show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>+------+------+---+
@@ -612,7 +612,7 @@ only showing top 6 rows
 <p>Although this might be problematic, Spark provides an easy-to-use solution when the columns are in different places between each DataFrame. This solution is the <code>unionByName()</code> method.</p>
 <p>The difference between <code>union()</code> and <code>unionByName()</code> methods, is that the <code>unionByName()</code> method makes an matching by column name, before if performs the UNION. In other words, it compares the column names found on each DataFrame and it matches each column by its name. This way, the columns present on each DataFrame of the UNION must have the same name, but they do not need to be in the same positions on both DataFrames.</p>
 <p>If we use this method on the same example as above, you can see below that we get a different result, and a correct one this time.</p>
-<div id="6ca87014" class="cell" data-execution_count="12">
+<div id="15a4236d" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>df2.unionByName(df3)<span class="op">\</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>    .show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -632,7 +632,7 @@ only showing top 6 rows
 <p>Therefore, if you want to make an UNION operation between two DataFrames, you can generally use the <code>union()</code> method. But if you suspect the columns from these DataFrames might be in different positions on each DataFrame, you can change to the <code>unionByName()</code> method.</p>
 <p>In contrast, if the columns are different not only on position, but also, on column name, then, <code>unionByName()</code> will not work. The two DataFrames involved on an UNION operation must be very similar. If they are not similar, then, you will have a hard time trying to do the operation.</p>
 <p>Another problem that you might face is if you try to unify two DataFrames that have different numbers of columns between them. In this situation, it means that the two DataFrames have “different widths”, and, as a result of that, an <code>AnalysisException</code> error will be raised by Spark if you try to unify them with an UNION operation, like in the example below:</p>
-<div id="19d62de6" class="cell" data-execution_count="13">
+<div id="ac5da8f0" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.types <span class="im">import</span> (</span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    StructField,</span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    StructType,</span>
@@ -662,7 +662,7 @@ with the same number of columns, but the first table has
 <li><code>how</code>: the kind of JOIN you want to perform (inner, full, left, right);</li>
 </ul>
 <p>As a first example, let’s use the <code>info</code> and <code>band_instruments</code> DataFrames. With the source code below, you can quickly re-create these two DataFrames in your session:</p>
-<div id="0e54d909" class="cell" data-execution_count="14">
+<div id="ff92d8a2" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>info <span class="op">=</span> [</span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'Mick'</span>, <span class="st">'Rolling Stones'</span>, <span class="st">'1943-07-26'</span>, <span class="va">True</span>),</span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'John'</span>, <span class="st">'Beatles'</span>, <span class="st">'1940-09-10'</span>, <span class="va">True</span>),</span>
@@ -688,7 +688,7 @@ with the same number of columns, but the first table has
 <span id="cb26-23"><a href="#cb26-23" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>If you look closely to these two DataFrames, you will probably notice that they both describe musicians from two famous rock bands from 60’s and 70’s. The <code>info</code> DataFrame have more personal or general informations about the musicians, while the <code>band_instruments</code> DataFrame have only data about the main musical instruments that they play.</p>
-<div id="83f1cac2" class="cell" data-execution_count="15">
+<div id="ecbe18c4" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>info.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>+------+--------------+----------+--------+
@@ -703,7 +703,7 @@ with the same number of columns, but the first table has
 </code></pre>
 </div>
 </div>
-<div id="002bfb26" class="cell" data-execution_count="16">
+<div id="4f21972a" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>band_instruments.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>+-----+------+
@@ -717,7 +717,7 @@ with the same number of columns, but the first table has
 </div>
 </div>
 <p>It might be of your interest, to have a single DataFrame that contains both the personal information and the musical instrument of each musician. In this case, you can build a JOIN operation between these DataFrames to get this result. An example of this JOIN in pyspark would be:</p>
-<div id="d6d6bc13" class="cell" data-execution_count="17">
+<div id="0fc67d6b" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>info.join(band_instruments, on <span class="op">=</span> <span class="st">'name'</span>, how <span class="op">=</span> <span class="st">'left'</span>)<span class="op">\</span></span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>    .show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -789,7 +789,7 @@ Figure&nbsp;8.3: A visual representation for types of JOIN using numerical sets
 </div>
 <p>That is why the <em>full join</em> is represented on <a href="#fig-join-sets" class="quarto-xref">Figure&nbsp;<span>8.3</span></a> as the union between the two tables (or the two sets). In contrast, an <em>inner join</em> is the intersection of the two tables (or two sets). That is, an <em>inner join</em> will result in a new DataFrame which contains solely the observations that could be found on both tables. If a specific observation is found only on one table of the JOIN, this observation will be automatically removed from the result of the <em>inner join</em>.</p>
 <p>If we go back to the <code>info</code> and <code>band_instruments</code> DataFrames, and use them as an example, you can see that only Paul and John are included on the result of an <em>inner join</em>. While in a <em>full join</em>, all musicians are included on the resulting DataFrame.</p>
-<div id="28df4740" class="cell" data-execution_count="18">
+<div id="27ed3063" class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># An inner join between `info` and `band_instruments`:</span></span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>info.join(band_instruments, on <span class="op">=</span> <span class="st">'name'</span>, how <span class="op">=</span> <span class="st">'inner'</span>)<span class="op">\</span></span>
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>    .show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -803,7 +803,7 @@ Figure&nbsp;8.3: A visual representation for types of JOIN using numerical sets
 </code></pre>
 </div>
 </div>
-<div id="9df3bb16" class="cell" data-execution_count="19">
+<div id="44982323" class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># A full join between `info` and `band_instruments`:</span></span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>info.join(band_instruments, on <span class="op">=</span> <span class="st">'name'</span>, how <span class="op">=</span> <span class="st">'full'</span>)<span class="op">\</span></span>
 <span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>    .show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -835,7 +835,7 @@ Figure&nbsp;8.3: A visual representation for types of JOIN using numerical sets
 <p>In other words, these both types are used as a filter mechanism, and not as a merge mechanism. When you use these two types, instead of merging two DataFrames together, you are interested in filtering the rows of DataFrame A based on the existence of these rows in DataFrame B.</p>
 <p>This is different from what we learned on <em>left</em>, <em>right</em>, <em>full</em> and <em>inner</em> types, because they do not only change which rows are included in the final result, but they also add the columns from table B into table A. Because of this behavior, these four main types are usually called as “additive types” of JOIN, since they are always adding data from table B into table A, i.e.&nbsp;they are merging the two tables together.</p>
 <p>In more details, an <em>anti join</em> perform the exact opposite matching process of an <em>inner join</em>. This means that an <em>anti join</em> will always result in a new DataFrame that contains solely the observations that exists only on one DataFrame of the JOIN. In other words, the observations that are found on both tables are automatically removed from the resulting DataFrame of the JOIN. If we look at the example below, we can see that both John and Paul were removed from the resulting DataFrame of the <em>anti join</em>, because these two musicians are present on both DataFrames:</p>
-<div id="c2d31fd5" class="cell" data-execution_count="20">
+<div id="bd8fec75" class="cell" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>info.join(band_instruments, on <span class="op">=</span> <span class="st">'name'</span>, how <span class="op">=</span> <span class="st">'anti'</span>)<span class="op">\</span></span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>    .show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -850,7 +850,7 @@ Figure&nbsp;8.3: A visual representation for types of JOIN using numerical sets
 </div>
 </div>
 <p>In contrast, a <em>semi join</em> is equivalent to an <em>inner join</em>, with the difference that it does not adds the column from table B into table A. So this type of JOIN filter the rows from DataFrame A that also exists in DataFrame B. If an observation is found on both tables, this observation will appear on the resulting DataFrame.</p>
-<div id="a75e03b8" class="cell" data-execution_count="21">
+<div id="b466d7ae" class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>info.join(band_instruments, on <span class="op">=</span> <span class="st">'name'</span>, how <span class="op">=</span> <span class="st">'semi'</span>)<span class="op">\</span></span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>    .show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -883,11 +883,11 @@ Figure&nbsp;8.4: The two “filter types” of JOIN
 <p>In other words, the number of rows in the output of a <em>cross join</em> can grow exponentially. For example, a <em>cross join</em> between a DataFrame of 1 thousand rows, and another DataFrame of 10 thousand of rows (both are small DataFrames for the scale and sizes of a real-world big data environment), would produce a DataFrame with <span class="math inline">\(10^3 \times 10^4 = 10^7\)</span>, that is, 10 milion of rows as output.</p>
 <p>In a big data environment, dealing with something that grows exponentially… it is never a good idea. So try to avoid a <em>cross join</em> and use him solely on very small DataFrames.</p>
 <p>As an example, to apply a <em>cross join</em> between <code>info</code> and <code>band_instruments</code> DataFrames we can use the <code>crossJoin()</code> method, like in the example below:</p>
-<div id="7b280e5f" class="cell" data-execution_count="22">
+<div id="b2015520" class="cell" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>info.crossJoin(band_instruments)<span class="op">\</span></span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>    .show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>[Stage 69:============&gt;                                         (24 + 12) / 100][Stage 69:=================&gt;                                    (33 + 12) / 100][Stage 69:======================&gt;                               (42 + 12) / 100][Stage 69:===========================&gt;                          (51 + 12) / 100][Stage 69:================================&gt;                     (60 + 12) / 100][Stage 69:=====================================&gt;                (69 + 12) / 100][Stage 69:==========================================&gt;           (79 + 12) / 100][Stage 69:==============================================&gt;       (87 + 12) / 100][Stage 69:=====================================================&gt; (98 + 2) / 100]                                                                                </code></pre>
+<pre><code>[Stage 69:============&gt;                                         (23 + 12) / 100][Stage 69:=================&gt;                                    (32 + 12) / 100][Stage 69:====================&gt;                                 (38 + 12) / 100][Stage 69:==========================&gt;                           (49 + 12) / 100][Stage 69:================================&gt;                     (61 + 12) / 100][Stage 69:====================================&gt;                 (67 + 12) / 100][Stage 69:========================================&gt;             (75 + 12) / 100][Stage 69:============================================&gt;         (83 + 12) / 100][Stage 69:====================================================&gt;  (95 + 5) / 100]                                                                                </code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>+------+--------------+----------+--------+-----+------+
@@ -924,7 +924,7 @@ Figure&nbsp;8.4: The two “filter types” of JOIN
 <h3 data-number="8.5.1" class="anchored" data-anchor-id="transforming-columns-into-rows"><span class="header-section-number">8.5.1</span> Transforming columns into rows</h3>
 <p>The <code>stack()</code> Spark SQL function allows you to transform columns into rows. In other words, you can make your DataFrame “longer” with this kind of operation, because you remove columns (“width”) from the table, and adds new rows (“heigth”). This gives an aspect of “longer” to your table, because after this operation, you table usually have more rows than columns.</p>
 <p>As a first example, lets use the <code>religion</code> DataFrame, which you can re-create in your session with the source code below:</p>
-<div id="628df5a1" class="cell" data-execution_count="23">
+<div id="e007655b" class="cell" data-execution_count="23">
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> [</span>
 <span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'Agnostic'</span>, <span class="dv">27</span>, <span class="dv">34</span>, <span class="dv">60</span>),</span>
 <span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'Atheist'</span>, <span class="dv">12</span>, <span class="dv">27</span>, <span class="dv">37</span>),</span>
@@ -961,7 +961,7 @@ Figure&nbsp;8.5: A visual representation of a pivot operation
 <p>So how do you use it? The answer is: use it inside Spark SQL! The <code>stack()</code> function is not available directly in python, but it is always available in Spark SQL, so all you need to do, is to use <code>stack()</code> inside functions and methods such as <code>expr()</code> (that I introduced at <a href="06-dataframes-sql.html#sec-sql-expr" class="quarto-xref"><span>Section 7.6.2</span></a>), or <code>sql()</code> to access Spark SQL functionality.</p>
 <p>Now, the <code>stack()</code> function have two main arguments, which are the number of columns to transform into rows, and a sequence of key-value pairs that describes which columns will be transformed into rows, and the label values that corresponds to each column being transformed.</p>
 <p>As a first example, the source code below replicates the transformation exposed at <a href="#fig-pivot1" class="quarto-xref">Figure&nbsp;<span>8.5</span></a>:</p>
-<div id="1a868222" class="cell" data-execution_count="24">
+<div id="2ca2a9d9" class="cell" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> expr</span>
 <span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>stack_expr <span class="op">=</span> <span class="st">"""</span></span>
 <span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a><span class="st">stack(3,</span></span>
@@ -998,7 +998,7 @@ Figure&nbsp;8.5: A visual representation of a pivot operation
 <p>The first argument in <code>stack()</code> is always the number of columns that will be transformed by the function into rows. In our example, we have three columns that we want to transform, which are <code>&lt;$10k</code>, <code>$10k-$20k</code> and <code>$20k-$30k</code>. That is why we have the number 3 as the first argument to <code>stack()</code>.</p>
 <p>After that, we have a sequence of key-value pairs. In each pair, the value side (i.e.&nbsp;the right side) of the pair contains the name of the column that will be transformed, and the key side (i.e.&nbsp;the left side) of the pair contains the “label value”, or, in other words, which value represents, marks, label, or identifies the values that came from the column described in the right side of the pair.</p>
 <p>Normally, you set the label value to be equivalent to the column name. That is, both sides of each pair are usually pretty much the same. But you can change this behaviour if you want. In the example below, all values that came from the <code>&lt;$10k</code> are labeled as <code>"Below $10k"</code>, while the values from the <code>$10k-$20k</code> column, are labeled in the output as <code>"Between $10k-$20k"</code>, etc.</p>
-<div id="31ce71d0" class="cell" data-execution_count="25">
+<div id="fafe3f53" class="cell" data-execution_count="25">
 <div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>stack_expr <span class="op">=</span> <span class="st">"""</span></span>
 <span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="st">stack(3,</span></span>
 <span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a><span class="st">    'Below $10k', `&lt;$10k`,</span></span>
@@ -1031,7 +1031,7 @@ Figure&nbsp;8.5: A visual representation of a pivot operation
 <p>In the example above, this tuple is <code>(salary_range, avg_salary)</code>. The first value in the tuple is the new name for the “labels column”, while the second value in the tuple, is the new name for the “values column”.</p>
 <p>Now, differently from other Spark SQL functions, the <code>stack()</code> function should not be used inside the <code>withColumn()</code> method, and the reason for this is very simple: <code>stack()</code> always returns two new columns as output, but the <code>withColumn()</code> method can only create one column at a time.</p>
 <p>This is why you get an <code>AnalysisException</code> error when you try to use <code>stack()</code> inside <code>withColumn()</code>, like in the example below:</p>
-<div id="7ee89026" class="cell" data-execution_count="26">
+<div id="75099c1f" class="cell" data-execution_count="26">
 <div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>religion<span class="op">\</span></span>
 <span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>    .withColumn(<span class="st">'salary_ranges'</span>, stack_expr)<span class="op">\</span></span>
 <span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>    .show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1048,7 +1048,7 @@ does not match the number of columns output by the UDTF expected
 <p>Therefore, we use <code>groupby()</code> to define the columns that will be kept intact on the output of the pivot operation; we use <code>pivot()</code> to mark the column that contains the rows that we want to transform into new columns; at last, we must learn how to define which values will populate the new columns that will be created. Not only that, we also need to specify how these values will be calculated. And for that, we need to use an aggregating function.</p>
 <p>This is really important, you can not do a pivot operation without aggregating the values that will compose (or populate) the new columns you are creating. Without it, Spark will not let you do the pivot operation using the <code>pivot()</code> method.</p>
 <p>As a first example, let’s return to the <code>religion</code> DataFrame. More specifically, to the <code>longer_religion</code> DataFrame, which is the pivoted version of the <code>religion</code> DataFrame that we created on the previous section, using the <code>stack()</code> function.</p>
-<div id="98fb7fe9" class="cell" data-execution_count="27">
+<div id="a2ccde5f" class="cell" data-execution_count="27">
 <div class="sourceCode cell-code" id="cb52"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>longer_religion.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>+--------+------------+----------+
@@ -1068,7 +1068,7 @@ does not match the number of columns output by the UDTF expected
 </div>
 </div>
 <p>We can use this <code>longer_religion</code> DataFrame and the <code>pivot()</code> method to perform the inverse operation we described at <a href="#fig-pivot1" class="quarto-xref">Figure&nbsp;<span>8.5</span></a>. In other words, we can re-create the <code>religion</code> DataFrame through <code>longer_religion</code> using the <code>pivot()</code> method. The source code below demonstrates how we could do such thing:</p>
-<div id="25696eeb" class="cell" data-execution_count="28">
+<div id="69413226" class="cell" data-execution_count="28">
 <div class="sourceCode cell-code" id="cb54"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> first</span>
 <span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Equivalent to the `religion` DataFrame:</span></span>
@@ -1102,7 +1102,7 @@ Figure&nbsp;8.6: The three core parts that define the use of <code>pivot()</code
 <p>When you use <code>pivot()</code>, you have to apply an aggregating function over the column from which you want to extract the values that will populate the new columns created from the pivot operation. This is a prerequisite, because Spark needs to know what he must do in case he finds two (or more) values that are mapped to the same cell in the pivot operation.</p>
 <p>In the above example, we used the <code>first()</code> function to aggregate the values from the <code>avg_salary</code> column. With this function, we are telling Spark, that if it finds two (or more) values that are mapped the same cell, then, Spark should pick the <em>first value if finds</em> in the input DataFrame, and simply ignore the remaining values.</p>
 <p>Let’s see an example. In the code chunk below, we are creating a new DataFrame called <code>df</code>:</p>
-<div id="b0f1cabd" class="cell" data-execution_count="29">
+<div id="161013a8" class="cell" data-execution_count="29">
 <div class="sourceCode cell-code" id="cb56"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> [</span>
 <span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'2023-05-01'</span>, <span class="st">'Anne'</span>, <span class="dv">1</span>, <span class="dv">15</span>),</span>
 <span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'2023-05-02'</span>, <span class="st">'Mike'</span>, <span class="dv">2</span>, <span class="dv">25</span>),</span>
@@ -1127,7 +1127,7 @@ Figure&nbsp;8.6: The three core parts that define the use of <code>pivot()</code
 </div>
 </div>
 <p>Let’s suppose you want to transform the rows in the <code>name</code> column into new columns, and, populate these new columns with the values from the <code>value</code> column. Following what we discussed until now, we could do this by using the following source code:</p>
-<div id="6e62a5f3" class="cell" data-execution_count="30">
+<div id="d1e26011" class="cell" data-execution_count="30">
 <div class="sourceCode cell-code" id="cb58"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>df<span class="op">\</span></span>
 <span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>    .groupby(<span class="st">'date'</span>, <span class="st">'id'</span>)<span class="op">\</span></span>
 <span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>    .pivot(<span class="st">'name'</span>)<span class="op">\</span></span>
@@ -1149,7 +1149,7 @@ Figure&nbsp;8.6: The three core parts that define the use of <code>pivot()</code
 <p>That is the exact problem that an aggregating function solves in a pivot operation. The aggregating function does the job of ensuring that a single value will be mapped to every new cell created from the pivot operation. Because an aggregating function is a function that aggregates (or that summarises) a set of values into a single value.</p>
 <p>In the example above we used <code>first()</code> as our aggregating function. So when Spark encountered the three values from the combination <code>('2023-05-02', 'Mike')</code>, it simply picked the first value from the three. That is why we find the value <code>25</code> at the first row in the fifth column.</p>
 <p>We can change this behaviour by changing the aggregating function applied. In the example below, we are using <code>sum()</code>, and, as a result, we get now the value of <code>80</code> (which is the sum of values <code>25</code>, <code>34</code> and <code>21</code>) at the first row in the fifth column.</p>
-<div id="eed2e7e1" class="cell" data-execution_count="31">
+<div id="b28fe1ca" class="cell" data-execution_count="31">
 <div class="sourceCode cell-code" id="cb60"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> <span class="bu">sum</span></span>
 <span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>df<span class="op">\</span></span>
 <span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a>    .groupby(<span class="st">'date'</span>, <span class="st">'id'</span>)<span class="op">\</span></span>
@@ -1169,7 +1169,7 @@ Figure&nbsp;8.6: The three core parts that define the use of <code>pivot()</code
 </div>
 <p>Now, depending on the data and the structure from your DataFrame, Spark might never encounter a situation where it finds two (or more) values mapped to the same cell in a pivot operation. On this specific case, the output from the pivot operation will likely be the same for many different aggregating functions. In other words, the choice of the aggregating function you want to use might be irrelevant over this specific situation.</p>
 <p>For example, in the <code>longer_religion</code> example that we showed before, I could use the <code>last()</code> aggregating function (instead of <code>first()</code>), and get the exact same result as before. Because in this specific situation, Spark does not find any case of two (or more) values mapped to the same cell in the output DataFrame.</p>
-<div id="46c28913" class="cell" data-execution_count="32">
+<div id="26ce5c55" class="cell" data-execution_count="32">
 <div class="sourceCode cell-code" id="cb62"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> last</span>
 <span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>longer_religion<span class="op">\</span></span>
 <span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>    .groupby(<span class="st">'religion'</span>)<span class="op">\</span></span>
@@ -1198,7 +1198,7 @@ Figure&nbsp;8.6: The three core parts that define the use of <code>pivot()</code
 <section id="expanding-or-unnesting-with-explode" class="level3" data-number="8.6.1">
 <h3 data-number="8.6.1" class="anchored" data-anchor-id="expanding-or-unnesting-with-explode"><span class="header-section-number">8.6.1</span> Expanding (or unnesting) with <code>explode()</code></h3>
 <p>As an example, we have the <code>employees</code> DataFrame below. Each row in this DataFrame describes an employee. The <code>knowledge</code> column describes which programming language the employee have experience with, and, the <code>employee_attrs</code> column contains dictionaries with general attributes of each employee (such it’s department and it’s name).</p>
-<div id="f42eb013" class="cell" data-execution_count="33">
+<div id="80d2f15c" class="cell" data-execution_count="33">
 <div class="sourceCode cell-code" id="cb64"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> [</span>
 <span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">1</span>, [<span class="st">"R"</span>, <span class="st">"Python"</span>], {<span class="st">'dep'</span>: <span class="st">'PR'</span>, <span class="st">'name'</span>: <span class="st">'Anne'</span>}),</span>
 <span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">2</span>, [<span class="st">"Scala"</span>], {<span class="st">'dep'</span>: <span class="st">'PM'</span>, <span class="st">'name'</span>: <span class="st">'Mike'</span>}),</span>
@@ -1219,7 +1219,7 @@ Figure&nbsp;8.6: The three core parts that define the use of <code>pivot()</code
 </div>
 </div>
 <p>You can use the <code>printSchema()</code> method that we introduced at <a href="04-dataframes.html#sec-dataframe-schema" class="quarto-xref"><span>Section 3.9</span></a> to see the schema of the DataFrame. You can see in the result below that <code>knowledge</code> is a column of arrays of strings (i.e.&nbsp;<code>ArrayType</code>), while <code>employee_attrs</code> is a column of maps (i.e.&nbsp;<code>MapType</code>).</p>
-<div id="94e5a2dc" class="cell" data-execution_count="34">
+<div id="e62de1ce" class="cell" data-execution_count="34">
 <div class="sourceCode cell-code" id="cb66"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>employees.printSchema()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>root
@@ -1235,7 +1235,7 @@ Figure&nbsp;8.6: The three core parts that define the use of <code>pivot()</code
 <p>Suppose you wanted to calculate the number of employees that have experience in each programming language. To do that, it would be great to transform the <code>knowledge</code> column into a column of strings. Why? Because it would make the counting of the employees easier.</p>
 <p>In other words, if an employee knows, for example, 3 different programming languages, it would be better to have 3 different rows that references this same employee, instead of having a single row that contains an array of three elements, like in the <code>employees</code> DataFrame. We can transform the current DataFrame into this new format by using the <code>explode()</code> function.</p>
 <p>When you apply the <code>explode()</code> function over a column of arrays, this function will create a new row for each element in each array it finds in the column. For example, the employee of ID 1 knows two programming languages (R and Python). As a result, when we apply <code>explode()</code> over the <code>knowledge</code> column, two rows are created for the employee of ID 1. As you can see in the example below:</p>
-<div id="fd6e110d" class="cell" data-execution_count="35">
+<div id="1e3d0b6a" class="cell" data-execution_count="35">
 <div class="sourceCode cell-code" id="cb68"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> explode</span>
 <span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a>explode_array <span class="op">=</span> employees<span class="op">\</span></span>
 <span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a>    .select(</span>
@@ -1259,7 +1259,7 @@ Figure&nbsp;8.6: The three core parts that define the use of <code>pivot()</code
 </div>
 <p>On the other hand, instead of arrays, the behaviour of <code>explode()</code> is slightly different when you apply it over a column of maps, such as <code>employee_attrs</code>. Because each element in a map have two components: a key and a value. As a consequence, when you apply <code>explode()</code> over a column of maps, each element in the map generates two different rows, which are stored in two separated columns, called <code>key</code> and <code>value</code>.</p>
 <p>Take the result below as an example. First, we have two new columns that were not present before (<code>key</code> and <code>value</code>). Each row in the <code>key</code> column represents the key for an element in the input map. While the <code>value</code> column represents the values of those elements.</p>
-<div id="04bd61eb" class="cell" data-execution_count="36">
+<div id="fefff895" class="cell" data-execution_count="36">
 <div class="sourceCode cell-code" id="cb70"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>explode_map <span class="op">=</span> employees<span class="op">\</span></span>
 <span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>    .select(</span>
 <span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a>        <span class="st">'employee_id'</span>,</span>
@@ -1282,7 +1282,7 @@ Figure&nbsp;8.6: The three core parts that define the use of <code>pivot()</code
 </div>
 </div>
 <p>This kind of output is powerful, specially with pivot operations, because you can easily organize all the data found in a column of maps into a series of new columns, like this:</p>
-<div id="e22956bb" class="cell" data-execution_count="37">
+<div id="d4c740ee" class="cell" data-execution_count="37">
 <div class="sourceCode cell-code" id="cb72"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>explode_map<span class="op">\</span></span>
 <span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a>    .groupby(<span class="st">'employee_id'</span>)<span class="op">\</span></span>
 <span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a>    .pivot(<span class="st">'key'</span>)<span class="op">\</span></span>
@@ -1306,7 +1306,7 @@ Figure&nbsp;8.6: The three core parts that define the use of <code>pivot()</code
 <p>First, the difference between <code>explode()</code> and <code>explode_outer()</code> is on the <code>null</code> values. If an array contains a <code>null</code> value, <code>explode()</code> will ignore this null value. In other words, <code>explode()</code> does not create a new row for any <code>null</code> value. In contrast, <code>explode_outer()</code> does create a new row even if the value is <code>null</code>.</p>
 <p>For example, if <code>explode()</code> encounter an array with 5 elements where 2 of them are null values, then, <code>explode()</code> will output 3 new rows. The 2 null values in the input array are automatically ignored. However, if <code>explode_outer()</code> encountered the same array, then, it would output 5 new rows, no matter which values are inside this input array.</p>
 <p>Second, the difference between <code>explode()</code> and <code>posexplode()</code>, is that <code>posexplode()</code> also returns the index that identifies the position in the input array where each value is. In other words, if we applied the <code>posexplode()</code> over the <code>knowledge</code> column of <code>employee</code> DataFrame, we would get a new column called <code>pos</code>. By looking at this column <code>pos</code>, we could see that the value <code>"Python"</code> for the employee of ID 1, was on the position of index 1 on the original array that the function encountered in the original <code>knowledge</code> column.</p>
-<div id="f88b95d7" class="cell" data-execution_count="38">
+<div id="5aa6f052" class="cell" data-execution_count="38">
 <div class="sourceCode cell-code" id="cb74"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> posexplode</span>
 <span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a>employees<span class="op">\</span></span>
 <span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a>    .select(</span>
@@ -1336,7 +1336,7 @@ Figure&nbsp;8.6: The three core parts that define the use of <code>pivot()</code
 <p>Because if you do not define any group in this situation, you will aggregate the entire DataFrame into a single value. This means, that you would get as output, a new DataFrame with only a single row, and, all rows from the input DataFrame would be condensed inside this single row in the output DataFrame.</p>
 <p>In essence, what the <code>collect_list()</code> function do is collect a set of rows and store it in an array. The <code>collect_set()</code> function does the same thing, with the difference that it stores this set of rows in a set (which is an array of unique values). In other words, <code>collect_set()</code> collects a set of rows, then, it removes all duplicated rows in this set, then, it stores the remaining values in an array.</p>
 <p>To demonstrate the <code>collect_list()</code> and <code>collect_set()</code> functions, we can use the <code>supermarket_sales</code> DataFrame that we introduced at <a href="#sec-remove-duplicates" class="quarto-xref"><span>Section 8.1</span></a> as an example:</p>
-<div id="6abf78a5" class="cell" data-execution_count="39">
+<div id="fd11096b" class="cell" data-execution_count="39">
 <div class="sourceCode cell-code" id="cb76"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a>supermarket_sales.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>+--------------+------------+--------+-----+
@@ -1358,7 +1358,7 @@ Figure&nbsp;8.6: The three core parts that define the use of <code>pivot()</code
 </div>
 </div>
 <p>Suppose you wanted a new DataFrame that had a single row for each <code>transaction_id</code> without losing any amount of information from the above DataFrame. We could do this by using the <code>collect_list()</code> function, like in the example below:</p>
-<div id="c78a4589" class="cell" data-execution_count="40">
+<div id="1892bdf7" class="cell" data-execution_count="40">
 <div class="sourceCode cell-code" id="cb78"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> collect_list</span>
 <span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a>supermarket_sales<span class="op">\</span></span>
 <span id="cb78-3"><a href="#cb78-3" aria-hidden="true" tabindex="-1"></a>    .groupby(<span class="st">'transaction_id'</span>)<span class="op">\</span></span>
@@ -1385,7 +1385,7 @@ Figure&nbsp;8.6: The three core parts that define the use of <code>pivot()</code
 </div>
 <p>The expression <code>groupby('transaction_id')</code> ensures that we have (on the output DataFrame) a single row for each unique value in the <code>transaction_id</code> column. While the <code>collect_list()</code> function does the job of condensing all the information of the remaining columns into a single row for each <code>transaction_id</code>.</p>
 <p>Now, if we use <code>collect_set()</code> instead of <code>collect_list()</code>, we would get a slightly different result. Because, as we described before, the <code>collect_set()</code> function removes all duplicated values found in the set of rows it collects.</p>
-<div id="1a08a08c" class="cell" data-execution_count="41">
+<div id="e3b9ba33" class="cell" data-execution_count="41">
 <div class="sourceCode cell-code" id="cb80"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> collect_set</span>
 <span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a>supermarket_sales<span class="op">\</span></span>
 <span id="cb80-3"><a href="#cb80-3" aria-hidden="true" tabindex="-1"></a>    .groupby(<span class="st">'transaction_id'</span>)<span class="op">\</span></span>

@@ -322,11 +322,11 @@ window.Quarto = {
 <h2 data-number="12.1" class="anchored" data-anchor-id="sec-window-def"><span class="header-section-number">12.1</span> How to define windows</h2>
 <p>In order to use a window function you need to define the windows of your DataFrame first. You do this by creating a <code>Window</code> object in your session.</p>
 <p>Every window object have two components, which are partitioning and ordering, and you specify each of these components by using the <code>partitionBy()</code> and <code>orderBy()</code> methods from the <code>Window</code> class. In order to create a <code>Window</code> object, you need to import the <code>Window</code> class from the <code>pyspark.sql.window</code> module:</p>
-<div id="a731d246" class="cell" data-execution_count="2">
+<div id="98367882" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.window <span class="im">import</span> Window</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Over the next examples, I will be using the <code>transf</code> DataFrame that we presented at <a href="05-transforming.html" class="quarto-xref"><span>Chapter 5</span></a>. If you don’t remember how to import/get this DataFrame into your session, come back to <a href="05-transforming.html#sec-transf-dataframe" class="quarto-xref"><span>Section 5.4</span></a>.</p>
-<div id="90359cd5" class="cell" data-execution_count="4">
+<div id="fac83681" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>transf.show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>+------------+-------------------+------------+-------------+----------------+----------+-----------+---------------------+---------------------+----------------------+
@@ -343,7 +343,7 @@ only showing top 5 rows
 </div>
 </div>
 <p>Now, lets create a window object using the <code>transf</code> DataFrame as our target. This DataFrame describes a set of transfers made in a fictitious bank. So a reasonable way of splitting this DataFrame is by day. That means that we can split this DataFrame into groups (or ranges) of rows by using the <code>dateTransfer</code> column. As a result, each partition in the <code>dateTransfer</code> column will create/identify a different window in this DataFrame.</p>
-<div id="c1c6ede5" class="cell" data-execution_count="5">
+<div id="141b9381" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>window_spec <span class="op">=</span> Window.partitionBy(<span class="st">'dateTransfer'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The above window object specifies that each unique value present in the <code>dateTransfer</code> column identifies a different window frame in the <code>transf</code> DataFrame. <a href="#fig-window-spec1" class="quarto-xref">Figure&nbsp;<span>12.1</span></a> presents this idea visually. So each partition in the <code>dateTransfer</code> column creates a different window frame. And each window frame will become an input to a window function (when we use one).</p>
@@ -360,7 +360,7 @@ Figure&nbsp;12.1: Visualizing the window frames - Part 1
 <p>Until this point, defining windows are very much like defining groups in your DataFrame with <em>group by</em> functions (i.e.&nbsp;windows are very similar to groups). But in the above example, we specified only the partition component of the windows. The partitioning component of the window object specifies which partitions of the DataFrame are translated into windows. In the other hand, the ordering component of the window object specifies how the rows within the window are ordered.</p>
 <p>Defining the ordering component becomes very important when we are working with window functions that outputs (or that uses) indexes. As an example, you might want to use in your calculations the first (or the <em>nth</em>) row in each window. In a situation like this, the order in which these rows are founded inside the window affects directly the output of your window function. That is why the ordering component matters.</p>
 <p>For example, we can say that the rows within each window should be in descending order according to the <code>datetimeTransfer</code> column:</p>
-<div id="3ee9588b" class="cell" data-execution_count="6">
+<div id="eee4d49b" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> col</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>window_spec <span class="op">=</span> Window<span class="op">\</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    .partitionBy(<span class="st">'dateTransfer'</span>)<span class="op">\</span></span>
@@ -379,7 +379,7 @@ Figure&nbsp;12.2: Visualizing the window frames - Part 2
 </div>
 <p>Is worth mentioning that, both <code>partitionBy()</code> and <code>orderBy()</code> methods accepts multiple columns as input. In other words, you can use a combination of columns both to define how the windows in your DataFrame will be created, and how the rows within these windows will be sorted.</p>
 <p>As an example, the window specification below is saying: 1) that a window frame is created for each unique combination of <code>dateTransfer</code> and <code>clientNumber</code>; 2) that the rows within each window are ordered accordingly to <code>transferCurrency</code> (ascending order) and <code>datetimeTransfer</code> (descending order).</p>
-<div id="cb47b076" class="cell" data-execution_count="7">
+<div id="fbc73703" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>window_spec <span class="op">=</span> Window<span class="op">\</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    .partitionBy(<span class="st">'dateTransfer'</span>, <span class="st">'clientNumber'</span>)<span class="op">\</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    .orderBy(</span>
@@ -391,7 +391,7 @@ Figure&nbsp;12.2: Visualizing the window frames - Part 2
 <h3 data-number="12.1.1" class="anchored" data-anchor-id="partitioning-or-ordering-or-none"><span class="header-section-number">12.1.1</span> Partitioning or ordering or none</h3>
 <p>Is worth mentioning that both partioning and ordering components of the window specification <strong>are optional</strong>. You can create a window object that contains only a partioning component defined, or, only a ordering component, or, in fact, a window object that basically have neither of them defined.</p>
 <p>As an example, all three objects below (<code>w1</code>, <code>w2</code> and <code>w3</code>) are valid window objects. <code>w1</code> have only the partition component defined, while <code>w2</code> have only the ordering component defined. However, <code>w3</code> have basically none of them defined, because <code>w3</code> is partitioned by nothing. In a situation like this, a single window is created, and this window covers the entire DataFrame. It covers all the rows at once. Is like you were not using any window at all.</p>
-<div id="8bf019b9" class="cell" data-execution_count="8">
+<div id="56b77c1a" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>w1 <span class="op">=</span> Window.partitionBy(<span class="st">'x'</span>)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>w2 <span class="op">=</span> Window.orderBy(<span class="st">'x'</span>)</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>w3 <span class="op">=</span> Window.partitionBy()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -420,7 +420,7 @@ Figure&nbsp;12.2: Visualizing the window frames - Part 2
 <h2 data-number="12.3" class="anchored" data-anchor-id="window-functions-vs-group-by-functions"><span class="header-section-number">12.3</span> Window functions vs <em>group by</em> functions</h2>
 <p>Despite their similarities, window functions and <em>group by</em> functions are used for different purposes. One big difference between them, is that when you use <code>groupby()</code> + <code>agg()</code> you get one output row per each input group of rows, but in contrast, a window function outputs one row per input row. In other words, for a window of <span class="math inline">\(n\)</span> input rows a window function outputs <span class="math inline">\(n\)</span> rows that contains the same result (or the same aggregate result).</p>
 <p>For example, lets suppose you want to calculate the total value transfered within each day. If you use a <code>groupby()</code> + <code>agg()</code> strategy, you get as result a new DataFrame containing one row for each unique date present in the <code>dateTransfer</code> column:</p>
-<div id="15660e78" class="cell" data-execution_count="9">
+<div id="ba517b56" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> <span class="bu">sum</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>transf<span class="op">\</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    .orderBy(<span class="st">'dateTransfer'</span>)<span class="op">\</span></span>
@@ -443,7 +443,7 @@ only showing top 5 rows
 </div>
 <p>On the other site, if you use <code>sum()</code> as a window function instead, you get as result one row for each transfer. That is, you get one row of output for each input row in the <code>transf</code> DataFrame. The value that is present in the new column created (<code>dayTotalTransferValue</code>) is the total value transfered for the window (or the range of rows) that corresponds to the date in the <code>dateTransfer</code> column.</p>
 <p>In other words, the value <code>39630.7</code> below corresponds to the sum of the <code>transferValue</code> column when <code>dateTransfer == "2022-01-01"</code>:</p>
-<div id="1a8ec31c" class="cell" data-execution_count="10">
+<div id="1d55d6ed" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>window_spec <span class="op">=</span> Window.partitionBy(<span class="st">'dateTransfer'</span>)</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>transf<span class="op">\</span></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    .select(<span class="st">'dateTransfer'</span>, <span class="st">'transferID'</span>, <span class="st">'transferValue'</span>)<span class="op">\</span></span>
@@ -481,7 +481,7 @@ only showing top 5 rows
 <h2 data-number="12.4" class="anchored" data-anchor-id="ranking-window-functions"><span class="header-section-number">12.4</span> Ranking window functions</h2>
 <p>The functions <code>row_number()</code>, <code>rank()</code> and <code>dense_rank()</code> from the <code>pyspark.sql.functions</code> module are ranking functions, in the sense that they seek to rank each row in the input window according to a ranking system. These functions are identical to their <a href="https://dev.mysql.com/doc/refman/8.0/en/window-function-descriptions.html#function_row-number">peers in MySQL</a><a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> <code>ROW_NUMBER()</code>, <code>RANK()</code> and <code>DENSE_RANK()</code>.</p>
 <p>The function <code>row_number()</code> simply returns a unique and sequential number to each row in a window, starting from 1. It is a quick way of marking each row with an unique and sequential number.</p>
-<div id="256eeb6d" class="cell" data-execution_count="11">
+<div id="0a8b1eb6" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> row_number</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>window_spec <span class="op">=</span> Window<span class="op">\</span></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    .partitionBy(<span class="st">'dateTransfer'</span>)<span class="op">\</span></span>
@@ -511,7 +511,7 @@ only showing top 5 rows
 </div>
 <p>The <code>row_number()</code> function is also very useful when you are trying to collect the rows in each window that contains the smallest or biggest value in the window. If the ordering of your window specification is in ascending order, then, the first row in the window will contain the smallest value in the current window. In contrast, if the ordering is in descending order, then, the first row in the window will contain the biggest value in the current window.</p>
 <p>This is interesting, because lets suppose you wanted to find the rows that contained the maximum transfer values in each day. A <code>groupby()</code> + <code>agg()</code> strategy would tell you which are the maximum transfer values in each day. But it would not tell you where are the rows in the DataFrame that contains these maximum values. A <code>Window</code> object + <code>row_number()</code> + <code>filter()</code> can help you to get this answer.</p>
-<div id="42ce9b0f" class="cell" data-execution_count="12">
+<div id="daa0df5f" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>window_spec <span class="op">=</span> Window<span class="op">\</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    .partitionBy(<span class="st">'dateTransfer'</span>)<span class="op">\</span></span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    .orderBy(col(<span class="st">'transferValue'</span>).desc())</span>
@@ -540,7 +540,7 @@ only showing top 5 rows
 </div>
 </div>
 <p>The <code>rank()</code> and <code>dense_rank()</code> functions are similar to each other. They both rank the rows with integers, just like <code>row_number()</code>. But if there is a tie between two rows (that means that both rows have the same value in the ordering column, so it becomes a tie, we do not know which one of these rows should come first), then, these functions will repeat the same number/index for these rows in tie. Lets use the <code>df</code> below as a quick example:</p>
-<div id="38e15dc1" class="cell" data-execution_count="13">
+<div id="ea85d3b4" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> [</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">1</span>, <span class="dv">3000</span>), (<span class="dv">1</span>, <span class="dv">2400</span>),</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">1</span>, <span class="dv">4200</span>), (<span class="dv">1</span>, <span class="dv">4200</span>),</span>
@@ -551,7 +551,7 @@ only showing top 5 rows
 <span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> spark.createDataFrame(data, [<span class="st">'id'</span>, <span class="st">'value'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>If we apply both <code>rank()</code> and <code>dense_rank()</code> over this DataFrame with the same window specification, we can see the difference between these functions. In essence, <code>rank()</code> leave gaps in the indexes that come right after any tied rows, while <code>dense_rank()</code> does not.</p>
-<div id="3fcd7121" class="cell" data-execution_count="14">
+<div id="b30a67ec" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> rank, dense_rank</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>window_spec <span class="op">=</span> Window<span class="op">\</span></span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    .partitionBy(<span class="st">'id'</span>)<span class="op">\</span></span>
@@ -577,14 +577,11 @@ only showing top 5 rows
 +---+-----+---------+
 </code></pre>
 </div>
-<div class="cell-output cell-output-stderr">
-<pre><code>[Stage 14:===================================================&gt;    (11 + 1) / 12]                                                                                </code></pre>
 </div>
-</div>
-<div id="f8542818" class="cell" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># With dense_rank() there are no gaps in the indexes</span></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>df.withColumn(<span class="st">'with_dense_rank'</span>, dense_rank().over(window_spec))<span class="op">\</span></span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    .show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="a8b4d0a6" class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># With dense_rank() there are no gaps in the indexes</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>df.withColumn(<span class="st">'with_dense_rank'</span>, dense_rank().over(window_spec))<span class="op">\</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    .show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>+---+-----+---------------+
 | id|value|with_dense_rank|
@@ -608,19 +605,19 @@ only showing top 5 rows
 <h2 data-number="12.5" class="anchored" data-anchor-id="agreggating-window-functions"><span class="header-section-number">12.5</span> Agreggating window functions</h2>
 <p>In essence, all agreggating functions from the <code>pyspark.sql.functions</code> module (like <code>sum()</code>, <code>mean()</code>, <code>count()</code>, <code>max()</code> and <code>min()</code>) can be used as a window function. So you can apply any agreggating function as a window function. You just need to use the <code>over()</code> clause with a <code>Window</code> object.</p>
 <p>We could for example see how much each <code>transferValue</code> deviates from the daily mean of transfered value. This might be a valuable information in case you are planning to do some statistical inference over this data. Here is an example of what this would looks like in <code>pyspark</code>:</p>
-<div id="2f4fde43" class="cell" data-execution_count="16">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> mean</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>window_spec <span class="op">=</span> Window.partitionBy(<span class="st">'dateTransfer'</span>)</span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>mean_deviation_expr <span class="op">=</span> (</span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    col(<span class="st">'transferValue'</span>)</span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">-</span> mean(col(<span class="st">'transferValue'</span>)).over(window_spec)</span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>transf<span class="op">\</span></span>
-<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>    .select(<span class="st">'dateTransfer'</span>, <span class="st">'transferValue'</span>)<span class="op">\</span></span>
-<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>    .withColumn(<span class="st">'meanDeviation'</span>, mean_deviation_expr)<span class="op">\</span></span>
-<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>    .show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="2f7c3dfa" class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> mean</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>window_spec <span class="op">=</span> Window.partitionBy(<span class="st">'dateTransfer'</span>)</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>mean_deviation_expr <span class="op">=</span> (</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>    col(<span class="st">'transferValue'</span>)</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">-</span> mean(col(<span class="st">'transferValue'</span>)).over(window_spec)</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>transf<span class="op">\</span></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>    .select(<span class="st">'dateTransfer'</span>, <span class="st">'transferValue'</span>)<span class="op">\</span></span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>    .withColumn(<span class="st">'meanDeviation'</span>, mean_deviation_expr)<span class="op">\</span></span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>    .show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>+------------+-------------+-------------------+
 |dateTransfer|transferValue|      meanDeviation|
@@ -636,17 +633,17 @@ only showing top 5 rows
 </div>
 </div>
 <p>As another example, you might want to calculate how much a specific transfer value represents of represents of the total amount transferred daily. You could just get the total amount transferred daily by applying the <code>sum()</code> function over windows partitioned by <code>dateTransfer</code>. Then, you just need to divide the current <code>transferValue</code> by the result of this <code>sum()</code> function, and you get the proportion you are looking for.</p>
-<div id="56ca61c4" class="cell" data-execution_count="17">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> <span class="bu">sum</span></span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>proportion_expr <span class="op">=</span> (</span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    col(<span class="st">'transferValue'</span>)</span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">/</span> <span class="bu">sum</span>(col(<span class="st">'transferValue'</span>)).over(window_spec)</span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>transf<span class="op">\</span></span>
-<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>    .select(<span class="st">'dateTransfer'</span>, <span class="st">'transferValue'</span>)<span class="op">\</span></span>
-<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>    .withColumn(<span class="st">'proportionDailyTotal'</span>, proportion_expr)<span class="op">\</span></span>
-<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>    .show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="f08544fe" class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> <span class="bu">sum</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>proportion_expr <span class="op">=</span> (</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>    col(<span class="st">'transferValue'</span>)</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">/</span> <span class="bu">sum</span>(col(<span class="st">'transferValue'</span>)).over(window_spec)</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>transf<span class="op">\</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>    .select(<span class="st">'dateTransfer'</span>, <span class="st">'transferValue'</span>)<span class="op">\</span></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>    .withColumn(<span class="st">'proportionDailyTotal'</span>, proportion_expr)<span class="op">\</span></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>    .show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>+------------+-------------+--------------------+
 |dateTransfer|transferValue|proportionDailyTotal|
@@ -666,25 +663,25 @@ only showing top 5 rows
 <h2 data-number="12.6" class="anchored" data-anchor-id="getting-the-next-and-previous-row-with-lead-and-lag"><span class="header-section-number">12.6</span> Getting the next and previous row with <code>lead()</code> and <code>lag()</code></h2>
 <p>There is one pair functions that is worth talking about in this chapter, which are <code>lead()</code> and <code>lag()</code>. These functions are very useful in the context of windows, because they return the value in the next and previous rows considering your current position in your DataFrame.</p>
 <p>These functions basically performs the same operation as their peers <a href="https://dplyr.tidyverse.org/reference/lead-lag.html"><code>dplyr::lead()</code> and <code>dplyr::lag()</code></a><a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a> from the <code>tidyverse</code> framework. In essence, <code>lead()</code> will return the value of the next row, while <code>lag()</code> will return the value of the previous row.</p>
-<div id="689da49c" class="cell" data-execution_count="18">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> lag, lead</span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>window_spec <span class="op">=</span> Window<span class="op">\</span></span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>    .partitionBy(<span class="st">'dateTransfer'</span>)<span class="op">\</span></span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>    .orderBy(<span class="st">'datetimeTransfer'</span>)</span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>lead_expr <span class="op">=</span> lead(<span class="st">'transferValue'</span>).over(window_spec)</span>
-<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>lag_expr <span class="op">=</span> lag(<span class="st">'transferValue'</span>).over(window_spec)</span>
-<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>transf<span class="op">\</span></span>
-<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>    .withColumn(<span class="st">'nextValue'</span>, lead_expr)<span class="op">\</span></span>
-<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>    .withColumn(<span class="st">'previousValue'</span>, lag_expr)<span class="op">\</span></span>
-<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>    .select(</span>
-<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>        <span class="st">'datetimeTransfer'</span>,</span>
-<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>        <span class="st">'transferValue'</span>,</span>
-<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>        <span class="st">'nextValue'</span>,</span>
-<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>        <span class="st">'previousValue'</span></span>
-<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a>    )<span class="op">\</span></span>
-<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a>    .show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="6488f834" class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> lag, lead</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>window_spec <span class="op">=</span> Window<span class="op">\</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    .partitionBy(<span class="st">'dateTransfer'</span>)<span class="op">\</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>    .orderBy(<span class="st">'datetimeTransfer'</span>)</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>lead_expr <span class="op">=</span> lead(<span class="st">'transferValue'</span>).over(window_spec)</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>lag_expr <span class="op">=</span> lag(<span class="st">'transferValue'</span>).over(window_spec)</span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>transf<span class="op">\</span></span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>    .withColumn(<span class="st">'nextValue'</span>, lead_expr)<span class="op">\</span></span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>    .withColumn(<span class="st">'previousValue'</span>, lag_expr)<span class="op">\</span></span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>    .select(</span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>        <span class="st">'datetimeTransfer'</span>,</span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>        <span class="st">'transferValue'</span>,</span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>        <span class="st">'nextValue'</span>,</span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>        <span class="st">'previousValue'</span></span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a>    )<span class="op">\</span></span>
+<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a>    .show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>+-------------------+-------------+---------+-------------+
 |   datetimeTransfer|transferValue|nextValue|previousValue|

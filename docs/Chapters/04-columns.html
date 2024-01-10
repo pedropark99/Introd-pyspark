@@ -285,7 +285,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>However, there is one more python class that provides some very useful methods that you will regularly use, which is the <code>Column</code> class, or more specifically, the <code>pyspark.sql.column.Column</code> class.</p>
 <p>The <code>Column</code> class is used to represent a column in a Spark DataFrame. This means that, each column of your Spark DataFrame is a object of class <code>Column</code>.</p>
 <p>We can confirm this statement, by taking the <code>df</code> DataFrame that we showed at <a href="04-dataframes.html#sec-building-a-dataframe" class="quarto-xref"><span>Section 3.4</span></a>, and look at the class of any column of it. Like the <code>id</code> column:</p>
-<div id="e53cdef7" class="cell" data-execution_count="2">
+<div id="c04013bb" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(df.<span class="bu">id</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
 <pre><code>pyspark.sql.column.Column</code></pre>
@@ -295,7 +295,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 data-number="4.1" class="anchored" data-anchor-id="building-a-column-object"><span class="header-section-number">4.1</span> Building a column object</h2>
 <p>You can refer to or create a column, by using the <code>col()</code> and <code>column()</code> functions from <code>pyspark.sql.functions</code> module. These functions receive a string input with the name of the column you want to create/refer to.</p>
 <p>Their result are always a object of class <code>Column</code>. For example, the code below creates a column called <code>ID</code>:</p>
-<div id="516afefa" class="cell" data-execution_count="3">
+<div id="fc58c400" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> col</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>id_column <span class="op">=</span> col(<span class="st">'ID'</span>)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(id_column)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -308,7 +308,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 data-number="4.2" class="anchored" data-anchor-id="sec-columns-related-expressions"><span class="header-section-number">4.2</span> Columns are strongly related to expressions</h2>
 <p>Many kinds of transformations that we want to apply over a Spark DataFrame, are usually described through expressions, and, these expressions in Spark are mainly composed by <strong>column transformations</strong>. That is why the <code>Column</code> class, and its methods, are so important in Apache Spark.</p>
 <p>Columns in Spark are so strongly related to expressions that the columns themselves are initially interpreted as expressions. If we look again at the column <code>id</code> from <code>df</code> DataFrame, Spark will bring a expression as a result, and not the values hold by this column.</p>
-<div id="e2ff8b98" class="cell" data-execution_count="4">
+<div id="8467b494" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>df.<span class="bu">id</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
 <pre><code>Column&lt;'id'&gt;</code></pre>
@@ -317,7 +317,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Having these ideas in mind, when I created the column <code>ID</code> on the previous section, I created a “column expression”. This means that <code>col("ID")</code> is just an expression, and as consequence, Spark does not know which are the values of column <code>ID</code>, or, where it lives (which is the DataFrame that this column belongs?). For now, Spark is not interested in this information, it just knows that we have an expression referring to a column called <code>ID</code>.</p>
 <p>These ideas relates a lot to the <strong>lazy aspect</strong> of Spark that we talked about in <a href="04-dataframes.html#sec-viewing-a-dataframe" class="quarto-xref"><span>Section 3.5</span></a>. Spark will not perform any heavy calculation, or show you the actual results/values from you code, until you trigger the calculations with an action (we will talk more about these “actions” on <a href="05-transforming.html#sec-dataframe-actions" class="quarto-xref"><span>Section 5.2</span></a>). As a result, when you access a column, Spark will only deliver a expression that represents that column, and not the actual values of that column.</p>
 <p>This is handy, because we can store our expressions in variables, and, reuse it latter, in multiple parts of our code. For example, I can keep building and merging a column with different kinds of operators, to build a more complex expression. In the example below, I create a expression that doubles the values of <code>ID</code> column:</p>
-<div id="7eedcf8d" class="cell" data-execution_count="5">
+<div id="671da4c0" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>expr1 <span class="op">=</span> id_column <span class="op">*</span> <span class="dv">2</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(expr1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -327,7 +327,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Remember, with this expression, Spark knows that we want to get a column called <code>ID</code> somewhere, and double its values. But Spark will not perform that action right now.</p>
 <p>Logical expressions follow the same logic. In the example below, I am looking for rows where the value in column <code>Name</code> is equal to <code>'Anne'</code>, and, the value in column <code>Grade</code> is above 6.</p>
 <p>Again, Spark just checks if this is a valid logical expression. For now, Spark does not want to know where are these <code>Name</code> and <code>Grade</code> columns. Spark does not evaluate the expression, until we ask for it with an action:</p>
-<div id="79167f4f" class="cell" data-execution_count="6">
+<div id="9f3940fa" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>expr2 <span class="op">=</span> (col(<span class="st">'Name'</span>) <span class="op">==</span> <span class="st">'Anne'</span>) <span class="op">&amp;</span> (col(<span class="st">'Grade'</span>) <span class="op">&gt;</span> <span class="dv">6</span>)</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(expr2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -339,7 +339,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 data-number="4.3" class="anchored" data-anchor-id="literal-values-versus-expressions"><span class="header-section-number">4.3</span> Literal values versus expressions</h2>
 <p>We know now that columns of a Spark DataFrame have a deep connection with expressions. But, on the other hand, there are some situations that you write a value (it can be a string, a integer, a boolean, or anything) inside your <code>pyspark</code> code, and you might actually want Spark to intepret this value as a constant (or a literal) value, rather than a expression.</p>
 <p>As an example, lets suppose you control the data generated by the sales of five different stores, scattered across different regions of Belo Horizonte city (in Brazil). Now, lets suppose you receive a batch of data generated by the 4th store in the city, which is located at Amazonas Avenue, 324. This batch of data is exposed below:</p>
-<div id="6756d5e3" class="cell" data-execution_count="7">
+<div id="24bc00c4" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>path <span class="op">=</span> <span class="st">'./../Data/sales.json'</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>sales <span class="op">=</span> spark.read.json(path)</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>sales.show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -365,7 +365,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>So how do we force Spark to interpret a value as a literal (or constant) value, rather than a expression? To do this, you must write this value inside the <code>lit()</code> (short for “literal”) function from the <code>pyspark.sql.functions</code> module.</p>
 <p>In other words, when you write in your code the statement <code>lit(4)</code>, Spark understand that you want to create a new column which is filled with 4’s. In other words, this new column is filled with the constant integer 4.</p>
 <p>With the code below, I am creating two new columns (called <code>store_number</code> and <code>store_address</code>), and adding them to the <code>sales</code> DataFrame.</p>
-<div id="245237a2" class="cell" data-execution_count="8">
+<div id="58ecb445" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> lit</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>store_number <span class="op">=</span> lit(<span class="dv">4</span>).alias(<span class="st">'store_number'</span>)</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>store_address <span class="op">=</span> lit(<span class="st">'Amazonas Avenue, 324'</span>).alias(<span class="st">'store_address'</span>)</span>

@@ -300,10 +300,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Every Spark session you start has an built-in <code>read</code> object that you can use to read data and import it into Spark (this object was described at <a href="07-import.html#sec-read-files" class="quarto-xref"><span>Section 6.1</span></a>), and the same applies to writing data out of Spark. That is, Spark also offers a <code>write</code> object that you can use to write/output data out of Spark.</p>
 <p>But in contrast to the <code>read</code> object, which is avaiable trough the <code>SparkSession</code> object (<code>spark</code>), this <code>write</code> object is available trough the <code>write</code> method of any <code>DataFrame</code> object. In other words, every DataFrame you create in Spark has a built-in <code>write</code> object that you can use to write/export the data present in this DataFrame out of Spark.</p>
 <p>As an example, let’s use the <code>transf</code> DataFrame that I presented at <a href="05-transforming.html" class="quarto-xref"><span>Chapter 5</span></a>. The <code>write</code> method of the <code>transf</code> DataFrame object is the main entrypoint to all the facilities that Spark offers to write/export <code>transf</code>’s data to somewhere else.</p>
-<div id="072b381a" class="cell" data-execution_count="3">
+<div id="379c6352" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>transf.write</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
-<pre><code>&lt;pyspark.sql.readwriter.DataFrameWriter at 0x7fa90c0a4c70&gt;</code></pre>
+<pre><code>&lt;pyspark.sql.readwriter.DataFrameWriter at 0x7fa50c1abb20&gt;</code></pre>
 </div>
 </div>
 <p>This <code>write</code> object is very similar in structure to the <code>read</code> object. Essentially, this write object have a collection of <em>write engines</em>. Each write engine is speciallized in writing data into a specific file format. So you have an engine for CSV files, another engine for JSON files, another for Parquet files, etc.</p>
@@ -391,7 +391,7 @@ already exists. Set mode as "overwrite" to overwrite the existing path.</code></
 <span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>df.count()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <pre><code>4842</code></pre>
 <p>The result above show us that the folder <code>transf_export</code> currently contains 4842 rows of data. This is the exact double of number of rows in the <code>transf</code> DataFrame, which have 2421 rows.</p>
-<div id="412e1d2c" class="cell" data-execution_count="4">
+<div id="ff4440e0" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>transf.count()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
 <pre><code>2421</code></pre>
@@ -485,7 +485,7 @@ already exists. Set mode as "overwrite" to overwrite the existing path.</code></
 <li>with <code>pandas</code> you can easily export this data into Excel files (<code>.xlsx</code>)<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>, which are not easily available in Spark.</li>
 </ul>
 <p>To convert an existing Spark DataFrame into a <code>pandas</code> DataFrame, all you need to do is to call the <code>toPandas()</code> method of your Spark DataFrame, and you will get a <code>pandas</code> DataFrame as output, like in the example below:</p>
-<div id="bb827561" class="cell" data-execution_count="5">
+<div id="16b2f748" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>as_pandas_df <span class="op">=</span> transf.toPandas()</span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(as_pandas_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="5">
