@@ -3,7 +3,9 @@
 <a href="https://pedro-faria.netlify.app/publications/book/introd-pyspark/en/"><img src="Cover/cover1.png" width="250" height="366" class="cover" align="right"/></a> An open and introductory book for the Python API of Apache Spark. The book "Introduction to pyspark" provides a quick introduction for the `pyspark` Python package, which is the Python API of Apache Spark.
 
 Read the book at: <https://pedropark99.github.io/Introd-pyspark/>.
+
 You can buy a copy of the book through Amazon: <https://www.amazon.com/dp/B0CRYMVWDN>.
+
 Publication page: <https://pedro-faria.netlify.app/publications/book/introd-pyspark/en/>.
 
 With `pyspark` you are able to use the Python language to write Spark applications and run them on a Spark cluster in a scalable and elegant way. This book focus on teaching the fundamentals of `pyspark`, and how to use it for big data analysis.
