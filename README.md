@@ -23,9 +23,9 @@ Some of the main subjects discussed in the book are:
 
 ## About the author
 
-Pedro Duarte Faria have a bachelor degree in Economics from Federal University of Ouro Preto - Brazil. Currently, he is a Data Engineer at Blip, and an Associate Developer for Apache Spark 3.0 certified by Databricks.
+Pedro Duarte Faria have a bachelor degree in Economics from Federal University of Ouro Preto - Brazil. Currently, he is a Data Platform Engineer at Blip, and an Associate Developer for Apache Spark 3.0 certified by Databricks.
 
-The author have more than 3 years of experience in the data analysis market. He developed data pipelines, reports and analysis for research institutions and some of the largest companies in the brazilian financial sector, such as the BMG Bank, Sodexo and Pan Bank, besides dealing with databases that go beyond the billion rows.
+The author have more than 5 years of experience in the data analysis market. He developed data pipelines, reports and analysis for research institutions and some of the largest companies in the brazilian financial sector, such as the BMG Bank, Sodexo and Pan Bank, besides dealing with databases that go beyond the billion rows.
 
 Furthermore, Pedro is specialized on the R programming language, and have given several lectures and courses about it, inside graduate centers (such as PPEA-UFOP), in addition to federal and state organizations (such as FJP-MG). As researcher, he have experience in the field of Science, Technology and Innovation Economics.
 
