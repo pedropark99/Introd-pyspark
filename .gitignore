@@ -4,6 +4,8 @@
 .Ruserdata
 Introd-pyspark.pdf
 
+python-env/
+
 /.quarto/
 ./site_libs/
 
