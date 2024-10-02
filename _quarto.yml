@@ -8,6 +8,7 @@ book:
   title: "Introduction to `pyspark`"
   author: "Pedro Duarte Faria"
   date: "today"
+  google-analytics: "G-G42L33VM26"
   navbar: 
     background: "#164e80"
     left: 
