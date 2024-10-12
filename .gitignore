@@ -5,9 +5,11 @@
 Introd-pyspark.pdf
 
 python-env/
+venv/
 
 /.quarto/
 ./site_libs/
+site_libs/
 
 derby.log
 Chapters/derby.log
