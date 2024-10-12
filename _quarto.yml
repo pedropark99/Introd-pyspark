@@ -42,10 +42,4 @@ format:
     theme: 
       - cosmo
       - theme.scss
-  pdf:
-    fontsize: 11pt
-    keep-tex: true
-    include-in-header: font_config.tex
-  docx:
-    toc: true
-    lang: en-US
+
