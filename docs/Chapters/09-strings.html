@@ -364,7 +364,7 @@ window.Quarto = {
 <p>[INFO]: 2022-09-05 03:35:01.43 Looking for workers at South America region;</p>
 </blockquote>
 <p>To import <code>logs.json</code> file into a Spark DataFrame, I can use the following code:</p>
-<div id="43174f67" class="cell" data-execution_count="2">
+<div id="0d6e7110" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>path <span class="op">=</span> <span class="st">'./../Data/logs.json'</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>logs <span class="op">=</span> spark.read.json(path)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>n_truncate <span class="op">=</span> <span class="dv">50</span></span>
@@ -390,7 +390,7 @@ only showing top 5 rows
 <h2 data-number="10.2" class="anchored" data-anchor-id="changing-the-case-of-letters-in-a-string"><span class="header-section-number">10.2</span> Changing the case of letters in a string</h2>
 <p>Probably the most basic string transformation that exists is to change the case of the letters (or characters) that compose the string. That is, to raise specific letters to upper-case, or reduce them to lower-case, and vice-versa.</p>
 <p>As a first example, lets go back to the <code>logs</code> DataFrame, and try to change all messages in this DataFrame to lower case, upper case and title case, by using the <code>lower()</code>, <code>upper()</code>, and <code>initcap()</code> functions from the <code>pyspark.sql.functions</code> module.</p>
-<div id="5ac37f8f" class="cell" data-execution_count="3">
+<div id="9b31aff9" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> (</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    lower,</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    upper,</span>
@@ -415,7 +415,7 @@ only showing top 5 rows
 </code></pre>
 </div>
 </div>
-<div id="4bec9bbd" class="cell" data-execution_count="4">
+<div id="940d9b7e" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Change to upper case:</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>m.withColumn(<span class="st">'message'</span>, upper(<span class="st">'message'</span>))<span class="op">\</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    .show(<span class="dv">5</span>, truncate <span class="op">=</span> n_truncate)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -433,7 +433,7 @@ only showing top 5 rows
 </code></pre>
 </div>
 </div>
-<div id="801c143a" class="cell" data-execution_count="5">
+<div id="e2eeef81" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Change to title case</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co"># (first letter of each word is upper case):</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>m.withColumn(<span class="st">'message'</span>, initcap(<span class="st">'message'</span>))<span class="op">\</span></span>
@@ -456,7 +456,7 @@ only showing top 5 rows
 <section id="calculating-string-length" class="level2" data-number="10.3">
 <h2 data-number="10.3" class="anchored" data-anchor-id="calculating-string-length"><span class="header-section-number">10.3</span> Calculating string length</h2>
 <p>In Spark, you can use the <code>length()</code> function to get the length (i.e.&nbsp;the number of characters) of a string. In the example below, we can see that the first log message is 74 characters long, while the second log message have 112 characters.</p>
-<div id="c25534fa" class="cell" data-execution_count="6">
+<div id="255d3bcf" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> length</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>logs<span class="op">\</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    .withColumn(<span class="st">'length'</span>, length(<span class="st">'message'</span>))<span class="op">\</span></span>
@@ -484,7 +484,7 @@ only showing top 5 rows
 <li><code>ltrim()</code>: removes spaces from the left side of the string;</li>
 <li><code>rtrim()</code>: removes spaces from the right side of the string;</li>
 </ul>
-<div id="d0dd7640" class="cell" data-execution_count="7">
+<div id="58ca67f3" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> (</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    trim, rtrim, ltrim</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>)</span>
@@ -511,7 +511,7 @@ only showing top 5 rows
 </div>
 <p>For the most part, I tend to remove these unnecessary strings when I want to: 1) tidy the values; 2) avoid weird and confusing mistakes in filters on my DataFrame. The second case is worth describing in more details.</p>
 <p>Let’s suppose you wanted to filter all rows from the <code>logs</code> DataFrame where <code>ip</code> is equal to the <code>1.0.104.27</code> IP adress. However, you can see in the result above, that I get nothing. Not a single row of result.</p>
-<div id="caba9e47" class="cell" data-execution_count="8">
+<div id="af2f779a" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> col</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>logs.<span class="bu">filter</span>(col(<span class="st">'ip'</span>) <span class="op">==</span> <span class="st">"1.0.104.27"</span>)<span class="op">\</span></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    .show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -525,7 +525,7 @@ only showing top 5 rows
 </div>
 <p>But if you see the result of the previous example (where we appliead the three versions of “trim functions”), you know that this IP adress <code>1.0.104.27</code> exists in the DataFrame. You know that the filter above should find values for this IP adress. So why it did not find any rows?</p>
 <p>The answer is these annoying (and hidden) spaces on both sides of the values from the <code>ip</code> column. If we remove these unnecessary spaces from the values of the <code>ip</code> column, we suddenly find the rows that we were looking for.</p>
-<div id="c5c151de" class="cell" data-execution_count="9">
+<div id="1f7534c5" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>logs.<span class="bu">filter</span>(trim(col(<span class="st">'ip'</span>)) <span class="op">==</span> <span class="st">"1.0.104.27"</span>)<span class="op">\</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    .show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -560,7 +560,7 @@ only showing top 5 rows
 <p>The first argument in both function is the index that identifies the start position of the substring. If you set this argument to, let’s say, 4, it means that the substring you want to extract starts at the 4th character in the input string.</p>
 <p>The second argument is the amount of characters in the substring, or, in other words, it’s length. For example, if you set this argument to 10, it means that the function will extract the substring that is formed by walking <span class="math inline">\(10 - 1 = 9\)</span> characters ahead from the start position you specified at the first argument. We can also interpret this as: the function will walk ahead on the string, from the start position, until it gets a substring that is 10 characters long.</p>
 <p>In the example below, we are extracting the substring that starts at the second character (index 2) and ends at the sixth character (index 6) in the string.</p>
-<div id="b6b13618" class="cell" data-execution_count="10">
+<div id="b897509e" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> col, substring</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="co"># `df1` and `df2` are equal, because</span></span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="co"># they both mean the same thing</span></span>
@@ -605,7 +605,7 @@ Figure&nbsp;10.1: How <code>substring()</code> and <code>substr()</code> works
 <p>For example, if you ask <code>substring_index()</code> to search for the 3rd occurrence of the character <code>$</code> in your string, the function will return to you the substring formed by all characters that are between the start of the string until the 3rd occurrence of this character <code>$</code>.</p>
 <p>You can also ask <code>substring_index()</code> to read backwards. That is, to start the search on the end of the string, and move backwards in the string until it gets to the 3rd occurrence of this character <code>$</code>.</p>
 <p>As an example, let’s look at the 10th log message present in the <code>logs</code> DataFrame. I used the <code>collect()</code> DataFrame method to collect this message into a raw python string, so we can easily see the full content of the message.</p>
-<div id="134631f8" class="cell" data-execution_count="11">
+<div id="399908cd" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> monotonically_increasing_id</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>mes_10th <span class="op">=</span> (</span>
@@ -652,7 +652,7 @@ Figure&nbsp;10.3: The count system of <code>substring_index()</code>
 <p>The index 1 represents the first substring that is before the the 1st occurence of the delimiter (<code>[INFO]</code>). The index 2 represents everything that is before the 2nd occurence of the delimiter (<code>[INFO]: 2022-09-05 04:02.09.05 Libraries installed</code>). etc.</p>
 <p>In contrast, the index -1 represents everything that is after the 1st occurence of the delimiter, couting from right to left (<code>pandas, flask, numpy, spark_map, pyspark</code>). The index -2 represents everything that is after the 2nd occurence of the delimiter (<code>2022-09-05 04:02.09.05 Libraries installed: pandas, flask, numpy, spark_map, pyspark</code>). Again, couting from right to left.</p>
 <p>Having all these informations in mind, we can conclude that the following code fit our first objective. Note that I applied the <code>trim()</code> function over the result of <code>substring_index()</code>, to ensure that the result substring does not contain any unnecessary spaces at both ends.</p>
-<div id="d49c6202" class="cell" data-execution_count="12">
+<div id="f68df095" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> substring_index</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>mes_10th <span class="op">=</span> mes_10th<span class="op">\</span></span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    .withColumn(</span>
@@ -677,7 +677,7 @@ Figure&nbsp;10.3: The count system of <code>substring_index()</code>
 <p>Now is a good time to introduce the <code>split()</code> function, because we can use it to extract the first and the last library from the list libraries of stored at the <code>mes_10th</code> DataFrame.</p>
 <p>Basically, this function also uses a delimiter character to cut the total string into multiple pieces. However, this function stores these multiple pieces (or multiple substrings) into an array of substrings. With this strategy, we can now access each substring (or each piece of the total string) individually.</p>
 <p>If we look again at the string that we stored at the <code>list_of_libraries</code> column, we have a list of libraries, separated by a comma.</p>
-<div id="acc80d13" class="cell" data-execution_count="13">
+<div id="69005b09" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>mes_10th<span class="op">\</span></span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    .select(<span class="st">'list_of_libraries'</span>)<span class="op">\</span></span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    .show(truncate <span class="op">=</span> n_truncate)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -702,7 +702,7 @@ Figure&nbsp;10.4: Building an array of substrings with <code>split()</code>
 </figure>
 </div>
 <p>The code to make this process is very straightforward. In the example below, the column <code>array_of_libraries</code> becomes a column of data type <code>ArrayType(StringType)</code>, that is, an array of string values.</p>
-<div id="9077cd96" class="cell" data-execution_count="14">
+<div id="0df061de" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> split</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>mes_10th <span class="op">=</span> mes_10th<span class="op">\</span></span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    .withColumn(</span>
@@ -724,7 +724,7 @@ Figure&nbsp;10.4: Building an array of substrings with <code>split()</code>
 </div>
 <p>By having this array of substring, we can very easily select a specific element in this array, by using the <code>getItem()</code> column method, or, by using the open brackets as you would normally use to select an element in a python list.</p>
 <p>You just need to give the index of the element you want to select, like in the example below that we select the first and the fifth libraries in the array.</p>
-<div id="44ff97a7" class="cell" data-execution_count="15">
+<div id="94fc80a9" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>mes_10th<span class="op">\</span></span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>    .withColumn(<span class="st">'lib_1'</span>, col(<span class="st">'array_of_libraries'</span>)[<span class="dv">0</span>])<span class="op">\</span></span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>    .withColumn(<span class="st">'lib_5'</span>, col(<span class="st">'array_of_libraries'</span>).getItem(<span class="dv">4</span>))<span class="op">\</span></span>
@@ -746,7 +746,7 @@ Figure&nbsp;10.4: Building an array of substrings with <code>split()</code>
 <p>Sometimes, we need to concatenate multiple strings together, to form a single and longer string. To do this process, Spark offers two main functions, which are: <code>concat()</code> and <code>concat_ws()</code>. Both of these functions receives a list of columns as input, and will perform the same task, which is to concatenate the values of each column in the list, sequentially.</p>
 <p>However, the <code>concat_ws()</code> function have an extra argument called <code>sep</code>, where you can define a string to be used as the separator (or the “delimiter”) between the values of each column in the list. In some way, this <code>sep</code> argument and the <code>concat_ws()</code> function works very similarly to the <a href="https://docs.python.org/3/library/stdtypes.html#str.join"><code>join()</code> string method of python</a><a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>.</p>
 <p>Let’s comeback to the <code>penguins</code> DataFrame to demonstrate the use of these functions:</p>
-<div id="1c626368" class="cell" data-execution_count="16">
+<div id="b8cc3714" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>path <span class="op">=</span> <span class="st">"../Data/penguins.csv"</span></span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> spark.read<span class="op">\</span></span>
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    .csv(path, header <span class="op">=</span> <span class="va">True</span>)</span>
@@ -770,7 +770,7 @@ only showing top 5 rows
 <p>Suppose you wanted to concatenate the values of the columns <code>species</code>, <code>island</code> and <code>sex</code> together, and, store these new values on a separate column. All you need to do is to list these columns inside the <code>concat()</code> or <code>concat_ws()</code> function.</p>
 <p>If you look at the example below, you can see that I also used the <code>lit()</code> function to add a underline character (<code>_</code>) between the values of each column. This is more verbose, because if you needed to concatenate 10 columns together, and still add a “delimiter character” (like the underline) between the values of each column, you would have to write <code>lit('_')</code> for 9 times on the list.</p>
 <p>In contrast, the <code>concat_ws()</code> offers a much more succinct way of expressing this same operation. Because the first argument of <code>concat_ws()</code> is the character to be used as the delimiter between each column, and, after that, we have the list of columns to be concatenated.</p>
-<div id="28589ce3" class="cell" data-execution_count="17">
+<div id="0895f79e" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> (</span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>    concat,</span>
 <span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>    concat_ws,</span>
@@ -865,7 +865,7 @@ only showing top 5 rows
 </ul>
 <p>As an example, lets suppose we want to remove completely the type of the message in all log messages present in the <code>logs</code> DataFrame. To that, we first need to get a regular expression capable of identifying all possibilities for these types.</p>
 <p>A potential candidate would be the regular expression <code>'\\[(INFO|ERROR|WARN)\\]: '</code>, so lets give it a shot. Since we are trying to <strong>remove</strong> this particular part from all log messages, we should replace this part of the string by an empty string (<code>''</code>), like in the example below:</p>
-<div id="df2aabf0" class="cell" data-execution_count="18">
+<div id="9a875d2d" class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> regexp_replace</span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>type_regex <span class="op">=</span> <span class="st">'</span><span class="ch">\\</span><span class="st">[(INFO|ERROR|WARN)</span><span class="ch">\\</span><span class="st">]: '</span></span>
@@ -918,7 +918,7 @@ only showing top 5 rows
 <p>Each new group (that is, each pair of parentheses) that you create in your regular expression have a different index. That means that the first group is identified by the index 1, the second group, by the index 2, the third group, by the index 3, etc.</p>
 <!-- In addition to capturing groups, regular expressions can also have a non-capturing group. A non-capturing group is defined using `(?:value)`. It is used to group a pattern without capturing it. In other words, a non-capturing groups is a group that does store (or cache, or capture) the substring matched by the regular expression it holds. These non-capturing groups are often used to apply a quantifier to a group without capturing the group itself. -->
 <p>Just to quickly demonstrate these capturing groups, here is a quick example, in pure Python:</p>
-<div id="53ef3439" class="cell" data-execution_count="19">
+<div id="638c50d1" class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> re</span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="co"># A regular expression that contains</span></span>
@@ -954,7 +954,7 @@ Figure&nbsp;10.5: Example of capturing groups
 <p>But in <code>pyspark</code>, we access these groups by using a special pattern formed by the group index preceded by a dollar sign (<code>$</code>). That is, the text <code>$1</code> references the first capturing group, <code>$2</code> references the second capturing group, etc.</p>
 <p>As a first example, lets go back to the regular expression we used at <a href="#sec-regexp-replace" class="quarto-xref"><span>Section 10.7.3</span></a>: <code>\\[(INFO|ERROR|WARN)\\]:</code>. This regular expression contains one capturing group, which captures the type label of the log message: <code>(INFO|ERROR|WARN)</code>.</p>
 <p>If we use the special pattern <code>$1</code> to reference this capturing group inside of <code>regexp_replace()</code>, what is going to happen is: <code>regexp_replace()</code> will replace all occurrences of the input regular expression found on the input string, by the substring matched by the first capturing group. See in the example below:</p>
-<div id="b0bfa273" class="cell" data-execution_count="20">
+<div id="999b2e14" class="cell" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>logs<span class="op">\</span></span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>    .withColumn(</span>
 <span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>        <span class="st">'using_groups'</span>,</span>
@@ -1003,7 +1003,7 @@ Figure&nbsp;10.5: Example of capturing groups
 <p>You may (or may not) use capturing groups inside of <code>regexp_replace()</code>. However, on the other hand, the <code>regexp_extract()</code> function <strong>is based on</strong> the capturing groups functionality. As a consequence, when you use <code>regexp_extract()</code>, you must give a regular expression that <strong>contains some capturing group</strong>. Because otherwise, the <code>regexp_extract()</code> function becomes useless.</p>
 <p>In other words, the <code>regexp_extract()</code> function extracts substrings that are matched by the capturing groups present in your input regular expression. If you want, for example, to use <code>regexp_extract()</code> to extract the substring matched by a entire regular expression, then, you just need to surround this entire regular expression by a pair of parentheses. This way you transform this entire regular expression in a capturing group, and, therefore, you can extract the substring matched by this group.</p>
 <p>As an example, lets go back again to the regular expression we used in the <code>logs</code> DataFrame: <code>\\[(INFO|ERROR|WARN)\\]:</code>. We can extract the type of log message label, by using the index 1 to reference the first (and only) capturing group in this regular expression.</p>
-<div id="44bda3ce" class="cell" data-execution_count="21">
+<div id="128d6086" class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> regexp_extract</span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>logs<span class="op">\</span></span>
@@ -1039,7 +1039,7 @@ Figure&nbsp;10.5: Example of capturing groups
 </div>
 <p>As another example, lets suppose we wanted to extract not only the type of the log message, but also, the timestamp and the content of the message, and store these different elements in separate columns.</p>
 <p>To do that, we could build a more complete regular expression. An expression capable of matching the entire log message, and, at the same time, capture each of these different elements inside a different capturing group. The code below is an example that produces such regular expression, and applies it over the <code>logs</code> DataFrame.</p>
-<div id="3b65fc86" class="cell" data-execution_count="22">
+<div id="9fce7910" class="cell" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>type_regex <span class="op">=</span> <span class="vs">r'\[(INFO|ERROR|WARN)\]: '</span></span>
 <span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>date_regex <span class="op">=</span> <span class="vs">r'\d</span><span class="sc">{4}</span><span class="vs">-\d</span><span class="sc">{2}</span><span class="vs">-\d</span><span class="sc">{2}</span><span class="vs">'</span></span>
@@ -1090,7 +1090,7 @@ only showing top 5 rows
 <li><code>([.][0-9]+)?</code>: Matches an optional decimal point followed by one or more digits.</li>
 </ul>
 <p>If we apply this pattern over all log messages stored in the <code>logs</code> DataFrame, we would find that all logs messages matches this particular regular expression. Because all log messages contains a timestamp value at the start of the message:</p>
-<div id="c9698183" class="cell" data-execution_count="23">
+<div id="a3f6ac47" class="cell" data-execution_count="23">
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> col</span>
 <span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>pattern <span class="op">=</span> <span class="st">"[0-9]</span><span class="sc">{2}</span><span class="st">:[0-9]</span><span class="sc">{2}</span><span class="st">:[0-9]</span><span class="sc">{2}</span><span class="st">([.][0-9]+)?"</span></span>

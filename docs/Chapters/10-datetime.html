@@ -360,7 +360,7 @@ Figure&nbsp;11.1: The ISO-8601 format for dates
 </ul>
 <p>I will describe at <a href="#sec-datetime-patterns" class="quarto-xref"><span>Section 11.3</span></a> how you can use the <code>to_date()</code> function to convert dates that are outside of the ISO format to <code>DateType</code> values. But for now, for simplicity sake, I will consider only strings that contains date in the ISO format.</p>
 <p>As a first example, lets consider the DataFrame <code>df</code> below:</p>
-<div id="89e972e4" class="cell" data-execution_count="2">
+<div id="84f79f9b" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql <span class="im">import</span> Row</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> [</span>
@@ -373,7 +373,7 @@ Figure&nbsp;11.1: The ISO-8601 format for dates
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> spark.createDataFrame(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>If we look at the DataFrame schema of <code>df</code>, we can see that the <code>date_registered</code> column is currently being interpreted as a column of type <code>StringType</code>:</p>
-<div id="a03377c7" class="cell" data-execution_count="3">
+<div id="e508ca1e" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df.printSchema()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>root
@@ -382,7 +382,7 @@ Figure&nbsp;11.1: The ISO-8601 format for dates
 </div>
 </div>
 <p>Since the dates from the <code>date_registered</code> column are formatted like the ISO-8601 standard, we can safely use <code>cast()</code> to get a column of type <code>DateType</code>. And if we look again at the DataFrame schema after the transformation, we can certify that the <code>date_registered</code> column is in fact now, a column of type <code>DateType</code>.</p>
-<div id="26e616a8" class="cell" data-execution_count="4">
+<div id="71d259f7" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> col</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.withColumn(</span>
@@ -406,7 +406,7 @@ Figure&nbsp;11.1: The ISO-8601 format for dates
 </code></pre>
 </div>
 </div>
-<div id="f81823fa" class="cell" data-execution_count="5">
+<div id="ad9b37a8" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>df.printSchema()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>root
@@ -418,7 +418,7 @@ Figure&nbsp;11.1: The ISO-8601 format for dates
 <section id="from-datetime-values" class="level3" data-number="11.1.2">
 <h3 data-number="11.1.2" class="anchored" data-anchor-id="from-datetime-values"><span class="header-section-number">11.1.2</span> From datetime values</h3>
 <p>A datetime value is a value that contains both a date component and a time component. But you can obviously extract just the date component from a datetime value. Let’s use the following DataFrame as example:</p>
-<div id="8d94f45b" class="cell" data-execution_count="6">
+<div id="b07d89dd" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql <span class="im">import</span> Row</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datetime <span class="im">import</span> datetime</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -438,7 +438,7 @@ Figure&nbsp;11.1: The ISO-8601 format for dates
 </div>
 </div>
 <p>You can extract the date component from the <code>as_datetime</code> column by directly casting the column into the <code>DateType</code> type. Like you would normally do with a string column.</p>
-<div id="5ede9ab5" class="cell" data-execution_count="7">
+<div id="d881db6f" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>df.withColumn(<span class="st">'date_component'</span>, col(<span class="st">'as_datetime'</span>).cast(<span class="st">'date'</span>))<span class="op">\</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    .show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -458,7 +458,7 @@ Figure&nbsp;11.1: The ISO-8601 format for dates
 <h3 data-number="11.1.3" class="anchored" data-anchor-id="from-individual-components"><span class="header-section-number">11.1.3</span> From individual components</h3>
 <p>If you have 3 columns in your DataFrame, one for each component of a date value (day, month, year), you can group these components together to form date values. In <code>pyspark</code> you do this by using the <code>make_date()</code> function.</p>
 <p>To use this function, you just list the columns of each component in the following order: year, month and day. Like in this example:</p>
-<div id="220f937d" class="cell" data-execution_count="8">
+<div id="3d257694" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> make_date</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>df3 <span class="op">=</span> spark.createDataFrame([</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    Row(day<span class="op">=</span><span class="dv">14</span>,month<span class="op">=</span><span class="dv">2</span>,year<span class="op">=</span><span class="dv">2021</span>),</span>
@@ -519,7 +519,7 @@ Figure&nbsp;11.2: The ISO-8601 format for datetime/timestamp values
 </div>
 <p>This means that if your datetime values are not in this format, if they do not follow the ISO-8601 standard, then, you should not use the <code>cast()</code> method. If that is your case, you should use datetime patterns with the <code>to_timestamp()</code> function. We describe these assets in more depth at <a href="#sec-datetime-patterns" class="quarto-xref"><span>Section 11.3</span></a>.</p>
 <p>For now, let’s focus on examples that use the ISO-8601 format. As an example, lets use the <code>df2</code> DataFrame below:</p>
-<div id="0465e3de" class="cell" data-execution_count="9">
+<div id="8c5f8f69" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> [</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    Row(datetime_as_string <span class="op">=</span> <span class="st">"2021-02-23T04:41:57Z"</span>),</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    Row(datetime_as_string <span class="op">=</span> <span class="st">"2021-05-18T12:30:05Z"</span>),</span>
@@ -536,7 +536,7 @@ Figure&nbsp;11.2: The ISO-8601 format for datetime/timestamp values
 </div>
 </div>
 <p>You can see above, that the <code>datetime_as_string</code> column is currently being interpreted as a column of strings. But since the values are in ISO-8601 format, I can use the cast method to directly convert them into timestamp values.</p>
-<div id="ac46c722" class="cell" data-execution_count="10">
+<div id="068cda22" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>df2 <span class="op">=</span> df2<span class="op">\</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    .withColumn(</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>        <span class="st">'datetime_values'</span>,</span>
@@ -551,7 +551,7 @@ Figure&nbsp;11.2: The ISO-8601 format for datetime/timestamp values
 </code></pre>
 </div>
 </div>
-<div id="589983f6" class="cell" data-execution_count="11">
+<div id="10b8f844" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>df2.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>+--------------------+-------------------+
@@ -570,7 +570,7 @@ Figure&nbsp;11.2: The ISO-8601 format for datetime/timestamp values
 <h3 data-number="11.2.2" class="anchored" data-anchor-id="from-integers"><span class="header-section-number">11.2.2</span> From integers</h3>
 <p>You can also convert integers directly to datetime values by using the <code>cast()</code> method. In this situation, the integers are interpreted as being the number of seconds since the UNIX time epoch, which is mid-night of 1 January of 1970 (<code>"1970-01-01 00:00:00"</code>). In other words, the integer <code>60</code> will be converted the point in time that is 60 seconds after <code>"1970-01-01 00:00:00"</code>, which would be <code>"1970-01-01 00:01:00"</code>.</p>
 <p>In the example below, the number 1,000,421,325 is converted into 19:48:45 of 13 September of 2001. Because this exact point in time is 1.000421 billion of seconds ahead of the UNIX epoch.</p>
-<div id="0e733481" class="cell" data-execution_count="12">
+<div id="b3d311df" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>df3 <span class="op">=</span> spark.createDataFrame([</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    Row(datetime_as_integer <span class="op">=</span> <span class="dv">1000421325</span>),</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    Row(datetime_as_integer <span class="op">=</span> <span class="dv">1000423628</span>),</span>
@@ -604,7 +604,7 @@ Figure&nbsp;11.2: The ISO-8601 format for datetime/timestamp values
 <div class="sourceCode" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>spark.conf.<span class="bu">set</span>(<span class="st">"spark.sql.session.timeZone"</span>, <span class="st">"UTC"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>But you could also do the conversion anyway and adjust the values later. That is, you just perform the conversion with the <code>cast()</code> method, even if the result would be in your current time zone. After that, you add the amount of time necessary to transpose your datetime values to the international time zone (UTC-0).</p>
 <p>So in the above example, since I was using the Brasília time zone (UTC-3) during the above conversion, I just need to add 3 hours to all datetime values to get their equivalents values in international time zone. You can do that by using interval expressions, which will be discussed in more depth at <a href="#sec-interval-express" class="quarto-xref"><span>Section 11.5</span></a>.</p>
-<div id="becb3c6a" class="cell" data-execution_count="13">
+<div id="d60e2cf4" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> expr</span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>df3 <span class="op">=</span> df3<span class="op">\</span></span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    .withColumn(</span>
@@ -630,7 +630,7 @@ Figure&nbsp;11.2: The ISO-8601 format for datetime/timestamp values
 <h3 data-number="11.2.3" class="anchored" data-anchor-id="from-individual-components-1"><span class="header-section-number">11.2.3</span> From individual components</h3>
 <p>If you have 6 columns in your DataFrame, one for each component of a datetime value (day, month, year, hour, minute, second), you can group these components together to compose datetime values. We do this in <code>pyspark</code> by using the <code>make_timestamp()</code> function.</p>
 <p>To use this function, you just list the columns of each component in the following order: year, month, day, hours, minutes, seconds. Like in this example:</p>
-<div id="5dc73266" class="cell" data-execution_count="14">
+<div id="4cb399f5" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> make_timestamp</span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>df3 <span class="op">=</span> spark.createDataFrame([</span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>    Row(day<span class="op">=</span><span class="dv">14</span>,month<span class="op">=</span><span class="dv">2</span>,year<span class="op">=</span><span class="dv">2021</span>,hour<span class="op">=</span><span class="dv">12</span>,mins<span class="op">=</span><span class="dv">45</span>,secs<span class="op">=</span><span class="dv">0</span>),</span>
@@ -810,7 +810,7 @@ Table&nbsp;11.1: List of letters to represent date and datetime components
 <section id="using-datetime-patterns-to-get-date-values" class="level3" data-number="11.3.1">
 <h3 data-number="11.3.1" class="anchored" data-anchor-id="using-datetime-patterns-to-get-date-values"><span class="header-section-number">11.3.1</span> Using datetime patterns to get date values</h3>
 <p>Following <a href="#tbl-date-components" class="quarto-xref">Table&nbsp;<span>11.1</span></a>, if we had a date in the format “Day, Month of Year”, like “12, November of 1997”, we would use the letters d, M and y for each of the three components that are present in this format. In fact, let’s create a DataFrame with this exact value, and let’s demonstrate how could you convert it to a <code>DateType</code> value.</p>
-<div id="d5c7686b" class="cell" data-execution_count="15">
+<div id="a053d0d3" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> [ {<span class="st">"date"</span>: <span class="st">"12, November of 1997"</span>} ]</span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>weird_date <span class="op">=</span> spark.createDataFrame(data)</span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>weird_date.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -827,7 +827,7 @@ Table&nbsp;11.1: List of letters to represent date and datetime components
 <p>The date example above (“12, November of 1997”) starts with a two-digit day number. That is why we begin our datetime pattern with two d’s, to represent this section of the date. After that we have a comma and a space followed by the month name. However, both month name and the year number at the end of the date are in their full formats, instead of their abbreviated formats.</p>
 <p>Because of that, we need to tell Spark to use the full format instead of the abbreviated format on both of these two components. To do that, we use four M’s and four y’s, instead of just two. At last, we have a literal “of” between the month name and the year name, and to describe this specific section of the date, we insert <code>'of'</code> between the M’s and y’s.</p>
 <p>In essence, we have the datetime pattern <code>"dd, MMMM 'of' yyyy"</code>. Now, we can just use <code>to_date()</code> with this datetime pattern to convert the string value to a date value.</p>
-<div id="d5df0da0" class="cell" data-execution_count="16">
+<div id="48a4241d" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> to_date</span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>pattern <span class="op">=</span> <span class="st">"dd, MMMM 'of' yyyy"</span></span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>weird_date <span class="op">=</span> weird_date<span class="op">\</span></span>
@@ -843,7 +843,7 @@ Table&nbsp;11.1: List of letters to represent date and datetime components
 </code></pre>
 </div>
 </div>
-<div id="07d7d392" class="cell" data-execution_count="17">
+<div id="e137b3d6" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>weird_date.printSchema()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>root
@@ -853,7 +853,7 @@ Table&nbsp;11.1: List of letters to represent date and datetime components
 </div>
 <p>So, if you have a constant (or fixed) text that is always present in all of your date values, like the “of” in the above example, you must encapsulate this text between quotation marks in your datetime patterns. Also, depending if your components are in a abbreviated format (like “02” for year 2002, or “Jan” for the January month), or in a full format (like the year “1997” or the month “October”), you might want to repeat the letters one or two times (to use abbreviated formats), or you might want to repeat it four times (to use the full formats). In other words, if you use less than 4 pattern letters, then, Spark will use the short text form, typically an abbreviation form of the component you are reffering to <span class="citation" data-cites="sparkdoc"><em>Apache Spark Official Documentation</em> (<a href="references.html#ref-sparkdoc" role="doc-biblioref">2022</a>)</span>.</p>
 <p>As another example of unusual date formats, lets use the <code>user_events</code> DataFrame. You can easily get the data of this DataFrame by dowloading the JSON file from the official repository of this book<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>. After you downloaded the JSON file that contains the data, you can import it to your Spark session with the commands below:</p>
-<div id="67ed97b5" class="cell" data-cache="true" data-execution_count="18">
+<div id="13dec249" class="cell" data-cache="true" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.types <span class="im">import</span> StructType, StructField</span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.types <span class="im">import</span> DoubleType, StringType</span>
 <span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.types <span class="im">import</span> LongType, TimestampType, DateType</span>
@@ -881,7 +881,7 @@ Table&nbsp;11.1: List of letters to represent date and datetime components
 </div>
 </div>
 <p>The <code>dateOfEvent</code> column of this DataFrame contains date values in the Brazilian format “Day/Month/Year”. To describe this date format, we can use the datetime pattern <code>"dd/MM/yyyy"</code>.</p>
-<div id="d3a27b48" class="cell" data-execution_count="19">
+<div id="2ec828e0" class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>date_pattern <span class="op">=</span> <span class="st">"dd/MM/yyyy"</span></span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>user_events <span class="op">=</span> user_events<span class="op">\</span></span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>    .withColumn(</span>
@@ -907,7 +907,7 @@ Table&nbsp;11.1: List of letters to represent date and datetime components
 <p>Furthermore, the <code>user_events</code> table also contains the <code>timeOfEvent</code> column, which is a column of datetime (or timestamp) values, also in the usual Brazilian format “Day/Month/Year Hour:Minutes:Seconds”. Following <a href="#tbl-date-components" class="quarto-xref">Table&nbsp;<span>11.1</span></a>, we can describe this datetime format with the pattern <code>"dd/MM/yyyy HH:mm:ss"</code>.</p>
 <p>When you have a column of string values that you want to convert into the <code>TimestampType</code> type, but your values are not in ISO-8601 format, you should use the <code>to_timestamp()</code> function (which also comes from the <code>pyspark.sql.functions</code> module) together with a datetime pattern to describe the actual format of your values.</p>
 <p>You use the <code>to_timestamp()</code> function in the same way you would use the <code>to_date()</code> function, you reference the name of the column you want to convert into a column of timestamp values, and you also provide a datetime pattern to be used in the conversion. The difference between the two functions is solely on the type of columns they produce. The <code>to_timestamp()</code> function always produce a column of type <code>TimestampType</code> as a result, while the <code>to_date()</code> function produces a column of type <code>DateType</code>.</p>
-<div id="7352492d" class="cell" data-execution_count="20">
+<div id="abde0692" class="cell" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> to_timestamp</span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>datetime_pattern <span class="op">=</span> <span class="st">"dd/MM/yyyy HH:mm:ss"</span></span>
 <span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>user_events <span class="op">=</span> user_events<span class="op">\</span></span>
@@ -949,7 +949,7 @@ Table&nbsp;11.1: List of letters to represent date and datetime components
 <li><code>second()</code>: extract the seconds of a given datetime as integer.</li>
 </ul>
 <p>In essence, you just apply these functions at the column that contains your date and datetime values, and you get as output the component you want. As an example, lets go back to the <code>user_events</code> DataFrame and extract the day, month and year components of each date, into separate columns:</p>
-<div id="6afd8f96" class="cell" data-execution_count="21">
+<div id="8cbc36cd" class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> (</span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>    dayofmonth,</span>
 <span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>    month,</span>
@@ -981,7 +981,7 @@ Table&nbsp;11.1: List of letters to represent date and datetime components
 <h2 data-number="11.5" class="anchored" data-anchor-id="sec-interval-express"><span class="header-section-number">11.5</span> Adding time to date and datetime values with interval expressions</h2>
 <p>Another very commom operation is to add some amount of time to a date or datetime values. For example, you might want to advance your dates by 3 days. Or, delay your datetime values by 3 hours. In <code>pyspark</code>, you can perform this kind by either using functions or interval expressions.</p>
 <p>When we talk about functions available through the <code>pyspark.sql.functions</code> module, we have <code>date_add()</code> and <code>date_sub()</code>, which you can use to add or subtract days to a date, and <code>add_months()</code>, which you can use to add months to a date. Yes, the naming pattern of these functions is a little bit weird, but let’s ignore this fact.</p>
-<div id="f1e8e17b" class="cell" data-execution_count="22">
+<div id="5ba8f46f" class="cell" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> (</span>
 <span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>    date_add,</span>
 <span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>    date_sub,</span>
@@ -1022,7 +1022,7 @@ Table&nbsp;11.1: List of letters to represent date and datetime components
 <p>An interval expression is an expression that begins with the <code>INTERVAL</code> keyword, and then, it is followed by a number that specifies an amount. You define how much exactly this amout represents by using another keyword that specifies the unit of time to be used. So the keyword <code>HOUR</code> specifies that you want to use the “hour” unit of time.</p>
 <p>Having this in mind, the expression <code>INTERVAL 3 HOURS</code> defines a 3 hours interval expression. In contrast, the expression <code>INTERVAL 3 SECONDS</code> represents 3 seconds, and the expression <code>INTERVAL 90 MINUTES</code> represents 90 minutes, and so on.</p>
 <p>By having an interval expression, you can just add or subtract this interval to your column to change the timestamp you have.</p>
-<div id="bdf2b0d4" class="cell" data-execution_count="23">
+<div id="6ceb5353" class="cell" data-execution_count="23">
 <div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> expr</span>
 <span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>user_events<span class="op">\</span></span>
 <span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>    .withColumn(</span>
@@ -1051,7 +1051,7 @@ Table&nbsp;11.1: List of letters to represent date and datetime components
 <h2 data-number="11.6" class="anchored" data-anchor-id="calculating-differences-between-dates-and-datetime-values"><span class="header-section-number">11.6</span> Calculating differences between dates and datetime values</h2>
 <p>Another very commom operation is to calculate how much time is between two dates or two datetimes. In other words, you might want to calculate how many days the date <code>"2023-05-12"</code> is far ahead of <code>"2023-05-05"</code>, or how many hours the timestamp <code>"2023-07-10 13:13:00"</code> is ahead of <code>"2023-07-10 05:18:00"</code>.</p>
 <p>When you have two columns of type <code>DateType</code> (or <code>TimestampType</code>), you subtract one by the other directly to get the difference between the values of these columns. As an example, lets use the <code>df4</code> below:</p>
-<div id="295397f4" class="cell" data-execution_count="24">
+<div id="b4f1f835" class="cell" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> random <span class="im">import</span> randint, seed</span>
 <span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datetime <span class="im">import</span> (</span>
 <span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>    date,</span>
@@ -1095,7 +1095,7 @@ Table&nbsp;11.1: List of letters to represent date and datetime components
 </div>
 </div>
 <p>If we subtract columns <code>date2</code> by <code>date1</code> and <code>datetime2</code> by <code>datetime1</code>, we get two new columns of type <code>DayTimeIntervalType</code>. These new columns represent the interval of time between the values of these columns.</p>
-<div id="30a9b9e2" class="cell" data-execution_count="25">
+<div id="b8e37493" class="cell" data-execution_count="25">
 <div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>df4<span class="op">\</span></span>
 <span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>    .select(<span class="st">'date1'</span>, <span class="st">'date2'</span>)<span class="op">\</span></span>
 <span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>    .withColumn(<span class="st">'datediff'</span>, col(<span class="st">'date2'</span>) <span class="op">-</span> col(<span class="st">'date1'</span>))<span class="op">\</span></span>
@@ -1112,7 +1112,7 @@ Table&nbsp;11.1: List of letters to represent date and datetime components
 </code></pre>
 </div>
 </div>
-<div id="4f0f2010" class="cell" data-execution_count="26">
+<div id="d399dae2" class="cell" data-execution_count="26">
 <div class="sourceCode cell-code" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>df4<span class="op">\</span></span>
 <span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>    .select(<span class="st">'datetime1'</span>, <span class="st">'datetime2'</span>)<span class="op">\</span></span>
 <span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>    .withColumn(</span>
@@ -1134,7 +1134,7 @@ Table&nbsp;11.1: List of letters to represent date and datetime components
 </div>
 <p>But another very commom way to calculate this difference is to convert the datetime values to seconds. Then, you subtract the calculated seconds, so you get as output, the difference in seconds between the two datetime values.</p>
 <p>To use this method, you first use the <code>unix_timestamp()</code> function to convert the timestamps into seconds as integer values, then, you subtract these new integer values that were created.</p>
-<div id="495f4d5f" class="cell" data-execution_count="27">
+<div id="5067afac" class="cell" data-execution_count="27">
 <div class="sourceCode cell-code" id="cb53"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> unix_timestamp</span>
 <span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>df4 <span class="op">=</span> df4<span class="op">\</span></span>
 <span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>    .select(<span class="st">'datetime1'</span>, <span class="st">'datetime2'</span>)<span class="op">\</span></span>
@@ -1159,7 +1159,7 @@ Table&nbsp;11.1: List of letters to represent date and datetime components
 </div>
 </div>
 <p>Now that we have the <code>diffinseconds</code> column, which represents the difference <strong>in seconds</strong> between <code>datetime1</code> and <code>datetime2</code> columns, we can divide this <code>diffinseconds</code> column by 60 to get the difference in minutes, or divide by 3600 to get the difference in hours, etc.</p>
-<div id="0f0dec4a" class="cell" data-execution_count="28">
+<div id="3e1db69d" class="cell" data-execution_count="28">
 <div class="sourceCode cell-code" id="cb55"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>df4<span class="op">\</span></span>
 <span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>    .withColumn(<span class="st">'diffinminutes'</span>, col(<span class="st">'diffinseconds'</span>) <span class="op">/</span> <span class="dv">60</span>)<span class="op">\</span></span>
 <span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>    .withColumn(<span class="st">'diffinhours'</span>, col(<span class="st">'diffinseconds'</span>) <span class="op">/</span> <span class="dv">3600</span>)<span class="op">\</span></span>
@@ -1180,7 +1180,7 @@ Table&nbsp;11.1: List of letters to represent date and datetime components
 <section id="getting-the-now-and-today-values" class="level2" data-number="11.7">
 <h2 data-number="11.7" class="anchored" data-anchor-id="getting-the-now-and-today-values"><span class="header-section-number">11.7</span> Getting the now and today values</h2>
 <p>If for some reason, you need to know which timestamp is now, or which date is today, you can use the <code>current_timestamp()</code> and <code>current_date()</code> functions from <code>pyspark.sql.functions</code> module. When you execute these functions, they output the current timestamp and date in your system.</p>
-<div id="c8025a6a" class="cell" data-execution_count="29">
+<div id="dc27f473" class="cell" data-execution_count="29">
 <div class="sourceCode cell-code" id="cb57"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.types <span class="im">import</span> StructType,StructField, StringType</span>
 <span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> (</span>
 <span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>    current_date,</span>
@@ -1202,7 +1202,7 @@ Table&nbsp;11.1: List of letters to represent date and datetime components
 <pre><code>+----------+--------------------+
 |     today|                 now|
 +----------+--------------------+
-|2024-10-02|2024-10-02 18:49:...|
+|2024-10-12|2024-10-12 16:15:...|
 +----------+--------------------+
 </code></pre>
 </div>
