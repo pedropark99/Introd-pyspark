@@ -303,7 +303,7 @@ gtag('config', 'G-G42L33VM26', { 'anonymize_ip': true});
 <h2 data-number="1.2" class="anchored" data-anchor-id="how-to-run-a-python-program"><span class="header-section-number">1.2</span> How to run a python program</h2>
 <p>As you learn to write your Spark applications with <code>pyspark</code>, at some point, you will want to actually execute this <code>pyspark</code> program, to see its result. To do so, you need to execute it as a python program. There are many ways to run a python program, but I will show you the more “standard” way. That is to use the <code>python</code> command inside the terminal of your OS (you need to have python already installed).</p>
 <p>As an example, lets create a simple “Hello world” program. First, open a new text file then save it somewhere in your machine (with the name <code>hello.py</code>). Remember to save the file with the <code>.py</code> extension. Then copy and paste the following command into this file:</p>
-<div id="ac8a20d7" class="cell" data-execution_count="1">
+<div id="b421b57a" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Hello World!"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>It will be much easier to run this script, if you open your OS’s terminal inside the folder where you save the <code>hello.py</code> file. After you opened the terminal inside the folder, just run the <code>python3 hello.py</code> command. As a result, python will execute <code>hello.py</code>, and, the text <code>Hello World!</code> should be printed to the terminal:</p>
@@ -323,7 +323,7 @@ Terminal$ cd "/usr/pedro/Documents"</code></pre>
 <p>Although python is a general-purpose language, most of its features are focused on object-oriented programming. Meaning that, python is a programming language focused on creating, managing and modifying objects and classes of objects.</p>
 <p>So, when you work with python, you are basically applying many operations and functions over a set of objects. In essence, an object in python, is a name that refers to a set of data. This data can be anything that you computer can store (or represent).</p>
 <p>Having that in mind, an object is just a name, and this name is a reference, or a key to access some data. To define an object in python, you must use the assignment operator, which is the equal sign (<code>=</code>). In the example below, we are defining, or, creating an object called <code>x</code>, and it stores the value 10. Therefore, with the name <code>x</code> we can access this value of 10.</p>
-<div id="2f28b47e" class="cell" data-execution_count="2">
+<div id="10e568e4" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="dv">10</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -331,21 +331,21 @@ Terminal$ cd "/usr/pedro/Documents"</code></pre>
 </div>
 </div>
 <p>When we store a value inside an object, we can easily reuse this value in multiple operations or expressions:</p>
-<div id="7400a1b2" class="cell" data-execution_count="3">
+<div id="ec08f12e" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Multiply by 2</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(x <span class="op">*</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>20</code></pre>
 </div>
 </div>
-<div id="957ac859" class="cell" data-execution_count="4">
+<div id="4d0d7c52" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Divide by 3</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(x <span class="op">/</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>3.3333333333333335</code></pre>
 </div>
 </div>
-<div id="ad6e9fd8" class="cell" data-execution_count="5">
+<div id="28941485" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Print its class</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">type</span>(x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -353,11 +353,11 @@ Terminal$ cd "/usr/pedro/Documents"</code></pre>
 </div>
 </div>
 <p>Remember, an object can store any type of value, or any type of data. For example, it can store a single string, like the object <code>salutation</code> below:</p>
-<div id="299b2de1" class="cell" data-execution_count="6">
+<div id="6daf480f" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>salutation <span class="op">=</span> <span class="st">"Hello! My name is Pedro"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Or, a list of multiple strings:</p>
-<div id="68476350" class="cell" data-execution_count="7">
+<div id="1e668f32" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>names <span class="op">=</span> [</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Anne"</span>, <span class="st">"Vanse"</span>, <span class="st">"Elliot"</span>,</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Carlyle"</span>, <span class="st">"Ed"</span>, <span class="st">"Memphis"</span></span>
@@ -369,7 +369,7 @@ Terminal$ cd "/usr/pedro/Documents"</code></pre>
 </div>
 </div>
 <p>Or a dict containing the description of a product:</p>
-<div id="cd99b5cb" class="cell" data-execution_count="8">
+<div id="bd638b85" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>product <span class="op">=</span> {</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">'name'</span>: <span class="st">'Coca Cola'</span>,</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">'volume'</span>: <span class="st">'2 litters'</span>,</span>
@@ -388,7 +388,7 @@ Terminal$ cd "/usr/pedro/Documents"</code></pre>
 <section id="expressions" class="level2" data-number="1.4">
 <h2 data-number="1.4" class="anchored" data-anchor-id="expressions"><span class="header-section-number">1.4</span> Expressions</h2>
 <p>Python programs are organized in blocks of expressions (or statements). A python expression is a statement that describes an operation to be performed by the program. For example, the expression below describes the sum between 3 and 5.</p>
-<div id="d349557c" class="cell" data-execution_count="9">
+<div id="47a05527" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="dv">3</span> <span class="op">+</span> <span class="dv">5</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="8">
 <pre><code>8</code></pre>
@@ -396,7 +396,7 @@ Terminal$ cd "/usr/pedro/Documents"</code></pre>
 </div>
 <p>The expression above is composed of numbers (like 3 and 5) and a operator, more specifically, the sum operator (<code>+</code>). But any python expression can include a multitude of different items. It can be composed of functions (like <code>print()</code>, <code>map()</code> and <code>str()</code>), constant strings (like <code>"Hello World!"</code>), logical operators (like <code>!=</code>, <code>&lt;</code>, <code>&gt;</code> and <code>==</code>), arithmetic operators (like <code>*</code>, <code>/</code>, <code>**</code>, <code>%</code>, <code>-</code> and <code>+</code>), structures (like lists, arrays and dicts) and many other types of commands.</p>
 <p>Below we have a more complex example, that contains the <code>def</code> keyword (which starts a function definition; in the example below, this new function being defined is <code>double()</code>), many built-in functions (<code>list()</code>, <code>map()</code> and <code>print()</code>), a arithmetic operator (<code>*</code>), numbers and a list (initiated by the pair of brackets - <code>[]</code>).</p>
-<div id="33e3f6f8" class="cell" data-execution_count="10">
+<div id="e9be3092" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> double(x):</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> x <span class="op">*</span> <span class="dv">2</span></span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  </span>
@@ -408,7 +408,7 @@ Terminal$ cd "/usr/pedro/Documents"</code></pre>
 <p>Python expressions are evaluated in a sequential manner (from top to bottom of your python file). In other words, python runs the first expression in the top of your file, them, goes to the second expression, and runs it, them goes to the third expression, and runs it, and goes on and on in that way, until it hits the end of the file. So, in the example above, python executes the function definition (initiated at <code>def double(x):</code>), before it executes the <code>print()</code> statement, because the print statement is below the function definition.</p>
 <p>This order of evaluation is commonly referred as “control flow” in many programming languages. Sometimes, this order can be a fundamental part of the python program. Meaning that, sometimes, if we change the order of the expressions in the program, we can produce unexpected results (like an error), or change the results produced by the program.</p>
 <p>As an example, the program below prints the result 4, because the print statement is executed before the expression <code>x = 40</code>.</p>
-<div id="a4faf5fd" class="cell" data-execution_count="11">
+<div id="8cfc5a0e" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="dv">1</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(x <span class="op">*</span> <span class="dv">4</span>)</span>
@@ -419,7 +419,7 @@ Terminal$ cd "/usr/pedro/Documents"</code></pre>
 </div>
 </div>
 <p>But, if we execute the expression <code>x = 40</code> before the print statement, we then change the result produced by the program.</p>
-<div id="224ce494" class="cell" data-execution_count="12">
+<div id="d4e66c2e" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="dv">1</span></span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="dv">40</span></span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -429,13 +429,13 @@ Terminal$ cd "/usr/pedro/Documents"</code></pre>
 </div>
 </div>
 <p>If we go a little further, and, put the print statement as the first expression of the program, we then get a name error. This error warns us that, the object named <code>x</code> is not defined (i.e.&nbsp;it does not exist).</p>
-<div id="1dc4bf6a" class="cell" data-execution_count="13">
+<div id="22ee3a4f" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(x <span class="op">*</span> <span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <pre><code>Traceback (most recent call last):
   File "&lt;stdin&gt;", line 1, in &lt;module&gt;
 NameError: name 'x' is not defined</code></pre>
-<div id="585f904e" class="cell" data-execution_count="14">
+<div id="3a9644b3" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="dv">1</span></span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="dv">40</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -446,7 +446,7 @@ NameError: name 'x' is not defined</code></pre>
 <p>A python package (or a python “library”) is basically a set of functions and classes that provides important functionality to solve a specific problem. And <code>pyspark</code> is one of these many python packages available.</p>
 <p>Python packages are usually published (that is, made available to the public) through the PyPI archive<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>. If a python package is published in PyPI, then, you can easily install it through the <code>pip</code> tool.</p>
 <p>To use a python package, you always need to: 1) have this package installed on your machine; 2) import this package in your python script. If a package is not installed in your machine, you will face a <code>ModuleNotFoundError</code> as you try to use it, like in the example below.</p>
-<div id="4fde2b95" class="cell" data-execution_count="15">
+<div id="84b386d1" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <pre><code>Traceback (most recent call last):
@@ -455,7 +455,7 @@ ModuleNotFoundError: No module named 'pandas'</code></pre>
 <p>If your program produce this error, is very likely that you are trying to use a package that is not currently installed on your machine. To install it, you may use the <code>pip install &lt;name of the package&gt;</code> command on the terminal of your OS.</p>
 <pre><code>Terminal$ pip install pandas</code></pre>
 <p>But, if this package is already installed in your machine, then, you can just import it to your script. To do this, you just include an <code>import</code> statement at the start of your python file. For example, if I want to use the <code>DataFrame</code> function from the <code>pandas</code> package:</p>
-<div id="68395470" class="cell" data-execution_count="16">
+<div id="b8c01aec" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Now that I installed the `pandas` package with `pip`</span></span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="co"># this `import` statement works without any errors:</span></span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas</span>
@@ -476,7 +476,7 @@ ModuleNotFoundError: No module named 'pandas'</code></pre>
 </div>
 <p>Therefore, with <code>import pandas</code> I can access any of the functions available in the <code>pandas</code> package, by using the dot operator after the name of the package (<code>pandas.&lt;name of the function&gt;</code>). However, it can become very annoying to write <code>pandas.</code> every time you want to access a function from <code>pandas</code>, specially if you use it constantly in your code.</p>
 <p>To make life a little easier, python offers some alternative ways to define this <code>import</code> statement. First, you can give an alias to this package that is shorter/easier to write. As an example, nowadays, is virtually a industry standard to import the <code>pandas</code> package as <code>pd</code>. To do this, you use the <code>as</code> keyword in your <code>import</code> statement. This way, you can access the <code>pandas</code> functionality with <code>pd.&lt;name of the function&gt;</code>:</p>
-<div id="c72c3e22" class="cell" data-execution_count="17">
+<div id="95be7235" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame([</span>
@@ -494,7 +494,7 @@ ModuleNotFoundError: No module named 'pandas'</code></pre>
 </div>
 </div>
 <p>In contrast, if you want to make your life even easier and produce a more “clean” code, you can import (from the package) just the functions that you need to use. In this method, you can eliminate the dot operator, and refer directly to the function by its name. To use this method, you include the <code>from</code> keyword in your import statement, like this:</p>
-<div id="5162e417" class="cell" data-execution_count="18">
+<div id="df27f02d" class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pandas <span class="im">import</span> DataFrame</span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> DataFrame([</span>
@@ -512,7 +512,7 @@ ModuleNotFoundError: No module named 'pandas'</code></pre>
 </div>
 </div>
 <p>Just to be clear, you can import multiple functions from the package, by listing them. Or, if you prefer, you can import all components of the package (or module/sub-module) by using the star shortcut (<code>*</code>):</p>
-<div id="1a969ac0" class="cell" data-execution_count="19">
+<div id="23d5c03a" class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Import `search()`, `match()` and `compile()` functions:</span></span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> re <span class="im">import</span> search, match, <span class="bu">compile</span></span>
 <span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Import all functions from the `os` package</span></span>
@@ -521,12 +521,12 @@ ModuleNotFoundError: No module named 'pandas'</code></pre>
 <p>Some packages may be very big, and includes many different functions and classes. As the size of the package becomes bigger and bigger, developers tend to divide this package in many “modules”. In other words, the functions and classes of this python package are usually organized in “modules”.</p>
 <p>As an example, the <code>pyspark</code> package is a fairly large package, that contains many classes and functions. Because of it, the package is organized in a number of modules, such as <code>sql</code> (to access Spark SQL), <code>pandas</code> (to access the Pandas API of Spark), <code>ml</code> (to access Spark MLib).</p>
 <p>To access the functions available in each one of these modules, you use the dot operator between the name of the package and the name of the module. For example, to import all components from the <code>sql</code> and <code>pandas</code> modules of <code>pyspark</code>, you would do this:</p>
-<div id="23f1c422" class="cell" data-execution_count="20">
+<div id="a7960d07" class="cell" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql <span class="im">import</span> <span class="op">*</span></span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.pandas <span class="im">import</span> <span class="op">*</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Going further, we can have sub-modules (or modules inside a module) too. As an example, the <code>sql</code> module of <code>pyspark</code> have the <code>functions</code> and <code>window</code> sub-modules. To access these sub-modules, you use the dot operator again:</p>
-<div id="84bef62d" class="cell" data-execution_count="21">
+<div id="ba2410ba" class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Importing `functions` and `window` sub-modules:</span></span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pyspark.sql.functions <span class="im">as</span> F</span>
 <span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pyspark.sql.window <span class="im">as</span> W</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -536,7 +536,7 @@ ModuleNotFoundError: No module named 'pandas'</code></pre>
 <h2 data-number="1.6" class="anchored" data-anchor-id="methods-versus-functions"><span class="header-section-number">1.6</span> Methods versus Functions</h2>
 <p>Beginners tend mix these two types of functions in python, but they are not the same. So lets describe the differences between the two.</p>
 <p>Standard python functions, are <strong>functions that we apply over an object</strong>. A classical example, is the <code>print()</code> function. You can see in the example below, that we are applying <code>print()</code> over the <code>result</code> object.</p>
-<div id="a0c7dfa8" class="cell" data-execution_count="22">
+<div id="dc3f9d1e" class="cell" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> <span class="dv">10</span> <span class="op">+</span> <span class="dv">54</span></span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(result)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -544,7 +544,7 @@ ModuleNotFoundError: No module named 'pandas'</code></pre>
 </div>
 </div>
 <p>Other examples of a standard python function would be <code>map()</code> and <code>list()</code>. See in the example below, that we apply the <code>map()</code> function over a set of objects:</p>
-<div id="afa45282" class="cell" data-execution_count="23">
+<div id="097a7963" class="cell" data-execution_count="23">
 <div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>words <span class="op">=</span> [<span class="st">'apple'</span>, <span class="st">'star'</span>, <span class="st">'abc'</span>]</span>
 <span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>lengths <span class="op">=</span> <span class="bu">map</span>(<span class="bu">len</span>, words)</span>
 <span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a><span class="bu">list</span>(lengths)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -554,7 +554,7 @@ ModuleNotFoundError: No module named 'pandas'</code></pre>
 </div>
 <p>In contrast, a python method is a function registered inside a python class. In other words, this function <strong>belongs to the class itself</strong>, and cannot be used outside of it. This means that, in order to use a method, you need to have an instance of the class where it is registered.</p>
 <p>For example, the <code>startswith()</code> method belongs to the <code>str</code> class (this class is used to represent strings in python). So to use this method, we need to have an instance of this class saved in a object that we can access. Note in the example below, that we access the <code>startswith()</code> method through the <code>name</code> object. This means that, <code>startswith()</code> is a function. But, we cannot use it without an object of class <code>str</code>, like <code>name</code>.</p>
-<div id="30bc1bde" class="cell" data-execution_count="24">
+<div id="e79a33ca" class="cell" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>name <span class="op">=</span> <span class="st">"Pedro"</span></span>
 <span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>name.startswith(<span class="st">"P"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="20">
@@ -565,7 +565,7 @@ ModuleNotFoundError: No module named 'pandas'</code></pre>
 <p>So, if we have a class called <code>people</code>, and, this class has a method called <code>location()</code>, we can use this <code>location()</code> method by using the dot operator (<code>.</code>) with the name of an object of class <code>people</code>. If an object called <code>x</code> is an instance of <code>people</code> class, then, we can do <code>x.location()</code>.</p>
 <p>But if this object <code>x</code> is of a different class, like <code>int</code>, then we can no longer use the <code>location()</code> method, because this method does not belong to the <code>int</code> class. For example, if your object is from class <code>A</code>, and, you try to use a method of class <code>B</code>, you will get an <code>AttributeError</code>.</p>
 <p>In the example exposed below, I have an object called <code>number</code> of class <code>int</code>, and, I try to use the method <code>startswith()</code> from <code>str</code> class with this object:</p>
-<div id="e35ca160" class="cell" data-execution_count="25">
+<div id="72bd8616" class="cell" data-execution_count="25">
 <div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>number <span class="op">=</span> <span class="dv">2</span></span>
 <span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="co"># You can see below that, the `x` object have class `int`</span></span>
 <span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(number)</span>
@@ -578,7 +578,7 @@ ModuleNotFoundError: No module named 'pandas'</code></pre>
 <h2 data-number="1.7" class="anchored" data-anchor-id="identifying-classes-and-their-methods"><span class="header-section-number">1.7</span> Identifying classes and their methods</h2>
 <p>Over the next chapters, you will realize that <code>pyspark</code> programs tend to use more methods than standard functions. So most of the functionality of <code>pyspark</code> resides in class methods. As a result, the capability of understanding the objects that you have in your python program, and, identifying its classes and methods will be crucial while you are developing and debugging your Spark applications.</p>
 <p>Every existing object in python represents an instance of a class. In other words, every object in python is associated to a given class. You can always identify the class of an object, by applying the <code>type()</code> function over this object. In the example below, we can see that, the <code>name</code> object is an instance of the <code>str</code> class.</p>
-<div id="33f885dd" class="cell" data-execution_count="26">
+<div id="54d6993b" class="cell" data-execution_count="26">
 <div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>name <span class="op">=</span> <span class="st">"Pedro"</span></span>
 <span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(name)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="21">
@@ -586,7 +586,7 @@ ModuleNotFoundError: No module named 'pandas'</code></pre>
 </div>
 </div>
 <p>If you do not know all the methods that a class have, you can always apply the <code>dir()</code> function over this class to get a list of all available methods. For example, lets suppose you wanted to see all methods from the <code>str</code> class. To do so, you would do this:</p>
-<div id="ec59ef44" class="cell" data-execution_count="27">
+<div id="c23cbdc0" class="cell" data-execution_count="27">
 <div class="sourceCode cell-code" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="bu">dir</span>(<span class="bu">str</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <pre><code>['__add__', '__class__', '__contains__', '__delattr__', '__dir__',
