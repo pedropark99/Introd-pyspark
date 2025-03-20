@@ -14,7 +14,7 @@
     "href": "index.html#about-the-author",
     "title": "Introduction to pyspark",
     "section": "About the author",
-    "text": "About the author\nPedro Duarte Faria have a bachelor degree in Economics from Federal University of Ouro Preto - Brazil. Currently, he is a Data Engineer at Blip2, and an Associate Developer for Apache Spark 3.0 certified by Databricks.\nThe author have more than 3 years of experience in the data analysis market. He developed data pipelines, reports and analysis for research institutions and some of the largest companies in the brazilian financial sector, such as the BMG Bank, Sodexo and Pan Bank, besides dealing with databases that go beyond the billion rows.\nFurthermore, Pedro is specialized on the R programming language, and have given several lectures and courses about it, inside graduate centers (such as PPEA-UFOP3), in addition to federal and state organizations (such as FJP-MG4). As researcher, he have experience in the field of Science, Technology and Innovation Economics.\nPersonal Website: https://pedro-faria.netlify.app/\nTwitter: @PedroPark9\nMastodon: @pedropark99@fosstodon.org",
+    "text": "About the author\nPedro Duarte Faria have a bachelor degree in Economics from Federal University of Ouro Preto - Brazil. Currently, he is a Senior Data Engineer at DSM-Firmenich2, and an Associate Developer for Apache Spark 3.0 certified by Databricks.\nThe author have more than 4 years of experience in the data analysis market. He developed data pipelines, reports and analysis for research institutions and some of the largest companies in the brazilian financial sector, such as the BMG Bank, Sodexo and Pan Bank, besides dealing with databases that go beyond the billion rows.\nFurthermore, Pedro is specialized on the R programming language, and have given several lectures and courses about it, inside graduate centers (such as PPEA-UFOP3), in addition to federal and state organizations (such as FJP-MG4). As researcher, he have experience in the field of Science, Technology and Innovation Economics.\nPersonal Website: https://pedro-faria.netlify.app/\nTwitter: @PedroPark9\nMastodon: @pedropark99@fosstodon.org",
     "crumbs": [
       "Preface"
     ]
@@ -64,7 +64,7 @@
     "href": "index.html#footnotes",
     "title": "Introduction to pyspark",
     "section": "",
-    "text": "https://databricks.com/↩︎\nhttps://www.blip.ai/en/↩︎\nhttps://ppea.ufop.br/↩︎\nhttp://fjp.mg.gov.br/↩︎\nhttps://phoenixnap.com/kb/install-spark-on-ubuntu.↩︎\nhttps://creativecommons.org/licenses/by/4.0/↩︎",
+    "text": "https://databricks.com/↩︎\nhttps://www.dsm-firmenich.com/↩︎\nhttps://ppea.ufop.br/↩︎\nhttp://fjp.mg.gov.br/↩︎\nhttps://phoenixnap.com/kb/install-spark-on-ubuntu.↩︎\nhttps://creativecommons.org/licenses/by/4.0/↩︎",
     "crumbs": [
       "Preface"
     ]
