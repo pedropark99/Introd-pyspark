@@ -231,7 +231,14 @@ As an example, lets look into the `user-events.json` file. We can see that the d
 peek_file("../Data/user-events.json", n_lines=3)
 ```
 
-Date variables are usually interpreted by Spark as string variables. In other words, Spark usually do not convert data that contains dates to the date type of Spark. In order to Spark
+Date variables are usually interpreted by Spark as string variables. In other words, Spark usually do not convert data that contains dates to the date type of Spark. This is actually a pretty common behaviour across data frameworks. So, in order for Spark to correctly interpret a column of your DataFrame as a "date column", you need to explicitly set the data type of this column to the `DateType` type, or, if your column is a "timestamp column", then, you should use the `TimestampType` type, like in the example below.
+
+Also notice in the example below the use of the options `dateFormat` and `timestampFormat`. With these options you can specify the format used by the dates and timestamps that are present in your data source. If you don't use these options, Spark simply assumes that your dates and timestamps follow the ISO-8601 format, which is the international standard for dates and timestamps.
+
+But that might not be true for your specific data. If that is your case, then, you can use these options `dateFormat` and `timestampFormat` to control how Spark read and interprets your dates and timestamps from your data source. All you have to do is to provide a pattern as input. This pattern is description of the format used by these dates and timestamps, and it is composed by special letters and symbols that represents the components of a date/timestamp. You can check out the [Spark documentation](https://spark.apache.org/docs/latest/sql-ref-datetime-pattern.html)[^spark-date-doc] to see the full list of letters and symbols and their respective meaning.
+
+[^spark-date-doc]: <https://spark.apache.org/docs/latest/sql-ref-datetime-pattern.html>
+
 
 ```{python}
 from pyspark.sql.types import StructType, StructField
